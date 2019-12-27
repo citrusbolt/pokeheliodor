@@ -940,6 +940,35 @@ void TintPalette_CustomTone(u16 *palette, u16 count, u16 rTone, u16 gTone, u16 b
     }
 }
 
+void TintPalette_CustomToneWithCopy(const u16 *src, u16 *dest, u16 count, u16 rTone, u16 gTone, u16 bTone, bool8 excludeZeroes)
+{
+    s32 r, g, b, i;
+    u32 gray;
+
+    for (i = 0; i < count; i++, src++, dest++)
+    {
+        if (excludeZeroes && *src == RGB_BLACK)
+            continue;
+
+        r = (*src >>  0) & 0x1F;
+        g = (*src >>  5) & 0x1F;
+        b = (*src >> 10) & 0x1F;
+
+        r = (u16)((rTone * r)) >> 8;
+        g = (u16)((gTone * g)) >> 8;
+        b = (u16)((bTone * b)) >> 8;
+
+        if (r > 31)
+            r = 31;
+        if (g > 31)
+            g = 31;
+        if (b > 31)
+            b = 31;
+
+        *dest = (b << 10) | (g << 5) | (r << 0);
+    }
+}
+
 void sub_80A2C44(u32 a1, s8 a2, u8 a3, u8 a4, u16 a5, u8 a6, u8 a7)
 {
     u8 taskId;

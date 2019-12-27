@@ -151,6 +151,7 @@ struct Time
     /*0x02*/ s8 hours;
     /*0x03*/ s8 minutes;
     /*0x04*/ s8 seconds;
+    /*0x05*/ s8 dayOfWeek;
 };
 
 #define DEX_FLAGS_NO ((POKEMON_SLOTS_NUMBER / 8) + ((POKEMON_SLOTS_NUMBER % 8) ? 1 : 0))
