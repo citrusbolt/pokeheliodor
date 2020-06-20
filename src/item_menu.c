@@ -1193,8 +1193,14 @@ void Task_BagMenu_HandleInput(u8 taskId)
             }
             else if (JOY_NEW(START_BUTTON))
             {
-                PlaySE(SE_SELECT);
-                //listPosition = ListMenu_ProcessInput(data[0]);
+                if ((gBagMenu->numItemStacks[gBagPositionStruct.pocket] - 1) <= 1) //can't sort with 0 or 1 item in bag
+                {
+                    static const u8 sText_NothingToSort[] = _("There's nothing to sort!");
+                    PlaySE(SE_SELECT);
+                    DisplayItemMessage(taskId, 1, sText_NothingToSort, sub_81AD350);
+                    break;
+                }
+                
                 data[1] = GetItemListPosition(gBagPositionStruct.pocket);
                 data[2] = BagGetQuantityByPocketPosition(gBagPositionStruct.pocket + 1, data[1]);
                 if (gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket] == gBagMenu->numItemStacks[gBagPositionStruct.pocket] - 1)
@@ -1202,19 +1208,11 @@ void Task_BagMenu_HandleInput(u8 taskId)
                 else
                     gSpecialVar_ItemId = BagGetItemIdByPocketPosition(gBagPositionStruct.pocket + 1, data[1]);
                 
-                if ((gBagMenu->numItemStacks[gBagPositionStruct.pocket] - 1) <= 1) //can't sort with 0 or 1 item in bag
-                {
-                    static const u8 sText_NothingToSort[] = _("There's nothing to sort!");
-                    DisplayItemMessage(taskId, 1, sText_NothingToSort, sub_81AD350);
-                    break;
-                }
-                else
-                {
-                    BagDestroyPocketScrollArrowPair();
-                    BagMenu_PrintCursor_(data[0], 2);
-                    ListMenuGetScrollAndRow(data[0], scrollPos, cursorPos);
-                    gTasks[taskId].func = Task_LoadBagSortOptions;
-                }
+                PlaySE(SE_SELECT);
+                BagDestroyPocketScrollArrowPair();
+                BagMenu_PrintCursor_(data[0], 2);
+                ListMenuGetScrollAndRow(data[0], scrollPos, cursorPos);
+                gTasks[taskId].func = Task_LoadBagSortOptions;
             }
             else
             {
