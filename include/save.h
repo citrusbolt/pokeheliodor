@@ -104,6 +104,8 @@ u32 TryReadSpecialSaveSection(u8 sector, u8* dst);
 u32 TryWriteSpecialSaveSection(u8 sector, u8* src);
 void Task_LinkSave(u8 taskId);
 
+u16 GetChecksum(void);
+
 // save_failed_screen.c
 void DoSaveFailedScreen(u8 saveType);
 

@@ -974,6 +974,18 @@ void Task_LinkSave(u8 taskId)
         break;
     }
 }
+u16 GetChecksum(void)
+{
+	struct SaveSection *section;
+	DoReadFlashWholeSection(SECTOR_SAVE_SLOT_LENGTH, section);
+	if (section->checksum != 0x0000 && section->checksum != 0xFFFF)
+		return section->checksum;
+	else
+	{
+		DoReadFlashWholeSection(0, section);
+		return section->checksum;
+	}
+}
 
 #undef tState
 #undef tTimer

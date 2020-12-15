@@ -45,6 +45,11 @@
 #include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
+#include "constants/region_map_sections.h"
+#include "constants/map_groups.h"
+#include "printf.h"
+#include "mgba.h"
+#include "save.h"
 
 struct SpeciesItem
 {
@@ -2195,13 +2200,158 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 personality;
     u32 value;
     u16 checksum;
+	u8 otName[PLAYER_NAME_LENGTH +1];
+	u8 otGender;
+	u32 otId;
+	u8 metLocation;
+	u8 language;
+	u8 version;
+	u32 rngBak;
+	u32 rngBak2;
+	u32 gcnRng;
+	u32 i;
+	u16 iv1;
+	u16 iv2;
+	u32 hId;
+	u32 lId;
+	u32 shinyValue;
+	
+	metLocation = GetCurrentRegionMapSectionId();
+
+	if (species == SPECIES_MEW)  //Pretend to be Japanese release, as Old Sea Map wasn't released internationally.  Note that if encountered anywhere other than Faraway Island, Mew will not be fully legal
+	{
+		if (hasFixedPersonality)
+			personality = fixedPersonality;
+		else
+			personality = Random32();
+		speciesName[0] = 0x70; //ミ
+		speciesName[1] = 0x85; //ュ
+		speciesName[2] = 0x53; //ウ
+		speciesName[3] = 0xFF;
+		otName[0] = gSaveBlock2Ptr->playerName[0];
+		otName[1] = gSaveBlock2Ptr->playerName[1];
+		otName[2] = gSaveBlock2Ptr->playerName[2];
+		otName[3] = gSaveBlock2Ptr->playerName[3];
+		otName[4] = gSaveBlock2Ptr->playerName[4];
+		otName[5] = 0xFF;
+		otName[6] = gSaveBlock2Ptr->playerName[5];
+		otName[7] = gSaveBlock2Ptr->playerName[6];
+		otGender = gSaveBlock2Ptr->playerGender;
+		otId = gSaveBlock2Ptr->playerTrainerId[0]
+              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+		language = LANGUAGE_JAPANESE;
+		version = gGameVersion;
+	}
+	else if (species == SPECIES_CELEBI) //Replicate Ageto Celebi from JAP Colosseum Bonus Disc
+	{
+		do
+        {
+			gcnRng = RtcGetSecondCount();
+			for (i = 0; i < Random32() >> 16; i++)
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+			iv1 = gcnRng >> 16;
+			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+			iv2 = gcnRng >> 16;
+			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+			hId = gcnRng >> 16;
+			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+			lId = gcnRng >> 16;
+			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+            shinyValue = 0x0000 ^ 0x7991 ^ hId ^ lId;
+        } while (shinyValue < SHINY_ODDS); //Ensure this isn't shiny
+				personality = (hId << 16) | (lId); //CXD: RNG method used in Colosseum and XD: Gales of Darkness, seeded by RTC
+		speciesName[0] = 0x5E; //セ
+		speciesName[1] = 0x7A; //レ
+		speciesName[2] = 0x97; //ビ
+		speciesName[3] = 0x80; //ィ
+		speciesName[4] = 0xFF;
+		otName[0] = 0x51; //ア
+		otName[1] = 0x8A; //ゲ
+		otName[2] = 0x64; //ト
+		otName[3] = 0xFF;
+		otGender = FEMALE;
+		otId = 0x00007991u; //31121:00000
+		metLocation = METLOC_FATEFUL_ENCOUNTER;
+		language = LANGUAGE_JAPANESE;
+		version = VERSION_RUBY;
+	}
+	else if (species == SPECIES_JIRACHI) //Replicate Wishmaker Jirachi from US Colosseum Bonus Disc
+	{
+		Random32();
+		rngBak = gRngValue;
+		//SeedRng(GetChecksum()); //this is causing crashes
+		SeedRng(gRngValue >> 16);
+		personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum
+		GetSpeciesName(speciesName, species);
+		otName[0] = 0xD1; //W
+		otName[1] = 0xC3; //I
+		otName[2] = 0xCD; //S
+		otName[3] = 0xC2; //H
+		otName[4] = 0xC7; //M
+		otName[5] = 0xC5; //K
+		otName[6] = 0xCC; //R
+		otName[7] = 0xFF;
+		otGender = MALE;
+		otId = 0x00004E4Bu; //20043:00000
+		metLocation = METLOC_FATEFUL_ENCOUNTER;
+		language = LANGUAGE_ENGLISH;
+		version = VERSION_RUBY;
+		rngBak2 = gRngValue;
+		gRngValue = rngBak;
+	}
+	else if (metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END)
+	{
+		if (hasFixedPersonality)
+			personality = fixedPersonality;
+		else
+			personality = Random32();
+		GetSpeciesName(speciesName, species);
+		otName[0] = gSaveBlock2Ptr->playerName[0];
+		otName[1] = gSaveBlock2Ptr->playerName[1];
+		otName[2] = gSaveBlock2Ptr->playerName[2];
+		otName[3] = gSaveBlock2Ptr->playerName[3];
+		otName[4] = gSaveBlock2Ptr->playerName[4];
+		otName[5] = gSaveBlock2Ptr->playerName[5];
+		otName[6] = gSaveBlock2Ptr->playerName[6];
+		otName[7] = gSaveBlock2Ptr->playerName[7];
+		otGender = gSaveBlock2Ptr->playerGender;
+		otId = *gSaveBlock2Ptr->playerTrainerId;
+		language = gGameLanguage;
+		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+			version = VERSION_LEAF_GREEN;
+		else
+			version = VERSION_FIRE_RED;
+	}
+	else
+	{
+		if (hasFixedPersonality)
+			personality = fixedPersonality;
+		else
+			personality = Random32();
+		GetSpeciesName(speciesName, species);
+		otName[0] = gSaveBlock2Ptr->playerName[0];
+		otName[1] = gSaveBlock2Ptr->playerName[1];
+		otName[2] = gSaveBlock2Ptr->playerName[2];
+		otName[3] = gSaveBlock2Ptr->playerName[3];
+		otName[4] = gSaveBlock2Ptr->playerName[4];
+		otName[5] = gSaveBlock2Ptr->playerName[5];
+		otName[6] = gSaveBlock2Ptr->playerName[6];
+		otName[7] = gSaveBlock2Ptr->playerName[7];
+		otGender = gSaveBlock2Ptr->playerGender;
+		otId = gSaveBlock2Ptr->playerTrainerId[0]
+              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+		language = gGameLanguage;
+		version = gGameVersion;
+	}
 
     ZeroBoxMonData(boxMon);
 
-    if (hasFixedPersonality)
-        personality = fixedPersonality;
-    else
-        personality = Random32();
+    
 
     SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
 
@@ -2227,25 +2377,24 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
     }
 
-    SetBoxMonData(boxMon, MON_DATA_OT_ID, &value);
+    SetBoxMonData(boxMon, MON_DATA_OT_ID, &otId);
 
     checksum = CalculateBoxMonChecksum(boxMon);
     SetBoxMonData(boxMon, MON_DATA_CHECKSUM, &checksum);
     EncryptBoxMon(boxMon);
-    GetSpeciesName(speciesName, species);
     SetBoxMonData(boxMon, MON_DATA_NICKNAME, speciesName);
-    SetBoxMonData(boxMon, MON_DATA_LANGUAGE, &gGameLanguage);
-    SetBoxMonData(boxMon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
+    SetBoxMonData(boxMon, MON_DATA_LANGUAGE, &language);
+    SetBoxMonData(boxMon, MON_DATA_OT_NAME, &otName);
     SetBoxMonData(boxMon, MON_DATA_SPECIES, &species);
     SetBoxMonData(boxMon, MON_DATA_EXP, &gExperienceTables[gBaseStats[species].growthRate][level]);
     SetBoxMonData(boxMon, MON_DATA_FRIENDSHIP, &gBaseStats[species].friendship);
     value = GetCurrentRegionMapSectionId();
-    SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
+    SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &metLocation);
     SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
-    SetBoxMonData(boxMon, MON_DATA_MET_GAME, &gGameVersion);
+    SetBoxMonData(boxMon, MON_DATA_MET_GAME, &version);
     value = ITEM_POKE_BALL;
     SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
-    SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
+    SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &otGender);
 
     if (fixedIV < 32)
     {
@@ -2258,8 +2407,15 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     }
     else
     {
-        u32 iv;
+        u16 iv;
+		if (species == SPECIES_JIRACHI)
+		{
+			rngBak = gRngValue;
+			gRngValue = rngBak2;
+		}
         value = Random();
+		if (species == SPECIES_CELEBI)
+			value = iv1;
 
         iv = value & 0x1F;
         SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
@@ -2268,7 +2424,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         iv = (value & 0x7C00) >> 10;
         SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
 
-        value = Random();
+		value = Random();
+		if (species == SPECIES_JIRACHI)
+			gRngValue = rngBak;
+		if (species == SPECIES_CELEBI)
+			value = iv2;
 
         iv = value & 0x1F;
         SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
@@ -4338,10 +4498,55 @@ void CopyMon(void *dest, void *src, size_t size)
 u8 GiveMonToPlayer(struct Pokemon *mon)
 {
     s32 i;
+	u8 otName[PLAYER_NAME_LENGTH + 1];
+	u8 otGender;
+	u32 otId;
+	u16 species;
+	
+	species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+	
+	if (species == SPECIES_CELEBI) //Replicate Ageto Celebi from JAP Colosseum Bonus Disc
+	{
+		otName[0] = 0x51; //ア
+		otName[1] = 0x8A; //ゲ
+		otName[2] = 0x64; //ト
+		otName[3] = 0xFF;
+		otGender = FEMALE;
+		otId = 0x00007991u; //31121:00000
+	}
+	else if (species == SPECIES_JIRACHI) //Replicate Wishmaker Jirachi from US Colosseum Bonus Disc
+	{
+		otName[0] = 0xD1; //W
+		otName[1] = 0xC3; //I
+		otName[2] = 0xCD; //S
+		otName[3] = 0xC2; //H
+		otName[4] = 0xC7; //M
+		otName[5] = 0xC5; //K
+		otName[6] = 0xCC; //R
+		otName[7] = 0xFF;
+		otGender = MALE;
+		otId = 0x00004E4Bu; //20043:00000
+	}
+	else
+	{
+		otName[0] = gSaveBlock2Ptr->playerName[0];
+		otName[1] = gSaveBlock2Ptr->playerName[1];
+		otName[2] = gSaveBlock2Ptr->playerName[2];
+		otName[3] = gSaveBlock2Ptr->playerName[3];
+		otName[4] = gSaveBlock2Ptr->playerName[4];
+		otName[5] = 0xFF;
+		otName[6] = gSaveBlock2Ptr->playerName[5];
+		otName[7] = gSaveBlock2Ptr->playerName[6]; 
+		otGender = gSaveBlock2Ptr->playerGender;
+		otId = gSaveBlock2Ptr->playerTrainerId[0]
+              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+	}
 
-    SetMonData(mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
-    SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
-    SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
+    SetMonData(mon, MON_DATA_OT_NAME, &otName);
+    SetMonData(mon, MON_DATA_OT_GENDER, &otGender);
+    SetMonData(mon, MON_DATA_OT_ID, &otId);
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
