@@ -472,7 +472,9 @@ static s32 GetParentToInheritNature(struct DayCare *daycare)
 static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 {
     u8 parent;
-    s32 natureTries = 0;
+	u32 personality;
+    u16 i = 0;
+	u32 shinyValue;
 
     SeedRng2(gMain.vblankCounter2);
     parent = GetParentToInheritNature(daycare);
@@ -480,23 +482,57 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
     // don't inherit nature
     if (parent > 1)
     {
-        daycare->offspringPersonality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
+		if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
+		{
+			do
+			{
+				personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
+				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+				i++;
+			} while (i < 5);
+		}
+		else
+		{
+			personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
+		}
+        daycare->offspringPersonality = personality;
     }
     // inherit nature
     else
     {
         u8 wantedNature = GetNatureFromPersonality(GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_PERSONALITY, NULL));
-        u32 personality;
+		u16 j =0;
+		i = 0;
 
-        do
-        {
-            personality = (Random2() << 16) | (Random());
-            if (wantedNature == GetNatureFromPersonality(personality) && personality != 0)
-                break; // found a personality with the same nature
-
-            natureTries++;
-        } while (natureTries <= 2400);
-
+		if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
+		{
+			do
+			{
+				do
+				{
+					personality = (Random2() << 16) | (Random());
+					if (wantedNature == GetNatureFromPersonality(personality) && personality != 0)
+						break; // found a personality with the same nature
+					i++;
+				} while (i <= 0xFFFF);
+				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+				j++;
+			} while (j < 5);
+		}
+		else
+		{
+			do
+			{
+				personality = (Random2() << 16) | (Random());
+				if (wantedNature == GetNatureFromPersonality(personality) && personality != 0)
+					break; // found a personality with the same nature
+				i++;
+			} while (i <= 0xFFFF);
+		}
         daycare->offspringPersonality = personality;
     }
 
