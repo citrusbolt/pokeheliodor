@@ -566,7 +566,7 @@ static void InheritIVs(struct Pokemon *egg, struct DayCare *daycare)
         // have a lower chance to be inherited in Emerald and why the IV picked for inheritance can
         // be repeated. Uncomment the inline comment and remove the existing expression to get the
         // intended behavior and  to match the other Gen 3 games. 
-        RemoveIVIndexFromList(availableIVs, i /*selectedIvs[i]*/);
+        RemoveIVIndexFromList(availableIVs, selectedIvs[i]);
     }
 
     // Determine which parent each of the selected IVs should inherit from.
