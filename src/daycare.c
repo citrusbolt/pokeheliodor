@@ -22,6 +22,7 @@
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
+#include "mgba.h"
 
 // this file's functions
 static void ClearDaycareMonMail(struct DayCareMail *mail);
@@ -417,55 +418,67 @@ static u16 GetEggSpecies(u16 species)
 
 static s32 GetParentToInheritNature(struct DayCare *daycare)
 {
-    u32 species[DAYCARE_MON_COUNT];
-    s32 i;
-    s32 dittoCount;
-    s32 parent = -1;
+    //u32 species[DAYCARE_MON_COUNT];
+    //s32 i;
+    //s32 dittoCount;
+    u8 parent = 2;
 
     // search for female gender
-    for (i = 0; i < DAYCARE_MON_COUNT; i++)
-    {
-        if (GetBoxMonGender(&daycare->mons[i].mon) == MON_FEMALE)
-            parent = i;
-    }
+    //for (i = 0; i < DAYCARE_MON_COUNT; i++)
+    //{
+    //    if (GetBoxMonGender(&daycare->mons[i].mon) == MON_FEMALE)
+    //        parent = i;
+    //}
 
     // search for ditto
-    for (dittoCount = 0, i = 0; i < DAYCARE_MON_COUNT; i++)
-    {
-        species[i] = GetBoxMonData(&daycare->mons[i].mon, MON_DATA_SPECIES);
-        if (species[i] == SPECIES_DITTO)
-            dittoCount++, parent = i;
-    }
+    //for (dittoCount = 0, i = 0; i < DAYCARE_MON_COUNT; i++)
+    //{
+    //    species[i] = GetBoxMonData(&daycare->mons[i].mon, MON_DATA_SPECIES);
+    //    if (species[i] == SPECIES_DITTO)
+    //        dittoCount++, parent = i;
+    //}
 
     // coin flip on ...two Dittos
-    if (dittoCount == DAYCARE_MON_COUNT)
-    {
-        if (Random() >= USHRT_MAX / 2)
-            parent = 0;
-        else
-            parent = 1;
-    }
+    //if (dittoCount == DAYCARE_MON_COUNT)
+    //{
+    //    if (Random() >= USHRT_MAX / 2)
+    //        parent = 0;
+    //    else
+    //        parent = 1;
+    //}
 
     // Don't inherit nature if not holding Everstone
-    if (GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_HELD_ITEM) != ITEM_EVERSTONE
-        || Random() >= USHRT_MAX / 2)
-    {
-        return -1;
-    }
+    //if (GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_HELD_ITEM) != ITEM_EVERSTONE
+    //    || Random() >= USHRT_MAX / 2)
+    //{
+    //    return -1;
+    //}
 
-    return parent;
+    //return parent;
+	
+	// Either parent can pass nature with Everstone
+	if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_HELD_ITEM) == ITEM_EVERSTONE)
+		parent = 0;
+	if (GetBoxMonData(&daycare->mons[1].mon, MON_DATA_HELD_ITEM) == ITEM_EVERSTONE)
+	{
+		if (parent == 0)
+			parent = Random() / 3 & 1;
+		else
+			parent = 1;
+	}
+	return parent;
 }
 
 static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 {
-    s32 parent;
+    u8 parent;
     s32 natureTries = 0;
 
     SeedRng2(gMain.vblankCounter2);
     parent = GetParentToInheritNature(daycare);
 
     // don't inherit nature
-    if (parent < 0)
+    if (parent > 1)
     {
         daycare->offspringPersonality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
     }
