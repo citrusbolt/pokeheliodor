@@ -2978,8 +2978,10 @@ static void PrintInfoPageText(void)
 {
     if (sMonSummaryScreen->summary.isEgg)
     {
-        PrintEggOTName();
-        PrintEggOTID();
+        //PrintEggOTName();
+        //PrintEggOTID();
+		PrintMonOTName();
+        PrintMonOTID();
         PrintEggState();
         PrintEggMemo();
     }
