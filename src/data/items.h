@@ -3530,7 +3530,7 @@ const struct Item gItems[] =
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = 4,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_SootSack,
         .secondaryId = 0,
     },
 
