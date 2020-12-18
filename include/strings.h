@@ -160,8 +160,10 @@ extern const u8 gText_Hoenn[];
 extern const u8 gText_Ferry[];
 extern const u8 gText_SecretBase[];
 extern const u8 gText_Hideout[];
+
 extern const u8 gText_AquaHideout[];
 extern const u8 gText_MagmaHideout[];
+extern const u8 gText_MirageIsland[];
 
 extern const u8 gText_OutskirtStand[];
 extern const u8 gText_PhenacCity[];

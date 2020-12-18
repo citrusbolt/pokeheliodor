@@ -3084,28 +3084,18 @@ static void BufferMonTrainerMemo(void)
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-        if (sum->metLocation < MAPSEC_NONE)
-        {
-            GetMapNameGeneric(metLocationString, sum->metLocation);
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-        }
-		else if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
-        {
-            if (sum->metGame == VERSION_SAPPHIRE)
-		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AquaHideout);
-            else if (sum->metGame == VERSION_RUBY)
-		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MagmaHideout);
-            else
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-        }
-        else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
-        {
-            if (sum->metGame == VERSION_SAPPHIRE
-             || sum->metGame == VERSION_RUBY)
-		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
-            else
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-        }
+        GetMapNameGeneric(metLocationString, sum->metLocation);
+		
+		if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_SAPPHIRE)
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AquaHideout);
+		else if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_RUBY)
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MagmaHideout);
+		else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER && (sum->metGame == VERSION_SAPPHIRE || sum->metGame == VERSION_RUBY))
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
+		else if (sum->metLocation == MAPSEC_ROUTE_130 && (sum->metGame == VERSION_SAPPHIRE || sum->metGame == VERSION_RUBY || sum->metGame == VERSION_EMERALD) && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET))
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirageIsland);
+		else
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
 
         // Colosseum/XD location handler
         if (sum->metGame == VERSION_GAMECUBE)

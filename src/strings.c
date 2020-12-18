@@ -1107,6 +1107,7 @@ const u8 gText_Hideout[] = _("HIDEOUT");
 
 const u8 gText_AquaHideout[] = _("AQUA HIDEOUT");
 const u8 gText_MagmaHideout[] = _("MAGMA HIDEOUT");
+const u8 gText_MirageIsland[] = _("MIRAGE ISLAND");
 
 const u8 gText_OutskirtStand[] = _("OUTSKIRT STAND");
 const u8 gText_PhenacCity[] = _("PHENAC CITY");
