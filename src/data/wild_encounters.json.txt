@@ -113,13 +113,13 @@ const struct WildPokemonHeader {{ wild_encounter_group.label }}[] =
         .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP({{ removePrefix(encounter.map, "MAP_") }}){% else %}0{% endif %},
         .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM({{ removePrefix(encounter.map, "MAP_") }}){% else %}{{ loop.index1 }}{% endif %},
         .landMonsInfo = {% if existsIn(encounter, "land_mons") %}&{{ encounter.base_label }}_LandMonsInfo{% else %}NULL{% endif %},
-        .landMonsNatInfo = {% if existsIn(encounter, "land_mons_nat") %}&{{ encounter.base_label }}_LandMonsNatInfo{% else %}NULL{% endif %},
+        .landMonsNatInfo = {% if existsIn(encounter, "land_mons_nat") %}&{{ encounter.base_label }}_LandMonsNatInfo{% else if existsIn(encounter, "land_mons") %}&{{ encounter.base_label }}_LandMonsInfo{% else %}NULL{% endif %},
         .waterMonsInfo = {% if existsIn(encounter, "water_mons") %}&{{ encounter.base_label }}_WaterMonsInfo{% else %}NULL{% endif %},
-        .waterMonsNatInfo = {% if existsIn(encounter, "water_mons_nat") %}&{{ encounter.base_label }}_WaterMonsNatInfo{% else %}NULL{% endif %},
+        .waterMonsNatInfo = {% if existsIn(encounter, "water_mons_nat") %}&{{ encounter.base_label }}_WaterMonsNatInfo{% else if existsIn(encounter, "water_mons") %}&{{ encounter.base_label }}_WaterMonsInfo{% else %}NULL{% endif %},
         .rockSmashMonsInfo = {% if existsIn(encounter, "rock_smash_mons") %}&{{ encounter.base_label }}_RockSmashMonsInfo{% else %}NULL{% endif %},
-        .rockSmashMonsNatInfo = {% if existsIn(encounter, "rock_smash_mons_nat") %}&{{ encounter.base_label }}_RockSmashMonsNatInfo{% else %}NULL{% endif %},
+        .rockSmashMonsNatInfo = {% if existsIn(encounter, "rock_smash_mons_nat") %}&{{ encounter.base_label }}_RockSmashMonsNatInfo{% else if existsIn(encounter, "rock_smash_mons") %}&{{ encounter.base_label }}_RockSmashMonsInfo{% else %}NULL{% endif %},
         .fishingMonsInfo = {% if existsIn(encounter, "fishing_mons") %}&{{ encounter.base_label }}_FishingMonsInfo{% else %}NULL{% endif %},
-        .fishingMonsNatInfo = {% if existsIn(encounter, "fishing_mons_nat") %}&{{ encounter.base_label }}_FishingMonsNatInfo{% else %}NULL{% endif %},
+        .fishingMonsNatInfo = {% if existsIn(encounter, "fishing_mons_nat") %}&{{ encounter.base_label }}_FishingMonsNatInfo{% else if existsIn(encounter, "fishing_mons") %}&{{ encounter.base_label }}_FishingMonsInfo{% else %}NULL{% endif %},
     },
 ## endfor
     {
