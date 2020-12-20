@@ -50,6 +50,7 @@
 #include "printf.h"
 #include "mgba.h"
 #include "save.h"
+#include "constants/species.h"
 
 struct SpeciesItem
 {
@@ -2346,7 +2347,40 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
-		version = gGameVersion;
+		if (gSpeciesToHoennPokedexNum[species] > HOENN_DEX_COUNT && species != SPECIES_LUGIA && species != SPECIES_HO_OH)
+		{
+			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+			{
+				version = VERSION_LEAF_GREEN;
+			}
+			else
+			{
+				version = VERSION_FIRE_RED;
+			}
+		}
+		else if (species == SPECIES_MEDITITE || species == SPECIES_MEDICHAM || species == SPECIES_ROSELIA)
+		{
+			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+			{
+				version = VERSION_SAPPHIRE;
+			}
+			else
+			{
+				version = VERSION_RUBY;
+			}
+		}
+		else if (species == SPECIES_ZANGOOSE)
+		{
+			version = VERSION_RUBY;
+		}
+		else if (species == SPECIES_LUNATONE)
+		{
+			version = VERSION_SAPPHIRE;
+		}
+		else
+		{
+			version = gGameVersion;
+		}
 	}
 
     ZeroBoxMonData(boxMon);
