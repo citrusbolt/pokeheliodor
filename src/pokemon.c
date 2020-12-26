@@ -4539,7 +4539,23 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 	
 	species = GetMonData(mon, MON_DATA_SPECIES, NULL);
 	
-	if (species == SPECIES_CELEBI) //Replicate Ageto Celebi from JAP Colosseum Bonus Disc
+	if (species == SPECIES_MEW)
+	{
+		otName[0] = gSaveBlock2Ptr->playerName[0];
+		otName[1] = gSaveBlock2Ptr->playerName[1];
+		otName[2] = gSaveBlock2Ptr->playerName[2];
+		otName[3] = gSaveBlock2Ptr->playerName[3];
+		otName[4] = gSaveBlock2Ptr->playerName[4];
+		otName[5] = 0xFF;
+		otName[6] = gSaveBlock2Ptr->playerName[5];
+		otName[7] = gSaveBlock2Ptr->playerName[6]; 
+		otGender = gSaveBlock2Ptr->playerGender;
+		otId = gSaveBlock2Ptr->playerTrainerId[0]
+              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+	}
+	else if (species == SPECIES_CELEBI) //Replicate Ageto Celebi from JAP Colosseum Bonus Disc
 	{
 		otName[0] = 0x51; //ア
 		otName[1] = 0x8A; //ゲ
@@ -4568,9 +4584,9 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 		otName[2] = gSaveBlock2Ptr->playerName[2];
 		otName[3] = gSaveBlock2Ptr->playerName[3];
 		otName[4] = gSaveBlock2Ptr->playerName[4];
-		otName[5] = 0xFF;
-		otName[6] = gSaveBlock2Ptr->playerName[5];
-		otName[7] = gSaveBlock2Ptr->playerName[6]; 
+		otName[5] = gSaveBlock2Ptr->playerName[5];
+		otName[6] = gSaveBlock2Ptr->playerName[6];
+		otName[7] = gSaveBlock2Ptr->playerName[7]; 
 		otGender = gSaveBlock2Ptr->playerGender;
 		otId = gSaveBlock2Ptr->playerTrainerId[0]
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
