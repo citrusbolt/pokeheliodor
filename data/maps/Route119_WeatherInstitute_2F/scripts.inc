@@ -4,10 +4,17 @@
 .set LOCALID_SCIENTIST, 5
 .set LOCALID_GRUNT_3, 7
 .set LOCALID_GRUNT_4, 8
+.set LOCALID_SCIENTIST_R, 9
 
 Route119_WeatherInstitute_2F_MapScripts:: @ 826FF1E
+	map_script MAP_SCRIPT_ON_LOAD, Route119_WeatherInstitute_2F_OnLoad
 	map_script MAP_SCRIPT_ON_TRANSITION, Route119_WeatherInstitute_2F_OnTransition
 	.byte 0
+
+Route119_WeatherInstitute_2F_OnLoad::
+	goto_if_set FLAG_LATIOS_OR_LATIAS_ROAMING, Route119_WeatherInstitute_2F_EventScript_ShowRoamingScientist
+	setflag FLAG_HIDE_WEATHER_INSTITUTE_2F_SCIENTIST_R
+	removeobject LOCALID_SCIENTIST_R
 
 Route119_WeatherInstitute_2F_OnTransition: @ 826FF24
 	compare VAR_WEATHER_INSTITUTE_STATE, 0
@@ -218,6 +225,55 @@ Route119_WeatherInstitute_2F_EventScript_WeatherScientist:: @ 827018B
 	goto Route119_WeatherInstitute_2F_EventScript_ReceiveCastform
 	end
 
+Route119_WeatherInstitute_2F_EventScript_ShowRoamingScientist::
+	clearflag FLAG_HIDE_WEATHER_INSTITUTE_2F_SCIENTIST_R
+	end
+
+Route119_WeatherInstitute_2F_EventScript_RoamingScientist::
+	lock
+	faceplayer
+	special ResumeRoamerQuest
+	compare VAR_RESULT, 0
+	goto_if_eq Route119_WeatherInstitute_2F_EventScript_ShowRoamer
+	compare VAR_RESULT, 1
+	goto_if_eq Route119_WeatherInstitute_2F_EventScript_ShowRoamer
+	compare VAR_RESULT, 2
+	goto_if_eq Route119_WeatherInstitute_2F_EventScript_MentionZapdos
+	compare VAR_RESULT, 3
+	goto_if_eq Route119_WeatherInstitute_2F_EventScript_GiveMysticTicket
+	release
+	end
+	
+Route119_WeatherInstitute_2F_EventScript_ShowRoamer::
+	special CurrentRoamer
+	showmonpic VAR_RESULT, 10, 3
+	msgbox Route119_WeatherInstitute_2F_Text_ShowRoamer, MSGBOX_DEFAULT
+	special MarkRoamerSeen
+	hidemonpic
+	special ResumeRoamerQuest
+	compare VAR_RESULT, 1
+	goto_if_eq Route119_WeatherInstitute_2F_EventScript_MentionZapdos
+	release
+	end
+	
+Route119_WeatherInstitute_2F_EventScript_MentionZapdos::
+	msgbox Route119_WeatherInstitute_2F_Text_MentionZapdos, MSGBOX_DEFAULT
+	release
+	end
+	
+Route119_WeatherInstitute_2F_EventScript_GiveMysticTicket::
+	goto_if_set FLAG_RECEIVED_MYSTIC_TICKET, Route119_WeatherInstitute_2F_EventScript_RoamerQuestDone
+	msgbox Route119_WeatherInstitute_2F_Text_GiveMysticTicket, MSGBOX_DEFAULT
+	giveitem ITEM_MYSTIC_TICKET, 1
+	setflag FLAG_RECEIVED_MYSTIC_TICKET
+	release
+	end
+	
+Route119_WeatherInstitute_2F_EventScript_RoamerQuestDone::
+	msgbox Route119_WeatherInstitute_2F_Text_RoamerQuestDone, MSGBOX_DEFAULT
+	release
+	end
+
 Route119_WeatherInstitute_2F_Text_Grunt2Intro: @ 827019C
 	.string "The INSTITUTE created a type of\n"
 	.string "POKéMON that has something to do with\l"
@@ -339,3 +395,31 @@ Route119_WeatherInstitute_2F_Text_NoAbnormalWeather: @ 82708FC
 	.string "The occasional rainfall is a blessing,\n"
 	.string "really.$"
 
+Route119_WeatherInstitute_2F_Text_ShowRoamer:
+	.string "We've received reports of a POKéMON\n"
+	.string "matching this description roaming\l"
+	.string "around HOENN.\p"
+	.string "Make sure to keep an eye out for it!$"
+
+Route119_WeatherInstitute_2F_Text_MentionZapdos:
+	.string "I've also received a signular report\n"
+	.string "of a yellow-colored FLYING-type\l"
+	.string "POKéMON on ROUTE 110.\p"
+	.string "If you have time, can you try\n"
+	.string "to verify this report?$"
+
+Route119_WeatherInstitute_2F_Text_GiveMysticTicket:
+	.string "An island has been discovered near\n"
+	.string "the KANTO region that is possibly\l"
+	.string "a roosting point for some\l"
+	.string "powerful POKéMON.\p"
+	.string "As thanks for helping us study\n"
+	.string "the POKéMON that have been roaming\l"
+	.string "around HOENN, I'd like to grant\l"
+	.string "you authorization to visit this island.\p"
+	.string "Present this ticket to the staff\n"
+	.string "of the S.S Tidal to be taken there.$"
+
+Route119_WeatherInstitute_2F_Text_RoamerQuestDone:
+	.string "Thank you again for helping us\n"
+	.string "with our research!$"

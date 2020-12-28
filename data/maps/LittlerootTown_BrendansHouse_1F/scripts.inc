@@ -435,17 +435,20 @@ PlayersHouse_1F_Text_LatiEmergencyNewsFlash: @ 81F826F
 	.string "We bring you this emergency\n"
 	.string "news flash!\p"
 	.string "In various HOENN locales, there have\n"
-	.string "been reports of a BZZT…colored\l"
+	.string "been reports of mysterious\l"
 	.string "POKéMON in flight.\p"
-	.string "The identity of this POKéMON is\n"
-	.string "currently unknown.\p"
+	.string "The identities of these POKéMON\n"
+	.string "are currently unknown.\p"
+	.string "If you have any relevant information,\n"
+	.string "please report it to\l"
+	.string "the Weather Institute.\p"
 	.string "We now return you to the regular\n"
 	.string "movie program.$"
 
 PlayersHouse_1F_Text_WhatColorDidTheySay: @ 81F8351
 	.string "MOM: {PLAYER}, did you catch that?\p"
-	.string "What color did the announcer say\n"
-	.string "that POKéMON was?$"
+	.string "Isn't that something!\n"
+	.string "There are still unknown POKéMON.$"
 
 PlayersHouse_1F_Text_StillUnknownPokemon: @ 81F83A1
 	.string "MOM: Well, isn't that something!\n"

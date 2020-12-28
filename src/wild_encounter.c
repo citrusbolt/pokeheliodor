@@ -610,7 +610,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             if (TryStartRoamerEncounter() == TRUE)
             {
                 roamer = &gSaveBlock1Ptr->roamer;
-                if (!IsWildLevelAllowedByRepel(roamer->level))
+                if (!IsWildLevelAllowedByRepel(roamer->level) || VarGet(VAR_ROAMER_POKEMON) > 3) //Legendary Beasts shouldn't spawn on water
                     return FALSE;
 
                 BattleSetup_StartRoamerBattle();
@@ -729,7 +729,7 @@ bool8 SweetScentWildEncounter(void)
             if (gWildMonHeaders[headerId].waterMonsInfo == NULL)
                 return FALSE;
 
-            if (TryStartRoamerEncounter() == TRUE)
+            if (TryStartRoamerEncounter() == TRUE && VarGet(VAR_ROAMER_POKEMON) < 4) //Legendary Beasts shouldn't spawn on water
             {
                 BattleSetup_StartRoamerBattle();
                 return TRUE;

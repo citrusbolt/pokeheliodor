@@ -17,10 +17,8 @@ SouthernIsland_Interior_EventScript_TryRemoveLati:: @ 8242A5A
 	return
 
 SouthernIsland_Interior_OnTransition: @ 8242A6E
-	compare VAR_ROAMER_POKEMON, 0
-	call_if_eq SouthernIsland_Interior_EventScript_SetUpLatios
-	compare VAR_ROAMER_POKEMON, 0
-	call_if_ne SouthernIsland_Interior_EventScript_SetUpLatias
+	call_if_unset FLAG_ROAMER_QUEST, SouthernIsland_Interior_EventScript_SetUpLatios
+	call_if_set FLAG_ROAMER_QUEST, SouthernIsland_Interior_EventScript_SetUpLatias
 	call SouthernIsland_Interior_EventScript_SetUpPlayerGfx
 	end
 

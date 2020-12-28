@@ -501,11 +501,12 @@ PlayersHouse_1F_EventScript_GetSSTicketAndSeeLatiTV:: @ 8292AF2
 	compare VAR_0x8008, FEMALE
 	call_if_eq PlayersHouse_1F_EventScript_MomApproachPlayerAfterTVFemale
 	msgbox PlayersHouse_1F_Text_WhatColorDidTheySay, MSGBOX_DEFAULT
-	multichoice 22, 8, MULTI_TV_LATI, 1
+	@multichoice 22, 8, MULTI_TV_LATI, 1
+	checkitem ITEM_SAPPHIRE, 1
 	copyvar VAR_0x8004, VAR_RESULT
 	special InitRoamer
-	copyvar VAR_ROAMER_POKEMON, VAR_RESULT
-	msgbox PlayersHouse_1F_Text_StillUnknownPokemon, MSGBOX_DEFAULT
+	@copyvar VAR_ROAMER_POKEMON, VAR_RESULT
+	@msgbox PlayersHouse_1F_Text_StillUnknownPokemon, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 4
 	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 4

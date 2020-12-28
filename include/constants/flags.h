@@ -41,16 +41,16 @@
 #define FLAG_TEMP_1F     (TEMP_FLAGS_START + 0x1F)
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 
-#define FLAG_UNUSED_0x020    0x20 // Unused Flag
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
-#define FLAG_UNUSED_0x026    0x26 // Unused Flag
-#define FLAG_UNUSED_0x027    0x27 // Unused Flag
-#define FLAG_UNUSED_0x028    0x28 // Unused Flag
-#define FLAG_UNUSED_0x029    0x29 // Unused Flag
+#define FLAG_GOT_GEM         0x20 // Received Ruby or Sapphire
+#define FLAG_HIDE_MIRAGE_TOWER_RUBY 0x21
+#define FLAG_HIDE_MIRAGE_TOWER_SAPPHIRE 0x22
+#define FLAG_GOT_HELIX_FOSSIL 0x23
+#define FLAG_GOT_DOME_FOSSIL 0x24
+#define FLAG_GOT_OLD_AMBER   0x25
+#define FLAG_ROAMER_QUEST    0x26 // Set if Sapphire is in inventory when roamer quest is started.  Helps keep track of which Lati should be at Southern Island as well as stops Articuno from being skipped if Sapphire is obtained after catching Latios 
+#define FLAG_HIDE_ZAPDOS     0x27
+#define FLAG_DEFEATED_ZAPDOS   0x28
+#define FLAG_HIDE_WEATHER_INSTITUTE_2F_SCIENTIST_R 0x29
 #define FLAG_UNUSED_0x02A    0x2A // Unused Flag
 #define FLAG_UNUSED_0x02B    0x2B // Unused Flag
 #define FLAG_UNUSED_0x02C    0x2C // Unused Flag
@@ -357,8 +357,8 @@
 #define FLAG_UNUSED_MYSTERY_GIFT_0x14D       0x14D
 
 #define FLAG_MIRAGE_TOWER_VISIBLE            0x14E
-#define FLAG_CHOSE_ROOT_FOSSIL               0x14F
-#define FLAG_CHOSE_CLAW_FOSSIL               0x150
+#define FLAG_GOT_ROOT_FOSSIL               0x14F
+#define FLAG_GOT_CLAW_FOSSIL               0x150
 #define FLAG_RECEIVED_POWDER_JAR             0x151
 
 #define FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER 0x152

@@ -1,7 +1,21 @@
+.set LOCALID_ZAPDOS, 1
+
 NewMauville_Entrance_MapScripts:: @ 82372AD
+	map_script MAP_SCRIPT_ON_RESUME, NewMauville_OnResume
 	map_script MAP_SCRIPT_ON_LOAD, NewMauville_Entrance_OnLoad
 	map_script MAP_SCRIPT_ON_TRANSITION, NewMauville_Entrance_OnTransition
 	.byte 0
+
+NewMauville_OnResume:
+	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, NewMauville_EventScript_TryRemoveZapdos
+	end
+
+NewMauville_EventScript_TryRemoveZapdos::
+	specialvar VAR_RESULT, GetBattleOutcome
+	compare VAR_RESULT, B_OUTCOME_CAUGHT
+	goto_if_ne Common_EventScript_NopReturn
+	removeobject VAR_LAST_TALKED
+	return
 
 NewMauville_Entrance_OnLoad: @ 82372B8
 	compare VAR_NEW_MAUVILLE_STATE, 0
@@ -19,6 +33,13 @@ NewMauville_Entrance_EventScript_CloseDoor:: @ 82372C4
 
 NewMauville_Entrance_OnTransition: @ 82372FB
 	setflag FLAG_LANDMARK_NEW_MAUVILLE
+	special ResumeRoamerQuest
+	compare VAR_RESULT, 1
+	goto_if_eq NewMauville_Entrance_EventScript_ShowZapdos
+	compare VAR_RESULT, 2
+	goto_if_eq NewMauville_Entrance_EventScript_ShowZapdos
+	setflag FLAG_HIDE_ZAPDOS
+	removeobject LOCALID_ZAPDOS
 	end
 
 NewMauville_Entrance_EventScript_Door:: @ 82372FF
@@ -43,6 +64,43 @@ NewMauville_Entrance_EventScript_Door:: @ 82372FF
 	playse SE_BANG
 	setvar VAR_NEW_MAUVILLE_STATE, 1
 	releaseall
+	end
+
+NewMauville_Entrance_EventScript_ShowZapdos::
+	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_EventScript_Zapdos::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_ZAPDOS, 2
+	delay 40
+	waitmoncry
+	setwildbattle SPECIES_ZAPDOS, 40, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special StartRegiBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq NewMauville_EventScript_DefeatedZapdos
+	compare VAR_RESULT, B_OUTCOME_RAN
+	goto_if_eq NewMauville_EventScript_RanFromZapdos
+	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
+	goto_if_eq NewMauville_EventScript_RanFromZapdos
+	setflag FLAG_DEFEATED_ZAPDOS
+	release
+	end
+
+NewMauville_EventScript_DefeatedZapdos::
+	setflag FLAG_DEFEATED_ZAPDOS
+	goto Common_EventScript_RemoveStaticPokemon
+	end
+
+NewMauville_EventScript_RanFromZapdos::
+	setvar VAR_0x8004, SPECIES_ZAPDOS
+	goto Common_EventScript_LegendaryFlewAway
 	end
 
 NewMauville_Entrance_EventScript_DontOpenDoor:: @ 8237380
