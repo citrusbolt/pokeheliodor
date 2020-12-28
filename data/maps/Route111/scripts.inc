@@ -141,13 +141,15 @@ Route111_EventScript_MirageTowerDisappear:: @ 81F0E60
 	waitstate
 	setvar VAR_MIRAGE_TOWER_STATE, 2
 	clearflag FLAG_HIDE_DESERT_UNDERPASS_FOSSIL
-	goto_if_set FLAG_CHOSE_CLAW_FOSSIL, Route111_EventScript_RootFossilDisappeared
-	msgbox Route111_Text_ClawFossilDisappeared, MSGBOX_DEFAULT
+	checkitem ITEM_SAPPHIRE, 1
+	compare VAR_RESULT, TRUE
+	goto_if_eq Route111_EventScript_RubyDisappeared
+	msgbox Route111_Text_SapphireDisappeared, MSGBOX_DEFAULT
 	releaseall
 	end
 
-Route111_EventScript_RootFossilDisappeared:: @ 81F0EA7
-	msgbox Route111_Text_RootFossilDisappeared, MSGBOX_DEFAULT
+Route111_EventScript_RubyDisappeared:: @ 81F0EA7
+	msgbox Route111_Text_RubyDisappeared, MSGBOX_DEFAULT
 	releaseall
 	end
 
@@ -727,12 +729,12 @@ Route111_Text_MirageTowerHasntBeenSeenSince: @ 81F1C12
 	.string "Perhaps it really was\n"
 	.string "the MIRAGE TOWER…$"
 
-Route111_Text_ClawFossilDisappeared: @ 81F1C74
-	.string "The CLAW FOSSIL disappeared into\n"
+Route111_Text_SapphireDisappeared: @ 81F1C74
+	.string "The SAPPHIRE disappeared into\n"
 	.string "the sand…$"
 
-Route111_Text_RootFossilDisappeared: @ 81F1C9F
-	.string "The ROOT FOSSIL disappeared into\n"
+Route111_Text_RubyDisappeared: @ 81F1C9F
+	.string "The RUBY disappeared into\n"
 	.string "the sand…$"
 
 Route111_Text_MauvilleUncleToldMeToTakeRockSmash: @ 81F1CCA

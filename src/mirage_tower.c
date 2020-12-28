@@ -317,6 +317,14 @@ void SetMirageTowerVisibility(void)
     u16 rand;
     bool8 visible;
 
+	if ((FlagGet(FLAG_GOT_ROOT_FOSSIL) || FlagGet(FLAG_GOT_CLAW_FOSSIL)) && !FlagGet(FLAG_GOT_GEM))
+	{
+		VarSet(VAR_MIRAGE_TOWER_STATE, 0);
+		FlagSet(FLAG_MIRAGE_TOWER_VISIBLE);
+		FlagClear(FLAG_HIDE_MIRAGE_TOWER_RUBY);
+		FlagClear(FLAG_HIDE_MIRAGE_TOWER_SAPPHIRE);
+	}
+
     if (VarGet(VAR_MIRAGE_TOWER_STATE))
     {
         FlagClear(FLAG_MIRAGE_TOWER_VISIBLE);
