@@ -46,6 +46,7 @@
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "mgba.h"
 
 // Screen titles (upper left)
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TITLE 0
@@ -151,6 +152,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
         u8 sanity; // 0x35
         u8 OTName[17]; // 0x36
         u32 OTID; // 0x48
+		bool8 obedient;
     } summary;
     u16 bgTilemapBuffers[PSS_PAGE_COUNT][2][0x400];
     u8 mode;
@@ -248,6 +250,7 @@ static void BufferNatureString(void);
 static void GetMetLevelString(u8 *a);
 static bool8 DoesMonOTMatchOwner(void);
 static bool8 DidMonComeFromGBAGames(void);
+static bool8 DidMonComeFromRSE(void);
 static bool8 IsInGamePartnerMon(void);
 static void PrintEggOTName(void);
 static void PrintEggOTID(void);
@@ -1429,6 +1432,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
+		sum->obedient = GetMonData(mon, MON_DATA_OBEDIENCE);
         return TRUE;
     }
     sMonSummaryScreen->switchCounter++;
@@ -3084,211 +3088,541 @@ static void BufferMonTrainerMemo(void)
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-        GetMapNameGeneric(metLocationString, sum->metLocation);
-		
 		if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_SAPPHIRE)
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AquaHideout);
+		{
+			GetMapNameGeneric(metLocationString, MAPSEC_AQUA_HIDEOUT);
+		}
 		else if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_RUBY)
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MagmaHideout);
+		{
+			GetMapNameGeneric(metLocationString, MAPSEC_MAGMA_HIDEOUT);
+		}
 		else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER && (sum->metGame == VERSION_SAPPHIRE || sum->metGame == VERSION_RUBY))
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
-		else if (sum->metLocation == MAPSEC_ROUTE_130 && (sum->metGame == VERSION_SAPPHIRE || sum->metGame == VERSION_RUBY || sum->metGame == VERSION_EMERALD) && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET))
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirageIsland);
+		{
+			GetMapNameGeneric(metLocationString, MAPSEC_BATTLE_TOWER);
+		}
+		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromRSE() && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET))
+		{
+			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
+		}
+		else if ((sum->metGame == VERSION_HEART_GOLD || sum->metGame == VERSION_SOUL_SILVER) && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
+		{
+			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
+		}
+		else if (sum->metGame == VERSION_GAMECUBE && !(sum->obedient)) //Colosseum
+		{
+			switch (sum->metLocation)
+			{
+			case 1:
+			case 2:
+			case 200:
+				GetMapNameGeneric(metLocationString, MAPSEC_OUTSKIRT_STAND);
+				break;
+			case 3:
+			case 4:
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+			case 119:
+			case 128:
+			case 202:
+				GetMapNameGeneric(metLocationString, MAPSEC_PHENAC_CITY);
+				break;
+			case 5:
+			case 6:
+			case 204:
+				GetMapNameGeneric(metLocationString, MAPSEC_MAYORS_HOUSE);
+				break;
+			case 11:
+			case 12:
+			case 203:
+				GetMapNameGeneric(metLocationString, MAPSEC_PRE_GYM);
+				break;
+			case 13:
+			case 14:
+				GetMapNameGeneric(metLocationString, MAPSEC_PHENAC_STADIUM);
+				break;
+			case 15:
+			case 16:
+			case 17:
+			case 18:
+			case 19:
+			case 20:
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 205:
+				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_TOWN);
+				break;
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 207:
+				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_BLDG);
+				break;
+			case 29:
+			case 31:
+			case 32:
+			case 33:
+			case 34:
+			case 206:
+				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_CAVE);
+				break;
+			case 30:
+				GetMapNameGeneric(metLocationString, MAPSEC_MIRORS_HIDEOUT);
+				break;
+			case 35:
+			case 120:
+			case 142:
+				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_COLOSSEUM);
+				break;
+			case 36:
+			case 39:
+			case 40:
+			case 41:
+			case 42:
+			case 43:
+			case 44:
+			case 45:
+			case 46:
+			case 208:
+			case 209:
+				GetMapNameGeneric(metLocationString, MAPSEC_AGATE_VILLAGE);
+				break;
+			case 37:
+			case 38:
+			case 210:
+				GetMapNameGeneric(metLocationString, MAPSEC_RELIC_CAVE);
+				break;
+			case 47:
+			case 48:
+			case 49:
+			case 50:
+			case 51:
+			case 52:
+			case 53:
+			case 54:
+			case 55:
+			case 62:
+			case 122:
+			case 127:
+			case 211:
+			case 212:
+				GetMapNameGeneric(metLocationString, MAPSEC_THE_UNDER);
+				break;
+			case 57:
+			case 58:
+			case 59:
+			case 60:
+			case 61:
+			case 138:
+			case 139:
+			case 213:
+				GetMapNameGeneric(metLocationString, MAPSEC_THE_UNDER_SUBWAY);
+				break;
+			case 63:
+			case 121:
+				GetMapNameGeneric(metLocationString, MAPSEC_UNDER_COLOSSEUM);
+				break;
+			case 64:
+			case 125:
+				GetMapNameGeneric(metLocationString, MAPSEC_DEEP_COLOSSEUM);
+				break;
+			case 65:
+			case 214:
+				GetMapNameGeneric(metLocationString, MAPSEC_FRONT_OF_LAB);
+				break;
+			case 66:
+			case 67:
+			case 68:
+			case 69:
+			case 70:
+			case 71:
+			case 72:
+			case 73:
+			case 140:
+			case 141:
+			case 215:
+				GetMapNameGeneric(metLocationString, MAPSEC_LABORATORY);
+				break;
+			case 74:
+			case 75:
+			case 76:
+			case 77:
+			case 78:
+			case 79:
+			case 80:
+			case 81:
+			case 82:
+			case 83:
+			case 84:
+			case 85:
+			case 86:
+			case 87:
+			case 88:
+			case 89:
+			case 90:
+			case 91:
+			case 92:
+			case 93:
+			case 94:
+			case 216:
+			case 217:
+			case 218:
+			case 219:
+			case 220:
+				GetMapNameGeneric(metLocationString, MAPSEC_MT_BATTLE);
+				break;
+			case 95:
+			case 228:
+				GetMapNameGeneric(metLocationString, MAPSEC_MTBTL_COLOSSEUM);
+				break;
+			case 102:
+			case 115:
+			case 116:
+			case 117:
+			case 123:
+			case 124:
+			case 223:
+			case 224:
+				GetMapNameGeneric(metLocationString, MAPSEC_REALGAM_TOWER);
+				break;
+			case 103:
+			case 104:
+			case 105:
+			case 106:
+			case 107:
+			case 108:
+			case 109:
+			case 110:
+			case 111:
+			case 112:
+			case 113:
+			case 221:
+				GetMapNameGeneric(metLocationString, MAPSEC_REALGAMTWR_DOME);
+				break;
+			case 114:
+			case 222:
+				GetMapNameGeneric(metLocationString, MAPSEC_REALGAMTWR_LOBBY);
+				break;
+			case 118:
+			case 227:
+				GetMapNameGeneric(metLocationString, MAPSEC_TOWER_COLOSSEUM);
+				break;
+			case 126:
+				GetMapNameGeneric(metLocationString, MAPSEC_ORRE_COLOSSEUM);
+				break;
+			case 129:
+			case 130:
+			case 131:
+			case 132:
+			case 133:
+			case 134:
+			case 135:
+			case 136:
+			case 137:
+			case 201:
+				GetMapNameGeneric(metLocationString, MAPSEC_SNAGEM_HIDEOUT);
+				break;
+			case 225:
+			case 226:
+				GetMapNameGeneric(metLocationString, MAPSEC_REALGAM_TOWER_2F);
+				break;
+			default:
+				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
+			}
+		} 
+		else if (sum->metGame == VERSION_GAMECUBE && sum->obedient) //XD: Gales of Darkness
+		{
+			switch (sum->metLocation)
+			{
+			case 1:
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+			case 11:
+			case 514:
+			case 515:
+			case 529:
+				GetMapNameGeneric(metLocationString, MAPSEC_CIPHER_LAB);
+				break;
+			case 12:
+			case 13:
+			case 14:
+			case 15:
+			case 16:
+			case 17:
+			case 18:
+			case 19:
+			case 20:
+			case 21:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 29:
+			case 30:
+			case 31:
+			case 32:
+			case 33:
+			case 34:
+			case 516:
+			case 517:
+			case 518:
+			case 519:
+			case 520:
+				GetMapNameGeneric(metLocationString, MAPSEC_MT_BATTLE);
+				break;
+			case 35:
+			case 36:
+			case 37:
+			case 38:
+			case 39:
+			case 40:
+			case 41:
+			case 42:
+			case 43:
+			case 44:
+				GetMapNameGeneric(metLocationString, MAPSEC_S_S_LIBRA);
+				break;
+			case 45:
+			case 46:
+			case 49:
+			case 50:
+			case 51:
+			case 57:
+			case 58:
+			case 59:
+			case 60:
+			case 61:
+			case 521:
+			case 522:
+			case 523:
+			case 524:
+			case 525:
+			case 526:
+			case 527:
+			case 548:
+				GetMapNameGeneric(metLocationString, MAPSEC_REALGAM_TOWER);
+				break;
+			case 64:
+			case 65:
+			case 66:
+			case 67:
+			case 68:
+			case 69:
+			case 70:
+			case 71:
+			case 530:
+			case 531:
+			case 532:
+			case 533:
+			case 550:
+				GetMapNameGeneric(metLocationString, MAPSEC_CIPHER_KEY_LAIR);
+				break;
+			case 72:
+			case 73:
+			case 74:
+			case 75:
+			case 76:
+			case 77:
+			case 78:
+			case 79:
+			case 80:
+			case 81:
+			case 82:
+			case 83:
+			case 84:
+			case 85:
+			case 86:
+			case 87:
+			case 88:
+			case 89:
+			case 534:
+			case 535:
+			case 536:
+			case 537:
+			case 538:
+				GetMapNameGeneric(metLocationString, MAPSEC_CITADARK_ISLE);
+				break;
+			case 90:
+			case 545:
+				GetMapNameGeneric(metLocationString, MAPSEC_ROCK);
+				break;
+			case 91:
+			case 546:
+				GetMapNameGeneric(metLocationString, MAPSEC_OASIS);
+				break;
+			case 92:
+			case 547:
+				GetMapNameGeneric(metLocationString, MAPSEC_CAVE);
+				break;
+			case 93:
+			case 94:
+			case 95:
+			case 96:
+			case 97:
+			case 98:
+			case 99:
+			case 100:
+			case 101:
+			case 102:
+			case 103:
+			case 104:
+			case 105:
+			case 106:
+			case 107:
+			case 181:
+			case 502:
+			case 503:
+			case 504:
+				GetMapNameGeneric(metLocationString, MAPSEC_PHENAC_CITY);
+				break;
+			case 108:
+			case 109:
+			case 110:
+			case 111:
+			case 112:
+			case 113:
+			case 115:
+			case 116:
+			case 117:
+			case 118:
+			case 119:
+			case 120:
+			case 121:
+			case 122:
+			case 123:
+			case 505:
+			case 506:
+			case 507:
+				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_TOWN);
+				break;
+			case 125:
+			case 126:
+			case 127:
+			case 128:
+			case 129:
+			case 130:
+			case 131:
+			case 132:
+			case 133:
+			case 134:
+			case 135:
+			case 508:
+			case 509:
+			case 510:
+				GetMapNameGeneric(metLocationString, MAPSEC_AGATE_VILLAGE);
+				break;
+			case 138:
+			case 139:
+			case 140:
+			case 141:
+			case 142:
+			case 143:
+			case 540:
+			case 541:
+				GetMapNameGeneric(metLocationString, MAPSEC_POKEMON_HQ_LAB);
+				break;
+			case 144:
+			case 145:
+			case 146:
+			case 147:
+			case 148:
+			case 149:
+			case 150:
+			case 151:
+			case 152:
+			case 153:
+			case 154:
+			case 155:
+			case 156:
+			case 157:
+			case 158:
+			case 159:
+			case 160:
+			case 161:
+			case 162:
+			case 542:
+			case 543:
+				GetMapNameGeneric(metLocationString, MAPSEC_GATEON_PORT);
+				break;
+			case 163:
+			case 164:
+			case 500:
+				GetMapNameGeneric(metLocationString, MAPSEC_OUTSKIRT_STAND);
+				break;
+			case 165:
+			case 166:
+			case 167:
+			case 168:
+			case 501:
+				GetMapNameGeneric(metLocationString, MAPSEC_SNAGEM_HIDEOUT);
+				break;
+			case 169:
+			case 170:
+			case 171:
+			case 172:
+			case 173:
+			case 544:
+				GetMapNameGeneric(metLocationString, MAPSEC_KAMINKOS_HOUSE);
+				break;
+			case 174:
+				GetMapNameGeneric(metLocationString, MAPSEC_ORRE_COLOSSEUM);
+				break;
+			default:
+				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
+			}
+		}
 		else
-			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-
-        // Colosseum/XD location handler
-        if (sum->metGame == VERSION_GAMECUBE)
-        {
-            switch (sum->metLocation)
+		{
+			GetMapNameGeneric(metLocationString, sum->metLocation);
+		}
+		
+		if (sum->metGame == VERSION_GAMECUBE)
+		{
+			if (sum->metLocation == METLOC_IN_GAME_TRADE)
             {
-            case 1:
-            case 164: // Outskirt Stand
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_OutskirtStand);
-                break;
-            case 3:
-            case 94:
-            case 96:
-            case 97:
-            case 100:
-            case 107: // Phenac City
-            case 128: // eReader Pokémon from here are in Phenac City
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PhenacCity);
-                break;
-            case 5: // Mayor's House
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MayorsHouse);
-                break;
-            case 8:
-            case 9:
-            case 10:
-            case 11: //Cipher Lab
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherLab);
-                break;
-            case 15:
-            case 116:
-            case 119: // Pyrite Town
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
-                break;
-            case 16: // Mt. Battle
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
-                break;
-            case 25:
-            case 28: // Pyrite Building
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteBldg);
-                break;
-            case 29:
-            case 31:
-            case 32: // Pyrite Cave
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteCave);
-                break;
-            case 30: // Miror's Hideout
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirorsHideout);
-                break;
-            case 39: // Agate Village
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AgateVillage);
-                break;
-            case 47:
-            case 55: // The Under
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnder);
-                break;
-            case 58: // The Under Subway
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnderSubway);
-                break;
-            case 59:
-            case 115:
-            case 117: // Realgam Tower
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTower);
-                break;
-            case 64:
-            case 65:
-            case 66:
-            case 70:
-            case 71: // Cipher Key Lair
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
-                break;
-            case 67:
-            case 69: // Colosseum: Laboratory; XD: Cipher Key Lair
-                if(sum->species == SPECIES_BUTTERFREE
-                 || sum->species == SPECIES_PRIMEAPE
-                 || sum->species == SPECIES_MAGNETON
-                 || sum->species == SPECIES_HYPNO
-                 || sum->species == SPECIES_TANGELA)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
-                else
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
-                break;
-            case 68: // Laboratory
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
-                break;
-            case 73:
-            case 74:
-            case 75:
-            case 77:
-            case 80:
-            case 81:
-            case 84:
-            case 85:
-            case 87:
-            case 88: // Citadark Isle
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
-                break;
-            case 76: // Colosseum: Mt. Battle; XD: Citadark Isle
-                if(sum->species == SPECIES_ENTEI)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
-                else
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
-                break;
-            case 90: // Rock Poké Spot
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Rock);
-                break;
-            case 91: // Oasis Poké Spot
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Oasis);
-                break;
-            case 92: // Cave Poké Spot
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gPCText_Cave);
-                break;
-            case 104:
-            case 106: // Do these three display as Realgam Tower instead in game?
-            case 113: // RealgamTwr Dome
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
-                break;
-            case 109:
-            case 110:
-            case 111: // Colosseum: RealgamTwr Dome; XD: Pyrite Town
-                if(sum->species == SPECIES_SUNFLORA
-                 || sum->species == SPECIES_HERACROSS
-                 || sum->species == SPECIES_DELIBIRD
-                 || sum->species == SPECIES_SUICUNE)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
-                else
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
-                break;
-            case 118: // Tower Colosseum
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TowerColosseum);
-                break;
-            case 125: // Deep Colosseum
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_DeepColosseum);
-                break;
-            case 132:
-            case 133:
-            case 134: // Snagem Hideout
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SnagemHideout);
-                break;
-            case 143: // Pokémon HQ Lab
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PokemonHQLab);
-                break;
-            case 153:
-            case 162: // Gateon Port
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_GateonPort);
-                break;
-            default:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-                break;
-            }
-        }
-
-        if (DoesMonOTMatchOwner() == TRUE)
-        {
-            if (sum->metLevel == 0)
-                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
-            else
-                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+				if (sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON)
+                    text = gText_OldFriend; //Colosseum starter
+                 else
+                    text = gText_ReceivedFrom; //Duking's Plusle
+			}
+			else if (sum ->obedient && sum->metLocation == 0 && (sum->species == SPECIES_EEVEE || sum->species == SPECIES_VAPOREON || sum->species == SPECIES_JOLTEON || sum->species == SPECIES_FLAREON || sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON))
+			{
+				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+				text = gText_ObtainedFromDad; //XD starter
+			}
+			else
+			{
+				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+				text = gText_XNatureMetAtYZ;
+			}
+		}
+		else if (sum->metLevel == 0)
+		{
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+			text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
             text = gText_XNatureFatefulEncounter;
         }
-		else if (sum->metLocation == 0 && sum->metGame == VERSION_GAMECUBE)
+        else if (sum->metLocation != METLOC_IN_GAME_TRADE)
         {
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-            text = gText_ObtainedFromDad;
-        }
-        else if (sum->metLocation != METLOC_IN_GAME_TRADE && DidMonComeFromGBAGames())
-        {
-            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
-        }
-		else if (sum->metLocation != METLOC_IN_GAME_TRADE && sum->metGame == VERSION_GAMECUBE)
-        {
-            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetDistantLand : gText_XNatureProbablyMetAt;
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
         }
         else
         {
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-            if (sum->metLocation == METLOC_IN_GAME_TRADE)
-            {
-                if (sum->species == SPECIES_ESPEON 
-                 || sum->species == SPECIES_UMBREON) // Colosseum Starter Espeon and Umbreon
-                    text = gText_OldFriend;
-                 else
-                    text = gText_Receivedfrom; // Duking's Plusle
-            }
-            else
-            {
-                if (sum->metGame == VERSION_GAMECUBE) // Generic distant land text
-                    text = gText_XNatureMetDistantLand;
-                else
-                    text = gText_XNatureObtainedInTrade;
-            }
+            text = gText_XNatureObtainedInTrade;
         }
 
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
@@ -3352,7 +3686,7 @@ static bool8 DidMonComeFromGBAGames(void)
     return FALSE;
 }
 
-bool8 DidMonComeFromRSE(void)
+static bool8 DidMonComeFromRSE(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     if (sum->metGame > 0 && sum->metGame <= VERSION_EMERALD)

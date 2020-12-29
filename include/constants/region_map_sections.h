@@ -216,12 +216,116 @@
 #define MAPSEC_TRAINER_HILL                 0xD4
 #define MAPSEC_NONE                         0xD5
 
+#define MAPSEC_BATTLE_TOWER                 0xD6
+
 #define METLOC_SPECIAL_EGG                  0xFD
 #define METLOC_IN_GAME_TRADE                0xFE
 #define METLOC_FATEFUL_ENCOUNTER            0xFF
 
+//Johto met locations using CrystalDust as the standard
+#define MAPSEC_NEW_BARK_TOWN                0x100
+#define MAPSEC_CHERRYGROVE_CITY             0x101
+#define MAPSEC_AZALEA_TOWN                  0x102
+#define MAPSEC_CIANWOOD_CITY                0x103
+#define MAPSEC_MAHOGANY_TOWN                0x104
+#define MAPSEC_VIOLET_CITY                  0x107
+#define MAPSEC_ECRUTEAK_CITY                0x108
+#define MAPSEC_OLIVINE_CITY                 0x109
+#define MAPSEC_GOLDENROD_CITY               0x10A
+#define MAPSEC_BLACKTHORN_CITY              0x10C
+#define MAPSEC_ROUTE_29                     0x110
+#define MAPSEC_ROUTE_30                     0x111
+#define MAPSEC_ROUTE_31                     0x112
+#define MAPSEC_ROUTE_32                     0x113
+#define MAPSEC_ROUTE_33                     0x114
+#define MAPSEC_ROUTE_34                     0x115
+#define MAPSEC_ROUTE_35                     0x116
+#define MAPSEC_ROUTE_36                     0x117
+#define MAPSEC_ROUTE_37                     0x118
+#define MAPSEC_ROUTE_38                     0x119
+#define MAPSEC_ROUTE_39                     0x11A
+#define MAPSEC_ROUTE_40                     0x11B
+#define MAPSEC_ROUTE_41                     0x11C
+#define MAPSEC_ROUTE_42                     0x11D
+#define MAPSEC_ROUTE_43                     0x11E
+#define MAPSEC_ROUTE_44                     0x11F
+#define MAPSEC_ROUTE_45                     0x120
+#define MAPSEC_ROUTE_46                     0x121
+#define MAPSEC_ROUTE_26                     0x122
+#define MAPSEC_ROUTE_27                     0x123
+#define MAPSEC_ROUTE_28                     0x124
+#define MAPSEC_ROUTE_32_FLYDUP              0x125
+#define MAPSEC_DARK_CAVE                    0x137
+#define MAPSEC_SLOWPOKE_WELL                0x138
+#define MAPSEC_CD_BATTLE_FRONTIER           0x13A
+#define MAPSEC_ILEX_FOREST                  0x13B
+#define MAPSEC_UNION_CAVE                   0x13C
+#define MAPSEC_SPROUT_TOWER                 0x13D
+#define MAPSEC_RUINS_OF_ALPH                0x13E
+#define MAPSEC_ALPH_CHAMBERS                0x13F
+#define MAPSEC_RADIO_TOWER                  0x140
+#define MAPSEC_MT_MORTAR                    0x141
+#define MAPSEC_LIGHTHOUSE                   0x143
+#define MAPSEC_DRAGONS_DEN                  0x144
+#define MAPSEC_LAKE_OF_RAGE                 0x14A
+#define MAPSEC_NATIONAL_PARK                0x14B
+#define MAPSEC_ICE_PATH                     0x14C
+#define MAPSEC_SILVER_CAVE                  0x14D
+#define MAPSEC_WHIRL_ISLANDS                0x151
+#define MAPSEC_TIN_TOWER                    0x152
+
+//Orre met locations
+#define MAPSEC_DISTANT_LAND                 0x200
+#define MAPSEC_OUTSKIRT_STAND               0x201
+#define MAPSEC_PHENAC_CITY                  0x202
+#define MAPSEC_MAYORS_HOUSE                 0x203
+#define MAPSEC_PRE_GYM                      0x204
+#define MAPSEC_PHENAC_STADIUM               0x205
+#define MAPSEC_PYRITE_TOWN                  0x206
+#define MAPSEC_PYRITE_BLDG                  0x207
+#define MAPSEC_PYRITE_CAVE                  0x208
+#define MAPSEC_MIRORS_HIDEOUT               0x209
+#define MAPSEC_PYRITE_COLOSSEUM             0x210
+#define MAPSEC_AGATE_VILLAGE                0x211
+#define MAPSEC_RELIC_CAVE                   0x212
+#define MAPSEC_THE_UNDER                    0x213
+#define MAPSEC_THE_UNDER_SUBWAY             0x214
+#define MAPSEC_UNDER_COLOSSEUM              0x215
+#define MAPSEC_DEEP_COLOSSEUM               0x216
+#define MAPSEC_FRONT_OF_LAB                 0x217
+#define MAPSEC_LABORATORY                   0x218
+#define MAPSEC_MT_BATTLE                    0x219
+#define MAPSEC_MTBTL_COLOSSEUM              0x220
+#define MAPSEC_REALGAM_TOWER                0x221
+#define MAPSEC_REALGAMTWR_DOME              0x222
+#define MAPSEC_REALGAMTWR_LOBBY             0x223
+#define MAPSEC_TOWER_COLOSSEUM              0x224
+#define MAPSEC_ORRE_COLOSSEUM               0x225
+#define MAPSEC_SNAGEM_HIDEOUT               0x226
+#define MAPSEC_REALGAM_TOWER_2F             0x227
+#define MAPSEC_CIPHER_LAB                   0x228
+#define MAPSEC_S_S_LIBRA                    0x229
+#define MAPSEC_CIPHER_KEY_LAIR              0x230
+#define MAPSEC_CITADARK_ISLE                0x231
+#define MAPSEC_ROCK                         0x232
+#define MAPSEC_OASIS                        0x233
+#define MAPSEC_CAVE                         0x234
+#define MAPSEC_POKEMON_HQ_LAB               0x235
+#define MAPSEC_GATEON_PORT                  0x236
+#define MAPSEC_KAMINKOS_HOUSE               0x237
+
+#define MAPSEC_END							0x2FF
+
 #define KANTO_MAPSEC_START  MAPSEC_PALLET_TOWN
 #define KANTO_MAPSEC_END    MAPSEC_SPECIAL_AREA
 #define KANTO_MAPSEC_COUNT (KANTO_MAPSEC_END - KANTO_MAPSEC_START + 1)
+
+#define JOHTO_MAPSEC_START  MAPSEC_NEW_BARK_TOWN
+#define JOHTO_MAPSEC_END    MAPSEC_TIN_TOWER
+#define JOHTO_MAPSEC_COUNT (JOHTO_MAPSEC_END - JOHTO_MAPSEC_START + 1)
+
+#define ORRE_MAPSEC_START  MAPSEC_DISTANT_LAND
+#define ORRE_MAPSEC_END    MAPSEC_KAMINKOS_HOUSE
+#define ORRE_MAPSEC_COUNT (ORRE_MAPSEC_END - ORRE_MAPSEC_START + 1)
 
 #endif //GUARD_REGIONMAPSEC_H

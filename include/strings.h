@@ -161,35 +161,6 @@ extern const u8 gText_Ferry[];
 extern const u8 gText_SecretBase[];
 extern const u8 gText_Hideout[];
 
-extern const u8 gText_AquaHideout[];
-extern const u8 gText_MagmaHideout[];
-extern const u8 gText_MirageIsland[];
-
-extern const u8 gText_OutskirtStand[];
-extern const u8 gText_PhenacCity[];
-extern const u8 gText_MayorsHouse[];
-extern const u8 gText_CipherLab[];
-extern const u8 gText_PyriteTown[];
-extern const u8 gText_MtBattle[];
-extern const u8 gText_PyriteBldg[];
-extern const u8 gText_PyriteCave[];
-extern const u8 gText_MirorsHideout[];
-extern const u8 gText_AgateVillage[];
-extern const u8 gText_TheUnder[];
-extern const u8 gText_TheUnderSubway[];
-extern const u8 gText_RealgamTower[];
-extern const u8 gText_CipherKeyLair[];
-extern const u8 gText_Laboratory[];
-extern const u8 gText_CitadarkIsle[];
-extern const u8 gText_Rock[];
-extern const u8 gText_Oasis[];
-extern const u8 gText_RealgamTwr_Dome[];
-extern const u8 gText_TowerColosseum[];
-extern const u8 gText_DeepColosseum[];
-extern const u8 gText_SnagemHideout[];
-extern const u8 gText_PokemonHQLab[];
-extern const u8 gText_GateonPort[];
-
 extern const u8 gText_FlyToWhere[];
 extern const u8 gText_PokemonLeague[];
 extern const u8 gText_PokemonCenter[];
@@ -996,14 +967,7 @@ extern const u8 gText_XNatureMetAtYZ[];
 extern const u8 gText_XNatureMetSomewhereAt[];
 extern const u8 gText_XNatureFatefulEncounter[];
 extern const u8 gText_XNatureProbablyMetAt[];
-
-extern const u8 gText_OldFriend[];
-extern const u8 gText_Receivedfrom[];
-
 extern const u8 gText_XNatureObtainedInTrade[];
-
-extern const u8 gText_XNatureMetDistantLand[];
-extern const u8 gText_ObtainedFromDad[];
 
 extern const u8 gText_EmptyString5[];
 extern const u8 gText_EggWillTakeALongTime[];
@@ -3029,5 +2993,8 @@ extern const u8 gText_234Players[];
 
 extern const u8 gText_ThrowInPremierBalls[];
 extern const u8 gText_AshQty[];
+extern const u8 gText_OldFriend[];
+extern const u8 gText_ReceivedFrom[];
+extern const u8 gText_ObtainedFromDad[];
 
 #endif // GUARD_STRINGS_H

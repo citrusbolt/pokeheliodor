@@ -516,17 +516,8 @@ const u8 gText_HMMovesCantBeForgotten2[] = _("HM moves can't be\nforgotten now."
 const u8 gText_XNatureMetAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
 const u8 gText_XNatureHatchedAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nhatched at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
 const u8 gText_XNatureObtainedInTrade[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nobtained in a trade.");
-
-const u8 gText_XNatureMetDistantLand[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet in a distant land.");
-const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nGiven to {DYNAMIC 4} by\nhis dad.");
-
-
 const u8 gText_XNatureFatefulEncounter[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nobtained in a fateful\nencounter at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
 const u8 gText_XNatureProbablyMetAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nprobably met at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
-
-const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\n{DYNAMIC 4}'s old friend.");
-const u8 gText_Receivedfrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nreceived from {DYNAMIC 4}.");
-
 const u8 gText_XNature[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature");
 const u8 gText_XNatureMetSomewhereAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet somewhere at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
 const u8 gText_XNatureHatchedSomewhereAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nhatched somewhere at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
@@ -1104,35 +1095,6 @@ const u8 gText_SaveCompletePressA[] = _("Save completed.\n{COLOR RED}“Please p
 const u8 gText_Ferry[] = _("FERRY");
 const u8 gText_SecretBase[] = _("SECRET BASE");
 const u8 gText_Hideout[] = _("HIDEOUT");
-
-const u8 gText_AquaHideout[] = _("AQUA HIDEOUT");
-const u8 gText_MagmaHideout[] = _("MAGMA HIDEOUT");
-const u8 gText_MirageIsland[] = _("MIRAGE ISLAND");
-
-const u8 gText_OutskirtStand[] = _("OUTSKIRT STAND");
-const u8 gText_PhenacCity[] = _("PHENAC CITY");
-const u8 gText_MayorsHouse[] = _("MAYOR'S HOUSE");
-const u8 gText_CipherLab[] = _("CIPHER LAB");
-const u8 gText_PyriteTown[] = _("PYRITE TOWN");
-const u8 gText_MtBattle[] = _("MT. BATTLE");
-const u8 gText_PyriteBldg[] = _("PYRITE BLDG");
-const u8 gText_PyriteCave[] = _("PYRITE CAVE");
-const u8 gText_MirorsHideout[] = _("MIROR'S HIDEOUT");
-const u8 gText_AgateVillage[] = _("AGATE VILLAGE");
-const u8 gText_TheUnder[] = _("THE UNDER");
-const u8 gText_TheUnderSubway[] = _("THE UNDER SUBWAY");
-const u8 gText_RealgamTower[] = _("REALGAM TOWER");
-const u8 gText_CipherKeyLair[] = _("CIPHER KEY LAIR");
-const u8 gText_Laboratory[] = _("LABORATORY");
-const u8 gText_CitadarkIsle[] = _("CITADARK ISLE");
-const u8 gText_Rock[] = _("ROCK");
-const u8 gText_Oasis[] = _("OASIS");
-const u8 gText_RealgamTwr_Dome[] = _("REALGAMTWR DOME");
-const u8 gText_TowerColosseum[] = _("TOWER COLOSSEUM");
-const u8 gText_DeepColosseum[] = _("DEEP COLOSSEUM");
-const u8 gText_SnagemHideout[] = _("SNAGEM HIDEOUT");
-const u8 gText_PokemonHQLab[] = _("POKéMON HQ LAB");
-const u8 gText_GateonPort[] = _("GATEON PORT");
 
 const u8 gText_ResetRTCConfirmCancel[] = _("Reset RTC?\nA: Confirm, B: Cancel");
 const u8 gText_PresentTime[] = _("Present time in game");
@@ -1860,3 +1822,6 @@ const u8 gText_Berries[] = _("BERRIES");
 
 const u8 gText_ThrowInPremierBalls[] = _("I'll throw in some Premier Balls, too.{PAUSE_UNTIL_PRESS}");
 const u8 gText_AshQty[] = _("ASH QTY:\n{STR_VAR_1}{PAUSE_UNTIL_PRESS}");
+const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\n{DYNAMIC 4}'s old friend.");
+const u8 gText_ReceivedFrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nreceived from {DYNAMIC 4}.");
+const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nGiven to {DYNAMIC 4} by\nhis dad.");
