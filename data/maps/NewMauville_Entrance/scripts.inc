@@ -1,16 +1,16 @@
 .set LOCALID_ZAPDOS, 1
 
 NewMauville_Entrance_MapScripts:: @ 82372AD
-	map_script MAP_SCRIPT_ON_RESUME, NewMauville_OnResume
+	map_script MAP_SCRIPT_ON_RESUME, NewMauville_Entrance_OnResume
 	map_script MAP_SCRIPT_ON_LOAD, NewMauville_Entrance_OnLoad
 	map_script MAP_SCRIPT_ON_TRANSITION, NewMauville_Entrance_OnTransition
 	.byte 0
 
-NewMauville_OnResume:
-	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, NewMauville_EventScript_TryRemoveZapdos
+NewMauville_Entrance_OnResume:
+	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, NewMauville_Entrance_EventScript_TryRemoveZapdos
 	end
 
-NewMauville_EventScript_TryRemoveZapdos::
+NewMauville_Entrance_EventScript_TryRemoveZapdos::
 	specialvar VAR_RESULT, GetBattleOutcome
 	compare VAR_RESULT, B_OUTCOME_CAUGHT
 	goto_if_ne Common_EventScript_NopReturn
@@ -84,21 +84,21 @@ NewMauville_EventScript_Zapdos::
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome
 	compare VAR_RESULT, B_OUTCOME_WON
-	goto_if_eq NewMauville_EventScript_DefeatedZapdos
+	goto_if_eq NewMauville_Entrance_EventScript_DefeatedZapdos
 	compare VAR_RESULT, B_OUTCOME_RAN
-	goto_if_eq NewMauville_EventScript_RanFromZapdos
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromZapdos
 	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
-	goto_if_eq NewMauville_EventScript_RanFromZapdos
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromZapdos
 	setflag FLAG_DEFEATED_ZAPDOS
 	release
 	end
 
-NewMauville_EventScript_DefeatedZapdos::
+NewMauville_Entrance_EventScript_DefeatedZapdos::
 	setflag FLAG_DEFEATED_ZAPDOS
 	goto Common_EventScript_RemoveStaticPokemon
 	end
 
-NewMauville_EventScript_RanFromZapdos::
+NewMauville_Entrance_EventScript_RanFromZapdos::
 	setvar VAR_0x8004, SPECIES_ZAPDOS
 	goto Common_EventScript_LegendaryFlewAway
 	end
