@@ -51,8 +51,8 @@
 #define FLAG_HIDE_ZAPDOS     0x27
 #define FLAG_DEFEATED_ZAPDOS   0x28
 #define FLAG_HIDE_WEATHER_INSTITUTE_2F_SCIENTIST_R 0x29
-#define FLAG_UNUSED_0x02A    0x2A // Unused Flag
-#define FLAG_UNUSED_0x02B    0x2B // Unused Flag
+#define FLAG_HIDE_MEWTWO     0x2A
+#define FLAG_DEFEATED_MEWTWO 0x2B
 #define FLAG_UNUSED_0x02C    0x2C // Unused Flag
 #define FLAG_UNUSED_0x02D    0x2D // Unused Flag
 #define FLAG_UNUSED_0x02E    0x2E // Unused Flag

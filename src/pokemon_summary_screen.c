@@ -3104,6 +3104,10 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
+		else if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metGame == VERSION_EMERALD && sum->species == SPECIES_MEWTWO)
+		{
+			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
+		}
 		else if ((sum->metGame == VERSION_HEART_GOLD || sum->metGame == VERSION_SOUL_SILVER) && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
