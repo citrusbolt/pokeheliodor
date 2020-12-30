@@ -3344,9 +3344,6 @@ static void BufferMonTrainerMemo(void)
 			case 9:
 			case 10:
 			case 11:
-			case 514:
-			case 515:
-			case 529:
 				GetMapNameGeneric(metLocationString, MAPSEC_CIPHER_LAB);
 				break;
 			case 12:
@@ -3371,11 +3368,6 @@ static void BufferMonTrainerMemo(void)
 			case 32:
 			case 33:
 			case 34:
-			case 516:
-			case 517:
-			case 518:
-			case 519:
-			case 520:
 				GetMapNameGeneric(metLocationString, MAPSEC_MT_BATTLE);
 				break;
 			case 35:
@@ -3400,14 +3392,6 @@ static void BufferMonTrainerMemo(void)
 			case 59:
 			case 60:
 			case 61:
-			case 521:
-			case 522:
-			case 523:
-			case 524:
-			case 525:
-			case 526:
-			case 527:
-			case 548:
 				GetMapNameGeneric(metLocationString, MAPSEC_REALGAM_TOWER);
 				break;
 			case 64:
@@ -3418,11 +3402,6 @@ static void BufferMonTrainerMemo(void)
 			case 69:
 			case 70:
 			case 71:
-			case 530:
-			case 531:
-			case 532:
-			case 533:
-			case 550:
 				GetMapNameGeneric(metLocationString, MAPSEC_CIPHER_KEY_LAIR);
 				break;
 			case 72:
@@ -3443,23 +3422,15 @@ static void BufferMonTrainerMemo(void)
 			case 87:
 			case 88:
 			case 89:
-			case 534:
-			case 535:
-			case 536:
-			case 537:
-			case 538:
 				GetMapNameGeneric(metLocationString, MAPSEC_CITADARK_ISLE);
 				break;
 			case 90:
-			case 545:
 				GetMapNameGeneric(metLocationString, MAPSEC_ROCK);
 				break;
 			case 91:
-			case 546:
 				GetMapNameGeneric(metLocationString, MAPSEC_OASIS);
 				break;
 			case 92:
-			case 547:
 				GetMapNameGeneric(metLocationString, MAPSEC_CAVE);
 				break;
 			case 93:
@@ -3478,9 +3449,6 @@ static void BufferMonTrainerMemo(void)
 			case 106:
 			case 107:
 			case 181:
-			case 502:
-			case 503:
-			case 504:
 				GetMapNameGeneric(metLocationString, MAPSEC_PHENAC_CITY);
 				break;
 			case 108:
@@ -3498,9 +3466,6 @@ static void BufferMonTrainerMemo(void)
 			case 121:
 			case 122:
 			case 123:
-			case 505:
-			case 506:
-			case 507:
 				GetMapNameGeneric(metLocationString, MAPSEC_PYRITE_TOWN);
 				break;
 			case 125:
@@ -3514,9 +3479,6 @@ static void BufferMonTrainerMemo(void)
 			case 133:
 			case 134:
 			case 135:
-			case 508:
-			case 509:
-			case 510:
 				GetMapNameGeneric(metLocationString, MAPSEC_AGATE_VILLAGE);
 				break;
 			case 138:
@@ -3525,8 +3487,6 @@ static void BufferMonTrainerMemo(void)
 			case 141:
 			case 142:
 			case 143:
-			case 540:
-			case 541:
 				GetMapNameGeneric(metLocationString, MAPSEC_POKEMON_HQ_LAB);
 				break;
 			case 144:
@@ -3548,20 +3508,16 @@ static void BufferMonTrainerMemo(void)
 			case 160:
 			case 161:
 			case 162:
-			case 542:
-			case 543:
 				GetMapNameGeneric(metLocationString, MAPSEC_GATEON_PORT);
 				break;
 			case 163:
 			case 164:
-			case 500:
 				GetMapNameGeneric(metLocationString, MAPSEC_OUTSKIRT_STAND);
 				break;
 			case 165:
 			case 166:
 			case 167:
 			case 168:
-			case 501:
 				GetMapNameGeneric(metLocationString, MAPSEC_SNAGEM_HIDEOUT);
 				break;
 			case 169:
@@ -3569,7 +3525,6 @@ static void BufferMonTrainerMemo(void)
 			case 171:
 			case 172:
 			case 173:
-			case 544:
 				GetMapNameGeneric(metLocationString, MAPSEC_KAMINKOS_HOUSE);
 				break;
 			case 174:
