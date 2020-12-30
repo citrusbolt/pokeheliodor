@@ -2218,6 +2218,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u32 shinyValue;
 	
 	metLocation = GetCurrentRegionMapSectionId();
+	
+	WaitForVBlank();
 
 	if (species == SPECIES_MEW)  //Pretend to be Japanese release, as Old Sea Map wasn't released internationally.  Note that if encountered anywhere other than Faraway Island, Mew will not be fully legal
 	{
@@ -4504,13 +4506,27 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     case MON_DATA_IVS:
     {
-        u32 ivs = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
-        substruct3->hpIV = ivs & 0x1F;
-        substruct3->attackIV = (ivs >> 5) & 0x1F;
-        substruct3->defenseIV = (ivs >> 10) & 0x1F;
-        substruct3->speedIV = (ivs >> 15) & 0x1F;
-        substruct3->spAttackIV = (ivs >> 20) & 0x1F;
-        substruct3->spDefenseIV = (ivs >> 25) & 0x1F;
+		u32 ivs;
+		if (substruct0->species == SPECIES_RAIKOU || substruct0->species == SPECIES_ENTEI || substruct0->species == SPECIES_SUICUNE)
+		{
+			ivs = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
+			substruct3->hpIV = ivs & 0x1F;
+			substruct3->attackIV = (ivs >> 5) & 0x07; //Reintroduce Roamer IV bug
+			substruct3->defenseIV = 0;
+			substruct3->speedIV = 0;
+			substruct3->spAttackIV = 0;
+			substruct3->spDefenseIV = 0;
+		}
+		else
+		{
+			ivs = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
+			substruct3->hpIV = ivs & 0x1F;
+			substruct3->attackIV = (ivs >> 5) & 0x1F;
+			substruct3->defenseIV = (ivs >> 10) & 0x1F;
+			substruct3->speedIV = (ivs >> 15) & 0x1F;
+			substruct3->spAttackIV = (ivs >> 20) & 0x1F;
+			substruct3->spDefenseIV = (ivs >> 25) & 0x1F;
+		}
         break;
     }
     default:

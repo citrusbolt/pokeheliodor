@@ -72,5 +72,6 @@ void StartTimer1(void);
 void SeedRngAndSetTrainerId(void);
 u16 GetGeneratedTrainerIdLower(void);
 void sub_819789C(void);
+void WaitForVBlank(void);
 
 #endif // GUARD_MAIN_H
