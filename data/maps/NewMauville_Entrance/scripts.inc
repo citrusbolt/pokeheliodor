@@ -77,7 +77,7 @@ NewMauville_EventScript_Zapdos::
 	playmoncry SPECIES_ZAPDOS, 2
 	delay 40
 	waitmoncry
-	setwildbattle SPECIES_ZAPDOS, 40, ITEM_NONE
+	setwildbattle SPECIES_ZAPDOS, 50, ITEM_NONE
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special StartRegiBattle
 	waitstate
