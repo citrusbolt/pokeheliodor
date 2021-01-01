@@ -104,4 +104,3 @@ Route130_EventScript_RanFromMewtwo::
 	setvar VAR_0x8004, SPECIES_MEWTWO
 	goto Common_EventScript_LegendaryFlewAway
 	end
-	

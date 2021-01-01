@@ -2284,10 +2284,10 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	else if (species == SPECIES_JIRACHI) //Replicate Wishmaker Jirachi from US Colosseum Bonus Disc
 	{
 		Random32();
-		rngBak = gRngValue;
+		//rngBak = gRngValue;
 		//SeedRng(GetChecksum()); //this is causing crashes
 		SeedRng(gRngValue >> 16);
-		personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum
+		personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
 		GetSpeciesName(speciesName, species);
 		otName[0] = 0xD1; //W
 		otName[1] = 0xC3; //I
@@ -2302,8 +2302,34 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		metLocation = METLOC_FATEFUL_ENCOUNTER;
 		language = LANGUAGE_ENGLISH;
 		version = VERSION_RUBY;
-		rngBak2 = gRngValue;
-		gRngValue = rngBak;
+		//rngBak2 = gRngValue;
+		//gRngValue = rngBak;
+	}
+	else if (species == SPECIES_UNOWN)
+	{
+		if (hasFixedPersonality)
+			personality = fixedPersonality;
+		else
+			personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
+		GetSpeciesName(speciesName, species);
+		otName[0] = gSaveBlock2Ptr->playerName[0];
+		otName[1] = gSaveBlock2Ptr->playerName[1];
+		otName[2] = gSaveBlock2Ptr->playerName[2];
+		otName[3] = gSaveBlock2Ptr->playerName[3];
+		otName[4] = gSaveBlock2Ptr->playerName[4];
+		otName[5] = gSaveBlock2Ptr->playerName[5];
+		otName[6] = gSaveBlock2Ptr->playerName[6];
+		otName[7] = gSaveBlock2Ptr->playerName[7];
+		otGender = gSaveBlock2Ptr->playerGender;
+		otId = gSaveBlock2Ptr->playerTrainerId[0]
+              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+		language = gGameLanguage;
+		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+			version = VERSION_LEAF_GREEN;
+		else
+			version = VERSION_FIRE_RED;
 	}
 	else if (metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END)
 	{
@@ -2321,7 +2347,10 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		otName[6] = gSaveBlock2Ptr->playerName[6];
 		otName[7] = gSaveBlock2Ptr->playerName[7];
 		otGender = gSaveBlock2Ptr->playerGender;
-		otId = *gSaveBlock2Ptr->playerTrainerId;
+		otId = gSaveBlock2Ptr->playerTrainerId[0]
+              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
 		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
 			version = VERSION_LEAF_GREEN;
@@ -2444,11 +2473,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     else
     {
         u16 iv;
-		if (species == SPECIES_JIRACHI)
-		{
-			rngBak = gRngValue;
-			gRngValue = rngBak2;
-		}
+		//if (species == SPECIES_JIRACHI)
+		//{
+		//	rngBak = gRngValue;
+		//	gRngValue = rngBak2;
+		//}
         value = Random();
 		if (species == SPECIES_CELEBI)
 			value = iv1;
@@ -2461,8 +2490,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
 
 		value = Random();
-		if (species == SPECIES_JIRACHI)
-			gRngValue = rngBak;
+		//if (species == SPECIES_JIRACHI)
+		//	gRngValue = rngBak;
 		if (species == SPECIES_CELEBI)
 			value = iv2;
 

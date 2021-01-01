@@ -36,6 +36,9 @@ static void ApplyCleanseTagEncounterRateMod(u32 *encRate);
 static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildMon, u8 type, u8 ability, u8 *monIndex);
 static bool8 IsAbilityAllowingEncounter(u8 level);
 
+static u32 GenerateUnownPersonalityByLetter(u8 letter);
+static u8 GetUnownLetterByPersonalityLoByte(u32 personality);
+
 // EWRAM vars
 EWRAM_DATA static u8 sWildEncountersDisabled = 0;
 EWRAM_DATA static u32 sFeebasRngValue = 0;
@@ -50,6 +53,24 @@ const u16 gRoute119WaterTileData[] =
     0, 0x2D, 0,
     0x2E, 0x5B, 0x83,
     0x5C, 0x8B, 0x12A,
+};
+
+//Unown table imported from FRLG
+static const u8 sUnownLetterSlots[][12] = {
+  //  A   A   A   A   A   A   A   A   A   A   A   ?
+    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 27},
+  //  C   C   C   D   D   D   H   H   H   U   U   O
+    { 2,  2,  2,  3,  3,  3,  7,  7,  7, 20, 20, 14},
+  //  N   N   N   N   S   S   S   S   I   I   E   E
+    {13, 13, 13, 13, 18, 18, 18, 18,  8,  8,  4,  4},
+  //  P   P   L   L   J   J   R   R   R   Q   Q   Q
+    {15, 15, 11, 11,  9,  9, 17, 17, 17, 16, 16, 16},
+  //  Y   Y   T   T   G   G   G   F   F   F   K   K
+    {24, 24, 19, 19,  6,  6,  6,  5,  5,  5, 10, 10},
+  //  V   V   V   W   W   W   X   X   M   M   B   B
+    {21, 21, 21, 22, 22, 22, 23, 23, 12, 12,  1,  1},
+  //  Z   Z   Z   Z   Z   Z   Z   Z   Z   Z   Z   !
+    {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 26},
 };
 
 // code
@@ -372,6 +393,33 @@ static void CreateWildMon(u16 species, u8 level)
     CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature());
 }
 
+static void CreateWildUnown(u8 slot, u8 level)
+{
+    u32 personality;
+	u8 chamber;
+
+    ZeroEnemyPartyMons();
+	
+	chamber = (gSaveBlock1Ptr->location.mapNum - MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)) % 6;
+	personality = GenerateUnownPersonalityByLetter(sUnownLetterSlots[chamber][slot]);
+	CreateMon(&gEnemyParty[0], SPECIES_UNOWN, level, 32, TRUE, personality, FALSE, 0);
+}
+
+static u32 GenerateUnownPersonalityByLetter(u8 letter)
+{
+    u32 personality;
+    do
+    {
+        personality = (Random() << 16) | Random(); //BACD_U: RNG method used for Unown in FRLG, testing shows results Unown as Method_2_Unown due to VBlank occuring between now and IV generation
+    } while (GetUnownLetterByPersonalityLoByte(personality) != letter);
+    return personality;
+}
+
+static u8 GetUnownLetterByPersonalityLoByte(u32 personality)
+{
+    return (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 0x1C;
+}
+
 enum
 {
     WILD_AREA_LAND,
@@ -415,7 +463,10 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && flags & WILD_CHECK_KEEN_EYE && !IsAbilityAllowingEncounter(level))
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+	if (wildMonInfo->wildPokemon[wildMonIndex].species == SPECIES_UNOWN)
+		CreateWildUnown(wildMonIndex, level);
+	else
+		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
     return TRUE;
 }
 
