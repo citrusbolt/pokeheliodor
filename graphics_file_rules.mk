@@ -129,6 +129,12 @@ $(TILESETGFXDIR)/secondary/battle_frontier_outside_east/tiles.4bpp: %.4bpp: %.pn
 $(TILESETGFXDIR)/primary/building/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 502
 
+$(TILESETGFXDIR)/primary/general_kanto/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 640
+
+$(TILESETGFXDIR)/primary/building_kanto/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 640
+
 $(TILESETGFXDIR)/secondary/shop/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 502
 
@@ -285,6 +291,11 @@ $(TILESETGFXDIR)/secondary/battle_frontier_ranking_hall/tiles.4bpp: %.4bpp: %.pn
 $(TILESETGFXDIR)/secondary/mystery_events_house/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 509
 
+$(TILESETGFXDIR)/secondary/sevii_islands_67/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 374
+
+$(TILESETGFXDIR)/secondary/tanoby_ruins/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 74
 
 
 ### Fonts ###

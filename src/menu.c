@@ -1812,6 +1812,24 @@ void *DecompressAndCopyTileDataToVram(u8 bgId, const void *src, u32 size, u16 of
     return NULL;
 }
 
+void *DecompressAndCopyTileDataToVram2(u8 bgId, const void *src, u32 size, u16 offset, u8 mode)
+{
+    u32 sizeOut;
+    if (sTempTileDataBufferIdx < ARRAY_COUNT(sTempTileDataBuffer))
+    {
+        void *ptr = malloc_and_decompress(src, &sizeOut);
+        if (sizeOut > size)
+            sizeOut = size;
+        if (ptr)
+        {
+            copy_decompressed_tile_data_to_vram(bgId, ptr, sizeOut, offset, mode);
+            sTempTileDataBuffer[sTempTileDataBufferIdx++] = ptr;
+        }
+        return ptr;
+    }
+    return NULL;
+}
+
 void DecompressAndLoadBgGfxUsingHeap(u8 bgId, const void *src, u32 size, u16 offset, u8 mode)
 {
     u32 sizeOut;
@@ -1822,6 +1840,20 @@ void DecompressAndLoadBgGfxUsingHeap(u8 bgId, const void *src, u32 size, u16 off
     {
         u8 taskId = CreateTask(task_free_buf_after_copying_tile_data_to_vram, 0);
         gTasks[taskId].data[0] = copy_decompressed_tile_data_to_vram(bgId, ptr, size, offset, mode);
+        SetWordTaskArg(taskId, 1, (u32)ptr);
+    }
+}
+
+void DecompressAndLoadBgGfxUsingHeap2(u8 bgId, const void *src, u32 size, u16 offset, u8 mode)
+{
+    u32 sizeOut;
+    void *ptr = malloc_and_decompress(src, &sizeOut);
+    if (sizeOut > size)
+        sizeOut = size;
+    if (ptr)
+    {
+        u8 taskId = CreateTask(task_free_buf_after_copying_tile_data_to_vram, 0);
+        gTasks[taskId].data[0] = copy_decompressed_tile_data_to_vram(bgId, ptr, sizeOut, offset, mode);
         SetWordTaskArg(taskId, 1, (u32)ptr);
     }
 }

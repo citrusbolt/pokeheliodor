@@ -33,7 +33,8 @@
     "gMapGroup30",
     "gMapGroup31",
     "gMapGroup32",
-    "gMapGroup33"
+    "gMapGroup33",
+    "gMapGroup34"
   ],
   "gMapGroup0": [
     "PetalburgCity",
@@ -620,6 +621,16 @@
   ],
   "gMapGroup33": [
     "Route124_DivingTreasureHuntersHouse"
+  ],
+  "gMapGroup34": [
+    "SevenIsland_TanobyRuins",
+    "SevenIsland_TanobyRuins_MoneanChamber",
+    "SevenIsland_TanobyRuins_LiptooChamber",
+    "SevenIsland_TanobyRuins_WeepthChamber",
+    "SevenIsland_TanobyRuins_DilfordChamber",
+    "SevenIsland_TanobyRuins_ScufibChamber",
+    "SevenIsland_TanobyRuins_RixyChamber",
+    "SevenIsland_TanobyRuins_ViapoisChamber"
   ],
   "connections_include_order": [
     "LittlerootTown",

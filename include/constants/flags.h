@@ -53,7 +53,7 @@
 #define FLAG_HIDE_WEATHER_INSTITUTE_2F_SCIENTIST_R 0x29
 #define FLAG_HIDE_MEWTWO     0x2A
 #define FLAG_DEFEATED_MEWTWO 0x2B
-#define FLAG_UNUSED_0x02C    0x2C // Unused Flag
+#define FLAG_SYS_UNLOCKED_TANOBY_RUINS 0x2C
 #define FLAG_UNUSED_0x02D    0x2D // Unused Flag
 #define FLAG_UNUSED_0x02E    0x2E // Unused Flag
 #define FLAG_UNUSED_0x02F    0x2F // Unused Flag
