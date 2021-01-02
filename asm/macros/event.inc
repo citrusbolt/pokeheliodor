@@ -941,6 +941,13 @@
 	.byte 0
 	.endm
 
+	.macro giveunown level:req, item:req
+	.byte 0xe3
+	.byte \level
+	.2byte \item
+	.byte 0
+	.endm
+
 	.macro giveegg species:req
 	.byte 0x7a
 	.2byte \species

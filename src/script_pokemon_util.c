@@ -24,6 +24,7 @@
 #include "constants/items.h"
 #include "constants/tv.h"
 #include "constants/battle_frontier.h"
+#include "constants/species.h"
 
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleFrontierParty(void);
@@ -78,6 +79,46 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 u
     case 0:
     case 1:
         GetSetPokedexFlag(nationalDexNum, FLAG_SET_SEEN);
+        GetSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT);
+        break;
+    }
+    return sentToPc;
+}
+
+u8 ScriptGiveUnown(u8 level, u16 item)
+{
+    u16 nationalDexNum;
+    int sentToPc;
+    u8 heldItem[2];
+    struct Pokemon mon;
+	u8 letter;
+	u32 personality;
+	
+	if (gSaveBlock2Ptr->playerName[0] >= 0xBB && gSaveBlock2Ptr->playerName[0] <= 0xD4)
+		letter = gSaveBlock2Ptr->playerName[0] - 0xBB;
+	else if (gSaveBlock2Ptr->playerName[0] >= 0xD5 && gSaveBlock2Ptr->playerName[0] <= 0xEE)
+		letter = gSaveBlock2Ptr->playerName[0] - 0xD5;
+	else if (gSaveBlock2Ptr->playerName[0] == 0xAB)
+		letter = 26;
+	else if (gSaveBlock2Ptr->playerName[0] == 0xAC)
+		letter = 27;
+	else
+		letter = Random() % 27;
+
+	CreateMonWithGenderNatureLetter(&mon, SPECIES_UNOWN, level, 32, MON_GENDERLESS, Random() % NUM_NATURES, letter + 1);
+	heldItem[0] = item;
+	heldItem[1] = item >> 8;
+	SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
+	sentToPc = GiveMonToPlayer(&mon);
+    nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_UNOWN);
+	personality = GetMonData(&mon, MON_DATA_PERSONALITY);
+
+    switch(sentToPc)
+    {
+    case 0:
+    case 1:
+        GetSetPokedexFlag(nationalDexNum, FLAG_SET_SEEN);
+		HandleSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT, personality);
         GetSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT);
         break;
     }

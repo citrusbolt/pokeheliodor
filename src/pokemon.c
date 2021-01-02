@@ -2535,7 +2535,10 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 
         do
         {
-            personality = Random32();
+			if (species == SPECIES_UNOWN)
+				personality = (Random() << 16) | Random();
+			else
+				personality = Random32();
             actualLetter = ((((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 28);
         }
         while (nature != GetNatureFromPersonality(personality)

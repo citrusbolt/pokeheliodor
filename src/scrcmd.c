@@ -1688,11 +1688,19 @@ bool8 ScrCmd_givemon(struct ScriptContext *ctx)
 	if (species == SPECIES_JIRACHI)
 	{
 		if (Random() / 3 & 1)
-			item =169;
+			item = 169;
 		else
 			item = 170;
 	}
     gSpecialVar_Result = ScriptGiveMon(species, level, item, unkParam1, unkParam2, unkParam3);
+    return FALSE;
+}
+
+bool8 ScrCmd_giveunown(struct ScriptContext *ctx)
+{
+    u8 level = ScriptReadByte(ctx);
+    u16 item = VarGet(ScriptReadHalfword(ctx));
+    gSpecialVar_Result = ScriptGiveUnown(level, item);
     return FALSE;
 }
 
