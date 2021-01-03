@@ -24,6 +24,8 @@ static EWRAM_DATA u8 sProcessInputDelay = 0;
 
 static u8 sLilycoveSSTidalSelections[SSTIDAL_SELECTION_COUNT];
 
+static u8 sFossilSelections[FOSSIL_SELECTION_COUNT];
+
 static void Task_HandleMultichoiceInput(u8 taskId);
 static void Task_HandleYesNoInput(u8 taskId);
 static void Task_HandleMultichoiceGridInput(u8 taskId);
@@ -35,6 +37,7 @@ static void CreateLilycoveSSTidalMultichoice(void);
 static bool8 IsPicboxClosed(void);
 static void CreateStartMenuForPokenavTutorial(void);
 static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId);
+static void CreateFossilMultichoice(void);
 
 bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
 {
@@ -762,4 +765,129 @@ int ScriptMenu_AdjustLeftCoordFromWidth(int left, int width)
     }
 
     return adjustedLeft;
+}
+
+
+void CheckFossils(void)
+{
+	u8 fossilsInBag = 0;
+	
+	if (CheckBagHasItem(ITEM_ROOT_FOSSIL, 1))
+		fossilsInBag |= 16;
+	if (CheckBagHasItem(ITEM_CLAW_FOSSIL, 1))
+		fossilsInBag |= 8;
+	if (CheckBagHasItem(ITEM_HELIX_FOSSIL, 1))
+		fossilsInBag |= 4;
+	if (CheckBagHasItem(ITEM_DOME_FOSSIL, 1))
+		fossilsInBag |= 2;
+	if (CheckBagHasItem(ITEM_OLD_AMBER, 1))
+		fossilsInBag |= 1;
+	gSpecialVar_Result = fossilsInBag;
+}
+
+bool8 ScriptMenu_CreateFossilMultichoice(void)
+{
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
+    {
+        return FALSE;
+    }
+    else
+    {
+        gSpecialVar_0x8004 = 0xFF;
+        CreateFossilMultichoice();
+        return TRUE;
+    }
+}
+
+static void CreateFossilMultichoice(void)
+{
+    u8 selectionCount = 0;
+	u8 count;
+    u32 pixelWidth;
+    u8 width;
+    u8 windowId;
+    u8 i;
+    u32 j;
+
+    for (i = 0; i < FOSSIL_SELECTION_COUNT; i++)
+    {
+        sFossilSelections[i] = 0xFF;
+    }
+
+    GetFontAttribute(1, FONTATTR_MAX_LETTER_WIDTH);
+
+	if (gSpecialVar_Result & 16)
+	{
+		sFossilSelections[selectionCount] = FOSSIL_SELECTION_ROOT;
+		selectionCount++;
+	}
+	if (gSpecialVar_Result & 8)
+	{
+		sFossilSelections[selectionCount] = FOSSIL_SELECTION_CLAW;
+		selectionCount++;
+	}
+	if (gSpecialVar_Result & 4)
+	{
+		sFossilSelections[selectionCount] = FOSSIL_SELECTION_HELIX;
+		selectionCount++;
+	}
+	if (gSpecialVar_Result & 2)
+	{
+		sFossilSelections[selectionCount] = FOSSIL_SELECTION_DOME;
+		selectionCount++;
+	}
+	if (gSpecialVar_Result & 1)
+	{
+		sFossilSelections[selectionCount] = FOSSIL_SELECTION_AMBER;
+		selectionCount++;
+	}
+	
+    sFossilSelections[selectionCount] = FOSSIL_SELECTION_EXIT;
+    selectionCount++;
+	
+    count = selectionCount;
+	
+    if (count == FOSSIL_SELECTION_COUNT)
+    {
+        gSpecialVar_0x8004 = SCROLL_MULTI_FOSSILS;
+        ShowScrollableMultichoice();
+    }
+    else
+    {
+        pixelWidth = 0;
+
+        for (j = 0; j < FOSSIL_SELECTION_COUNT; j++)
+        {
+            u8 selection = sFossilSelections[j];
+            if (selection != 0xFF)
+            {
+                pixelWidth = DisplayTextAndGetWidth(sFossils[selection], pixelWidth);
+            }
+        }
+
+        width = ConvertPixelWidthToTileWidth(pixelWidth);
+        windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
+        SetStandardWindowBorderStyle(windowId, 0);
+
+        for (selectionCount = 0, i = 0; i < FOSSIL_SELECTION_COUNT; i++)
+        {
+            if (sFossilSelections[i] != 0xFF)
+            {
+                AddTextPrinterParameterized(windowId, 1, sFossils[sFossilSelections[i]], 8, selectionCount * 16 + 1, TEXT_SPEED_FF, NULL);
+                selectionCount++;
+            }
+        }
+
+        InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, count, count - 1);
+        CopyWindowToVram(windowId, 3);
+        InitMultichoiceCheckWrap(FALSE, count, windowId, MULTI_FOSSILS);
+    }
+}
+
+void GetFossilSelection(void)
+{
+    if (gSpecialVar_Result != MULTI_B_PRESSED)
+    {
+        gSpecialVar_Result = sFossilSelections[gSpecialVar_Result];
+    }
 }

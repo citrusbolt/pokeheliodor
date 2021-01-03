@@ -898,6 +898,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_SLATEPORT_TENT_RULES]       = MULTICHOICE(MultichoiceList_SlateportTentRules),
     [MULTI_FALLARBOR_TENT_RULES]       = MULTICHOICE(MultichoiceList_FallarborTentRules),
     [MULTI_TAG_MATCH_TYPE]             = MULTICHOICE(MultichoiceList_TagMatchType),
+    [MULTI_FOSSILS]                    = MULTICHOICE(MultichoiceList_Exit)
 };
 
 const u8 *const gStdStrings[] =
@@ -1003,4 +1004,14 @@ static const u8 *const sWirelessOptions_NoRecordMixBerryCrush[] =
     CableClub_Text_YouMayTradeHere,
     CableClub_Text_YouMayBattleHere,
     CableClub_Text_CancelSelectedItem,
+};
+
+static const u8 *const sFossils[FOSSIL_SELECTION_COUNT] =
+{
+    [FOSSIL_SELECTION_ROOT]       = gText_RootFossil,
+    [FOSSIL_SELECTION_CLAW]       = gText_ClawFossil,
+    [FOSSIL_SELECTION_HELIX]      = gText_HelixFossil,
+    [FOSSIL_SELECTION_DOME]       = gText_DomeFossil,
+    [FOSSIL_SELECTION_AMBER]      = gText_OldAmber,
+    [FOSSIL_SELECTION_EXIT]       = gText_Exit,
 };

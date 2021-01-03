@@ -2423,6 +2423,16 @@ void ShowScrollableMultichoice(void)
             task->tKeepOpenAfterSelect = FALSE;
             task->tTaskId = taskId;
             break;
+        case SCROLL_MULTI_FOSSILS:
+            task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+            task->tNumItems = 6;
+            task->tLeft = 19;
+            task->tTop = 1;
+            task->tWidth = 10;
+            task->tHeight = 12;
+            task->tKeepOpenAfterSelect = FALSE;
+            task->tTaskId = taskId;
+            break;
         default:
             gSpecialVar_Result = MULTI_B_PRESSED;
             DestroyTask(taskId);
@@ -2582,6 +2592,15 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_PokemonMoves,
         gText_Underpowered,
         gText_WhenInDanger,
+        gText_Exit
+    },
+    [SCROLL_MULTI_FOSSILS] =
+    {
+        gText_RootFossil,
+        gText_ClawFossil,
+        gText_HelixFossil,
+        gText_DomeFossil,
+        gText_OldAmber,
         gText_Exit
     }
 };

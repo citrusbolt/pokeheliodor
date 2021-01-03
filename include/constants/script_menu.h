@@ -122,6 +122,7 @@
 #define MULTI_SLATEPORT_TENT_RULES         111
 #define MULTI_FALLARBOR_TENT_RULES         112
 #define MULTI_TAG_MATCH_TYPE               113
+#define MULTI_FOSSILS                      114
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0
@@ -164,5 +165,14 @@
 #define STDSTRING_BATTLE_ARENA     27
 #define STDSTRING_BATTLE_PIKE      28
 #define STDSTRING_BATTLE_PYRAMID   29
+
+// Fossil Multichoice Selections
+#define FOSSIL_SELECTION_ROOT       0
+#define FOSSIL_SELECTION_CLAW       1
+#define FOSSIL_SELECTION_HELIX      2
+#define FOSSIL_SELECTION_DOME       3
+#define FOSSIL_SELECTION_AMBER      4
+#define FOSSIL_SELECTION_EXIT       5
+#define FOSSIL_SELECTION_COUNT      6
 
 #endif //GUARD_SCRIPT_MENU_CONSTANTS_H

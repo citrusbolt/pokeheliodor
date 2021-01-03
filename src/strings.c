@@ -1825,3 +1825,6 @@ const u8 gText_AshQty[] = _("ASH QTY:\n{STR_VAR_1}{PAUSE_UNTIL_PRESS}");
 const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\n{DYNAMIC 4}'s old friend.");
 const u8 gText_ReceivedFrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nreceived from {DYNAMIC 4}.");
 const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nGiven to {DYNAMIC 4} by\nhis dad.");
+const u8 gText_HelixFossil[] = _("HELIX FOSSIL");
+const u8 gText_DomeFossil[] = _("DOME FOSSIL");
+const u8 gText_OldAmber[] = _("OLD AMBER");

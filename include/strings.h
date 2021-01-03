@@ -2996,5 +2996,9 @@ extern const u8 gText_AshQty[];
 extern const u8 gText_OldFriend[];
 extern const u8 gText_ReceivedFrom[];
 extern const u8 gText_ObtainedFromDad[];
+extern const u8 gText_HelixFossil[];
+extern const u8 gText_DomeFossil[];
+extern const u8 gText_OldAmber[];
+
 
 #endif // GUARD_STRINGS_H
