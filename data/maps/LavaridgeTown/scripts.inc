@@ -266,6 +266,7 @@ LavaridgeTown_EventScript_EggWoman:: @ 81EA744
 	end
 
 LavaridgeTown_EventScript_ReceivedEgg:: @ 81EA787
+	goto_if_unset FLAG_RECEIVED_LAVARIDGE_EGG3, LavaridgeTown_EventScript_GiveTwoEggs
 	msgbox LavaridgeTown_Text_EverySoOftenEggFoundAtDayCare, MSGBOX_DEFAULT
 	release
 	end
@@ -290,6 +291,76 @@ LavaridgeTown_EventScript_GymSign:: @ 81EA7AE
 
 LavaridgeTown_EventScript_HerbShopSign:: @ 81EA7B7
 	msgbox LavaridgeTown_Text_HerbShopSign, MSGBOX_SIGN
+	end
+
+LavaridgeTown_EventScript_GiveTwoEggs::
+	lock
+	faceplayer
+	goto_if_unset FLAG_SYS_GAME_CLEAR, LavaridgeTown_EventScript_ReceivedEggText
+	goto_if_set FLAG_RECEIVED_LAVARIDGE_EGG2, LavaridgeTown_EventScript_GiveTogepiEgg
+	msgbox LavaridgeTown_Text_HaveEggsWillYouTakeThem, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq LavaridgeTown_EventScript_DeclineEggs
+	getpartysize
+	compare VAR_RESULT, PARTY_SIZE - 1
+	goto_if_ge LavaridgeTown_EventScript_NoRoomForEggs
+	msgbox LavaridgeTown_Text_HopeYoullWalkPlentyWithEggs, MSGBOX_DEFAULT
+	setflag FLAG_RECEIVED_LAVARIDGE_EGG2
+	setflag FLAG_RECEIVED_LAVARIDGE_EGG3
+	playfanfare MUS_OBTAIN_ITEM
+	message LavaridgeTown_Text_ReceivedTheEggs
+	waitfanfare
+	giveegg SPECIES_EEVEE
+	giveegg SPECIES_TOGEPI
+	release
+	end
+
+LavaridgeTown_EventScript_ReceivedEggText::
+	msgbox LavaridgeTown_Text_EverySoOftenEggFoundAtDayCare, MSGBOX_DEFAULT
+	release
+	end
+
+LavaridgeTown_EventScript_NoRoomForEggs::
+	getpartysize
+	compare VAR_RESULT, PARTY_SIZE - 1
+	goto_if_eq LavaridgeTown_EventScript_GiveEeveeEgg
+	msgbox LavaridgeTown_Text_NoRoomForTheseEggs, MSGBOX_DEFAULT
+	release
+	end
+
+LavaridgeTown_EventScript_DeclineEggs::
+	msgbox LavaridgeTown_Text_AsYouWishThenEggs, MSGBOX_DEFAULT
+	release
+	end
+
+LavaridgeTown_EventScript_GiveEeveeEgg::
+	lock
+	faceplayer
+	msgbox LavaridgeTown_Text_HopeYoullWalkPlentyWithOneEgg, MSGBOX_DEFAULT
+	setflag FLAG_RECEIVED_LAVARIDGE_EGG2
+	playfanfare MUS_OBTAIN_ITEM
+	message LavaridgeTown_Text_ReceivedTheEgg
+	waitfanfare
+	giveegg SPECIES_EEVEE
+	release
+	end
+
+LavaridgeTown_EventScript_GiveTogepiEgg::
+	lock
+	faceplayer
+	msgbox LavaridgeTown_Text_HaveAnotherEggWillYouTakeIt, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq LavaridgeTown_EventScript_DeclineEgg
+	getpartysize
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_ge LavaridgeTown_EventScript_NoRoomForEgg
+	msgbox LavaridgeTown_Text_HopeYoullWalkPlentyWithEgg, MSGBOX_DEFAULT
+	setflag FLAG_RECEIVED_LAVARIDGE_EGG3
+	playfanfare MUS_OBTAIN_ITEM
+	message LavaridgeTown_Text_ReceivedTheEgg
+	waitfanfare
+	giveegg SPECIES_TOGEPI
+	release
 	end
 
 LavaridgeTown_Text_MayNiceBadgesTakeThis: @ 81EA7C0
@@ -423,3 +494,32 @@ LavaridgeTown_Text_HerbShopSign: @ 81EB1CB
 	.string "POKéMON HERB SHOP\n"
 	.string "“Bitter taste--better cure!”$"
 
+LavaridgeTown_Text_HaveEggsWillYouTakeThem:
+	.string "I have two more EGGS that don't\n"
+	.string "seem to be hatching here.\p"
+	.string "Will you take these EGGS to hatch?$"
+
+LavaridgeTown_Text_HopeYoullWalkPlentyWithEggs:
+	.string "Good! I hope you'll walk plenty with\n"
+	.string "these EGGS!$"
+
+LavaridgeTown_Text_ReceivedTheEggs:
+	.string "{PLAYER} received the EGGS.$"
+
+LavaridgeTown_Text_NoRoomForTheseEggs:
+	.string "Oh? You've too many POKéMON.\n"
+	.string "There's no room for these EGGS…$"
+
+LavaridgeTown_Text_AsYouWishThenEggs:
+	.string "As you wish, then…\p"
+	.string "If you have a change of heart about\n"
+	.string "hatching these EGGS, I will be here.$"
+
+LavaridgeTown_Text_HopeYoullWalkPlentyWithOneEgg:
+	.string "Oh?  You've too many POKéMON.\n"
+	.string "You only have room for one EGG!$"
+
+LavaridgeTown_Text_HaveAnotherEggWillYouTakeIt:
+	.string "I have another EGG that doesn't\n"
+	.string "seem to be hatching here.\p"
+	.string "Will you take this EGG to hatch?$"

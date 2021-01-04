@@ -644,10 +644,32 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         switch (gSaveFileStatus)
         {
             case SAVE_STATUS_OK:
-                tMenuType = HAS_SAVED_GAME;
-                if (IsMysteryGiftEnabled())
-                    tMenuType++;
-                gTasks[taskId].func = Task_MainMenuCheckBattery;
+				if (FlagGet(FLAG_SYS_GAME_CLEAR) && !FlagGet(FLAG_RECEIVED_PORYGON) && Random() % 44 == 0)
+				{
+					if (GivePorygon() == 2)
+					{
+						tMenuType = HAS_SAVED_GAME;
+						if (IsMysteryGiftEnabled())
+							tMenuType++;
+						gTasks[taskId].func = Task_MainMenuCheckBattery;
+					}
+					else
+					{
+						FlagSet(FLAG_RECEIVED_PORYGON);
+						CreateMainMenuErrorWindow(gText_SaveFilePorygon);
+						gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
+						tMenuType = HAS_SAVED_GAME;
+						if (IsMysteryGiftEnabled())
+							tMenuType++;
+					}
+				}
+				else
+				{
+					tMenuType = HAS_SAVED_GAME;
+					if (IsMysteryGiftEnabled())
+						tMenuType++;
+					gTasks[taskId].func = Task_MainMenuCheckBattery;
+				}
                 break;
             case SAVE_STATUS_CORRUPT:
                 CreateMainMenuErrorWindow(gText_SaveFileErased);

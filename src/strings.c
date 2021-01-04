@@ -1828,3 +1828,4 @@ const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 
 const u8 gText_HelixFossil[] = _("HELIX FOSSIL");
 const u8 gText_DomeFossil[] = _("DOME FOSSIL");
 const u8 gText_OldAmber[] = _("OLD AMBER");
+const u8 gText_SaveFilePorygon[] = _("ERROR: POKéMON Storage System\nintegrity check failed.\pData present\nfrom incorrect user account.");

@@ -2426,20 +2426,13 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         u32 shinyValue;
         do
         {
-            value = Random32();
-            shinyValue = HIHALF(value) ^ LOHALF(value) ^ HIHALF(personality) ^ LOHALF(personality);
+            otId = Random32();
+            shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
         } while (shinyValue < SHINY_ODDS);
     }
     else if (otIdType == OT_ID_PRESET) //Pokemon has a preset OT ID
     {
-        value = fixedOtId;
-    }
-    else //Player is the OT
-    {
-        value = gSaveBlock2Ptr->playerTrainerId[0]
-              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+        otId = fixedOtId;
     }
 
     SetBoxMonData(boxMon, MON_DATA_OT_ID, &otId);
@@ -7284,4 +7277,59 @@ u8 *sub_806F4F8(u8 id, u8 arg1)
 
         return structPtr->byteArrays[arg1];
     }
+}
+
+u8 GivePorygon(void)
+{
+    u16 nationalDexNum;
+    int sentToPc;
+    struct Pokemon mon;
+	u8 otName[PLAYER_NAME_LENGTH + 1];
+	u8 otGender;
+	u32 otId;
+	u8 version;
+	u8 language;
+	u8 location;
+	u16 item;
+	u16 checksum;
+	
+	otName[0] = 0xD4; //Z
+	otName[1] = 0xBB; //A
+	otName[2] = 0xBD; //C
+	otName[3] = 0xFF;
+	otGender = MALE;
+	otId = 0x13166B33u; //27443:04886
+	language = LANGUAGE_ENGLISH;
+	location = MAPSEC_CELADON_CITY;
+	item = ITEM_UP_GRADE;
+
+	if(CheckBagHasItem(ITEM_SAPPHIRE, 1))
+	{
+		CreateMon(&mon, SPECIES_PORYGON, 26, 32, 0, 0, OT_ID_PRESET, otId);
+		version = VERSION_FIRE_RED;
+	}
+	else
+	{
+		CreateMon(&mon, SPECIES_PORYGON, 18, 32, 0, 0, OT_ID_PRESET, otId);
+		version = VERSION_LEAF_GREEN;
+	}
+	SetMonData(&mon, MON_DATA_MET_GAME, &version);
+	//SetMonData(&mon, MON_DATA_OT_ID, &otId);
+	SetMonData(&mon, MON_DATA_OT_NAME, &otName);
+	SetMonData(&mon, MON_DATA_OT_GENDER, &otGender);
+	SetMonData(&mon, MON_DATA_LANGUAGE, &language);
+	SetMonData(&mon, MON_DATA_MET_LOCATION, &location);
+    SetMonData(&mon, MON_DATA_HELD_ITEM, &item);
+    sentToPc = SendMonToPC(&mon);
+    nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_PORYGON);
+
+    switch(sentToPc)
+    {
+    case 0:
+    case 1:
+        GetSetPokedexFlag(nationalDexNum, FLAG_SET_SEEN);
+        GetSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT);
+        break;
+    }
+    return sentToPc;
 }
