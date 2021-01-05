@@ -43,6 +43,7 @@
 	.include "src/field_control_avatar.o"
 	.include "src/event_data.o"
 	.include "src/start_menu.o"
+	.include "src/day_night.o"
 	.include "src/tileset_anims.o"
 	.include "src/palette.o"
 	.include "src/sound.o"
