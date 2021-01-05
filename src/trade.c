@@ -51,6 +51,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/union_room.h"
+#include "item.h"
 
 #define Trade_SendData(ptr) (SendBlock(bitmask_all_link_players_but_self(), ptr->linkData, 20))
 
@@ -4412,9 +4413,51 @@ static void sub_807E6AC(struct Sprite *sprite)
 u16 GetInGameTradeSpeciesInfo(void)
 {
     const struct InGameTrade *inGameTrade = &sIngameTrades[gSpecialVar_0x8004];
-    StringCopy(gStringVar1, gSpeciesNames[inGameTrade->requestedSpecies]);
-    StringCopy(gStringVar2, gSpeciesNames[inGameTrade->species]);
-    return inGameTrade->requestedSpecies;
+	
+	if (gSpecialVar_0x8004 == INGAME_TRADE_KANTO)
+	{
+		switch (VarGet(VAR_STARTER_MON))
+		{
+		case 1:
+			StringCopy(gStringVar1, gSpeciesNames[SPECIES_TORCHIC]);
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			else
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			return SPECIES_TORCHIC;
+		case 2:
+			StringCopy(gStringVar1, gSpeciesNames[SPECIES_MUDKIP]);
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			else
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			return SPECIES_MUDKIP;
+		default:
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			else
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			return SPECIES_TREECKO;
+		}
+	}
+	else
+	{
+		StringCopy(gStringVar1, gSpeciesNames[inGameTrade->requestedSpecies]);
+		StringCopy(gStringVar2, gSpeciesNames[inGameTrade->species]);
+		return inGameTrade->requestedSpecies;
+	}
 }
 
 static void BufferInGameTradeMonName(void)
@@ -4423,7 +4466,47 @@ static void BufferInGameTradeMonName(void)
     const struct InGameTrade *inGameTrade = &sIngameTrades[gSpecialVar_0x8004];
     GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, nickname);
     StringCopy10(gStringVar1, nickname);
-    StringCopy(gStringVar2, gSpeciesNames[inGameTrade->species]);
+	
+	if (gSpecialVar_0x8004 == INGAME_TRADE_KANTO)
+	{
+		switch (VarGet(VAR_STARTER_MON))
+		{
+		case 1:
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			else
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			break;
+		case 2:
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			else
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			break;
+		default:
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_CHARMANDER]);
+			else
+				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
+			break;
+		}
+	}
+	else
+	{
+		StringCopy(gStringVar2, gSpeciesNames[inGameTrade->species]);
+	}
 }
 
 static void _CreateInGameTradePokemon(u8 whichPlayerMon, u8 whichInGameTrade)
@@ -4435,8 +4518,56 @@ static void _CreateInGameTradePokemon(u8 whichPlayerMon, u8 whichInGameTrade)
     u8 metLocation = METLOC_IN_GAME_TRADE;
     u8 isMail;
     struct Pokemon *pokemon = &gEnemyParty[0];
+	u16 species;
+	u8 version;
 
-    CreateMon(pokemon, inGameTrade->species, level, 32, TRUE, inGameTrade->personality, OT_ID_PRESET, inGameTrade->otId);
+	if (gSpecialVar_0x8004 == INGAME_TRADE_KANTO)
+	{
+		switch (VarGet(VAR_STARTER_MON))
+		{
+		case 1:
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_SQUIRTLE;
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_CHARMANDER;
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_BULBASAUR;
+			else
+				species = SPECIES_CHARMANDER;
+			break;
+		case 2:
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_CHARMANDER;
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_BULBASAUR;
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_SQUIRTLE;
+			else
+				species = SPECIES_SQUIRTLE;
+			break;
+		default:
+			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_BULBASAUR;
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_SQUIRTLE;
+			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
+				species = SPECIES_CHARMANDER;
+			else
+				species = SPECIES_TREECKO;
+			break;
+		}
+	}
+	else
+	{
+		species = inGameTrade->species;
+	}
+
+	if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+		version = VERSION_LEAF_GREEN;
+	else
+		version = VERSION_FIRE_RED;
+
+	CreateMon(pokemon, species, level, 32, TRUE, inGameTrade->personality, OT_ID_PRESET, inGameTrade->otId);
 
     SetMonData(pokemon, MON_DATA_HP_IV, &inGameTrade->ivs[0]);
     SetMonData(pokemon, MON_DATA_ATK_IV, &inGameTrade->ivs[1]);
@@ -4455,6 +4586,7 @@ static void _CreateInGameTradePokemon(u8 whichPlayerMon, u8 whichInGameTrade)
     SetMonData(pokemon, MON_DATA_TOUGH, &inGameTrade->conditions[4]);
     SetMonData(pokemon, MON_DATA_SHEEN, &inGameTrade->sheen);
     SetMonData(pokemon, MON_DATA_MET_LOCATION, &metLocation);
+	SetMonData(pokemon, MON_DATA_MET_GAME, &version);
 
     isMail = FALSE;
     if (inGameTrade->heldItem != ITEM_NONE)

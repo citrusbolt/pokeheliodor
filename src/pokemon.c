@@ -2331,7 +2331,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		else
 			version = VERSION_FIRE_RED;
 	}
-	else if (metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END)
+	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == METLOC_IN_GAME_TRADE)
 	{
 		if (hasFixedPersonality)
 			personality = fixedPersonality;

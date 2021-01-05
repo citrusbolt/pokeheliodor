@@ -4,8 +4,8 @@ PacifidlogTown_House3_MapScripts:: @ 8203C10
 PacifidlogTown_House3_EventScript_Trader:: @ 8203C11
 	lock
 	faceplayer
-	goto_if_set FLAG_PACIFIDLOG_NPC_TRADE_COMPLETED, PacifidlogTown_House3_EventScript_TradeCompleted
-	setvar VAR_0x8008, INGAME_TRADE_HORSEA
+	goto_if_set FLAG_MRMIME_TRADE_COMPLETED, PacifidlogTown_House3_EventScript_TradeCompleted
+	setvar VAR_0x8008, INGAME_TRADE_MRMIME
 	copyvar VAR_0x8004, VAR_0x8008
 	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo
 	copyvar VAR_0x8009, VAR_RESULT
@@ -29,7 +29,7 @@ PacifidlogTown_House3_EventScript_Trader:: @ 8203C11
 	waitstate
 	bufferspeciesname 0, VAR_0x8009
 	msgbox PacifidlogTown_House3_Text_ItsSubtlyDifferentThankYou, MSGBOX_DEFAULT
-	setflag FLAG_PACIFIDLOG_NPC_TRADE_COMPLETED
+	setflag FLAG_MRMIME_TRADE_COMPLETED
 	release
 	end
 
@@ -45,7 +45,7 @@ PacifidlogTown_House3_EventScript_NotRequestedMon:: @ 8203C9D
 	end
 
 PacifidlogTown_House3_EventScript_TradeCompleted:: @ 8203CAB
-	msgbox PacifidlogTown_House3_Text_ReallyWantedToGetBagon, MSGBOX_DEFAULT
+	msgbox PacifidlogTown_House3_Text_ReallyWantedToGetAbra, MSGBOX_DEFAULT
 	release
 	end
 
@@ -78,10 +78,10 @@ PacifidlogTown_House3_Text_NotDesperateOrAnything: @ 8203E12
 	.string "That's cool. I'm not desperate to make\n"
 	.string "a trade or anything.$"
 
-PacifidlogTown_House3_Text_ReallyWantedToGetBagon: @ 8203E7F
+PacifidlogTown_House3_Text_ReallyWantedToGetAbra: @ 8203E7F
 	.string "I know I could go looking for one\n"
 	.string "on my own, but…\p"
-	.string "But I really wanted to get a BAGON\n"
+	.string "But I really wanted to get a ABRA\n"
 	.string "that another TRAINER caught…$"
 
 PacifidlogTown_House3_Text_IsThatAPokedex: @ 8203EF1

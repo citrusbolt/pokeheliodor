@@ -4,8 +4,11 @@ FortreeCity_House1_MapScripts:: @ 82162BA
 FortreeCity_House1_EventScript_Trader:: @ 82162BB
 	lock
 	faceplayer
-	goto_if_set FLAG_FORTREE_NPC_TRADE_COMPLETED, FortreeCity_House1_EventScript_TradeCompleted
-	setvar VAR_0x8008, INGAME_TRADE_PLUSLE
+	goto_if_set FLAG_LICKITUNG_TRADE_COMPLETED, FortreeCity_House1_EventScript_TradeCompleted
+	checkitem ITEM_SAPPHIRE, 1
+	compare VAR_RESULT, 1
+	goto_if_eq FortreeCity_House1_EventScript_GreenTrade
+	setvar VAR_0x8008, INGAME_TRADE_LICKITUNG1
 	copyvar VAR_0x8004, VAR_0x8008
 	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo
 	copyvar VAR_0x8009, VAR_RESULT
@@ -29,7 +32,7 @@ FortreeCity_House1_EventScript_Trader:: @ 82162BB
 	waitstate
 	bufferspeciesname 0, VAR_0x8009
 	msgbox FortreeCity_House1_Text_MonYouTakeCare, MSGBOX_DEFAULT
-	setflag FLAG_FORTREE_NPC_TRADE_COMPLETED
+	setflag FLAG_LICKITUNG_TRADE_COMPLETED
 	release
 	end
 
@@ -45,7 +48,10 @@ FortreeCity_House1_EventScript_NotRequestedMon:: @ 8216347
 	end
 
 FortreeCity_House1_EventScript_TradeCompleted:: @ 8216355
-	msgbox FortreeCity_House1_Text_GoingToMakeVolbeatStrong, MSGBOX_DEFAULT
+	checkitem ITEM_SAPPHIRE, 1
+	compare VAR_RESULT, 1
+	goto_if_eq FortreeCity_House1_EventScript_GreenTradeCompleted
+	msgbox FortreeCity_House1_Text_GoingToMakeGolduckStrong, MSGBOX_DEFAULT
 	release
 	end
 
@@ -60,6 +66,40 @@ FortreeCity_House1_EventScript_Zigzagoon:: @ 8216368
 	playmoncry SPECIES_ZIGZAGOON, 0
 	msgbox FortreeCity_House1_Text_Zigzagoon, MSGBOX_DEFAULT
 	waitmoncry
+	release
+	end
+
+FortreeCity_House1_EventScript_GreenTrade::
+	setvar VAR_0x8008, INGAME_TRADE_LICKITUNG2
+	copyvar VAR_0x8004, VAR_0x8008
+	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo
+	copyvar VAR_0x8009, VAR_RESULT
+	msgbox FortreeCity_House1_Text_YouWillTradeWontYou, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq FortreeCity_House1_EventScript_DeclineTrade
+	special ChoosePartyMon
+	waitstate
+	copyvar VAR_0x800A, VAR_0x8004
+	compare VAR_0x8004, 255
+	goto_if_eq FortreeCity_House1_EventScript_DeclineTrade
+	copyvar VAR_0x8005, VAR_0x800A
+	specialvar VAR_RESULT, GetTradeSpecies
+	copyvar VAR_0x800B, VAR_RESULT
+	compare VAR_RESULT, VAR_0x8009
+	goto_if_ne FortreeCity_House1_EventScript_NotRequestedMon
+	copyvar VAR_0x8004, VAR_0x8008
+	copyvar VAR_0x8005, VAR_0x800A
+	special CreateInGameTradePokemon
+	special DoInGameTradeScene
+	waitstate
+	bufferspeciesname 0, VAR_0x8009
+	msgbox FortreeCity_House1_Text_MonYouTakeCare, MSGBOX_DEFAULT
+	setflag FLAG_LICKITUNG_TRADE_COMPLETED
+	release
+	end
+
+FortreeCity_House1_EventScript_GreenTradeCompleted::
+	msgbox FortreeCity_House1_Text_GoingToMakeSlowbroStrong, MSGBOX_DEFAULT
 	release
 	end
 
@@ -86,10 +126,10 @@ FortreeCity_House1_Text_YouWontTradeMe: @ 821649F
 	.string "No? You won't trade me?\n"
 	.string "Even after I bared my heart to you?$"
 
-FortreeCity_House1_Text_GoingToMakeVolbeatStrong: @ 82164DB
-	.string "I'm going to make VOLBEAT super\n"
+FortreeCity_House1_Text_GoingToMakeGolduckStrong: @ 82164DB
+	.string "I'm going to make GOLDUCK super\n"
 	.string "strong from this moment on!\p"
-	.string "I hope you do the same with PLUSLE!$"
+	.string "I hope you do the same with LICKITUNG!$"
 
 FortreeCity_House1_Text_TradingMemoriesWithOthers: @ 821653B
 	.string "Trading POKéMON with others…\p"
@@ -99,3 +139,7 @@ FortreeCity_House1_Text_TradingMemoriesWithOthers: @ 821653B
 FortreeCity_House1_Text_Zigzagoon: @ 8216597
 	.string "ZIGZAGOON: Gumomoh?$"
 
+FortreeCity_House1_Text_GoingToMakeSlowbroStrong: @ 82164DB
+	.string "I'm going to make SLOWBRO super\n"
+	.string "strong from this moment on!\p"
+	.string "I hope you do the same with LICKITUNG!$"

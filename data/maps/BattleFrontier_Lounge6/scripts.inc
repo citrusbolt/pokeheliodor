@@ -4,8 +4,10 @@ BattleFrontier_Lounge6_MapScripts:: @ 8264FEC
 BattleFrontier_Lounge6_EventScript_Trader:: @ 8264FED
 	lock
 	faceplayer
-	goto_if_set FLAG_BATTLE_FRONTIER_TRADE_DONE, BattleFrontier_Lounge6_EventScript_TradeCompleted
-	setvar VAR_0x8008, INGAME_TRADE_MEOWTH
+	goto_if_set FLAG_KANTO_TRADE_COMPLETED, BattleFrontier_Lounge6_EventScript_TradeCompleted
+	compare VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 6
+	goto_if_ne BattleFrontier_Lounge6_EventScript_TradeNotReady
+	setvar VAR_0x8008, INGAME_TRADE_KANTO
 	copyvar VAR_0x8004, VAR_0x8008
 	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo
 	copyvar VAR_0x8009, VAR_RESULT
@@ -28,7 +30,7 @@ BattleFrontier_Lounge6_EventScript_Trader:: @ 8264FED
 	special DoInGameTradeScene
 	waitstate
 	msgbox BattleFrontier_Lounge6_Text_PromiseIllBeGoodToIt, MSGBOX_DEFAULT
-	setflag FLAG_BATTLE_FRONTIER_TRADE_DONE
+	setflag FLAG_KANTO_TRADE_COMPLETED
 	release
 	end
 
@@ -43,8 +45,29 @@ BattleFrontier_Lounge6_EventScript_NotRequestedMon:: @ 8265075
 	release
 	end
 
-BattleFrontier_Lounge6_EventScript_TradeCompleted:: @ 8265083
-	msgbox BattleFrontier_Lounge6_Text_SkittySoMuchCuterThanImagined, MSGBOX_DEFAULT
+BattleFrontier_Lounge6_EventScript_TradeCompleted::
+	switch VAR_STARTER_MON
+	case 0, BattleFrontier_Lounge6_EventScript_TradeCompletedGrass
+	case 1, BattleFrontier_Lounge6_EventScript_TradeCompletedFire
+	case 2, BattleFrontier_Lounge6_EventScript_TradeCompletedWater
+
+BattleFrontier_Lounge6_EventScript_TradeCompletedGrass::
+	msgbox BattleFrontier_Lounge6_Text_TreeckoSoMuchCuterThanImagined, MSGBOX_DEFAULT
+	release
+	end
+
+BattleFrontier_Lounge6_EventScript_TradeCompletedFire::
+	msgbox BattleFrontier_Lounge6_Text_TorchicSoMuchCuterThanImagined, MSGBOX_DEFAULT
+	release
+	end
+
+BattleFrontier_Lounge6_EventScript_TradeCompletedWater::
+	msgbox BattleFrontier_Lounge6_Text_MudkipSoMuchCuterThanImagined, MSGBOX_DEFAULT
+	release
+	end
+
+BattleFrontier_Lounge6_EventScript_TradeNotReady::
+	msgbox BattleFrontier_Lounge6_Text_NotReady, MSGBOX_DEFAULT
 	release
 	end
 
@@ -74,7 +97,21 @@ BattleFrontier_Lounge6_Text_WellThatsFineToo: @ 82651CB
 	.string "Well, that's fine, too.\l"
 	.string "Please come visit us again.$"
 
-BattleFrontier_Lounge6_Text_SkittySoMuchCuterThanImagined: @ 826520E
+BattleFrontier_Lounge6_Text_TreeckoSoMuchCuterThanImagined:
 	.string "Giggle!\n"
-	.string "A SKITTY is so much cuter than I had\l"
+	.string "A TREECKO is so much cuter than I had\l"
 	.string "imagined. I'm delighted!$"
+
+BattleFrontier_Lounge6_Text_TorchicSoMuchCuterThanImagined:
+	.string "Giggle!\n"
+	.string "A TORCHIC is so much cuter than I had\l"
+	.string "imagined. I'm delighted!$"
+
+BattleFrontier_Lounge6_Text_MudkipSoMuchCuterThanImagined:
+	.string "Giggle!\n"
+	.string "A MUDKIP is so much cuter than I had\l"
+	.string "imagined. I'm delighted!$"
+
+BattleFrontier_Lounge6_Text_NotReady:
+	.string "I like collecting rare POKéMON!\n"
+	.string "What about you?$"

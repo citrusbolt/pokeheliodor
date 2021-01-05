@@ -4,8 +4,8 @@ RustboroCity_House1_MapScripts:: @ 821593E
 RustboroCity_House1_EventScript_Trader:: @ 821593F
 	lock
 	faceplayer
-	goto_if_set FLAG_RUSTBORO_NPC_TRADE_COMPLETED, RustboroCity_House1_EventScript_TradeCompleted
-	setvar VAR_0x8008, INGAME_TRADE_SEEDOT
+	goto_if_set FLAG_FARFETCHD_TRADE_COMPLETED, RustboroCity_House1_EventScript_TradeCompleted
+	setvar VAR_0x8008, INGAME_TRADE_FARFETCHD
 	copyvar VAR_0x8004, VAR_0x8008
 	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo
 	copyvar VAR_0x8009, VAR_RESULT
@@ -28,7 +28,7 @@ RustboroCity_House1_EventScript_Trader:: @ 821593F
 	special DoInGameTradeScene
 	waitstate
 	msgbox RustboroCity_House1_Text_PleaseBeGoodToMyPokemon, MSGBOX_DEFAULT
-	setflag FLAG_RUSTBORO_NPC_TRADE_COMPLETED
+	setflag FLAG_FARFETCHD_TRADE_COMPLETED
 	release
 	end
 
