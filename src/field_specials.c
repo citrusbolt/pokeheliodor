@@ -67,6 +67,8 @@
 #include "constants/weather.h"
 #include "constants/metatile_labels.h"
 #include "palette.h"
+#include "item.h"
+#include "item.h"
 
 EWRAM_DATA bool8 gBikeCyclingChallenge = FALSE;
 EWRAM_DATA u8 gBikeCollisions = 0;
@@ -3749,7 +3751,17 @@ bool32 IsTrainerRegistered(void)
 bool32 ShouldDistributeEonTicket(void)
 {
     if (!VarGet(VAR_DISTRIBUTE_EON_TICKET))
-        return FALSE;
+	{
+		if (FlagGet(FLAG_SYS_GAME_CLEAR) && !CheckBagHasItem(ITEM_EON_TICKET, 1))
+		{
+			VarSet(VAR_DISTRIBUTE_EON_TICKET, 1);
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
     
     return TRUE;
 }

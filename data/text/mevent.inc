@@ -31,8 +31,6 @@ Mevent_Text_YouCanAccessMysteryEvent:: @ 8273559
 	.string "access the MYSTERY EVENT.$"
 
 Mevent_Text_TheresATicketForYou:: @ 8273594
-	.string "Thank you for using the MYSTERY\n"
-	.string "EVENT System.\p"
 	.string "You must be {PLAYER}.\n"
 	.string "There is a ticket here for you.$"
 

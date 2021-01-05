@@ -77,10 +77,8 @@ SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
 	delay 50
 	special RemoveCameraObject
 	setvar VAR_LAST_TALKED, LOCALID_LATI
-	compare VAR_ROAMER_POKEMON, 0
-	call_if_eq SouthernIsland_Interior_EventScript_SetLatiosBattleVars
-	compare VAR_ROAMER_POKEMON, 0
-	call_if_ne SouthernIsland_Interior_EventScript_SetLatiasBattleVars
+	call_if_unset FLAG_ROAMER_QUEST SouthernIsland_Interior_EventScript_SetLatiosBattleVars
+	call_if_set FLAG_ROAMER_QUEST SouthernIsland_Interior_EventScript_SetLatiasBattleVars
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLatiBattle
 	waitstate
