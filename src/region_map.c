@@ -1637,7 +1637,7 @@ u8 *GetMapNameGeneric(u8 *dest, u16 mapSecId)
     case MAPSEC_SECRET_BASE:
         return StringCopy(dest, gText_SecretBase);
     default:
-		if (mapSecId > MAPSEC_NONE)
+		if (mapSecId > METLOC_FATEFUL_ENCOUNTER)
 			return GetMapNameExtended(dest, mapSecId, 0);
 		else
 			return GetMapName(dest, mapSecId, 0);

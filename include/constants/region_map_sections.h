@@ -216,8 +216,6 @@
 #define MAPSEC_TRAINER_HILL                 0xD4
 #define MAPSEC_NONE                         0xD5
 
-#define MAPSEC_BATTLE_TOWER                 0xD6
-
 #define METLOC_SPECIAL_EGG                  0xFD
 #define METLOC_IN_GAME_TRADE                0xFE
 #define METLOC_FATEFUL_ENCOUNTER            0xFF
@@ -274,6 +272,7 @@
 #define MAPSEC_WHIRL_ISLANDS                0x151
 #define MAPSEC_TIN_TOWER                    0x152
 
+
 //Orre met locations
 #define MAPSEC_DISTANT_LAND                 0x200
 #define MAPSEC_OUTSKIRT_STAND               0x201
@@ -313,6 +312,9 @@
 #define MAPSEC_POKEMON_HQ_LAB               0x235
 #define MAPSEC_GATEON_PORT                  0x236
 #define MAPSEC_KAMINKOS_HOUSE               0x237
+
+//Battle Tower from Ruby/Sapphire
+#define MAPSEC_BATTLE_TOWER                 0x23A
 
 #define MAPSEC_END							0x2FF
 
