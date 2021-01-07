@@ -117,6 +117,9 @@ MossdeepCity_SpaceCenter_2F_EventScript_Scientist:: @ 8223E8D
 	end
 
 MossdeepCity_SpaceCenter_2F_EventScript_ScientistNormal:: @ 8223EB4
+	specialvar VAR_RESULT, HasAllHoennMons
+	compare VAR_RESULT, TRUE
+	goto_if_eq MossdeepCity_SpaceCenter_2F_EventScript_ScientistAurora
 	msgbox MossdeepCity_SpaceCenter_2F_Text_MossdeepIdealForRockets, MSGBOX_DEFAULT
 	release
 	end
@@ -377,6 +380,20 @@ MossdeepCity_SpaceCenter_2F_EventScript_BrendanRayquazaCall:: @ 822419A
 	waitmessage
 	return
 
+MossdeepCity_SpaceCenter_2F_EventScript_ScientistAurora::
+	goto_if_set FLAG_RECEIVED_AURORA_TICKET, MossdeepCity_SpaceCenter_2F_EventScript_ScientistAuroraReceived
+	msgbox MossdeepCity_SpaceCenter_2F_Text_GiveAuroraTicket, MSGBOX_DEFAULT
+	giveitem ITEM_AURORA_TICKET, 1
+	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
+	setflag FLAG_RECEIVED_AURORA_TICKET
+	release
+	end
+
+MossdeepCity_SpaceCenter_2F_EventScript_ScientistAuroraReceived::
+	msgbox MossdeepCity_SpaceCenter_2F_Text_MossdeepIdealForRockets, MSGBOX_DEFAULT
+	release
+	end
+
 MossdeepCity_SpaceCenter_2F_Text_MossdeepIdealForRockets: @ 82241A1
 	.string "MOSSDEEP has mainly sunny weather,\n"
 	.string "and its winds are stable.\p"
@@ -526,3 +543,14 @@ MossdeepCity_SpaceCenter_2F_Text_StevenThankYouComeSeeMeAtHome: @ 8224A4A
 	.string "after this.\p"
 	.string "Oh, yes, I don't live in RUSTBORO CITY.\n"
 	.string "I live right here on this island.$"
+
+MossdeepCity_SpaceCenter_2F_Text_GiveAuroraTicket:
+	.string "During the most recent meteor shower,\n"
+	.string "a meteoroid emitting a strange aura\l"
+	.string "landed upon an small uninhabited isle\l"
+	.string "among the SEVII ISLANDS.\p"
+	.string "If possible, can you investigate\n"
+	.string "this location?\p"
+	.string "Present this ticket to the staff\n"
+	.string "of the S.S. Tidal at the\l"
+	.string "LILYCOVE CITY port to be taken there.$"

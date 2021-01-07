@@ -4390,6 +4390,19 @@ bool8 HasAllKantoMons(void)
     return TRUE;
 }
 
+bool8 HasAllJohtoMons(void)
+{
+    u16 i;
+
+    // -3 excludes Lugia, Ho-Oh, and Celebi
+    for (i = KANTO_DEX_COUNT; i < JOHTO_DEX_COUNT - 3; i++)
+    {
+        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+            return FALSE;
+    }
+    return TRUE;
+}
+
 bool16 HasAllMons(void)
 {
     u16 i;

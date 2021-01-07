@@ -28,16 +28,29 @@ LilycoveCity_CoveLilyMotel_2F_EventScript_ShowDiploma:: @ 821870F
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	special Special_ShowDiploma
-	waitstate
+	@waitstate
+	goto_if_unset FLAG_RECEIVED_JIRACHI, LilycoveCity_CoveLilyMotel_2F_EventScript_GiveJirachi
 	release
 	end
 
 LilycoveCity_CoveLilyMotel_2F_EventScript_Programmer:: @ 8218720
-	msgbox LilycoveCity_CoveLilyMotel_2F_Text_ImTheProgrammer, MSGBOX_NPC
+	lock
+	faceplayer
+	specialvar VAR_RESULT, HasAllKantoMons
+	compare VAR_RESULT, TRUE
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_GiveOldSeaMap
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_WaitForMew, MSGBOX_NPC
+	release
 	end
 
 LilycoveCity_CoveLilyMotel_2F_EventScript_GraphicArtist:: @ 8218729
-	msgbox LilycoveCity_CoveLilyMotel_2F_Text_ImTheGraphicArtist, MSGBOX_NPC
+	lock
+	faceplayer
+	specialvar VAR_RESULT, HasAllJohtoMons
+	compare VAR_RESULT, TRUE
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_GiveCelebi
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_WaitForCelebi, MSGBOX_NPC
+	release
 	end
 
 LilycoveCity_CoveLilyMotel_2F_EventScript_FatMan:: @ 8218732
@@ -64,6 +77,84 @@ LilycoveCity_CoveLilyMotel_2F_EventScript_Scott:: @ 821874D
 
 LilycoveCity_CoveLilyMotel_2F_EventScript_MetScott:: @ 821876A
 	msgbox LilycoveCity_CoveLilyMotel_2F_Text_ContestsDoTakeStrategy, MSGBOX_DEFAULT
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_GiveJirachi::
+	releaseall
+	lock
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_CompleteHoenn, MSGBOX_DEFAULT
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_GiveJirachi, MSGBOX_DEFAULT
+	setvar VAR_TEMP_1, SPECIES_JIRACHI
+	givemon SPECIES_JIRACHI, 5, 0
+	compare VAR_RESULT, 0
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_SendJirachiToParty
+	compare VAR_RESULT, 1
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_SendJirachiToPC
+	goto Common_EventScript_NoMoreRoomForPokemon
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_GiveOldSeaMap::
+	goto_if_set FLAG_RECEIVED_OLD_SEA_MAP, LilycoveCity_CoveLilyMotel_2F_EventScript_ReceivedOldSeaMap
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_GiveOldSeaMap, MSGBOX_DEFAULT
+	giveitem ITEM_OLD_SEA_MAP, 1
+	setflag FLAG_ENABLE_SHIP_FARAWAY_ISLAND
+	setflag FLAG_RECEIVED_OLD_SEA_MAP
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_ReceivedOldSeaMap::
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_ImTheProgrammer, MSGBOX_NPC
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_GiveCelebi::
+	goto_if_set FLAG_RECEIVED_CELEBI, LilycoveCity_CoveLilyMotel_2F_EventScript_ReceivedCelebi
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_CompleteJohto, MSGBOX_DEFAULT
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_GiveCelebi, MSGBOX_DEFAULT
+	setvar VAR_TEMP_1, SPECIES_CELEBI
+	givemon SPECIES_CELEBI, 10, 0
+	compare VAR_RESULT, 0
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_SendCelebiToParty
+	compare VAR_RESULT, 1
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_SendCelebiToPC
+	goto Common_EventScript_NoMoreRoomForPokemon
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_SendJirachiToParty::
+	setflag FLAG_RECEIVED_JIRACHI
+	playfanfare MUS_OBTAIN_ITEM
+	waitfanfare
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_SendJirachiToPC::
+	setflag FLAG_RECEIVED_JIRACHI
+	playfanfare MUS_OBTAIN_ITEM
+	waitfanfare
+	call Common_EventScript_TransferredToPC
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_SendCelebiToParty::
+	setflag FLAG_RECEIVED_CELEBI
+	playfanfare MUS_OBTAIN_ITEM
+	waitfanfare
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_SendCelebiToPC::
+	setflag FLAG_RECEIVED_CELEBI
+	playfanfare MUS_OBTAIN_ITEM
+	waitfanfare
+	call Common_EventScript_TransferredToPC
+	release
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_ReceivedCelebi::
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_ImTheGraphicArtist, MSGBOX_NPC
 	release
 	end
 
@@ -135,3 +226,41 @@ LilycoveCity_CoveLilyMotel_2F_Text_ContestsDoTakeStrategy: @ 8218C33
 	.string "Devising CONTEST strategies is one way\n"
 	.string "of becoming a better TRAINER, I'd say.$"
 
+LilycoveCity_CoveLilyMotel_2F_Text_CompleteHoenn:
+	.string "I'd also like to entrust this\n"
+	.string "special POKéMON with you!$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_GiveJirachi:
+	.string "{PLAYER} received JIRACHI!$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_GiveOldSeaMap:
+	.string "Wow! You've registered all the\n"
+	.string "POKéMON originally from the\l"
+	.string "KANTO region in your POKéDEX!\p"
+	.string "I'd like you to have this\n"
+	.string "special ferry ticket.\p"
+	.string "Present this ticket to the staff\n"
+	.string "of the S.S. Tidal at the\l"
+	.string "LILYCOVE CITY port.$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_CompleteJohto:
+	.string "Wow! You've registered all the\n"
+	.string "POKéMON originally from the\l"
+	.string "JOHTO region in your POKéDEX!\p"
+	.string "I'd like to entrust this\n"
+	.string "special POKéMON with you!$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_GiveCelebi:
+	.string "{PLAYER} received CELEBI!$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_WaitForMew:
+	.string "I'm looking for someone who has\n"
+	.string "found all the POKéMON first\l"
+	.string "discovered in the KANTO region.\p"
+	.string "Could that be you?$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_WaitForCelebi:
+	.string "I'm looking for someone who has\n"
+	.string "found all the POKéMON first\l"
+	.string "discovered in the JOHTO region.\p"
+	.string "Could that be you?$"

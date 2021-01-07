@@ -541,3 +541,5 @@ gSpecials:: @ 81DBA64
 	def_special CheckFossils
 	def_special ScriptMenu_CreateFossilMultichoice
 	def_special GetFossilSelection
+	def_special HasAllKantoMons
+	def_special HasAllJohtoMons

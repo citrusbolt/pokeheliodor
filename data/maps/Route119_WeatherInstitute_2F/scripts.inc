@@ -265,6 +265,7 @@ Route119_WeatherInstitute_2F_EventScript_GiveMysticTicket::
 	goto_if_set FLAG_RECEIVED_MYSTIC_TICKET, Route119_WeatherInstitute_2F_EventScript_RoamerQuestDone
 	msgbox Route119_WeatherInstitute_2F_Text_GiveMysticTicket, MSGBOX_DEFAULT
 	giveitem ITEM_MYSTIC_TICKET, 1
+	setflag FLAG_ENABLE_SHIP_NAVEL_ROCK
 	setflag FLAG_RECEIVED_MYSTIC_TICKET
 	release
 	end
@@ -418,7 +419,8 @@ Route119_WeatherInstitute_2F_Text_GiveMysticTicket:
 	.string "around HOENN, I'd like to grant\l"
 	.string "you authorization to visit this island.\p"
 	.string "Present this ticket to the staff\n"
-	.string "of the S.S Tidal to be taken there.$"
+	.string "of the S.S. Tidal at the\l"
+	.string "LILYCOVE CITY port to be taken there.$"
 
 Route119_WeatherInstitute_2F_Text_RoamerQuestDone:
 	.string "Thank you again for helping us\n"
