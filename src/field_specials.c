@@ -2397,7 +2397,7 @@ void ShowScrollableMultichoice(void)
         case SCROLL_MULTI_BF_MOVE_TUTOR_1:
         case SCROLL_MULTI_BF_MOVE_TUTOR_2:
             task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
-            task->tNumItems = 11;
+            task->tNumItems = 22;
             task->tLeft = 15;
             task->tTop = 1;
             task->tWidth = 14;
@@ -2570,6 +2570,17 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_Counter48BP,
         gText_ThunderWave48BP,
         gText_SwordsDance48BP,
+		gText_DoubleEdge48BP,
+		gText_DynamicPunch48BP,
+		gText_Explosion48BP,
+		gText_FuryCutter32BP,
+		gText_Metronome48BP,
+		gText_Mimic48BP,
+		gText_Rollout32BP,
+		gText_SleepTalk48BP,
+		gText_Substitute48BP,
+		gText_Swagger48BP,
+		gText_Nightmare48BP,
         gText_Exit
     },
     [SCROLL_MULTI_BF_MOVE_TUTOR_2] = 
@@ -2584,6 +2595,17 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_IcePunch48BP,
         gText_ThunderPunch48BP,
         gText_FirePunch48BP,
+		gText_SelfDestruct48BP,
+		gText_SkyAttack48BP,
+		gText_BlastBurn64BP,
+		gText_FrenzyPlant64BP,
+		gText_HydroCannon64BP,
+		gText_FaintAttack48BP,
+		gText_FakeOut48BP,
+		gText_Hypnosis48BP,
+		gText_NightShade48BP,
+		gText_RolePlay48BP,
+		gText_ZapCannon48BP,
         gText_Exit
     },
     [SCROLL_MULTI_SS_TIDAL_DESTINATION] =
@@ -3182,7 +3204,18 @@ static const u16 sBattleFrontier_TutorMoves1[] =
     MOVE_ROCK_SLIDE, 
     MOVE_COUNTER, 
     MOVE_THUNDER_WAVE, 
-    MOVE_SWORDS_DANCE 
+    MOVE_SWORDS_DANCE, 
+	MOVE_DOUBLE_EDGE, 
+	MOVE_DYNAMIC_PUNCH, 
+	MOVE_EXPLOSION, 
+	MOVE_FURY_CUTTER, 
+	MOVE_METRONOME, 
+	MOVE_MIMIC, 
+	MOVE_ROLLOUT, 
+	MOVE_SLEEP_TALK, 
+	MOVE_SUBSTITUTE, 
+	MOVE_SWAGGER, 
+	MOVE_NIGHTMARE
 };
 
 static const u16 sBattleFrontier_TutorMoves2[] =
@@ -3196,7 +3229,18 @@ static const u16 sBattleFrontier_TutorMoves2[] =
     MOVE_PSYCH_UP, 
     MOVE_ICE_PUNCH, 
     MOVE_THUNDER_PUNCH, 
-    MOVE_FIRE_PUNCH 
+    MOVE_FIRE_PUNCH, 
+	MOVE_SELF_DESTRUCT, 
+	MOVE_SKY_ATTACK, 
+	MOVE_BLAST_BURN, 
+	MOVE_FRENZY_PLANT, 
+	MOVE_HYDRO_CANNON, 
+	MOVE_FAINT_ATTACK, 
+	MOVE_FAKE_OUT, 
+	MOVE_HYPNOSIS, 
+	MOVE_NIGHT_SHADE, 
+	MOVE_ROLE_PLAY, 
+	MOVE_ZAP_CANNON
 };
 
 void BufferBattleFrontierTutorMoveName(void)
@@ -3249,6 +3293,17 @@ static void ShowBattleFrontierTutorMoveDescription(u8 menu, u16 selection)
         BattleFrontier_Lounge7_Text_CounterDesc,
         BattleFrontier_Lounge7_Text_ThunderWaveDesc,
         BattleFrontier_Lounge7_Text_SwordsDanceDesc,
+		BattleFrontier_Lounge7_Text_DoubleEdgeDesc,
+		BattleFrontier_Lounge7_Text_DynamicPunchDesc,
+		BattleFrontier_Lounge7_Text_ExplosionDesc,
+		BattleFrontier_Lounge7_Text_FuryCutterDesc,
+		BattleFrontier_Lounge7_Text_MetronomeDesc,
+		BattleFrontier_Lounge7_Text_MimicDesc,
+		BattleFrontier_Lounge7_Text_RolloutDesc,
+		BattleFrontier_Lounge7_Text_SleepTalkDesc,
+		BattleFrontier_Lounge7_Text_SubstituteDesc,
+		BattleFrontier_Lounge7_Text_SwaggerDesc,
+		BattleFrontier_Lounge7_Text_NightmareDesc,
         gText_Exit,
     };
 
@@ -3264,6 +3319,17 @@ static void ShowBattleFrontierTutorMoveDescription(u8 menu, u16 selection)
         BattleFrontier_Lounge7_Text_IcePunchDesc,
         BattleFrontier_Lounge7_Text_ThunderPunchDesc,
         BattleFrontier_Lounge7_Text_FirePunchDesc,
+		BattleFrontier_Lounge7_Text_SelfDestructDesc,
+		BattleFrontier_Lounge7_Text_SkyAttackDesc,
+		BattleFrontier_Lounge7_Text_BlastBurnDesc,
+		BattleFrontier_Lounge7_Text_FrenzyPlantDesc,
+		BattleFrontier_Lounge7_Text_HydroCannonDesc,
+		BattleFrontier_Lounge7_Text_FaintAttackDesc,
+		BattleFrontier_Lounge7_Text_FakeOutDesc,
+		BattleFrontier_Lounge7_Text_HypnosisDesc,
+		BattleFrontier_Lounge7_Text_NightShadeDesc,
+		BattleFrontier_Lounge7_Text_RolePlayDesc,
+		BattleFrontier_Lounge7_Text_ZapCannonDesc,
         gText_Exit,
     };
 
