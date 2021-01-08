@@ -3538,6 +3538,10 @@ static void BufferMonTrainerMemo(void)
 				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
 			}
 		}
+		else if ((sum->metGame >= VERSION_DIAMOND && sum->metGame <= VERSION_PLATINUM)) //Sinnoh map for Porygon
+		{
+			GetMapNameGeneric(metLocationString, (sum->metLocation + SINNOH_MAPSEC_START));
+		}
 		else
 		{
 			GetMapNameGeneric(metLocationString, sum->metLocation);

@@ -316,7 +316,12 @@
 //Battle Tower from Ruby/Sapphire
 #define MAPSEC_BATTLE_TOWER                 0x23A
 
-#define MAPSEC_END							0x2FF
+//Sinnoh Location for Porygon as well as first and last maps for categorization
+#define MAPSEC_MYSTERY_ZONE                 0x300
+#define MAPSEC_VEILSTONE_CITY               0x30C
+#define MAPSEC_ROCK_PEAK_RUINS              0x37D
+
+#define MAPSEC_END							0x3FF
 
 #define KANTO_MAPSEC_START  MAPSEC_PALLET_TOWN
 #define KANTO_MAPSEC_END    MAPSEC_SPECIAL_AREA
@@ -329,5 +334,9 @@
 #define ORRE_MAPSEC_START  MAPSEC_DISTANT_LAND
 #define ORRE_MAPSEC_END    MAPSEC_KAMINKOS_HOUSE
 #define ORRE_MAPSEC_COUNT (ORRE_MAPSEC_END - ORRE_MAPSEC_START + 1)
+
+#define SINNOH_MAPSEC_START  MAPSEC_MYSTERY_ZONE
+#define SINNOH_MAPSEC_END    MAPSEC_ROCK_PEAK_RUINS
+#define SINNOH_MAPSEC_COUNT (SINNOH_MAPSEC_END - SINNOH_MAPSEC_START + 1)
 
 #endif //GUARD_REGIONMAPSEC_H

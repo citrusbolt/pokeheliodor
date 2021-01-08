@@ -199,8 +199,6 @@ static const u8 sMapName_TerraCave[] = _("TERRA CAVE");
 static const u8 sMapName_DesertUnderpass[] = _("DESERT UNDERPASS");
 static const u8 sMapName_TrainerHill[] = _("TRAINER HILL");
 
-static const u8 sMapName_BattleTower[] = _("BATTLE TOWER");
-
 //Johto met locations
 static const u8 sMapName_NewBarkTown[] = _("NEW BARK TOWN");
 static const u8 sMapName_CherrygroveCity[] = _("CHERRYGROVE CITY");
@@ -290,6 +288,12 @@ static const u8 sMapName_Cave[] = _("CAVE");
 static const u8 sMapName_PokemonHQLab[] = _("POKéMON HQ LAB");
 static const u8 sMapName_GateonPort[] = _("GATEON PORT");
 static const u8 sMapName_KaminkosHouse[] = _("KAMINKO'S HOUSE");
+
+//Battle Tower from Ruby/Sapphire
+static const u8 sMapName_BattleTower[] = _("BATTLE TOWER");
+
+//Sinnoh location for Porygon
+static const u8 sMapName_VeilstoneCity[] = _("VEILSTONE CITY");
 
 const struct RegionMapLocation gRegionMapEntries[] = {
     [MAPSEC_LITTLEROOT_TOWN]            = { 4, 11, 1, 1, sMapName_LittlerootTown},
@@ -505,9 +509,8 @@ const struct RegionMapLocation gRegionMapEntries[] = {
     [MAPSEC_ALTERING_CAVE]              = { 6,  8, 1, 1, sMapName_AlteringCave},
     [MAPSEC_NAVEL_ROCK]                 = { 0,  0, 1, 1, sMapName_NavelRock},
     [MAPSEC_TRAINER_HILL]               = { 8,  4, 1, 1, sMapName_TrainerHill},
-	
-	[MAPSEC_BATTLE_TOWER]               = { 0, 0, 0, 0, sMapName_BattleTower},
-	
+
+//Johto met locations using CrystalDust as the standard	
 	[MAPSEC_NEW_BARK_TOWN]              = { 0, 0, 0, 0, sMapName_NewBarkTown},
 	[MAPSEC_CHERRYGROVE_CITY]           = { 0, 0, 0, 0, sMapName_CherrygroveCity},
 	[MAPSEC_AZALEA_TOWN]                = { 0, 0, 0, 0, sMapName_AzaleaTown},
@@ -597,7 +600,13 @@ const struct RegionMapLocation gRegionMapEntries[] = {
 	[MAPSEC_CAVE]                       = { 0, 0, 0, 0, sMapName_Cave},
 	[MAPSEC_POKEMON_HQ_LAB]             = { 0, 0, 0, 0, sMapName_PokemonHQLab},
 	[MAPSEC_GATEON_PORT]                = { 0, 0, 0, 0, sMapName_GateonPort},
-	[MAPSEC_KAMINKOS_HOUSE]             = { 0, 0, 0, 0, sMapName_KaminkosHouse}
+	[MAPSEC_KAMINKOS_HOUSE]             = { 0, 0, 0, 0, sMapName_KaminkosHouse},
+	
+//Battle Tower from Ruby/Sapphire
+	[MAPSEC_BATTLE_TOWER]               = { 0, 0, 0, 0, sMapName_BattleTower},
+	
+//Sinnoh location for Porygon
+	[MAPSEC_VEILSTONE_CITY]             = { 0, 0, 0, 0, sMapName_VeilstoneCity}
 };
 
 #endif //GUARD_DATA_REGION_MAP_REGION_MAP_ENTRIES_H
