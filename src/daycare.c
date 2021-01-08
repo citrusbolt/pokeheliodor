@@ -22,6 +22,7 @@
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
+#include "rtc.h"
 #include "mgba.h"
 
 // this file's functions
@@ -1375,4 +1376,110 @@ void ChooseSendDaycareMon(void)
 {
     ChooseMonForDaycare();
     gMain.savedCallback = CB2_ReturnToField;
+}
+
+u8 PutEggInIncubator(struct Pokemon *egg)
+{
+	if (FlagGet(FLAG_EGG_IN_INCUBATOR))
+		return 0xFF;
+	
+	(&gSaveBlock1Ptr->incubator)->egg = *egg;
+	(&gSaveBlock1Ptr->incubator)->timeEntered = gLocalTime;
+	ZeroMonData(egg);
+	CompactPartySlots();
+	CalculatePlayerPartyCount();
+	FlagSet(FLAG_EGG_IN_INCUBATOR);
+	return 0;
+}
+
+u8 CheckIncubator()
+{
+	struct Pokemon egg;
+	struct Time timeElapsed;
+	u32 eggCycles;
+	u32 eggCyclesDepleted;
+	u32 eggCyclesNew;
+	
+	if (!FlagGet(FLAG_EGG_IN_INCUBATOR))
+		return 0xFF;
+	
+	egg = (&gSaveBlock1Ptr->incubator)->egg;
+	CalcTimeDifference(&timeElapsed, &(&gSaveBlock1Ptr->incubator)->timeEntered, &gLocalTime);
+	eggCycles = GetMonData(&egg, MON_DATA_FRIENDSHIP);
+	mgba_printf(MGBA_LOG_DEBUG, "%d", GetMonData(&egg, MON_DATA_SPECIES));
+	eggCyclesDepleted = (24 * 60 * timeElapsed.days + 60 * timeElapsed.hours + timeElapsed.minutes) / 36;
+	
+	mgba_printf(MGBA_LOG_DEBUG, "\nTime elapsed: %d:%d:%d:%d\nEgg Cycles Depleted: %d", timeElapsed.days, timeElapsed.hours, timeElapsed.minutes, timeElapsed.seconds, eggCyclesDepleted);
+	
+	if (eggCyclesDepleted > eggCycles)
+	{
+		eggCyclesNew = 0;
+	}
+	else if (eggCyclesDepleted != 0)
+	{
+		eggCyclesNew = eggCycles - eggCyclesDepleted;
+		SetMonData(&(&gSaveBlock1Ptr->incubator)->egg, MON_DATA_FRIENDSHIP, &eggCyclesNew);
+		(&gSaveBlock1Ptr->incubator)->timeEntered = gLocalTime;
+	}
+	else
+	{
+		eggCyclesNew = eggCycles;
+	}
+	
+	
+	if (eggCyclesNew == 0)
+	{
+		gPlayerParty[PARTY_SIZE - 1] = egg;
+		ZeroMonData(&(&gSaveBlock1Ptr->incubator)->egg);
+		CompactPartySlots();
+		CalculatePlayerPartyCount();
+		FlagClear(FLAG_EGG_IN_INCUBATOR);
+		gSpecialVar_0x8004 = gPlayerPartyCount - 1;
+		IncrementGameStat(GAME_STAT_HATCHED_EGGS);
+		EggHatch();
+		return 0;
+	}
+	else
+	{
+		return eggCyclesNew;
+	}
+}
+
+u8 RemoveEggFromIncubator()
+{
+	struct Pokemon egg;
+	u32 eggStatus;
+	
+	egg = (&gSaveBlock1Ptr->incubator)->egg;
+	eggStatus = CheckIncubator();
+	
+	if (eggStatus != 0)
+	{
+		gPlayerParty[PARTY_SIZE - 1] = egg;
+		ZeroMonData(&(&gSaveBlock1Ptr->incubator)->egg);
+		CompactPartySlots();
+		CalculatePlayerPartyCount();
+		FlagClear(FLAG_EGG_IN_INCUBATOR);
+		return 0;
+	}
+	else if (eggStatus == 0xFF)
+	{
+		return 0xFF;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void ChooseEggForIncubator()
+{
+    SelectEggForIncubator();
+    gMain.savedCallback = CB2_ReturnToField;
+}
+
+void PutSelectedEggInIncubator()
+{
+    u8 monId = GetCursorSelectionMonId();
+    PutEggInIncubator(&gPlayerParty[monId]);
 }

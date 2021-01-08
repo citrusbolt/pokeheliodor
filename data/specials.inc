@@ -543,3 +543,8 @@ gSpecials:: @ 81DBA64
 	def_special GetFossilSelection
 	def_special HasAllKantoMons
 	def_special HasAllJohtoMons
+	def_special PutEggInIncubator
+	def_special CheckIncubator
+	def_special RemoveEggFromIncubator
+	def_special ChooseEggForIncubator
+	def_special PutSelectedEggInIncubator

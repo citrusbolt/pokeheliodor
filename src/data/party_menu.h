@@ -650,6 +650,7 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_DO_WHAT_WITH_ITEM]      = gText_DoWhatWithItem,
     [PARTY_MSG_DO_WHAT_WITH_MAIL]      = gText_DoWhatWithMail,
     [PARTY_MSG_ALREADY_HOLDING_ONE]    = gText_AlreadyHoldingOne,
+	[PARTY_MSG_CHOOSE_EGG]             = gText_ChooseEgg,
 };
 
 static const u8 *const sDescriptionStringTable[] =

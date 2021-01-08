@@ -74,6 +74,7 @@
 #define PARTY_MENU_TYPE_SPIN_TRADE                10 // Unused beta for Gen IV's Spin Trade
 #define PARTY_MENU_TYPE_MINIGAME                  11
 #define PARTY_MENU_TYPE_STORE_PYRAMID_HELD_ITEMS  12
+#define PARTY_MENU_TYPE_INCUBATOR                 13
 
 #define PARTY_ACTION_CHOOSE_MON         0
 #define PARTY_ACTION_SEND_OUT           1
@@ -119,6 +120,7 @@
 #define PARTY_MSG_DO_WHAT_WITH_ITEM         24
 #define PARTY_MSG_DO_WHAT_WITH_MAIL         25
 #define PARTY_MSG_ALREADY_HOLDING_ONE       26
+#define PARTY_MSG_CHOOSE_EGG                27
 #define PARTY_MSG_NONE                      127
 
 // IDs for DisplayPartyPokemonDescriptionText, to display a message in the party pokemon's box

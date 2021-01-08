@@ -3064,6 +3064,6 @@ extern const u8 gText_HelixFossil[];
 extern const u8 gText_DomeFossil[];
 extern const u8 gText_OldAmber[];
 extern const u8 gText_SaveFilePorygon[];
-
+extern const u8 gText_ChooseEgg[];
 
 #endif // GUARD_STRINGS_H

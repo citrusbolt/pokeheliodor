@@ -1861,3 +1861,4 @@ const u8 gText_HelixFossil[] = _("HELIX FOSSIL");
 const u8 gText_DomeFossil[] = _("DOME FOSSIL");
 const u8 gText_OldAmber[] = _("OLD AMBER");
 const u8 gText_SaveFilePorygon[] = _("ERROR: POKéMON Storage System\nintegrity check failed.\pData present from\nincorrect user account.");
+const u8 gText_ChooseEgg[] = _("Choose an EGG.");

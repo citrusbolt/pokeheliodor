@@ -2606,6 +2606,9 @@ static u8 GetPartyMenuActionsType(struct Pokemon *mon)
     case PARTY_MENU_TYPE_STORE_PYRAMID_HELD_ITEMS:
         actionType = ACTIONS_TAKEITEM_TOSS;
         break;
+	case PARTY_MENU_TYPE_INCUBATOR:
+		actionType = (GetMonData(mon, MON_DATA_IS_EGG)) ? ACTIONS_STORE : ACTIONS_SUMMARY_ONLY;
+		break;
     // The following have no selection actions (i.e. they exit immediately upon selection)
     // PARTY_MENU_TYPE_CONTEST
     // PARTY_MENU_TYPE_CHOOSE_MON
@@ -6353,3 +6356,9 @@ void IsLastMonThatKnowsSurf(void)
             gSpecialVar_Result = TRUE;
     }
 }
+
+void SelectEggForIncubator(void)
+{
+    InitPartyMenu(PARTY_MENU_TYPE_INCUBATOR, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_EGG, Task_HandleChooseMonInput, BufferMonSelection);
+}
+

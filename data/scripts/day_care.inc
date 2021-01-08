@@ -301,6 +301,98 @@ EventScript_EggHatch:: @ 8291FC0
 	releaseall
 	end
 
+EventScript_Incubator::
+	lock
+	goto_if_unset FLAG_EGG_IN_INCUBATOR, EventScript_Incubator_PutEgg
+	msgbox Incubator_Text_WantToCheck, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_Incubator_Check
+	release
+	end
+
+EventScript_Incubator_PutEgg::
+	msgbox Incubator_Text_WantToIncubate, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq EventScript_Incubator_Exit
+	msgbox Incubator_Text_WhichEgg, MSGBOX_DEFAULT
+	fadescreen FADE_TO_BLACK
+	special ChooseEggForIncubator
+	waitstate
+	compare VAR_0x8004, 255
+	goto_if_eq EventScript_Incubator_Exit
+	msgbox Incubator_Text_EggInserted, MSGBOX_DEFAULT
+	special PutSelectedEggInIncubator
+	release
+	end
+
+EventScript_Incubator_Check::
+	specialvar VAR_RESULT, CheckIncubator
+	compare VAR_RESULT, 100
+	goto_if_ge EventScript_Incubator_UhOh
+	compare VAR_RESULT, 41
+	goto_if_ge EventScript_Incubator_Tier4
+	compare VAR_RESULT, 11
+	goto_if_ge EventScript_Incubator_Tier3
+	compare VAR_RESULT, 6
+	goto_if_ge EventScript_Incubator_Tier2
+	compare VAR_RESULT, 1
+	goto_if_ge EventScript_Incubator_Tier1
+	release
+	end
+
+EventScript_Incubator_RemoveEgg::
+	specialvar VAR_RESULT, CalculatePlayerPartyCount
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq Route117_PokemonDayCare_EventScript_NoRoom
+	msgbox Incubator_Text_EggRemoved, MSGBOX_DEFAULT
+	special RemoveEggFromIncubator
+	release
+	end
+
+EventScript_Incubator_Exit::
+	release
+	end
+
+EventScript_Incubator_Tier4::
+	msgbox Incubator_Text_Tier4, MSGBOX_DEFAULT
+	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_Incubator_RemoveEgg
+	release
+	end
+
+EventScript_Incubator_Tier3::
+	msgbox Incubator_Text_Tier3, MSGBOX_DEFAULT
+	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_Incubator_RemoveEgg
+	release
+	end
+
+EventScript_Incubator_Tier2::
+	msgbox Incubator_Text_Tier2, MSGBOX_DEFAULT
+	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_Incubator_RemoveEgg
+	release
+	end
+
+EventScript_Incubator_Tier1::
+	msgbox Incubator_Text_Tier1, MSGBOX_DEFAULT
+	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_Incubator_RemoveEgg
+	release
+	end
+
+EventScript_Incubator_UhOh::
+	msgbox Incubator_Text_UhOh, MSGBOX_DEFAULT
+	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_Incubator_RemoveEgg
+	release
+	end
+
 Route117_Text_SeeWifeIfYoudLikeMeToRaiseMon: @ 8291FCF
 	.string "I'm the DAY-CARE MAN.\p"
 	.string "I help take care of the precious\n"
@@ -443,3 +535,46 @@ Route117_PokemonDayCare_Text_YoullBeLeftWithJustOne: @ 829266D
 	.string "me, you'll be left with just one.\p"
 	.string "You will be better off if you catch\n"
 	.string "some more, I dare say.$"
+
+Incubator_Text_WantToIncubate:
+	.string "Would you like to insert\n"
+	.string "an EGG into the incubator?$"
+
+Incubator_Text_WantToCheck:
+	.string "Would you like to check\n"
+	.string "on the EGG in the incubator?$"
+
+Incubator_Text_RemoveEgg:
+	.string "Would you like to take\n"
+	.string "the EGG from the incubator?$"
+
+Incubator_Text_EggRemoved:
+	.string "{PLAYER} took the EGG\n"
+	.string "from the incubator.$"
+
+Incubator_Text_WhichEgg:
+	.string "Which EGG would you\n"
+	.string "like to leave?$"
+
+Incubator_Text_EggInserted:
+	.string "{PLAYER} placed the EGG\n"
+	.string "in the incubator.$"
+
+Incubator_Text_Tier4:
+	.string "It looks like this EGG\n"
+	.string "will take a long time to hatch.$"
+
+Incubator_Text_Tier3:
+	.string "What will hatch from this?\n"
+	.string "It will take some time.$"
+
+Incubator_Text_Tier2:
+	.string "It moves occasionally.\n"
+	.string "It should hatch soon.$"
+
+Incubator_Text_Tier1:
+	.string "It's making sounds!\n"
+	.string "It's about to hatch!$"
+	
+Incubator_Text_UhOh:
+	.string "UhOh$"
