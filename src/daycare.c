@@ -23,7 +23,6 @@
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
 #include "rtc.h"
-#include "mgba.h"
 
 // this file's functions
 static void ClearDaycareMonMail(struct DayCareMail *mail);
@@ -1406,10 +1405,7 @@ u8 CheckIncubator()
 	egg = (&gSaveBlock1Ptr->incubator)->egg;
 	CalcTimeDifference(&timeElapsed, &(&gSaveBlock1Ptr->incubator)->timeEntered, &gLocalTime);
 	eggCycles = GetMonData(&egg, MON_DATA_FRIENDSHIP);
-	mgba_printf(MGBA_LOG_DEBUG, "%d", GetMonData(&egg, MON_DATA_SPECIES));
 	eggCyclesDepleted = (24 * 60 * timeElapsed.days + 60 * timeElapsed.hours + timeElapsed.minutes) / 36;
-	
-	mgba_printf(MGBA_LOG_DEBUG, "\nTime elapsed: %d:%d:%d:%d\nEgg Cycles Depleted: %d", timeElapsed.days, timeElapsed.hours, timeElapsed.minutes, timeElapsed.seconds, eggCyclesDepleted);
 	
 	if (eggCyclesDepleted > eggCycles)
 	{
