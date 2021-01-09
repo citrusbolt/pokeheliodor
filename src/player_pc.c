@@ -29,6 +29,7 @@
 #include "task.h"
 #include "window.h"
 #include "menu_specialized.h"
+#include "dynamic_placeholder_text_util.h"
 
 // structures
 struct Struct203BCC4
@@ -121,6 +122,8 @@ static void sub_816B4DC(u8 taskId);
 static void ItemStorage_MoveCursor(s32 id, bool8 b, struct ListMenu * thisMenu);
 static void fish4_goto_x5_or_x6(u8 windowId, s32 id, u8 yOffset);
 
+static void PlayerPC_Coupons(u8 taskId);
+
 // EWRAM
 static EWRAM_DATA const u8 *gPcItemMenuOptionOrder = NULL;
 static EWRAM_DATA u8 gPcItemMenuOptionsNum = 0;
@@ -141,6 +144,7 @@ static const struct MenuAction sPlayerPCMenuActions[] =
     { gText_ItemStorage, PlayerPC_ItemStorage },
     { gText_Mailbox, PlayerPC_Mailbox },
     { gText_Decoration, PlayerPC_Decoration },
+    { gText_Coupons, PlayerPC_Coupons },
     { gText_TurnOff, PlayerPC_TurnOff }
 };
 
@@ -156,6 +160,23 @@ static const u8 gPlayerPC_OptionOrder[] =
 {
     PLAYERPC_MENU_ITEMSTORAGE,
     PLAYERPC_MENU_MAILBOX,
+    PLAYERPC_MENU_TURNOFF
+};
+
+static const u8 gBedroomPC_Coupon_OptionOrder[] =
+{
+    PLAYERPC_MENU_ITEMSTORAGE,
+    PLAYERPC_MENU_MAILBOX,
+    PLAYERPC_MENU_DECORATION,
+	PLAYERPC_MENU_COUPONS,
+    PLAYERPC_MENU_TURNOFF
+};
+
+static const u8 gPlayerPC_Coupon_OptionOrder[] =
+{
+    PLAYERPC_MENU_ITEMSTORAGE,
+    PLAYERPC_MENU_MAILBOX,
+	PLAYERPC_MENU_COUPONS,
     PLAYERPC_MENU_TURNOFF
 };
 
@@ -181,7 +202,7 @@ const struct MenuAction gMailboxMailOptions[] =
     { gText_Cancel2, Mailbox_Cancel }
 };
 
-static const struct WindowTemplate gUnknown_085DFF24[3] =
+static const struct WindowTemplate gUnknown_085DFF24[4] =
 {
     {
         .bg = 0,
@@ -207,6 +228,15 @@ static const struct WindowTemplate gUnknown_085DFF24[3] =
         .tilemapTop = 1,
         .width = 10,
         .height = 8,
+        .paletteNum = 15,
+        .baseBlock = 1
+    },
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 1,
+        .width = 9,
+        .height = 10,
         .paletteNum = 15,
         .baseBlock = 1
     }
@@ -313,15 +343,33 @@ void NewGameInitPCItems(void)
 
 void BedroomPC(void)
 {
-    gPcItemMenuOptionOrder = gBedroomPC_OptionOrder;
-    gPcItemMenuOptionsNum = 4;
+	u32 totalEarnedCoupons = (gSaveBlock1Ptr->giftRibbons[34] << 24) | (gSaveBlock1Ptr->giftRibbons[33] << 16) | (gSaveBlock1Ptr->giftRibbons[32] << 8) | gSaveBlock1Ptr->giftRibbons[31];
+    if (totalEarnedCoupons == 0)
+	{
+		gPcItemMenuOptionOrder = gBedroomPC_OptionOrder;
+		gPcItemMenuOptionsNum = 4;
+	}
+	else
+	{
+		gPcItemMenuOptionOrder = gBedroomPC_Coupon_OptionOrder;
+		gPcItemMenuOptionsNum = 5;
+	}
     DisplayItemMessageOnField(CreateTask(TaskDummy, 0), gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
 
 void PlayerPC(void)
 {
-    gPcItemMenuOptionOrder = gPlayerPC_OptionOrder;
-    gPcItemMenuOptionsNum = 3;
+	u32 totalEarnedCoupons = (gSaveBlock1Ptr->giftRibbons[34] << 24) | (gSaveBlock1Ptr->giftRibbons[33] << 16) | (gSaveBlock1Ptr->giftRibbons[32] << 8) | gSaveBlock1Ptr->giftRibbons[31];
+    if (totalEarnedCoupons == 0)
+	{
+		gPcItemMenuOptionOrder = gPlayerPC_OptionOrder;
+		gPcItemMenuOptionsNum = 3;
+	}
+	else
+	{
+		gPcItemMenuOptionOrder = gPlayerPC_Coupon_OptionOrder;
+		gPcItemMenuOptionsNum = 4;
+	}
     DisplayItemMessageOnField(CreateTask(TaskDummy, 0), gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
 
@@ -333,8 +381,10 @@ static void InitPlayerPCMenu(u8 taskId)
     data = gTasks[taskId].data;
     if (gPcItemMenuOptionsNum == 3)
         windowTemplate = gUnknown_085DFF24[0];
-    else
+    else if (gPcItemMenuOptionsNum == 4)
         windowTemplate = gUnknown_085DFF24[1];
+    else
+        windowTemplate = gUnknown_085DFF24[3];
     windowTemplate.width = sub_81DB3D8(sPlayerPCMenuActions, gPcItemMenuOptionOrder, gPcItemMenuOptionsNum);
     data[4] = AddWindow(&windowTemplate);
     SetStandardWindowBorderStyle(data[4], 0);
@@ -1441,3 +1491,15 @@ static void ItemStorage_StartScrollIndicatorAndProcessInput(u8 taskId)
     ItemStorage_StartScrollIndicator();
     gTasks[taskId].func = ItemStorage_ProcessInput;
 }
+
+static void PlayerPC_Coupons(u8 taskId)
+{
+	u32 currentCoupons;
+	const u8 *couponString;
+
+	ConvertIntToDecimalStringN(gStringVar1, currentCoupons, STR_CONV_MODE_LEFT_ALIGN, 9);
+	DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStringVar1);
+	DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_CurrentCoupons);
+	DisplayItemMessageOnField(taskId, gStringVar4, ReshowPlayerPC);
+}
+

@@ -1862,3 +1862,5 @@ const u8 gText_DomeFossil[] = _("DOME FOSSIL");
 const u8 gText_OldAmber[] = _("OLD AMBER");
 const u8 gText_SaveFilePorygon[] = _("ERROR: POKéMON Storage System\nintegrity check failed.\pData present from\nincorrect user account.");
 const u8 gText_ChooseEgg[] = _("Choose an EGG.");
+const u8 gText_CurrentCoupons[] = _("Current POKé COUPON Balance:\n{DYNAMIC 0}pt{PAUSE_UNTIL_PRESS}");
+const u8 gText_Coupons[] = _("POKé COUPONS");

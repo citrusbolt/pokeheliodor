@@ -3065,5 +3065,7 @@ extern const u8 gText_DomeFossil[];
 extern const u8 gText_OldAmber[];
 extern const u8 gText_SaveFilePorygon[];
 extern const u8 gText_ChooseEgg[];
+extern const u8 gText_CurrentCoupons[];
+extern const u8 gText_Coupons[];
 
 #endif // GUARD_STRINGS_H
