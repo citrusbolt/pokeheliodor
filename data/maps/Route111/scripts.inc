@@ -426,6 +426,7 @@ Route111_EventScript_Hiker:: @ 81F119B
 	compare VAR_MIRAGE_TOWER_STATE, 2
 	goto_if_eq Route111_EventScript_HikerMirageTowerDisintegrated
 	goto_if_set FLAG_MIRAGE_TOWER_VISIBLE, Route111_EventScript_HikerMirageTowerVisible
+	goto_if_unset FLAG_RECEIVED_UNOWN, Route111_EventScript_GiveUnown
 	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
 	release
 	end
@@ -596,6 +597,71 @@ Route111_EventScript_TrainerHillSign:: @ 81F146C
 	msgbox Route111_Text_TrainerHillSign, MSGBOX_SIGN
 	end
 
+Route111_EventScript_GiveUnown::
+	goto_if_unset FLAG_SYS_GAME_CLEAR, Route111_EventScript_GiveUnownNotYet
+	msgbox Route111_Text_GiveUnown, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq Route111_EventScript_DeclineUnown
+	setvar VAR_TEMP_1, SPECIES_UNOWN
+	giveunown 25, 0
+	compare VAR_RESULT, 0
+	goto_if_eq Route111_EventScript_ReceiveUnownParty
+	compare VAR_RESULT, 1
+	goto_if_eq Route111_EventScript_ReceiveUnownPC
+	goto Common_EventScript_NoMoreRoomForPokemon
+	end
+
+Route111_EventScript_ReceiveUnownParty::
+	setflag FLAG_RECEIVED_UNOWN
+	call Route111_EventScript_ReceivedUnownFanfare
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq Route111_EventScript_Done
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	msgbox Route111_Text_GaveUnown
+	release
+	end
+
+Route111_EventScript_ReceiveUnownPC::
+	setflag FLAG_RECEIVED_UNOWN
+	call Route111_EventScript_ReceivedUnownFanfare
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq Route111_EventScript_SendUnownToPC
+	call Common_EventScript_NameReceivedBoxMon
+	goto Route111_EventScript_SendUnownToPC
+	end
+
+Route111_EventScript_SendUnownToPC::
+	call Common_EventScript_TransferredToPC
+	msgbox Route111_Text_GaveUnown
+	release
+	end
+
+Route111_EventScript_ReceivedUnownFanfare::
+	playfanfare MUS_OBTAIN_ITEM
+	message Route111_Text_PlayerReceivedUnown
+	waitmessage
+	waitfanfare
+	bufferspeciesname 0, SPECIES_UNOWN
+	return
+
+Route111_EventScript_GiveUnownNotYet::
+	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
+	release
+	end
+
+Route111_EventScript_DeclineUnown::
+	msgbox Route111_Text_DeclineUnown, MSGBOX_DEFAULT
+	release
+	end
+
+Route111_EventScript_Done::
+	msgbox Route111_Text_GaveUnown
+	release
+	end
+
 Route111_Text_BattleOurFamily: @ 81F1475
 	.string "Hello! I take it you're a traveler.\p"
 	.string "How's this? What do you say to taking\n"
@@ -749,4 +815,24 @@ Route111_Text_TrainerHillSign: @ 81F1D61
 	.string "{RIGHT_ARROW} TRAINER HILL ENTRANCE\p"
 	.string "“Scale the heights, you hot-blooded\n"
 	.string "TRAINERS!”$"
+
+Route111_Text_GiveUnown:
+	.string "I found this strange POKéMON\n"
+	.string "wandering in the desert.\p"
+	.string "Truthfully, I don't really know\n"
+	.string "how to care for it.\p"
+	.string "You look like a strong\n"
+	.string "trainer, though!\p"
+	.string "Can this POKéMON go with you?$"
+
+Route111_Text_GaveUnown:
+	.string "I know it will be happy with you!\p"
+	.string "Take care!$"
+
+Route111_Text_DeclineUnown:
+	.string "Well, if you change your mind,\n"
+	.string "Let me know.$"
+
+Route111_Text_PlayerReceivedUnown:
+	.string "{PLAYER} received UNOWN!$"
 
