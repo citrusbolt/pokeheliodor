@@ -1852,7 +1852,7 @@ const u8 gText_PokeBalls[] = _("POKé BALLS");
 const u8 gText_Berry[] = _("BERRY");
 const u8 gText_Berries[] = _("BERRIES");
 
-const u8 gText_ThrowInPremierBalls[] = _("I'll throw in some Premier Balls, too.{PAUSE_UNTIL_PRESS}");
+const u8 gText_ThrowInPremierBalls[] = _("I'll throw in some PREMIER BALLS, too.{PAUSE_UNTIL_PRESS}");
 const u8 gText_AshQty[] = _("ASH QTY:\n{STR_VAR_1}{PAUSE_UNTIL_PRESS}");
 const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\n{DYNAMIC 4}'s old friend.");
 const u8 gText_ReceivedFrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nreceived from {DYNAMIC 4}.");
