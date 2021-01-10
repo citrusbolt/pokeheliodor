@@ -306,8 +306,8 @@ MauvilleCity_GameCorner_EventScript_BuyTM32:: @ 820FFDD
 	checkcoins VAR_TEMP_2
 	compare VAR_TEMP_2, TM32_COINS
 	goto_if_lt MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForTM
-	checkitem ITEM_TM32, 1
-	compare VAR_RESULT, TRUE
+	checkitemspace ITEM_TM32, 1
+	compare VAR_RESULT, FALSE
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM32_COINS
 	additem ITEM_TM32
@@ -321,8 +321,8 @@ MauvilleCity_GameCorner_EventScript_BuyTM29:: @ 8210017
 	checkcoins VAR_TEMP_2
 	compare VAR_TEMP_2, TM29_COINS
 	goto_if_lt MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForTM
-	checkitem ITEM_TM29, 1
-	compare VAR_RESULT, TRUE
+	checkitemspace ITEM_TM29, 1
+	compare VAR_RESULT, FALSE
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM29_COINS
 	additem ITEM_TM29
@@ -336,8 +336,8 @@ MauvilleCity_GameCorner_EventScript_BuyTM35:: @ 8210051
 	checkcoins VAR_TEMP_2
 	compare VAR_TEMP_2, TM35_COINS
 	goto_if_lt MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForTM
-	checkitem ITEM_TM35, 1
-	compare VAR_RESULT, TRUE
+	checkitemspace ITEM_TM35, 1
+	compare VAR_RESULT, FALSE
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM35_COINS
 	additem ITEM_TM35
@@ -351,8 +351,8 @@ MauvilleCity_GameCorner_EventScript_BuyTM24:: @ 821008B
 	checkcoins VAR_TEMP_2
 	compare VAR_TEMP_2, TM24_COINS
 	goto_if_lt MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForTM
-	checkitem ITEM_TM24, 1
-	compare VAR_RESULT, TRUE
+	checkitemspace ITEM_TM24, 1
+	compare VAR_RESULT, FALSE
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM24_COINS
 	additem ITEM_TM24
@@ -366,8 +366,8 @@ MauvilleCity_GameCorner_EventScript_BuyTM13:: @ 82100C5
 	checkcoins VAR_TEMP_2
 	compare VAR_TEMP_2, TM13_COINS
 	goto_if_lt MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForTM
-	checkitem ITEM_TM13, 1
-	compare VAR_RESULT, TRUE
+	checkitemspace ITEM_TM13, 1
+	compare VAR_RESULT, FALSE
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM13_COINS
 	additem ITEM_TM13
@@ -383,7 +383,7 @@ MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForTM:: @ 82100FF
 	end
 
 MauvilleCity_GameCorner_EventScript_NoRoomForTM:: @ 821010D
-	msgbox gText_YouAlreadyHaveThis, MSGBOX_DEFAULT
+	call Common_EventScript_BagIsFull
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
 	end
 
