@@ -132,6 +132,10 @@ static u8 DidPlayerGetFirstFans(void);
 static void SetInitialFansOfPlayer(void);
 static u16 PlayerGainRandomTrainerFan(void);
 static void BufferFanClubTrainerName_(struct LinkBattleRecords *linkRecords, u8 a, u8 b);
+static void Task_IncubatorTurnOnEffect(u8);
+static void IncubatorTurnOnEffect_0(struct Task *);
+static void IncubatorTurnOnEffect_1(s16, s8, s8);
+static void IncubatorTurnOffEffect(void);
 
 void Special_ShowDiploma(void)
 {
@@ -4472,3 +4476,113 @@ u8 Script_TryGainNewFanFromCounter(void)
 {
     return TryGainNewFanFromCounter(gSpecialVar_0x8004);
 }
+
+void DoIncubatorTurnOnEffect(void)
+{
+    if (FuncIsActiveTask(Task_IncubatorTurnOnEffect) != TRUE)
+    {
+        u8 taskId = CreateTask(Task_IncubatorTurnOnEffect, 8);
+        gTasks[taskId].data[0] = 0;
+        gTasks[taskId].data[1] = taskId;
+        gTasks[taskId].data[2] = 0;
+        gTasks[taskId].data[3] = 0;
+        gTasks[taskId].data[4] = 0;
+    }
+}
+
+static void Task_IncubatorTurnOnEffect(u8 taskId)
+{
+    struct Task *task = &gTasks[taskId];
+    if (task->data[0] == 0)
+    {
+        IncubatorTurnOnEffect_0(task);
+    }
+}
+
+static void IncubatorTurnOnEffect_0(struct Task *task)
+{
+    u8 playerDirection;
+    s8 dx = 0;
+    s8 dy = 0;
+    if (task->data[3] == 6)
+    {
+        task->data[3] = 0;
+        playerDirection = GetPlayerFacingDirection();
+        switch (playerDirection)
+        {
+            case DIR_NORTH:
+                dx = 0;
+                dy = -1;
+                break;
+            case DIR_WEST:
+                dx = -1;
+                dy = -1;
+                break;
+            case DIR_EAST:
+                dx = 1;
+                dy = -1;
+                break;
+        }
+        IncubatorTurnOnEffect_1(task->data[4], dx, dy);
+        DrawWholeMapView();
+        task->data[4] ^= 1;
+        if ((++task->data[2]) == 5)
+        {
+            DestroyTask(task->data[1]);
+        }
+    }
+    task->data[3]++;
+}
+
+static void IncubatorTurnOnEffect_1(s16 isIncubatorTurnedOn, s8 dx, s8 dy)
+{
+    u16 tileId1 = 0;
+    u16 tileId2 = 0;
+    if (isIncubatorTurnedOn)
+    {
+		//tileId1 = METATILE_PokemonDayCare_Incubator_T_Off;
+		//tileId2 = METATILE_PokemonDayCare_Incubator_B_Off;
+    }
+    else
+    {
+		//tileId1 = METATILE_PokemonDayCare_Incubator_T_On;
+		//tileId2 = METATILE_PokemonDayCare_Incubator_B_On;
+    }
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + 7, gSaveBlock1Ptr->pos.y + dy + 6, tileId1 | METATILE_COLLISION_MASK);
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + 7, gSaveBlock1Ptr->pos.y + dy + 7, tileId2 | METATILE_COLLISION_MASK);
+}
+
+void DoIncubatorTurnOffEffect(void)
+{
+    IncubatorTurnOffEffect();
+}
+
+static void IncubatorTurnOffEffect(void)
+{
+    s8 dx = 0;
+    s8 dy = 0;
+    u16 tileId1 = 0;
+    u16 tileId2 = 0;
+    u8 playerDirection = GetPlayerFacingDirection();
+    switch (playerDirection)
+    {
+        case DIR_NORTH:
+            dx = 0;
+            dy = -1;
+            break;
+        case DIR_WEST:
+            dx = -1;
+            dy = -1;
+            break;
+        case DIR_EAST:
+            dx = 1;
+            dy = -1;
+            break;
+    }
+	//tileId1 = METATILE_PokemonDayCare_Incubator_T_Off;
+	//tileId2 = METATILE_PokemonDayCare_Incubator_B_Off;
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + 7, gSaveBlock1Ptr->pos.y + dy + 6, tileId1 | METATILE_COLLISION_MASK);
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + 7, gSaveBlock1Ptr->pos.y + dy + 7, tileId2 | METATILE_COLLISION_MASK);
+    DrawWholeMapView();
+}
+

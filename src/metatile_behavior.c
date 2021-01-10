@@ -249,7 +249,7 @@ static const u8 sTileBitAttributes[] =
     [MB_UNUSED_EC] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_UNUSED_ED] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_UNUSED_EE] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_EF] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_INCUBATOR] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
 };
 
 bool8 MetatileBehavior_IsATile(u8 metatileBehavior)
@@ -1492,3 +1492,12 @@ bool8 MetatileBehavior_IsTrainerHillTimer(u8 metatileBehavior)
     else
         return FALSE;
 }
+
+bool8 MetatileBehavior_IsIncubator(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_INCUBATOR)
+        return TRUE;
+    else
+        return FALSE;
+}
+

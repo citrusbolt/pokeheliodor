@@ -322,6 +322,8 @@ EventScript_Incubator_PutEgg::
 	goto_if_eq EventScript_Incubator_Exit
 	msgbox Incubator_Text_EggInserted, MSGBOX_DEFAULT
 	special PutSelectedEggInIncubator
+	special DoIncubatorTurnOnEffect
+	playse SE_PC_ON
 	release
 	end
 
@@ -346,6 +348,8 @@ EventScript_Incubator_RemoveEgg::
 	goto_if_eq Route117_PokemonDayCare_EventScript_NoRoom
 	msgbox Incubator_Text_EggRemoved, MSGBOX_DEFAULT
 	special RemoveEggFromIncubator
+	playse SE_PC_OFF
+	special DoIncubatorTurnOffEffect
 	release
 	end
 

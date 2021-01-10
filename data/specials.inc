@@ -548,3 +548,5 @@ gSpecials:: @ 81DBA64
 	def_special RemoveEggFromIncubator
 	def_special ChooseEggForIncubator
 	def_special PutSelectedEggInIncubator
+	def_special DoIncubatorTurnOnEffect
+	def_special DoIncubatorTurnOffEffect
