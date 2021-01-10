@@ -570,14 +570,6 @@ gStdScripts_End:: @ 81DC2CC
 	.include "data/maps/Route119_WeatherInstitute_2F/scripts.inc"
 	.include "data/maps/Route119_House/scripts.inc"
 	.include "data/maps/Route124_DivingTreasureHuntersHouse/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins_MoneanChamber/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins_LiptooChamber/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins_WeepthChamber/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins_DilfordChamber/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins_ScufibChamber/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins_RixyChamber/scripts.inc"
-	.include "data/maps/SevenIsland_TanobyRuins_ViapoisChamber/scripts.inc"
 
 	.include "data/scripts/std_msgbox.inc"
 	.include "data/scripts/trainer_battle.inc"
@@ -1012,12 +1004,6 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	msgbox gText_LegendaryFlewAway, MSGBOX_DEFAULT
 	release
 	end
-
-EventScript_TryDarkenRuins::
-	goto_if_set FLAG_SYS_UNLOCKED_TANOBY_RUINS, Common_EventScript_NopReturn
-	setweather WEATHER_SHADE
-	doweather
-	return
 
 	.include "data/scripts/pc_transfer.inc"
 	.include "data/scripts/mevent.inc"

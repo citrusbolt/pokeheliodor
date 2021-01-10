@@ -9,10 +9,6 @@
 #define NUM_PALS_TOTAL 13
 #define MAX_MAP_DATA_SIZE 0x2800
 
-#define NUM_TILES_IN_PRIMARY_KANTO 640
-#define NUM_METATILES_IN_PRIMARY_KANTO 640
-#define NUM_PALS_IN_PRIMARY_KANTO 7
-
 #include "main.h"
 
 extern struct BackupMapLayout gBackupMapLayout;

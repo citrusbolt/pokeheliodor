@@ -400,7 +400,7 @@ static void CreateWildUnown(u8 slot, u8 level)
 
     ZeroEnemyPartyMons();
 	
-	chamber = (gSaveBlock1Ptr->location.mapNum - MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)) % 6;
+	//chamber = (gSaveBlock1Ptr->location.mapNum - MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)) % 6;
 	personality = GenerateUnownPersonalityByLetter(sUnownLetterSlots[chamber][slot]);
 	CreateMon(&gEnemyParty[0], SPECIES_UNOWN, level, 32, TRUE, personality, FALSE, 0);
 }
@@ -463,8 +463,8 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && flags & WILD_CHECK_KEEN_EYE && !IsAbilityAllowingEncounter(level))
         return FALSE;
 
-	if (wildMonInfo->wildPokemon[wildMonIndex].species == SPECIES_UNOWN)
-		CreateWildUnown(wildMonIndex, level);
+	//if (wildMonInfo->wildPokemon[wildMonIndex].species == SPECIES_UNOWN)
+		//CreateWildUnown(wildMonIndex, level);
 	else
 		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
     return TRUE;

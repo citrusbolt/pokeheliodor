@@ -557,35 +557,3 @@ gMetatiles_UnionRoom:: @ 83DF392
 	.align 1
 gMetatileAttributes_UnionRoom:: @ 83DF6A2
 	.incbin "data/tilesets/secondary/union_room/metatile_attributes.bin"
-	
-	.align 1
-gMetatiles_SeviiIslands67:: @ 82CF3F0
-	.incbin "data/tilesets/secondary/sevii_islands_67/metatiles.bin"
-
-	.align 1
-gMetatileAttributes_SeviiIslands67:: @ 82D02F0
-	.incbin "data/tilesets/secondary/sevii_islands_67/metatile_attributes.bin"
-
-	.align 1
-gMetatiles_GeneralKanto::
-	.incbin "data/tilesets/primary/general_kanto/metatiles.bin"
-
-	.align 1
-gMetatileAttributes_GeneralKanto::
-	.incbin "data/tilesets/primary/general_kanto/metatile_attributes.bin"
-
-	.align 1
-gMetatiles_InsideBuildingKanto::
-	.incbin "data/tilesets/primary/building_kanto/metatiles.bin"
-
-	.align 1
-gMetatileAttributes_InsideBuildingKanto::
-	.incbin "data/tilesets/primary/building_kanto/metatile_attributes.bin"
-
-	.align 1
-gMetatiles_TanobyRuins::
-	.incbin "data/tilesets/secondary/tanoby_ruins/metatiles.bin"
-
-	.align 1
-gMetatileAttributes_TanobyRuins::
-	.incbin "data/tilesets/secondary/tanoby_ruins/metatile_attributes.bin"
