@@ -70,16 +70,18 @@ NewMauville_Entrance_EventScript_ShowZapdos::
 	clearflag FLAG_HIDE_ZAPDOS
 	end
 
-NewMauville_EventScript_Zapdos::
+NewMauville_Entrance_EventScript_Zapdos::
 	lock
 	faceplayer
 	waitse
 	playmoncry SPECIES_ZAPDOS, 2
-	delay 40
+	message NewMauville_Text_Gyaoo
+	waitmessage
 	waitmoncry
+	delay 10
 	setwildbattle SPECIES_ZAPDOS, 50, ITEM_NONE
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	special StartRegiBattle
+	special BattleSetup_StartLegendaryBattle
 	waitstate
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome
@@ -117,3 +119,5 @@ NewMauville_Entrance_Text_UsedBasementKey: @ 82373AC
 	.string "{PLAYER} used the BASEMENT KEY.\p"
 	.string "The door opened!$"
 
+NewMauville_Text_Gyaoo:
+	.string "Gyaoo!$"

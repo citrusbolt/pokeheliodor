@@ -77,11 +77,13 @@ Route130_EventScript_Mewtwo::
 	faceplayer
 	waitse
 	playmoncry SPECIES_MEWTWO, 2
-	delay 40
+	message Route130_Text_Mew
+	waitmessage
 	waitmoncry
+	delay 20
 	setwildbattle SPECIES_MEWTWO, 70, ITEM_TWISTED_SPOON
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	special StartRegiBattle
+	special BattleSetup_StartLegendaryBattle
 	waitstate
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome
@@ -104,3 +106,6 @@ Route130_EventScript_RanFromMewtwo::
 	setvar VAR_0x8004, SPECIES_MEWTWO
 	goto Common_EventScript_LegendaryFlewAway
 	end
+
+Route130_Text_Mew:
+	.string "Mew!$"

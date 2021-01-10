@@ -421,7 +421,7 @@ void BattleSetup_StartRoamerBattle(void)
     sub_808BCF4();
     gMain.savedCallback = CB2_EndWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_ROAMER;
-    CreateBattleStartTask(GetWildBattleTransition(), 0);
+    CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_LEGEND);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     IncrementDailyWildBattles();
@@ -536,6 +536,10 @@ void BattleSetup_StartLegendaryBattle(void)
         break;
     case SPECIES_MEW:
         CreateBattleStartTask(B_TRANSITION_GRID_SQUARES, MUS_VS_MEW);
+	case SPECIES_ZAPDOS:
+		CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_LEGEND);
+	case SPECIES_MEWTWO:
+		CreateBattleStartTask(B_TRANSITION_RIPPLE, MUS_RG_VS_MEWTWO);
         break;
     }
 
