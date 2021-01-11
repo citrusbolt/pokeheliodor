@@ -302,12 +302,11 @@ EventScript_EggHatch:: @ 8291FC0
 	end
 
 EventScript_Incubator::
-	lock
 	goto_if_unset FLAG_EGG_IN_INCUBATOR, EventScript_Incubator_PutEgg
 	msgbox Incubator_Text_WantToCheck, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq EventScript_Incubator_Check
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_PutEgg::
@@ -322,9 +321,7 @@ EventScript_Incubator_PutEgg::
 	goto_if_eq EventScript_Incubator_Exit
 	msgbox Incubator_Text_EggInserted, MSGBOX_DEFAULT
 	special PutSelectedEggInIncubator
-	special DoIncubatorTurnOnEffect
-	playse SE_PC_ON
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_Check::
@@ -339,22 +336,25 @@ EventScript_Incubator_Check::
 	goto_if_ge EventScript_Incubator_Tier2
 	compare VAR_RESULT, 1
 	goto_if_ge EventScript_Incubator_Tier1
-	release
+	specialvar VAR_RESULT, CalculatePlayerPartyCount
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq EventScript_Incubator_ReadyToHatch
+	special HatchEggInIncubator
+	waitstate
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_RemoveEgg::
 	specialvar VAR_RESULT, CalculatePlayerPartyCount
 	compare VAR_RESULT, PARTY_SIZE
-	goto_if_eq Route117_PokemonDayCare_EventScript_NoRoom
+	goto_if_eq EventScript_Incubator_NoRoom
 	msgbox Incubator_Text_EggRemoved, MSGBOX_DEFAULT
 	special RemoveEggFromIncubator
-	playse SE_PC_OFF
-	special DoIncubatorTurnOffEffect
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_Exit::
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_Tier4::
@@ -362,7 +362,7 @@ EventScript_Incubator_Tier4::
 	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq EventScript_Incubator_RemoveEgg
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_Tier3::
@@ -370,7 +370,7 @@ EventScript_Incubator_Tier3::
 	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq EventScript_Incubator_RemoveEgg
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_Tier2::
@@ -378,7 +378,7 @@ EventScript_Incubator_Tier2::
 	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq EventScript_Incubator_RemoveEgg
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_Tier1::
@@ -386,7 +386,7 @@ EventScript_Incubator_Tier1::
 	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq EventScript_Incubator_RemoveEgg
-	release
+	goto EventScript_PCMainMenu
 	end
 
 EventScript_Incubator_UhOh::
@@ -394,9 +394,19 @@ EventScript_Incubator_UhOh::
 	msgbox Incubator_Text_RemoveEgg, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq EventScript_Incubator_RemoveEgg
-	release
+	goto EventScript_PCMainMenu
 	end
 
+EventScript_Incubator_NoRoom::
+	msgbox Incubator_Text_NoRoom, MSGBOX_DEFAULT
+	goto EventScript_PCMainMenu
+	end
+	
+EventScript_Incubator_ReadyToHatch::
+	msgbox Incubator_Text_ReadyToHatch, MSGBOX_DEFAULT
+	goto EventScript_PCMainMenu
+	end
+	
 Route117_Text_SeeWifeIfYoudLikeMeToRaiseMon: @ 8291FCF
 	.string "I'm the DAY-CARE MAN.\p"
 	.string "I help take care of the precious\n"
@@ -541,8 +551,8 @@ Route117_PokemonDayCare_Text_YoullBeLeftWithJustOne: @ 829266D
 	.string "some more, I dare say.$"
 
 Incubator_Text_WantToIncubate:
-	.string "Would you like to insert\n"
-	.string "an EGG into the incubator?$"
+	.string "Would you like to send\n"
+	.string "an EGG to the incubator?$"
 
 Incubator_Text_WantToCheck:
 	.string "Would you like to check\n"
@@ -558,27 +568,42 @@ Incubator_Text_EggRemoved:
 
 Incubator_Text_WhichEgg:
 	.string "Which EGG would you\n"
-	.string "like to leave?$"
+	.string "like to send?$"
 
 Incubator_Text_EggInserted:
-	.string "{PLAYER} placed the EGG\n"
-	.string "in the incubator.$"
+	.string "{PLAYER} sent the EGG\n"
+	.string "to the incubator.$"
 
 Incubator_Text_Tier4:
 	.string "It looks like this EGG\n"
-	.string "will take a long time to hatch.$"
+	.string "will take a long time to hatch.\p"
+	.string "Estimated time to hatching:\n"
+	.string "{STR_VAR_1} {STR_VAR_2}$"
 
 Incubator_Text_Tier3:
 	.string "What will hatch from this?\n"
-	.string "It will take some time.$"
+	.string "It will take some time.\p"
+	.string "Estimated time to hatching:\n"
+	.string "{STR_VAR_1} {STR_VAR_2}$"
 
 Incubator_Text_Tier2:
 	.string "It moves occasionally.\n"
-	.string "It should hatch soon.$"
+	.string "It should hatch soon.\p"
+	.string "Estimated time to hatching:\n"
+	.string "{STR_VAR_1} {STR_VAR_2}$"
 
 Incubator_Text_Tier1:
 	.string "It's making sounds!\n"
-	.string "It's about to hatch!$"
+	.string "It's about to hatch!\p"
+	.string "Estimated time to hatching:\n"
+	.string "{STR_VAR_1} {STR_VAR_2}$"
 	
 Incubator_Text_UhOh:
 	.string "UhOh$"
+
+Incubator_Text_ReadyToHatch:
+	.string "The EGG looks ready to hatch,\n"
+	.string "but your party is full!$"
+
+Incubator_Text_NoRoom:
+	.string "Your party is full!$"

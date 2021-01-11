@@ -28,5 +28,6 @@ u8 CheckIncubator(void);
 u8 RemoveEggFromIncubator(void);
 void ChooseSendEggToIncubator(void);
 void PutSelectedEggInIncubator(void);
+void HatchEggInIncubator(void);
 
 #endif // GUARD_DAYCARE_H

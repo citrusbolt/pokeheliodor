@@ -353,18 +353,18 @@ static void CreatePCMultichoice(void)
     // Include Hall of Fame option if player is champion
     if (FlagGet(FLAG_SYS_GAME_CLEAR))
     {
-        numChoices = 4;
-        windowId = CreateWindowFromRect(0, 0, width, 8);
+        numChoices = 5;
+        windowId = CreateWindowFromRect(0, 0, width, 10);
         SetStandardWindowBorderStyle(windowId, 0);
-        AddTextPrinterParameterized(windowId, 1, gText_HallOfFame, y, 33, TEXT_SPEED_FF, NULL);
-        AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 49, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 1, gText_HallOfFame, y, 49, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 65, TEXT_SPEED_FF, NULL);
     }
     else
     {
-        numChoices = 3;
-        windowId = CreateWindowFromRect(0, 0, width, 6);
+        numChoices = 4;
+        windowId = CreateWindowFromRect(0, 0, width, 8);
         SetStandardWindowBorderStyle(windowId, 0);
-        AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 33, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 49, TEXT_SPEED_FF, NULL);
     }
 
     // Change PC name if player has met Lanette
@@ -373,6 +373,7 @@ static void CreatePCMultichoice(void)
     else
         AddTextPrinterParameterized(windowId, 1, gText_SomeonesPC, y, 1, TEXT_SPEED_FF, NULL);
 
+    AddTextPrinterParameterized(windowId, 1, gText_Incubator, y, 33, TEXT_SPEED_FF, NULL);
     StringExpandPlaceholders(gStringVar4, gText_PlayersPC);
     PrintPlayerNameOnWindow(windowId, gStringVar4, y, 17);
     InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, numChoices, 0);

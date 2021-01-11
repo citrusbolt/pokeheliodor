@@ -1414,6 +1414,8 @@ u8 CheckIncubator()
 	u32 eggCycles;
 	u32 eggCyclesDepleted;
 	u32 eggCyclesNew;
+	u32 minutesPassedCycle;
+	u32 minutesLeft;
 	
 	if (!FlagGet(FLAG_EGG_IN_INCUBATOR))
 		return 0xFF;
@@ -1422,6 +1424,7 @@ u8 CheckIncubator()
 	CalcTimeDifference(&timeElapsed, &(&gSaveBlock1Ptr->incubator)->timeEntered, &gLocalTime);
 	eggCycles = GetMonData(&egg, MON_DATA_FRIENDSHIP);
 	eggCyclesDepleted = (24 * 60 * timeElapsed.days + 60 * timeElapsed.hours + timeElapsed.minutes) / 36;
+	minutesPassedCycle = (24 * 60 * timeElapsed.days + 60 * timeElapsed.hours + timeElapsed.minutes) % 36;
 	
 	if (eggCyclesDepleted > eggCycles)
 	{
@@ -1432,23 +1435,153 @@ u8 CheckIncubator()
 		eggCyclesNew = eggCycles - eggCyclesDepleted;
 		SetMonData(&(&gSaveBlock1Ptr->incubator)->egg, MON_DATA_FRIENDSHIP, &eggCyclesNew);
 		(&gSaveBlock1Ptr->incubator)->timeEntered = gLocalTime;
+		(&gSaveBlock1Ptr->incubator)->timeEntered.minutes -= minutesPassedCycle;
+		if ((&gSaveBlock1Ptr->incubator)->timeEntered.minutes < 0)
+		{
+			(&gSaveBlock1Ptr->incubator)->timeEntered.minutes += 60;
+			--(&gSaveBlock1Ptr->incubator)->timeEntered.hours;
+		}
+		if ((&gSaveBlock1Ptr->incubator)->timeEntered.hours < 0)
+		{
+			(&gSaveBlock1Ptr->incubator)->timeEntered.hours += 24;
+			--(&gSaveBlock1Ptr->incubator)->timeEntered.days;
+		}
 	}
 	else
 	{
 		eggCyclesNew = eggCycles;
 	}
 	
+	minutesLeft = eggCyclesNew * 36 - minutesPassedCycle;
+	
+	if (minutesLeft > 1380)
+	{
+		StringCopy(gStringVar1, gText_2324);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 1320)
+	{
+		StringCopy(gStringVar1, gText_2223);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 1260)
+	{
+		StringCopy(gStringVar1, gText_2122);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 1200)
+	{
+		StringCopy(gStringVar1, gText_2021);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 1140)
+	{
+		StringCopy(gStringVar1, gText_1920);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 1080)
+	{
+		StringCopy(gStringVar1, gText_1819);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 1020)
+	{
+		StringCopy(gStringVar1, gText_1718);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 960)
+	{
+		StringCopy(gStringVar1, gText_1617);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 900)
+	{
+		StringCopy(gStringVar1, gText_1516);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 840)
+	{
+		StringCopy(gStringVar1, gText_1415);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 780)
+	{
+		StringCopy(gStringVar1, gText_1314);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 720)
+	{
+		StringCopy(gStringVar1, gText_1213);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 660)
+	{
+		StringCopy(gStringVar1, gText_1112);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 600)
+	{
+		StringCopy(gStringVar1, gText_1011);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 540)
+	{
+		StringCopy(gStringVar1, gText_910);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 480)
+	{
+		StringCopy(gStringVar1, gText_89);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 420)
+	{
+		StringCopy(gStringVar1, gText_78);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 360)
+	{
+		StringCopy(gStringVar1, gText_67);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 300)
+	{
+		StringCopy(gStringVar1, gText_56);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 240)
+	{
+		StringCopy(gStringVar1, gText_45);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 180)
+	{
+		StringCopy(gStringVar1, gText_34);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 120)
+	{
+		StringCopy(gStringVar1, gText_23);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 60)
+	{
+		StringCopy(gStringVar1, gText_12);
+		StringCopy(gStringVar2, gText_Hours);
+	}
+	else if (minutesLeft > 1)
+	{
+		ConvertIntToDecimalStringN(gStringVar1, minutesLeft, STR_CONV_MODE_LEFT_ALIGN, 4);
+		StringCopy(gStringVar2, gText_Minutes);
+	}
+	else
+	{
+		ConvertIntToDecimalStringN(gStringVar1, minutesLeft, STR_CONV_MODE_LEFT_ALIGN, 4);
+		StringCopy(gStringVar2, gText_Minute);
+	}
 	
 	if (eggCyclesNew == 0)
 	{
-		gPlayerParty[PARTY_SIZE - 1] = egg;
-		ZeroMonData(&(&gSaveBlock1Ptr->incubator)->egg);
-		CompactPartySlots();
-		CalculatePlayerPartyCount();
-		FlagClear(FLAG_EGG_IN_INCUBATOR);
-		gSpecialVar_0x8004 = gPlayerPartyCount - 1;
-		IncrementGameStat(GAME_STAT_HATCHED_EGGS);
-		EggHatch();
 		return 0;
 	}
 	else
@@ -1494,4 +1627,20 @@ void PutSelectedEggInIncubator()
 {
     u8 monId = GetCursorSelectionMonId();
     PutEggInIncubator(&gPlayerParty[monId]);
+}
+
+void HatchEggInIncubator()
+{
+	struct Pokemon egg;
+	
+	egg = (&gSaveBlock1Ptr->incubator)->egg;
+	
+	gPlayerParty[PARTY_SIZE - 1] = egg;
+	ZeroMonData(&(&gSaveBlock1Ptr->incubator)->egg);
+	CompactPartySlots();
+	CalculatePlayerPartyCount();
+	FlagClear(FLAG_EGG_IN_INCUBATOR);
+	gSpecialVar_0x8004 = gPlayerPartyCount - 1;
+	IncrementGameStat(GAME_STAT_HATCHED_EGGS);
+	EggHatch();
 }
