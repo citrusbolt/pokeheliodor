@@ -48,9 +48,7 @@ FortreeCity_House1_EventScript_NotRequestedMon:: @ 8216347
 	end
 
 FortreeCity_House1_EventScript_TradeCompleted:: @ 8216355
-	checkitem ITEM_SAPPHIRE, 1
-	compare VAR_RESULT, 1
-	goto_if_eq FortreeCity_House1_EventScript_GreenTradeCompleted
+	goto_if_set FLAG_LICKITUNG_GREEN_TRADE FortreeCity_House1_EventScript_GreenTradeCompleted
 	msgbox FortreeCity_House1_Text_GoingToMakeGolduckStrong, MSGBOX_DEFAULT
 	release
 	end
