@@ -50,6 +50,7 @@ To build this yourself, see [INSTALL.md](INSTALL.md).
 
 * pret
 * Project Pokémon
+* The PKHeX team
 * Bulbapedia
 * Serebii
 * DRayX
