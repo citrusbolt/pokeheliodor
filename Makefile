@@ -64,7 +64,7 @@ ASFLAGS := -mcpu=arm7tdmi --defsym MODERN=$(MODERN)
 ifeq ($(MODERN),0)
 CC1             := tools/agbcc/bin/agbcc$(EXE)
 override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm
-ROM := pokeemerald.gba
+ROM := heliodor.gba
 OBJ_DIR := build/emerald
 LIBPATH := -L ../../tools/agbcc/lib
 else
