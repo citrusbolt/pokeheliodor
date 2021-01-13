@@ -18,6 +18,7 @@ The highest design priorities are 100% compatibility in terms of:
   * Pokémon not normally found in Pokémon Emerald are generated with different game IDs, languages, and pseudo-random number generation methods to replicate the encounters in which they can normally be found in other games.
   * This includes new wild encounter tables post-National Dex acquisition, additional gifts, in-game trades, and an extended roamer quest.
     * If importing a save file from Pokémon Emerald after capturing/defeating the roaming Latias/Latios, speak to the new NPC at the Weather Institute to force the next roamer to initialize.
+ * Trading is still required to get all starter Pokémon, as well as to initiate trade evolutions.
 * An egg incubator is available for use that upon the real time clock instead of the step counter.
 * All tutor moves found in Generation 3 games are available for purchase at the Battle Frontier.
 * Moves learned by level-up exclusively in Pokémon FireRed and Pokémon LeafGreen are added to the learnsets.
