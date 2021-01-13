@@ -160,6 +160,7 @@ static void Task_LoadBagSortOptions(u8 taskId);
 static void ItemMenu_SortByName(u8 taskId);
 static void ItemMenu_SortByType(u8 taskId);
 static void ItemMenu_SortByAmount(u8 taskId);
+static void ItemMenu_SortByNumber(u8 taskId);
 static void SortBagItems(u8 taskId);
 static void Task_SortFinish(u8 taskId);
 static void SortItemsInBag(u8 pocket, u8 type);
@@ -168,6 +169,7 @@ static void Merge(struct ItemSlot* array, u32 low, u32 mid, u32 high, s8 (*compa
 static s8 CompareItemsAlphabetically(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
 static s8 CompareItemsByMost(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
 static s8 CompareItemsByType(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
+static s8 CompareItemsById(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
 
 // .rodata
 
@@ -227,6 +229,7 @@ static const struct ListMenuTemplate sItemListMenu =
 static const u8 sMenuText_ByName[] = _("Name");
 static const u8 sMenuText_ByType[] = _("Type");
 static const u8 sMenuText_ByAmount[] = _("Amount");
+static const u8 sMenuText_ByNumber[] = _("Number");
 static const struct MenuAction sItemMenuActions[] = {
     [ITEMMENUACTION_USE] =          {gMenuText_Use, ItemMenu_UseOutOfBattle},
     [ITEMMENUACTION_TOSS] =         {gMenuText_Toss, ItemMenu_Toss},
@@ -245,6 +248,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ITEMMENUACTION_BY_NAME] =      {sMenuText_ByName, ItemMenu_SortByName},
     [ITEMMENUACTION_BY_TYPE] =      {sMenuText_ByType, ItemMenu_SortByType},
     [ITEMMENUACTION_BY_AMOUNT] =    {sMenuText_ByAmount, ItemMenu_SortByAmount},
+    [ITEMMENUACTION_BY_NUMBER] =    {sMenuText_ByNumber, ItemMenu_SortByNumber},
     [ITEMMENUACTION_DUMMY] =        {gText_EmptyString2, NULL}
 };
 
@@ -2554,6 +2558,7 @@ enum BagSortOptions
     SORT_ALPHABETICALLY,
     SORT_BY_TYPE,
     SORT_BY_AMOUNT, //greatest->least
+    SORT_BY_NUMBER, //by itemID
 };
 enum ItemSortType
 {
@@ -2587,12 +2592,14 @@ static const u8 sText_SortItemsHow[] = _("Sort items how?");
 static const u8 sText_Name[] = _("name");
 static const u8 sText_Type[] = _("type");
 static const u8 sText_Amount[] = _("amount");
+static const u8 sText_Number[] = _("number");
 static const u8 sText_ItemsSorted[] = _("Items sorted by {STR_VAR_1}!");
 static const u8 *const sSortTypeStrings[] = 
 {
     [SORT_ALPHABETICALLY] = sText_Name,
     [SORT_BY_TYPE] = sText_Type,
     [SORT_BY_AMOUNT] = sText_Amount,
+    [SORT_BY_NUMBER] = sText_Number,
 };
 
 static const u8 sBagMenuSortItems[] =
@@ -2609,11 +2616,19 @@ static const u8 sBagMenuSortKeyItems[] =
     ITEMMENUACTION_CANCEL,
 };
 
-static const u8 sBagMenuSortPokeBallsBerries[] =
+static const u8 sBagMenuSortPokeBalls[] =
 {
     ITEMMENUACTION_BY_NAME,
     ITEMMENUACTION_BY_AMOUNT,
     ITEMMENUACTION_DUMMY,
+    ITEMMENUACTION_CANCEL,
+};
+
+static const u8 sBagMenuSortTMBerries[] =
+{
+    ITEMMENUACTION_BY_NAME,
+    ITEMMENUACTION_BY_AMOUNT,
+    ITEMMENUACTION_BY_NUMBER,
     ITEMMENUACTION_CANCEL,
 };
 
@@ -3068,11 +3083,15 @@ static void AddBagSortSubMenu(void)
             gBagMenu->contextMenuNumItems = NELEMS(sBagMenuSortKeyItems);
             break;
         case POCKET_POKE_BALLS:
+            gBagMenu->contextMenuItemsPtr = sBagMenuSortPokeBalls;
+            memcpy(&gBagMenu->contextMenuItemsBuffer, &sBagMenuSortPokeBalls, NELEMS(sBagMenuSortPokeBalls));
+            gBagMenu->contextMenuNumItems = NELEMS(sBagMenuSortPokeBalls);
+            break;
         case POCKET_BERRIES:
         case POCKET_TM_HM:
-            gBagMenu->contextMenuItemsPtr = sBagMenuSortPokeBallsBerries;
-            memcpy(&gBagMenu->contextMenuItemsBuffer, &sBagMenuSortPokeBallsBerries, NELEMS(sBagMenuSortPokeBallsBerries));
-            gBagMenu->contextMenuNumItems = NELEMS(sBagMenuSortPokeBallsBerries);
+            gBagMenu->contextMenuItemsPtr = sBagMenuSortTMBerries;
+            memcpy(&gBagMenu->contextMenuItemsBuffer, &sBagMenuSortTMBerries, NELEMS(sBagMenuSortTMBerries));
+            gBagMenu->contextMenuNumItems = NELEMS(sBagMenuSortTMBerries);
             break;
         default:
             gBagMenu->contextMenuItemsPtr = sBagMenuSortItems;
@@ -3116,6 +3135,12 @@ static void ItemMenu_SortByAmount(u8 taskId)
 {
     gTasks[taskId].tSortType = SORT_BY_AMOUNT; //greatest->least
     StringCopy(gStringVar1, sSortTypeStrings[SORT_BY_AMOUNT]);
+    gTasks[taskId].func = SortBagItems;
+}
+static void ItemMenu_SortByNumber(u8 taskId)
+{
+    gTasks[taskId].tSortType = SORT_BY_NUMBER; //by itemID
+    StringCopy(gStringVar1, sSortTypeStrings[SORT_BY_NUMBER]);
     gTasks[taskId].func = SortBagItems;
 }
 
@@ -3189,6 +3214,9 @@ static void SortItemsInBag(u8 pocket, u8 type)
         break;
     case SORT_BY_AMOUNT:
         MergeSort(itemMem, 0, itemAmount - 1, CompareItemsByMost);
+        break;
+    case SORT_BY_NUMBER:
+        MergeSort(itemMem, 0, itemAmount - 1, CompareItemsById);
         break;
     default:
         MergeSort(itemMem, 0, itemAmount - 1, CompareItemsByType);
@@ -3282,6 +3310,21 @@ static s8 CompareItemsByMost(struct ItemSlot* itemSlot1, struct ItemSlot* itemSl
         return -1;
 
     return CompareItemsAlphabetically(itemSlot1, itemSlot2); //Items have same quantity so sort alphabetically
+}
+
+static s8 CompareItemsById(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2)
+{
+    if (itemSlot1->itemId == ITEM_NONE)
+        return 1;
+    else if (itemSlot2->itemId == ITEM_NONE)
+        return -1;
+
+    if (itemSlot2->itemId < itemSlot1->itemId)
+        return 1;
+    else if (itemSlot2->itemId > itemSlot1->itemId)
+        return -1;
+
+    return CompareItemsByMost(itemSlot1, itemSlot2); //Items with the same ID are sorted by stack amount
 }
 
 static s8 CompareItemsByType(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2)
