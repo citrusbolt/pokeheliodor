@@ -27,7 +27,7 @@ The highest design priorities are 100% compatibility in terms of:
 * For Pokémon Colosseum and Pokémon XD: Gale of Darkness players, Poké Coupon balance can be viewed on the PC
   * This option only appears if Poké Coupons have been transfered at least once so that it doesn't get in the way for players who do not have access to the Gamecube games.
 * Altering Cave's wild encounters cycle through the unreleased Mystery Gift tables every day.
-* Add new Met Location strings for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colossuem, Pokémon XD: Gales of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
+* The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colossuem, Pokémon XD: Gales of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
 * Breeding mechanics have been changed.
   * Both parents can now pass down Nature and moves.
   * The "Masuda Method" is implemented.
