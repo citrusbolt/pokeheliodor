@@ -4,7 +4,7 @@ This is a modification of Pokémon Emerald intended to be an interpretation of t
 
 The highest design priorities are 100% compatibility in terms of:
 * Multiplayer
-  * No changes made should interfere with any link capability with Pokémon Ruby, Pokémon Sapphire, Pokémon FireRed, Pokémon LeafGreen, Pokémon Emerald, Pokémon Box Ruby & Sapphire, Pokémon Colosseum, or Pokémon XD: Gales of Darkness.
+  * No changes made should interfere with any link capability with Pokémon Ruby, Pokémon Sapphire, Pokémon FireRed, Pokémon LeafGreen, Pokémon Emerald, Pokémon Box Ruby & Sapphire, Pokémon Colosseum, or Pokémon XD: Gale of Darkness.
 * Inter-generational Transfer
   * Every Pokémon obtained should completely be legal (indistinguishable from a Pokémon obtained in an offical game, using PKHeX's legality checker as the reference as opposed to Game Freak's) once transfered to a Generation 4 game, with one outlier.
   * The exception to this will technically be illegal until it enters a Generation 7 game, but there should be no issues transfering it through Poké Transporter to Pokémon Bank.
@@ -24,7 +24,7 @@ The highest design priorities are 100% compatibility in terms of:
 * Moves learned by level-up exclusively in Pokémon FireRed and Pokémon LeafGreen are added to the learnsets.
 * Evolution items and Kanto-exclusive held items are available for purchase at the Battle Frontier.
 * The remainder of the Kanto-exclusive items are available at the Lilycove Department Store.
-* For Pokémon Colosseum and Pokémon XD: Gales of Darkness players, Poké Coupon balance can be viewed on the PC
+* For Pokémon Colosseum and Pokémon XD: Gale of Darkness players, Poké Coupon balance can be viewed on the PC
   * This option only appears if Poké Coupons have been transfered at least once so that it doesn't get in the way for players who do not have access to the Gamecube games.
 * Altering Cave's wild encounters cycle through the unreleased Mystery Gift tables every day.
 * Add new Met Location strings for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colossuem, Pokémon XD: Gales of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
@@ -32,7 +32,7 @@ The highest design priorities are 100% compatibility in terms of:
   * Both parents can now pass down Nature and moves.
   * The "Masuda Method" is implemented.
   * A bug in IV inheritance has been fixed.
-* Trading restrictions with all Generation 3 games besides Pokémon XD: Gales of Darkness have been removed.
+* Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * Numerous small features have been changed/added and bugs have been fixed.
 * And more!
 
