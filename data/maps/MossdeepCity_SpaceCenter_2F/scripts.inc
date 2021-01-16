@@ -395,10 +395,11 @@ MossdeepCity_SpaceCenter_2F_EventScript_ScientistAuroraReceived::
 	end
 
 MossdeepCity_SpaceCenter_2F_Text_MossdeepIdealForRockets: @ 82241A1
-	.string "MOSSDEEP has mainly sunny weather,\n"
-	.string "and its winds are stable.\p"
-	.string "It's an ideal location for launching\n"
-	.string "rockets.$"
+	.string "The universe is so vast!\n"
+	.string "Do you think there are any other\l"
+	.string "inhabited worlds out there?\p"
+	.string "I'm hoping my research here will\l"
+	.string "find evidence of them.$"
 
 MossdeepCity_SpaceCenter_2F_Text_WhyWouldMagmaStealRocketFuel: @ 822420C
 	.string "Why would TEAM MAGMA want to steal\n"
