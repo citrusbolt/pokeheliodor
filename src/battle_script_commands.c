@@ -52,6 +52,8 @@
 #include "constants/rgb.h"
 #include "data.h"
 #include "constants/party_menu.h"
+#include "item_use.h"
+#include "field_player_avatar.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
@@ -9790,15 +9792,19 @@ static void Cmd_handleballthrow(void)
             {
             case ITEM_NET_BALL:
                 if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_WATER) || IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_BUG))
-                    ballMultiplier = 30;
+                    ballMultiplier = 35;
                 else
                     ballMultiplier = 10;
                 break;
             case ITEM_DIVE_BALL:
-                if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
+                if (GetCurrentMapType() == MAP_TYPE_UNDERWATER || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) || CanFish())
+				{
                     ballMultiplier = 35;
+				}
                 else
+				{
                     ballMultiplier = 10;
+				}
                 break;
             case ITEM_NEST_BALL:
                 if (gBattleMons[gBattlerTarget].level < 40)
@@ -9814,7 +9820,7 @@ static void Cmd_handleballthrow(void)
                 break;
             case ITEM_REPEAT_BALL:
                 if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), FLAG_GET_CAUGHT))
-                    ballMultiplier = 30;
+                    ballMultiplier = 35;
                 else
                     ballMultiplier = 10;
                 break;

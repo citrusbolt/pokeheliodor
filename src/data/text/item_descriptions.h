@@ -35,7 +35,7 @@ static const u8 sNetBallDesc[] = _(
 static const u8 sDiveBallDesc[] = _(
     "A BALL that works\n"
     "better on POKéMON\n"
-    "on the ocean floor.");
+    "that live in the sea.");
 
 static const u8 sNestBallDesc[] = _(
     "A BALL that works\n"

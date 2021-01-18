@@ -227,7 +227,7 @@ static void ItemUseOnFieldCB_Bike(u8 taskId)
     DestroyTask(taskId);
 }
 
-static bool32 CanFish(void)
+bool32 CanFish(void)
 {
     s16 x, y;
     u16 tileBehavior;
