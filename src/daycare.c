@@ -987,6 +987,23 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
     if (daycare->offspringPersonality == 0 && validEggs == DAYCARE_MON_COUNT && (daycare->mons[1].steps & 0xFF) == 0xFF)
     {
         u8 compatability = GetDaycareCompatibilityScore(daycare);
+		if (HasAllHoennMons())
+		{
+			switch (compatability)
+			{
+			case PARENTS_LOW_COMPATIBILITY:
+				compatability = 40;
+				break;
+			case PARENTS_MED_COMPATABILITY:
+				compatability = 80;
+				break;
+			case PARENTS_MAX_COMPATABILITY:
+				compatability = 88;
+				break;
+			default:
+				break;
+			}
+		}
         if (compatability > (Random() * 100u) / USHRT_MAX)
             TriggerPendingDaycareEgg();
     }
