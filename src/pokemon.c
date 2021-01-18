@@ -2440,7 +2440,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
-		if (gSpeciesToHoennPokedexNum[species] > HOENN_DEX_COUNT && species != SPECIES_LUGIA && species != SPECIES_HO_OH) //"Non-native" Pokémon will still be flagged as illegal until they enter Gen IV due to their met locations being in Hoenn
+		if (gSpeciesToHoennPokedexNum[species] > HOENN_DEX_COUNT && species != SPECIES_LUGIA && species != SPECIES_HO_OH && metLocation != MAPSEC_SAFARI_ZONE) //"Non-native" Pokémon will still be flagged as illegal until they enter Gen IV due to their met locations being in Hoenn
 		{
 			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
 			{
