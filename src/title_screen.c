@@ -807,12 +807,25 @@ static void UpdateLegendaryMarkingColor(u8 frameNum)
 {
     if ((frameNum % 4) == 0) // Change color every 4th frame
     {
+		u16 color;
+		s32 r;
+		s32 g;
+		s32 b;
         s32 intensity = Cos(frameNum, 128) + 128;
-        s32 r = 31 - ((intensity * 32 - intensity) / 256);
-        s32 g = 31 - (intensity * 22 / 256);
-        s32 b = 12;
+		if (frameNum == 128 || frameNum == 136 || (frameNum >= 148 && frameNum <= 160))
+		{
+			r = 117;
+			g = 27;
+			b = 31;
+		}
+		else
+		{
+			r = ((intensity * 32 - intensity) / 256);
+			g = ((intensity * 32 - intensity) / 256);
+			b = (intensity / 256) % 15;
+		}
 
-        u16 color = RGB(r, g, b);
+        color = RGB(r, g, b);
         LoadPalette(&color, 0xEF, sizeof(color));
    }
 }
