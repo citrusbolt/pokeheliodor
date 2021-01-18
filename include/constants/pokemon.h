@@ -89,7 +89,9 @@
 #define MAX_STAT_STAGE    12
 
 // Shiny odds
-#define SHINY_ODDS 8 // Actual probability is SHINY_ODDS/65536
+#define SHINY_ODDS            8 // Actual probability is SHINY_ODDS/65536
+#define MASUDA_METHOD_REROLLS 5
+#define SHINY_CHARM_REROLLS   2
 
 // Flags for Get(Box)MonData / Set(Box)MonData
 #define MON_DATA_PERSONALITY        0

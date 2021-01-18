@@ -2216,6 +2216,10 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u32 hId;
 	u32 lId;
 	u32 shinyValue;
+	u8 rolls = 1;
+	
+	if (HasAllMons())
+		rolls += SHINY_CHARM_REROLLS;
 	
 	metLocation = GetCurrentRegionMapSectionId();
 	
@@ -2224,9 +2228,20 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	if (species == SPECIES_MEW)  //Pretend to be Japanese release, as Old Sea Map wasn't released internationally.  Note that if encountered anywhere other than Faraway Island, Mew will not be fully legal
 	{
 		if (hasFixedPersonality)
+		{
 			personality = fixedPersonality;
+		}
 		else
-			personality = Random32();
+		{
+			do
+			{
+				personality = Random32();
+				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+				i++;
+			} while (i < rolls);
+		}
 		speciesName[0] = 0x70; //ミ
 		speciesName[1] = 0x85; //ュ
 		speciesName[2] = 0x53; //ウ
@@ -2265,7 +2280,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
             shinyValue = 0x0000 ^ 0x7991 ^ hId ^ lId;
         } while (shinyValue < SHINY_ODDS); //Ensure this isn't shiny
-				personality = (hId << 16) | (lId); //CXD: RNG method used in Colosseum and XD: Gales of Darkness, seeded by RTC
+		personality = (hId << 16) | (lId); //CXD: RNG method used in Colosseum and XD: Gales of Darkness, seeded by RTC
 		speciesName[0] = 0x5E; //セ
 		speciesName[1] = 0x7A; //レ
 		speciesName[2] = 0x97; //ビ
@@ -2286,8 +2301,22 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		Random32();
 		//rngBak = gRngValue;
 		//SeedRng(GetChecksum()); //this is causing crashes
-		SeedRng(gRngValue >> 16);
-		personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
+		if (hasFixedPersonality)
+		{
+			personality = fixedPersonality;
+		}
+		else
+		{
+			do
+			{
+				SeedRng(gRngValue >> 16);
+				personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
+				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+				i++;
+			} while (i < rolls);
+		}
 		GetSpeciesName(speciesName, species);
 		otName[0] = 0xD1; //W
 		otName[1] = 0xC3; //I
@@ -2308,9 +2337,20 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	else if (species == SPECIES_UNOWN)
 	{
 		if (hasFixedPersonality)
+		{
 			personality = fixedPersonality;
+		}
 		else
-			personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
+		{
+			do
+			{
+				personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
+				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+				i++;
+			} while (i < rolls);
+		}
 		GetSpeciesName(speciesName, species);
 		otName[0] = gSaveBlock2Ptr->playerName[0];
 		otName[1] = gSaveBlock2Ptr->playerName[1];
@@ -2334,9 +2374,20 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == METLOC_IN_GAME_TRADE)
 	{
 		if (hasFixedPersonality)
+		{
 			personality = fixedPersonality;
+		}
 		else
-			personality = Random32();
+		{
+			do
+			{
+				personality = Random32();
+				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+				i++;
+			} while (i < rolls);
+		}
 		GetSpeciesName(speciesName, species);
 		otName[0] = gSaveBlock2Ptr->playerName[0];
 		otName[1] = gSaveBlock2Ptr->playerName[1];
@@ -2360,9 +2411,20 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	else
 	{
 		if (hasFixedPersonality)
+		{
 			personality = fixedPersonality;
+		}
 		else
-			personality = Random32();
+		{
+			do
+			{
+				personality = Random32();
+				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+				i++;
+			} while (i < rolls);
+		}
 		GetSpeciesName(speciesName, species);
 		otName[0] = gSaveBlock2Ptr->playerName[0];
 		otName[1] = gSaveBlock2Ptr->playerName[1];
@@ -2508,12 +2570,24 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 nature)
 {
     u32 personality;
-
-    do
-    {
-        personality = Random32();
-    }
-    while (nature != GetNatureFromPersonality(personality));
+	u32 shinyValue;
+	u16 i = 0;
+	u8 rolls = 1;
+	
+	if (HasAllMons())
+		rolls += SHINY_CHARM_REROLLS;
+	do
+	{
+		do
+		{
+			personality = Random32();
+		}
+		while (nature != GetNatureFromPersonality(personality));
+		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+		if (shinyValue < SHINY_ODDS)
+			break;
+		i++;
+	} while (i < rolls);
 
     CreateMon(mon, species, level, fixedIV, 1, personality, OT_ID_PLAYER_ID, 0);
 }
@@ -2521,31 +2595,48 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 gender, u8 nature, u8 unownLetter)
 {
     u32 personality;
+	u32 shinyValue;
+	u16 i = 0;
+	u8 rolls = 1;
+	
+	if (HasAllMons())
+		rolls += SHINY_CHARM_REROLLS;
 
     if ((u8)(unownLetter - 1) < 28)
     {
         u16 actualLetter;
 
-        do
-        {
-			if (species == SPECIES_UNOWN)
-				personality = (Random() << 16) | Random();
-			else
-				personality = Random32();
-            actualLetter = ((((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 28);
-        }
-        while (nature != GetNatureFromPersonality(personality)
-            || gender != GetGenderFromSpeciesAndPersonality(species, personality)
-            || actualLetter != unownLetter - 1);
+		do
+		{
+			do
+			{
+				if (species == SPECIES_UNOWN)
+					personality = (Random() << 16) | Random();
+				else
+					personality = Random32();
+				actualLetter = ((((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 28);
+			}
+			while (nature != GetNatureFromPersonality(personality) || gender != GetGenderFromSpeciesAndPersonality(species, personality) || actualLetter != unownLetter - 1);
+			shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+			if (shinyValue < SHINY_ODDS)
+				break;
+			i++;
+		} while (i < rolls);
     }
     else
     {
-        do
-        {
-            personality = Random32();
-        }
-        while (nature != GetNatureFromPersonality(personality)
-            || gender != GetGenderFromSpeciesAndPersonality(species, personality));
+		do
+		{
+			do
+			{
+				personality = Random32();
+			}
+			while (nature != GetNatureFromPersonality(personality) || gender != GetGenderFromSpeciesAndPersonality(species, personality));
+			shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+			if (shinyValue < SHINY_ODDS)
+				break;
+			i++;
+		} while (i < rolls);
     }
 
     CreateMon(mon, species, level, fixedIV, 1, personality, OT_ID_PLAYER_ID, 0);

@@ -23,6 +23,7 @@
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
 #include "rtc.h"
+#include "pokedex.h"
 
 // this file's functions
 static void ClearDaycareMonMail(struct DayCareMail *mail);
@@ -473,57 +474,40 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 {
     u8 parent;
 	u32 personality;
-    u16 i = 0;
 	u32 shinyValue;
+    u16 i = 0;
+	u8 rolls = 1;
 
     SeedRng2(gMain.vblankCounter2);
     parent = GetParentToInheritNature(daycare);
 
+	if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
+		rolls += MASUDA_METHOD_REROLLS;
+	if (HasAllMons())
+		rolls += SHINY_CHARM_REROLLS;
+
     // don't inherit nature
     if (parent > 1)
     {
-		if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
-		{
-			do
-			{
-				personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
-				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
-				if (shinyValue < SHINY_ODDS)
-					break;
-				i++;
-			} while (i < 5);
-		}
-		else
+		do
 		{
 			personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
-		}
+			shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+			if (shinyValue < SHINY_ODDS)
+				break;
+			i++;
+		} while (i < rolls);
+
         daycare->offspringPersonality = personality;
     }
     // inherit nature
     else
     {
         u8 wantedNature = GetNatureFromPersonality(GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_PERSONALITY, NULL));
-		u16 j =0;
+		u16 j = 0;
 		i = 0;
 
-		if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
-		{
-			do
-			{
-				do
-				{
-					personality = (Random2() << 16) | (Random());
-					if (wantedNature == GetNatureFromPersonality(personality) && personality != 0)
-						break; // found a personality with the same nature
-					i++;
-				} while (i <= 0xFFFF);
-				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
-				if (shinyValue < SHINY_ODDS)
-					break;
-				j++;
-			} while (j < 5);
-		}
-		else
+		do
 		{
 			do
 			{
@@ -532,7 +516,12 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 					break; // found a personality with the same nature
 				i++;
 			} while (i <= 0xFFFF);
-		}
+			shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+			if (shinyValue < SHINY_ODDS)
+				break;
+			j++;
+		} while (j < rolls);
+
         daycare->offspringPersonality = personality;
     }
 
@@ -920,8 +909,21 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
     u8 metLocation;
     u8 isEgg;
 	u32 personality;
+	u32 shinyValue;
+	u16 i = 0;
+	u8 rolls = 1;
 	
-	personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
+	if (HasAllMons())
+		rolls += SHINY_CHARM_REROLLS;
+	
+	do
+	{
+		personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
+		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+		if (shinyValue < SHINY_ODDS)
+			break;
+		i++;
+	} while (i < rolls);
 	
 	if (species == SPECIES_WYNAUT)
 		CreateMon(mon, species, EGG_HATCH_LEVEL, 32, FALSE, 0, OT_ID_PLAYER_ID, 0);
