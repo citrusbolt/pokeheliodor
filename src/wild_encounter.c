@@ -418,10 +418,10 @@ static u32 GenerateUnownPersonalityByLetter(u8 letter)
 	
 	do
 	{
-			do
-			{
-				personality = (Random() << 16) | Random(); //BACD_U: RNG method used for Unown in FRLG, testing shows results Unown as Method_2_Unown due to VBlank occuring between now and IV generation
-			} while (GetUnownLetterByPersonalityLoByte(personality) != letter);
+		do
+		{
+			personality = (Random() << 16) | Random(); //BACD_U: RNG method used for Unown in FRLG, testing shows results Unown as Method_2_Unown due to VBlank occuring between now and IV generation
+		} while (GetUnownLetterByPersonalityLoByte(personality) != letter);
 			
 		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 		if (shinyValue < SHINY_ODDS)
