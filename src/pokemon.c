@@ -2311,7 +2311,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 			{
 				SeedRng(gRngValue >> 16);
 				personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
-				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+				shinyValue = 0x0000 ^ 0x4E4B ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
 				i++;
