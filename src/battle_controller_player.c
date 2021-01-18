@@ -2253,8 +2253,8 @@ static void PlayerHandleDrawTrainerPic(void)
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
-        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED
-            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAF_GREEN)
+        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRERED
+            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAFGREEN)
         {
             trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
         }
@@ -2335,8 +2335,8 @@ static void PlayerHandleTrainerSlide(void)
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
-        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRE_RED
-            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAF_GREEN)
+        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRERED
+            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_LEAFGREEN)
         {
             trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
         }

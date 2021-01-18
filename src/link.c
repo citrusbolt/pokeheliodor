@@ -808,7 +808,7 @@ bool32 Link_AnyPartnersPlayingFRLG_JP(void)
 {
     int i;
 
-    i = AreAnyLinkPlayersUsingVersions(VERSION_FIRE_RED, VERSION_LEAF_GREEN);
+    i = AreAnyLinkPlayersUsingVersions(VERSION_FIRERED, VERSION_LEAFGREEN);
     if (i >= 0 && gLinkPlayers[i].language == LANGUAGE_JAPANESE)
     {
         return TRUE;

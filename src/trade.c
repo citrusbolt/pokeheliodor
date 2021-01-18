@@ -2368,7 +2368,7 @@ s32 GetGameProgressForLinkTrade(void)
 
         if (version == VERSION_RUBY || version == VERSION_SAPPHIRE || version == VERSION_EMERALD)
             isGameFrLg = 0;
-        else if (version == VERSION_FIRE_RED || version == VERSION_LEAF_GREEN)
+        else if (version == VERSION_FIRERED || version == VERSION_LEAFGREEN)
             isGameFrLg = 2;
 
         // If trading with FRLG, both players must be champion
@@ -2518,8 +2518,8 @@ int CanSpinTradeMon(struct Pokemon *mon, u16 monIdx)
     for (i = 0; i < GetLinkPlayerCount(); i++)
     {
         version = gLinkPlayers[i].version & 0xFF;
-        if (version == VERSION_FIRE_RED ||
-            version == VERSION_LEAF_GREEN)
+        if (version == VERSION_FIRERED ||
+            version == VERSION_LEAFGREEN)
         {
             versions = 0;
         }
@@ -4563,9 +4563,9 @@ static void _CreateInGameTradePokemon(u8 whichPlayerMon, u8 whichInGameTrade)
 	}
 
 	if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-		version = VERSION_LEAF_GREEN;
+		version = VERSION_LEAFGREEN;
 	else
-		version = VERSION_FIRE_RED;
+		version = VERSION_FIRERED;
 
 	CreateMon(pokemon, species, level, 32, TRUE, inGameTrade->personality, OT_ID_PRESET, inGameTrade->otId);
 

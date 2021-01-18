@@ -3108,7 +3108,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if ((sum->metGame == VERSION_HEART_GOLD || sum->metGame == VERSION_SOUL_SILVER) && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
+		else if ((sum->metGame == VERSION_HEARTGOLD || sum->metGame == VERSION_SOULSILVER) && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
 		}
@@ -3644,7 +3644,7 @@ static bool8 DoesMonOTMatchOwner(void)
 static bool8 DidMonComeFromGBAGames(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame > 0 && sum->metGame <= VERSION_LEAF_GREEN)
+    if (sum->metGame > 0 && sum->metGame <= VERSION_LEAFGREEN)
         return TRUE;
     return FALSE;
 }

@@ -2327,9 +2327,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
 		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-			version = VERSION_LEAF_GREEN;
+			version = VERSION_LEAFGREEN;
 		else
-			version = VERSION_FIRE_RED;
+			version = VERSION_FIRERED;
 	}
 	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == METLOC_IN_GAME_TRADE)
 	{
@@ -2353,9 +2353,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
 		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-			version = VERSION_LEAF_GREEN;
+			version = VERSION_LEAFGREEN;
 		else
-			version = VERSION_FIRE_RED;
+			version = VERSION_FIRERED;
 	}
 	else
 	{
@@ -2382,11 +2382,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
 			{
-				version = VERSION_LEAF_GREEN;
+				version = VERSION_LEAFGREEN;
 			}
 			else
 			{
-				version = VERSION_FIRE_RED;
+				version = VERSION_FIRERED;
 			}
 		}
 		else if (species == SPECIES_MEDITITE || species == SPECIES_MEDICHAM || species == SPECIES_ROSELIA)

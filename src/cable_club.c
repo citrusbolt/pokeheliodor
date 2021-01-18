@@ -961,7 +961,7 @@ static void CB2_ReturnFromUnionRoomBattle(void)
         for (i = 0; i < playerCount; i++)
         {
             u32 version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_FIRE_RED || version == VERSION_LEAF_GREEN)
+            if (version == VERSION_FIRERED || version == VERSION_LEAFGREEN)
             {
                 linkedWithFRLG = TRUE;
                 break;

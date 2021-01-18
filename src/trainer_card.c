@@ -1836,7 +1836,7 @@ static u8 GetSetCardType(void)
 {
     if (sData == NULL)
     {
-        if (gGameVersion == VERSION_FIRE_RED || gGameVersion == VERSION_LEAF_GREEN)
+        if (gGameVersion == VERSION_FIRERED || gGameVersion == VERSION_LEAFGREEN)
             return CARD_TYPE_FRLG;
         else if (gGameVersion == VERSION_EMERALD)
             return CARD_TYPE_EMERALD;
@@ -1845,7 +1845,7 @@ static u8 GetSetCardType(void)
     }
     else
     {
-        if (sData->trainerCard.version == VERSION_FIRE_RED || sData->trainerCard.version == VERSION_LEAF_GREEN)
+        if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
         {
             sData->isHoenn = FALSE;
             return CARD_TYPE_FRLG;
@@ -1865,7 +1865,7 @@ static u8 GetSetCardType(void)
 
 static u8 VersionToCardType(u8 version)
 {
-    if (version == VERSION_FIRE_RED || version == VERSION_LEAF_GREEN)
+    if (version == VERSION_FIRERED || version == VERSION_LEAFGREEN)
         return CARD_TYPE_FRLG;
     else if (version == VERSION_EMERALD)
         return CARD_TYPE_EMERALD;
