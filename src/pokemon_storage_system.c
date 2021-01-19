@@ -8408,8 +8408,13 @@ static void sub_80D08CC(void)
         for (j = sMoveMonsPtr->minRow; j < rowCount; j++)
         {
             struct BoxPokemon *boxMon = GetBoxedMonPtr(boxId, boxPosition);
-
+            // UB: possible null dereference
+#ifdef UBFIX
+            if (boxMon != NULL)
+                sMoveMonsPtr->boxMons[monArrayId] = *boxMon;
+#else
             sMoveMonsPtr->boxMons[monArrayId] = *boxMon;
+#endif
             monArrayId++;
             boxPosition++;
         }
@@ -9329,10 +9334,11 @@ u32 GetBoxMonLevelAt(u8 boxId, u8 boxPosition)
 {
     u32 lvl;
 
-    // BUG: Missed 'else' statement.
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT && GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_HAS_SPECIES))
         lvl = GetLevelFromBoxMonExp(&gPokemonStoragePtr->boxes[boxId][boxPosition]);
-    // else
+    #ifdef BUGFIX
+    else
+    #endif
         lvl = 0;
 
     return lvl;
