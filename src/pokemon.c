@@ -4643,7 +4643,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 		else
 		{
 			ivs = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
-			substruct3->hpIV = ivs & MAX_IV_MASK
+			substruct3->hpIV = ivs & MAX_IV_MASK;
 			substruct3->attackIV = (ivs >> 5) & MAX_IV_MASK;
 			substruct3->defenseIV = (ivs >> 10) & MAX_IV_MASK;
 			substruct3->speedIV = (ivs >> 15) & MAX_IV_MASK;
