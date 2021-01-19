@@ -1,7 +1,7 @@
 EverGrandeCity_HallOfFame_EventScript_SetGameClearFlags:: @ 82717C1
 	special SetChampionSaveWarp
 	setflag FLAG_IS_CHAMPION
-	call EverGrandeCity_HallOfFame_EventScript_ResetDefeatedEventLegendaries
+	special RespawnLegendaries
 	compare VAR_FOSSIL_MANIAC_STATE, 0
 	call_if_eq EverGrandeCity_HallOfFame_EventScript_SetDesertUnderpassCommentReady
 	clearflag FLAG_HIDE_LILCOVE_MOTEL_GAME_DESIGNERS

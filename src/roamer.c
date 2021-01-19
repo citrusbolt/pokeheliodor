@@ -295,6 +295,12 @@ void UpdateRoamerHPStatus(struct Pokemon *mon)
 {
     (&gSaveBlock1Ptr->roamer)->hp = GetMonData(mon, MON_DATA_HP);
     (&gSaveBlock1Ptr->roamer)->status = GetMonData(mon, MON_DATA_STATUS);
+	
+	if ((&gSaveBlock1Ptr->roamer)->hp == 0)
+	{
+		(&gSaveBlock1Ptr->roamer)->hp = GetMonData(&gEnemyParty[0], MON_DATA_MAX_HP);
+		(&gSaveBlock1Ptr->roamer)->status = 0;
+	}
 
     RoamerMoveToOtherLocationSet();
 }

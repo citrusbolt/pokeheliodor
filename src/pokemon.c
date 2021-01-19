@@ -7432,3 +7432,30 @@ u8 GivePorygon(void)
     }
     return sentToPc;
 }
+
+void RespawnLegendaries(void)
+{
+	FlagClear(FLAG_DEFEATED_MEW);
+	FlagClear(FLAG_DEFEATED_LATIAS_OR_LATIOS);
+	FlagClear(FLAG_DEFEATED_DEOXYS);
+	FlagClear(FLAG_DEFEATED_LUGIA);
+	FlagClear(FLAG_DEFEATED_HO_OH);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_REGIROCK), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_REGIROCK);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_REGICE), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_REGICE);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_REGISTEEL), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_REGISTEEL);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_KYOGRE), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_KYOGRE);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_GROUDON), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_GROUDON);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_RAYQUAZA), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_RAYQUAZA);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUDOWOODO), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_SUDOWOODO);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ZAPDOS), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_ZAPDOS);
+	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MEWTWO), FLAG_GET_CAUGHT))
+		FlagClear(FLAG_DEFEATED_MEWTWO);
+}

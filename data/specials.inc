@@ -551,3 +551,4 @@ gSpecials:: @ 81DBA64
 	def_special DoIncubatorTurnOnEffect
 	def_special DoIncubatorTurnOffEffect
 	def_special HatchEggInIncubator
+	def_special RespawnLegendaries
