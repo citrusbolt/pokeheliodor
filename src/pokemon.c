@@ -7386,7 +7386,7 @@ u8 GivePorygon(void)
 	u16 item;
 	u16 checksum;
 	
-	personality = 0x4354A91Eu;
+	personality = 0x399298EBu;
 	ivs[0] = 9;
 	ivs[1] = 3;
 	ivs[2] = 18;
@@ -7404,20 +7404,20 @@ u8 GivePorygon(void)
 	item = ITEM_UP_GRADE;
 	version = VERSION_PLATINUM;
 
-	//CreateMon(&mon, SPECIES_PORYGON, 27, 32, TRUE, personality, OT_ID_PRESET, otId);
-	CreateMon(&mon, SPECIES_PORYGON, 27, 32, 0, 0, OT_ID_PRESET, otId);
+	CreateMon(&mon, SPECIES_PORYGON, 27, 32, TRUE, personality, OT_ID_PRESET, otId);
+	//CreateMon(&mon, SPECIES_PORYGON, 27, 32, 0, 0, OT_ID_PRESET, otId);
 	SetMonData(&mon, MON_DATA_MET_GAME, &version);
 	SetMonData(&mon, MON_DATA_OT_NAME, &otName);
 	SetMonData(&mon, MON_DATA_OT_GENDER, &otGender);
 	SetMonData(&mon, MON_DATA_LANGUAGE, &language);
 	SetMonData(&mon, MON_DATA_MET_LOCATION, &location);
     SetMonData(&mon, MON_DATA_HELD_ITEM, &item);
-	//SetMonData(&mon, MON_DATA_HP_IV, &ivs[0]);
-	//SetMonData(&mon, MON_DATA_ATK_IV, &ivs[1]);
-	//SetMonData(&mon, MON_DATA_DEF_IV, &ivs[2]);
-	//SetMonData(&mon, MON_DATA_SPEED_IV, &ivs[3]);
-	//SetMonData(&mon, MON_DATA_SPATK_IV, &ivs[4]);
-	//etMonData(&mon, MON_DATA_SPDEF_IV, &ivs[5]);
+	SetMonData(&mon, MON_DATA_HP_IV, &ivs[0]);
+	SetMonData(&mon, MON_DATA_ATK_IV, &ivs[1]);
+	SetMonData(&mon, MON_DATA_DEF_IV, &ivs[2]);
+	SetMonData(&mon, MON_DATA_SPEED_IV, &ivs[3]);
+	SetMonData(&mon, MON_DATA_SPATK_IV, &ivs[4]);
+	SetMonData(&mon, MON_DATA_SPDEF_IV, &ivs[5]);
     CalculateMonStats(&mon);
     sentToPc = SendMonToPC(&mon);
     nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_PORYGON);
