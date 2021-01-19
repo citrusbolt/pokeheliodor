@@ -238,8 +238,8 @@ LilycoveCity_CoveLilyMotel_2F_Text_GiveOldSeaMap:
 	.string "POKéMON originally from the\l"
 	.string "KANTO region in your POKéDEX!\p"
 	.string "I'd like you to have this\n"
-	.string "special ferry ticket.\p"
-	.string "Present this ticket to the staff\n"
+	.string "special map.\p"
+	.string "Present this map to the staff\n"
 	.string "of the S.S. Tidal at the\l"
 	.string "LILYCOVE CITY port.$"
 
