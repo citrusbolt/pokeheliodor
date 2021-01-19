@@ -3223,6 +3223,9 @@ static void Cmd_getexp(void)
     s32 viaExpShare = 0;
     u16 *exp = &gBattleStruct->expValue;
 
+    gBattlerFainted = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
+    sentIn = gSentPokesToOpponent[(gBattlerFainted & 2) >> 1];
+
 	for (viaSentIn = 0, i = 0; i < PARTY_SIZE; i++)
 	{
 		if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE || GetMonData(&gPlayerParty[i], MON_DATA_HP) == 0)
@@ -3240,10 +3243,6 @@ static void Cmd_getexp(void)
 		if (holdEffect == HOLD_EFFECT_EXP_SHARE)
 			viaExpShare++;
 	}
-
-
-    gBattlerFainted = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
-    sentIn = gSentPokesToOpponent[(gBattlerFainted & 2) >> 1];
 
     switch (gBattleScripting.getexpState)
     {
