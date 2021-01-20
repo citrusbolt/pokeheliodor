@@ -649,7 +649,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
 					{
 						tMenuType = HAS_SAVED_GAME;
 						if (IsMysteryGiftEnabled())
-							tMenuType++;
+							tMenuType += 2;
 						gTasks[taskId].func = Task_MainMenuCheckBattery;
 					}
 					else
@@ -659,14 +659,14 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
 						gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
 						tMenuType = HAS_SAVED_GAME;
 						if (IsMysteryGiftEnabled())
-							tMenuType++;
+							tMenuType += 2;
 					}
 				}
 				else
 				{
 					tMenuType = HAS_SAVED_GAME;
 					if (IsMysteryGiftEnabled())
-						tMenuType++;
+						tMenuType += 2;
 					gTasks[taskId].func = Task_MainMenuCheckBattery;
 				}
                 break;
@@ -680,7 +680,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                 gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
                 tMenuType = HAS_SAVED_GAME;
                 if (IsMysteryGiftEnabled() == TRUE)
-                    tMenuType++;
+                    tMenuType += 2;
                 break;
             case SAVE_STATUS_EMPTY:
             default:
