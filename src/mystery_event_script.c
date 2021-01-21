@@ -26,17 +26,17 @@ EWRAM_DATA static struct ScriptContext sMysteryEventScriptContext = {0};
 
 static bool32 CheckCompatibility(u16 a1, u32 a2, u16 a3, u32 a4)
 {
-    if (!(a1 & LANGUAGE_MASK))
-        return FALSE;
+    //if (!(a1 & LANGUAGE_MASK))
+    //    return FALSE;
 
-    if (!(a2 & LANGUAGE_MASK))
-        return FALSE;
+    //if (!(a2 & LANGUAGE_MASK))
+    //    return FALSE;
 
-    if (!(a3 & 0x4))
-        return FALSE;
+    //if (!(a3 & 0x4))
+    //    return FALSE;
 
-    if (!(a4 & VERSION_MASK))
-        return FALSE;
+    //if (!(a4 & VERSION_MASK))
+    //    return FALSE;
 
     return TRUE;
 }
@@ -246,7 +246,7 @@ bool8 MEScrCmd_setenigmaberry(struct ScriptContext *ctx)
 
     ctx->data[2] = 2;
 
-    if (IsEnigmaBerryValid() == TRUE)
+    if (WasEnigmaBerryReceivedCorrectly(berry) == TRUE)
         VarSet(VAR_ENIGMA_BERRY_AVAILABLE, 1);
     else
         ctx->data[2] = 1;

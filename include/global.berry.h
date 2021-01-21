@@ -51,6 +51,12 @@ struct EnigmaBerry
     u32 checksum;
 };
 
+struct EnigmaBerryDesc
+{
+    u8 description1[45];
+    u8 description2[45];
+};
+
 struct BattleEnigmaBerry
 {
     /*0x00*/ u8 name[BERRY_NAME_LENGTH + 1];

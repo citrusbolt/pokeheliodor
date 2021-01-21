@@ -89,7 +89,15 @@ void SetBagItemsPointers(void)
 
 void CopyItemName(u16 itemId, u8 *dst)
 {
-    StringCopy(dst, ItemId_GetName(itemId));
+    if (itemId == ITEM_ENIGMA_BERRY)
+    {
+        StringCopy(dst, GetBerryInfo(ITEM_TO_BERRY(ITEM_ENIGMA_BERRY))->name);
+        StringAppend(dst, gText_Berry);
+    }
+    else
+    {
+        StringCopy(dst, ItemId_GetName(itemId));
+    }
 }
 
 void CopyItemNameHandlePlural(u16 itemId, u8 *dst, u32 quantity)
