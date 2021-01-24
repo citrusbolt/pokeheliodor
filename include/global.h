@@ -981,8 +981,8 @@ struct SaveBlock1
     /*0x31F8*/ struct EnigmaBerry enigmaBerry;
     /*0x322C*/ struct MEventBuffers unk_322C;
 	/*0x3598*/ struct Incubator incubator;
-	/*0x35FF*/ struct EnigmaBerryDesc enigmaBerryDesc;
-    /*0x3659*/ u8 field_3598[0xBD];
+	/*0x3604*/ struct EnigmaBerryDesc enigmaBerryDesc;
+    /*0x3660*/ u8 field_3598[0xB8];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
