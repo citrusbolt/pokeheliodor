@@ -951,6 +951,7 @@ static const u8 *const sPCNameStrings[] =
     gText_LanettesPC,
     gText_PlayersPC,
 	gText_Incubator,
+	gText_CouponExchange,
     gText_LogOff,
 };
 

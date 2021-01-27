@@ -68,7 +68,6 @@
 #include "constants/metatile_labels.h"
 #include "palette.h"
 #include "item.h"
-#include "item.h"
 
 EWRAM_DATA bool8 gBikeCyclingChallenge = FALSE;
 EWRAM_DATA u8 gBikeCollisions = 0;
@@ -2439,6 +2438,16 @@ void ShowScrollableMultichoice(void)
             task->tKeepOpenAfterSelect = FALSE;
             task->tTaskId = taskId;
             break;
+        case SCROLL_MULTI_COUPON_EXCHANGE:
+            task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+            task->tNumItems = 16;
+            task->tLeft = 14;
+            task->tTop = 1;
+            task->tWidth = 15;
+            task->tHeight = 12;
+            task->tKeepOpenAfterSelect = FALSE;
+            task->tTaskId = taskId;
+            break;
         default:
             gSpecialVar_Result = MULTI_B_PRESSED;
             DestroyTask(taskId);
@@ -2639,6 +2648,25 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_HelixFossil,
         gText_DomeFossil,
         gText_OldAmber,
+        gText_Exit
+    },
+    [SCROLL_MULTI_COUPON_EXCHANGE] =
+    {
+        gText_PremierBall1000pt,
+        gText_LuxuryBall1500pt,
+        gText_RareCandy10000pt,
+        gText_LiechiBerry15000pt,
+        gText_GanlonBerry15000pt,
+        gText_SalacBerry15000pt,
+        gText_PetayaBerry15000pt,
+        gText_ApicotBerry15000pt,
+        gText_LansatBerry15000pt,
+		gText_StarfBerry15000pt,
+		gText_RegirockDoll60000pt,
+		gText_RegiceDoll60000pt,
+		gText_RegisteelDoll60000pt,
+		gText_50BP10000pt,
+		gText_750BP100000pt,
         gText_Exit
     }
 };
@@ -3123,7 +3151,7 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
 {
     #include "data/battle_frontier/battle_frontier_exchange_corner.h"
 
-    if (menu >= SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_1 && menu <= SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR)
+    if ((menu >= SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_1 && menu <= SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR) || menu == SCROLL_MULTI_COUPON_EXCHANGE)
     {
         FillWindowPixelRect(0, PIXEL_FILL(1), 0, 0, 216, 32);
         switch (menu)
@@ -3162,6 +3190,13 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
                 AddTextPrinterParameterized2(0, 1, sFrontierExchangeCorner_HoldItemsDescriptions[selection], 0, NULL, 2, 1, 3);
                 ShowFrontierExchangeCornerItemIcon(sFrontierExchangeCorner_HoldItems[selection]);
                 break;
+            case SCROLL_MULTI_COUPON_EXCHANGE:
+                AddTextPrinterParameterized2(0, 1, sCouponExchange_Descriptions[selection], 0, NULL, 2, 1, 3);
+				if (sCouponExchange[selection] == DECOR_REGIROCK_DOLL || sCouponExchange[selection] == DECOR_REGICE_DOLL || sCouponExchange[selection] == DECOR_REGISTEEL_DOLL)
+					sScrollableMultichoice_ItemSpriteId = AddDecorationIconObject(sCouponExchange[selection], 33, 88, 0, 5500, 5500);
+				else
+					ShowFrontierExchangeCornerItemIcon(sCouponExchange[selection]);
+                break;
         }
     }
 }
@@ -3190,6 +3225,7 @@ static void HideFrontierExchangeCornerItemIcon(u16 menu, u16 unused)
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_2:
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_STONE_VENDOR:
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR:
+			case SCROLL_MULTI_COUPON_EXCHANGE:
                 DestroySpriteAndFreeResources(&gSprites[sScrollableMultichoice_ItemSpriteId]);
                 break;
         }
@@ -4586,3 +4622,83 @@ static void IncubatorTurnOffEffect(void)
     DrawWholeMapView();
 }
 
+bool8 HasReceivedPokeCoupons(void)
+{
+	u32 totalEarnedCoupons = (gSaveBlock1Ptr->giftRibbons[34] << 24) | (gSaveBlock1Ptr->giftRibbons[33] << 16) | (gSaveBlock1Ptr->giftRibbons[32] << 8) | gSaveBlock1Ptr->giftRibbons[31];
+	if (totalEarnedCoupons > 0 || FlagGet(FLAG_BOUGHT_COUPONS))
+	{
+		gSpecialVar_Result = TRUE;
+		return TRUE;
+	}
+	else
+	{
+		gSpecialVar_Result = FALSE;
+		return FALSE;
+	}
+}
+
+u32 GetPokeCoupons(void)
+{
+	return (gSaveBlock1Ptr->giftRibbons[30] << 24) | (gSaveBlock1Ptr->giftRibbons[29] << 16) | (gSaveBlock1Ptr->giftRibbons[28] << 8) | gSaveBlock1Ptr->giftRibbons[27];
+}
+
+void UpdatePokeCouponsWindow(void)
+{
+    u8 string[32];
+    u32 x;
+    StringCopy(ConvertIntToDecimalStringN(string, GetPokeCoupons(), STR_CONV_MODE_RIGHT_ALIGN, 7), gText_Pt);
+    x = GetStringRightAlignXOffset(1, string, 52);
+    AddTextPrinterParameterized(sBattlePointsWindowId, 1, string, x, 1, 0, NULL);
+}
+
+void TakePokeCoupons(void)
+{
+    if (GetPokeCoupons() < gSpecialVar_0x8004)
+    {
+		gSaveBlock1Ptr->giftRibbons[30] = 0;
+		gSaveBlock1Ptr->giftRibbons[29] = 0;
+		gSaveBlock1Ptr->giftRibbons[28] = 0;
+		gSaveBlock1Ptr->giftRibbons[27] = 0;
+    }
+    else
+    {
+		u32 newCouponValue = GetPokeCoupons() - gSpecialVar_0x8004 * 100;
+		gSaveBlock1Ptr->giftRibbons[27] = newCouponValue & 0xFF;
+		gSaveBlock1Ptr->giftRibbons[28] = newCouponValue >> 8 & 0xFF;
+		gSaveBlock1Ptr->giftRibbons[29] = newCouponValue >> 16 & 0xFF;
+		gSaveBlock1Ptr->giftRibbons[30] = newCouponValue >> 24 & 0xFF;
+    }
+}
+
+void GivePokeCoupons(void)
+{
+	u32 newCouponValue;
+	FlagSet(FLAG_BOUGHT_COUPONS);
+    //if (GetPokeCoupons() * 100 + gSpecialVar_0x8004 * 100 > 9999999)
+        newCouponValue = 9999999;
+    //else
+    //    newCouponValue = GetPokeCoupons() + gSpecialVar_0x8004 * 100;
+	gSaveBlock1Ptr->giftRibbons[27] = newCouponValue & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[28] = newCouponValue >> 8 & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[29] = newCouponValue >> 16 & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[30] = newCouponValue >> 24 & 0xFF;
+    
+}
+
+void ShowPokeCouponsWindow(void)
+{
+    static const struct WindowTemplate sBattlePoints_WindowTemplate = {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 1,
+        .width = 7,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 6,
+    };
+
+    sBattlePointsWindowId = AddWindow(&sBattlePoints_WindowTemplate);
+    SetStandardWindowBorderStyle(sBattlePointsWindowId, 0);
+    UpdatePokeCouponsWindow();
+    CopyWindowToVram(sBattlePointsWindowId, 2);
+}

@@ -117,3 +117,43 @@ static const u8 *const sFrontierExchangeCorner_HoldItemsDescriptions[] =
     BattleFrontier_ExchangeServiceCorner_Text_SeaIncenseDesc,
     gText_Exit
 };
+
+static const u16 sCouponExchange[] =
+{ 
+    ITEM_PREMIER_BALL, 
+    ITEM_LUXURY_BALL, 
+    ITEM_RARE_CANDY, 
+    ITEM_LIECHI_BERRY, 
+    ITEM_GANLON_BERRY, 
+    ITEM_SALAC_BERRY, 
+    ITEM_PETAYA_BERRY, 
+    ITEM_APICOT_BERRY, 
+    ITEM_LANSAT_BERRY, 
+    ITEM_STARF_BERRY, 
+    DECOR_REGIROCK_DOLL, 
+    DECOR_REGICE_DOLL, 
+    DECOR_REGISTEEL_DOLL, 
+    ITEM_CARD_KEY, 
+    ITEM_CARD_KEY, 
+    0xFFFF 
+};
+
+static const u8 *const sCouponExchange_Descriptions[] = 
+{
+   EventScript_CouponExchange_Text_PremierBallDesc,
+   EventScript_CouponExchange_Text_LuxuryBallDesc,
+   EventScript_CouponExchange_Text_RareCandyDesc,
+   EventScript_CouponExchange_Text_LiechiBerryDesc,
+   EventScript_CouponExchange_Text_GanlonBerryDesc,
+   EventScript_CouponExchange_Text_SalacBerryDesc,
+   EventScript_CouponExchange_Text_PetayaBerryDesc,
+   EventScript_CouponExchange_Text_ApicotBerryDesc,
+   EventScript_CouponExchange_Text_LansatBerryDesc,
+   EventScript_CouponExchange_Text_StarfBerryDesc,
+   EventScript_CouponExchange_Text_RegirockDollDesc,
+   EventScript_CouponExchange_Text_RegiceDollDesc,
+   EventScript_CouponExchange_Text_RegisteelDollDesc,
+   EventScript_CouponExchange_Text_50BPDesc,
+   EventScript_CouponExchange_Text_750BPDesc,
+   gText_Exit
+};

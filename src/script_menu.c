@@ -351,12 +351,29 @@ static void CreatePCMultichoice(void)
     width = ConvertPixelWidthToTileWidth(pixelWidth);
 
     // Include Hall of Fame option if player is champion
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
+    if (FlagGet(FLAG_SYS_GAME_CLEAR) && HasReceivedPokeCoupons())
+    {
+        numChoices = 6;
+        windowId = CreateWindowFromRect(0, 0, width, 12);
+        SetStandardWindowBorderStyle(windowId, 0);
+        AddTextPrinterParameterized(windowId, 1, gText_HallOfFame, y, 49, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 1, gText_CouponExchange, y, 65, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 81, TEXT_SPEED_FF, NULL);
+    }
+	else if (FlagGet(FLAG_SYS_GAME_CLEAR))
     {
         numChoices = 5;
         windowId = CreateWindowFromRect(0, 0, width, 10);
         SetStandardWindowBorderStyle(windowId, 0);
         AddTextPrinterParameterized(windowId, 1, gText_HallOfFame, y, 49, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 65, TEXT_SPEED_FF, NULL);
+    }
+	else if (HasReceivedPokeCoupons())
+    {
+        numChoices = 5;
+        windowId = CreateWindowFromRect(0, 0, width, 10);
+        SetStandardWindowBorderStyle(windowId, 0);
+        AddTextPrinterParameterized(windowId, 1, gText_CouponExchange, y, 49, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 65, TEXT_SPEED_FF, NULL);
     }
     else

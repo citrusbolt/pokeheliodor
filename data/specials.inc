@@ -552,3 +552,9 @@ gSpecials:: @ 81DBA64
 	def_special DoIncubatorTurnOffEffect
 	def_special HatchEggInIncubator
 	def_special RespawnLegendaries
+	def_special HasReceivedPokeCoupons
+	def_special GetPokeCoupons
+	def_special UpdatePokeCouponsWindow
+	def_special TakePokeCoupons
+	def_special GivePokeCoupons
+	def_special ShowPokeCouponsWindow
