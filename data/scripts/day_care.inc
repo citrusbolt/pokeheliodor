@@ -302,6 +302,7 @@ EventScript_EggHatch:: @ 8291FC0
 	end
 
 EventScript_Incubator::
+	playse SE_PC_LOGIN
 	goto_if_unset FLAG_EGG_IN_INCUBATOR, EventScript_Incubator_PutEgg
 	msgbox Incubator_Text_WantToCheck, MSGBOX_YESNO
 	compare VAR_RESULT, YES
