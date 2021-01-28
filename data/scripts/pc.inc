@@ -338,7 +338,7 @@ EventScript_CouponExchange_Text_DontHaveSpaceToHoldIt:
 
 EventScript_CouponExchange_Text_DontHaveEnoughCoupons::
 	.string "You do not have enough\n"
-	.string "POKé COUPONS$"
+	.string "POKé COUPONS.$"
 
 EventScript_CouponExchange_Text_ConfirmPremierBall:
 	.string "You've chosen the PREMIER BALL.\n"

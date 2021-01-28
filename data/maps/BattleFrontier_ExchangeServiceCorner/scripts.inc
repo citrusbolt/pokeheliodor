@@ -552,6 +552,59 @@ BattleFrontier_ExchangeServiceCorner_EventScript_SeaIncense::
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
+BattleFrontier_ExchangeServiceCorner_EventScript_CouponClerk::
+	lock
+	faceplayer
+	goto_if_unset FLAG_BOUGHT_COUPONS, BattleFrontier_ExchangeServiceCorner_EventScript_CouponClerkFirstVisit
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_CouponClerk, MSGBOX_DEFAULT
+	special ShowBattlePointsWindow
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_BuyCoupons, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
+	specialvar VAR_TEMP_1, GetFrontierBattlePoints
+	compare VAR_TEMP_1, 50
+	goto_if_ge BattleFrontier_ExchangeServiceCorner_EventScript_TryGiveCoupons
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_DontHaveEnoughPoints, MSGBOX_DEFAULT
+	special CloseBattlePointsWindow
+	release
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_CouponClerkFirstVisit::
+	setflag FLAG_BOUGHT_COUPONS
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_MtBattlePartnership, MSGBOX_DEFAULT
+	special ShowBattlePointsWindow
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_BuyCoupons, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
+	specialvar VAR_TEMP_1, GetFrontierBattlePoints
+	compare VAR_TEMP_1, 50
+	goto_if_ge BattleFrontier_ExchangeServiceCorner_EventScript_TryGiveCoupons
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_DontHaveEnoughPoints, MSGBOX_DEFAULT
+	special CloseBattlePointsWindow
+	release
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_TryGiveCoupons::
+	special GetPokeCoupons
+	compare VAR_RESULT, TRUE
+	goto_if_eq BattleFrontier_ExchangeServiceCorner_EventScript_NoRoomForCoupons
+	setvar VAR_0x8004, 50
+	special TakeFrontierBattlePoints
+	setvar VAR_0x8004, 100
+	special GivePokeCoupons
+	special UpdateBattlePointsWindow
+	playse SE_SHOP
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ObtainedCoupons, MSGBOX_GETPOINTS
+	special CloseBattlePointsWindow
+	release
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_NoRoomForCoupons::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_CouponsAreMax, MSGBOX_DEFAULT
+	special CloseBattlePointsWindow
+	release
+	end
+
 BattleFrontier_ExchangeServiceCorner_EventScript_Man:: @ 825F7CB
 	msgbox BattleFrontier_ExchangeServiceCorner_Text_GoGetYourOwnDoll, MSGBOX_NPC
 	end
@@ -944,3 +997,28 @@ BattleFrontier_ExchangeServiceCorner_Text_SeaIncenseDesc::
 	.string "A hold item that slightly boosts\n"
 	.string "WATER-type moves.$"
 
+BattleFrontier_ExchangeServiceCorner_Text_MtBattlePartnership::
+	.string "Hello, this is the EXCHANGE SERVICE\n"
+	.string "CORNER.\p"
+	.string "We have recently made arrangements\n"
+	.string "with the MT. BATTLE facility in the\l"
+	.string "ORRE region to exchange Battle Points\l"
+	.string "for POKé COUPONS.\p"
+	.string "You are also now able to access\l"
+	.string "their COUPON EXCHANGE via the PC.$"
+
+BattleFrontier_ExchangeServiceCorner_Text_CouponClerk::
+	.string "Hello, this is the EXCHANGE SERVICE\n"
+	.string "CORNER.$"
+
+BattleFrontier_ExchangeServiceCorner_Text_BuyCoupons::
+	.string "Would you like to purchase\n"
+	.string "10000 POKé COUPONS for 50 BP?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ObtainedCoupons::
+	.string "{PLAYER} obtained\n"
+	.string "10000 POKé COUPONS.$"
+
+BattleFrontier_ExchangeServiceCorner_Text_CouponsAreMax::
+	.string "Your POKé COUPONS are already\n"
+	.string "at the maximum!$"

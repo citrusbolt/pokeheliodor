@@ -4639,7 +4639,12 @@ bool8 HasReceivedPokeCoupons(void)
 
 u32 GetPokeCoupons(void)
 {
-	return (gSaveBlock1Ptr->giftRibbons[30] << 24) | (gSaveBlock1Ptr->giftRibbons[29] << 16) | (gSaveBlock1Ptr->giftRibbons[28] << 8) | gSaveBlock1Ptr->giftRibbons[27];
+	u32 currentCoupons = (gSaveBlock1Ptr->giftRibbons[30] << 24) | (gSaveBlock1Ptr->giftRibbons[29] << 16) | (gSaveBlock1Ptr->giftRibbons[28] << 8) | gSaveBlock1Ptr->giftRibbons[27];
+	if (currentCoupons == 9999999)
+		gSpecialVar_Result = TRUE;
+	else
+		gSpecialVar_Result = FALSE;
+	return currentCoupons;
 }
 
 void UpdatePokeCouponsWindow(void)
@@ -4673,11 +4678,10 @@ void TakePokeCoupons(void)
 void GivePokeCoupons(void)
 {
 	u32 newCouponValue;
-	FlagSet(FLAG_BOUGHT_COUPONS);
-    //if (GetPokeCoupons() * 100 + gSpecialVar_0x8004 * 100 > 9999999)
+    if (GetPokeCoupons() + gSpecialVar_0x8004 * 100 > 9999999)
         newCouponValue = 9999999;
-    //else
-    //    newCouponValue = GetPokeCoupons() + gSpecialVar_0x8004 * 100;
+    else
+        newCouponValue = GetPokeCoupons() + gSpecialVar_0x8004 * 100;
 	gSaveBlock1Ptr->giftRibbons[27] = newCouponValue & 0xFF;
 	gSaveBlock1Ptr->giftRibbons[28] = newCouponValue >> 8 & 0xFF;
 	gSaveBlock1Ptr->giftRibbons[29] = newCouponValue >> 16 & 0xFF;
