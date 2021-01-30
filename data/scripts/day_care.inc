@@ -322,6 +322,8 @@ EventScript_Incubator_PutEgg::
 	goto_if_eq EventScript_Incubator_Exit
 	msgbox Incubator_Text_EggInserted, MSGBOX_DEFAULT
 	special PutSelectedEggInIncubator
+	special CheckIncubator
+	msgbox Incubator_Text_Time, MSGBOX_DEFAULT
 	goto EventScript_PCMainMenu
 	end
 
@@ -596,6 +598,10 @@ Incubator_Text_Tier2:
 Incubator_Text_Tier1:
 	.string "It's making sounds!\n"
 	.string "It's about to hatch!\p"
+	.string "Estimated time to hatching:\n"
+	.string "{STR_VAR_1} {STR_VAR_2}$"
+	
+Incubator_Text_Time:
 	.string "Estimated time to hatching:\n"
 	.string "{STR_VAR_1} {STR_VAR_2}$"
 	
