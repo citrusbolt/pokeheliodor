@@ -4624,7 +4624,8 @@ static void IncubatorTurnOffEffect(void)
 
 bool8 HasReceivedPokeCoupons(void)
 {
-	u32 totalEarnedCoupons = (gSaveBlock1Ptr->giftRibbons[34] << 24) | (gSaveBlock1Ptr->giftRibbons[33] << 16) | (gSaveBlock1Ptr->giftRibbons[32] << 8) | gSaveBlock1Ptr->giftRibbons[31];
+	u32 totalEarnedCoupons = (gSaveBlock1Ptr->giftRibbons[26] << 24) | (gSaveBlock1Ptr->giftRibbons[25] << 16) | (gSaveBlock1Ptr->giftRibbons[24] << 8) | gSaveBlock1Ptr->giftRibbons[23];
+
 	if (totalEarnedCoupons > 0 || FlagGet(FLAG_BOUGHT_COUPONS))
 	{
 		gSpecialVar_Result = TRUE;
@@ -4639,54 +4640,55 @@ bool8 HasReceivedPokeCoupons(void)
 
 u32 GetPokeCoupons(void)
 {
-	u32 currentCoupons = (gSaveBlock1Ptr->giftRibbons[30] << 24) | (gSaveBlock1Ptr->giftRibbons[29] << 16) | (gSaveBlock1Ptr->giftRibbons[28] << 8) | gSaveBlock1Ptr->giftRibbons[27];
-	if (currentCoupons == 9999999)
+	u32 currentCoupons = (gSaveBlock1Ptr->giftRibbons[22] << 24) | (gSaveBlock1Ptr->giftRibbons[21] << 16) | (gSaveBlock1Ptr->giftRibbons[20] << 8) | gSaveBlock1Ptr->giftRibbons[19];
+	
+	if (currentCoupons >= 9999999)
 		gSpecialVar_Result = TRUE;
 	else
 		gSpecialVar_Result = FALSE;
-	return currentCoupons;
+	return currentCoupons / 100;
+}
+
+u32 GetPokeCouponsFull(void)
+{
+	return (gSaveBlock1Ptr->giftRibbons[22] << 24) | (gSaveBlock1Ptr->giftRibbons[21] << 16) | (gSaveBlock1Ptr->giftRibbons[20] << 8) | gSaveBlock1Ptr->giftRibbons[19];
 }
 
 void UpdatePokeCouponsWindow(void)
 {
     u8 string[32];
     u32 x;
-    StringCopy(ConvertIntToDecimalStringN(string, GetPokeCoupons(), STR_CONV_MODE_RIGHT_ALIGN, 7), gText_Pt);
+    StringCopy(ConvertIntToDecimalStringN(string, GetPokeCouponsFull(), STR_CONV_MODE_RIGHT_ALIGN, 7), gText_Pt);
     x = GetStringRightAlignXOffset(1, string, 52);
     AddTextPrinterParameterized(sBattlePointsWindowId, 1, string, x, 1, 0, NULL);
 }
 
 void TakePokeCoupons(void)
 {
-    if (GetPokeCoupons() < gSpecialVar_0x8004)
-    {
-		gSaveBlock1Ptr->giftRibbons[30] = 0;
-		gSaveBlock1Ptr->giftRibbons[29] = 0;
-		gSaveBlock1Ptr->giftRibbons[28] = 0;
-		gSaveBlock1Ptr->giftRibbons[27] = 0;
-    }
+	u32 newCouponValue;
+	
+    if (GetPokeCouponsFull() < gSpecialVar_0x8004 * 100)
+		newCouponValue = 0;
     else
-    {
-		u32 newCouponValue = GetPokeCoupons() - gSpecialVar_0x8004 * 100;
-		gSaveBlock1Ptr->giftRibbons[27] = newCouponValue & 0xFF;
-		gSaveBlock1Ptr->giftRibbons[28] = newCouponValue >> 8 & 0xFF;
-		gSaveBlock1Ptr->giftRibbons[29] = newCouponValue >> 16 & 0xFF;
-		gSaveBlock1Ptr->giftRibbons[30] = newCouponValue >> 24 & 0xFF;
-    }
+		newCouponValue = GetPokeCouponsFull() - gSpecialVar_0x8004 * 100;
+	gSaveBlock1Ptr->giftRibbons[19] = newCouponValue & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[20] = newCouponValue >> 8 & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[21] = newCouponValue >> 16 & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[22] = newCouponValue >> 24 & 0xFF;
 }
 
 void GivePokeCoupons(void)
 {
 	u32 newCouponValue;
-    if (GetPokeCoupons() + gSpecialVar_0x8004 * 100 > 9999999)
+	
+    if (GetPokeCouponsFull() + gSpecialVar_0x8004 * 100 > 9999999)
         newCouponValue = 9999999;
     else
-        newCouponValue = GetPokeCoupons() + gSpecialVar_0x8004 * 100;
-	gSaveBlock1Ptr->giftRibbons[27] = newCouponValue & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[28] = newCouponValue >> 8 & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[29] = newCouponValue >> 16 & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[30] = newCouponValue >> 24 & 0xFF;
-    
+        newCouponValue = GetPokeCouponsFull() + gSpecialVar_0x8004 * 100;
+	gSaveBlock1Ptr->giftRibbons[19] = newCouponValue & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[20] = newCouponValue >> 8 & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[21] = newCouponValue >> 16 & 0xFF;
+	gSaveBlock1Ptr->giftRibbons[22] = newCouponValue >> 24 & 0xFF;
 }
 
 void ShowPokeCouponsWindow(void)
