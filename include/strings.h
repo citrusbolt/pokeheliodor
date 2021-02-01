@@ -3151,5 +3151,12 @@ extern const u8 EventScript_CouponExchange_Text_RegisteelDollDesc[];
 extern const u8 EventScript_CouponExchange_Text_50BPDesc[];
 extern const u8 EventScript_CouponExchange_Text_750BPDesc[];
 extern const u8 gText_Pt[];
+extern const u8 gText_Sunday[];
+extern const u8 gText_Monday[];
+extern const u8 gText_Tuesday[];
+extern const u8 gText_Wednesday[];
+extern const u8 gText_Thursday[];
+extern const u8 gText_Friday[];
+extern const u8 gText_Saturday[];
 
 #endif // GUARD_STRINGS_H
