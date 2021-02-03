@@ -51,6 +51,7 @@
 #include "mgba.h"
 #include "save.h"
 #include "constants/species.h"
+#include "wild_encounter.h"
 
 struct SpeciesItem
 {
@@ -2216,10 +2217,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u32 hId;
 	u32 lId;
 	u32 shinyValue;
-	u8 rolls = 1;
+	u16 rolls = 1;
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (species == gLastEncounteredSpecies)
+		rolls += gChainStreak;
 	
 	metLocation = GetCurrentRegionMapSectionId();
 	
@@ -2572,10 +2575,13 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
     u32 personality;
 	u32 shinyValue;
 	u16 i = 0;
-	u8 rolls = 1;
+	u16 rolls = 1;
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (species == gLastEncounteredSpecies)
+		rolls += gChainStreak;
+	
 	do
 	{
 		do
@@ -2597,10 +2603,12 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
     u32 personality;
 	u32 shinyValue;
 	u16 i = 0;
-	u8 rolls = 1;
+	u16 rolls = 1;
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (species == gLastEncounteredSpecies)
+		rolls += gChainStreak;
 
     if ((u8)(unownLetter - 1) < 28)
     {

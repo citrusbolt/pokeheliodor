@@ -43,6 +43,8 @@ static u8 GetUnownLetterByPersonalityLoByte(u32 personality);
 // EWRAM vars
 EWRAM_DATA static u8 sWildEncountersDisabled = 0;
 EWRAM_DATA static u32 sFeebasRngValue = 0;
+EWRAM_DATA u8 gChainStreak = 0;
+EWRAM_DATA u16 gLastEncounteredSpecies = 0;
 
 #include "data/wild_encounters.h"
 
@@ -362,6 +364,17 @@ static void CreateWildMon(u16 species, u8 level)
 
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
+
+	if (species == gLastEncounteredSpecies)
+	{
+		if (gChainStreak < 255)
+			gChainStreak++;
+	}
+	else
+	{
+		gChainStreak = 0;
+		gLastEncounteredSpecies = species;
+	}
 
     switch (gBaseStats[species].genderRatio)
     {

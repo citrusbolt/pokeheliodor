@@ -35,6 +35,9 @@ struct WildPokemonHeader
 
 extern const struct WildPokemonHeader gWildMonHeaders[];
 
+extern u8 gChainStreak;
+extern u16 gLastEncounteredSpecies;
+
 void DisableWildEncounters(bool8 disabled);
 bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavior);
 void ScrSpecial_RockSmashWildEncounter(void);
