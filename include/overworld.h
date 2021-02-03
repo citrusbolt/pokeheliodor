@@ -26,9 +26,6 @@
 
 #define SKIP_OBJECT_EVENT_LOAD  1
 
-#define DAY_START 6
-#define NIGHT_START 20
-
 struct InitialPlayerAvatarState
 {
     u8 transitionFlags;

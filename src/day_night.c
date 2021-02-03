@@ -1,4 +1,4 @@
-// The day/night system is a slightly-modified port from Diegoisawesome's CrystalDust project.
+// The day/night system is a slightly-modified port from Sierraffinity's CrystalDust project.
 // The debug features are stripped out, along with some field effects that preserve original palette for emote bubbles.
 // Trihard is also not currently taking advantage of the palette override system, which lets you
 // do things like lit windows at night--the functionality is all there, though, and it's slightly modified from CrystalDust, in that
