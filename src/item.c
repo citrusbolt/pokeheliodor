@@ -92,7 +92,7 @@ void CopyItemName(u16 itemId, u8 *dst)
     if (itemId == ITEM_ENIGMA_BERRY)
     {
         StringCopy(dst, GetBerryInfo(ITEM_TO_BERRY(ITEM_ENIGMA_BERRY))->name);
-        StringAppend(dst, gText_Berry);
+        StringAppend(dst, gText_Berry2);
     }
     else
     {
