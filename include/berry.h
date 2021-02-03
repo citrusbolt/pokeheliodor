@@ -26,6 +26,8 @@ void ObjectEventInteractionPickBerryTree(void);
 void ObjectEventInteractionRemoveBerryTree(void);
 bool8 PlayerHasBerries(void);
 void ResetBerryTreeSparkleFlags(void);
+void SetMochiBerry(void);
+bool8 GetEnigmaName(void);
 
 extern const struct Berry gBerries[];
 

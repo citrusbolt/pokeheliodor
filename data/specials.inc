@@ -558,3 +558,5 @@ gSpecials:: @ 81DBA64
 	def_special TakePokeCoupons
 	def_special GivePokeCoupons
 	def_special ShowPokeCouponsWindow
+	def_special SetMochiBerry
+	def_special GetEnigmaName

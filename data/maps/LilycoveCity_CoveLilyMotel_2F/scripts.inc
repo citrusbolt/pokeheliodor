@@ -62,6 +62,30 @@ LilycoveCity_CoveLilyMotel_2F_EventScript_Woman:: @ 821873B
 	end
 
 LilycoveCity_CoveLilyMotel_2F_EventScript_GameBoyKid:: @ 8218744
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_EReader, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_GameBoyKidNo
+	checkitem ITEM_ENIGMA_BERRY, 1
+	compare VAR_RESULT, TRUE
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_HaveEnigmaBerry
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_EnigmaDad, MSGBOX_NPC
+	special SetMochiBerry
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_HaveEnigmaBerry::
+	specialvar VAR_RESULT, GetEnigmaName
+	compare VAR_RESULT, TRUE
+	goto_if_eq LilycoveCity_CoveLilyMotel_2F_EventScript_HaveMochiBerry
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_EnigmaTransform, MSGBOX_NPC
+	special SetMochiBerry
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_HaveMochiBerry::
+	msgbox LilycoveCity_CoveLilyMotel_2F_Text_EnigmaHave, MSGBOX_NPC
+	special SetMochiBerry
+	end
+
+LilycoveCity_CoveLilyMotel_2F_EventScript_GameBoyKidNo::
 	msgbox LilycoveCity_CoveLilyMotel_2F_Text_NeverLeaveWithoutGameBoy, MSGBOX_NPC
 	end
 
@@ -264,3 +288,35 @@ LilycoveCity_CoveLilyMotel_2F_Text_WaitForCelebi:
 	.string "found all the POKéMON first\l"
 	.string "discovered in the JOHTO region.\p"
 	.string "Could that be you?$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_EReader:
+	.string "The e-Reader is awesome!\p"
+	.string "If you don't have one, I can\n"
+	.string "scan this MOCHI BERRY card for you.$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_ScanCard:
+	.string "There we go!\n"
+	.string "It's scanned in.\p"
+	.string "I wonder what it did.$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_EnigmaDad:
+	.string "There we go!\n"
+	.string "It's scanned in.\l"
+	.string "The screen says,\p"
+	.string "“Obtained a MOCHI BERRY!\n"
+	.string "Dad has it at PETALBURG GYM.”\p"
+	.string "That's weird...$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_EnigmaTransform:
+	.string "There we go!\n"
+	.string "It's scanned in.\l"
+	.string "The screen says,\p"
+	.string "“The {STR_VAR_1} BERRY transformed into\n"
+	.string "one MOCHI BERRY.”$"
+
+LilycoveCity_CoveLilyMotel_2F_Text_EnigmaHave:
+	.string "There we go!\n"
+	.string "It's scanned in.\l"
+	.string "The screen says,\p"
+	.string "“The MOCHI BERRY has already been\n"
+	.string "obtained.”$"

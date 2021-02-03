@@ -14,6 +14,7 @@
 #include "constants/berry.h"
 #include "constants/event_object_movement.h"
 #include "constants/items.h"
+#include "string_util.h"
 
 static u32 GetEnigmaBerryChecksum(struct EnigmaBerry *enigmaBerry);
 static bool32 BerryTreeGrow(struct BerryTree *tree);
@@ -938,6 +939,41 @@ const struct UnkStruct_0858AB24 gUnknown_0858AB24[] = {
 
 const struct BerryTree gBlankBerryTree = {};
 
+const struct EnigmaBerryDesc mochiBerryDesc = {
+	.description1 = _("This BERRY is soft and squishy."),
+	.description2 = _("Its high yield will grow in 2 days.")
+};
+
+const struct EnigmaBerry mochiBerry = {
+	.berry = {
+		.name = _("MOCHI"),
+		.firmness = BERRY_FIRMNESS_SOFT,
+		.size = 30,
+		.maxYield = 12,
+		.minYield = 1,
+		.description1 = (u8*)&mochiBerryDesc.description1,
+		.description2 = (u8*)&mochiBerryDesc.description2,
+		.stageDuration = 12,
+		.spicy = 10,
+		.dry = 10,
+		.sweet = 10,
+		.bitter = 10,
+		.sour = 10,
+		.smoothness = 5,
+	},
+	.itemEffect = {
+		[3] = 0x40,
+		[4] = 0x44,
+		[5] = 0xE0,
+		[6] = (u8) -3,
+		[7] = 5,
+		[8] = 3,
+		[9] = 2,
+	},
+	.holdEffect = 21,
+	.holdEffectParam = 0
+};
+
 // unused
 void ClearEnigmaBerries(void)
 {
@@ -1024,7 +1060,9 @@ bool32 WasEnigmaBerryReceivedCorrectly(u8 *src)
 const struct Berry *GetBerryInfo(u8 berry)
 {
     if (berry == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY))
+	{
         return (struct Berry*)(&gSaveBlock1Ptr->enigmaBerry.berry);
+	}
     else
     {
         if (berry == BERRY_NONE || berry > ITEM_TO_BERRY(LAST_BERRY_INDEX))
@@ -1389,4 +1427,21 @@ void ResetBerryTreeSparkleFlags(void)
                 ResetBerryTreeSparkleFlag(gObjectEvents[i].trainerRange_berryTreeId);
         }
     }
+}
+
+void SetMochiBerry(void)
+{
+	gSaveBlock1Ptr->enigmaBerryDesc = mochiBerryDesc;
+	gSaveBlock1Ptr->enigmaBerry = mochiBerry;
+	gSaveBlock1Ptr->enigmaBerry.checksum = GetEnigmaBerryChecksum(&gSaveBlock1Ptr->enigmaBerry);
+	VarSet(VAR_ENIGMA_BERRY_AVAILABLE, 1);
+}
+
+bool8 GetEnigmaName(void)
+{
+	StringCopy(gStringVar1, gSaveBlock1Ptr->enigmaBerry.berry.name);
+	if (StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, mochiBerry.berry.name))
+		return FALSE;
+	else
+		return TRUE;
 }
