@@ -982,7 +982,9 @@ struct SaveBlock1
     /*0x322C*/ struct MEventBuffers unk_322C;
 	/*0x3598*/ struct Incubator incubator;
 	/*0x3604*/ struct EnigmaBerryDesc enigmaBerryDesc;
-    /*0x3660*/ u8 field_3598[0xB8];
+    /*0x3660*/ u16 registeredItemL;
+    /*0x3662*/ u16 registeredItemR;
+    /*0x3664*/ u8 field_3598[0xB4];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
@@ -993,8 +995,6 @@ struct SaveBlock1
     /*0x3D5A*/ u8 filler3D5A[0xA];
     /*0x3D64*/ struct SaveTrainerHill trainerHill;
     /*0x3D70*/ struct WaldaPhrase waldaPhrase;
-    /*0x3D88*/ u16 registeredItemL;
-    /*0x3D8A*/ u16 registeredItemR;
     // sizeof: 0x3D8C
 };
 
