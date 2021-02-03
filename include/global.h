@@ -922,7 +922,7 @@ struct SaveBlock1
     /*0x238*/ struct Pokemon playerParty[PARTY_SIZE];
     /*0x490*/ u32 money;
     /*0x494*/ u16 coins;
-    /*0x496*/ u16 registeredItem; // registered for use with SELECT button
+    /*0x496*/ u16 registeredItemSelect;
     /*0x498*/ struct ItemSlot pcItems[PC_ITEMS_COUNT];
     /*0x560*/ struct ItemSlot bagPocket_Items[BAG_ITEMS_COUNT];
     /*0x5D8*/ struct ItemSlot bagPocket_KeyItems[BAG_KEYITEMS_COUNT];
@@ -983,7 +983,9 @@ struct SaveBlock1
     /*0x322C*/ struct MEventBuffers unk_322C;
 	/*0x3598*/ struct Incubator incubator;
 	/*0x3604*/ struct EnigmaBerryDesc enigmaBerryDesc;
-    /*0x3660*/ u8 field_3598[0xB8];
+    /*0x3660*/ u16 registeredItemL;
+    /*0x3662*/ u16 registeredItemR;
+    /*0x3664*/ u8 field_3598[0xB4];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
@@ -994,7 +996,7 @@ struct SaveBlock1
     /*0x3D5A*/ u8 filler3D5A[0xA];
     /*0x3D64*/ struct SaveTrainerHill trainerHill;
     /*0x3D70*/ struct WaldaPhrase waldaPhrase;
-    // sizeof: 0x3D88
+    // sizeof: 0x3D8C
 };
 
 extern struct SaveBlock1* gSaveBlock1Ptr;
