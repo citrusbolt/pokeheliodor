@@ -6,7 +6,7 @@ The highest design priorities are 100% compatibility in terms of:
 * Multiplayer
   * No changes made should interfere with any link capability with Pokémon Ruby, Pokémon Sapphire, Pokémon FireRed, Pokémon LeafGreen, Pokémon Emerald, Pokémon Box Ruby & Sapphire, Pokémon Colosseum, or Pokémon XD: Gale of Darkness.
 * Inter-generational Transfer
-  * Every Pokémon obtained should completely be legal (indistinguishable from a Pokémon obtained in an offical game, using [***PKHeX***](https://github.com/kwsch/PKHeX)'s legality checker as the reference as opposed to Game Freak's) once transfered to a Generation 4 game, with one outlier.
+  * Every Pokémon obtained should completely be legal (indistinguishable from a Pokémon obtained in an official game, using [***PKHeX***](https://github.com/kwsch/PKHeX)'s legality checker as the reference as opposed to Game Freak's) once transfered to a Generation 4 game, with one outlier.
   * The exception to this will technically be illegal until it enters a Generation 7 game, but there should be no issues transfering it through Poké Transporter to Pokémon Bank.
 * Save Files
   * There should be no (significant) issues importing your save file from Pokémon Emerald and Pokémon Heliodor and vice versa.
