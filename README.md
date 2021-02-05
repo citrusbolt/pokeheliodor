@@ -6,10 +6,10 @@ The highest design priorities are 100% compatibility in terms of:
 * Multiplayer
   * No changes made should interfere with any link capability with Pokémon Ruby, Pokémon Sapphire, Pokémon FireRed, Pokémon LeafGreen, Pokémon Emerald, Pokémon Box Ruby & Sapphire, Pokémon Colosseum, or Pokémon XD: Gale of Darkness.
 * Inter-generational Transfer
-  * Every Pokémon obtained should completely be legal (indistinguishable from a Pokémon obtained in an offical game, using PKHeX's legality checker as the reference as opposed to Game Freak's) once transfered to a Generation 4 game, with one outlier.
-  * The exception to this will technically be illegal until it enters a Generation 7 game, but there should be no issues transfering it through Poké Transporter to Pokémon Bank.
+  * Every Pokémon obtained should completely be legal (indistinguishable from a Pokémon obtained in an official game, using [***PKHeX***](https://github.com/kwsch/PKHeX)'s legality checker as the reference as opposed to Game Freak's) once transfered to a Generation 4 game, with one outlier.
+  * The exception to this will technically be illegal until it enters a Generation 7 game, but there should be no issues transferring it through Poké Transporter to Pokémon Bank.
 * Save Files
-  * There should be no issues importing your save file from Pokémon Emerald and Pokémon Heliodor and vice versa.
+  * There should be no (significant) issues importing your save file from Pokémon Emerald and Pokémon Heliodor and vice versa.
   * This allows Pokémon Heliodor to, in effect, be treated similar to an expansion pack in which if a player has already completed Pokémon Emerald, this can be used to "unlock" extra content/features for that playthrough.
 
 ### Changes
@@ -34,7 +34,7 @@ The highest design priorities are 100% compatibility in terms of:
     * The Eon Ticket can also be obtained during normal gameplay after defeating the Elite Four for the first time.
   * e-Card trainers will be saved, but can not actually be found to battle.
 * Altering Cave's wild encounters cycle through the unreleased Mystery Gift tables every day.
-* The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colossuem, Pokémon XD: Gale of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
+* The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colosseum, Pokémon XD: Gale of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
 * Breeding mechanics have been changed.
   * Both parents can now pass down Nature and moves.
   * The "Masuda Method" is implemented.
@@ -64,9 +64,9 @@ The highest design priorities are 100% compatibility in terms of:
 
 ## Known Issues
 
-* If the game is saved on a map that has contains a new NPC and transfered to Pokémon Emerald, the game will freeze if the now-invisible NPC is spoken to.
+* If the game is saved on a map that has contains a new NPC and transferred to Pokémon Emerald, the game will freeze if the now-invisible NPC is spoken to.
   * This should not be a big deal, since leaving the map removes the issue, so it seems unlikely major progress can be lost this way.
-* If an e-Card berry is obtained, the description text will be offset by a variable ammunt when viewed in Pokémon Emerald.  The berry's actual functionality should be unaffected, however.
+* If an e-Card berry is obtained, the description text will be offset by a variable amount when viewed in Pokémon Emerald.  The berry's actual functionality should be unaffected, however.
 
 If you encounter any other issues, especially relating to the three compatibility principles above, please let me know.
 
