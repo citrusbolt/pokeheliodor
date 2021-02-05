@@ -113,6 +113,7 @@ PetalburgCity_Gym_EventScript_Norman:: @ 82049F1
 	lock
 	faceplayer
 	switch VAR_PETALBURG_GYM_STATE
+	goto PetalburgCity_Gym_EventScript_NormanPostBattle
 	case 2, PetalburgCity_Gym_EventScript_NormanNoBadges
 	case 3, PetalburgCity_Gym_EventScript_NormanOneBadge
 	case 4, PetalburgCity_Gym_EventScript_NormanTwoBadges

@@ -983,12 +983,12 @@ void ClearEnigmaBerries(void)
 void SetEnigmaBerry(u8 *src)
 {
     u32 i;
-	u32 j;
-	u32 k;
+	u32 j = 0;
+	u32 k = 0;
     u8 *dest = (u8*)&gSaveBlock1Ptr->enigmaBerry;
     u8 *destDesc = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc;
 
-    for (i = 0; i < 0x52C; i++)
+    for (i = 0; i < 0x530; i++)
 	{
 		if ((i >= 0x000 && i < 0x01B) || (i >= 0x516))
 		{
@@ -1002,8 +1002,8 @@ void SetEnigmaBerry(u8 *src)
 		}
 	}
 	
-    gSaveBlock1Ptr->enigmaBerry.berry.description1 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc;
-    gSaveBlock1Ptr->enigmaBerry.berry.description2 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc + 45;
+    gSaveBlock1Ptr->enigmaBerry.berry.description1 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc.description1;
+    gSaveBlock1Ptr->enigmaBerry.berry.description2 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc.description2;
 }
 
 static u32 GetEnigmaBerryChecksum(struct EnigmaBerry *enigmaBerry)
@@ -1014,16 +1014,18 @@ static u32 GetEnigmaBerryChecksum(struct EnigmaBerry *enigmaBerry)
     u32 checksum;
     u8 *dest;
 
-    gSaveBlock1Ptr->enigmaBerry.berry.description1 = NULL;
-    gSaveBlock1Ptr->enigmaBerry.berry.description2 = NULL;
+	//description1 = gSaveBlock1Ptr->enigmaBerry.berry.description1;
+	//description2 = gSaveBlock1Ptr->enigmaBerry.berry.description2;
+    //gSaveBlock1Ptr->enigmaBerry.berry.description1 = NULL;
+    //gSaveBlock1Ptr->enigmaBerry.berry.description2 = NULL;
 
     dest = (u8*)enigmaBerry;
     checksum = 0;
     for (i = 0; i < sizeof(gSaveBlock1Ptr->enigmaBerry) - sizeof(gSaveBlock1Ptr->enigmaBerry.checksum); i++)
         checksum += dest[i];
 
-    gSaveBlock1Ptr->enigmaBerry.berry.description1 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc;
-    gSaveBlock1Ptr->enigmaBerry.berry.description2 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc + 45;
+    //gSaveBlock1Ptr->enigmaBerry.berry.description1 = description1;
+    //gSaveBlock1Ptr->enigmaBerry.berry.description2 = description2;
 
     return checksum;
 }
@@ -1059,7 +1061,7 @@ bool32 WasEnigmaBerryReceivedCorrectly(u8 *src)
 
 const struct Berry *GetBerryInfo(u8 berry)
 {
-    if (berry == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY))
+    if (berry == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) && IsEnigmaBerryValid())
 	{
         return (struct Berry*)(&gSaveBlock1Ptr->enigmaBerry.berry);
 	}
