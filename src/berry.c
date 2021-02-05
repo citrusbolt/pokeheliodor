@@ -1433,8 +1433,11 @@ void ResetBerryTreeSparkleFlags(void)
 
 void SetMochiBerry(void)
 {
-	gSaveBlock1Ptr->enigmaBerryDesc = mochiBerryDesc;
+	StringCopy(gSaveBlock1Ptr->enigmaBerryDesc.description1, mochiBerryDesc.description1);
+	StringCopy(gSaveBlock1Ptr->enigmaBerryDesc.description2, mochiBerryDesc.description2);
 	gSaveBlock1Ptr->enigmaBerry = mochiBerry;
+	gSaveBlock1Ptr->enigmaBerry.berry.description1 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc.description1;
+    gSaveBlock1Ptr->enigmaBerry.berry.description2 = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc.description2;
 	gSaveBlock1Ptr->enigmaBerry.checksum = GetEnigmaBerryChecksum(&gSaveBlock1Ptr->enigmaBerry);
 	VarSet(VAR_ENIGMA_BERRY_AVAILABLE, 1);
 }
