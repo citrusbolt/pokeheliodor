@@ -62,10 +62,11 @@ The highest design priorities are 100% compatibility in terms of:
 * Two more Key Items can be registered to 'L' and 'R' to be used in the field.
 * Numerous small features and graphics have been changed/added and bugs have been fixed.
 
-## Issues
+## Known Issues
 
 * If the game is saved on a map that has contains a new NPC and transfered to Pokémon Emerald, the game will freeze if the now-invisible NPC is spoken to.
   * This should not be a big deal, since leaving the map removes the issue, so it seems unlikely major progress can be lost this way.
+* If an e-Card berry is obtained, the description text will be offset by a variable ammunt when viewed in Pokémon Emerald.  The berry's actual functionality should be unaffected, however.
 
 If you encounter any other issues, especially relating to the three compatibility principles above, please let me know.
 
