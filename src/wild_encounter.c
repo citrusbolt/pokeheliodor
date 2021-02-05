@@ -23,6 +23,7 @@
 #include "constants/maps.h"
 #include "constants/weather.h"
 #include "pokedex.h"
+#include "mgba.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -36,6 +37,7 @@ static void ApplyFluteEncounterRateMod(u32 *encRate);
 static void ApplyCleanseTagEncounterRateMod(u32 *encRate);
 static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildMon, u8 type, u8 ability, u8 *monIndex);
 static bool8 IsAbilityAllowingEncounter(u8 level);
+static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex);
 
 static u32 GenerateUnownPersonalityByLetter(u8 letter);
 static u8 GetUnownLetterByPersonalityLoByte(u32 personality);
@@ -376,6 +378,8 @@ static void CreateWildMon(u16 species, u8 level)
 		gLastEncounteredSpecies = species;
 	}
 
+	mgba_printf(MGBA_LOG_DEBUG, "%d", gChainStreak);
+
     switch (gBaseStats[species].genderRatio)
     {
     case MON_MALE:
@@ -469,6 +473,8 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     switch (area)
     {
     case WILD_AREA_LAND:
+		if (TryToScopeSpecies(wildMonInfo->wildPokemon, &wildMonIndex))
+			break;
         if (TryGetAbilityInfluencedWildMonIndex(wildMonInfo->wildPokemon, TYPE_STEEL, ABILITY_MAGNET_PULL, &wildMonIndex))
             break;
         if (TryGetAbilityInfluencedWildMonIndex(wildMonInfo->wildPokemon, TYPE_ELECTRIC, ABILITY_STATIC, &wildMonIndex))
@@ -477,6 +483,8 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
         wildMonIndex = ChooseWildMonIndex_Land();
         break;
     case WILD_AREA_WATER:
+		if (TryToScopeSpecies(wildMonInfo->wildPokemon, &wildMonIndex))
+			break;
         if (TryGetAbilityInfluencedWildMonIndex(wildMonInfo->wildPokemon, TYPE_ELECTRIC, ABILITY_STATIC, &wildMonIndex))
             break;
 
@@ -1030,4 +1038,27 @@ static void ApplyCleanseTagEncounterRateMod(u32 *encRate)
 {
     if (GetMonData(&gPlayerParty[0], MON_DATA_HELD_ITEM) == ITEM_CLEANSE_TAG)
         *encRate = *encRate * 2 / 3;
+}
+
+static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex)
+{
+	u8 validIndexes[LAND_WILD_COUNT];
+	u8 i;
+	u8 validMonCount;
+	
+	if (!GetMonData(&gPlayerParty[0], MON_DATA_HELD_ITEM))
+		return FALSE;
+	
+	for (i = 0; i < LAND_WILD_COUNT; i++)
+		validIndexes[i] = 0;
+	for (validMonCount = 0, i = 0; i < LAND_WILD_COUNT; i++)
+	{
+		if (wildMon[i].species == GetMonData(&gPlayerParty[0], MON_DATA_SPECIES))
+			validIndexes[validMonCount++] = i;
+	}
+	if (validMonCount == 0 || validMonCount == LAND_WILD_COUNT)
+		return FALSE;
+	
+	*monIndex = validIndexes[Random() % validMonCount];
+	return TRUE;
 }
