@@ -9,7 +9,7 @@ The highest design priorities are 100% compatibility in terms of:
   * Every Pokémon obtained should completely be legal (indistinguishable from a Pokémon obtained in an official game, using [***PKHeX***](https://github.com/kwsch/PKHeX)'s legality checker as the reference as opposed to Game Freak's) once transferred to a Generation 4 game, with one outlier.
   * The exception to this will technically be illegal until it enters a Generation 7 game, but there should be no issues transferring it through Poké Transporter to Pokémon Bank.
 * Save Files
-  * There should be no (significant) issues importing your save file from Pokémon Emerald and Pokémon Heliodor and vice versa.
+  * There should be no (significant) issues importing your save file from Pokémon Emerald to Pokémon Heliodor and vice versa.
   * This allows Pokémon Heliodor to, in effect, be treated similar to an expansion pack in which if a player has already completed Pokémon Emerald, this can be used to "unlock" extra content/features for that playthrough.
 
 ### Changes
