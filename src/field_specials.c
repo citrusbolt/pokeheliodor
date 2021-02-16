@@ -4624,7 +4624,7 @@ static void IncubatorTurnOffEffect(void)
 
 bool8 HasReceivedPokeCoupons(void)
 {
-	u32 totalEarnedCoupons = (gSaveBlock1Ptr->giftRibbons[26] << 24) | (gSaveBlock1Ptr->giftRibbons[25] << 16) | (gSaveBlock1Ptr->giftRibbons[24] << 8) | gSaveBlock1Ptr->giftRibbons[23];
+	u32 totalEarnedCoupons = gSaveBlock1Ptr->externalEventData.totalEarnedPokeCoupons;
 
 	if (totalEarnedCoupons > 0 || FlagGet(FLAG_BOUGHT_COUPONS))
 	{
@@ -4640,7 +4640,7 @@ bool8 HasReceivedPokeCoupons(void)
 
 u32 GetPokeCoupons(void)
 {
-	u32 currentCoupons = (gSaveBlock1Ptr->giftRibbons[22] << 24) | (gSaveBlock1Ptr->giftRibbons[21] << 16) | (gSaveBlock1Ptr->giftRibbons[20] << 8) | gSaveBlock1Ptr->giftRibbons[19];
+	u32 currentCoupons = gSaveBlock1Ptr->externalEventData.currentPokeCoupons;
 	
 	if (currentCoupons >= 9999999)
 		gSpecialVar_Result = TRUE;
@@ -4651,7 +4651,7 @@ u32 GetPokeCoupons(void)
 
 u32 GetPokeCouponsFull(void)
 {
-	return (gSaveBlock1Ptr->giftRibbons[22] << 24) | (gSaveBlock1Ptr->giftRibbons[21] << 16) | (gSaveBlock1Ptr->giftRibbons[20] << 8) | gSaveBlock1Ptr->giftRibbons[19];
+	return gSaveBlock1Ptr->externalEventData.currentPokeCoupons;
 }
 
 void UpdatePokeCouponsWindow(void)
@@ -4671,10 +4671,7 @@ void TakePokeCoupons(void)
 		newCouponValue = 0;
     else
 		newCouponValue = GetPokeCouponsFull() - gSpecialVar_0x8004 * 100;
-	gSaveBlock1Ptr->giftRibbons[19] = newCouponValue & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[20] = newCouponValue >> 8 & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[21] = newCouponValue >> 16 & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[22] = newCouponValue >> 24 & 0xFF;
+	gSaveBlock1Ptr->externalEventData.currentPokeCoupons = newCouponValue;
 }
 
 void GivePokeCoupons(void)
@@ -4685,10 +4682,7 @@ void GivePokeCoupons(void)
         newCouponValue = 9999999;
     else
         newCouponValue = GetPokeCouponsFull() + gSpecialVar_0x8004 * 100;
-	gSaveBlock1Ptr->giftRibbons[19] = newCouponValue & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[20] = newCouponValue >> 8 & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[21] = newCouponValue >> 16 & 0xFF;
-	gSaveBlock1Ptr->giftRibbons[22] = newCouponValue >> 24 & 0xFF;
+	gSaveBlock1Ptr->externalEventData.currentPokeCoupons = newCouponValue;
 }
 
 void ShowPokeCouponsWindow(void)

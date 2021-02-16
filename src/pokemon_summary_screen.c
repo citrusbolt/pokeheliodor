@@ -152,7 +152,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
         u8 sanity; // 0x35
         u8 OTName[17]; // 0x36
         u32 OTID; // 0x48
-		bool8 obedient;
+		bool8 fatefulEncounter;
     } summary;
     u16 bgTilemapBuffers[PSS_PAGE_COUNT][2][0x400];
     u8 mode;
@@ -1432,7 +1432,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
-		sum->obedient = GetMonData(mon, MON_DATA_OBEDIENCE);
+		sum->fatefulEncounter = GetMonData(mon, MON_DATA_EVENT_LEGAL);
         return TRUE;
     }
     sMonSummaryScreen->switchCounter++;
@@ -3112,7 +3112,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
 		}
-		else if (sum->metGame == VERSION_GAMECUBE && !(sum->obedient)) //Colosseum
+		else if (sum->metGame == VERSION_GAMECUBE && !(sum->fatefulEncounter)) //Colosseum
 		{
 			switch (sum->metLocation)
 			{
@@ -3338,7 +3338,7 @@ static void BufferMonTrainerMemo(void)
 				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
 			}
 		} 
-		else if (sum->metGame == VERSION_GAMECUBE && sum->obedient) //XD: Gales of Darkness
+		else if (sum->metGame == VERSION_GAMECUBE && sum->fatefulEncounter) //XD: Gales of Darkness
 		{
 			switch (sum->metLocation)
 			{
@@ -3557,7 +3557,7 @@ static void BufferMonTrainerMemo(void)
                  else
                     text = gText_ReceivedFrom; //Duking's Plusle
 			}
-			else if (sum ->obedient && sum->metLocation == 0 && (sum->species == SPECIES_EEVEE || sum->species == SPECIES_VAPOREON || sum->species == SPECIES_JOLTEON || sum->species == SPECIES_FLAREON || sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON))
+			else if (sum->fatefulEncounter && sum->metLocation == 0 && (sum->species == SPECIES_EEVEE || sum->species == SPECIES_VAPOREON || sum->species == SPECIES_JOLTEON || sum->species == SPECIES_FLAREON || sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON))
 			{
 				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
 				text = gText_ObtainedFromDad; //XD starter
