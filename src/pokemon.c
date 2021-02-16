@@ -1357,32 +1357,32 @@ const struct SpindaSpot gSpindaSpotGraphics[] =
 
 const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 {
-    // Atk Def Spd Sp.Atk Sp.Def
-    {    0,  0,  0,     0,     0}, // Hardy
-    {   +1, -1,  0,     0,     0}, // Lonely
-    {   +1,  0, -1,     0,     0}, // Brave
-    {   +1,  0,  0,    -1,     0}, // Adamant
-    {   +1,  0,  0,     0,    -1}, // Naughty
-    {   -1, +1,  0,     0,     0}, // Bold
-    {    0,  0,  0,     0,     0}, // Docile
-    {    0, +1, -1,     0,     0}, // Relaxed
-    {    0, +1,  0,    -1,     0}, // Impish
-    {    0, +1,  0,     0,    -1}, // Lax
-    {   -1,  0, +1,     0,     0}, // Timid
-    {    0, -1, +1,     0,     0}, // Hasty
-    {    0,  0,  0,     0,     0}, // Serious
-    {    0,  0, +1,    -1,     0}, // Jolly
-    {    0,  0, +1,     0,    -1}, // Naive
-    {   -1,  0,  0,    +1,     0}, // Modest
-    {    0, -1,  0,    +1,     0}, // Mild
-    {    0,  0, -1,    +1,     0}, // Quiet
-    {    0,  0,  0,     0,     0}, // Bashful
-    {    0,  0,  0,    +1,    -1}, // Rash
-    {   -1,  0,  0,     0,    +1}, // Calm
-    {    0, -1,  0,     0,    +1}, // Gentle
-    {    0,  0, -1,     0,    +1}, // Sassy
-    {    0,  0,  0,    -1,    +1}, // Careful
-    {    0,  0,  0,     0,     0}, // Quirky
+                       // Atk Def Spd Sp.Atk Sp.Def
+    [NATURE_HARDY]   = {    0,  0,  0,     0,     0},
+    [NATURE_LONELY]  = {   +1, -1,  0,     0,     0},
+    [NATURE_BRAVE]   = {   +1,  0, -1,     0,     0},
+    [NATURE_ADAMANT] = {   +1,  0,  0,    -1,     0},
+    [NATURE_NAUGHTY] = {   +1,  0,  0,     0,    -1},
+    [NATURE_BOLD]    = {   -1, +1,  0,     0,     0},
+    [NATURE_DOCILE]  = {    0,  0,  0,     0,     0},
+    [NATURE_RELAXED] = {    0, +1, -1,     0,     0},
+    [NATURE_IMPISH]  = {    0, +1,  0,    -1,     0},
+    [NATURE_LAX]     = {    0, +1,  0,     0,    -1},
+    [NATURE_TIMID]   = {   -1,  0, +1,     0,     0},
+    [NATURE_HASTY]   = {    0, -1, +1,     0,     0},
+    [NATURE_SERIOUS] = {    0,  0,  0,     0,     0},
+    [NATURE_JOLLY]   = {    0,  0, +1,    -1,     0},
+    [NATURE_NAIVE]   = {    0,  0, +1,     0,    -1},
+    [NATURE_MODEST]  = {   -1,  0,  0,    +1,     0},
+    [NATURE_MILD]    = {    0, -1,  0,    +1,     0},
+    [NATURE_QUIET]   = {    0,  0, -1,    +1,     0},
+    [NATURE_BASHFUL] = {    0,  0,  0,     0,     0},
+    [NATURE_RASH]    = {    0,  0,  0,    +1,    -1},
+    [NATURE_CALM]    = {   -1,  0,  0,     0,    +1},
+    [NATURE_GENTLE]  = {    0, -1,  0,     0,    +1},
+    [NATURE_SASSY]   = {    0,  0, -1,     0,    +1},
+    [NATURE_CAREFUL] = {    0,  0,  0,    -1,    +1},
+    [NATURE_QUIRKY]  = {    0,  0,  0,     0,     0},
 };
 
 #include "data/pokemon/tmhm_learnsets.h"
@@ -1944,119 +1944,119 @@ static const u8 sHoldEffectToType[][2] =
     {HOLD_EFFECT_NORMAL_POWER, TYPE_NORMAL},
 };
 
-const struct SpriteTemplate gUnknown_08329D98[MAX_BATTLERS_COUNT] =
+const struct SpriteTemplate gBattlerSpriteTemplates[MAX_BATTLERS_COUNT] =
 {
-    {   // B_POSITION_PLAYER_LEFT
+    [B_POSITION_PLAYER_LEFT] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
-        .images = gUnknown_082FF3A8,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .images = gBattlerPicTable_PlayerLeft,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {   // B_POSITION_OPPONENT_LEFT
+    [B_POSITION_OPPONENT_LEFT] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACA8,
+        .oam = &gOamData_BattleSpriteOpponentSide,
         .anims = NULL,
-        .images = gUnknown_082FF3C8,
-        .affineAnims = gUnknown_082FF694,
+        .images = gBattlerPicTable_OpponentLeft,
+        .affineAnims = gAffineAnims_BattleSpriteOpponentSide,
         .callback = SpriteCb_WildMon,
     },
-    {   // B_POSITION_PLAYER_RIGHT
+    [B_POSITION_PLAYER_RIGHT] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
-        .images = gUnknown_082FF3E8,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .images = gBattlerPicTable_PlayerRight,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {   // B_POSITION_OPPONENT_RIGHT
+    [B_POSITION_OPPONENT_RIGHT] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACA8,
+        .oam = &gOamData_BattleSpriteOpponentSide,
         .anims = NULL,
-        .images = gUnknown_082FF408,
-        .affineAnims = gUnknown_082FF694,
+        .images = gBattlerPicTable_OpponentRight,
+        .affineAnims = gAffineAnims_BattleSpriteOpponentSide,
         .callback = SpriteCb_WildMon
     },
 };
 
-static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
+static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
 {
-    {
+    [TRAINER_BACK_PIC_BRENDAN] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_Brendan,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {
+    [TRAINER_BACK_PIC_MAY] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_May,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {
+    [TRAINER_BACK_PIC_RED] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_Red,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {
+    [TRAINER_BACK_PIC_LEAF] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_Leaf,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {
+    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_RubySapphireBrendan,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {
+    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_RubySapphireMay,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {
+    [TRAINER_BACK_PIC_WALLY] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_Wally,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    {
+    [TRAINER_BACK_PIC_STEVEN] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
-        .oam = &gOamData_831ACB0,
+        .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_Steven,
-        .affineAnims = gUnknown_082FF618,
-        .callback = sub_8039BB4,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
 };
 
@@ -2610,7 +2610,7 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
 
-    if ((u8)(unownLetter - 1) < 28)
+    if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {
         u16 actualLetter;
 
@@ -2622,7 +2622,7 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 					personality = (Random() << 16) | Random();
 				else
 					personality = Random32();
-				actualLetter = ((((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 28);
+				actualLetter = GET_UNOWN_LETTER(personality);
 			}
 			while (nature != GetNatureFromPersonality(personality) || gender != GetGenderFromSpeciesAndPersonality(species, personality) || actualLetter != unownLetter - 1);
 			shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
@@ -2935,22 +2935,23 @@ void ConvertPokemonToBattleTowerPokemon(struct Pokemon *mon, struct BattleTowerP
     GetMonData(mon, MON_DATA_NICKNAME, dest->nickname);
 }
 
-void CreateObedientMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
+void CreateEventLegalMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
 {
-    bool32 obedient = TRUE;
+    bool32 isEventLegal = TRUE;
 
     CreateMon(mon, species, level, fixedIV, hasFixedPersonality, fixedPersonality, otIdType, fixedOtId);
-    SetMonData(mon, MON_DATA_OBEDIENCE, &obedient);
+    SetMonData(mon, MON_DATA_EVENT_LEGAL, &isEventLegal);
 }
 
-bool8 sub_80688F8(u8 caseId, u8 battlerId)
+// If FALSE, should load this game's Deoxys form. If TRUE, should load normal Deoxys form
+bool8 ShouldIgnoreDeoxysForm(u8 caseId, u8 battlerId)
 {
     switch (caseId)
     {
     case 0:
     default:
         return FALSE;
-    case 1:
+    case 1: // Player's side in battle
         if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
             return FALSE;
         if (!gMain.inBattle)
@@ -2960,7 +2961,7 @@ bool8 sub_80688F8(u8 caseId, u8 battlerId)
         break;
     case 2:
         break;
-    case 3:
+    case 3: // Summary Screen
         if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
             return FALSE;
         if (!gMain.inBattle)
@@ -2970,7 +2971,7 @@ bool8 sub_80688F8(u8 caseId, u8 battlerId)
         return FALSE;
     case 4:
         break;
-    case 5:
+    case 5: // In move animation, e.g. in Role Play or Snatch
         if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         {
             if (!gMain.inBattle)
@@ -3074,14 +3075,14 @@ u16 GetUnionRoomTrainerClass(void)
     return gFacilityClassToTrainerClass[gLinkPlayerFacilityClasses[arrId]];
 }
 
-void CreateObedientEnemyMon(void)
+void CreateEventLegalEnemyMon(void)
 {
     s32 species = gSpecialVar_0x8004;
     s32 level = gSpecialVar_0x8005;
     s32 itemId = gSpecialVar_0x8006;
 
     ZeroEnemyPartyMons();
-    CreateObedientMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, 0, 0, 0, 0);
+    CreateEventLegalMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, 0, 0, 0, 0);
     if (itemId)
     {
         u8 heldItem[2];
@@ -3315,7 +3316,7 @@ void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
 
 u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
 {
-    u32 retVal = 0;
+    u32 retVal = MOVE_NONE;
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
 
@@ -3331,7 +3332,7 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
         {
             sLearningMoveTableID++;
             if (gLevelUpLearnsets[species][sLearningMoveTableID] == LEVEL_UP_END)
-                return 0;
+                return MOVE_NONE;
         }
     }
 
@@ -3777,7 +3778,7 @@ void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition)
     else if (gUnknown_020249B4[1])
         gMultiuseSpriteTemplate = gUnknown_020249B4[1]->templates[battlerPosition];
     else
-        gMultiuseSpriteTemplate = gUnknown_08329D98[battlerPosition];
+        gMultiuseSpriteTemplate = gBattlerSpriteTemplates[battlerPosition];
 
     gMultiuseSpriteTemplate.paletteTag = speciesTag;
     if (battlerPosition == B_POSITION_PLAYER_LEFT || battlerPosition == B_POSITION_PLAYER_RIGHT)
@@ -3793,7 +3794,7 @@ void SetMultiuseSpriteTemplateToTrainerBack(u16 trainerSpriteId, u8 battlerPosit
     gMultiuseSpriteTemplate.paletteTag = trainerSpriteId;
     if (battlerPosition == B_POSITION_PLAYER_LEFT || battlerPosition == B_POSITION_PLAYER_RIGHT)
     {
-        gMultiuseSpriteTemplate = gSpriteTemplateTable_TrainerBackSprites[trainerSpriteId];
+        gMultiuseSpriteTemplate = sTrainerBackSpriteTemplates[trainerSpriteId];
         gMultiuseSpriteTemplate.anims = gTrainerBackAnimsPtrTable[trainerSpriteId];
     }
     else
@@ -3801,7 +3802,7 @@ void SetMultiuseSpriteTemplateToTrainerBack(u16 trainerSpriteId, u8 battlerPosit
         if (gMonSpritesGfxPtr != NULL)
             gMultiuseSpriteTemplate = gMonSpritesGfxPtr->templates[battlerPosition];
         else
-            gMultiuseSpriteTemplate = gUnknown_08329D98[battlerPosition];
+            gMultiuseSpriteTemplate = gBattlerSpriteTemplates[battlerPosition];
         gMultiuseSpriteTemplate.anims = gTrainerFrontAnimsPtrTable[trainerSpriteId];
     }
 }
@@ -3811,7 +3812,7 @@ void SetMultiuseSpriteTemplateToTrainerFront(u16 arg0, u8 battlerPosition)
     if (gMonSpritesGfxPtr != NULL)
         gMultiuseSpriteTemplate = gMonSpritesGfxPtr->templates[battlerPosition];
     else
-        gMultiuseSpriteTemplate = gUnknown_08329D98[battlerPosition];
+        gMultiuseSpriteTemplate = gBattlerSpriteTemplates[battlerPosition];
 
     gMultiuseSpriteTemplate.paletteTag = arg0;
     gMultiuseSpriteTemplate.anims = gTrainerFrontAnimsPtrTable[arg0];
@@ -4229,32 +4230,32 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_EFFORT_RIBBON:
         retVal = substruct3->effortRibbon;
         break;
-    case MON_DATA_GIFT_RIBBON_1:
-        retVal = substruct3->giftRibbon1;
+    case MON_DATA_MARINE_RIBBON:
+        retVal = substruct3->marineRibbon;
         break;
-    case MON_DATA_GIFT_RIBBON_2:
-        retVal = substruct3->giftRibbon2;
+    case MON_DATA_LAND_RIBBON:
+        retVal = substruct3->landRibbon;
         break;
-    case MON_DATA_GIFT_RIBBON_3:
-        retVal = substruct3->giftRibbon3;
+    case MON_DATA_SKY_RIBBON:
+        retVal = substruct3->skyRibbon;
         break;
-    case MON_DATA_GIFT_RIBBON_4:
-        retVal = substruct3->giftRibbon4;
+    case MON_DATA_COUNTRY_RIBBON:
+        retVal = substruct3->countryRibbon;
         break;
-    case MON_DATA_GIFT_RIBBON_5:
-        retVal = substruct3->giftRibbon5;
+    case MON_DATA_NATIONAL_RIBBON:
+        retVal = substruct3->nationalRibbon;
         break;
-    case MON_DATA_GIFT_RIBBON_6:
-        retVal = substruct3->giftRibbon6;
+    case MON_DATA_EARTH_RIBBON:
+        retVal = substruct3->earthRibbon;
         break;
-    case MON_DATA_GIFT_RIBBON_7:
-        retVal = substruct3->giftRibbon7;
+    case MON_DATA_WORLD_RIBBON:
+        retVal = substruct3->worldRibbon;
         break;
-    case MON_DATA_FATEFUL_ENCOUNTER:
-        retVal = substruct3->fatefulEncounter;
+    case MON_DATA_FILLER:
+        retVal = substruct3->filler;
         break;
-    case MON_DATA_OBEDIENCE:
-        retVal = substruct3->obedient;
+    case MON_DATA_EVENT_LEGAL:
+        retVal = substruct3->eventLegal;
         break;
     case MON_DATA_SPECIES2:
         retVal = substruct0->species;
@@ -4296,13 +4297,13 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
             retVal += substruct3->victoryRibbon;
             retVal += substruct3->artistRibbon;
             retVal += substruct3->effortRibbon;
-            retVal += substruct3->giftRibbon1;
-            retVal += substruct3->giftRibbon2;
-            retVal += substruct3->giftRibbon3;
-            retVal += substruct3->giftRibbon4;
-            retVal += substruct3->giftRibbon5;
-            retVal += substruct3->giftRibbon6;
-            retVal += substruct3->giftRibbon7;
+            retVal += substruct3->marineRibbon;
+            retVal += substruct3->landRibbon;
+            retVal += substruct3->skyRibbon;
+            retVal += substruct3->countryRibbon;
+            retVal += substruct3->nationalRibbon;
+            retVal += substruct3->earthRibbon;
+            retVal += substruct3->worldRibbon;
         }
         break;
     case MON_DATA_RIBBONS:
@@ -4319,13 +4320,13 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->victoryRibbon << 17)
                 | (substruct3->artistRibbon << 18)
                 | (substruct3->effortRibbon << 19)
-                | (substruct3->giftRibbon1 << 20)
-                | (substruct3->giftRibbon2 << 21)
-                | (substruct3->giftRibbon3 << 22)
-                | (substruct3->giftRibbon4 << 23)
-                | (substruct3->giftRibbon5 << 24)
-                | (substruct3->giftRibbon6 << 25)
-                | (substruct3->giftRibbon7 << 26);
+                | (substruct3->marineRibbon << 20)
+                | (substruct3->landRibbon << 21)
+                | (substruct3->skyRibbon << 22)
+                | (substruct3->countryRibbon << 23)
+                | (substruct3->nationalRibbon << 24)
+                | (substruct3->earthRibbon << 25)
+                | (substruct3->worldRibbon << 26);
         }
         break;
     default:
@@ -4608,32 +4609,32 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_EFFORT_RIBBON:
         SET8(substruct3->effortRibbon);
         break;
-    case MON_DATA_GIFT_RIBBON_1:
-        SET8(substruct3->giftRibbon1);
+    case MON_DATA_MARINE_RIBBON:
+        SET8(substruct3->marineRibbon);
         break;
-    case MON_DATA_GIFT_RIBBON_2:
-        SET8(substruct3->giftRibbon2);
+    case MON_DATA_LAND_RIBBON:
+        SET8(substruct3->landRibbon);
         break;
-    case MON_DATA_GIFT_RIBBON_3:
-        SET8(substruct3->giftRibbon3);
+    case MON_DATA_SKY_RIBBON:
+        SET8(substruct3->skyRibbon);
         break;
-    case MON_DATA_GIFT_RIBBON_4:
-        SET8(substruct3->giftRibbon4);
+    case MON_DATA_COUNTRY_RIBBON:
+        SET8(substruct3->countryRibbon);
         break;
-    case MON_DATA_GIFT_RIBBON_5:
-        SET8(substruct3->giftRibbon5);
+    case MON_DATA_NATIONAL_RIBBON:
+        SET8(substruct3->nationalRibbon);
         break;
-    case MON_DATA_GIFT_RIBBON_6:
-        SET8(substruct3->giftRibbon6);
+    case MON_DATA_EARTH_RIBBON:
+        SET8(substruct3->earthRibbon);
         break;
-    case MON_DATA_GIFT_RIBBON_7:
-        SET8(substruct3->giftRibbon7);
+    case MON_DATA_WORLD_RIBBON:
+        SET8(substruct3->worldRibbon);
         break;
-    case MON_DATA_FATEFUL_ENCOUNTER:
-        SET8(substruct3->fatefulEncounter);
+    case MON_DATA_FILLER:
+        SET8(substruct3->filler);
         break;
-    case MON_DATA_OBEDIENCE:
-        SET8(substruct3->obedient);
+    case MON_DATA_EVENT_LEGAL:
+        SET8(substruct3->eventLegal);
         break;
     case MON_DATA_IVS:
     {
@@ -5056,7 +5057,6 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
     u32 var_28 = 0;
     u16 heldItem;
     u8 r10;
-    u32 r4;
     u32 r5;
     s8 r2;
     u16 evCount;
@@ -5993,96 +5993,63 @@ u16 SpeciesToCryId(u16 species)
     return gSpeciesIdToCryId[species - (SPECIES_TREECKO - 1)];
 }
 
-void sub_806D544(u16 species, u32 personality, u8 *dest)
+#define DRAW_SPINDA_SPOTS                                                       \
+{                                                                               \
+    int i;                                                                      \
+    for (i = 0; i < 4; i++)                                                     \
+    {                                                                           \
+        int j;                                                                  \
+        u8 x = gSpindaSpotGraphics[i].x + ((personality & 0x0F) - 8);           \
+        u8 y = gSpindaSpotGraphics[i].y + (((personality & 0xF0) >> 4) - 8);    \
+                                                                                \
+        for (j = 0; j < 16; j++)                                                \
+        {                                                                       \
+            int k;                                                              \
+            s32 row = gSpindaSpotGraphics[i].image[j];                          \
+                                                                                \
+            for (k = x; k < x + 16; k++)                                        \
+            {                                                                   \
+                u8 *val = dest + ((k / 8) * 32) +                               \
+                                 ((k % 8) / 2) +                                \
+                                 ((y >> 3) << 8) +                              \
+                                 ((y & 7) << 2);                                \
+                                                                                \
+                if (row & 1)                                                    \
+                {                                                               \
+                    if (k & 1)                                                  \
+                    {                                                           \
+                        if ((u8)((*val & 0xF0) - 0x10) <= 0x20)                 \
+                            *val += 0x40;                                       \
+                    }                                                           \
+                    else                                                        \
+                    {                                                           \
+                        if ((u8)((*val & 0xF) - 0x01) <= 0x02)                  \
+                            *val += 0x04;                                       \
+                    }                                                           \
+                }                                                               \
+                                                                                \
+                row >>= 1;                                                      \
+            }                                                                   \
+                                                                                \
+            y++;                                                                \
+        }                                                                       \
+                                                                                \
+        personality >>= 8;                                                      \
+    }                                                                           \
+}
+
+static void DrawSpindaSpotsUnused(u16 species, u32 personality, u8 *dest)
 {
     if (species == SPECIES_SPINDA
         && dest != gMonSpritesGfxPtr->sprites.ptr[0]
         && dest != gMonSpritesGfxPtr->sprites.ptr[2])
-    {
-        int i;
-        for (i = 0; i < 4; i++)
-        {
-            int j;
-            u8 x = gSpindaSpotGraphics[i].x + ((personality & 0x0F) - 8);
-            u8 y = gSpindaSpotGraphics[i].y + (((personality & 0xF0) >> 4) - 8);
-
-            for (j = 0; j < 16; j++)
-            {
-                int k;
-                s32 row = gSpindaSpotGraphics[i].image[j];
-
-                for (k = x; k < x + 16; k++)
-                {
-                    u8 *val = dest + ((k / 8) * 32) + ((k % 8) / 2) + ((y >> 3) << 8) + ((y & 7) << 2);
-
-                    if (row & 1)
-                    {
-                        if (k & 1)
-                        {
-                            if ((u8)((*val & 0xF0) - 0x10) <= 0x20)
-                                *val += 0x40;
-                        }
-                        else
-                        {
-                            if ((u8)((*val & 0xF) - 0x01) <= 0x02)
-                                *val += 0x04;
-                        }
-                    }
-
-                    row >>= 1;
-                }
-
-                y++;
-            }
-
-            personality >>= 8;
-        }
-    }
+        DRAW_SPINDA_SPOTS;
 }
 
-void DrawSpindaSpots(u16 species, u32 personality, u8 *dest, u8 a4)
+void DrawSpindaSpots(u16 species, u32 personality, u8 *dest, bool8 isFrontPic)
 {
-    if (species == SPECIES_SPINDA && a4)
-    {
-        int i;
-        for (i = 0; i < 4; i++)
-        {
-            int j;
-            u8 x = gSpindaSpotGraphics[i].x + ((personality & 0x0F) - 8);
-            u8 y = gSpindaSpotGraphics[i].y + (((personality & 0xF0) >> 4) - 8);
-
-            for (j = 0; j < 16; j++)
-            {
-                int k;
-                s32 row = gSpindaSpotGraphics[i].image[j];
-
-                for (k = x; k < x + 16; k++)
-                {
-                    u8 *val = dest + ((k / 8) * 32) + ((k % 8) / 2) + ((y >> 3) << 8) + ((y & 7) << 2);
-
-                    if (row & 1)
-                    {
-                        if (k & 1)
-                        {
-                            if ((u8)((*val & 0xF0) - 0x10) <= 0x20)
-                                *val += 0x40;
-                        }
-                        else
-                        {
-                            if ((u8)((*val & 0xF) - 0x01) <= 0x02)
-                                *val += 0x04;
-                        }
-                    }
-
-                    row >>= 1;
-                }
-
-                y++;
-            }
-
-            personality >>= 8;
-        }
-    }
+    if (species == SPECIES_SPINDA && isFrontPic)
+        DRAW_SPINDA_SPOTS;
 }
 
 void EvolutionRenameMon(struct Pokemon *mon, u16 oldSpecies, u16 newSpecies)
@@ -7223,7 +7190,7 @@ static void sub_806F160(struct Unknown_806F160_Struct* structPtr)
     u16 i, j;
     for (i = 0; i < structPtr->field_0_0; i++)
     {
-        structPtr->templates[i] = gUnknown_08329D98[i];
+        structPtr->templates[i] = gBattlerSpriteTemplates[i];
         for (j = 0; j < structPtr->field_1; j++)
         {
             structPtr->frameImages[i * structPtr->field_1 + j].data = &structPtr->byteArrays[i][j * 0x800];

@@ -1114,7 +1114,7 @@ static void StartMatchCall(void)
     {
         ScriptContext2_Enable();
         FreezeObjectEvents();
-        sub_808B864();
+        PlayerFreeze();
         sub_808BCF4();
     }
 
@@ -1494,7 +1494,6 @@ static const struct MatchCallText *GetGeneralMatchCallText(int matchCallId, u8 *
     int count;
     u32 topic, id;
     u16 rand;
-    u16 var3;
 
     rand = Random();
     if (!(rand & 1))
