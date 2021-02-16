@@ -1665,7 +1665,7 @@ void PutLilycoveContestLadyShowOnTheAir(void)
     {
         show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
         BufferContestLadyLanguage(&show->contestLiveUpdates2.language);
-        show->contestLiveUpdates2.pokemonNameLanguage = LANGUAGE_ENGLISH;
+        show->contestLiveUpdates2.pokemonNameLanguage = GAME_LANGUAGE;
         show->contestLiveUpdates2.kind = TVSHOW_CONTEST_LIVE_UPDATES_2;
         show->contestLiveUpdates2.active = TRUE;
         BufferContestLadyPlayerName(show->contestLiveUpdates2.playerName);
@@ -2085,7 +2085,6 @@ static void sub_80EDE98(TVShow *show)
     u16 k;
     u8 n;
     u8 deco;
-    u8 x;
 
     for (i = 0; i < DECOR_MAX_SECRET_BASE; i ++)
     {
@@ -2307,7 +2306,7 @@ void TryPutLotteryWinnerReportOnAir(void)
     }
 }
 
-void sub_80EE35C(u16 foeSpecies, u16 species, u8 moveIdx, const u16 *movePtr, u16 betterMove)
+void TryPutBattleSeminarOnAir(u16 foeSpecies, u16 species, u8 moveIdx, const u16 *movePtr, u16 betterMove)
 {
     TVShow *show;
     u8 i;
@@ -2399,13 +2398,13 @@ u8 GetRibbonCount(struct Pokemon *pokemon)
     nRibbons += GetMonData(pokemon, MON_DATA_VICTORY_RIBBON);
     nRibbons += GetMonData(pokemon, MON_DATA_ARTIST_RIBBON);
     nRibbons += GetMonData(pokemon, MON_DATA_EFFORT_RIBBON);
-    nRibbons += GetMonData(pokemon, MON_DATA_GIFT_RIBBON_1);
-    nRibbons += GetMonData(pokemon, MON_DATA_GIFT_RIBBON_2);
-    nRibbons += GetMonData(pokemon, MON_DATA_GIFT_RIBBON_3);
-    nRibbons += GetMonData(pokemon, MON_DATA_GIFT_RIBBON_4);
-    nRibbons += GetMonData(pokemon, MON_DATA_GIFT_RIBBON_5);
-    nRibbons += GetMonData(pokemon, MON_DATA_GIFT_RIBBON_6);
-    nRibbons += GetMonData(pokemon, MON_DATA_GIFT_RIBBON_7);
+    nRibbons += GetMonData(pokemon, MON_DATA_MARINE_RIBBON);
+    nRibbons += GetMonData(pokemon, MON_DATA_LAND_RIBBON);
+    nRibbons += GetMonData(pokemon, MON_DATA_SKY_RIBBON);
+    nRibbons += GetMonData(pokemon, MON_DATA_COUNTRY_RIBBON);
+    nRibbons += GetMonData(pokemon, MON_DATA_NATIONAL_RIBBON);
+    nRibbons += GetMonData(pokemon, MON_DATA_EARTH_RIBBON);
+    nRibbons += GetMonData(pokemon, MON_DATA_WORLD_RIBBON);
     return nRibbons;
 }
 
@@ -2421,13 +2420,13 @@ u8 TV_MonDataIdxToRibbon(u8 monDataIdx)
     if (monDataIdx == MON_DATA_VICTORY_RIBBON)  return 22;
     if (monDataIdx == MON_DATA_ARTIST_RIBBON)   return 23;
     if (monDataIdx == MON_DATA_EFFORT_RIBBON)   return 24;
-    if (monDataIdx == MON_DATA_GIFT_RIBBON_1)   return 25;
-    if (monDataIdx == MON_DATA_GIFT_RIBBON_2)   return 26;
-    if (monDataIdx == MON_DATA_GIFT_RIBBON_3)   return 27;
-    if (monDataIdx == MON_DATA_GIFT_RIBBON_4)   return 28;
-    if (monDataIdx == MON_DATA_GIFT_RIBBON_5)   return 29;
-    if (monDataIdx == MON_DATA_GIFT_RIBBON_6)   return 30;
-    if (monDataIdx == MON_DATA_GIFT_RIBBON_7)   return 31;
+    if (monDataIdx == MON_DATA_MARINE_RIBBON)   return 25;
+    if (monDataIdx == MON_DATA_LAND_RIBBON)     return 26;
+    if (monDataIdx == MON_DATA_SKY_RIBBON)      return 27;
+    if (monDataIdx == MON_DATA_COUNTRY_RIBBON)  return 28;
+    if (monDataIdx == MON_DATA_NATIONAL_RIBBON) return 29;
+    if (monDataIdx == MON_DATA_EARTH_RIBBON)    return 30;
+    if (monDataIdx == MON_DATA_WORLD_RIBBON)    return 31;
     return 0;
 }
 
@@ -3145,7 +3144,7 @@ static bool8 IsPartyMonNicknamedOrNotEnglish(u8 monIdx)
     pokemon = &gPlayerParty[monIdx];
     GetMonData(pokemon, MON_DATA_NICKNAME, gStringVar1);
     language = GetMonData(pokemon, MON_DATA_LANGUAGE, &language);
-    if (language == LANGUAGE_ENGLISH && !StringCompare(gSpeciesNames[GetMonData(pokemon, MON_DATA_SPECIES, NULL)], gStringVar1))
+    if (language == GAME_LANGUAGE && !StringCompare(gSpeciesNames[GetMonData(pokemon, MON_DATA_SPECIES, NULL)], gStringVar1))
     {
         return FALSE;
     }
@@ -4095,7 +4094,6 @@ static void sub_80F0E58(PokeNews *dest[16], PokeNews *src[16])
 static bool8 sub_80F0E84(PokeNews *dest, PokeNews *src, s8 slot)
 {
     u8 i;
-    u8 kind;
 
     if (src->kind == POKENEWS_NONE)
     {
@@ -4256,7 +4254,7 @@ static void sub_80F1254(TVShow *shows)
             }
             else
             {
-                curShow->bravoTrainerTower.pokemonNameLanguage = LANGUAGE_ENGLISH;
+                curShow->bravoTrainerTower.pokemonNameLanguage = GAME_LANGUAGE;
             }
         }
     }
@@ -4264,7 +4262,7 @@ static void sub_80F1254(TVShow *shows)
 
 u8 TV_GetStringLanguage(u8 *str)
 {
-    return IsStringJapanese(str) ? LANGUAGE_JAPANESE : LANGUAGE_ENGLISH;
+    return IsStringJapanese(str) ? LANGUAGE_JAPANESE : GAME_LANGUAGE;
 }
 
 static void sub_80F12A4(TVShow *shows)
@@ -6602,7 +6600,6 @@ static void DoTVShowSpotTheCuties(void)
 {
     TVShow *show;
     u8 state;
-    u32 playerId;
 
     show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
     gSpecialVar_Result = FALSE;
@@ -6707,7 +6704,6 @@ static void DoTVShowPokemonNewsBattleFrontier(void)
 {
     TVShow *show;
     u8 state;
-    u32 playerId;
 
     show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
     gSpecialVar_Result = FALSE;
@@ -6856,7 +6852,6 @@ static void DoTVShowWhatsNo1InHoennToday(void)
 {
     TVShow *show;
     u8 state;
-    u32 playerId;
 
     show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
     gSpecialVar_Result = FALSE;

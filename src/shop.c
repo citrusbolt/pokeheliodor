@@ -489,7 +489,6 @@ static void BuyMenuFreeMemory(void)
 static void BuyMenuBuildListMenuTemplate(void)
 {
     u16 i;
-    u16 itemCount;
 
     gUnknown_02039F74 = Alloc((gMartInfo.itemCount + 1) * sizeof(*gUnknown_02039F74));
     gUnknown_02039F78 = Alloc((gMartInfo.itemCount + 1) * sizeof(*gUnknown_02039F78));
@@ -966,8 +965,9 @@ static void Task_BuyMenu(u8 taskId)
 
                     if (gMartInfo.martType == MART_TYPE_DECOR)
                         StringExpandPlaceholders(gStringVar4, gText_Var1IsItThatllBeVar2);
-                    else
+                    else // MART_TYPE_DECOR2
                         StringExpandPlaceholders(gStringVar4, gText_YouWantedVar1ThatllBeVar2);
+
                     BuyMenuDisplayMessage(taskId, gStringVar4, BuyMenuConfirmPurchase);
                 }
             }
@@ -1070,13 +1070,9 @@ static void BuyMenuTryMakePurchase(u8 taskId)
         if (DecorationAdd(tItemId))
         {
             if (gMartInfo.martType == MART_TYPE_DECOR)
-            {
                 BuyMenuDisplayMessage(taskId, gText_ThankYouIllSendItHome, BuyMenuSubtractMoney);
-            }
-            else
-            {
+            else // MART_TYPE_DECOR2
                 BuyMenuDisplayMessage(taskId, gText_ThanksIllSendItHome, BuyMenuSubtractMoney);
-            }
         }
         else
         {
