@@ -3152,5 +3152,9 @@ extern const u8 EventScript_CouponExchange_Text_RegisteelDollDesc[];
 extern const u8 EventScript_CouponExchange_Text_50BPDesc[];
 extern const u8 EventScript_CouponExchange_Text_750BPDesc[];
 extern const u8 gText_Pt[];
+extern const u8 gText_EggFromElm[];
+extern const u8 gText_EggFromPokecomCenter[];
+extern const u8 gText_EggFromKanto[];
+extern const u8 gText_EggFromJohto[];
 
 #endif // GUARD_STRINGS_H
