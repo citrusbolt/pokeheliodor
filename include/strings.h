@@ -3159,5 +3159,9 @@ extern const u8 gText_Wednesday[];
 extern const u8 gText_Thursday[];
 extern const u8 gText_Friday[];
 extern const u8 gText_Saturday[];
+extern const u8 gText_EggFromElm[];
+extern const u8 gText_EggFromPokecomCenter[];
+extern const u8 gText_EggFromKanto[];
+extern const u8 gText_EggFromJohto[];
 
 #endif // GUARD_STRINGS_H

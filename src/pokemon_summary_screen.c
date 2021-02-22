@@ -250,7 +250,10 @@ static void BufferNatureString(void);
 static void GetMetLevelString(u8 *a);
 static bool8 DoesMonOTMatchOwner(void);
 static bool8 DidMonComeFromGBAGames(void);
-static bool8 DidMonComeFromRSE(void);
+static bool8 DidMonComeFromHoenn(void);
+static bool8 DidMonComeFromKanto(void);
+static bool8 DidMonComeFromJohto(void);
+static bool8 DidMonComeFromSinnoh(void);
 static bool8 IsInGamePartnerMon(void);
 static void PrintEggOTName(void);
 static void PrintEggOTID(void);
@@ -3100,7 +3103,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_BATTLE_TOWER);
 		}
-		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromRSE() && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET) && sum->metLevel > 0)
+		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromHoenn() && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET) && sum->metLevel > 0)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
@@ -3108,7 +3111,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if ((sum->metGame == VERSION_HEARTGOLD || sum->metGame == VERSION_SOULSILVER) && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
+		else if (DidMonComeFromJohto && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
 		}
@@ -3538,7 +3541,7 @@ static void BufferMonTrainerMemo(void)
 				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
 			}
 		}
-		else if ((sum->metGame >= VERSION_DIAMOND && sum->metGame <= VERSION_PLATINUM)) //Sinnoh map for Porygon
+		else if (DidMonComeFromSinnoh()) //Sinnoh map for Porygon
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + SINNOH_MAPSEC_START));
 		}
@@ -3649,10 +3652,34 @@ static bool8 DidMonComeFromGBAGames(void)
     return FALSE;
 }
 
-static bool8 DidMonComeFromRSE(void)
+static bool8 DidMonComeFromHoenn(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     if (sum->metGame > 0 && sum->metGame <= VERSION_EMERALD)
+        return TRUE;
+    return FALSE;
+}
+
+static bool8 DidMonComeFromKanto(void)
+{
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+    if (sum->metGame == VERSION_FIRERED || sum->metGame == VERSION_LEAFGREEN)
+        return TRUE;
+    return FALSE;
+}
+
+static bool8 DidMonComeFromJohto(void)
+{
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+    if (sum->metGame == VERSION_HEARTGOLD || sum->metGame == VERSION_SOULSILVER)
+        return TRUE;
+    return FALSE;
+}
+
+static bool8 DidMonComeFromSinnoh(void)
+{
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+    if (sum->metGame >= VERSION_DIAMOND && sum->metGame <= VERSION_PLATINUM)
         return TRUE;
     return FALSE;
 }
@@ -3711,13 +3738,38 @@ static void PrintEggMemo(void)
     if (sMonSummaryScreen->summary.sanity != 1)
     {
         if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
+		{
             text = gText_PeculiarEggNicePlace;
-        else if (DidMonComeFromGBAGames() == FALSE || DoesMonOTMatchOwner() == FALSE)
-            text = gText_PeculiarEggTrade;
+		}
+        //else if (DidMonComeFromGBAGames() == FALSE || DoesMonOTMatchOwner() == FALSE)
+		//{
+        //    text = gText_PeculiarEggTrade;
+		//}
         else if (sum->metLocation == METLOC_SPECIAL_EGG)
-            text = (DidMonComeFromRSE() == TRUE) ? gText_EggFromHotSprings : gText_EggFromTraveler;
-        else
+		{
+			if (DidMonComeFromHoenn())
+				text = gText_EggFromHotSprings;
+			else if (DidMonComeFromJohto())
+				text = gText_EggFromElm;
+			else
+				text = gText_EggFromTraveler;
+		}
+		else if (sum->metLocation == (MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START) && DidMonComeFromJohto())
+		{
+			text = gText_EggFromPokecomCenter;
+		}
+        else if (DidMonComeFromKanto())
+		{
+			text = gText_EggFromKanto;
+		}
+		else if (DidMonComeFromJohto())
+		{
+			text= gText_EggFromJohto;
+		}
+		else
+		{
             text = gText_OddEggFoundByCouple;
+		}
     }
     else
     {
