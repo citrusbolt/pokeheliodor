@@ -6,47 +6,50 @@
 // Gen 5 and up read Diamond, Pearl, or Platinum's ID as "Sinnoh".
 // In Gen 4 and up, migrated Pokemon with HeartGold or SoulSilver's ID show the otherwise unused "Johto" string.
 //0 is unused
-#define VERSION_SAPPHIRE         1
-#define VERSION_RUBY             2
-#define VERSION_EMERALD          3
-#define VERSION_FIRERED          4
-#define VERSION_LEAFGREEN        5
+#define VERSION_SAPPHIRE         	1
+#define VERSION_RUBY             	2
+#define VERSION_EMERALD          	3
+#define VERSION_FIRERED          	4
+#define VERSION_LEAFGREEN        	5
 //6 is unused, possibly intended for WaterBlue or LightningYellow?
-#define VERSION_HEARTGOLD        7
-#define VERSION_SOULSILVER       8
+#define VERSION_HEARTGOLD        	7
+#define VERSION_SOULSILVER       	8
 //9 is unused, possibly intended for MindCrystal?
-#define VERSION_DIAMOND         10
-#define VERSION_PEARL           11
-#define VERSION_PLATINUM        12
+#define VERSION_DIAMOND         	10
+#define VERSION_PEARL           	11
+#define VERSION_PLATINUM        	12
 //13 and 14 are unused
-#define VERSION_GAMECUBE        15 //Both Colosseum and XD use this ID
+#define VERSION_GAMECUBE        	15 //Both Colosseum and XD use this ID
 //The rest of these are just for reference.  Origin game is only stored as 4 bits, so they aren't be used for anything in this game
 //16-19 are unused
-#define VERSION_WHITE           20
-#define VERSION_BLACK           21
-#define VERSION_WHITE_2         22
-#define VERSION_BLACK_2         23
-#define VERSION_X               24
-#define VERSION_Y               25
-#define VERSION_ALPHA_SAPPHIRE  26
-#define VERSION_OMEGA_RUBY      27
+#define VERSION_WHITE           	20
+#define VERSION_BLACK           	21
+#define VERSION_WHITE_2         	22
+#define VERSION_BLACK_2         	23
+#define VERSION_X               	24
+#define VERSION_Y               	25
+#define VERSION_ALPHA_SAPPHIRE  	26
+#define VERSION_OMEGA_RUBY      	27
 //28 and 29 are unused, possibly intended for XZ and YZ?
-#define VERSION_SUN             30
-#define VERSION_MOON            31
-#define VERSION_ULTRA_SUN       32
-#define VERSION_ULTRA_MOON      33
-#define VERSION_GO              34
-#define VERSION_VC_RED          35
-#define VERSION_VC_GREEN        36 //International versions of Blue use this ID
-#define VERSION_VC_BLUE         37
-#define VERSION_VC_YELLOW       38
-#define VERSION_VC_GOLD         39
-#define VERSION_VC_SILVER       40
-#define VERSION_VC_CRYSTAL      41
-#define VERSION_LETS_GO_PIKACHU 42
-#define VERSION_LETS_GO_EEVEE   43
-#define VERSION_SWORD           44
-#define VERSION_SHIELD          45
+#define VERSION_SUN             	30
+#define VERSION_MOON            	31
+#define VERSION_ULTRA_SUN       	32
+#define VERSION_ULTRA_MOON      	33
+#define VERSION_GO              	34
+#define VERSION_VC_RED          	35
+#define VERSION_VC_GREEN        	36 //International versions of Blue use this ID
+#define VERSION_VC_BLUE         	37
+#define VERSION_VC_YELLOW       	38
+#define VERSION_VC_GOLD         	39
+#define VERSION_VC_SILVER       	40
+#define VERSION_VC_CRYSTAL      	41
+#define VERSION_LETS_GO_PIKACHU 	42
+#define VERSION_LETS_GO_EEVEE   	43
+#define VERSION_SWORD           	44
+#define VERSION_SHIELD          	45
+#define VERSION_BRILLIANT_DIAMOND	46 //Speculation
+#define VERSION_SHINING_PEARL		47 //Speculation
+#define VERSION_LEGENDS_ARCEUS		48 //Speculation
 
 #define LANGUAGE_JAPANESE 1
 #define LANGUAGE_ENGLISH  2
