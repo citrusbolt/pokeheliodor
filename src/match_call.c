@@ -1115,7 +1115,7 @@ static void StartMatchCall(void)
     {
         ScriptContext2_Enable();
         FreezeObjectEvents();
-        sub_808B864();
+        PlayerFreeze();
         sub_808BCF4();
     }
 
@@ -1169,7 +1169,7 @@ static bool32 LoadMatchCallWindowGfx(u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     taskData[2] = AddWindow(&sMatchCallTextWindow);
-    if (taskData[2] == 0xFF)
+    if (taskData[2] == WINDOW_NONE)
     {
         DestroyTask(taskId);
         return FALSE;
@@ -1495,7 +1495,6 @@ static const struct MatchCallText *GetGeneralMatchCallText(int matchCallId, u8 *
     int count;
     u32 topic, id;
     u16 rand;
-    u16 var3;
 
     rand = Random();
     if (!(rand & 1))

@@ -496,7 +496,6 @@ static bool8 MonListHasMon(const struct WildPokemonInfo *info, u16 species, u16 
 static void BuildAreaGlowTilemap(void)
 {
     u16 i, y, x, j;
-    u16 val;
 
     for (i = 0; i < ARRAY_COUNT(sPokedexAreaScreen->areaGlowTilemap); i++)
         sPokedexAreaScreen->areaGlowTilemap[i] = 0;
@@ -699,7 +698,7 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             CreateAreaUnknownSprites();
             break;
         case 9:
-            BeginNormalPaletteFade(0xFFFFFFEB, 0, 16, 0, RGB(0, 0, 0));
+            BeginNormalPaletteFade(PALETTES_ALL & ~(0x14), 0, 16, 0, RGB(0, 0, 0));
             break;
         case 10:
             SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG0 | BLDCNT_TGT2_ALL);
@@ -744,7 +743,7 @@ static void Task_HandlePokedexAreaScreenInput(u8 taskId)
             return;
         break;
     case 2:
-        BeginNormalPaletteFade(0xFFFFFFEB, 0, 0, 16, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL & ~(0x14), 0, 0, 16, RGB_BLACK);
         break;
     case 3:
         if (gPaletteFade.active)
