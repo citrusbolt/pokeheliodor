@@ -1745,4 +1745,3 @@ gTilesetPalOverride_Petalburg06::
 .align 2
 gTilesetPalOverride_Petalburg08::
 	.incbin "data/tilesets/secondary/petalburg/palettes/08_over.gbapal"
-	
