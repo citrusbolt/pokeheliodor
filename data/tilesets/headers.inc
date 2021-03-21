@@ -20,7 +20,7 @@ gTileset_Petalburg:: @ 83DF71C
 	.4byte gMetatiles_Petalburg
 	.4byte gMetatileAttributes_Petalburg
 	.4byte InitTilesetAnim_Petalburg
-	.4byte NULL @ palette overrides
+	.4byte gTilesetPalOverrides_Petalburg
 
 	.align 2
 gTileset_Rustboro:: @ 83DF734
