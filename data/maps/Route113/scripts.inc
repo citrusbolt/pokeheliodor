@@ -159,9 +159,9 @@ Route113_Text_RouteSignFallarbor: @ 81F2456
 
 Route113_Text_TrainerTipsRegisterKeyItems: @ 81F2471
 	.string "TRAINER TIPS\p"
-	.string "You may register one of the KEY ITEMS\n"
-	.string "in your BAG as SELECT.\p"
-	.string "Simply press SELECT to use\n"
+	.string "You may register three of the KEY ITEMS\n"
+	.string "in your BAG as SELECT, L, or R.\p"
+	.string "Simply press SELECT, L, or R to use\n"
 	.string "the registered item conveniently.$"
 
 Route113_Text_GlassWorkshopSign: @ 81F24F8
