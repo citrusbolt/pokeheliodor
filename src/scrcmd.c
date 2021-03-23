@@ -84,6 +84,17 @@ static const u8 sScriptConditionTable[6][3] =
     1, 0, 1, // !=
 };
 
+static const u16 sTMHMMoves[] =
+{
+    [42] = MOVE_SECRET_POWER,
+    [50] = MOVE_CUT,
+    [52] = MOVE_SURF,
+    [53] = MOVE_STRENGTH,
+    [55] = MOVE_ROCK_SMASH,
+    [56] = MOVE_WATERFALL,
+    [57] = MOVE_DIVE,
+};
+
 static u8 * const sScriptStringVars[] =
 {
     gStringVar1,
@@ -1728,6 +1739,7 @@ bool8 ScrCmd_setmonmove(struct ScriptContext *ctx)
 bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
 {
     u8 i;
+	u8 j;
     u16 moveId = ScriptReadHalfword(ctx);
 
     gSpecialVar_Result = PARTY_SIZE;
@@ -1742,6 +1754,19 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
             gSpecialVar_0x8004 = species;
             break;
         }
+		for (j = 0; j < 58; j++)
+		{
+			if (sTMHMMoves[j] == moveId)
+			{
+				if (CanMonLearnTMHM(&gPlayerParty[i], j))
+				{
+					gSpecialVar_Result = i;
+					gSpecialVar_0x8004 = species;
+					break;
+				}
+			}
+		}
+
     }
     return FALSE;
 }

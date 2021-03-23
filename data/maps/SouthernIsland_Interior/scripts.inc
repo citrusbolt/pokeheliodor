@@ -17,8 +17,8 @@ SouthernIsland_Interior_EventScript_TryRemoveLati:: @ 8242A5A
 	return
 
 SouthernIsland_Interior_OnTransition: @ 8242A6E
-	call_if_unset FLAG_ROAMER_QUEST, SouthernIsland_Interior_EventScript_SetUpLatios
-	call_if_set FLAG_ROAMER_QUEST, SouthernIsland_Interior_EventScript_SetUpLatias
+	call_if_unset FLAG_ROAMER_QUEST, SouthernIsland_Interior_EventScript_SetUpLatias
+	call_if_set FLAG_ROAMER_QUEST, SouthernIsland_Interior_EventScript_SetUpLatios
 	call SouthernIsland_Interior_EventScript_SetUpPlayerGfx
 	end
 
@@ -77,8 +77,8 @@ SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
 	delay 50
 	special RemoveCameraObject
 	setvar VAR_LAST_TALKED, LOCALID_LATI
-	call_if_unset FLAG_ROAMER_QUEST SouthernIsland_Interior_EventScript_SetLatiosBattleVars
-	call_if_set FLAG_ROAMER_QUEST SouthernIsland_Interior_EventScript_SetLatiasBattleVars
+	call_if_unset FLAG_ROAMER_QUEST SouthernIsland_Interior_EventScript_SetLatiasBattleVars
+	call_if_set FLAG_ROAMER_QUEST SouthernIsland_Interior_EventScript_SetLatiosBattleVars
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLatiBattle
 	waitstate

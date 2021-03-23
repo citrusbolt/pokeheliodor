@@ -1608,7 +1608,7 @@ u8 *GetMapNameExtended(u8 *dest, u16 regionMapId, u16 padLength)
     {
         str = GetSecretBaseMapName(dest);
     }
-    else if (regionMapId < MAPSEC_END)
+    else if (regionMapId < MAPSEC_END && gRegionMapEntries[regionMapId].name != 0)
     {
         str = StringCopy(dest, gRegionMapEntries[regionMapId].name);
     }
