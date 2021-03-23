@@ -3111,7 +3111,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if (DidMonComeFromJohto && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
+		else if (DidMonComeFromJohto() && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
 		}
