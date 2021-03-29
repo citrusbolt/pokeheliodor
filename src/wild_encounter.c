@@ -1046,8 +1046,10 @@ static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex)
 	u8 i;
 	u8 validMonCount;
 	
-	if (!GetMonData(&gPlayerParty[0], MON_DATA_HELD_ITEM))
+	if (GetMonData(&gPlayerParty[0], MON_DATA_HELD_ITEM) != ITEM_SCOPE_LENS || Random() % 100 < 2)
+	{
 		return FALSE;
+	}
 	
 	for (i = 0; i < LAND_WILD_COUNT; i++)
 		validIndexes[i] = 0;
