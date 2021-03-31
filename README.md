@@ -40,6 +40,7 @@ The highest design priorities are 100% compatibility in terms of:
   * The "Masuda Method" is implemented.
   * A bug affecting IV inheritance has been fixed.
 * If the first member of the party is holding a Scope Lens, only Pokémon of that species will be found in the wild as long as that species is available at that location.
+  * There is a 2% chance of failure for this effect.
 * Methods to aid in obtaining Shiny Pokémon have been added.
   * As mentioned above, the [***Masuda Method***](https://bulbapedia.bulbagarden.net/wiki/Masuda_method) is implemented.
   * Once the National Dex has been completed, [***Shiny Charm***](https://bulbapedia.bulbagarden.net/wiki/Shiny_Charm) functionality is activated. (no item needs to be obtained for any of the Charm effects)
@@ -53,6 +54,16 @@ The highest design priorities are 100% compatibility in terms of:
   * The respawn will only trigger if the Pokémon is not registered as "caught" in the Pokédex, so trading over a legendary Pokémon will interfere with this.
   * Roaming Pokémon will respawn instantly somewhere in the region when knocked out.
 * The clock offset can be changed by pressing 'B', 'Left', and 'Select' on the title screen.
+* Secret Power, Cut, Surf, Strength, Rock Smash, Waterfall, and Dive can be used as long as one of the party members is capable of learning the move.
+    * The respective badge is still required.
+* EVs are capped at 252 per stat instead of 255.
+    * The cap on EVs able to be earned through vitamins has been removed as well.
+* The battle and summary screens report the correct type and base power for Hidden Power.
+* Synchronize's field effect is 100% effective.
+* If the first member of the party has Lightningrod or Flash Fire as its ability, there is a 50% chance of finding a Lightning or Fire-type Pokémon respectively in a wild encounter if an applicable encounter is possible in that area.
+* Catching a Pokémon yields experience points.
+* All TMs are purchasable.
+* HM moves can be forgotten without the use of the Move Deleter.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
