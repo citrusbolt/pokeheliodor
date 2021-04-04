@@ -5032,7 +5032,17 @@ static void PartyMenuTryEvolution(u8 taskId)
     }
     else
     {
-        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+		targetSpecies = GetEvolutionTargetSpecies(mon, 1, GetMonData(mon, MON_DATA_HELD_ITEM, NULL));
+		if (InUnionRoom() == TRUE && targetSpecies != SPECIES_NONE)
+		{
+			FreePartyPointers();
+			gCB2_AfterEvolution = gPartyMenu.exitCallback;
+			BeginEvolutionScene(mon, targetSpecies, 0, gPartyMenu.slotId);
+			DestroyTask(taskId);
+		}
+		else{
+			gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+		}
     }
 }
 
