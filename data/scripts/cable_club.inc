@@ -975,6 +975,56 @@ CableClub_EventScript_EnterUnionRoom:: @ 827759F
 	special RunUnionRoom
 	waitstate
 	end
+	
+CableClub_EventScript_EnterUnionRoomDummy::
+	call CableClub_EventScript_CheckPartyUnionRoomRequirements
+	compare VAR_RESULT, 0
+	goto_if_eq CableClub_EventScript_AbortLink
+	call Common_EventScript_SaveGame
+	compare VAR_RESULT, 0
+	goto_if_eq CableClub_EventScript_AbortLink
+	msgbox CableClub_Text_EnjoyUnionRoom, MSGBOX_DEFAULT
+	closemessage
+	special HealPlayerParty
+	setvar VAR_0x8004, USING_UNION_ROOM
+	copyvar VAR_CABLE_CLUB_STATE, VAR_0x8004
+	call CableClub_EventScript_OpenUnionRoomBarrier
+	special DrawWholeMapView
+	playse SE_CLICK
+	delay 60
+	applymovement VAR_LAST_TALKED, Movement_AttendantFaceLeft
+	waitmovement 0
+	applymovement OBJ_EVENT_ID_PLAYER, Movement_PlayerApproachLinkRoomLeft
+	waitmovement 0
+	opendoor 5, 1
+	waitdooranim
+	applymovement OBJ_EVENT_ID_PLAYER, Movement_PlayerEnterLinkRoom
+	waitmovement 0
+	hideobjectat OBJ_EVENT_ID_PLAYER, 0
+	closedoor 5, 1
+	waitdooranim
+	special Script_ResetUnionRoomTrade
+	special SetCableClubWarp
+	warpteleport2 MAP_UNION_ROOM, 255, 7, 11
+	waitstate
+	@special RunUnionRoom
+	@waitstate
+	end
+
+CableClub_EventScript_UnionRoomSelectDummy::
+	multichoice 17, 6, MULTI_YESNOINFO, 0
+	switch VAR_RESULT
+	case 0, CableClub_EventScript_EnterUnionRoomDummy
+	case 1, CableClub_EventScript_AbortLink
+	case 2, CableClub_EventScript_UnionRoomInfoDummy
+	case MULTI_B_PRESSED, CableClub_EventScript_AbortLink
+	end
+
+CableClub_EventScript_UnionRoomInfoDummy::
+	message CableClub_Text_UnionRoomInfo
+	waitmessage
+	goto CableClub_EventScript_UnionRoomSelectDummy
+	end
 
 CableClub_EventScript_CheckPartyUnionRoomRequirements:: @ 8277626
 	specialvar VAR_RESULT, CountPartyNonEggMons
@@ -997,8 +1047,11 @@ CableClub_EventScript_NoEnigmaBerryInUnionRoom:: @ 827765A
 	end
 
 CableClub_EventScript_UnionRoomAdapterNotConnected:: @ 8277668
-	msgbox CableClub_Text_UnionRoomAdapterNotConnected, MSGBOX_DEFAULT
-	release
+	@msgbox CableClub_Text_UnionRoomAdapterNotConnected, MSGBOX_DEFAULT
+	@release
+	message CableClub_Text_WelcomeUnionRoomEnter
+	waitmessage
+	goto CableClub_EventScript_UnionRoomSelectDummy
 	return
 
 CableClub_EventScript_WirelessClubAttendant:: @ 8277672

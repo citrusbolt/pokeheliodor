@@ -1,3 +1,4 @@
+.set LOCALID_UR_NURSE, 1
 .set LOCALID_UR_PLAYER_4, 2
 .set LOCALID_UR_PLAYER_8, 3
 .set LOCALID_UR_PLAYER_7, 4
@@ -29,7 +30,11 @@ UnionRoom_OnResume: @ 823D1B1
 	removeobject LOCALID_UR_PLAYER_6
 	removeobject LOCALID_UR_PLAYER_7
 	removeobject LOCALID_UR_PLAYER_8
-	special RunUnionRoom
+	specialvar VAR_RESULT, IsWirelessAdapterConnected
+	compare VAR_RESULT, TRUE
+	goto_if_eq UnionRoom_EventScript_Online
+	setflag FLAG_HIDE_UNION_ROOM_NURSE
+	removeobject LOCALID_UR_NURSE
 	end
 
 UnionRoom_OnTransition: @ 823D1E5
@@ -114,3 +119,7 @@ UnionRoom_EventScript_Unused:: @ 823D240
 	releaseall
 	end
 
+UnionRoom_EventScript_Online::
+	clearflag FLAG_HIDE_UNION_ROOM_NURSE
+	special RunUnionRoom
+	end
