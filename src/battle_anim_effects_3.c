@@ -2292,7 +2292,7 @@ void AnimTask_TransformMon(u8 taskId)
 
         src = gMonSpritesGfxPtr->sprites.ptr[position] + (gBattleMonForms[gBattleAnimAttacker] << 11);
         dest = animBg.bgTiles;
-        CpuCopy32(src, dest, 0x800);
+        CpuCopy32(src, dest, MON_PIC_SIZE);
         LoadBgTiles(1, animBg.bgTiles, 0x800, animBg.tilesOffset);
         if (IsContest())
         {
@@ -2387,7 +2387,7 @@ void AnimTask_MorningSunLightBeam(u8 taskId)
         if (!IsContest())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
 
-        sub_80A6B30(&animBg);
+        GetBattleAnimBg1Data(&animBg);
         AnimLoadCompressedBgTilemapHandleContest(&animBg, &gBattleAnimMaskTilemap_LightBeam, 0);
         if (IsContest())
         {
@@ -2450,8 +2450,8 @@ void AnimTask_MorningSunLightBeam(u8 taskId)
         }
         break;
     case 4:
-        sub_80A6B30(&animBg);
-        sub_80A6C68(animBg.bgId);
+        GetBattleAnimBg1Data(&animBg);
+        ClearBattleAnimBg(animBg.bgId);
         if (!IsContest())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
 
@@ -2568,7 +2568,7 @@ void AnimTask_DoomDesireLightBeam(u8 taskId)
         if (!IsContest())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
 
-        sub_80A6B30(&animBg);
+        GetBattleAnimBg1Data(&animBg);
         AnimLoadCompressedBgTilemapHandleContest(&animBg, &gBattleAnimMaskTilemap_LightBeam, 0);
         if (IsContest())
         {
@@ -2639,8 +2639,8 @@ void AnimTask_DoomDesireLightBeam(u8 taskId)
             gTasks[taskId].data[0] = 1;
         break;
     case 5:
-        sub_80A6B30(&animBg);
-        sub_80A6C68(animBg.bgId);
+        GetBattleAnimBg1Data(&animBg);
+        ClearBattleAnimBg(animBg.bgId);
         if (!IsContest())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
 
@@ -3286,7 +3286,7 @@ static void AnimTask_RolePlaySilhouette_Step2(u8 taskId)
     TrySetSpriteRotScale(&gSprites[spriteId], TRUE, gTasks[taskId].data[10], gTasks[taskId].data[11], 0);
     if (++gTasks[taskId].data[12] == 9)
     {
-        sub_80A749C(&gSprites[spriteId]);
+        ResetSpriteRotScale_PreserveAffine(&gSprites[spriteId]);
         DestroySpriteAndFreeResources_(&gSprites[spriteId]);
         gTasks[taskId].func = DestroyAnimVisualTaskAndDisableBlend;
     }
@@ -3866,7 +3866,7 @@ static void AnimTask_FacadeColorBlend_Step(u8 taskId)
 // The sliding circle effect used by Refresh and Aromatherapy
 void AnimTask_StatusClearedEffect(u8 taskId)
 {
-    sub_8117854(
+    StartMonScrollingBgMask(
         taskId,
         0,
         0x1A0,

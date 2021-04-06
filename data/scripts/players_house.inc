@@ -501,7 +501,6 @@ PlayersHouse_1F_EventScript_GetSSTicketAndSeeLatiTV:: @ 8292AF2
 	compare VAR_0x8008, FEMALE
 	call_if_eq PlayersHouse_1F_EventScript_MomApproachPlayerAfterTVFemale
 	msgbox PlayersHouse_1F_Text_WhatColorDidTheySay, MSGBOX_DEFAULT
-	@multichoice 22, 8, MULTI_TV_LATI, 1
 	checkitem ITEM_SAPPHIRE, 1
 	copyvar VAR_0x8004, VAR_RESULT
 	special InitRoamer

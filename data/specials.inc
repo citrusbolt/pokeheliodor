@@ -138,7 +138,7 @@ gSpecials:: @ 81DBA64
 	def_special BufferMonNickname
 	def_special IsMonOTIDNotPlayers
 	def_special BufferTrendyPhraseString
-	def_special TrendyPhraseIsOld
+	def_special IsTrendyPhraseBoring
 	def_special BufferDeepLinkPhrase
 	def_special GetDewfordHallPaintingNameIndex
 	def_special SwapRegisteredBike
@@ -514,7 +514,7 @@ gSpecials:: @ 81DBA64
 	def_special SetMewAboveGrass
 	def_special ShouldDistributeEonTicket
 	def_special LinkRetireStatusWithBattleTowerPartner
-	def_special sub_813B534
+	def_special BattleTowerReconnectLink
 	def_special CallTrainerHillFunction
 	def_special Script_DoRayquazaScene @ Listed twice
 	def_special LoopWingFlapSE

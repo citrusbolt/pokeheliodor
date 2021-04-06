@@ -260,7 +260,7 @@ static void Cmd_trysetperishsong(void);
 static void Cmd_rolloutdamagecalculation(void);
 static void Cmd_jumpifconfusedandstatmaxed(void);
 static void Cmd_furycuttercalc(void);
-static void Cmd_happinesstodamagecalculation(void);
+static void Cmd_friendshiptodamagecalculation(void);
 static void Cmd_presentdamagecalculation(void);
 static void Cmd_setsafeguard(void);
 static void Cmd_magnitudedamagecalculation(void);
@@ -512,7 +512,7 @@ void (* const gBattleScriptingCommandsTable[])(void) =
     Cmd_rolloutdamagecalculation,                //0xB3
     Cmd_jumpifconfusedandstatmaxed,              //0xB4
     Cmd_furycuttercalc,                          //0xB5
-    Cmd_happinesstodamagecalculation,            //0xB6
+    Cmd_friendshiptodamagecalculation,           //0xB6
     Cmd_presentdamagecalculation,                //0xB7
     Cmd_setsafeguard,                            //0xB8
     Cmd_magnitudedamagecalculation,              //0xB9
@@ -4868,7 +4868,7 @@ static void Cmd_openpartyscreen(void)
         {
             u8 flag40_0, flag40_1, flag40_2, flag40_3;
 
-            hitmarkerFaintBits = gHitMarker >> 0x1C;
+            hitmarkerFaintBits = gHitMarker >> 28;
 
             if (gBitTable[0] & hitmarkerFaintBits)
             {
@@ -4997,7 +4997,7 @@ static void Cmd_openpartyscreen(void)
         {
             if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
             {
-                hitmarkerFaintBits = gHitMarker >> 0x1C;
+                hitmarkerFaintBits = gHitMarker >> 28;
                 if (gBitTable[2] & hitmarkerFaintBits && gBitTable[0] & hitmarkerFaintBits)
                 {
                     gActiveBattler = 2;
@@ -5042,7 +5042,7 @@ static void Cmd_openpartyscreen(void)
             gBattlescriptCurrInstr += 6;
         }
 
-        hitmarkerFaintBits = gHitMarker >> 0x1C;
+        hitmarkerFaintBits = gHitMarker >> 28;
 
         gBattlerFainted = 0;
         while (!(gBitTable[gBattlerFainted] & hitmarkerFaintBits)
@@ -5242,7 +5242,7 @@ static void Cmd_switchineffects(void)
 
             if (gBattlescriptCurrInstr[1] == 5)
             {
-                u32 hitmarkerFaintBits = gHitMarker >> 0x1C;
+                u32 hitmarkerFaintBits = gHitMarker >> 28;
 
                 gBattlerFainted++;
                 while (1)
@@ -5387,7 +5387,7 @@ static void Cmd_yesnoboxlearnmove(void)
             if (gBattleCommunication[1] == 0)
             {
                 HandleBattleWindow(0x18, 0x8, 0x1D, 0xD, WINDOW_CLEAR);
-                BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+                BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gBattleScripting.learnMoveState++;
             }
             else
@@ -6289,7 +6289,7 @@ static void Cmd_hpthresholds2(void)
 static void Cmd_useitemonopponent(void)
 {
     gBattlerInMenuId = gBattlerAttacker;
-    PokemonUseItemEffects(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker]], gLastUsedItem, gBattlerPartyIndexes[gBattlerAttacker], 0, 1);
+    PokemonUseItemEffects(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker]], gLastUsedItem, gBattlerPartyIndexes[gBattlerAttacker], 0, TRUE);
     gBattlescriptCurrInstr += 1;
 }
 
@@ -8515,7 +8515,7 @@ static void Cmd_furycuttercalc(void)
     }
 }
 
-static void Cmd_happinesstodamagecalculation(void)
+static void Cmd_friendshiptodamagecalculation(void)
 {
     if (gBattleMoves[gCurrentMove].effect == EFFECT_RETURN)
         gDynamicBasePower = 10 * (gBattleMons[gBattlerAttacker].friendship) / 25;
@@ -9993,7 +9993,7 @@ static void Cmd_displaydexinfo(void)
     switch (gBattleCommunication[0])
     {
     case 0:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         gBattleCommunication[0]++;
         break;
     case 1:
@@ -10024,7 +10024,7 @@ static void Cmd_displaydexinfo(void)
     case 4:
         if (!IsDma3ManagerBusyWithBgCopy())
         {
-            BeginNormalPaletteFade(0xFFFF, 0, 0x10, 0, RGB_BLACK);
+            BeginNormalPaletteFade(PALETTES_BG, 0, 0x10, 0, RGB_BLACK);
             ShowBg(0);
             ShowBg(3);
             gBattleCommunication[0]++;
