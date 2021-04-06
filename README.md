@@ -64,6 +64,8 @@ The highest design priorities are 100% compatibility in terms of:
 * Catching a Pokémon yields experience points.
 * All TMs are purchasable.
 * HM moves can be forgotten without the use of the Move Deleter.
+* Trade evolutions can be triggered be leveling up in the Union Room.
+    * The Union Room can be entered without the Wireless Adapter connected.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
@@ -100,3 +102,4 @@ To build this yourself, see [INSTALL.md](INSTALL.md).
 * ShinyDragonHunter
 * Sierraffinity
 * aldelaro5
+* ghoulslash
