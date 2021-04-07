@@ -499,7 +499,7 @@ static bool8 MonListHasMon(const struct WildPokemonInfo *info, u16 species, u16 
         {
             for (i = 0; i < size; i++)
             {
-                if (info->wildPokemon[timeOfDay][i].species == species)
+                if (info->wildPokemon[i].species == species)
                     return TRUE;
             }
         }
