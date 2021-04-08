@@ -84,24 +84,32 @@ BattleFrontier_Lounge1_EventScript_EndBreederComments:: @ 825E87D
 	release
 	end
 
+BattleFrontier_Lounge1_EventScript_ReadIVs::
+	special BufferIVs1
+	msgbox BattleFrontier_Lounge1_Text_ReciteIVs1, MSGBOX_DEFAULT
+	special BufferIVs2
+	msgbox BattleFrontier_Lounge1_Text_ReciteIVs2, MSGBOX_DEFAULT
+	release
+	end
+
 BattleFrontier_Lounge1_EventScript_AverageTotalIVs:: @ 825E87F
 	msgbox BattleFrontier_Lounge1_Text_AverageAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_ReadIVs
 	end
 
 BattleFrontier_Lounge1_EventScript_AboveAverageTotalIVs:: @ 825E88D
 	msgbox BattleFrontier_Lounge1_Text_BetterThanAverageAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_ReadIVs
 	end
 
 BattleFrontier_Lounge1_EventScript_HighTotalIVs:: @ 825E89B
 	msgbox BattleFrontier_Lounge1_Text_ImpressiveAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_ReadIVs
 	end
 
 BattleFrontier_Lounge1_EventScript_VeryHighTotalIVs:: @ 825E8A9
 	msgbox BattleFrontier_Lounge1_Text_OutstandingAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_ReadIVs
 	end
 
 BattleFrontier_Lounge1_EventScript_HighestIVHP:: @ 825E8B7
@@ -273,3 +281,12 @@ BattleFrontier_Lounge1_Text_DidntDoAnythingSpecialRaisingIt: @ 825F020
 	.string "But I didn't do anything special\l"
 	.string "raising it…$"
 
+BattleFrontier_Lounge1_Text_ReciteIVs1:
+	.string "Its HP is rated at {STR_VAR_1}.\p"
+	.string "Its ATTACK is rated at {STR_VAR_2}.\p"
+	.string "Its DEFENSE is rated at {STR_VAR_3}.$"
+	
+BattleFrontier_Lounge1_Text_ReciteIVs2:
+	.string "Its SPECIAL ATTACK is rated at {STR_VAR_1}.\p"
+	.string "Its SPECIAL DEFENSE is rated at {STR_VAR_2}.\p"
+	.string "Its SPEED is rated at {STR_VAR_3}.$"
