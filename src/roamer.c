@@ -309,6 +309,7 @@ void SetRoamerInactive(void)
 {
 	if (VarGet(VAR_ROAMER_POKEMON) == 0)
 	{
+		FlagSet(FLAG_ROAMER_QUEST);
 		ClearRoamerData();
 		ClearRoamerLocationData();
 		VarSet(VAR_ROAMER_POKEMON, 2);
