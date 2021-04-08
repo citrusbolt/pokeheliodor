@@ -1437,6 +1437,7 @@ u8 CheckIncubator()
 		return 0xFF;
 	
 	egg = (&gSaveBlock1Ptr->incubator)->egg;
+	RtcCalcLocalTime();
 	CalcTimeDifference(&timeElapsed, &(&gSaveBlock1Ptr->incubator)->timeEntered, &gLocalTime);
 	eggCycles = GetMonData(&egg, MON_DATA_FRIENDSHIP);
 	eggCyclesDepleted = (24 * 60 * timeElapsed.days + 60 * timeElapsed.hours + timeElapsed.minutes) / 36;
