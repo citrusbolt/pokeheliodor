@@ -55,9 +55,9 @@ The highest design priorities are 100% compatibility in terms of:
   * Roaming Pokémon will respawn instantly somewhere in the region when knocked out.
 * The clock offset can be changed by pressing 'B', 'Left', and 'Select' on the title screen.
 * Secret Power, Cut, Surf, Strength, Rock Smash, Waterfall, and Dive can be used as long as one of the party members is capable of learning the move.
-    * The respective badge is still required.
+  * The respective badge is still required.
 * EVs are capped at 252 per stat instead of 255.
-    * The cap on EVs able to be earned through vitamins has been removed as well.
+  * The cap on EVs able to be earned through vitamins has been removed as well.
 * The battle and summary screens report the correct type and base power for Hidden Power.
 * Synchronize's field effect is 100% effective.
 * If the first member of the party has Lightningrod or Flash Fire as its ability, there is a 50% chance of finding a Lightning or Fire-type Pokémon respectively in a wild encounter if an applicable encounter is possible in that area.
@@ -65,7 +65,10 @@ The highest design priorities are 100% compatibility in terms of:
 * All TMs are purchasable.
 * HM moves can be forgotten without the use of the Move Deleter.
 * Trade evolutions can be triggered be leveling up in the Union Room.
-    * The Union Room can be entered without the Wireless Adapter connected.
+  * The Union Room can be entered without the Wireless Adapter connected.
+* Level-up evolutions can be triggered at level 100 by using a Rare Candy.
+* The IV Judge at the Battle Frontier gives specific numbers for all stats.
+  * Next door, there is an EV Judge as well as an EV Reseter.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.

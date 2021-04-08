@@ -23,11 +23,14 @@ SouthernIsland_Interior_OnTransition: @ 8242A6E
 	end
 
 SouthernIsland_Interior_EventScript_SetUpLatios:: @ 8242A8A
+	setflag FLAG_ROAMER_QUEST
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LATIOS
 	setvar VAR_TEMP_4, SPECIES_LATIOS
 	return
 
 SouthernIsland_Interior_EventScript_SetUpLatias:: @ 8242A95
+	compare VAR_ROAMER_POKEMON, 0
+	goto_if_eq SouthernIsland_Interior_EventScript_SetUpLatios
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LATIAS
 	setvar VAR_TEMP_4, SPECIES_LATIAS
 	return

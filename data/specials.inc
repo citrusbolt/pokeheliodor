@@ -560,3 +560,10 @@ gSpecials:: @ 81DBA64
 	def_special ShowPokeCouponsWindow
 	def_special SetMochiBerry
 	def_special GetEnigmaName
+	def_special BufferIVs1
+	def_special BufferIVs2
+	def_special BufferEVs1
+	def_special BufferEVs2
+	def_special AreEVsMaxedOut
+	def_special AreEVsZero
+	def_special EraseEVs

@@ -4713,3 +4713,58 @@ void ShowPokeCouponsWindow(void)
     UpdatePokeCouponsWindow();
     CopyWindowToVram(sBattlePointsWindowId, 2);
 }
+
+void BufferIVs1(void)
+{
+	ConvertIntToDecimalStringN(gStringVar1, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_HP_IV), STR_CONV_MODE_LEFT_ALIGN, 2);
+	ConvertIntToDecimalStringN(gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_ATK_IV), STR_CONV_MODE_LEFT_ALIGN, 2);
+	ConvertIntToDecimalStringN(gStringVar3, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_DEF_IV), STR_CONV_MODE_LEFT_ALIGN, 2);
+}
+
+void BufferIVs2(void)
+{
+	ConvertIntToDecimalStringN(gStringVar1, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPATK_IV), STR_CONV_MODE_LEFT_ALIGN, 2);
+	ConvertIntToDecimalStringN(gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPDEF_IV), STR_CONV_MODE_LEFT_ALIGN, 2);
+	ConvertIntToDecimalStringN(gStringVar3, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPEED_IV), STR_CONV_MODE_LEFT_ALIGN, 2);
+}
+
+void BufferEVs1(void)
+{
+	ConvertIntToDecimalStringN(gStringVar1, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_HP_EV), STR_CONV_MODE_LEFT_ALIGN, 3);
+	ConvertIntToDecimalStringN(gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_ATK_EV), STR_CONV_MODE_LEFT_ALIGN, 3);
+	ConvertIntToDecimalStringN(gStringVar3, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_DEF_EV), STR_CONV_MODE_LEFT_ALIGN, 3);
+}
+
+void BufferEVs2(void)
+{
+	ConvertIntToDecimalStringN(gStringVar1, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPATK_EV), STR_CONV_MODE_LEFT_ALIGN, 3);
+	ConvertIntToDecimalStringN(gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPDEF_EV), STR_CONV_MODE_LEFT_ALIGN, 3);
+	ConvertIntToDecimalStringN(gStringVar3, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPEED_EV), STR_CONV_MODE_LEFT_ALIGN, 3);
+}
+
+bool8 AreEVsMaxedOut(void)
+{
+	if (GetMonEVCount(&gPlayerParty[gSpecialVar_0x8004]) >= MAX_TOTAL_EVS)
+		return TRUE;
+	else
+	return FALSE;
+}
+
+bool8 AreEVsZero(void)
+{
+	if (GetMonEVCount(&gPlayerParty[gSpecialVar_0x8004]) == 0)
+		return TRUE;
+	else
+	return FALSE;
+}
+
+void EraseEVs(void)
+{
+	u8 zero = 0;
+	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_HP_EV, &zero);
+	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_ATK_EV, &zero);
+	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_DEF_EV, &zero);
+	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPATK_EV, &zero);
+	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPDEF_EV, &zero);
+	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPEED_EV, &zero);
+}

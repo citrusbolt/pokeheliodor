@@ -1004,7 +1004,7 @@ BattleFrontier_ExchangeServiceCorner_Text_MtBattlePartnership::
 	.string "with the MT. BATTLE facility in the\l"
 	.string "ORRE region to exchange Battle Points\l"
 	.string "for POKé COUPONS.\p"
-	.string "You are also now able to access\l"
+	.string "You are also now able to access\n"
 	.string "their COUPON EXCHANGE via the PC.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_CouponClerk::

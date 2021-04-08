@@ -4899,10 +4899,19 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
     PlaySE(SE_SELECT);
     if (cannotUseEffect)
     {
-        gPartyMenuUseExitCallback = FALSE;
-        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
-        ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = task;
+		u16 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE);
+		
+		if (targetSpecies != SPECIES_NONE)
+		{
+			PartyMenuTryEvolution(taskId);
+		}
+		else
+		{
+			gPartyMenuUseExitCallback = FALSE;
+			DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+			ScheduleBgCopyTilemapToVram(2);
+			gTasks[taskId].func = task;
+		}
     }
     else
     {
