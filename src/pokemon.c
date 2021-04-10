@@ -2448,13 +2448,13 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		if (gSpeciesToHoennPokedexNum[species] > HOENN_DEX_COUNT && species != SPECIES_LUGIA && species != SPECIES_HO_OH && metLocation != MAPSEC_SAFARI_ZONE) //"Non-native" Pokémon will still be flagged as illegal until they enter Gen IV due to their met locations being in Hoenn
 		{
 			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-			{
 				version = VERSION_LEAFGREEN;
-			}
 			else
-			{
 				version = VERSION_FIRERED;
-			}
+			if (species == SPECIES_EKANS || species == SPECIES_ARBOK || species == SPECIES_GROWLITHE || species == SPECIES_ARCANINE || species == SPECIES_SHELLDER || species == SPECIES_CLOYSTER || species == SPECIES_SCYTHER || species == SPECIES_ELECTABUZZ || species == SPECIES_MURKROW || species == SPECIES_QWILFISH || species == SPECIES_DELIBIRD || species == SPECIES_ELEKID)
+				version = VERSION_FIRERED;
+			if (species == SPECIES_BELLSPROUT || species == SPECIES_WEEPINBELL || species == SPECIES_VICTREEBEL || species == SPECIES_SLOWPOKE || species == SPECIES_SLOWBRO || species == SPECIES_MAGMAR || species == SPECIES_MISDREAVUS || species == SPECIES_SNEASEL || species == SPECIES_MANTINE || species == SPECIES_MAGBY)
+				version = VERSION_LEAFGREEN;
 		}
 		else if (species == SPECIES_MEDITITE || species == SPECIES_MEDICHAM || species == SPECIES_ROSELIA)
 		{
