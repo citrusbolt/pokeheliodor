@@ -37,6 +37,7 @@ EWRAM_DATA static u16 sHatchedEggFatherMoves[MAX_MON_MOVES] = {0};
 EWRAM_DATA static u16 sHatchedEggFinalMoves[MAX_MON_MOVES] = {0};
 EWRAM_DATA static u16 sHatchedEggEggMoves[EGG_MOVES_ARRAY_COUNT] = {0};
 EWRAM_DATA static u16 sHatchedEggMotherMoves[MAX_MON_MOVES] = {0};
+EWRAM_DATA static u16 sHatchedEggFatherEggMoves[EGG_MOVES_ARRAY_COUNT] = {0};
 
 #include "data/pokemon/egg_moves.h"
 
@@ -671,7 +672,8 @@ static void BuildEggMoveset(struct Pokemon *egg, struct BoxPokemon *father, stru
     u16 numSharedParentMoves;
     u32 numLevelUpMoves;
     u16 numEggMoves;
-    u16 i, j;
+	u16 numFatherEggMoves;
+    u16 i, j, k;
 
     numSharedParentMoves = 0;
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -734,6 +736,7 @@ static void BuildEggMoveset(struct Pokemon *egg, struct BoxPokemon *father, stru
     }
 
     numEggMoves = GetEggMoves(egg, sHatchedEggEggMoves);
+    numFatherEggMoves = GetEggMoves(egg, sHatchedEggFatherEggMoves);
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
@@ -757,18 +760,24 @@ static void BuildEggMoveset(struct Pokemon *egg, struct BoxPokemon *father, stru
 		
 	for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        if (sHatchedEggMotherMoves[i] != MOVE_NONE)
-        {
-            for (j = 0; j < numEggMoves; j++)
-            {
-                if (sHatchedEggMotherMoves[i] == sHatchedEggEggMoves[j])
-                {
-                    if (GiveMoveToMon(egg, sHatchedEggMotherMoves[i]) == MON_HAS_MAX_MOVES)
-                        DeleteFirstMoveAndGiveMoveToMon(egg, sHatchedEggMotherMoves[i]);
-                    break;
-                }
-            }
-        }
+		if (sHatchedEggMotherMoves[i] != MOVE_NONE)
+		{
+			for (j = 0; j < numEggMoves; j++)
+			{
+				if (sHatchedEggMotherMoves[i] == sHatchedEggEggMoves[j])
+				{
+					for (k = 0; k < numFatherEggMoves; k++)
+					{
+						if (sHatchedEggMotherMoves[i] == sHatchedEggFatherEggMoves[k])
+						{
+							if (GiveMoveToMon(egg, sHatchedEggMotherMoves[i]) == MON_HAS_MAX_MOVES)
+								DeleteFirstMoveAndGiveMoveToMon(egg, sHatchedEggMotherMoves[i]);
+						}
+					}
+					break;
+				}
+			}
+		}
         else
         {
             break;
