@@ -1313,7 +1313,7 @@
               {
                 "min_level": 13,
                 "max_level": 13,
-                "species": "SPECIES_CHANSEY"
+                "species": "SPECIES_ELECTRIKE"
               },
               {
                 "min_level": 13,
@@ -1351,9 +1351,9 @@
                 "species": "SPECIES_PLUSLE"
               },
               {
-                "min_level": 16,
-                "max_level": 16,
-                "species": "SPECIES_CHANSEY"
+                "min_level": 13,
+                "max_level": 13,
+                "species": "SPECIES_PLUSLE"
               }
             ]
           },
@@ -2548,7 +2548,7 @@
               {
                 "min_level": 7,
                 "max_level": 7,
-                "species": "SPECIES_TAUROS"
+                "species": "SPECIES_POOCHYENA"
               },
               {
                 "min_level": 8,
@@ -2996,7 +2996,7 @@
               {
                 "min_level": 27,
                 "max_level": 27,
-                "species": "SPECIES_SCYTHER"
+                "species": "SPECIES_WINGULL"
               },
               {
                 "min_level": 25,
@@ -3879,7 +3879,7 @@
               {
                 "min_level": 36,
                 "max_level": 36,
-                "species": "SPECIES_KANGASKHAN"
+                "species": "SPECIES_ARON"
               },
               {
                 "min_level": 36,
@@ -4121,7 +4121,7 @@
               {
                 "min_level": 5,
                 "max_level": 35,
-                "species": "SPECIES_DRATINI"
+                "species": "SPECIES_TENTACOOL"
               },
               {
                 "min_level": 30,
@@ -4216,7 +4216,7 @@
               {
                 "min_level": 25,
                 "max_level": 30,
-                "species": "SPECIES_DRATINI"
+                "species": "SPECIES_TENTACOOL"
               },
               {
                 "min_level": 30,
@@ -9687,7 +9687,7 @@
               {
                 "min_level": 5,
                 "max_level": 35,
-                "species": "SPECIES_DRATINI"
+                "species": "SPECIES_TENTACOOL"
               },
               {
                 "min_level": 5,
@@ -9797,7 +9797,7 @@
               {
                 "min_level": 30,
                 "max_level": 35,
-                "species": "SPECIES_DRATINI"
+                "species": "SPECIES_TENTACRUEL"
               },
               {
                 "min_level": 25,
@@ -9805,9 +9805,9 @@
                 "species": "SPECIES_TENTACRUEL"
               },
               {
-                "min_level": 30,
-                "max_level": 35,
-                "species": "SPECIES_DRAGONAIR"
+                "min_level": 20,
+                "max_level": 25,
+                "species": "SPECIES_TENTACRUEL"
               }
             ]
           }
@@ -11888,7 +11888,7 @@
               {
                 "min_level": 38,
                 "max_level": 38,
-                "species": "SPECIES_KANGASKHAN"
+                "species": "SPECIES_HARIYAMA"
               },
               {
                 "min_level": 42,
@@ -12037,7 +12037,7 @@
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_KANGASKHAN"
+                "species": "SPECIES_LAIRON"
               },
               {
                 "min_level": 40,
