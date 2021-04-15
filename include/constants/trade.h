@@ -12,6 +12,7 @@
 #define INGAME_TRADE_LICKITUNG2 2
 #define INGAME_TRADE_MRMIME 3
 #define INGAME_TRADE_KANTO 4
+#define INGAME_TRADE_JYNX 5
 
 // Flag IDs for sending link data
 #define INITIATE_TRADE  1
