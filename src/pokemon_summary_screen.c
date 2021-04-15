@@ -3747,7 +3747,9 @@ static void PrintEggMemo(void)
 		//}
         else if (sum->metLocation == METLOC_SPECIAL_EGG)
 		{
-			if (DidMonComeFromHoenn())
+			if (sum->species == SPECIES_TYROGUE)
+				text = gText_EggFromPokecomCenter;
+			else if (DidMonComeFromHoenn())
 				text = gText_EggFromHotSprings;
 			else if (DidMonComeFromJohto())
 				text = gText_EggFromElm;
@@ -3773,7 +3775,7 @@ static void PrintEggMemo(void)
     }
     else
     {
-        text = gText_OddEggFoundByCouple;
+        text = gText_BadEggDesc;
     }
 
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), text, 0, 1, 0, 0);

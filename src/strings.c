@@ -1910,3 +1910,4 @@ const u8 gText_EggFromElm[] = _("A POKéMON EGG obtained\nfrom PROF. ELM.");
 const u8 gText_EggFromPokecomCenter[] = _("An odd POKéMON EGG\nobtained at the POKéCOM\nCENTER in GOLDENROD CITY.");
 const u8 gText_EggFromKanto[] = _("An odd POKéMON EGG found\nby the DAY CARE couple\nin the KANTO region.");
 const u8 gText_EggFromJohto[] = _("An odd POKéMON EGG found\nby the DAY CARE couple\nin the JOHTO region.");
+const u8 gText_BadEggDesc[] = _("A peculiar POKéMON EGG.");

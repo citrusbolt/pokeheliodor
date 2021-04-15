@@ -3156,5 +3156,6 @@ extern const u8 gText_EggFromElm[];
 extern const u8 gText_EggFromPokecomCenter[];
 extern const u8 gText_EggFromKanto[];
 extern const u8 gText_EggFromJohto[];
+extern const u8 gText_BadEggDesc[];
 
 #endif // GUARD_STRINGS_H
