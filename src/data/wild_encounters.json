@@ -9122,7 +9122,7 @@
               {
                 "min_level": 40,
                 "max_level": 45,
-                "species": "SPECIES_OCTILLERY"
+                "species": "SPECIES_REMORAID"
               }
             ]
           }
@@ -17629,12 +17629,12 @@
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_OCTILLERY"
+                "species": "SPECIES_REMORAID"
               },
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_OCTILLERY"
+                "species": "SPECIES_REMORAID"
               }
             ]
           }
@@ -17718,12 +17718,12 @@
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_OCTILLERY"
+                "species": "SPECIES_REMORAID"
               },
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_OCTILLERY"
+                "species": "SPECIES_REMORAID"
               }
             ]
           }
