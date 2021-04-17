@@ -68,6 +68,15 @@ static void Task_PlayMapChosenOrBattleBGM(u8 taskId);
 static bool8 ShouldGetStatBadgeBoost(u16 flagId, u8 battlerId);
 static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
 static bool8 ShouldSkipFriendshipChange(void);
+static bool8 IsMonSapphireExclusive(u16 species);
+static bool8 IsMonRubyExclusive(u16 species);
+static bool8 IsMonRubySapphireExclusive(u16 species);
+static bool8 IsMonFireRedExclusive(u16 species);
+static bool8 IsMonLeafGreenExclusive(u16 species);
+static bool8 IsMonFireRedLeafGreenExclusive(u16 species);
+static bool8 IsMonOutsideSafariFireRed(u16 species);
+static bool8 IsMonOutsideSafariLeafGreen(u16 species);
+static bool8 IsMonOutsideSafariFireRedLeafGreen(u16 species);
 
 // EWRAM vars
 EWRAM_DATA static u8 sLearningMoveTableID = 0;
@@ -2144,6 +2153,163 @@ static const struct SpriteTemplate gUnknown_08329F28 =
     .callback = SpriteCallbackDummy,
 };
 
+#define RUBY_EXCLUSIVES				 1
+#define SAPPHIRE_EXCLUSIVES			 1
+#define RUBYSAPPHIRE_EXCLUSIVES		 3
+#define FIRERED_EXCLUSIVES			 9
+#define LEAFGREEN_EXCLUSIVES		 9
+#define FIREREDLEAFGREEN_EXCLUSIVES	75
+#define SAFARIZONE_FIRERED			 3
+#define SAFARIZONE_LEAFGREEN		 1
+#define SAFARIZONE_FIREREDLEAFGREEN	 9
+
+const u16 sSapphireExclusives[] =
+{
+	SPECIES_LUNATONE
+};
+
+const u16 sRubyExclusives[] =
+{
+	SPECIES_ZANGOOSE
+};
+
+const u16 sRubySapphireExclusives[] =
+{
+	SPECIES_MEDITITE,
+	SPECIES_MEDICHAM,
+	SPECIES_ROSELIA
+};
+
+const u16 sFireRedExclusives[] =
+{
+	SPECIES_EKANS,
+	SPECIES_ARBOK,
+	SPECIES_GROWLITHE,
+	SPECIES_SHELLDER,
+	SPECIES_SCYTHER,
+	SPECIES_ELECTABUZZ,
+	SPECIES_MURKROW,
+	SPECIES_QWILFISH,
+	SPECIES_DELIBIRD
+};
+
+const u16 sLeafGreenExclusives[] =
+{
+	SPECIES_BELLSPROUT,
+	SPECIES_WEEPINBELL,
+	SPECIES_SLOWPOKE,
+	SPECIES_SLOWBRO,
+	SPECIES_KINGLER,
+	SPECIES_MAGMAR,
+	SPECIES_MISDREAVUS,
+	SPECIES_SNEASEL,
+	SPECIES_MANTINE
+};
+
+const u16 sFireRedLeafGreenExclusives[] =
+{
+	SPECIES_BULBASAUR,
+	SPECIES_CHARMANDER,
+	SPECIES_SQUIRTLE,
+	SPECIES_CATERPIE,
+	SPECIES_METAPOD,
+	SPECIES_WEEDLE,
+	SPECIES_KAKUNA,
+	SPECIES_PIDGEY,
+	SPECIES_PIDGEOTTO,
+	SPECIES_RATTATA,
+	SPECIES_RATICATE,
+	SPECIES_SPEAROW,
+	SPECIES_FEAROW,
+	SPECIES_NIDORAN_F,
+	SPECIES_NIDORINA,
+	SPECIES_NIDORAN_M,
+	SPECIES_NIDORINO,
+	SPECIES_CLEFAIRY,
+	SPECIES_PARAS,
+	SPECIES_PARASECT,
+	SPECIES_VENONAT,
+	SPECIES_VENOMOTH,
+	SPECIES_DIGLETT,
+	SPECIES_DUGTRIO,
+	SPECIES_MANKEY,
+	SPECIES_PRIMEAPE,
+	SPECIES_POLIWAG,
+	SPECIES_POLIWHIRL,
+	SPECIES_PONYTA,
+	SPECIES_RAPIDASH,
+	SPECIES_FARFETCHD,
+	SPECIES_SEEL,
+	SPECIES_DEWGONG,
+	SPECIES_GASTLY,
+	SPECIES_HAUNTER,
+	SPECIES_ONIX,
+	SPECIES_DROWZEE,
+	SPECIES_HYPNO,
+	SPECIES_KRABBY,
+	SPECIES_EXEGGCUTE,
+	SPECIES_CUBONE,
+	SPECIES_MAROWAK,
+	SPECIES_HITMONLEE,
+	SPECIES_HITMONCHAN,
+	SPECIES_LICKITUNG,
+	SPECIES_CHANSEY,
+	SPECIES_TANGELA,
+	SPECIES_KANGASKHAN,
+	SPECIES_MR_MIME,
+	SPECIES_JYNX,
+	SPECIES_TAUROS,
+	SPECIES_LAPRAS,
+	SPECIES_EEVEE,
+	SPECIES_PORYGON,
+	SPECIES_OMANYTE,
+	SPECIES_KABUTO,
+	SPECIES_AERODACTYL,
+	SPECIES_SNORLAX,
+	SPECIES_ARTICUNO,
+	SPECIES_ZAPDOS,
+	SPECIES_MOLTRES,
+	SPECIES_DRATINI,
+	SPECIES_DRAGONAIR,
+	SPECIES_MEWTWO,
+	SPECIES_SENTRET,
+	SPECIES_TOGEPI,
+	SPECIES_HOPPIP,
+	SPECIES_YANMA,
+	SPECIES_UNOWN,
+	SPECIES_DUNSPARCE,
+	SPECIES_SWINUB,
+	SPECIES_RAIKOU,
+	SPECIES_ENTEI,
+	SPECIES_SUICUNE,
+	SPECIES_LARVITAR
+};
+
+const u16 sSafariZoneFireRed[] =
+{
+	SPECIES_PSYDUCK,
+	SPECIES_GOLDUCK,
+	SPECIES_WOOPER
+};
+
+const u16 sSafariZoneLeafGreen[] =
+{
+	SPECIES_REMORAID
+};
+
+const u16 sSafariZoneFireRedLeafGreen[] = 
+{
+	SPECIES_PIKACHU,
+	SPECIES_DODUO,
+	SPECIES_SEAKING,
+	SPECIES_LEDYBA,
+	SPECIES_SPINARAK,
+	SPECIES_NATU,
+	SPECIES_WOBBUFFET,
+	SPECIES_HERACROSS,
+	SPECIES_PHANPY,
+};
+
 // code
 void ZeroBoxMonData(struct BoxPokemon *boxMon)
 {
@@ -2443,45 +2609,63 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
-		if (gSpeciesToHoennPokedexNum[species] > HOENN_DEX_COUNT && species != SPECIES_LUGIA && species != SPECIES_HO_OH && metLocation != MAPSEC_SAFARI_ZONE) //"Non-native" Pokémon will still be flagged as illegal until they enter Gen IV due to their met locations being in Hoenn
+		
+		if (IsMonSapphireExclusive(species))
 		{
-			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-				version = VERSION_LEAFGREEN;
-			else
-				version = VERSION_FIRERED;
-			if (species == SPECIES_EKANS || species == SPECIES_ARBOK || species == SPECIES_GROWLITHE || species == SPECIES_ARCANINE || species == SPECIES_SHELLDER || species == SPECIES_CLOYSTER || species == SPECIES_SCYTHER || species == SPECIES_ELECTABUZZ || species == SPECIES_MURKROW || species == SPECIES_QWILFISH || species == SPECIES_DELIBIRD || species == SPECIES_ELEKID)
-				version = VERSION_FIRERED;
-			if (species == SPECIES_BELLSPROUT || species == SPECIES_WEEPINBELL || species == SPECIES_VICTREEBEL || species == SPECIES_SLOWPOKE || species == SPECIES_SLOWBRO || species == SPECIES_MAGMAR || species == SPECIES_MISDREAVUS || species == SPECIES_SNEASEL || species == SPECIES_MANTINE || species == SPECIES_MAGBY)
-				version = VERSION_LEAFGREEN;
+			version = VERSION_SAPPHIRE;
 		}
-		else if (species == SPECIES_MEDITITE || species == SPECIES_MEDICHAM || species == SPECIES_ROSELIA)
-		{
-			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-			{
-				version = VERSION_SAPPHIRE;
-			}
-			else
-			{
-				version = VERSION_RUBY;
-			}
-		}
-		else if (species == SPECIES_ZANGOOSE)
+		else if (IsMonRubyExclusive(species))
 		{
 			version = VERSION_RUBY;
 		}
-		else if (species == SPECIES_LUNATONE)
+		else if (IsMonRubySapphireExclusive(species))
 		{
-			version = VERSION_SAPPHIRE;
+			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+				version = VERSION_SAPPHIRE;
+			else
+				version = VERSION_RUBY;
+		}
+		else if (IsMonFireRedExclusive(species))
+		{
+			version = VERSION_FIRERED;
+		}
+		else if (IsMonLeafGreenExclusive(species))
+		{
+			version = VERSION_LEAFGREEN;
+		}
+		else if (IsMonFireRedLeafGreenExclusive(species))
+		{
+			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+				version = VERSION_LEAFGREEN;
+			else
+				version = VERSION_FIRERED;
 		}
 		else
 		{
 			version = gGameVersion;
 		}
+		
+		if (metLocation != MAPSEC_SAFARI_ZONE)
+		{
+			if (IsMonOutsideSafariFireRed(species))
+			{
+				version = VERSION_FIRERED;
+			}
+			else if (IsMonOutsideSafariLeafGreen(species))
+			{
+				version = VERSION_LEAFGREEN;
+			}
+			else if (IsMonOutsideSafariFireRedLeafGreen(species))
+			{
+				if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+					version = VERSION_LEAFGREEN;
+				else
+					version = VERSION_FIRERED;
+			}
+		}
 	}
 
     ZeroBoxMonData(boxMon);
-
-    
 
     SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
 
@@ -7485,4 +7669,103 @@ void RespawnLegendaries(void)
 		FlagClear(FLAG_DEFEATED_ZAPDOS);
 	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MEWTWO), FLAG_GET_CAUGHT))
 		FlagClear(FLAG_DEFEATED_MEWTWO);
+}
+
+bool8 IsMonSapphireExclusive(u16 species)
+{
+	u8 i;
+	for (i = 0; i < SAPPHIRE_EXCLUSIVES; i++)
+	{
+		if (sSapphireExclusives[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonRubyExclusive(u16 species)
+{
+	u8 i;
+	for (i = 0; i < RUBY_EXCLUSIVES; i++)
+	{
+		if (sRubyExclusives[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonRubySapphireExclusive(u16 species)
+{
+	u8 i;
+	for (i = 0; i < RUBYSAPPHIRE_EXCLUSIVES; i++)
+	{
+		if (sRubySapphireExclusives[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonFireRedExclusive(u16 species)
+{
+	u8 i;
+	for (i = 0; i < FIRERED_EXCLUSIVES; i++)
+	{
+		if (sFireRedExclusives[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonLeafGreenExclusive(u16 species)
+{
+	u8 i;
+	for (i = 0; i < LEAFGREEN_EXCLUSIVES; i++)
+	{
+		if (sLeafGreenExclusives[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonFireRedLeafGreenExclusive(u16 species)
+{
+	u8 i;
+	for (i = 0; i < FIREREDLEAFGREEN_EXCLUSIVES; i++)
+	{
+		if (sFireRedLeafGreenExclusives[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonOutsideSafariFireRed(u16 species)
+{
+	u8 i;
+	for (i = 0; i < SAFARIZONE_FIRERED; i++)
+	{
+		if (sSafariZoneFireRed[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonOutsideSafariLeafGreen(u16 species)
+{
+	u8 i;
+	for (i = 0; i < SAFARIZONE_LEAFGREEN; i++)
+	{
+		if (sSafariZoneLeafGreen[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMonOutsideSafariFireRedLeafGreen(u16 species)
+{
+	u8 i;
+	for (i = 0; i < SAFARIZONE_FIREREDLEAFGREEN; i++)
+	{
+		if (sSafariZoneFireRedLeafGreen[i] == species)
+			return TRUE;
+	}
+	return FALSE;
 }
