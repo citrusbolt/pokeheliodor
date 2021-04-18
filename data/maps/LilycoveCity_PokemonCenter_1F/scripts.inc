@@ -38,7 +38,7 @@ LilycoveCity_PokemonCenter_1F_EventScript_Nurse:: @ 821C5E8
 LilycoveCity_PokemonCenter_1F_EventScript_Boy:: @ 821C5F6
 	lock
 	faceplayer
-	goto_if_set FLAG_FARFETCHD_TRADE_COMPLETED, LilycoveCity_PokemonCenter_1F_EventScript_TradeCompleted
+	goto_if_set FLAG_JYNX_TRADE_COMPLETED, LilycoveCity_PokemonCenter_1F_EventScript_TradeCompleted
 	setvar VAR_0x8008, INGAME_TRADE_JYNX
 	copyvar VAR_0x8004, VAR_0x8008
 	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo

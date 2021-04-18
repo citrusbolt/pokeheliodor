@@ -21,7 +21,7 @@ RustboroCity_PokemonCenter_1F_EventScript_Nurse:: @ 8214D76
 RustboroCity_PokemonCenter_1F_EventScript_Man:: @ 8214D84
 	lock
 	faceplayer
-	goto_if_set FLAG_RECEIVED_TYROGUE_EGG, LavaridgeTown_EventScript_ReceivedEgg
+	goto_if_set FLAG_RECEIVED_TYROGUE_EGG, RustboroCity_PokemonCenter_1F_EventScript_ReceivedEgg
 	msgbox RustboroCity_PokemonCenter_1F_Text_HaveEggWillYouTakeIt, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq RustboroCity_PokemonCenter_1F_EventScript_DeclineEgg
