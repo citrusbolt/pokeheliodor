@@ -24,6 +24,7 @@
 #include "constants/region_map_sections.h"
 #include "rtc.h"
 #include "pokedex.h"
+#include "item.h"
 
 // this file's functions
 static void ClearDaycareMonMail(struct DayCareMail *mail);
@@ -960,6 +961,7 @@ static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *
     u16 ball;
     u8 metLevel;
     u8 language;
+	u8 version;
 
     personality = daycare->offspringPersonality;
     CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
@@ -971,7 +973,18 @@ static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *
     SetMonData(mon, MON_DATA_FRIENDSHIP, &gBaseStats[species].eggCycles);
     SetMonData(mon, MON_DATA_MET_LEVEL, &metLevel);
     SetMonData(mon, MON_DATA_LANGUAGE, &language);
-	SetMonData(mon, MON_DATA_MET_GAME, &gGameVersion);
+	if (FlagGet(FLAG_GEN_KANTO_EGGS))
+	{
+		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+			version = VERSION_LEAFGREEN;
+		else
+			version = VERSION_FIRERED;
+	}
+	else
+	{
+		version = gGameVersion;
+	}
+	SetMonData(mon, MON_DATA_MET_GAME, &version);
 }
 
 void GiveEggFromDaycare(void)
