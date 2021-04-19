@@ -119,8 +119,9 @@ void UpdateBirchState(u16 days)
 
 void CycleAlteringCave(u16 days)
 {
-	u16 newSlot;
-	u16 slot = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-	newSlot = (slot + days) % 8;
-	VarSet(VAR_ALTERING_CAVE_WILD_SET, newSlot);
+	//u16 newSlot;
+	//u16 slot = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+	//newSlot = (slot + days) % 8;
+	//VarSet(VAR_ALTERING_CAVE_WILD_SET, newSlot);
+	VarSet(VAR_ALTERING_CAVE_WILD_SET, 0);
 }
