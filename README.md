@@ -33,7 +33,6 @@ The highest design priorities are 100% compatibility in terms of:
   * The Eon Ticket can be obtained, but the event text is slightly garbled.
     * The Eon Ticket can also be obtained during normal gameplay after defeating the Elite Four for the first time.
   * e-Card trainers will be saved, but can not actually be found to battle.
-* Altering Cave's wild encounters cycle through the unreleased Mystery Gift tables every day.
 * The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colosseum, Pokémon XD: Gale of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
 * Breeding mechanics have been changed.
   * Both parents can now pass down Nature and moves.
