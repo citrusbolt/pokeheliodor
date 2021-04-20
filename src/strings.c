@@ -1911,3 +1911,5 @@ const u8 gText_EggFromPokecomCenter[] = _("An odd POKéMON EGG\nobtained at the 
 const u8 gText_EggFromKanto[] = _("An odd POKéMON EGG found\nby the DAY CARE couple\nin the KANTO region.");
 const u8 gText_EggFromJohto[] = _("An odd POKéMON EGG found\nby the DAY CARE couple\nin the JOHTO region.");
 const u8 gText_BadEggDesc[] = _("A peculiar POKéMON EGG.");
+const u8 gText_CurrentTime[] = _(" {STR_VAR_1}:{STR_VAR_2}");
+const u8 gText_CurrentTimeOff[] = _(" {STR_VAR_1} {STR_VAR_2}");
