@@ -69,6 +69,7 @@ The highest design priorities are 100% compatibility in terms of:
 * The IV Judge at the Battle Frontier gives specific numbers for all stats.
   * Next door, there is an EV Judge as well as an EV Reseter.
   * An IV Judge is also at the Day Care on Route 117.
+* A clock has been added to the start menu.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.

@@ -210,7 +210,8 @@ static const struct WindowTemplate sSaveInfoWindowTemplate = {
     .baseBlock = 8
 };
 
-static const struct WindowTemplate sCurrentTimeWindowTemplate = {0, 1, 17, 4, 2, 0xF, 48};
+static const struct WindowTemplate sCurrentTime24WindowTemplate = {0, 1, 17, 4, 2, 0xF, 48};
+static const struct WindowTemplate sCurrentTimeWindowTemplate = {0, 1, 17, 7, 2, 0xF, 48};
 
 // Local functions
 static void BuildStartMenuActions(void);
@@ -1432,13 +1433,37 @@ void AppendToList(u8 *list, u8 *pos, u8 newEntry)
 static void ShowCurrentTimeWindow(void)
 {
 	RtcCalcLocalTime();
-	sCurrentTimeWindowId = AddWindow(&sCurrentTimeWindowTemplate);
+	if (gSaveBlock2Ptr->options24HourClock)
+		sCurrentTimeWindowId = AddWindow(&sCurrentTime24WindowTemplate);
+	else
+		sCurrentTimeWindowId = AddWindow(&sCurrentTimeWindowTemplate);
 	PutWindowTilemap(sCurrentTimeWindowId);
 	DrawStdWindowFrame(sCurrentTimeWindowId, FALSE);
 	FlagSet(FLAG_TEMP_5);
-	ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
-	ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-	StringExpandPlaceholders(gStringVar4, gText_CurrentTime);
+	if (gSaveBlock2Ptr->options24HourClock)
+	{
+		ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
+		ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+		StringExpandPlaceholders(gStringVar4, gText_CurrentTime);
+	}
+	else
+	{
+		if (gLocalTime.hours >= 12)
+		{
+			ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours - 12, STR_CONV_MODE_RIGHT_ALIGN, 2);
+			ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+			StringExpandPlaceholders(gStringVar4, gText_CurrentTimePM);
+		}
+		else
+		{
+			if (gLocalTime.hours == 0)
+				ConvertIntToDecimalStringN(gStringVar1, 12, STR_CONV_MODE_LEADING_ZEROS, 2);
+			else
+				ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_RIGHT_ALIGN, 2);
+			ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+			StringExpandPlaceholders(gStringVar4, gText_CurrentTimeAM);
+		}
+	}
 	AddTextPrinterParameterized(sCurrentTimeWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
 	CopyWindowToVram(sCurrentTimeWindowId, 2);
 }
@@ -1448,12 +1473,39 @@ void UpdateClockDisplay(void)
 	if (!FlagGet(FLAG_TEMP_5))
 		return;
 	RtcCalcLocalTime();
-	ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
-	ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-	if (gLocalTime.seconds % 2)
+	if (gSaveBlock2Ptr->options24HourClock)
+	{
+		ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
+		ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
 		StringExpandPlaceholders(gStringVar4, gText_CurrentTime);
+	}
 	else
-		StringExpandPlaceholders(gStringVar4, gText_CurrentTimeOff);
+	{
+		if (gLocalTime.hours >= 12)
+		{
+			if (gLocalTime.hours == 12)
+				ConvertIntToDecimalStringN(gStringVar1, 12, STR_CONV_MODE_LEADING_ZEROS, 2);
+			else
+				ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours - 12, STR_CONV_MODE_RIGHT_ALIGN, 2);
+			ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+			if (gLocalTime.seconds % 2)
+				StringExpandPlaceholders(gStringVar4, gText_CurrentTimePM);
+			else
+				StringExpandPlaceholders(gStringVar4, gText_CurrentTimePMOff);
+		}
+		else
+		{
+			if (gLocalTime.hours == 0)
+				ConvertIntToDecimalStringN(gStringVar1, 12, STR_CONV_MODE_LEADING_ZEROS, 2);
+			else
+				ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_RIGHT_ALIGN, 2);
+			ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+			if (gLocalTime.seconds % 2)
+				StringExpandPlaceholders(gStringVar4, gText_CurrentTimeAM);
+			else
+				StringExpandPlaceholders(gStringVar4, gText_CurrentTimeAMOff);
+		}
+	}
 	AddTextPrinterParameterized(sCurrentTimeWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
 	CopyWindowToVram(sCurrentTimeWindowId, 2);
 }
