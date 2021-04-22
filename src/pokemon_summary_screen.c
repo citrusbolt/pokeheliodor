@@ -3739,7 +3739,17 @@ static void PrintEggMemo(void)
     {
         if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
-            text = gText_PeculiarEggNicePlace;
+			u8 boxOT[17];
+			boxOT[0] = 0xBB; //A
+			boxOT[1] = 0xD4; //Z
+			boxOT[2] = 0xCF; //U
+			boxOT[3] = 0xCD; //S
+			boxOT[4] = 0xBB; //A
+			boxOT[5] = 0xFF;
+			if (!StringCompareWithoutExtCtrlCodes(boxOT, sum->OTName) && sum->OTID == 0)
+				text = gText_EggFromBrigette;
+			else
+				text = gText_PeculiarEggNicePlace;
 		}
         //else if (DidMonComeFromGBAGames() == FALSE || DoesMonOTMatchOwner() == FALSE)
 		//{

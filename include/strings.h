@@ -3156,6 +3156,7 @@ extern const u8 gText_EggFromElm[];
 extern const u8 gText_EggFromPokecomCenter[];
 extern const u8 gText_EggFromKanto[];
 extern const u8 gText_EggFromJohto[];
+extern const u8 gText_EggFromBrigette[];
 extern const u8 gText_BadEggDesc[];
 extern const u8 gText_CurrentTime[];
 extern const u8 gText_CurrentTimeOff[];
