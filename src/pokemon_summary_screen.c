@@ -3543,7 +3543,7 @@ static void BufferMonTrainerMemo(void)
 		}
 		else if (DidMonComeFromSinnoh()) //Sinnoh map for Porygon
 		{
-			GetMapNameGeneric(metLocationString, (sum->metLocation + SINNOH_MAPSEC_START));
+			GetMapNameGeneric(metLocationString, (sum->metLocation + SINJOH_MAPSEC_START));
 		}
 		else
 		{
