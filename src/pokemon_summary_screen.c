@@ -3732,12 +3732,12 @@ static void PrintEggState(void)
 
 static void PrintEggMemo(void)
 {
-    const u8 *text;
-    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+	const u8 *text;
+	struct PokeSummary *sum = &sMonSummaryScreen->summary;
 
-    if (sMonSummaryScreen->summary.sanity != 1)
-    {
-        if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
+	if (sMonSummaryScreen->summary.sanity != 1)
+	{
+		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
 			u8 boxOT[17];
 			boxOT[0] = 0xBB; //A
@@ -3755,7 +3755,7 @@ static void PrintEggMemo(void)
 		//{
         //    text = gText_PeculiarEggTrade;
 		//}
-        else if (sum->metLocation == METLOC_SPECIAL_EGG)
+		else if (sum->metLocation == METLOC_SPECIAL_EGG)
 		{
 			if (sum->species == SPECIES_TYROGUE)
 				text = gText_EggFromPokecomCenter;
@@ -3770,7 +3770,7 @@ static void PrintEggMemo(void)
 		{
 			text = gText_EggFromPokecomCenter;
 		}
-        else if (DidMonComeFromKanto())
+		else if (DidMonComeFromKanto())
 		{
 			text = gText_EggFromKanto;
 		}
@@ -3780,15 +3780,15 @@ static void PrintEggMemo(void)
 		}
 		else
 		{
-            text = gText_OddEggFoundByCouple;
+			text = gText_OddEggFoundByCouple;
 		}
-    }
-    else
-    {
-        text = gText_BadEggDesc;
-    }
+	}
+	else
+	{
+		text = gText_BadEggDesc;
+	}
 
-    PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), text, 0, 1, 0, 0);
+	PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), text, 0, 1, 0, 0);
 }
 
 static void PrintSkillsPageText(void)
