@@ -7770,3 +7770,14 @@ bool8 IsMonOutsideSafariFireRedLeafGreen(u16 species)
 	}
 	return FALSE;
 }
+
+bool8 IsMewtwoInParty(void)
+{
+	u8 i;
+	for (i = 0; i < gPlayerPartyCount; i++)
+	{
+		if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, 0) == SPECIES_MEWTWO)
+			return TRUE;
+	}
+	return FALSE;
+}

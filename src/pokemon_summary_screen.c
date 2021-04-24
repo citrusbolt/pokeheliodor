@@ -3107,7 +3107,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metGame == VERSION_EMERALD && (sum->species == SPECIES_PSYDUCK || sum->species == SPECIES_GOLDUCK || sum->species == SPECIES_MEWTWO))
+		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromKanto() && (sum->species == SPECIES_PSYDUCK || sum->species == SPECIES_GOLDUCK || sum->species == SPECIES_MEWTWO) && sum->metLevel > 0)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
