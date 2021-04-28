@@ -63,8 +63,12 @@ LilycoveCity_DepartmentStore_2F_Pokemart2: @ 821FB94
 	.2byte ITEM_MAX_REPEL
 	.2byte ITEM_WAVE_MAIL
 	.2byte ITEM_MECH_MAIL
+	.2byte ITEM_BEAD_MAIL
 	.2byte ITEM_DREAM_MAIL
 	.2byte ITEM_FAB_MAIL
+	.2byte ITEM_GLITTER_MAIL
+	.2byte ITEM_RETRO_MAIL
+	.2byte ITEM_TROPIC_MAIL
 	.2byte ITEM_NONE
 	release
 	end

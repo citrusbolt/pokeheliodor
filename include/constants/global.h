@@ -20,7 +20,7 @@
 #define VERSION_PLATINUM        	12
 //13 and 14 are unused
 #define VERSION_GAMECUBE        	15 //Both Colosseum and XD use this ID
-//The rest of these are just for reference.  Origin game is only stored as 4 bits, so they aren't be used for anything in this game
+//The rest of these are just for reference.  Origin game is only stored as 4 bits, so they aren't used for anything in this game
 //16-19 are unused
 #define VERSION_WHITE           	20
 #define VERSION_BLACK           	21

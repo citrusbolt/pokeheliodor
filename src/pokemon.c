@@ -6907,7 +6907,18 @@ u16 GetBattleBGM(void)
         }
     }
     else
-        return MUS_VS_WILD;
+	{
+		u16 species = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL);
+		u16 track = MUS_VS_WILD;
+
+		if (IsMonFireRedExclusive(species) || IsMonLeafGreenExclusive(species) || IsMonFireRedLeafGreenExclusive(species))
+			track = MUS_RG_VS_WILD;
+		
+		if (GetCurrentRegionMapSectionId() != MAPSEC_SAFARI_ZONE && (IsMonOutsideSafariFireRed(species) || IsMonOutsideSafariLeafGreen(species) || IsMonOutsideSafariFireRedLeafGreen(species)))
+			track = MUS_RG_VS_WILD;
+		
+        return track;
+	}
 }
 
 void PlayBattleBGM(void)
@@ -7164,6 +7175,21 @@ bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
     if (shinyValue < SHINY_ODDS)
         retVal = TRUE;
     return retVal;
+}
+
+bool8 IsMonSquareShiny(struct Pokemon *mon)
+{
+	u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
+	u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
+	
+	if ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0)
+		return TRUE;
+	else if (GetMonData(mon, MON_DATA_EVENT_LEGAL, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS)
+		return TRUE;
+	else if (GetMonData(mon, MON_DATA_MET_GAME, 0) == VERSION_GO) //Impossible to occur in this game for obvious reasons
+		return TRUE;
+	else
+		return FALSE;
 }
 
 const u8 *GetTrainerPartnerName(void)
@@ -7768,6 +7794,17 @@ bool8 IsMonOutsideSafariFireRedLeafGreen(u16 species)
 	for (i = 0; i < SAFARIZONE_FIREREDLEAFGREEN; i++)
 	{
 		if (sSafariZoneFireRedLeafGreen[i] == species)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool8 IsMewtwoInParty(void)
+{
+	u8 i;
+	for (i = 0; i < gPlayerPartyCount; i++)
+	{
+		if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, 0) == SPECIES_MEWTWO)
 			return TRUE;
 	}
 	return FALSE;

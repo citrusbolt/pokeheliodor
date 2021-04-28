@@ -3156,6 +3156,7 @@ extern const u8 gText_EggFromElm[];
 extern const u8 gText_EggFromPokecomCenter[];
 extern const u8 gText_EggFromKanto[];
 extern const u8 gText_EggFromJohto[];
+extern const u8 gText_EggFromBrigette[];
 extern const u8 gText_BadEggDesc[];
 extern const u8 gText_CurrentTime[];
 extern const u8 gText_CurrentTimeOff[];
@@ -3164,5 +3165,8 @@ extern const u8 gText_CurrentTimeAMOff[];
 extern const u8 gText_CurrentTimePM[];
 extern const u8 gText_CurrentTimePMOff[];
 extern const u8 gText_ClockOption[];
+extern const u8 gText_ShinyStar[];
+extern const u8 gText_ShinySquare[];
+extern const u8 gText_FatefulTriangle[];
 
 #endif // GUARD_STRINGS_H

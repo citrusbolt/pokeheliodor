@@ -546,6 +546,28 @@ const struct SpriteTemplate gMiniTwinklingStarSpriteTemplate =
     .callback = AnimMiniTwinklingStar,
 };
 
+const struct SpriteTemplate gBigShinySquareSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SHINY_SQUARES,
+    .paletteTag = ANIM_TAG_SHINY_SQUARES,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimWishStar,
+};
+
+const struct SpriteTemplate gMiniShinySquareSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SHINY_SQUARES,
+    .paletteTag = ANIM_TAG_SHINY_SQUARES,
+    .oam = &gOamData_AffineOff_ObjNormal_8x8,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimMiniTwinklingStar,
+};
+
 const union AffineAnimCmd gStockpileDeformMonAffineAnimCmds[] =
 {
     AFFINEANIMCMD_FRAME(8, -8, 0, 12),

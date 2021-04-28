@@ -84,6 +84,8 @@ The highest design priorities are 100% compatibility in terms of:
 * If the game is saved on a map that has contains a new NPC and transferred to Pokémon Emerald, the game will freeze if the now-invisible NPC is spoken to.
   * This should not be a big deal, since leaving the map removes the issue, so it seems unlikely major progress can be lost this way.
 * If an e-Card berry is obtained, the description text will be offset by a variable amount when viewed in Pokémon Emerald.  The berry's actual functionality should be unaffected, however.
+* If one of the new roaming Pokémon is caught in Pokémon Emerald, it will not have the correct origin game ID.
+  * If you are swapping your save file between versions, only capture roaming Pokémon while playing Pokémon Heliodor.
 
 If you encounter any other issues, especially relating to the three compatibility principles above, please let me know.
 

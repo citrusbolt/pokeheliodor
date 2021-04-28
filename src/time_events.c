@@ -45,7 +45,7 @@ bool8 IsMirageIslandPresent(void)
     int i;
 
     for (i = 0; i < PARTY_SIZE; i++)
-        if ((GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && (GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY) & 0xFFFF) == rnd) || (FlagGet(FLAG_SYS_GAME_CLEAR) && !FlagGet(FLAG_DEFEATED_MEWTWO)))
+        if ((GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && (GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY) & 0xFFFF) == rnd) || (FlagGet(FLAG_SYS_GAME_CLEAR) && !FlagGet(FLAG_DEFEATED_MEWTWO)) || IsMewtwoInParty())
             return TRUE;
 
     return FALSE;
