@@ -1919,3 +1919,6 @@ const u8 gText_CurrentTimeAMOff[] = _(" {STR_VAR_1} {STR_VAR_2} a.m.");
 const u8 gText_CurrentTimePM[] = _(" {STR_VAR_1}:{STR_VAR_2} p.m.");
 const u8 gText_CurrentTimePMOff[] = _(" {STR_VAR_1} {STR_VAR_2} p.m.");
 const u8 gText_ClockOption[] = _("12 HOUR CLOCK");
+const u8 gText_ShinyStar[] = _("{STAR}");
+const u8 gText_ShinySquare[] = _("{EMOJI_SQUARE}");
+const u8 gText_FatefulTriangle[] = _("{EMOJI_TRIANGLE}");

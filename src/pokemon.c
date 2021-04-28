@@ -7175,6 +7175,21 @@ bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
     return retVal;
 }
 
+bool8 IsMonSquareShiny(struct Pokemon *mon)
+{
+	u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
+	u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
+	
+	if ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0)
+		return TRUE;
+	else if (GetMonData(mon, MON_DATA_EVENT_LEGAL, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS)
+		return TRUE;
+	else if (GetMonData(mon, MON_DATA_MET_GAME, 0) == VERSION_GO) //Impossible to occur in this game for obvious reasons
+		return TRUE;
+	else
+		return FALSE;
+}
+
 const u8 *GetTrainerPartnerName(void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)

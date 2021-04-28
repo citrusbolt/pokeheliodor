@@ -3165,5 +3165,8 @@ extern const u8 gText_CurrentTimeAMOff[];
 extern const u8 gText_CurrentTimePM[];
 extern const u8 gText_CurrentTimePMOff[];
 extern const u8 gText_ClockOption[];
+extern const u8 gText_ShinyStar[];
+extern const u8 gText_ShinySquare[];
+extern const u8 gText_FatefulTriangle[];
 
 #endif // GUARD_STRINGS_H
