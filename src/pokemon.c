@@ -6905,7 +6905,18 @@ u16 GetBattleBGM(void)
         }
     }
     else
-        return MUS_VS_WILD;
+	{
+		u16 species = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL);
+		u16 track = MUS_VS_WILD;
+
+		if (IsMonFireRedExclusive(species) || IsMonLeafGreenExclusive(species) || IsMonFireRedLeafGreenExclusive(species))
+			track = MUS_RG_VS_WILD;
+		
+		if (GetCurrentRegionMapSectionId() != MAPSEC_SAFARI_ZONE && (IsMonOutsideSafariFireRed(species) || IsMonOutsideSafariLeafGreen(species) || IsMonOutsideSafariFireRedLeafGreen(species)))
+			track = MUS_RG_VS_WILD;
+		
+        return track;
+	}
 }
 
 void PlayBattleBGM(void)

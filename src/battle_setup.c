@@ -421,7 +421,23 @@ void BattleSetup_StartRoamerBattle(void)
     sub_808BCF4();
     gMain.savedCallback = CB2_EndWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_ROAMER;
-    CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_LEGEND);
+	switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+	{
+	default:
+	case SPECIES_LATIAS:
+	case SPECIES_LATIOS:
+		CreateBattleStartTask(GetWildBattleTransition(), 0);
+		break;
+	case SPECIES_ARTICUNO:
+	case SPECIES_MOLTRES:
+	case SPECIES_RAIKOU:
+	case SPECIES_ENTEI:
+		CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_LEGEND);
+		break;
+	case SPECIES_SUICUNE:
+		CreateBattleStartTask(GetWildBattleTransition(), MUS_C_VS_LEGEND_BEAST);
+		break;
+	}
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     IncrementDailyWildBattles();
