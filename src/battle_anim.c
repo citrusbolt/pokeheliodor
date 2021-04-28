@@ -1133,7 +1133,7 @@ const struct CompressedSpriteSheet gBattleAnimPicTable[] =
     {gBattleAnimSpriteGfx_Sword, 0x0400, ANIM_TAG_SWORD},
     {gBattleAnimSpriteGfx_Seed, 0x0180, ANIM_TAG_SEED},
     {gBattleAnimSpriteGfx_Explosion6, 0x0800, ANIM_TAG_EXPLOSION_6},
-    {gBattleAnimSpriteGfx_PinkOrb, 0x0020, ANIM_TAG_PINK_ORB},
+    {gBattleAnimSpriteGfx_ShinySquares, 0x00c0, ANIM_TAG_SHINY_SQUARES},	//Was Pink Orb
     {gBattleAnimSpriteGfx_Gust, 0x0400, ANIM_TAG_GUST},
     {gBattleAnimSpriteGfx_IceCube, 0x1200, ANIM_TAG_ICE_CUBE},
     {gBattleAnimSpriteGfx_Spark2, 0x0180, ANIM_TAG_SPARK_2},
@@ -1426,7 +1426,7 @@ const struct CompressedSpritePalette gBattleAnimPaletteTable[] =
     {gBattleAnimSpritePal_Sword, ANIM_TAG_SWORD},
     {gBattleAnimSpritePal_Seed, ANIM_TAG_SEED},
     {gBattleAnimSpritePal_Explosion6, ANIM_TAG_EXPLOSION_6},
-    {gBattleAnimSpritePal_PinkOrb, ANIM_TAG_PINK_ORB},
+    {gBattleAnimSpritePal_GoldStars, ANIM_TAG_SHINY_SQUARES}, //was Pink Orb
     {gBattleAnimSpritePal_Gust, ANIM_TAG_GUST},
     {gBattleAnimSpritePal_IceCube, ANIM_TAG_ICE_CUBE},
     {gBattleAnimSpritePal_Spark2, ANIM_TAG_SPARK_2},
