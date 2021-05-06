@@ -1606,7 +1606,7 @@ const struct Item gItems[] =
     {
         .name = _("RETRO MAIL"),
         .itemId = ITEM_RETRO_MAIL,
-        .price = 0,
+        .price = 50,
         .description = sRetroMailDesc,
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_MAIL,

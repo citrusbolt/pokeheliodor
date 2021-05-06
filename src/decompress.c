@@ -51,6 +51,34 @@ void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
     LoadSpritePalette(&dest);
 }
 
+void LoadCompressedEggSpritePalette(const struct CompressedSpritePalette *src1, const struct CompressedSpritePalette *src2)
+{
+    struct SpritePalette dest1, dest2;
+	u8 eggBuffer[0x2000];
+
+    LZ77UnCompWram(src1->data, gDecompressionBuffer);
+    dest1.data = (void*) gDecompressionBuffer;
+    dest1.tag = src1->tag;
+    LZ77UnCompWram(src2->data, eggBuffer);
+    dest2.data = (void*) eggBuffer;
+    dest2.tag = src2->tag;
+    LoadEggSpritePalette(&dest1, &dest2);
+}
+
+void LoadCompressedEggHatchSpritePalette(const struct CompressedSpritePalette *src1, const struct CompressedSpritePalette *src2)
+{
+    struct SpritePalette dest1, dest2;
+	u8 eggBuffer[0x2000];
+
+    LZ77UnCompWram(src1->data, gDecompressionBuffer);
+    dest1.data = (void*) gDecompressionBuffer;
+    dest1.tag = 54321;
+    LZ77UnCompWram(src2->data, eggBuffer);
+    dest2.data = (void*) eggBuffer;
+    dest2.tag = src2->tag;
+    LoadEggSpritePalette(&dest1, &dest2);
+}
+
 void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *a, void *buffer)
 {
     struct SpritePalette dest;

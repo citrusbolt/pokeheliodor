@@ -51,6 +51,8 @@ GPIOPortReadEnable: @ 80000C8
 	.4byte gSpeciesNames
 	.4byte gMoveNames
 	.4byte gDecorations
+	.4byte gEgg1PaletteTable
+	.4byte gEgg2PaletteTable
 
 	.4byte 0x00001270 @ offsetof(struct SaveBlock1, flags) 
 	.4byte 0x0000139c @ offsetof(struct SaveBlock1, vars)

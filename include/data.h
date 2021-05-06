@@ -115,4 +115,7 @@ extern const u8 gTrainerClassNames[][13];
 extern const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
 extern const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1];
 
+extern const struct CompressedSpritePalette gEgg1PaletteTable[];
+extern const struct CompressedSpritePalette gEgg2PaletteTable[];
+
 #endif // GUARD_DATA_H
