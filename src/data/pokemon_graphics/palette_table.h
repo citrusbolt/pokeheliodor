@@ -441,3 +441,49 @@ const struct CompressedSpritePalette gMonPaletteTable[] =
     SPECIES_PAL(UNOWN_EMARK, gMonPalette_Unown),
     SPECIES_PAL(UNOWN_QMARK, gMonPalette_Unown),
 };
+
+const struct CompressedSpritePalette gEgg1PaletteTable[] =
+{
+	[TYPE_NORMAL]	=	{gMonPalette_Egg_Normal1, SPECIES_EGG},
+	[TYPE_FIGHTING]	=	{gMonPalette_Egg_Fighting1, SPECIES_EGG},
+	[TYPE_FLYING]	=	{gMonPalette_Egg_Flying1, SPECIES_EGG},
+	[TYPE_POISON]	=	{gMonPalette_Egg_Poison1, SPECIES_EGG},
+	[TYPE_GROUND]	=	{gMonPalette_Egg_Ground1, SPECIES_EGG},
+	[TYPE_ROCK]		=	{gMonPalette_Egg_Rock1, SPECIES_EGG},
+	[TYPE_BUG]		=	{gMonPalette_Egg_Bug1, SPECIES_EGG},
+	[TYPE_GHOST]	=	{gMonPalette_Egg_Ghost1, SPECIES_EGG},
+	[TYPE_STEEL]	=	{gMonPalette_Egg_Steel1, SPECIES_EGG},
+	[TYPE_MYSTERY]	=	{gMonPalette_Egg_Normal1, SPECIES_EGG},
+	[TYPE_FIRE]		=	{gMonPalette_Egg_Fire1, SPECIES_EGG},
+	[TYPE_WATER]	=	{gMonPalette_Egg_Water1, SPECIES_EGG},
+	[TYPE_GRASS]	=	{gMonPalette_Egg_Grass1, SPECIES_EGG},
+	[TYPE_ELECTRIC]	=	{gMonPalette_Egg_Electric1, SPECIES_EGG},
+	[TYPE_PSYCHIC]	=	{gMonPalette_Egg_Psychic1, SPECIES_EGG},
+	[TYPE_ICE]		=	{gMonPalette_Egg_Ice1, SPECIES_EGG},
+	[TYPE_DRAGON]	=	{gMonPalette_Egg_Dragon1, SPECIES_EGG},
+	[TYPE_DARK]		=	{gMonPalette_Egg_Dark1, SPECIES_EGG},
+	[TYPE_NONE]		=	{gMonPalette_Egg_Normal1, SPECIES_EGG}
+};
+
+const struct CompressedSpritePalette gEgg2PaletteTable[] =
+{
+	[TYPE_NORMAL]	=	{gMonPalette_Egg_Normal2, SPECIES_EGG},
+	[TYPE_FIGHTING]	=	{gMonPalette_Egg_Fighting2, SPECIES_EGG},
+	[TYPE_FLYING]	=	{gMonPalette_Egg_Flying2, SPECIES_EGG},
+	[TYPE_POISON]	=	{gMonPalette_Egg_Poison2, SPECIES_EGG},
+	[TYPE_GROUND]	=	{gMonPalette_Egg_Ground2, SPECIES_EGG},
+	[TYPE_ROCK]		=	{gMonPalette_Egg_Rock2, SPECIES_EGG},
+	[TYPE_BUG]		=	{gMonPalette_Egg_Bug2, SPECIES_EGG},
+	[TYPE_GHOST]	=	{gMonPalette_Egg_Ghost2, SPECIES_EGG},
+	[TYPE_STEEL]	=	{gMonPalette_Egg_Steel2, SPECIES_EGG},
+	[TYPE_MYSTERY]	=	{gMonPalette_Egg_Normal2, SPECIES_EGG},
+	[TYPE_FIRE]		=	{gMonPalette_Egg_Fire2, SPECIES_EGG},
+	[TYPE_WATER]	=	{gMonPalette_Egg_Water2, SPECIES_EGG},
+	[TYPE_GRASS]	=	{gMonPalette_Egg_Grass2, SPECIES_EGG},
+	[TYPE_ELECTRIC]	=	{gMonPalette_Egg_Electric2, SPECIES_EGG},
+	[TYPE_PSYCHIC]	=	{gMonPalette_Egg_Psychic2, SPECIES_EGG},
+	[TYPE_ICE]		=	{gMonPalette_Egg_Ice2, SPECIES_EGG},
+	[TYPE_DRAGON]	=	{gMonPalette_Egg_Dragon2, SPECIES_EGG},
+	[TYPE_DARK]		=	{gMonPalette_Egg_Dark2, SPECIES_EGG},
+	[TYPE_NONE]		=	{gMonPalette_Egg_Normal2, SPECIES_EGG}
+};

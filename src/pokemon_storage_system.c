@@ -4088,10 +4088,24 @@ static void LoadCursorMonSprite(void)
 
 static void LoadCursorMonGfx(u16 species, u32 pid)
 {
+	const struct CompressedSpritePalette *pal1, *pal2;
+	
     if (sPSSData->cursorMonSprite == NULL)
         return;
 
-    if (species != SPECIES_NONE)
+	if (species == SPECIES_EGG)
+	{
+		pal1 = &gEgg1PaletteTable[sPSSData->field_73C[0]];
+		pal2 = &gEgg2PaletteTable[sPSSData->field_73C[1]];
+		LoadSpecialPokePic(&gMonFrontPicTable[species], sPSSData->field_22C4, species, pid, TRUE);
+		LZ77UnCompWram(pal1->data, sPSSData->field_2244);
+		LZ77UnCompWram(pal2->data, gDecompressionBuffer);
+		CpuCopy32(sPSSData->field_22C4, sPSSData->field_223C, MON_PIC_SIZE);
+		LoadPalette(sPSSData->field_2244, sPSSData->field_223A, 0x10);
+		LoadPalette(gDecompressionBuffer, sPSSData->field_223A + 8, 0x10);
+		sPSSData->cursorMonSprite->invisible = FALSE;
+	}
+    else if (species != SPECIES_NONE)
     {
         LoadSpecialPokePic(&gMonFrontPicTable[species], sPSSData->field_22C4, species, pid, TRUE);
         LZ77UnCompWram(sPSSData->cursorMonPalette, sPSSData->field_2244);
@@ -6803,6 +6817,8 @@ static void SetCursorMonData(void *pokemon, u8 mode)
             sPSSData->cursorMonPalette = GetMonFrontSpritePal(mon);
             gender = GetMonGender(mon);
             sPSSData->cursorMonItem = GetMonData(mon, MON_DATA_HELD_ITEM);
+			sPSSData->field_73C[0] = gBaseStats[GetMonData(mon, MON_DATA_SPECIES)].type1;
+			sPSSData->field_73C[1] = gBaseStats[GetMonData(mon, MON_DATA_SPECIES)].type2;
         }
     }
     else if (mode == MODE_BOX)
@@ -6828,6 +6844,8 @@ static void SetCursorMonData(void *pokemon, u8 mode)
             sPSSData->cursorMonPalette = GetMonSpritePalFromSpeciesAndPersonality(sPSSData->cursorMonSpecies, otId, sPSSData->cursorMonPersonality);
             gender = GetGenderFromSpeciesAndPersonality(sPSSData->cursorMonSpecies, sPSSData->cursorMonPersonality);
             sPSSData->cursorMonItem = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
+			sPSSData->field_73C[0] = gBaseStats[GetBoxMonData(boxMon, MON_DATA_SPECIES)].type1;
+			sPSSData->field_73C[1] = gBaseStats[GetBoxMonData(boxMon, MON_DATA_SPECIES)].type2;
         }
     }
     else

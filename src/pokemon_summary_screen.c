@@ -4326,13 +4326,13 @@ static void SetTypeSpritePosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 static void SetMonTypeIcons(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    if (summary->isEgg)
-    {
-        SetTypeSpritePosAndPal(TYPE_MYSTERY, 120, 48, SPRITE_ARR_ID_TYPE);
-        SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
-    }
-    else
-    {
+    //if (summary->isEgg)
+    //{
+    //    SetTypeSpritePosAndPal(TYPE_MYSTERY, 120, 48, SPRITE_ARR_ID_TYPE);
+    //    SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
+    //}
+    //else
+    //{
         SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 120, 48, SPRITE_ARR_ID_TYPE);
         if (gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2)
         {
@@ -4343,7 +4343,7 @@ static void SetMonTypeIcons(void)
         {
             SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
         }
-    }
+    //}
 }
 
 static void SetMoveTypeIcons(void)
@@ -4456,7 +4456,7 @@ static void SwapMovesTypeSprites(u8 moveIndex1, u8 moveIndex2)
 
 static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 {
-    const struct CompressedSpritePalette *pal;
+    const struct CompressedSpritePalette *pal1, *pal2;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
     switch (*state)
@@ -4491,11 +4491,20 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         (*state)++;
         return 0xFF;
     case 1:
-        pal = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
-        LoadCompressedSpritePalette(pal);
-        SetMultiuseSpriteTemplateToPokemon(pal->tag, 1);
-        (*state)++;
-        return 0xFF;
+		if (!summary->isEgg)
+		{
+			pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
+			LoadCompressedSpritePalette(pal1);
+		}
+		else
+		{
+			pal1 = &gEgg1PaletteTable[gBaseStats[summary->species].type1];
+			pal2 = &gEgg2PaletteTable[gBaseStats[summary->species].type2];
+			LoadCompressedEggSpritePalette(pal1, pal2);
+		}
+		SetMultiuseSpriteTemplateToPokemon(pal1->tag, 1);
+		(*state)++;
+		return 0xFF;
     }
 }
 
