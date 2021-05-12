@@ -24,6 +24,7 @@
 #include "constants/rgb.h"
 #include "data.h"
 #include "pokemon_summary_screen.h"
+#include "strings.h"
 
 struct TestingBar
 {
@@ -1930,6 +1931,8 @@ static void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
         windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
         break;
     }
+
+	StringAppend(gDisplayedStringBattle, gText_ShinyStar);
 
     spriteTileNum = gSprites[healthboxSpriteId].oam.tileNum * TILE_SIZE_4BPP;
 

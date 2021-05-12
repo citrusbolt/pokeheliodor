@@ -296,17 +296,17 @@ void UniquePalette(u16 palOffset, u32 personality)
         s8 b = data1->b + db - range;
 		
 		if (r > 31)
-			r = 31 - dr;
+			r = 31 - dr / 2;
 		if (g > 31)
-			g = 31 - dg;
+			g = 31 - dg / 2;
 		if (b > 31)
-			b = 31 - db;
+			b = 31 - db / 2;
 		if (r < 0)
-			r = dr;
+			r = dr / 2;
 		if (g < 0)
-			g = dg;
+			g = dg / 2;
 		if (b < 0)
-			b = db;
+			b = db / 2;
 
         gPlttBufferFaded[index] = RGB(r, g, b);
 	}
