@@ -1,5 +1,7 @@
 # Pokémon Heliodor
 
+[***Discord Link***](https://discord.gg/zsZEsa5q7D)
+
 This is a modification of Pokémon Emerald intended to be an interpretation of the "definitive" Generation 3 Hoenn concept while still fitting firmly within the official game ecology.
 
 The highest design priorities are 100% compatibility in terms of:
