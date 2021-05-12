@@ -3,6 +3,7 @@
 #include "sprite.h"
 #include "palette.h"
 #include "constants/rgb.h"
+#include "mgba.h"
 
 const u32 gBitTable[] =
 {
@@ -276,4 +277,37 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
                                       g + (((data2->g - g) * coeff) >> 4),
                                       b + (((data2->b - b) * coeff) >> 4));
     }
+}
+
+void UniquePalette(u16 palOffset, u32 personality)
+{
+    u16 i;
+	u8 range = 3;
+	s8 dr = ((personality >> 16) & 0xFF) % (range * 2 + 1);
+	s8 dg = ((personality >> 8) & 0xFF) % (range * 2 + 1);
+	s8 db = (personality & 0xFF) % (range * 2 + 1);
+	
+    for (i = 0; i < 16; i++)
+    {
+        u16 index = i + palOffset;
+        struct PlttData *data1 = (struct PlttData *)&gPlttBufferUnfaded[index];
+        s8 r = data1->r + dr - range;
+        s8 g = data1->g + dg - range;
+        s8 b = data1->b + db - range;
+		
+		if (r > 31)
+			r = 31 - dr;
+		if (g > 31)
+			g = 31 - dg;
+		if (b > 31)
+			b = 31 - db;
+		if (r < 0)
+			r = dr;
+		if (g < 0)
+			g = dg;
+		if (b < 0)
+			b = db;
+
+        gPlttBufferFaded[index] = RGB(r, g, b);
+	}
 }
