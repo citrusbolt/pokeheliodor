@@ -3168,5 +3168,7 @@ extern const u8 gText_ClockOption[];
 extern const u8 gText_ShinyStar[];
 extern const u8 gText_ShinySquare[];
 extern const u8 gText_FatefulTriangle[];
+extern const u8 gText_ShinyStarMale[];
+extern const u8 gText_ShinyStarFemale[];
 
 #endif // GUARD_STRINGS_H

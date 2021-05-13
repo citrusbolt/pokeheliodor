@@ -1919,20 +1919,27 @@ static void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
     switch (gender)
     {
     default:
-        StringCopy(ptr, gText_DynColor2);
+		if (IsMonShiny(mon))
+			StringCopy(ptr, gText_ShinyStar);
+		else
+			StringCopy(ptr, gText_DynColor2);
         windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
         break;
     case MON_MALE:
-        StringCopy(ptr, gText_DynColor2Male);
+		if (IsMonShiny(mon))
+			StringCopy(ptr, gText_ShinyStarMale);
+		else
+			StringCopy(ptr, gText_DynColor2Male);
         windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
         break;
     case MON_FEMALE:
-        StringCopy(ptr, gText_DynColor1Female);
+		if (IsMonShiny(mon))
+			StringCopy(ptr, gText_ShinyStarFemale);
+		else
+			StringCopy(ptr, gText_DynColor1Female);
         windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
         break;
     }
-
-	StringAppend(gDisplayedStringBattle, gText_ShinyStar);
 
     spriteTileNum = gSprites[healthboxSpriteId].oam.tileNum * TILE_SIZE_4BPP;
 
