@@ -380,8 +380,6 @@ static void CreateWildMon(u16 species, u8 level)
 		gLastEncounteredSpecies = species;
 	}
 
-	mgba_printf(MGBA_LOG_DEBUG, "%d", gChainStreak);
-
     switch (gBaseStats[species].genderRatio)
     {
     case MON_MALE:

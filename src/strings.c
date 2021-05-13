@@ -1922,3 +1922,5 @@ const u8 gText_ClockOption[] = _("12 HOUR CLOCK");
 const u8 gText_ShinyStar[] = _("{STAR}");
 const u8 gText_ShinySquare[] = _("{EMOJI_SQUARE}");
 const u8 gText_FatefulTriangle[] = _("{EMOJI_TRIANGLE}");
+const u8 gText_ShinyStarMale[] = _("{COLOR DYNAMIC_COLOR2}{STAR}");
+const u8 gText_ShinyStarFemale[] = _("{COLOR DYNAMIC_COLOR1}{STAR}");

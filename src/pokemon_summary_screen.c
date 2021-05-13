@@ -626,7 +626,7 @@ static const struct WindowTemplate sPageSkillsTemplate[] =
         .width = 6,
         .height = 6,
         .paletteNum = 6,
-        .baseBlock = 4891,
+        .baseBlock = 491,
     },
     [PSS_DATA_WINDOW_SKILLS_STATS_RIGHT] = {
         .bg = 0,
@@ -4494,7 +4494,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 		if (!summary->isEgg)
 		{
 			pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
-			LoadCompressedSpritePalette(pal1);
+			LoadCompressedUniqueSpritePalette(pal1, summary->pid);
 		}
 		else
 		{

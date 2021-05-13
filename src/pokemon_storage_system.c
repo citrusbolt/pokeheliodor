@@ -41,6 +41,7 @@
 #include "constants/moves.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "util.h"
 
 struct WallpaperTable
 {
@@ -4111,6 +4112,8 @@ static void LoadCursorMonGfx(u16 species, u32 pid)
         LZ77UnCompWram(sPSSData->cursorMonPalette, sPSSData->field_2244);
         CpuCopy32(sPSSData->field_22C4, sPSSData->field_223C, MON_PIC_SIZE);
         LoadPalette(sPSSData->field_2244, sPSSData->field_223A, 0x20);
+		UniquePalette(sPSSData->field_223A, pid);
+		CpuCopy32(gPlttBufferFaded + sPSSData->field_223A, gPlttBufferUnfaded + sPSSData->field_223A, 32);
         sPSSData->cursorMonSprite->invisible = FALSE;
     }
     else

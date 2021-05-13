@@ -262,6 +262,8 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
                              currSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(currSpecies, trainerId, personality);
     LoadCompressedPalette(pokePal->data, 0x110, 0x20);
+	UniquePalette(0x110, personality);
+	CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
 
     SetMultiuseSpriteTemplateToPokemon(currSpecies, 1);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
@@ -277,6 +279,8 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
                              postEvoSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoSpecies, trainerId, personality);
     LoadCompressedPalette(pokePal->data, 0x120, 0x20);
+	UniquePalette(0x120, personality);
+	CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
 
     SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, 3);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
@@ -355,6 +359,8 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoSpecies, trainerId, personality);
 
     LoadCompressedPalette(pokePal->data, 0x120, 0x20);
+	UniquePalette(0x120, personality);
+	CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
 
     SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, 3);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
@@ -426,6 +432,8 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
                                      postEvoSpecies);
             pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoSpecies, trainerId, personality);
             LoadCompressedPalette(pokePal->data, 0x120, 0x20);
+			UniquePalette(0x120, personality);
+			CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
             gMain.state++;
         }
         break;
@@ -491,6 +499,8 @@ void TradeEvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, u8 preEvoSprit
 
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoSpecies, trainerId, personality);
     LoadCompressedPalette(pokePal->data, 0x120, 0x20);
+	UniquePalette(0x120, personality);
+	CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
 
     SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, 1);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
