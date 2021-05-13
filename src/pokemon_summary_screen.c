@@ -2729,16 +2729,16 @@ static void PrintNotEggInfo(void)
 	if (!IsMonShiny(mon))
 	{
 		if (summary->fatefulEncounter)
-			PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gText_FatefulTriangle, 29, 1, 0, 7);
+			PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gText_FatefulTriangle, 12, 14, 0, 1);
 		PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 0, 1, 0, 1);
 		SetMonPicBackgroundPalette(FALSE);
 	}
 	else
 	{
-		if (IsMonSquareShiny(mon))
-			StringAppend(gStringVar1, gText_ShinySquare);
-		else
-			StringAppend(gStringVar1, gText_ShinyStar);
+		//if (IsMonSquareShiny(mon))
+		//	PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gText_ShinySquare, 11, 14, 0, 1);
+		//else
+			PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gText_ShinyStarFemale, 12, 14, 0, 1);
 		PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 0, 1, 0, 7);
 		SetMonPicBackgroundPalette(TRUE);
 	}
@@ -4618,7 +4618,7 @@ static void CreateCaughtBallSprite(struct Pokemon *mon)
     u8 ball = ItemIdToBallId(GetMonData(mon, MON_DATA_POKEBALL));
 
     LoadBallGfx(ball);
-    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 16, 136, 0);
+    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 10, 135, 0);
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].callback = SpriteCallbackDummy;
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].oam.priority = 3;
 }
