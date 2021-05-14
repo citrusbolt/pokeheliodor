@@ -7184,7 +7184,7 @@ bool8 IsMonSquareShiny(struct Pokemon *mon)
 		return TRUE;
 	else if (GetMonData(mon, MON_DATA_EVENT_LEGAL, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS)
 		return TRUE;
-	else if (GetMonData(mon, MON_DATA_MET_GAME, 0) == VERSION_GO) //Impossible to occur in this game for obvious reasons
+	else if (GetMonData(mon, MON_DATA_MET_GAME, 0) == VERSION_GO && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS) //Impossible to occur in this game for obvious reasons
 		return TRUE;
 	else
 		return FALSE;
