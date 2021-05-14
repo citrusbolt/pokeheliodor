@@ -94,11 +94,19 @@ struct BoxPokemon
     u8 isBadEgg:1;
     u8 hasSpecies:1;
     u8 isEgg:1;
-    u8 unused:5;	//CD Uses 3 bits for Johto Balls, FRLGDX uses 2 bits for form(e)
+	u8 johtoBall:3;		//CrystalDust
+	u8 form:2;			//FireRed/LeafGreen DX
     u8 otName[PLAYER_NAME_LENGTH];
     u8 markings;
     u16 checksum;
-    u16 unknown;	//6 bits for Leaves/Crown, 1 byte for encounter type?
+	u16 shinyLeafA:1;
+	u16 shinyLeafB:1;
+	u16 shinyLeafC:1;
+	u16 shinyLeafD:1;
+	u16 shinyLeafE:1;
+	u16 shinyCrown:1;
+	u16 encounterType:5;	//Gen 4 Encounter Type
+	u16 unknown:5;
 
     union
     {
