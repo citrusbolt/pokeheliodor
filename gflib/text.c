@@ -216,22 +216,56 @@ void RunTextPrinters(void)
     {
         for (i = 0; i < NUM_TEXT_PRINTERS; ++i)
         {
-            if (gTextPrinters[i].active)
-            {
-                u16 temp = RenderFont(&gTextPrinters[i]);
-                switch (temp)
-                {
-                case 0:
-                    CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
-                case 3:
-                    if (gTextPrinters[i].callback != 0)
-                        gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
-                    break;
-                case 1:
-                    gTextPrinters[i].active = 0;
-                    break;
-                }
-            }
+			if (GetPlayerTextSpeed() == OPTIONS_TEXT_SPEED_FAST)
+			{
+				u8 i;
+				for (i = 0; i < 2; i++)
+				{
+					bool8 active = gTextPrinters[i].active;
+					if (active)
+					{
+						u16 temp = RenderFont(&gTextPrinters[i]);
+						switch (temp)
+						{
+						case 0:
+							CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
+							if (gTextPrinters[i].callback != 0)
+								gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
+							break;
+						case 3:
+							if (gTextPrinters[i].callback != 0)
+								gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
+							active = 0;
+							break;
+						case 1:
+							gTextPrinters[i].active = 0;
+							active = 0;
+							break;
+						}
+					}
+					if (active == 0)
+						break;
+				}
+			}
+			else
+			{
+				if (gTextPrinters[i].active)
+				{
+					u16 temp = RenderFont(&gTextPrinters[i]);
+					switch (temp)
+					{
+					case 0:
+						CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
+					case 3:
+						if (gTextPrinters[i].callback != 0)
+							gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
+						break;
+					case 1:
+						gTextPrinters[i].active = 0;
+						break;
+					}
+				}
+			}
         }
     }
 }
