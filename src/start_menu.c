@@ -1477,7 +1477,10 @@ void UpdateClockDisplay(void)
 	{
 		ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
 		ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-		StringExpandPlaceholders(gStringVar4, gText_CurrentTime);
+		if (gLocalTime.seconds % 2)
+			StringExpandPlaceholders(gStringVar4, gText_CurrentTime);
+		else
+			StringExpandPlaceholders(gStringVar4, gText_CurrentTimeOff);
 	}
 	else
 	{
