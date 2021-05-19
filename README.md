@@ -73,6 +73,8 @@ The highest design priorities are 100% compatibility in terms of:
   * Next door, there is an EV Judge as well as an EV Reseter.
   * An IV Judge is also at the Day Care on Route 117.
 * A clock has been added to the start menu.
+* Pokémon have slight differences in coloration that varies with the individual.
+* Eggs are colored based on the Type(s) of the Pokémon inside.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
@@ -112,3 +114,4 @@ To build this yourself, see [INSTALL.md](INSTALL.md).
 * Sierraffinity
 * aldelaro5
 * ghoulslash
+* ipatix
