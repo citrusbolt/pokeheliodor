@@ -14,13 +14,14 @@ The highest design priorities are 100% compatibility in terms of:
   * There should be no (significant) issues importing your save file from Pokémon Emerald to Pokémon Heliodor and vice versa.
   * This allows Pokémon Heliodor to, in effect, be treated similar to an expansion pack in which if a player has already completed Pokémon Emerald, this can be used to "unlock" extra content/features for that playthrough.
 
+
 ### Changes
 
 * All 386 Pokémon available within Generation 3 are obtainable.
   * Pokémon not normally found in Pokémon Emerald are generated with different game IDs, languages, and pseudo-random number generation methods to replicate the encounters in which they can normally be found in other games.
   * This includes new wild encounter tables post-National Dex acquisition, additional gifts, in-game trades, and an extended roamer quest.
     * If importing a save file from Pokémon Emerald after capturing/defeating the roaming Latias/Latios, speak to the new NPC at the Weather Institute to force the next roamer to initialize.
-  * Trading is still required to get all starter Pokémon, as well as to initiate trade evolutions.
+  * Trading is still required to get all starter Pokémon.
 * An egg incubator is available for use that relies upon the real-time clock instead of the step counter.
 * All tutor moves found in Generation 3 games are available for purchase at the Battle Frontier.
 * Moves learned by level-up exclusively in Pokémon FireRed and Pokémon LeafGreen are added to the learnsets.
@@ -72,6 +73,8 @@ The highest design priorities are 100% compatibility in terms of:
   * Next door, there is an EV Judge as well as an EV Reseter.
   * An IV Judge is also at the Day Care on Route 117.
 * A clock has been added to the start menu.
+* Pokémon have slight differences in coloration that varies with the individual.
+* Eggs are colored based on the Type(s) of the Pokémon inside.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
@@ -111,3 +114,4 @@ To build this yourself, see [INSTALL.md](INSTALL.md).
 * Sierraffinity
 * aldelaro5
 * ghoulslash
+* ipatix

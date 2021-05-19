@@ -216,22 +216,56 @@ void RunTextPrinters(void)
     {
         for (i = 0; i < NUM_TEXT_PRINTERS; ++i)
         {
-            if (gTextPrinters[i].active)
-            {
-                u16 temp = RenderFont(&gTextPrinters[i]);
-                switch (temp)
-                {
-                case 0:
-                    CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
-                case 3:
-                    if (gTextPrinters[i].callback != 0)
-                        gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
-                    break;
-                case 1:
-                    gTextPrinters[i].active = 0;
-                    break;
-                }
-            }
+			if (GetPlayerTextSpeed() == OPTIONS_TEXT_SPEED_FAST)
+			{
+				u8 i;
+				for (i = 0; i < 2; i++)
+				{
+					bool8 active = gTextPrinters[i].active;
+					if (active)
+					{
+						u16 temp = RenderFont(&gTextPrinters[i]);
+						switch (temp)
+						{
+						case 0:
+							CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
+							if (gTextPrinters[i].callback != 0)
+								gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
+							break;
+						case 3:
+							if (gTextPrinters[i].callback != 0)
+								gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
+							active = 0;
+							break;
+						case 1:
+							gTextPrinters[i].active = 0;
+							active = 0;
+							break;
+						}
+					}
+					if (active == 0)
+						break;
+				}
+			}
+			else
+			{
+				if (gTextPrinters[i].active)
+				{
+					u16 temp = RenderFont(&gTextPrinters[i]);
+					switch (temp)
+					{
+					case 0:
+						CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
+					case 3:
+						if (gTextPrinters[i].callback != 0)
+							gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
+						break;
+					case 1:
+						gTextPrinters[i].active = 0;
+						break;
+					}
+				}
+			}
         }
     }
 }
@@ -1416,9 +1450,9 @@ u8 RenderTextFont9(u8 *pixels, u8 fontId, u8 *str)
 
     fgColor = TEXT_COLOR_WHITE;
     bgColor = TEXT_COLOR_TRANSPARENT;
-    shadowColor = TEXT_COLOR_LIGHT_GREY;
+    shadowColor = TEXT_COLOR_LIGHT_GRAY;
 
-    GenerateFontHalfRowLookupTable(TEXT_COLOR_WHITE, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GREY);
+    GenerateFontHalfRowLookupTable(TEXT_COLOR_WHITE, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GRAY);
     strLocal = str;
     strPos = 0;
 
@@ -1632,8 +1666,7 @@ void DecompressGlyphFont7(u16 glyphId, bool32 isJapanese)
 
     if (isJapanese == TRUE)
     {
-        int eff;
-        glyphs = gFont1JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId & (eff = 0xF)));  // shh, no questions, only matching now
+        glyphs = gFont1JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId % 0x10));
         DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);
         DecompressGlyphTile(glyphs + 0x80, gCurGlyph.gfxBufferBottom);
         gCurGlyph.width = 8;
@@ -1761,8 +1794,7 @@ void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese)
 
     if (isJapanese == TRUE)
     {
-        int eff;
-        glyphs = gFont1JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId & (eff = 0xF)));  // shh, no questions, only matching now
+        glyphs = gFont1JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId % 0x10));
         DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);
         DecompressGlyphTile(glyphs + 0x80, gCurGlyph.gfxBufferBottom);
         gCurGlyph.width = 8;

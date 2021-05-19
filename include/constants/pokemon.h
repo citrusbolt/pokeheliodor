@@ -183,6 +183,9 @@
 #define MON_DATA_SPEED2            86
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
+#define MON_DATA_FORM              89
+#define MON_DATA_SHINY_LEAVES      90
+#define MON_DATA_ENCOUNTER_TYPE    91
 
 // Ribbon IDs used by TV and Pokénav
 #define CHAMPION_RIBBON       0
@@ -349,5 +352,18 @@
 #define NUM_FEMALE_LINK_FACILITY_CLASSES 8
 
 #define MON_PIC_SIZE (64 * 64 / 2)
+
+//Gen 4 Encounter Types
+#define ENCOUNTER_TYPE_NONE			0
+#define ENCOUNTER_TYPE_ROCK_SMASH	1
+#define ENCOUNTER_TYPE_GRASS		2
+#define ENCOUNTER_TYPE_BOX_LEGEND	4
+#define ENCOUNTER_TYPE_CAVE			5
+#define ENCOUNTER_TYPE_WATER		7
+#define ENCOUNTER_TYPE_BUILDING		9
+#define ENCOUNTER_TYPE_SAFARI		10
+#define ENCOUNTER_TYPE_GIFT_DP		12
+#define ENCOUNTER_TYPE_DISTORTION	23
+#define ENCOUNTER_TYPE_GIFT_PT		24
 
 #endif // GUARD_CONSTANTS_POKEMON_H
