@@ -218,8 +218,8 @@ void RunTextPrinters(void)
         {
 			if (GetPlayerTextSpeed() == OPTIONS_TEXT_SPEED_FAST)
 			{
-				u8 i;
-				for (i = 0; i < 2; i++)
+				u8 j;
+				for (j = 0; j < 2; j++)
 				{
 					bool8 active = gTextPrinters[i].active;
 					if (active)
