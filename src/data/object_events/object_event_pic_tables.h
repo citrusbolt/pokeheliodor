@@ -2173,7 +2173,7 @@ static const struct SpriteFrameImage sPicTable_RubySapphireMay[] = {
     overworld_frame(gObjectEventPic_RubySapphireMayNormal, 2, 4, 8),
 };
 
-const struct SpriteFrameImage gObjectEventPicTable_Zapdos[] = {
+const struct SpriteFrameImage sPicTable_Zapdos[] = {
     obj_frame_tiles(gObjectEventPic_Zapdos),
     obj_frame_tiles(gObjectEventPic_Zapdos),
     obj_frame_tiles(gObjectEventPic_Zapdos),
@@ -2185,7 +2185,7 @@ const struct SpriteFrameImage gObjectEventPicTable_Zapdos[] = {
     obj_frame_tiles(gObjectEventPic_Zapdos),
 };
 
-const struct SpriteFrameImage gObjectEventPicTable_Mewtwo[] = {
+const struct SpriteFrameImage sPicTable_Mewtwo[] = {
     obj_frame_tiles(gObjectEventPic_Mewtwo),
     obj_frame_tiles(gObjectEventPic_Mewtwo),
     obj_frame_tiles(gObjectEventPic_Mewtwo),
