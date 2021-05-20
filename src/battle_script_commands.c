@@ -5980,8 +5980,8 @@ static void Cmd_drawlvlupbox(void)
         }
         break;
     case 9:
-        if (!sub_804F344())
-        {
+        //if (!sub_804F344())
+        //{
             ClearWindowTilemap(14);
             CopyWindowToVram(14, 1);
 
@@ -5992,7 +5992,7 @@ static void Cmd_drawlvlupbox(void)
             ShowBg(2);
 
             gBattleScripting.drawlvlupboxState = 10;
-        }
+        //}
         break;
     case 10:
         if (!IsDma3ManagerBusyWithBgCopy())
