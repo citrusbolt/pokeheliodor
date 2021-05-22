@@ -1044,7 +1044,8 @@ struct SaveBlock1
 	/*0x3604*/ struct EnigmaBerryDesc enigmaBerryDesc;
     /*0x3660*/ u16 registeredItemL;
     /*0x3662*/ u16 registeredItemR;
-    /*0x3664*/ u8 field_3598[0xB4];
+	/*0x3664*/ s32 hueShift;
+    /*0x3668*/ u8 field_3598[0xB0];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
