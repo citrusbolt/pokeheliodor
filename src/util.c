@@ -4,6 +4,7 @@
 #include "palette.h"
 #include "constants/rgb.h"
 #include "mgba.h"
+#include "random.h"
 
 const u32 gBitTable[] =
 {
@@ -113,6 +114,42 @@ static const u16 sCrc16Table[] =
     0x6B46, 0x7ACF, 0x4854, 0x59DD, 0x2D62, 0x3CEB, 0x0E70, 0x1FF9,
     0xF78F, 0xE606, 0xD49D, 0xC514, 0xB1AB, 0xA022, 0x92B9, 0x8330,
     0x7BC7, 0x6A4E, 0x58D5, 0x495C, 0x3DE3, 0x2C6A, 0x1EF1, 0x0F78,
+};
+
+static const u16 sHueShiftNormalRange = 40;
+static const u16 sHueShiftShinyRange = 30;
+static const s8 sHueShiftSpeciesLimit[NUM_SPECIES] =
+{
+	[SPECIES_PIKACHU] = 1,
+	[SPECIES_RAICHU] = 1,
+	[SPECIES_PARAS] = 1,
+	[SPECIES_PARASECT] = -1,
+	[SPECIES_MEOWTH] = 1,
+	[SPECIES_PERSIAN] = -1,
+	[SPECIES_POLIWAG] = 1,
+	[SPECIES_POLIWHIRL] = 1,
+	[SPECIES_ABRA] = -1,
+	[SPECIES_KADABRA] = -1,
+	[SPECIES_SCYTHER] = 1,
+	[SPECIES_ELECTABUZZ] = 1,
+	[SPECIES_MAGIKARP] = -1,
+	[SPECIES_LAPRAS] = -1,
+	[SPECIES_FLAREON] = -1,
+	[SPECIES_SNORLAX] = 1,
+	[SPECIES_ZAPDOS] = 1,
+	[SPECIES_HOOTHOOT] = -1,
+	[SPECIES_NOCTOWL] = -1,
+	[SPECIES_LEDYBA] = -1,
+	[SPECIES_LEDIAN] = -1,
+	[SPECIES_PICHU] = 1,
+	[SPECIES_SUNKERN] = 1,
+	[SPECIES_PILOSWINE] = -1,
+	[SPECIES_ELEKID] = 1,
+	[SPECIES_LARVITAR] = 1,
+	[SPECIES_PUPITAR] = -1,
+	[SPECIES_ZIGZAGOON] = 1,
+	[SPECIES_CRAWDAUNT] = -1,
+	[SPECIES_LATIAS] = -1
 };
 
 const u8 gMiscBlank_Gfx[] = INCBIN_U8("graphics/interface/blank.4bpp");
@@ -279,10 +316,34 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
     }
 }
 
-void UniquePalette(u16 palOffset, u32 personality)
+void UniquePalette(u16 palOffset, u16 species, u32 personality, bool8 isShiny)
 {
-    u16 i;
-	s32 shift = gSaveBlock1Ptr->hueShift;
+    u16 i, range;
+	u32 value;
+	s32 shift;
+	s8 limitMode = sHueShiftSpeciesLimit[species];
+
+	//value = (personality >> 8) & 0xFFFF;
+	value = Random();
+
+	if (isShiny)
+	{
+		limitMode *= -1;
+		range = sHueShiftShinyRange;
+	}
+	else
+	{
+		range = sHueShiftNormalRange;
+	}
+	
+	if (limitMode == -1)
+		shift = (value % (range + 1)) - range;
+	else if (limitMode == 1)
+		shift = value % (range + 1);
+	else
+		shift = (value % (range * 2 + 1)) - range;
+	
+	gSaveBlock1Ptr->hueShift = shift;
 	
     for (i = 0; i < 16; i++)
     {

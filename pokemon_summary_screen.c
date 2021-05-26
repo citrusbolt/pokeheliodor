@@ -3117,15 +3117,15 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_BATTLE_TOWER);
 		}
-		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromHoenn() && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET) && sum->metLevel > 0)
+		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromRSE() && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET) && sum->metLevel > 0)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromKanto() && (sum->species == SPECIES_PSYDUCK || sum->species == SPECIES_GOLDUCK || sum->species == SPECIES_MEWTWO) && sum->metLevel > 0)
+		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromFRLG() && (sum->species == SPECIES_PSYDUCK || sum->species == SPECIES_GOLDUCK || sum->species == SPECIES_MEWTWO) && sum->metLevel > 0)
 		{
 			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if (DidMonComeFromJohto() && sum->metLocation < KANTO_MAPSEC_START) //Johto maps in CrystalDust as well as gameID 8 in case anyone uses it
+		else if (DidMonComeFromCD() && sum->metLocation < KANTO_MAPSEC_START)
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + JOHTO_MAPSEC_START));
 		}
@@ -3555,7 +3555,7 @@ static void BufferMonTrainerMemo(void)
 				GetMapNameGeneric(metLocationString, MAPSEC_DISTANT_LAND);
 			}
 		}
-		else if (DidMonComeFromSinnoh()) //Sinnoh map for Porygon
+		else if (DidMonComeFromDPPt()) //Sinnoh map for Porygon
 		{
 			GetMapNameGeneric(metLocationString, (sum->metLocation + SINJOH_MAPSEC_START));
 		}
@@ -3666,7 +3666,7 @@ static bool8 DidMonComeFromGBAGames(void)
     return FALSE;
 }
 
-static bool8 DidMonComeFromHoenn(void)
+static bool8 DidMonComeFromRSE(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     if (sum->metGame > 0 && sum->metGame <= VERSION_EMERALD)
@@ -3674,7 +3674,7 @@ static bool8 DidMonComeFromHoenn(void)
     return FALSE;
 }
 
-static bool8 DidMonComeFromKanto(void)
+static bool8 DidMonComeFromFRLG(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     if (sum->metGame == VERSION_FIRERED || sum->metGame == VERSION_LEAFGREEN)
@@ -3682,15 +3682,15 @@ static bool8 DidMonComeFromKanto(void)
     return FALSE;
 }
 
-static bool8 DidMonComeFromJohto(void)
+static bool8 DidMonComeFromCD(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame == VERSION_HEARTGOLD || sum->metGame == VERSION_SOULSILVER)
+    if (sum->metGame == VERSION_HEARTGOLD)	//CrystalDust uses HeartGold's game ID
         return TRUE;
     return FALSE;
 }
 
-static bool8 DidMonComeFromSinnoh(void)
+static bool8 DidMonComeFromDPPt(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     if (sum->metGame >= VERSION_DIAMOND && sum->metGame <= VERSION_PLATINUM)
@@ -3773,22 +3773,22 @@ static void PrintEggMemo(void)
 		{
 			if (sum->species == SPECIES_TYROGUE)
 				text = gText_EggFromPokecomCenter;
-			else if (DidMonComeFromHoenn())
+			else if (DidMonComeFromRSE())
 				text = gText_EggFromHotSprings;
-			else if (DidMonComeFromJohto())
+			else if (DidMonComeFromCD())
 				text = gText_EggFromElm;
 			else
 				text = gText_EggFromTraveler;
 		}
-		else if (sum->metLocation == (MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START) && DidMonComeFromJohto())
+		else if (sum->metLocation == (MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START) && DidMonComeFromCD())
 		{
 			text = gText_EggFromPokecomCenter;
 		}
-		else if (DidMonComeFromKanto())
+		else if (DidMonComeFromFRLG())
 		{
 			text = gText_EggFromKanto;
 		}
-		else if (DidMonComeFromJohto())
+		else if (DidMonComeFromCD())
 		{
 			text= gText_EggFromJohto;
 		}
@@ -4504,7 +4504,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 		if (!summary->isEgg)
 		{
 			pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
-			LoadCompressedUniqueSpritePalette(pal1, summary->species2, summary->pid, IsMonShiny(mon));
+			LoadCompressedUniqueSpritePalette(pal1, summary->pid);
 		}
 		else
 		{
