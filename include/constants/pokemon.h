@@ -370,7 +370,7 @@
 #define REGION_UNKNOWN	0
 #define REGION_KANTO	1
 #define REGION_JOHTO	2
-#define	REGION_HOENN	3
+#define REGION_HOENN	3
 #define REGION_ORRE		4
 #define REGION_SINNOH	4
 
