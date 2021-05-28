@@ -6,6 +6,7 @@
 #include "random.h"
 #include "text.h"
 #include "event_data.h"
+#include "mgba.h"
 
 enum {
     WIRELESS_STATUS_ANIM_3_BARS,
@@ -675,10 +676,11 @@ void InitHostRFUtgtGname(struct GFtgtGname *data, u8 activity, bool32 started, s
     data->unk_00.version = GAME_VERSION;
     data->unk_00.hasNews = FALSE;
     data->unk_00.hasCard = FALSE;
-    data->unk_00.unknown = FALSE;
+    data->unk_00.isCrystalDust = FALSE;
     data->unk_00.isChampion = TRUE;
     data->unk_00.hasNationalDex = TRUE;
     data->unk_00.gameClear = TRUE;
+	data->versionModifier = VERSION_MODIFIER;
 }
 
 bool8 LinkRfu_GetNameIfCompatible(struct GFtgtGname *buff1, u8 *buff2, u8 idx)

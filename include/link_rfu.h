@@ -51,7 +51,7 @@ struct GFtgtGnameSub
     u16 language:4;
     u16 hasNews:1;
     u16 hasCard:1;
-    u16 unknown:1; // Never read
+    u16 isCrystalDust:1;
     u16 isChampion:1;
     u16 hasNationalDex:1;
     u16 gameClear:1;
@@ -72,7 +72,7 @@ struct __attribute__((packed, aligned(2))) GFtgtGname
     u8 started:1;
     u8 playerGender:1;
     u8 level:7;
-    u8 padding;
+    u8 versionModifier;
 }; // size: RFU_GNAME_SIZE
 
 struct RfuBlockSend
