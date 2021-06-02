@@ -3772,6 +3772,8 @@ static void PrintEggMemo(void)
 		{
 			if (sum->species == SPECIES_TYROGUE)
 				text = gText_EggFromPokecomCenter;
+			else if (sum->species == SPECIES_BULBASAUR || sum->species == SPECIES_CHARMANDER || sum->species == SPECIES_SQUIRTLE || sum->species == SPECIES_CHIKORITA || sum->species == SPECIES_CYNDAQUIL || sum->species == SPECIES_TOTODILE || sum->species == SPECIES_TREECKO || sum->species == SPECIES_TORCHIC || sum->species == SPECIES_MUDKIP)
+				text = gText_EggFromTraveler;
 			else if (DidMonComeFromRSE())
 				text = gText_EggFromHotSprings;
 			else if (DidMonComeFromCD())

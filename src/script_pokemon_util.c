@@ -261,3 +261,37 @@ void ReducePlayerPartyToSelectedMons(void)
 
     CalculatePlayerPartyCount();
 }
+
+void GiveStarterEgg(void)
+{
+	switch (Random() % 9)
+	{
+		case 0:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_BULBASAUR);
+			break;
+		case 1:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CHARMANDER);
+			break;
+		case 2:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_SQUIRTLE);
+			break;
+		case 3:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CHIKORITA);
+			break;
+		case 4:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CYNDAQUIL);
+			break;
+		case 5:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TOTODILE);
+			break;
+		case 6:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TREECKO);
+			break;
+		case 7:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TORCHIC);
+			break;
+		case 8:
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_MUDKIP);
+			break;
+	}
+}

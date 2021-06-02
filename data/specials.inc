@@ -567,3 +567,4 @@ gSpecials:: @ 81DBA64
 	def_special AreEVsMaxedOut
 	def_special AreEVsZero
 	def_special EraseEVs
+	def_special GiveStarterEgg
