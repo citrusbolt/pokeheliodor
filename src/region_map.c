@@ -1006,7 +1006,6 @@ static void InitMapBasedOnPlayerLocation(void)
             gRegionMap->playerIsInCave = TRUE;
         break;
     case MAP_TYPE_UNDERGROUND:
-    case MAP_TYPE_UNKNOWN:
         if (gMapHeader.flags & MAP_ALLOW_ESCAPING)
         {
             mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->escapeWarp.mapGroup, gSaveBlock1Ptr->escapeWarp.mapNum);
@@ -1037,6 +1036,7 @@ static void InitMapBasedOnPlayerLocation(void)
         y = gSaveBlock1Ptr->dynamicWarp.y;
         break;
     case MAP_TYPE_INDOOR:
+    case MAP_TYPE_UNKNOWN:
         gRegionMap->mapSecId = gMapHeader.regionMapSectionId;
         if (gRegionMap->mapSecId != MAPSEC_DYNAMIC)
         {

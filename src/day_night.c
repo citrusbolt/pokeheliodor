@@ -67,6 +67,9 @@ u8 GetCurrentTimeOfDay(void)
 
 u8 GetTimeOfDay(s8 hours)
 {
+	if (gMapHeader.regionMapSectionId == MAPSEC_FARAWAY_ISLAND)
+		hours = (hours + 11) % 24;
+	
     if (hours < HOUR_MORNING)
         return TIME_NIGHT;
     else if (hours < HOUR_DAY)
@@ -90,6 +93,9 @@ static void LoadPaletteOverrides(void)
 #endif
 
     hour = gLocalTime.hours;
+	
+	if (gMapHeader.regionMapSectionId == MAPSEC_FARAWAY_ISLAND)
+		hour = (hour + 11) % 24;
 
 #if DEBUG
     if (gDNPeriodOverride > 0)
@@ -120,7 +126,7 @@ static void LoadPaletteOverrides(void)
 
 static bool8 ShouldTintOverworld(void)
 {
-    if (IsMapTypeOutdoors(gMapHeader.mapType))
+    if (IsMapTypeOutdoors(gMapHeader.mapType) || gMapHeader.mapType == 7)
         return TRUE;
 
     // more conditions?
@@ -175,6 +181,9 @@ static void TintPaletteForDayNight(u16 offset, u16 size)
         }
 #endif
 
+		if (gMapHeader.regionMapSectionId == MAPSEC_FARAWAY_ISLAND)
+			hour = (hour + 11) % 24;
+
         period = (hour * TINT_PERIODS_PER_HOUR) + hourPhase;
 
         if (!sDNSystemControl.initialized || sDNSystemControl.currTintPeriod != period)
@@ -228,6 +237,9 @@ void ProcessImmediateTimeEvents(void)
         {
             hour = gLocalTime.hours;
             hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
+			
+			if (gMapHeader.regionMapSectionId == MAPSEC_FARAWAY_ISLAND)
+				hour = (hour + 11) % 24;
 
 #if DEBUG
             if (gDNPeriodOverride > 0)
