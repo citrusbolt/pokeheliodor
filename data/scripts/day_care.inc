@@ -410,6 +410,43 @@ EventScript_Incubator_ReadyToHatch::
 	goto EventScript_PCMainMenu
 	end
 	
+EventScript_EventEggMan::
+	lock
+	faceplayer
+	specialvar VAR_RESULT, CheckIfEligibleForEventEgg
+	compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_EventEggMan_GiveEgg
+	msgbox EventScript_EventEggMan_Text_LookingForEggExpert, MSGBOX_DEFAULT
+	release
+	end
+	
+EventScript_EventEggMan_GiveEgg::
+	msgbox EventScript_EventEggMan_Text_HaveEggWillYouTakeIt, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq EventScript_EventEggMan_DeclineEgg
+	getpartysize
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq EventScript_EventEggMan_NoRoomForEgg
+	msgbox EventScript_EventEggMan_Text_HopeYoullWalkPlentyWithEgg, MSGBOX_DEFAULT
+	copyvar  VAR_0x8004, VAR_RECEIVED_EVENT_EGGS
+	addvar VAR_RECEIVED_EVENT_EGGS, 1
+	playfanfare MUS_OBTAIN_ITEM
+	message EventScript_EventEggMan_Text_ReceivedTheEgg
+	waitfanfare
+	special GiveEventEgg
+	release
+	end
+
+EventScript_EventEggMan_NoRoomForEgg::
+	msgbox EventScript_EventEggMan_Text_NoRoomForThisEgg, MSGBOX_DEFAULT
+	release
+	end
+
+EventScript_EventEggMan_DeclineEgg::
+	msgbox EventScript_EventEggMan_Text_AsYouWishThen, MSGBOX_DEFAULT
+	release
+	end
+	
 Route117_Text_SeeWifeIfYoudLikeMeToRaiseMon: @ 8291FCF
 	.string "I'm the DAY-CARE MAN.\p"
 	.string "I help take care of the precious\n"
@@ -614,3 +651,31 @@ Incubator_Text_ReadyToHatch:
 
 Incubator_Text_NoRoom:
 	.string "Your party is full!$"
+
+EventScript_EventEggMan_Text_LookingForEggExpert:
+	.string "Receiving a POKéMON EGG from\n"
+	.string "someone is always so exciting!\p"
+	.string "You never know what will\n"
+	.string "be inside.$"
+
+EventScript_EventEggMan_Text_HaveEggWillYouTakeIt:
+	.string "You seem to be pretty good\n"
+	.string "at taking care of POKéMON EGGS.\p"
+	.string "Will you take this special EGG?$"
+
+EventScript_EventEggMan_Text_HopeYoullWalkPlentyWithEgg:
+	.string "Good! I hope you'll walk plenty with\n"
+	.string "this here EGG!$"
+
+EventScript_EventEggMan_Text_ReceivedTheEgg:
+	.string "{PLAYER} received the EGG.$"
+
+EventScript_EventEggMan_Text_NoRoomForThisEgg:
+	.string "Oh? You've too many POKéMON.\n"
+	.string "There's no room for this EGG…$"
+
+EventScript_EventEggMan_Text_AsYouWishThen:
+	.string "As you wish, then…\p"
+	.string "If you have a change of heart about\n"
+	.string "hatching this EGG, I will be here.$"
+

@@ -4767,3 +4767,8 @@ void EraseEVs(void)
 	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPDEF_EV, &zero);
 	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPEED_EV, &zero);
 }
+
+u16 CheckIfEligibleForEventEgg(void)
+{
+	return (GetGameStat(GAME_STAT_HATCHED_EGGS) >= (VarGet(VAR_RECEIVED_EVENT_EGGS) + 1) * 10);
+}
