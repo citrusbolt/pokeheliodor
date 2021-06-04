@@ -5917,6 +5917,7 @@ static void Cmd_atknameinbuff1(void)
 
 static void Cmd_drawlvlupbox(void)
 {
+	u16 temp;
     if (gBattleScripting.drawlvlupboxState == 0)
     {
         if (IsMonGettingExpSentOut())
@@ -5980,8 +5981,9 @@ static void Cmd_drawlvlupbox(void)
         }
         break;
     case 9:
-        //if (!sub_804F344())
-        //{
+		temp = gBattle_BG2_X;
+        if (!sub_804F344())
+        {
             ClearWindowTilemap(14);
             CopyWindowToVram(14, 1);
 
@@ -5992,7 +5994,7 @@ static void Cmd_drawlvlupbox(void)
             ShowBg(2);
 
             gBattleScripting.drawlvlupboxState = 10;
-        //}
+        }
         break;
     case 10:
         if (!IsDma3ManagerBusyWithBgCopy())
@@ -6003,6 +6005,7 @@ static void Cmd_drawlvlupbox(void)
             ShowBg(1);
             gBattlescriptCurrInstr++;
         }
+		gBattle_BG2_X = temp;
         break;
     }
 }
