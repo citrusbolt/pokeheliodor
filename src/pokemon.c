@@ -4515,7 +4515,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     }
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
         EncryptBoxMon(boxMon);
 
     return retVal;
@@ -4864,7 +4864,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     }
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
     {
         boxMon->checksum = CalculateBoxMonChecksum(boxMon);
         EncryptBoxMon(boxMon);
