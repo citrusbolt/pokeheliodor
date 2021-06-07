@@ -1315,7 +1315,7 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 				break;
 		}
 		
-		if (~foundMatch)
+		if (!foundMatch)
 		{
 			if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM)
 			{
