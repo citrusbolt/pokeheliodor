@@ -465,8 +465,8 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
 #define OBJ_EVENT_PAL_TAG_ZAPDOS                  0x1124
 #define OBJ_EVENT_PAL_TAG_MEWTWO                  0x1125
-#define OBJ_EVENT_PAL_TAG_H_BRENDAN              0x1126
-#define OBJ_EVENT_PAL_TAG_H_MAY                  0x1127
+#define OBJ_EVENT_PAL_TAG_E_BRENDAN              0x1126
+#define OBJ_EVENT_PAL_TAG_E_MAY                  0x1127
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -515,8 +515,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
     {gObjectEventPal_Zapdos,                OBJ_EVENT_PAL_TAG_ZAPDOS},
     {gObjectEventPal_Mewtwo,                OBJ_EVENT_PAL_TAG_MEWTWO},
-    {gObjectEventPal_HeliodorBrendan,       OBJ_EVENT_PAL_TAG_H_BRENDAN},
-    {gObjectEventPal_HeliodorMay,          OBJ_EVENT_PAL_TAG_H_MAY},
+    {gObjectEventPal_EmeraldBrendan,        OBJ_EVENT_PAL_TAG_E_BRENDAN},
+    {gObjectEventPal_EmeraldMay,            OBJ_EVENT_PAL_TAG_E_MAY},
     {NULL,                                  0x0000},
 };
 

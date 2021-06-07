@@ -109,8 +109,8 @@
 #define TRAINER_PIC_LEAF                  90
 #define TRAINER_PIC_RS_BRENDAN            91
 #define TRAINER_PIC_RS_MAY                92
-#define TRAINER_PIC_H_BRENDAN             93
-#define TRAINER_PIC_H_MAY                 94
+#define TRAINER_PIC_E_BRENDAN             93
+#define TRAINER_PIC_E_MAY                 94
 
 #define TRAINER_BACK_PIC_BRENDAN                0
 #define TRAINER_BACK_PIC_MAY                    1
@@ -120,8 +120,8 @@
 #define TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY      5
 #define TRAINER_BACK_PIC_WALLY                  6
 #define TRAINER_BACK_PIC_STEVEN                 7
-#define TRAINER_BACK_PIC_HELIODOR_BRENDAN       8
-#define TRAINER_BACK_PIC_HELIODOR_MAY           9
+#define TRAINER_BACK_PIC_EMERALD_BRENDAN       8
+#define TRAINER_BACK_PIC_EMERALD_MAY           9
 
 #define FACILITY_CLASS_HIKER                 0x0
 #define FACILITY_CLASS_AQUA_GRUNT_M          0x1
@@ -205,8 +205,8 @@
 #define FACILITY_CLASS_LEAF                  0x4f
 #define FACILITY_CLASS_RS_BRENDAN            0x50
 #define FACILITY_CLASS_RS_MAY                0x51
-#define FACILITY_CLASS_H_BRENDAN             0x52
-#define FACILITY_CLASS_H_MAY                 0x53
+#define FACILITY_CLASS_E_BRENDAN             0x52
+#define FACILITY_CLASS_E_MAY                 0x53
 
 #define FACILITY_CLASSES_COUNT               0x54
 

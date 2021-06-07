@@ -578,9 +578,9 @@ void SpawnLinkPartnerObjectEvent(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == 0)
-							linkSpriteId = OBJ_EVENT_GFX_LINK_H_BRENDAN;
+							linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
 						else
-							linkSpriteId = OBJ_EVENT_GFX_LINK_H_MAY;
+							linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
 					}
 					break;
 				case DEV_TEST:
@@ -604,9 +604,9 @@ void SpawnLinkPartnerObjectEvent(void)
 				else
 				{
 					if (gLinkPlayers[i].gender == 0)
-						linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+						linkSpriteId = OBJ_EVENT_GFX_LINK_E_BRENDAN;
 					else
-						linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+						linkSpriteId = OBJ_EVENT_GFX_LINK_E_MAY;
 				}
 			}
             SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + 7, coordOffsets[j][1] + y + 7, 0);
@@ -629,8 +629,8 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
         graphicsId == OBJ_EVENT_GFX_LINK_RS_MAY ||
         graphicsId == OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL ||
         graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL ||
-        graphicsId == OBJ_EVENT_GFX_LINK_H_BRENDAN ||
-        graphicsId == OBJ_EVENT_GFX_LINK_H_MAY ||
+        graphicsId == OBJ_EVENT_GFX_LINK_E_BRENDAN ||
+        graphicsId == OBJ_EVENT_GFX_LINK_E_MAY ||
         graphicsId == OBJ_EVENT_GFX_WALLY ||
         graphicsId == OBJ_EVENT_GFX_STEVEN)
     {
@@ -655,11 +655,11 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
             case OBJ_EVENT_GFX_RIVAL_MAY_NORMAL:
                 LoadPalette(gObjectEventPal_May, 0x100 + (adjustedPaletteNum << 4), 0x20);
                 break;
-            case OBJ_EVENT_GFX_LINK_H_BRENDAN:
-                LoadPalette(gObjectEventPal_HeliodorBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);
+            case OBJ_EVENT_GFX_LINK_E_BRENDAN:
+                LoadPalette(gObjectEventPal_EmeraldBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);
                 break;
-            case OBJ_EVENT_GFX_LINK_H_MAY:
-                LoadPalette(gObjectEventPal_HeliodorMay, 0x100 + (adjustedPaletteNum << 4), 0x20);
+            case OBJ_EVENT_GFX_LINK_E_MAY:
+                LoadPalette(gObjectEventPal_EmeraldMay, 0x100 + (adjustedPaletteNum << 4), 0x20);
                 break;
             case OBJ_EVENT_GFX_WALLY:
                 LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing

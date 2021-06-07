@@ -2042,7 +2042,7 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    [TRAINER_BACK_PIC_HELIODOR_BRENDAN] = {
+    [TRAINER_BACK_PIC_EMERALD_BRENDAN] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
         .oam = &gOamData_BattleSpritePlayerSide,
@@ -2051,7 +2051,7 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    [TRAINER_BACK_PIC_HELIODOR_MAY] = {
+    [TRAINER_BACK_PIC_EMERALD_MAY] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
         .oam = &gOamData_BattleSpritePlayerSide,

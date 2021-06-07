@@ -247,8 +247,8 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMauvilleOldM
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zapdos;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Mewtwo;
 
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeliodorBrendan;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeliodorMay;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldBrendan;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldMay;
 
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
@@ -334,8 +334,8 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_MEWTWO] =                   &gObjectEventGraphicsInfo_Mewtwo,
     //[OBJ_EVENT_GFX_UNUSED_SQUIRTLE_DOLL] =     &gObjectEventGraphicsInfo_UnusedSquirtleDoll,
     //[OBJ_EVENT_GFX_UNUSED_WOOPER_DOLL] =       &gObjectEventGraphicsInfo_UnusedWooperDoll,
-    [OBJ_EVENT_GFX_LINK_H_BRENDAN] =           &gObjectEventGraphicsInfo_HeliodorBrendan,
-    [OBJ_EVENT_GFX_LINK_H_MAY] =               &gObjectEventGraphicsInfo_HeliodorMay,
+    [OBJ_EVENT_GFX_LINK_E_BRENDAN] =           &gObjectEventGraphicsInfo_EmeraldBrendan,
+    [OBJ_EVENT_GFX_LINK_E_MAY] =               &gObjectEventGraphicsInfo_EmeraldMay,
     [OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL] =      &gObjectEventGraphicsInfo_UnusedPikachuDoll,
     [OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL] =     &gObjectEventGraphicsInfo_UnusedPorygon2Doll,
     [OBJ_EVENT_GFX_CUTTABLE_TREE] =            &gObjectEventGraphicsInfo_CuttableTree,

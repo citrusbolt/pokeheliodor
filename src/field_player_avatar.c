@@ -259,7 +259,7 @@ static const u8 sFRLGAvatarGfxIds[] = {OBJ_EVENT_GFX_RED, OBJ_EVENT_GFX_LEAF};
 
 static const u8 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_RS_BRENDAN, OBJ_EVENT_GFX_LINK_RS_MAY};
 
-static const u8 sHeliodorAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_H_BRENDAN, OBJ_EVENT_GFX_LINK_H_MAY};
+static const u8 sEmeraldAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_E_BRENDAN, OBJ_EVENT_GFX_LINK_E_MAY};
 
 static const u8 sTestAvatarGfxIds[] = {OBJ_EVENT_GFX_WALLY, OBJ_EVENT_GFX_STEVEN};
 
@@ -1266,9 +1266,9 @@ u8 GetRSAvatarGraphicsIdByGender(u8 gender)
     return sRSAvatarGfxIds[gender];
 }
 
-u8 GetHeliodorAvatarGraphicsIdByGender(u8 gender)
+u8 GetEmeraldAvatarGraphicsIdByGender(u8 gender)
 {
-	return sHeliodorAvatarGfxIds[gender];
+	return sEmeraldAvatarGfxIds[gender];
 }
 
 u8 GetTestAvatarGraphicsIdByGender(u8 gender)

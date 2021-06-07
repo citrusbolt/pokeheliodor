@@ -2489,9 +2489,9 @@ void SetLinkContestPlayerGfx(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == MALE)
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_H_BRENDAN;
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
 						else
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_H_MAY;
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
 					}
 					break;
 				case DEV_TEST:
@@ -2511,6 +2511,13 @@ void SetLinkContestPlayerGfx(void)
 						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
 					else
 						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
+				}
+				else
+				{
+					if (gLinkPlayers[i].gender == MALE)
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_BRENDAN;
+					else
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_MAY;
 				}
 			}
         }
@@ -2547,9 +2554,9 @@ void LoadLinkContestPlayerPalettes(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == MALE)
-							LoadPalette(gObjectEventPal_HeliodorBrendan, 0x160 + i * 0x10, 0x20);
+							LoadPalette(gObjectEventPal_Brendan, 0x160 + i * 0x10, 0x20);
 						else
-							LoadPalette(gObjectEventPal_HeliodorMay, 0x160 + i * 0x10, 0x20);
+							LoadPalette(gObjectEventPal_May, 0x160 + i * 0x10, 0x20);
 					}
 					break;
 				case DEV_TEST:
@@ -2573,9 +2580,9 @@ void LoadLinkContestPlayerPalettes(void)
 				else
 				{
 					if (gLinkPlayers[i].gender == MALE)
-						LoadPalette(gObjectEventPal_Brendan, 0x160 + i * 0x10, 0x20);
+						LoadPalette(gObjectEventPal_EmeraldBrendan, 0x160 + i * 0x10, 0x20);
 					else
-						LoadPalette(gObjectEventPal_May, 0x160 + i * 0x10, 0x20);
+						LoadPalette(gObjectEventPal_EmeraldMay, 0x160 + i * 0x10, 0x20);
 				}
 			}
         }

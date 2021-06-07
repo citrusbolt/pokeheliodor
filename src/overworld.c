@@ -3180,7 +3180,7 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
 				if (gameVersion == VERSION_EMERALD)
 				{
 					foundMatch = TRUE;
-					objEvent->spriteId = AddPseudoObjectEvent(GetHeliodorAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+					objEvent->spriteId = AddPseudoObjectEvent(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
 				}
 				break;
 			case DEV_TEST:
@@ -3196,7 +3196,7 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
 			else if (gameVersion == VERSION_FIRERED || gameVersion == VERSION_LEAFGREEN)
 				objEvent->spriteId = AddPseudoObjectEvent(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
 			else if (gameVersion == VERSION_EMERALD)
-				objEvent->spriteId = AddPseudoObjectEvent(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+				objEvent->spriteId = AddPseudoObjectEvent(GetEmeraldAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
 		}
 	
 		sprite = &gSprites[objEvent->spriteId];

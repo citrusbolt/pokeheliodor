@@ -1131,7 +1131,7 @@ static void LinkPartnerHandleDrawTrainerPic(void)
 			if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
 			{
 				foundMatch = TRUE;
-				trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + TRAINER_BACK_PIC_HELIODOR_BRENDAN;
+				trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
 			}
 			break;
 		case DEV_TEST:
@@ -1153,7 +1153,7 @@ static void LinkPartnerHandleDrawTrainerPic(void)
 		}
 		else
 		{
-			trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+			trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + TRAINER_BACK_PIC_EMERALD_BRENDAN;
 		}
 	}
 

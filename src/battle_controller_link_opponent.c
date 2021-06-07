@@ -1251,10 +1251,7 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 					if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
 					{
 						foundMatch = TRUE;
-						if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender != MALE)
-							trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_H_MAY];
-						else
-							trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_H_BRENDAN];
+						trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender);
 					}
 					break;
 				case DEV_TEST:
@@ -1286,7 +1283,10 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 				}
 				else
 				{
-					trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender);
+					if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender != MALE)
+						trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_MAY];
+					else
+						trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_BRENDAN];
 				}
 			}
         }
@@ -1300,10 +1300,7 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 				if ((gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].version & 0xFF) == VERSION_EMERALD)
 				{
 					foundMatch = TRUE;
-					if (gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender != MALE)
-						trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_H_MAY];
-					else
-						trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_H_BRENDAN];
+					trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender);
 				}
 				break;
 			case DEV_TEST:
@@ -1315,7 +1312,7 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 				break;
 		}
 		
-		if (~foundMatch)
+		if (!foundMatch)
 		{
 			if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM)
 			{
@@ -1339,7 +1336,10 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 			}
 			else
 			{
-				trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender);
+				if (gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender != MALE)
+					trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_MAY];
+				else
+					trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_BRENDAN];
 			}
 		}
     }
