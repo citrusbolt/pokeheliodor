@@ -183,9 +183,10 @@
 #define MON_DATA_SPEED2            86
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
-#define MON_DATA_FORM              89
-#define MON_DATA_SHINY_LEAVES      90
-#define MON_DATA_ENCOUNTER_TYPE    91
+#define MON_DATA_VERSION_MODIFIER  89
+#define MON_DATA_FORM              90
+#define MON_DATA_SHINY_LEAVES      91
+#define MON_DATA_ENCOUNTER_TYPE    92
 
 // Ribbon IDs used by TV and Pokénav
 #define CHAMPION_RIBBON       0

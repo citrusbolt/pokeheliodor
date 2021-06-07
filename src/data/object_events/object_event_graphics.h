@@ -364,3 +364,6 @@ const u32 gObjectEventPic_Zapdos[] = INCBIN_U32("graphics/object_events/pics/pok
 const u16 gObjectEventPal_Zapdos[] = INCBIN_U16("graphics/object_events/palettes/zapdos.gbapal");
 const u32 gObjectEventPic_Mewtwo[] = INCBIN_U32("graphics/object_events/pics/pokemon/mewtwo.4bpp");
 const u16 gObjectEventPal_Mewtwo[] = INCBIN_U16("graphics/object_events/palettes/mewtwo.gbapal");
+
+const u16 gObjectEventPal_HeliodorBrendan[] = INCBIN_U16("graphics/object_events/palettes/heliodor_brendan.gbapal");
+const u16 gObjectEventPal_HeliodorMay[] = INCBIN_U16("graphics/object_events/palettes/heliodor_may.gbapal");

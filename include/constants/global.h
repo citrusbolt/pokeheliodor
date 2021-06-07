@@ -51,6 +51,14 @@
 #define VERSION_SHINING_PEARL		47 //Speculation
 #define VERSION_LEGENDS_ARCEUS		48 //Speculation
 
+//Version ID modifiers used for identifying unofficial games.
+//The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
+//so that they do not have to requisition a new ID for every project
+#define DEV_GAME_FREAK				0
+#define DEV_SOLITAIRI				1	//3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, and 12-1 for legality purposes
+#define DEV_SHINY_DRAGON_HUNTER		2	//4-2 is FireRed DX and 5-2 is LeafGreen DX
+#define DEV_TEST					255
+
 #define LANGUAGE_JAPANESE 1
 #define LANGUAGE_ENGLISH  2
 #define LANGUAGE_FRENCH   3
@@ -62,6 +70,7 @@
 
 #define GAME_VERSION (VERSION_EMERALD)
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)
+#define VERSION_MODIFIER (DEV_SOLITAIRI)
 
 // capacities of various saveblock objects
 #define DAYCARE_MON_COUNT 2

@@ -2042,6 +2042,24 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
+    [TRAINER_BACK_PIC_HELIODOR_BRENDAN] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Brendan,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_HELIODOR_MAY] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_May,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
 };
 
 static const u8 sSecretBaseFacilityClasses[2][5] =
@@ -2349,6 +2367,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u8 metLocation;
 	u8 language;
 	u8 version;
+	u8 versionModifier;
 	u32 rngBak;
 	u32 rngBak2;
 	u32 gcnRng;
@@ -2641,6 +2660,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		}
 	}
 
+	versionModifier = VERSION_MODIFIER;
+
     ZeroBoxMonData(boxMon);
 
     SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
@@ -2678,6 +2699,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     value = ITEM_POKE_BALL;
     SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
     SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &otGender);
+	SetBoxMonData(boxMon, MON_DATA_VERSION_MODIFIER, &versionModifier);
 
     if (fixedIV < USE_RANDOM_IVS)
     {
@@ -4504,6 +4526,9 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 	case MON_DATA_ENCOUNTER_TYPE:
 		retVal = boxMon->encounterType;
 		break;
+	case MON_DATA_VERSION_MODIFIER:
+		retVal = substruct0->versionModifier;
+		break;
     default:
         break;
     }
@@ -4849,6 +4874,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 		break;
 	case MON_DATA_ENCOUNTER_TYPE:
 		SET8(boxMon->encounterType);
+		break;
+	case MON_DATA_VERSION_MODIFIER:
+		SET8(substruct0->versionModifier);
 		break;
     default:
         break;
