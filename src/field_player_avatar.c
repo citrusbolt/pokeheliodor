@@ -259,6 +259,34 @@ static const u8 sFRLGAvatarGfxIds[] = {OBJ_EVENT_GFX_RED, OBJ_EVENT_GFX_LEAF};
 
 static const u8 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_RS_BRENDAN, OBJ_EVENT_GFX_LINK_RS_MAY};
 
+static const u8 sHeliodorAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_H_BRENDAN, OBJ_EVENT_GFX_LINK_H_MAY};
+
+static const u8 sTestAvatarGfxIds[] = {OBJ_EVENT_GFX_WALLY, OBJ_EVENT_GFX_STEVEN};
+
+static const u8 sUnknownAvatarGfxIds[2][8] = {
+    [MALE] = {
+        OBJ_EVENT_GFX_MAN_3, 
+        OBJ_EVENT_GFX_BLACK_BELT, 
+        OBJ_EVENT_GFX_CAMPER, 
+        OBJ_EVENT_GFX_YOUNGSTER, 
+        OBJ_EVENT_GFX_PSYCHIC_M, 
+        OBJ_EVENT_GFX_BUG_CATCHER, 
+        OBJ_EVENT_GFX_MAN_4, 
+        OBJ_EVENT_GFX_MAN_5
+    },
+    [FEMALE] = {
+        OBJ_EVENT_GFX_WOMAN_5, 
+        OBJ_EVENT_GFX_HEX_MANIAC, 
+        OBJ_EVENT_GFX_PICNICKER, 
+        OBJ_EVENT_GFX_LASS, 
+        OBJ_EVENT_GFX_LASS, 
+        OBJ_EVENT_GFX_GIRL_3, 
+        OBJ_EVENT_GFX_WOMAN_2, 
+        OBJ_EVENT_GFX_BEAUTY
+    }
+};
+
+
 static const u8 sPlayerAvatarGfxToStateFlag[2][5][2] =
 {
     [MALE] =
@@ -1236,6 +1264,16 @@ u8 GetFRLGAvatarGraphicsIdByGender(u8 gender)
 u8 GetRSAvatarGraphicsIdByGender(u8 gender)
 {
     return sRSAvatarGfxIds[gender];
+}
+
+u8 GetHeliodorAvatarGraphicsIdByGender(u8 gender)
+{
+	return sHeliodorAvatarGfxIds[gender];
+}
+
+u8 GetTestAvatarGraphicsIdByGender(u8 gender)
+{
+	return sTestAvatarGfxIds[gender];
 }
 
 u8 GetPlayerAvatarGraphicsIdByStateId(u8 state)

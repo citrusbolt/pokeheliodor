@@ -603,7 +603,7 @@ static void ProcessRecvCmds(u8 unused)
                         block = (struct LinkPlayerBlock *)&gBlockRecvBuffer[i];
                         linkPlayer = &gLinkPlayers[i];
                         *linkPlayer = block->linkPlayer;
-                        if (((linkPlayer->version & 0xFF) == VERSION_RUBY || (linkPlayer->version & 0xFF) == VERSION_SAPPHIRE) && linkPlayer->versionModifier == DEV_GAME_FREAK)
+                        if (((linkPlayer->version & 0xFF) == VERSION_RUBY || (linkPlayer->version & 0xFF) == VERSION_SAPPHIRE))
                         {
                             linkPlayer->progressFlagsCopy = 0;
                             //linkPlayer->neverRead = 0;
@@ -1869,6 +1869,12 @@ void ConvertLinkPlayerName(struct LinkPlayer *player)
 			else
 				mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
 			break;
+		case DEV_SOLITAIRI:
+			if ((player->version & 0xFF) == VERSION_EMERALD)
+				mgba_printf(MGBA_LOG_INFO, "Linked with Heliodor.");
+			else
+				mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
+			break;
 		case DEV_SHINY_DRAGON_HUNTER:
 			if ((player->version & 0xFF) == VERSION_FIRERED)
 				mgba_printf(MGBA_LOG_INFO, "Linked with FireRed DX.");
@@ -1877,12 +1883,8 @@ void ConvertLinkPlayerName(struct LinkPlayer *player)
 			else
 				mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
 			break;
-		case DEV_SOLITAIRI:
-			if ((player->version & 0xFF) == VERSION_EMERALD)
-				mgba_printf(MGBA_LOG_INFO, "Linked with Heliodor.");
-			else
-				mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-			break;
+		case DEV_TEST:
+			mgba_printf(MGBA_LOG_INFO, "Linked with test case.");
 		default:
 			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
 			break;
