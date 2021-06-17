@@ -387,8 +387,7 @@ void UniquePalette(u16 palOffset, u16 species, u32 personality, bool8 isShiny)
 	s32 shift;
 	s8 limitMode = sHueShiftSpeciesLimit[species];
 
-	//value = (personality >> 8) & 0xFFFF;
-	value = Random();
+	value = (personality >> 8) & 0xFFFF;
 
 	if (isShiny)
 	{
