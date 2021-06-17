@@ -4505,7 +4505,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 		if (!summary->isEgg)
 		{
 			pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
-			LoadCompressedUniqueSpritePalette(pal1, summary->pid);
+			LoadCompressedUniqueSpritePalette(pal1, summary->species2, summary->pid, IsMonShiny(mon));
 		}
 		else
 		{

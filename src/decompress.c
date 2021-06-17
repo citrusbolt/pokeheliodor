@@ -52,14 +52,14 @@ void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
     LoadSpritePalette(&dest);
 }
 
-void LoadCompressedUniqueSpritePalette(const struct CompressedSpritePalette *src, u32 personality)
+void LoadCompressedUniqueSpritePalette(const struct CompressedSpritePalette *src, u16 species, u32 personality, bool8 isShiny)
 {
     struct SpritePalette dest;
 
     LZ77UnCompWram(src->data, gDecompressionBuffer);
     dest.data = (void*) gDecompressionBuffer;
     dest.tag = src->tag;
-    LoadUniqueSpritePalette(&dest, personality);
+    LoadUniqueSpritePalette(&dest, species, personality, isShiny);
 }
 
 void LoadCompressedEggSpritePalette(const struct CompressedSpritePalette *src1, const struct CompressedSpritePalette *src2)
