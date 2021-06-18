@@ -133,6 +133,7 @@ static const u16 sCouponExchange[] =
     DECOR_REGIROCK_DOLL, 
     DECOR_REGICE_DOLL, 
     DECOR_REGISTEEL_DOLL, 
+    ITEM_MASTER_BALL, 
     ITEM_CARD_KEY, 
     ITEM_CARD_KEY, 
     0xFFFF 
@@ -153,7 +154,8 @@ static const u8 *const sCouponExchange_Descriptions[] =
    EventScript_CouponExchange_Text_RegirockDollDesc,
    EventScript_CouponExchange_Text_RegiceDollDesc,
    EventScript_CouponExchange_Text_RegisteelDollDesc,
+   EventScript_CouponExchange_Text_MasterBallDesc,
    EventScript_CouponExchange_Text_50BPDesc,
-   EventScript_CouponExchange_Text_750BPDesc,
+   EventScript_CouponExchange_Text_500BPDesc,
    gText_Exit
 };
