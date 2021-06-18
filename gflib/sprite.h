@@ -308,7 +308,7 @@ u16 LoadSpriteSheetDeferred(const struct SpriteSheet *sheet);
 void FreeAllSpritePalettes(void);
 u8 LoadSpritePalette(const struct SpritePalette *palette);
 u8 LoadSpritePaletteDayNight(const struct SpritePalette *palette);
-u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u32 personality);
+u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u16 species, u32 personality, bool8 isShiny);
 u8 LoadEggSpritePalette(const struct SpritePalette *palette1, const struct SpritePalette *palette2);
 void LoadSpritePalettes(const struct SpritePalette *palettes);
 u8 AllocSpritePalette(u16 tag);

@@ -183,9 +183,10 @@
 #define MON_DATA_SPEED2            86
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
-#define MON_DATA_FORM              89
-#define MON_DATA_SHINY_LEAVES      90
-#define MON_DATA_ENCOUNTER_TYPE    91
+#define MON_DATA_VERSION_MODIFIER  89
+#define MON_DATA_FORM              90
+#define MON_DATA_SHINY_LEAVES      91
+#define MON_DATA_ENCOUNTER_TYPE    92
 
 // Ribbon IDs used by TV and Pokénav
 #define CHAMPION_RIBBON       0
@@ -365,5 +366,13 @@
 #define ENCOUNTER_TYPE_GIFT_DP		12
 #define ENCOUNTER_TYPE_DISTORTION	23
 #define ENCOUNTER_TYPE_GIFT_PT		24
+
+//Regions
+#define REGION_UNKNOWN	0
+#define REGION_KANTO	1
+#define REGION_JOHTO	2
+#define REGION_HOENN	3
+#define REGION_ORRE		4
+#define REGION_SINNOH	4
 
 #endif // GUARD_CONSTANTS_POKEMON_H

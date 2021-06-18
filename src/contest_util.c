@@ -907,7 +907,7 @@ static void Task_ShowWinnerMonBanner(u8 taskId)
         }
 
         pokePal = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
-        LoadCompressedUniqueSpritePalette(pokePal, personality);
+        LoadCompressedUniqueSpritePalette(pokePal, species, personality, IsShinyOtIdPersonality(otId, personality));
         SetMultiuseSpriteTemplateToPokemon(species, B_POSITION_OPPONENT_LEFT);
         gMultiuseSpriteTemplate.paletteTag = pokePal->tag;
         spriteId = CreateSprite(&gMultiuseSpriteTemplate, DISPLAY_WIDTH + 32, DISPLAY_HEIGHT / 2, 10);
@@ -2475,19 +2475,51 @@ void ShowContestPainting(void)
 void SetLinkContestPlayerGfx(void)
 {
     int i;
+	bool8 foundMatch = FALSE;
 
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
     {
         for (i = 0; i < gNumLinkContestPlayers; i++)
         {
             int version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
-            {
-                if (gLinkPlayers[i].gender == MALE)
-                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
-                else
-                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
-            }
+			switch ((u8)gLinkPlayers[i].versionModifier)
+			{
+				case DEV_SOLITAIRI:
+					if (version == VERSION_EMERALD)
+					{
+						foundMatch = TRUE;
+						if (gLinkPlayers[i].gender == MALE)
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+						else
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+					}
+					break;
+				case DEV_TEST:
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_WALLY;
+					else
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_STEVEN;
+					break;
+			}
+			
+			if (!foundMatch)
+			{
+				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
+				{
+					if (gLinkPlayers[i].gender == MALE)
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+					else
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
+				}
+				else
+				{
+					if (gLinkPlayers[i].gender == MALE)
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_BRENDAN;
+					else
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_MAY;
+				}
+			}
         }
 
         VarSet(VAR_OBJ_GFX_ID_0, gContestMons[0].trainerGfxId);
@@ -2504,6 +2536,7 @@ void LoadLinkContestPlayerPalettes(void)
     int version;
     struct Sprite *sprite;
     static const u8 sContestantLocalIds[CONTESTANT_COUNT] = { 3, 4, 5, 14 };
+	bool8 foundMatch = FALSE;
 
     gReservedSpritePaletteCount = 12;
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
@@ -2514,20 +2547,44 @@ void LoadLinkContestPlayerPalettes(void)
             sprite = &gSprites[gObjectEvents[objectEventId].spriteId];
             sprite->oam.paletteNum = 6 + i;
             version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
-            {
-                if (gLinkPlayers[i].gender == MALE)
-                    LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);
-                else
-                    LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);
-            }
-            else
-            {
-                if (gLinkPlayers[i].gender == MALE)
-                    LoadPalette(gObjectEventPal_Brendan, 0x160 + i * 0x10, 0x20);
-                else
-                    LoadPalette(gObjectEventPal_May, 0x160 + i * 0x10, 0x20);
-            }
+			switch ((u8)gLinkPlayers[i].versionModifier)
+			{
+				case DEV_SOLITAIRI:
+					if (version == VERSION_EMERALD)
+					{
+						foundMatch = TRUE;
+						if (gLinkPlayers[i].gender == MALE)
+							LoadPalette(gObjectEventPal_Brendan, 0x160 + i * 0x10, 0x20);
+						else
+							LoadPalette(gObjectEventPal_May, 0x160 + i * 0x10, 0x20);
+					}
+					break;
+				case DEV_TEST:
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
+					else
+						LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
+					break;
+			}
+			
+			if (!foundMatch)
+			{
+				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
+				{
+					if (gLinkPlayers[i].gender == MALE)
+						LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);
+					else
+						LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);
+				}
+				else
+				{
+					if (gLinkPlayers[i].gender == MALE)
+						LoadPalette(gObjectEventPal_EmeraldBrendan, 0x160 + i * 0x10, 0x20);
+					else
+						LoadPalette(gObjectEventPal_EmeraldMay, 0x160 + i * 0x10, 0x20);
+				}
+			}
         }
     }
 }
@@ -2586,7 +2643,7 @@ void ShowContestEntryMonPic(void)
             HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[1], species, personality);
 
         palette = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
-        LoadCompressedUniqueSpritePalette(palette, personality);
+        LoadCompressedUniqueSpritePalette(palette, species, personality, IsShinyOtIdPersonality(otId, personality));
         SetMultiuseSpriteTemplateToPokemon(species, 1);
         gMultiuseSpriteTemplate.paletteTag = palette->tag;
         spriteId = CreateSprite(&gMultiuseSpriteTemplate, (left + 1) * 8 + 32, (top * 8) + 40, 0);

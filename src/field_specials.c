@@ -541,6 +541,7 @@ void SpawnLinkPartnerObjectEvent(void)
     u8 playerFacingDirection;
     u8 linkSpriteId;
     u8 i;
+	bool8 foundMatch;
 
     myLinkPlayerNumber = GetMultiplayerId();
     playerFacingDirection = GetPlayerFacingDirection();
@@ -567,30 +568,47 @@ void SpawnLinkPartnerObjectEvent(void)
     }
     for (i = 0; i < gSpecialVar_0x8004; i++)
     {
+		foundMatch = FALSE;
         if (myLinkPlayerNumber != i)
         {
-            switch ((u8)gLinkPlayers[i].version)
-            {
-                case VERSION_RUBY:
-                case VERSION_SAPPHIRE:
-                    if (gLinkPlayers[i].gender == 0)
-                        linkSpriteId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
-                    else
-                        linkSpriteId = OBJ_EVENT_GFX_LINK_RS_MAY;
-                    break;
-                case VERSION_EMERALD:
-                    if (gLinkPlayers[i].gender == 0)
-                        linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
-                    else
-                        linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
-                    break;
-                default:
-                    if (gLinkPlayers[i].gender == 0)
-                        linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
-                    else
-                        linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
-                    break;
-            }
+			switch ((u8)gLinkPlayers[i].versionModifier)
+			{
+				case DEV_SOLITAIRI:
+					if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
+					{
+						foundMatch = TRUE;
+						if (gLinkPlayers[i].gender == 0)
+							linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+						else
+							linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+					}
+					break;
+				case DEV_TEST:
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == 0)
+						linkSpriteId = OBJ_EVENT_GFX_WALLY;
+					else
+						linkSpriteId = OBJ_EVENT_GFX_STEVEN;
+					break;
+			}
+
+			if (!foundMatch)
+			{
+				if ((u8)gLinkPlayers[i].version == VERSION_RUBY || (u8)gLinkPlayers[i].version == VERSION_SAPPHIRE)
+				{
+					if (gLinkPlayers[i].gender == 0)
+						linkSpriteId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+					else
+						linkSpriteId = OBJ_EVENT_GFX_LINK_RS_MAY;
+				}
+				else
+				{
+					if (gLinkPlayers[i].gender == 0)
+						linkSpriteId = OBJ_EVENT_GFX_LINK_E_BRENDAN;
+					else
+						linkSpriteId = OBJ_EVENT_GFX_LINK_E_MAY;
+				}
+			}
             SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + 7, coordOffsets[j][1] + y + 7, 0);
             LoadLinkPartnerObjectEventSpritePalette(linkSpriteId, 240 - i, i);
             j++;
@@ -610,7 +628,11 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
     if (graphicsId == OBJ_EVENT_GFX_LINK_RS_BRENDAN ||
         graphicsId == OBJ_EVENT_GFX_LINK_RS_MAY ||
         graphicsId == OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL ||
-        graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL)
+        graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL ||
+        graphicsId == OBJ_EVENT_GFX_LINK_E_BRENDAN ||
+        graphicsId == OBJ_EVENT_GFX_LINK_E_MAY ||
+        graphicsId == OBJ_EVENT_GFX_WALLY ||
+        graphicsId == OBJ_EVENT_GFX_STEVEN)
     {
         u8 obj = GetObjectEventIdByLocalIdAndMap(localEventId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
         if (obj != OBJECT_EVENTS_COUNT)
@@ -632,6 +654,18 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
                 break;
             case OBJ_EVENT_GFX_RIVAL_MAY_NORMAL:
                 LoadPalette(gObjectEventPal_May, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                break;
+            case OBJ_EVENT_GFX_LINK_E_BRENDAN:
+                LoadPalette(gObjectEventPal_EmeraldBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                break;
+            case OBJ_EVENT_GFX_LINK_E_MAY:
+                LoadPalette(gObjectEventPal_EmeraldMay, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                break;
+            case OBJ_EVENT_GFX_WALLY:
+                LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
+                break;
+            case OBJ_EVENT_GFX_STEVEN:
+                LoadPalette(gObjectEventPal_RubySapphireMay, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
                 break;
             }
         }
@@ -4766,4 +4800,9 @@ void EraseEVs(void)
 	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPATK_EV, &zero);
 	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPDEF_EV, &zero);
 	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPEED_EV, &zero);
+}
+
+u16 CheckIfEligibleForEventEgg(void)
+{
+	return (GetGameStat(GAME_STAT_HATCHED_EGGS) >= (VarGet(VAR_RECEIVED_EVENT_EGGS) + 1) * 10);
 }

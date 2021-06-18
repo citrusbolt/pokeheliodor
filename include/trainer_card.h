@@ -9,6 +9,8 @@ enum
     CARD_TYPE_FRLG,
     CARD_TYPE_RS,
     CARD_TYPE_EMERALD,
+    CARD_TYPE_HELIODOR,
+    CARD_TYPE_TEST
 };
 
 enum
@@ -47,7 +49,8 @@ struct TrainerCard
     /*0x3A*/ bool16 hasAllFrontierSymbols;
     /*0x3C*/ u32 berryCrushPoints;
     /*0x40*/ u32 unionRoomNum;
-    /*0x44*/ u8 filler[8];
+	/*0x44*/ u8 versionModifier;
+    /*0x45*/ u8 filler[7];
     /*0x4C*/ bool8 shouldDrawStickers; // FRLG only
     /*0x4D*/ u8 unused;
     /*0x4E*/ u8 monIconTint; // FRLG only
@@ -62,7 +65,7 @@ extern struct TrainerCard gTrainerCards[4];
 
 u32 CountPlayerTrainerStars(void);
 u8 GetTrainerCardStars(u8 cardId);
-void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion);
+void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion, u8 versionModifier);
 void ShowPlayerTrainerCard(void (*callback)(void));
 void ShowTrainerCardInLink(u8 arg0, void (*callback)(void));
 void TrainerCard_GenerateCardForPlayer(struct TrainerCard *);

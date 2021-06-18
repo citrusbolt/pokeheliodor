@@ -1970,10 +1970,21 @@ static u8 CanMonLearnTMTutor(struct Pokemon *mon, u16 item, u8 tutor)
     }
     else
     {
-        if (!CanLearnTutorMove(GetMonData(mon, MON_DATA_SPECIES), tutor))
-            return CANNOT_LEARN_MOVE;
-        else
-            move = GetTutorMove(tutor);
+		if (!CanLearnTutorMove(GetMonData(mon, MON_DATA_SPECIES), tutor))
+		{
+			return CANNOT_LEARN_MOVE;
+		}
+		else
+		{
+			if (GetMonData(mon, MON_DATA_MET_GAME) == VERSION_PLATINUM && (tutor == TUTOR_MOVE_DOUBLE_EDGE || tutor == TUTOR_MOVE_MIMIC || tutor == TUTOR_MOVE_NIGHTMARE))
+			{
+				return CANNOT_LEARN_MOVE;
+			}
+			else
+			{
+				move = GetTutorMove(tutor);
+			}
+		}
     }
 
     if (MonKnowsMove(mon, move) == TRUE)

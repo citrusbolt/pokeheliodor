@@ -2044,6 +2044,24 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
+    [TRAINER_BACK_PIC_EMERALD_BRENDAN] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Brendan,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_EMERALD_MAY] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_May,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
 };
 
 static const u8 sSecretBaseFacilityClasses[2][5] =
@@ -2351,6 +2369,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u8 metLocation;
 	u8 language;
 	u8 version;
+	u8 versionModifier;
 	u32 rngBak;
 	u32 rngBak2;
 	u32 gcnRng;
@@ -2643,6 +2662,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		}
 	}
 
+	versionModifier = VERSION_MODIFIER;
+
     ZeroBoxMonData(boxMon);
 
     SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
@@ -2680,6 +2701,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     value = ITEM_POKE_BALL;
     SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
     SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &otGender);
+	SetBoxMonData(boxMon, MON_DATA_VERSION_MODIFIER, &versionModifier);
 
     if (fixedIV < USE_RANDOM_IVS)
     {
@@ -4506,11 +4528,14 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 	case MON_DATA_ENCOUNTER_TYPE:
 		retVal = boxMon->encounterType;
 		break;
+	case MON_DATA_VERSION_MODIFIER:
+		retVal = substruct0->versionModifier;
+		break;
     default:
         break;
     }
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
         EncryptBoxMon(boxMon);
 
     return retVal;
@@ -4852,11 +4877,14 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 	case MON_DATA_ENCOUNTER_TYPE:
 		SET8(boxMon->encounterType);
 		break;
+	case MON_DATA_VERSION_MODIFIER:
+		SET8(substruct0->versionModifier);
+		break;
     default:
         break;
     }
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
     {
         boxMon->checksum = CalculateBoxMonChecksum(boxMon);
         EncryptBoxMon(boxMon);
@@ -7815,4 +7843,27 @@ bool8 IsMewtwoInParty(void)
 			return TRUE;
 	}
 	return FALSE;
+}
+
+u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)	//Does not necessarily align with origin game ID due to Heliodor using multiple and due to CrystalDust (eventually) containing two regions
+{
+	u8 originGame, metLocation;
+	
+	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
+	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
+	
+	if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
+		return REGION_JOHTO;
+	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
+		return REGION_SINNOH;
+	else if (originGame == VERSION_GAMECUBE)
+		return REGION_ORRE;
+	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == MAPSEC_BIRTH_ISLAND || metLocation == MAPSEC_NAVEL_ROCK)
+		return REGION_KANTO;
+	else if (metLocation == MAPSEC_FARAWAY_ISLAND || metLocation == METLOC_FATEFUL_ENCOUNTER || metLocation == METLOC_IN_GAME_TRADE)
+		return REGION_UNKNOWN;
+	else if (originGame == 0 || originGame == 6 || originGame == 9 || originGame == 13 || originGame == 14)
+		return REGION_UNKNOWN;
+	else
+		return REGION_HOENN;
 }

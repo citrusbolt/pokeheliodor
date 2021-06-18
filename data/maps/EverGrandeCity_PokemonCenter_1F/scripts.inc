@@ -79,6 +79,39 @@ EverGrandeCity_PokemonCenter_1F_Movement_ScottExit: @ 8229AD3
 	walk_down
 	step_end
 
+EverGrandeCity_PokemonCenter_1F_EventScript_EggMan::
+	lock
+	faceplayer
+	goto_if_set FLAG_RECEIVED_STARTER_EGG, EverGrandeCity_PokemonCenter_1F_EventScript_ReceivedEgg
+	msgbox EverGrandeCity_PokemonCenter_1F_Text_HaveEggWillYouTakeIt, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq EverGrandeCity_PokemonCenter_1F_EventScript_DeclineEgg
+	getpartysize
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq EverGrandeCity_PokemonCenter_1F_EventScript_NoRoomForEgg
+	msgbox EverGrandeCity_PokemonCenter_1F_Text_HopeYoullWalkPlentyWithEgg, MSGBOX_DEFAULT
+	setflag FLAG_RECEIVED_STARTER_EGG
+	playfanfare MUS_OBTAIN_ITEM
+	message EverGrandeCity_PokemonCenter_1F_Text_ReceivedTheEgg
+	waitfanfare
+	special GiveStarterEgg
+	release
+	end
+
+EverGrandeCity_PokemonCenter_1F_EventScript_ReceivedEgg::
+	msgbox EverGrandeCity_PokemonCenter_1F_Text_EggsAreIncredible, MSGBOX_NPC
+	end
+
+EverGrandeCity_PokemonCenter_1F_EventScript_NoRoomForEgg::
+	msgbox EverGrandeCity_PokemonCenter_1F_Text_NoRoomForThisEgg, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_PokemonCenter_1F_EventScript_DeclineEgg::
+	msgbox EverGrandeCity_PokemonCenter_1F_Text_AsYouWishThen, MSGBOX_DEFAULT
+	release
+	end
+
 EverGrandeCity_PokemonCenter_1F_Text_LeagueAfterVictoryRoad: @ 8229ADA
 	.string "The POKéMON LEAGUE is only a short\n"
 	.string "distance after the VICTORY ROAD.\p"
@@ -103,3 +136,31 @@ EverGrandeCity_PokemonCenter_1F_Text_ScottHappyForYou: @ 8229BF1
 	.string "Okay, {PLAYER}{KUN}.\n"
 	.string "Go for greatness!$"
 
+EverGrandeCity_PokemonCenter_1F_Text_HaveEggWillYouTakeIt:
+	.string "You look like a strong\n"
+	.string "POKéMON TRAINER!\p"
+	.string "I obtained this mysterious\n"
+	.string "EGG in my travels, but I'm not much\l"
+	.string "of a TRAINER myself.\p"
+	.string "Will you take this EGG to raise?$"
+
+EverGrandeCity_PokemonCenter_1F_Text_HopeYoullWalkPlentyWithEgg:
+	.string "Good! I hope you'll walk plenty with\n"
+	.string "this here EGG!$"
+
+EverGrandeCity_PokemonCenter_1F_Text_ReceivedTheEgg:
+	.string "{PLAYER} received the EGG.$"
+
+EverGrandeCity_PokemonCenter_1F_Text_NoRoomForThisEgg:
+	.string "Oh? You've too many POKéMON.\n"
+	.string "There's no room for this EGG…$"
+
+EverGrandeCity_PokemonCenter_1F_Text_AsYouWishThen:
+	.string "As you wish, then…\p"
+	.string "If you have a change of heart about\n"
+	.string "hatching this EGG, I will be here.$"
+
+EverGrandeCity_PokemonCenter_1F_Text_EggsAreIncredible:
+	.string "POKéMON EGGS are incredible…\p"
+	.string "They represent the potential\n"
+	.string "of an entire life.$"

@@ -111,7 +111,7 @@ static u8 GetRubyTrainerStars(struct TrainerCard*);
 static u16 GetCaughtMonsCount(void);
 static void SetPlayerCardData(struct TrainerCard*, u8);
 static void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard*);
-static u8 VersionToCardType(u8);
+static u8 VersionToCardType(u8, u8);
 static void SetDataFromTrainerCard(void);
 static void InitGpuRegs(void);
 static void ResetGpuRegs(void);
@@ -305,8 +305,18 @@ static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
     }, 
     [CARD_TYPE_EMERALD] = 
     {
+        [MALE]   = FACILITY_CLASS_E_BRENDAN, 
+        [FEMALE] = FACILITY_CLASS_E_MAY
+    }, 
+    [CARD_TYPE_HELIODOR] = 
+    {
         [MALE]   = FACILITY_CLASS_BRENDAN, 
         [FEMALE] = FACILITY_CLASS_MAY
+    }, 
+    [CARD_TYPE_TEST] = 
+    {
+        [MALE]   = FACILITY_CLASS_WALLY, 
+        [FEMALE] = FACILITY_CLASS_STEVEN
     }
 };
 
@@ -728,6 +738,8 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard, u8 cardType)
 
     switch (cardType)
     {
+	case CARD_TYPE_HELIODOR:
+	case CARD_TYPE_TEST:
     case CARD_TYPE_EMERALD:
         trainerCard->battleTowerWins = 0;
         trainerCard->battleTowerStraightWins = 0;
@@ -754,7 +766,8 @@ static void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCar
 {
     memset(trainerCard, 0, sizeof(struct TrainerCard));
     trainerCard->version = GAME_VERSION;
-    SetPlayerCardData(trainerCard, CARD_TYPE_EMERALD);
+	trainerCard->versionModifier = VERSION_MODIFIER;
+    SetPlayerCardData(trainerCard, VersionToCardType(GAME_VERSION, VERSION_MODIFIER));
     trainerCard->hasAllSymbols = HasAllFrontierSymbols();
     trainerCard->frontierBP = gSaveBlock2Ptr->frontier.cardBattlePoints;
     if (trainerCard->hasAllSymbols)
@@ -770,7 +783,8 @@ void TrainerCard_GenerateCardForPlayer(struct TrainerCard *trainerCard)
 {
     memset(trainerCard, 0, 0x60);
     trainerCard->version = GAME_VERSION;
-    SetPlayerCardData(trainerCard, CARD_TYPE_EMERALD);
+	trainerCard->versionModifier = VERSION_MODIFIER;
+    SetPlayerCardData(trainerCard, VersionToCardType(GAME_VERSION, VERSION_MODIFIER));
     trainerCard->hasAllFrontierSymbols = HasAllFrontierSymbols();
     *((u16*)&trainerCard->berryCrushPoints) = gSaveBlock2Ptr->frontier.cardBattlePoints;
     if (trainerCard->hasAllFrontierSymbols)
@@ -782,12 +796,12 @@ void TrainerCard_GenerateCardForPlayer(struct TrainerCard *trainerCard)
         trainerCard->facilityClass = gLinkPlayerFacilityClasses[trainerCard->trainerId % NUM_MALE_LINK_FACILITY_CLASSES];
 }
 
-void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion)
+void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion, u8 versionModifier)
 {
     memset(dst, 0, sizeof(struct TrainerCard));
     dst->version = gameVersion;
 
-    switch (VersionToCardType(gameVersion))
+    switch (VersionToCardType(gameVersion, versionModifier))
     {
     case CARD_TYPE_FRLG:
         memcpy(dst, src, 0x60);
@@ -795,6 +809,8 @@ void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion)
     case CARD_TYPE_RS:
         memcpy(dst, src, 0x38);
         break;
+	case CARD_TYPE_HELIODOR:
+	case CARD_TYPE_TEST:
     case CARD_TYPE_EMERALD:
         memcpy(dst, src, 0x60);
         dst->berryCrushPoints = 0;
@@ -1205,7 +1221,9 @@ static const u8 *const sLinkBattleTexts[] =
 {
     [CARD_TYPE_FRLG]    = gText_LinkBattles, 
     [CARD_TYPE_RS]      = gText_LinkCableBattles, 
-    [CARD_TYPE_EMERALD] = gText_LinkBattles
+    [CARD_TYPE_EMERALD] = gText_LinkBattles,
+    [CARD_TYPE_HELIODOR]    = gText_LinkBattles,
+    [CARD_TYPE_TEST] = gText_LinkBattles
 };
 
 static void BufferLinkBattleResults(void)
@@ -1304,6 +1322,8 @@ static void BufferBattleFacilityStats(void)
             StringExpandPlaceholders(sData->textBattleFacilityStat, gText_WinsStraight);
         }
         break;
+	case CARD_TYPE_HELIODOR:
+	case CARD_TYPE_TEST:
     case CARD_TYPE_EMERALD:
         if (sData->trainerCard.frontierBP)
         {
@@ -1324,6 +1344,8 @@ static void PrintBattleFacilityStringOnCard(void)
         if (sData->hasBattleTowerWins)
             PrintStatOnBackOfCard(5, gText_BattleTower, sData->textBattleFacilityStat, sTrainerCardTextColors);
         break;
+	case CARD_TYPE_HELIODOR:
+	case CARD_TYPE_TEST:
     case CARD_TYPE_EMERALD:
         if (sData->trainerCard.frontierBP)
             PrintStatOnBackOfCard(5, gText_BattlePtsWon, sData->textBattleFacilityStat, sTrainerCardStatColors);
@@ -1844,32 +1866,56 @@ static u8 GetSetCardType(void)
     }
     else
     {
-        if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
-        {
-            sData->isHoenn = FALSE;
-            return CARD_TYPE_FRLG;
-        }
-        else if (sData->trainerCard.version == VERSION_EMERALD)
-        {
-            sData->isHoenn = TRUE;
-            return CARD_TYPE_EMERALD;
-        }
-        else
-        {
-            sData->isHoenn = TRUE;
-            return CARD_TYPE_RS;
-        }
+		switch (sData->trainerCard.versionModifier)
+		{
+			case DEV_SOLITAIRI:
+				if (sData->trainerCard.version == VERSION_EMERALD)
+				{
+					sData->isHoenn = TRUE;
+					return CARD_TYPE_HELIODOR;
+				}
+				break;
+			case DEV_TEST:
+				sData->isHoenn = TRUE;
+				return CARD_TYPE_TEST;
+		}
+		
+		if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
+		{
+			sData->isHoenn = FALSE;
+			return CARD_TYPE_FRLG;
+		}
+		else if (sData->trainerCard.version == VERSION_EMERALD)
+		{
+			sData->isHoenn = TRUE;
+			return CARD_TYPE_EMERALD;
+		}
+		else
+		{
+			sData->isHoenn = TRUE;
+			return CARD_TYPE_RS;
+		}
     }
 }
 
-static u8 VersionToCardType(u8 version)
+static u8 VersionToCardType(u8 version, u8 versionModifier)
 {
-    if (version == VERSION_FIRERED || version == VERSION_LEAFGREEN)
-        return CARD_TYPE_FRLG;
-    else if (version == VERSION_EMERALD)
-        return CARD_TYPE_EMERALD;
-    else
-        return CARD_TYPE_RS;
+    switch (versionModifier)
+	{
+		case DEV_SOLITAIRI:
+			if (version == VERSION_EMERALD)
+				return CARD_TYPE_HELIODOR;
+			break;
+		case DEV_TEST:
+			return CARD_TYPE_TEST;
+	}
+	
+	if (version == VERSION_FIRERED || version == VERSION_LEAFGREEN)
+		return CARD_TYPE_FRLG;
+	else if (version == VERSION_EMERALD)
+		return CARD_TYPE_EMERALD;
+	else
+		return CARD_TYPE_RS;
 }
 
 static void CreateTrainerCardTrainerPic(void)

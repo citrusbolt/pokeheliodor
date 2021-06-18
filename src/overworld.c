@@ -131,7 +131,7 @@ static void UpdateHeldKeyCode(u16);
 static void UpdateAllLinkPlayers(u16*, s32);
 static u8 FlipVerticalAndClearForced(u8, u8);
 static u8 LinkPlayerDetectCollision(u8, u8, s16, s16);
-static void CreateLinkPlayerSprite(u8, u8);
+static void CreateLinkPlayerSprite(u8, u8, u8, u32);
 static void GetLinkPlayerCoords(u8, u16 *, u16 *);
 static u8 GetLinkPlayerFacingDirection(u8);
 static u8 GetLinkPlayerElevation(u8);
@@ -2213,7 +2213,7 @@ static void SpawnLinkPlayers(void)
     for (i = 0; i < gFieldLinkPlayerCount; i++)
     {
         SpawnLinkPlayerObjectEvent(i, i + x, y, gLinkPlayers[i].gender);
-        CreateLinkPlayerSprite(i, gLinkPlayers[i].version);
+        CreateLinkPlayerSprite(i, gLinkPlayers[i].version, gLinkPlayers[i].versionModifier, gLinkPlayers[i].trainerId);
     }
 
     ClearAllPlayerKeys();
@@ -2223,7 +2223,7 @@ static void CreateLinkPlayerSprites(void)
 {
     u16 i;
     for (i = 0; i < gFieldLinkPlayerCount; i++)
-        CreateLinkPlayerSprite(i, gLinkPlayers[i].version);
+        CreateLinkPlayerSprite(i, gLinkPlayers[i].version, gLinkPlayers[i].versionModifier, gLinkPlayers[i].trainerId);
 }
 
 
@@ -3165,35 +3165,46 @@ static u8 LinkPlayerDetectCollision(u8 selfObjEventId, u8 a2, s16 x, s16 y)
     return MapGridIsImpassableAt(x, y);
 }
 
-static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion)
+static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionModifier, u32 trainerId)
 {
-    struct LinkPlayerObjectEvent *linkPlayerObjEvent = &gLinkPlayerObjectEvents[linkPlayerId];
-    u8 objEventId = linkPlayerObjEvent->objEventId;
-    struct ObjectEvent *objEvent = &gObjectEvents[objEventId];
-    struct Sprite *sprite;
-
-    if (linkPlayerObjEvent->active)
-    {
-        switch (gameVersion)
-        {
-        case VERSION_FIRERED:
-        case VERSION_LEAFGREEN:
-            objEvent->spriteId = AddPseudoObjectEvent(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        case VERSION_RUBY:
-        case VERSION_SAPPHIRE:
-            objEvent->spriteId = AddPseudoObjectEvent(GetRSAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        case VERSION_EMERALD:
-            objEvent->spriteId = AddPseudoObjectEvent(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        }
-
-        sprite = &gSprites[objEvent->spriteId];
-        sprite->coordOffsetEnabled = TRUE;
-        sprite->data[0] = linkPlayerId;
-        objEvent->triggerGroundEffectsOnMove = 0;
-    }
+	struct LinkPlayerObjectEvent *linkPlayerObjEvent = &gLinkPlayerObjectEvents[linkPlayerId];
+	u8 objEventId = linkPlayerObjEvent->objEventId;
+	struct ObjectEvent *objEvent = &gObjectEvents[objEventId];
+	struct Sprite *sprite;
+	bool8 foundMatch = FALSE;
+	
+	if (linkPlayerObjEvent->active)
+	{
+		switch (versionModifier)
+		{
+			case DEV_SOLITAIRI:
+				if (gameVersion == VERSION_EMERALD)
+				{
+					foundMatch = TRUE;
+					objEvent->spriteId = AddPseudoObjectEvent(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+				}
+				break;
+			case DEV_TEST:
+					foundMatch = TRUE;
+					objEvent->spriteId = AddPseudoObjectEvent(GetTestAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+				break;
+		}
+		
+		if (!foundMatch)
+		{
+			if (gameVersion == VERSION_RUBY || gameVersion == VERSION_SAPPHIRE)
+				objEvent->spriteId = AddPseudoObjectEvent(GetRSAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+			else if (gameVersion == VERSION_FIRERED || gameVersion == VERSION_LEAFGREEN)
+				objEvent->spriteId = AddPseudoObjectEvent(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+			else if (gameVersion == VERSION_EMERALD)
+				objEvent->spriteId = AddPseudoObjectEvent(GetEmeraldAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+		}
+	
+		sprite = &gSprites[objEvent->spriteId];
+		sprite->coordOffsetEnabled = TRUE;
+		sprite->data[0] = linkPlayerId;
+		objEvent->triggerGroundEffectsOnMove = 0;
+	}
 }
 
 static void SpriteCB_LinkPlayer(struct Sprite *sprite)
