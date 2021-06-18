@@ -3,7 +3,6 @@
 #include "sprite.h"
 #include "palette.h"
 #include "constants/rgb.h"
-#include "mgba.h"
 
 const u32 gBitTable[] =
 {
@@ -113,6 +112,106 @@ static const u16 sCrc16Table[] =
     0x6B46, 0x7ACF, 0x4854, 0x59DD, 0x2D62, 0x3CEB, 0x0E70, 0x1FF9,
     0xF78F, 0xE606, 0xD49D, 0xC514, 0xB1AB, 0xA022, 0x92B9, 0x8330,
     0x7BC7, 0x6A4E, 0x58D5, 0x495C, 0x3DE3, 0x2C6A, 0x1EF1, 0x0F78,
+};
+
+static const u16 sHueShiftNormalRange = 40;
+static const u16 sHueShiftShinyRange = 30;
+static const s8 sHueShiftSpeciesLimit[NUM_SPECIES] =
+{
+	[SPECIES_CHARIZARD] = 3,
+	[SPECIES_PIKACHU] = 1,
+	[SPECIES_RAICHU] = 1,
+	[SPECIES_CLEFAIRY] = 3,
+	[SPECIES_CLEFABLE] = 3,
+	[SPECIES_VULPIX] = 3,
+	[SPECIES_NINETALES] = 3,
+	[SPECIES_JIGGLYPUFF] = 3,
+	[SPECIES_WIGGLYTUFF] = 3,
+	[SPECIES_PARAS] = 1,
+	[SPECIES_PARASECT] = -1,
+	[SPECIES_MEOWTH] = 1,
+	[SPECIES_PERSIAN] = -1,
+	[SPECIES_PSYDUCK] = 3,
+	[SPECIES_GOLDUCK] = 3,
+	[SPECIES_POLIWAG] = 1,
+	[SPECIES_POLIWHIRL] = 1,
+	[SPECIES_ABRA] = -1,
+	[SPECIES_KADABRA] = -1,
+	[SPECIES_MACHOP] = 4,
+	[SPECIES_MACHOKE] = 4,
+	[SPECIES_MACHAMP] = 4,
+	[SPECIES_MAGNEMITE] = 4,
+	[SPECIES_MAGNETON] = 4,
+	[SPECIES_SEEL] = 4,
+	[SPECIES_DEWGONG] = 4,
+	[SPECIES_GRIMER] = 2,
+	[SPECIES_MUK] = 2,
+	[SPECIES_SHELLDER] = 2,
+	[SPECIES_CLOYSTER] = 2,
+	[SPECIES_GASTLY] = 4,
+	[SPECIES_HAUNTER] = 4,
+	[SPECIES_GENGAR] = 4,
+	[SPECIES_ONIX] = 4,
+	[SPECIES_RHYHORN] = 2,
+	[SPECIES_RHYDON] = 2,
+	[SPECIES_SCYTHER] = 1,
+	[SPECIES_ELECTABUZZ] = 1,
+	[SPECIES_MAGIKARP] = -1,
+	[SPECIES_LAPRAS] = -1,
+	[SPECIES_DITTO] = 4,
+	[SPECIES_EEVEE] = 3,
+	[SPECIES_FLAREON] = -1,
+	[SPECIES_AERODACTYL] = 2,
+	[SPECIES_SNORLAX] = 1,
+	[SPECIES_ZAPDOS] = 1,
+	[SPECIES_MEWTWO] = 2,
+	[SPECIES_HOOTHOOT] = -1,
+	[SPECIES_NOCTOWL] = -1,
+	[SPECIES_LEDYBA] = -1,
+	[SPECIES_LEDIAN] = -1,
+	[SPECIES_PICHU] = 1,
+	[SPECIES_TOGEPI] = 4,
+	[SPECIES_TOGETIC] = 4,
+	[SPECIES_SUNKERN] = 1,
+	[SPECIES_UMBREON] = 3,
+	[SPECIES_MURKROW] = 2,
+	[SPECIES_MISDREAVUS] = 2,
+	[SPECIES_UNOWN] = 4,
+	[SPECIES_STEELIX] = 4,
+	[SPECIES_SHUCKLE] = 3,
+	[SPECIES_SNEASEL] = 2,
+	[SPECIES_SWINUB] = 3,
+	[SPECIES_PILOSWINE] = -1,
+	[SPECIES_MANTINE] = 2,
+	[SPECIES_PHANPY] = 2,
+	[SPECIES_DONPHAN] = 2,
+	[SPECIES_SMEARGLE] = 4,
+	[SPECIES_ELEKID] = 1,
+	[SPECIES_MILTANK] = 3,
+	[SPECIES_LARVITAR] = 1,
+	[SPECIES_PUPITAR] = -1,
+	[SPECIES_LUGIA] = 4,
+	[SPECIES_POOCHYENA] = 2,
+	[SPECIES_MIGHTYENA] = 2,
+	[SPECIES_ZIGZAGOON] = 1,
+	[SPECIES_SABLEYE] = 4,
+	[SPECIES_ARON] = 4,
+	[SPECIES_LAIRON] = 4,
+	[SPECIES_AGGRON] = 4,
+	[SPECIES_SPOINK] = 2,
+	[SPECIES_GRUMPIG] = 2,
+	[SPECIES_TRAPINCH] = 3,
+	[SPECIES_CRAWDAUNT] = -1,
+	[SPECIES_FEEBAS] = 3,
+	[SPECIES_CASTFORM] = 4,
+	[SPECIES_SHUPPET] = 2,
+	[SPECIES_BANETTE] = 2,
+	[SPECIES_DUSKULL] = 2,
+	[SPECIES_DUSCLOPS] = 2,
+	[SPECIES_ABSOL] = 4,
+	[SPECIES_REGISTEEL] = 4,
+	[SPECIES_LATIAS] = -1,
+	[SPECIES_RAYQUAZA] = 3
 };
 
 const u8 gMiscBlank_Gfx[] = INCBIN_U8("graphics/interface/blank.4bpp");
@@ -279,35 +378,169 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
     }
 }
 
-void UniquePalette(u16 palOffset, u32 personality)
+void UniquePalette(u16 palOffset, u16 species, u32 personality, bool8 isShiny)
 {
-    u16 i;
-	u8 range = 3;
-	s8 dr = ((personality >> 16) & 0xFF) % (range * 2 + 1);
-	s8 dg = ((personality >> 8) & 0xFF) % (range * 2 + 1);
-	s8 db = (personality & 0xFF) % (range * 2 + 1);
-	
-    for (i = 0; i < 16; i++)
-    {
-        u16 index = i + palOffset;
-        struct PlttData *data1 = (struct PlttData *)&gPlttBufferUnfaded[index];
-        s8 r = data1->r + dr - range;
-        s8 g = data1->g + dg - range;
-        s8 b = data1->b + db - range;
-		
-		if (r > 31)
-			r = 31 - dr / 2;
-		if (g > 31)
-			g = 31 - dg / 2;
-		if (b > 31)
-			b = 31 - db / 2;
-		if (r < 0)
-			r = dr / 2;
-		if (g < 0)
-			g = dg / 2;
-		if (b < 0)
-			b = db / 2;
+    u16 i, range;
+	u32 value;
+	s32 shift;
+	s8 limitMode = sHueShiftSpeciesLimit[species];
 
-        gPlttBufferFaded[index] = RGB(r, g, b);
+	value = (personality >> 8) & 0xFFFF;
+
+	if (isShiny)
+	{
+		limitMode *= -1;
+		range = sHueShiftShinyRange;
+	}
+	else
+	{
+		range = sHueShiftNormalRange;
+	}
+	
+	if (limitMode == -1)
+		shift = (value % (range + 1)) - range;
+	else if (limitMode == 1)
+		shift = value % (range + 1);
+	else
+		shift = (value % (range * 2 + 1)) - range;
+	
+	gSaveBlock1Ptr->hueShift = shift;
+	
+	if (limitMode == 2 || limitMode == -3 || limitMode == 4 || limitMode == -4)
+	{
+		s8 dr = ((value >> 8) & 0xF) % 5;
+		s8 dg = ((value >> 4) & 0xF) % 5;
+		s8 db = (value & 0xF) % 5;
+		
+		for (i = 0; i < 16; i++)
+		{
+			u16 index = i + palOffset;
+			struct PlttData *data1 = (struct PlttData *)&gPlttBufferUnfaded[index];
+			s8 r = data1->r + dr - 2;
+			s8 g = data1->g + dg - 2;
+			s8 b = data1->b + db - 2;
+			
+			if (r > 31)
+				r = 31 - dr / 2;
+			if (g > 31)
+				g = 31 - dg / 2;
+			if (b > 31)
+				b = 31 - db / 2;
+			if (r < 0)
+				r = dr / 2;
+			if (g < 0)
+				g = dg / 2;
+			if (b < 0)
+				b = db / 2;
+	
+			gPlttBufferFaded[index] = RGB(r, g, b);
+		}
+	}
+	else
+	{
+		for (i = 0; i < 16; i++)
+		{
+			u16 index = i + palOffset;
+			struct PlttData *data1 = (struct PlttData *)&gPlttBufferUnfaded[index];
+			s32 r = (data1->r * 1000) / 31;
+			s32 g = (data1->g * 1000) / 31;
+			s32 b = (data1->b * 1000) / 31;
+			s32 maxv, minv, d, h, s, l, o, p, q;
+			
+			if (r > g)
+				maxv = r;
+			else
+				maxv = g;
+			if (b > maxv)
+				maxv = b;
+			if (r < g)
+				minv = r;
+			else
+				minv = g;
+			if (b < minv)
+				minv = b;
+			
+			d = maxv - minv;
+			h = 0;
+			s = 0;
+			l = (maxv + minv) / 2;
+			
+			if  (maxv != minv)
+			{
+				if (l > 500)
+					s = 1000 * d / (2000 - maxv - minv);
+				else
+					s = 1000 * d / (maxv + minv);
+				if (maxv == r)
+				{
+					if (g < b)
+						h = 1000 * (g - b) / d + 6000;
+					else
+						h = 1000 * (g - b) / d;
+				}
+				else if (maxv == g)
+				{
+					h = 1000 * (b - r) / d + 2000;
+				}
+				else
+				{
+					h = 1000 * (r - g) / d + 4000;
+				}
+				h /= 6;
+			}
+			
+			h = (h + shift + 1000) % 1000;
+			
+			if (s != 0)
+			{
+				o = (h + 333) % 1000;
+				
+				if (l < 500)
+					p = l * (s + 1000) / 1000;
+				else
+					p = l + s - l * s / 1000;
+				
+				q = l * 2 - p;
+				
+				if (o < 167)
+					r = q + (p - q) * o * 6 / 1000;
+				else if (o < 500)
+					r = p;
+				else if (o < 667)
+					r = q + (p - q) * (667 - o) * 6 / 1000;
+				else
+					r = q;
+				
+				o = h;
+				
+				if (o < 167)
+					g = q + (p - q) * o * 6 / 1000;
+				else if (o < 500)
+					g = p;
+				else if (o < 667)
+					g = q + (p - q) * (667 - o) * 6 / 1000;
+				else
+					g = q;
+				
+				o = (h + 1000 - 333) % 1000;
+				
+				if (o < 167)
+					b = q + (p - q) * o * 6 / 1000;
+				else if (o < 500)
+					b = p;
+				else if (o < 667)
+					b = q + (p - q) * (667 - o) * 6 / 1000;
+				else
+					b = q;
+			}
+			else
+			{
+				r = l;
+				g = l;
+				b = l;
+			}
+	
+			gPlttBufferFaded[index] = RGB((u8)(r * 31 / 1000), (u8)(g * 31 / 1000), (u8)(b * 31 / 1000));
+		}
 	}
 }

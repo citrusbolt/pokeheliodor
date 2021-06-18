@@ -4007,7 +4007,7 @@ static void LoadDisplayMonGfx(u16 species, u32 pid)
         LZ77UnCompWram(sStorage->displayMonPalette, sStorage->displayMonPalBuffer);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalBuffer, sStorage->displayMonPalOffset, 0x20);
-		UniquePalette(sStorage->displayMonPalOffset, pid);
+		UniquePalette(sStorage->displayMonPalOffset, species, pid, (bool8)sStorage->filler2[2]);
 		CpuCopy32(gPlttBufferFaded + sStorage->displayMonPalOffset, gPlttBufferUnfaded + sStorage->displayMonPalOffset, 32);
         sStorage->displayMonSprite->invisible = FALSE;
     }
@@ -6915,6 +6915,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonItemId = GetMonData(mon, MON_DATA_HELD_ITEM);
 			sStorage->filler2[0] = gBaseStats[GetMonData(mon, MON_DATA_SPECIES)].type1;
 			sStorage->filler2[1] = gBaseStats[GetMonData(mon, MON_DATA_SPECIES)].type2;
+			sStorage->filler2[2] = IsMonShiny(mon);
         }
     }
     else if (mode == MODE_BOX)
@@ -6941,6 +6942,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonItemId = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
 			sStorage->filler2[0] = gBaseStats[GetBoxMonData(boxMon, MON_DATA_SPECIES)].type1;
 			sStorage->filler2[1] = gBaseStats[GetBoxMonData(boxMon, MON_DATA_SPECIES)].type2;
+			sStorage->filler2[2] = IsShinyOtIdPersonality(otId, sStorage->displayMonPersonality);
         }
     }
     else
