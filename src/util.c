@@ -3,8 +3,6 @@
 #include "sprite.h"
 #include "palette.h"
 #include "constants/rgb.h"
-#include "mgba.h"
-#include "random.h"
 
 const u32 gBitTable[] =
 {
