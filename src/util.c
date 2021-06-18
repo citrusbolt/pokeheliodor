@@ -406,8 +406,6 @@ void UniquePalette(u16 palOffset, u16 species, u32 personality, bool8 isShiny)
 	else
 		shift = (value % (range * 2 + 1)) - range;
 	
-	gSaveBlock1Ptr->hueShift = shift;
-	
 	if (limitMode == 2 || limitMode == -3 || limitMode == 4 || limitMode == -4)
 	{
 		s8 dr = ((value >> 8) & 0xF) % 5;
