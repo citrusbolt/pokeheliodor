@@ -5984,6 +5984,7 @@ static void Cmd_drawlvlupbox(void)
         break;
     case 9:
 		temp = gBattle_BG2_X;
+		gBattle_BG2_X = 0;
         if (!sub_804F344())
         {
             ClearWindowTilemap(14);
