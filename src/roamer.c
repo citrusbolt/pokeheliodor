@@ -280,15 +280,15 @@ void CreateRoamerMonInstance(void)
 
 bool8 TryStartRoamerEncounter(void)
 {
-    if (IsRoamerAt(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum) == TRUE && (Random() % 4) == 0)
-    {
+    //if (IsRoamerAt(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum) == TRUE && (Random() % 4) == 0)
+    //{
         CreateRoamerMonInstance();
         return TRUE;
-    }
-    else
-    {
-        return FALSE;
-    }
+    //}
+    //else
+    //{
+    //    return FALSE;
+    //}
 }
 
 void UpdateRoamerHPStatus(struct Pokemon *mon)
