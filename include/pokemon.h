@@ -437,6 +437,7 @@ void sub_806F47C(u8 id);
 u8 *sub_806F4F8(u8 id, u8 arg1);
 u8 GivePorygon(void);
 void RespawnLegendaries(void);
+void RespawnAllLegendaries(void);
 bool8 IsMewtwoInParty(void);
 
 #endif // GUARD_POKEMON_H

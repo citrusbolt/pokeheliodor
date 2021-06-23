@@ -218,7 +218,7 @@ static void CreateBattlerSprite(u8 battler)
 
         if (GetBattlerSide(battler) != B_SIDE_PLAYER)
         {
-            if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_HP) == 0)
+            if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_HP) == 0 || gBattleScripting.catchSuccess)
                 return;
 
             SetMultiuseSpriteTemplateToPokemon(GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES), GetBattlerPosition(battler));

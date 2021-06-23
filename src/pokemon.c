@@ -54,6 +54,7 @@
 #include "save.h"
 #include "constants/species.h"
 #include "wild_encounter.h"
+#include "roamer.h"
 
 struct SpeciesItem
 {
@@ -7733,6 +7734,46 @@ void RespawnLegendaries(void)
 		FlagClear(FLAG_DEFEATED_ZAPDOS);
 	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MEWTWO), FLAG_GET_CAUGHT))
 		FlagClear(FLAG_DEFEATED_MEWTWO);
+}
+
+void RespawnAllLegendaries(void)
+{
+	struct Roamer *roamer = &gSaveBlock1Ptr->roamer;
+	
+	if (GetGameStat(GAME_STAT_ENTERED_HOF) % 10 == 9)
+	{
+		FlagClear(FLAG_DEFEATED_MEW);
+		FlagClear(FLAG_DEFEATED_LATIAS_OR_LATIOS);
+		FlagClear(FLAG_DEFEATED_DEOXYS);
+		FlagClear(FLAG_DEFEATED_LUGIA);
+		FlagClear(FLAG_DEFEATED_HO_OH);
+		FlagClear(FLAG_DEFEATED_REGIROCK);
+		FlagClear(FLAG_DEFEATED_REGICE);
+		FlagClear(FLAG_DEFEATED_REGISTEEL);
+		FlagClear(FLAG_DEFEATED_KYOGRE);
+		FlagClear(FLAG_DEFEATED_GROUDON);
+		FlagClear(FLAG_DEFEATED_RAYQUAZA);
+		FlagClear(FLAG_DEFEATED_SUDOWOODO);
+		FlagClear(FLAG_DEFEATED_MEWTWO);
+		
+		FlagClear(FLAG_CAUGHT_MEW);
+		FlagClear(FLAG_CAUGHT_LUGIA);
+		FlagClear(FLAG_CAUGHT_HO_OH);
+		
+		FlagClear(FLAG_BATTLED_DEOXYS);
+		
+		if (VarGet(VAR_ROAMER_POKEMON) == 6 && !roamer->active && FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS))
+		{
+			if (FlagGet(FLAG_ROAMER_QUEST))
+				FlagClear(FLAG_ROAMER_QUEST);
+			else
+				FlagSet(FLAG_ROAMER_QUEST);
+			gSpecialVar_0x8004 = FlagGet(FLAG_ROAMER_QUEST);
+			InitRoamer();
+			FlagClear(FLAG_DEFEATED_ZAPDOS);
+			FlagClear(FLAG_CAUGHT_LATIAS_OR_LATIOS);
+		}
+	}
 }
 
 bool8 IsMonSapphireExclusive(u16 species)

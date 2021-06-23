@@ -2473,7 +2473,7 @@ void ShowScrollableMultichoice(void)
             break;
         case SCROLL_MULTI_COUPON_EXCHANGE:
             task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
-            task->tNumItems = 16;
+            task->tNumItems = 17;
             task->tLeft = 14;
             task->tTop = 1;
             task->tWidth = 15;
@@ -2698,8 +2698,9 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
 		gText_RegirockDoll60000pt,
 		gText_RegiceDoll60000pt,
 		gText_RegisteelDoll60000pt,
+        gText_MasterBall100000pt,
 		gText_50BP10000pt,
-		gText_750BP100000pt,
+		gText_500BP100000pt,
         gText_Exit
     }
 };

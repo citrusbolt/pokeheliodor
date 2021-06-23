@@ -94,9 +94,10 @@ EventScript_CouponExchange::
 	case 10, EventScript_CouponExchange_RegirockDoll
 	case 11, EventScript_CouponExchange_RegiceDoll
 	case 12, EventScript_CouponExchange_RegisteelDoll
-	case 13, EventScript_CouponExchange_50BP
-	case 14, EventScript_CouponExchange_750BP
-	case 15, EventScript_PCMainMenu
+	case 13, EventScript_CouponExchange_MasterBall
+	case 14, EventScript_CouponExchange_50BP
+	case 15, EventScript_CouponExchange_500BP
+	case 16, EventScript_PCMainMenu
 	case MULTI_B_PRESSED, EventScript_PCMainMenu
 	end
 
@@ -217,6 +218,15 @@ EventScript_CouponExchange_RegiceDoll::
 	goto EventScript_CouponExchange_TryPurchaseDecor
 	end
 
+EventScript_CouponExchange_MasterBall::
+	msgbox EventScript_CouponExchange_Text_ConfirmMasterBall, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq EventScript_CouponExchange
+	setvar VAR_0x8008, 1000
+	setvar VAR_0x8009, ITEM_MASTER_BALL
+	goto EventScript_CouponExchange_TryPurchaseItem
+	end
+	
 EventScript_CouponExchange_50BP::
 	msgbox EventScript_CouponExchange_Text_Confirm50BP, MSGBOX_YESNO
 	compare VAR_RESULT, NO
@@ -226,12 +236,12 @@ EventScript_CouponExchange_50BP::
 	goto EventScript_CouponExchange_TryPurchaseBP
 	end
 
-EventScript_CouponExchange_750BP::
-	msgbox EventScript_CouponExchange_Text_Confirm750BP, MSGBOX_YESNO
+EventScript_CouponExchange_500BP::
+	msgbox EventScript_CouponExchange_Text_Confirm500BP, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 1000
-	setvar VAR_0x8009, 750
+	setvar VAR_0x8009, 500
 	goto EventScript_CouponExchange_TryPurchaseBP
 	end
 
@@ -392,12 +402,16 @@ EventScript_CouponExchange_Text_ConfirmRegisteelDoll:
 	.string "You've chosen the REGISTEEL DOLL.\n"
 	.string "Is that correct?$"
 
+EventScript_CouponExchange_Text_ConfirmMasterBall:
+	.string "You've chosen the MASTER BALL.\n"
+	.string "Is that correct?$"
+
 EventScript_CouponExchange_Text_Confirm50BP:
 	.string "You've chosen 50 BP.\n"
 	.string "Is that correct?$"
 
-EventScript_CouponExchange_Text_Confirm750BP:
-	.string "You've chosen 750 BP.\n"
+EventScript_CouponExchange_Text_Confirm500BP:
+	.string "You've chosen 500 BP.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_PremierBallDesc::
@@ -452,10 +466,14 @@ EventScript_CouponExchange_Text_RegisteelDollDesc::
 	.string "A large DOLL.\n"
 	.string "Place it on a mat or a desk.$"
 
+EventScript_CouponExchange_Text_MasterBallDesc::
+	.string "The best BALL that catches\n"
+	.string "a POKéMON without fail.$"
+
 EventScript_CouponExchange_Text_50BPDesc::
 	.string "Convert POKé COUPONS to Battle Points.$"
 
-EventScript_CouponExchange_Text_750BPDesc::
+EventScript_CouponExchange_Text_500BPDesc::
 	.string "Convert POKé COUPONS to Battle Points.$"
 
 EventScript_CouponExchange_Text_BPIsMax::
