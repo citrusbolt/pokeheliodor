@@ -53,6 +53,7 @@ void UpdatePlayerAvatarTransitionState(void);
 u8 GetFRLGAvatarGraphicsIdByGender(u8);
 u8 GetRSAvatarGraphicsIdByGender(u8);
 u8 GetHeliodorAvatarGraphicsIdByGender(u8);
+u8 GetCDAvatarGraphicsIdByGender(u8);
 u8 GetTestAvatarGraphicsIdByGender(u8);
 void PlayerWheelieInPlace(u8 direction);
 void PlayerWheelieMove(u8 direction);

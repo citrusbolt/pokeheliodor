@@ -277,6 +277,11 @@ const u32 gTrainerPalette_RubySapphireBrendan[] = INCBIN_U32("graphics/trainers/
 const u32 gTrainerFrontPic_RubySapphireMay[] = INCBIN_U32("graphics/trainers/front_pics/ruby_sapphire_may_front_pic.4bpp.lz");
 const u32 gTrainerPalette_RubySapphireMay[] = INCBIN_U32("graphics/trainers/palettes/ruby_sapphire_may.gbapal.lz");
 
+const u32 gTrainerFrontPic_Gold[] = INCBIN_U32("graphics/trainers/front_pics/gold_front_pic.4bpp.lz");
+const u32 gTrainerPalette_Gold[] = INCBIN_U32("graphics/trainers/palettes/gold.gbapal.lz");
+const u32 gTrainerFrontPic_Kris[] = INCBIN_U32("graphics/trainers/front_pics/kris_front_pic.4bpp.lz");
+const u32 gTrainerPalette_Kris[] = INCBIN_U32("graphics/trainers/palettes/kris.gbapal.lz");
+
 const u8 gTrainerBackPic_Brendan[] = INCBIN_U8("graphics/trainers/back_pics/brendan_back_pic.4bpp");
 const u8 gTrainerBackPic_May[] = INCBIN_U8("graphics/trainers/back_pics/may_back_pic.4bpp");
 const u8 gTrainerBackPic_Red[] = INCBIN_U8("graphics/trainers/back_pics/red_back_pic.4bpp");
@@ -285,9 +290,14 @@ const u8 gTrainerBackPic_RubySapphireBrendan[] = INCBIN_U8("graphics/trainers/ba
 const u8 gTrainerBackPic_RubySapphireMay[] = INCBIN_U8("graphics/trainers/back_pics/ruby_sapphire_may_back_pic.4bpp");
 const u8 gTrainerBackPic_Wally[] = INCBIN_U8("graphics/trainers/back_pics/wally_back_pic.4bpp");
 const u8 gTrainerBackPic_Steven[] = INCBIN_U8("graphics/trainers/back_pics/steven_back_pic.4bpp");
+const u8 gTrainerBackPic_Gold[] = INCBIN_U8("graphics/trainers/back_pics/gold_back_pic.4bpp");
+const u8 gTrainerBackPic_Kris[] = INCBIN_U8("graphics/trainers/back_pics/kris_back_pic.4bpp");
 
 const u32 gTrainerBackPicPalette_Red[] = INCBIN_U32("graphics/trainers/palettes/red_back_pic.gbapal.lz");
 const u32 gTrainerBackPicPalette_Leaf[] = INCBIN_U32("graphics/trainers/palettes/leaf_back_pic.gbapal.lz");
+const u32 gTrainerBackPicPalette_Gold[] = INCBIN_U32("graphics/trainers/palettes/gold_back_pic.gbapal.lz");
+const u32 gTrainerBackPicPalette_Kris[] = INCBIN_U32("graphics/trainers/palettes/kris_back_pic.gbapal.lz");
+
 
 const u32 gTrainerPalette_HeliodorBrendan[] = INCBIN_U32("graphics/trainers/palettes/heliodor_brendan.gbapal.lz");
 const u32 gTrainerPalette_HeliodorMay[] = INCBIN_U32("graphics/trainers/palettes/heliodor_may.gbapal.lz");
