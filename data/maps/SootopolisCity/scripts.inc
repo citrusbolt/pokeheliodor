@@ -182,7 +182,13 @@ SootopolisCity_EventScript_SetWallaceLeft:: @ 81E58C7
 	return
 
 SootopolisCity_EventScript_SetExpertBlockCaveEntrance:: @ 81E58D3
+	goto_if_set FLAG_SHOWN_SUICUNE, SootopolisCity_EventScript_SetExpertShownSuicune
 	setobjectxyperm LOCALID_EXPERT, 31, 18
+	return
+
+SootopolisCity_EventScript_SetExpertShownSuicune::
+	setobjectxyperm LOCALID_EXPERT, 32, 18
+	turnobject LOCALID_EXPERT, DIR_WEST
 	return
 
 SootopolisCity_OnWarp: @ 81E58DB
@@ -714,6 +720,10 @@ SootopolisCity_Movement_UnusedPanBack: @ 81E5E7F
 	walk_slow_diag_southwest
 	step_end
 
+SootopolisCity_Movement_ShownSuicune:
+	walk_slow_right
+	step_end
+
 SootopolisCity_EventScript_CaveOfOriginExpert:: @ 81E5E8D
 	lock
 	faceplayer
@@ -733,12 +743,33 @@ SootopolisCity_EventScript_ExpertLeadToCave:: @ 81E5EBA
 	end
 
 SootopolisCity_EventScript_ExpertPostLegendaries:: @ 81E5EC4
+	goto_if_set FLAG_SHOWN_SUICUNE, SootopolisCity_EventScript_ExpertShownSuicune
 	msgbox SootopolisCity_Text_CaveOfOriginSleepsToo, MSGBOX_DEFAULT
+	msgbox SootopolisCity_Text_CaveOfOriginSuicune, MSGBOX_DEFAULT
+	setvar VAR_0x8004, SPECIES_BLAZIKEN
+	specialvar VAR_RESULT, IsSpeciesInParty
+	compare VAR_RESULT, TRUE
+	goto_if_eq SootopolisCity_EventScript_ExpertShowSuicune
 	release
 	end
 
 SootopolisCity_EventScript_ExpertLegendaries:: @ 81E5ECE
 	msgbox SootopolisCity_Text_AwakenedPokemonClash, MSGBOX_DEFAULT
+	release
+	end
+
+SootopolisCity_EventScript_ExpertShowSuicune::
+	msgbox SootopolisCity_Text_CaveOfOriginThatPokemon, MSGBOX_DEFAULT
+	setflag FLAG_SHOWN_SUICUNE
+	applymovement LOCALID_EXPERT, SootopolisCity_Movement_ShownSuicune
+	waitmovement 0
+	turnobject LOCALID_EXPERT, DIR_WEST
+	msgbox SootopolisCity_Text_CaveOfOriginAllowEntry, MSGBOX_DEFAULT
+	release
+	end	
+
+SootopolisCity_EventScript_ExpertShownSuicune::
+	msgbox SootopolisCity_Text_CaveOfOriginAllowEntry, MSGBOX_DEFAULT
 	release
 	end
 
@@ -1795,3 +1826,17 @@ SootopolisCity_Text_DazzledByMentor: @ 81E7CBC
 	.string "WALLACE: I'm sure that you will be\n"
 	.string "dazzled by my mentor's breathtakingly\l"
 	.string "elegant battle style.$"
+
+SootopolisCity_Text_CaveOfOriginSuicune:
+	.string "There are legends of a POKéMON\n"
+	.string "that purifies murky waters.\p"
+	.string "I wonder if it's related to KYOGRE…$"
+
+SootopolisCity_Text_CaveOfOriginThatPokemon:
+	.string "Oh! That POKéMON…$"
+
+SootopolisCity_Text_CaveOfOriginAllowEntry:
+	.string "As one associated with such\n"
+	.string "powerful POKéMON,\p"
+	.string "I feel comfortable trusting you\n"
+	.string "to pay respects to our sacred cave.$"

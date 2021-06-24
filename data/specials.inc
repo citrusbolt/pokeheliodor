@@ -571,3 +571,5 @@ gSpecials:: @ 81DBA64
 	def_special GiveStarterEgg
 	def_special GiveEventEgg
 	def_special CheckIfEligibleForEventEgg
+	def_special ReleaseUnown
+	def_special IsSpeciesInParty

@@ -4803,7 +4803,16 @@ void EraseEVs(void)
 	SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPEED_EV, &zero);
 }
 
-u16 CheckIfEligibleForEventEgg(void)
+bool8 CheckIfEligibleForEventEgg(void)
 {
 	return (GetGameStat(GAME_STAT_HATCHED_EGGS) >= (VarGet(VAR_RECEIVED_EVENT_EGGS) + 1) * 10);
+}
+
+void ReleaseUnown(void)
+{
+	if (!FlagGet(FLAG_UNOWN_RELEASED))
+	{
+		FlagSet(FLAG_UNOWN_RELEASED);
+		VarSet(VAR_UNOWN_RELEASED, gLocalTime.days);
+	}
 }

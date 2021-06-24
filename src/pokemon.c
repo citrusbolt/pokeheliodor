@@ -7906,3 +7906,14 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)	//Does not necessarily align wi
 	else
 		return REGION_HOENN;
 }
+
+bool8 IsSpeciesInParty(void)
+{
+	u8 i;
+	for (i = 0; i < gPlayerPartyCount; i++)
+	{
+		if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, 0) == gSpecialVar_0x8004)
+			return TRUE;
+	}
+	return FALSE;
+}
