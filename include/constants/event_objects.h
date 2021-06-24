@@ -83,10 +83,12 @@
 #define OBJ_EVENT_GFX_MEWTWO                      77
 //#define OBJ_EVENT_GFX_UNUSED_SQUIRTLE_DOLL        78
 //#define OBJ_EVENT_GFX_UNUSED_WOOPER_DOLL          79
-#define OBJ_EVENT_GFX_LINK_E_BRENDAN                  78
-#define OBJ_EVENT_GFX_LINK_E_MAY                      79
-#define OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL         80
-#define OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL        81
+#define OBJ_EVENT_GFX_LINK_E_BRENDAN              78
+#define OBJ_EVENT_GFX_LINK_E_MAY                  79
+//#define OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL         80
+//#define OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL        81
+#define OBJ_EVENT_GFX_LINK_GOLD                   80
+#define OBJ_EVENT_GFX_LINK_KRIS                   81
 #define OBJ_EVENT_GFX_CUTTABLE_TREE               82
 #define OBJ_EVENT_GFX_MART_EMPLOYEE               83
 #define OBJ_EVENT_GFX_ROOFTOP_SALE_WOMAN          84

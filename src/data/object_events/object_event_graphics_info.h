@@ -248,4 +248,5 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Mewtwo = {0xFFFF, 
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldBrendan = {0xFFFF, OBJ_EVENT_PAL_TAG_E_BRENDAN, OBJ_EVENT_PAL_TAG_NONE, 256, 16, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gObjectEventBaseOam_16x32, sOamTables_16x32, sAnimTable_Standard, sPicTable_RubySapphireBrendan, gDummySpriteAffineAnimTable};
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldMay = {0xFFFF, OBJ_EVENT_PAL_TAG_E_MAY, OBJ_EVENT_PAL_TAG_NONE, 256, 16, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gObjectEventBaseOam_16x32, sOamTables_16x32, sAnimTable_Standard, sPicTable_RubySapphireMay, gDummySpriteAffineAnimTable};
-
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gold = {0xFFFF, OBJ_EVENT_PAL_TAG_GOLD, OBJ_EVENT_PAL_TAG_NONE, 256, 16, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gObjectEventBaseOam_16x32, sOamTables_16x32, sAnimTable_Standard, sPicTable_Gold, gDummySpriteAffineAnimTable};
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Kris = {0xFFFF, OBJ_EVENT_PAL_TAG_KRIS, OBJ_EVENT_PAL_TAG_NONE, 256, 16, 32, 10, SHADOW_SIZE_M, FALSE, FALSE, TRACKS_FOOT, &gObjectEventBaseOam_16x32, sOamTables_16x32, sAnimTable_Standard, sPicTable_Kris, gDummySpriteAffineAnimTable};

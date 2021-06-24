@@ -1254,6 +1254,16 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 						trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender);
 					}
 					break;
+				case DEV_SOLITAIRI_2:
+					if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRERED)
+					{
+						foundMatch = TRUE;
+						if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender != MALE)
+							trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_KRIS];
+						else
+							trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_GOLD];
+					}
+					break;
 				case DEV_TEST:
 					foundMatch = TRUE;
 					if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender != MALE)
@@ -1301,6 +1311,16 @@ static void LinkOpponentHandleDrawTrainerPic(void)
 				{
 					foundMatch = TRUE;
 					trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender);
+				}
+				break;
+			case DEV_SOLITAIRI_2:
+				if ((gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].version & 0xFF) == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender != MALE)
+						trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_KRIS];
+					else
+						trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_GOLD];
 				}
 				break;
 			case DEV_TEST:

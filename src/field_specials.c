@@ -583,6 +583,16 @@ void SpawnLinkPartnerObjectEvent(void)
 							linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
 					}
 					break;
+				case DEV_SOLITAIRI_2:
+					if ((u8)gLinkPlayers[i].version == VERSION_FIRERED)
+					{
+						foundMatch = TRUE;
+						if (gLinkPlayers[i].gender == 0)
+							linkSpriteId = OBJ_EVENT_GFX_LINK_GOLD;
+						else
+							linkSpriteId = OBJ_EVENT_GFX_LINK_KRIS;
+					}
+					break;
 				case DEV_TEST:
 					foundMatch = TRUE;
 					if (gLinkPlayers[i].gender == 0)
@@ -631,6 +641,8 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
         graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL ||
         graphicsId == OBJ_EVENT_GFX_LINK_E_BRENDAN ||
         graphicsId == OBJ_EVENT_GFX_LINK_E_MAY ||
+        graphicsId == OBJ_EVENT_GFX_LINK_GOLD ||
+        graphicsId == OBJ_EVENT_GFX_LINK_KRIS ||
         graphicsId == OBJ_EVENT_GFX_WALLY ||
         graphicsId == OBJ_EVENT_GFX_STEVEN)
     {
@@ -660,6 +672,12 @@ static void LoadLinkPartnerObjectEventSpritePalette(u8 graphicsId, u8 localEvent
                 break;
             case OBJ_EVENT_GFX_LINK_E_MAY:
                 LoadPalette(gObjectEventPal_EmeraldMay, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                break;
+            case OBJ_EVENT_GFX_LINK_GOLD:
+                LoadPalette(gObjectEventPal_Gold, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                break;
+            case OBJ_EVENT_GFX_LINK_KRIS:
+                LoadPalette(gObjectEventPal_Kris, 0x100 + (adjustedPaletteNum << 4), 0x20);
                 break;
             case OBJ_EVENT_GFX_WALLY:
                 LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing

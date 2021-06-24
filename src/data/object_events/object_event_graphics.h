@@ -367,3 +367,7 @@ const u16 gObjectEventPal_Mewtwo[] = INCBIN_U16("graphics/object_events/palettes
 
 const u16 gObjectEventPal_EmeraldBrendan[] = INCBIN_U16("graphics/object_events/palettes/emerald_brendan.gbapal");
 const u16 gObjectEventPal_EmeraldMay[] = INCBIN_U16("graphics/object_events/palettes/emerald_may.gbapal");
+const u32 gObjectEventPic_Gold[] = INCBIN_U32("graphics/object_events/pics/people/gold.4bpp");
+const u16 gObjectEventPal_Gold[] = INCBIN_U16("graphics/object_events/palettes/gold.gbapal");
+const u32 gObjectEventPic_Kris[] = INCBIN_U32("graphics/object_events/pics/people/kris.4bpp");
+const u16 gObjectEventPal_Kris[] = INCBIN_U16("graphics/object_events/palettes/kris.gbapal");

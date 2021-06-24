@@ -111,6 +111,8 @@
 #define TRAINER_PIC_RS_MAY                92
 #define TRAINER_PIC_E_BRENDAN             93
 #define TRAINER_PIC_E_MAY                 94
+#define TRAINER_PIC_GOLD                  95
+#define TRAINER_PIC_KRIS                  96
 
 #define TRAINER_BACK_PIC_BRENDAN                0
 #define TRAINER_BACK_PIC_MAY                    1
@@ -120,8 +122,10 @@
 #define TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY      5
 #define TRAINER_BACK_PIC_WALLY                  6
 #define TRAINER_BACK_PIC_STEVEN                 7
-#define TRAINER_BACK_PIC_EMERALD_BRENDAN       8
-#define TRAINER_BACK_PIC_EMERALD_MAY           9
+#define TRAINER_BACK_PIC_EMERALD_BRENDAN        8
+#define TRAINER_BACK_PIC_EMERALD_MAY            9
+#define TRAINER_BACK_PIC_GOLD                  10
+#define TRAINER_BACK_PIC_KRIS                  11
 
 #define FACILITY_CLASS_HIKER                 0x0
 #define FACILITY_CLASS_AQUA_GRUNT_M          0x1
@@ -207,8 +211,10 @@
 #define FACILITY_CLASS_RS_MAY                0x51
 #define FACILITY_CLASS_E_BRENDAN             0x52
 #define FACILITY_CLASS_E_MAY                 0x53
+#define FACILITY_CLASS_GOLD                  0x54
+#define FACILITY_CLASS_KRIS                  0x55
 
-#define FACILITY_CLASSES_COUNT               0x54
+#define FACILITY_CLASSES_COUNT               0x56
 
 #define RS_FACILITY_CLASS_AQUA_LEADER_ARCHIE    0x0
 #define RS_FACILITY_CLASS_AQUA_GRUNT_M          0x1

@@ -261,6 +261,8 @@ static const u8 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_RS_BRENDAN, OBJ_EVENT_GF
 
 static const u8 sEmeraldAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_E_BRENDAN, OBJ_EVENT_GFX_LINK_E_MAY};
 
+static const u8 sCDAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_GOLD, OBJ_EVENT_GFX_LINK_KRIS};
+
 static const u8 sTestAvatarGfxIds[] = {OBJ_EVENT_GFX_WALLY, OBJ_EVENT_GFX_STEVEN};
 
 static const u8 sUnknownAvatarGfxIds[2][8] = {
@@ -1269,6 +1271,11 @@ u8 GetRSAvatarGraphicsIdByGender(u8 gender)
 u8 GetEmeraldAvatarGraphicsIdByGender(u8 gender)
 {
 	return sEmeraldAvatarGfxIds[gender];
+}
+
+u8 GetCDAvatarGraphicsIdByGender(u8 gender)
+{
+	return sCDAvatarGfxIds[gender];
 }
 
 u8 GetTestAvatarGraphicsIdByGender(u8 gender)
