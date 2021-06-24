@@ -11,7 +11,7 @@ CaveOfOrigin_B1F_OnFrame:
 CaveOfOrigin_B1F_EventScript_UnownScene::
 	goto_if_unset FLAG_SHOWN_SUICUNE, CaveOfOrigin_B1F_EventScript_End
 	goto_if_set FLAG_UNOWN_RELEASED, CaveOfOrigin_B1F_EventScript_End
-	setvar VAR_0x8004, SPECIES_BLAZIKEN
+	setvar VAR_0x8004, SPECIES_SUICUNE
 	specialvar VAR_RESULT, IsSpeciesInParty
 	compare VAR_RESULT, FALSE
 	goto_if_eq CaveOfOrigin_B1F_EventScript_End
