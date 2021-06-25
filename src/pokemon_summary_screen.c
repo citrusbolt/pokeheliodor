@@ -161,6 +161,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
         u8 OTName[17]; // 0x36
         u32 OTID; // 0x48
 		bool8 fatefulEncounter;
+		u8 versionModifier;
     } summary;
     u16 bgTilemapBuffers[PSS_PAGE_COUNT][2][0x400];
     u8 mode;
@@ -1441,6 +1442,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->metLevel = GetMonData(mon, MON_DATA_MET_LEVEL);
         sum->metGame = GetMonData(mon, MON_DATA_MET_GAME);
         sum->friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
+		sum->versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER);
         break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
@@ -3686,6 +3688,8 @@ static bool8 DidMonComeFromCD(void)
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     if (sum->metGame == VERSION_HEARTGOLD)	//CrystalDust uses HeartGold's game ID
         return TRUE;
+	if (sum->metGame == VERSION_FIRERED && sum->versionModifier == DEV_SOLITAIRI_2)	//Solitairi fork of CrystalDust
+		return FALSE;
     return FALSE;
 }
 
