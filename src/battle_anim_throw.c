@@ -1436,6 +1436,8 @@ static void MakeCaptureStars(struct Sprite *sprite)
             StartSpriteAnim(&gSprites[spriteId], sBallParticleAnimNums[BALL_MASTER]);
         }
     }
+	
+	gBattleScripting.catchSuccess = TRUE;
 }
 
 #undef sDuration
