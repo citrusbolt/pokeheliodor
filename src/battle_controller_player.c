@@ -189,6 +189,8 @@ static const u8 sTargetIdentities[MAX_BATTLERS_COUNT] = {B_POSITION_PLAYER_LEFT,
 // unknown unused data
 static const u8 sUnused[] = {0x48, 0x48, 0x20, 0x5a, 0x50, 0x50, 0x50, 0x58};
 
+u8 sTrainerPicId;
+
 void BattleControllerDummy(void)
 {
 }
@@ -2305,6 +2307,13 @@ static void PlayerHandleDrawTrainerPic(void)
 					trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
 				}
 				break;
+			case DEV_SOLITAIRI_2:
+				if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_GOLD;
+				}
+				break;
 			case DEV_TEST:
 				foundMatch = TRUE;
 				trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_WALLY;
@@ -2404,6 +2413,13 @@ static void PlayerHandleTrainerSlide(void)
 				{
 					foundMatch = TRUE;
 					trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
+				}
+				break;
+			case DEV_SOLITAIRI_2:
+				if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_GOLD;
 				}
 				break;
 			case DEV_TEST:

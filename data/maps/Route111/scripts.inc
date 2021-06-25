@@ -598,7 +598,7 @@ Route111_EventScript_TrainerHillSign:: @ 81F146C
 	end
 
 Route111_EventScript_GiveUnown::
-	goto_if_unset FLAG_SYS_GAME_CLEAR, Route111_EventScript_GiveUnownNotYet
+	goto_if_unset FLAG_UNOWN_RELEASED, Route111_EventScript_GiveUnownNotYet
 	msgbox Route111_Text_GiveUnown, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Route111_EventScript_DeclineUnown

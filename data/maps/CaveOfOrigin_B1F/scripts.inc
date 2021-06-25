@@ -1,7 +1,78 @@
 .set LOCALID_WALLACE, 1
 
 CaveOfOrigin_B1F_MapScripts:: @ 82357A8
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, CaveOfOrigin_B1F_OnFrame
 	.byte 0
+
+CaveOfOrigin_B1F_OnFrame:
+	map_script_2 VAR_CAVE_OF_ORIGIN_STATE, 0, CaveOfOrigin_B1F_EventScript_UnownScene
+	.2byte 0
+
+CaveOfOrigin_B1F_EventScript_UnownScene::
+	goto_if_unset FLAG_SHOWN_SUICUNE, CaveOfOrigin_B1F_EventScript_End
+	goto_if_set FLAG_UNOWN_RELEASED, CaveOfOrigin_B1F_EventScript_End
+	setvar VAR_0x8004, SPECIES_SUICUNE
+	specialvar VAR_RESULT, IsSpeciesInParty
+	compare VAR_RESULT, FALSE
+	goto_if_eq CaveOfOrigin_B1F_EventScript_End
+	turnobject OBJ_EVENT_ID_PLAYER DIR_SOUTH
+	delay 20
+	waitse
+	playmoncry SPECIES_SUICUNE, 2
+	waitmoncry
+	special SpawnCameraObject
+	applymovement OBJ_EVENT_ID_CAMERA, CaveOfOrigin_B1F_Movement_ReleaseUnown1
+	waitmovement 0
+	fadescreen FADE_TO_BLACK
+	delay 60
+	waitse
+	playmoncry SPECIES_UNOWN, 2
+	waitmoncry
+	waitse
+	playmoncry SPECIES_UNOWN, 2
+	waitmoncry
+	waitse
+	playmoncry SPECIES_UNOWN, 2
+	delay 120
+	waitse
+	playse SE_FLEE
+	waitse
+	playse SE_FLEE
+	applymovement OBJ_EVENT_ID_CAMERA, CaveOfOrigin_B1F_Movement_ReleaseUnown2
+	waitmovement 0
+	fadescreen FADE_FROM_BLACK
+	special RemoveCameraObject
+	delay 60
+	setwildbattle SPECIES_UNOWN, 25, ITEM_NONE
+	waitse
+	playmoncry SPECIES_UNOWN, 2
+	delay 40
+	waitmoncry
+	dowildbattle
+	setvar VAR_CAVE_OF_ORIGIN_STATE, 1
+	special ReleaseUnown
+	end
+
+CaveOfOrigin_B1F_EventScript_End::
+	end
+
+CaveOfOrigin_B1F_Movement_ReleaseUnown1:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	step_end
+
+CaveOfOrigin_B1F_Movement_ReleaseUnown2:
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
 
 CaveOfOrigin_B1F_EventScript_Wallace:: @ 82357A9
 	lock

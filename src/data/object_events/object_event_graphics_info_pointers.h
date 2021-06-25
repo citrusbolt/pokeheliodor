@@ -249,7 +249,8 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Mewtwo;
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldBrendan;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldMay;
-
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gold;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Kris;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -336,8 +337,10 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     //[OBJ_EVENT_GFX_UNUSED_WOOPER_DOLL] =       &gObjectEventGraphicsInfo_UnusedWooperDoll,
     [OBJ_EVENT_GFX_LINK_E_BRENDAN] =           &gObjectEventGraphicsInfo_EmeraldBrendan,
     [OBJ_EVENT_GFX_LINK_E_MAY] =               &gObjectEventGraphicsInfo_EmeraldMay,
-    [OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL] =      &gObjectEventGraphicsInfo_UnusedPikachuDoll,
-    [OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL] =     &gObjectEventGraphicsInfo_UnusedPorygon2Doll,
+    //[OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL] =      &gObjectEventGraphicsInfo_UnusedPikachuDoll,
+    //[OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL] =     &gObjectEventGraphicsInfo_UnusedPorygon2Doll,
+    [OBJ_EVENT_GFX_LINK_GOLD] =                &gObjectEventGraphicsInfo_Gold,
+    [OBJ_EVENT_GFX_LINK_KRIS] =                &gObjectEventGraphicsInfo_Kris,
     [OBJ_EVENT_GFX_CUTTABLE_TREE] =            &gObjectEventGraphicsInfo_CuttableTree,
     [OBJ_EVENT_GFX_MART_EMPLOYEE] =            &gObjectEventGraphicsInfo_MartEmployee,
     [OBJ_EVENT_GFX_ROOFTOP_SALE_WOMAN] =       &gObjectEventGraphicsInfo_RooftopSaleWoman,

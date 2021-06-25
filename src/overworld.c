@@ -3184,6 +3184,13 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
 					objEvent->spriteId = AddPseudoObjectEvent(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
 				}
 				break;
+			case DEV_SOLITAIRI_2:
+				if (gameVersion == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					objEvent->spriteId = AddPseudoObjectEvent(GetCDAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+				}
+				break;
 			case DEV_TEST:
 					foundMatch = TRUE;
 					objEvent->spriteId = AddPseudoObjectEvent(GetTestAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);

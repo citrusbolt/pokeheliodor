@@ -2063,6 +2063,24 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
+    [TRAINER_BACK_PIC_GOLD] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Gold,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_KRIS] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Kris,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
 };
 
 static const u8 sSecretBaseFacilityClasses[2][5] =
@@ -7907,4 +7925,15 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)	//Does not necessarily align wi
 		return REGION_UNKNOWN;
 	else
 		return REGION_HOENN;
+}
+
+bool8 IsSpeciesInParty(void)
+{
+	u8 i;
+	for (i = 0; i < gPlayerPartyCount; i++)
+	{
+		if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, 0) == gSpecialVar_0x8004)
+			return TRUE;
+	}
+	return FALSE;
 }

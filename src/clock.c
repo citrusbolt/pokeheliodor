@@ -52,7 +52,10 @@ static void UpdatePerDay(struct Time *localTime)
         UpdateFrontierGambler(daysSince);
         SetShoalItemFlag(daysSince);
         SetRandomLotteryNumber(daysSince);
-		CycleAlteringCave(daysSince);
+		if (FlagGet(FLAG_UNOWN_RELEASED) && localTime->days >= VarGet(VAR_UNOWN_RELEASED) + 7)
+			FlagSet(FLAG_UNOWN_SETTLED);
+		if (FlagGet(FLAG_UNOWN_SETTLED))
+			CycleAlteringCave(localTime->days - VarGet(VAR_UNOWN_RELEASED));
         *days = localTime->days;
     }
 }
