@@ -3109,6 +3109,7 @@ static void BattleStartClearSetData(void)
     gIntroSlideFlags = 0;
     gBattleScripting.animTurn = 0;
     gBattleScripting.animTargetsHit = 0;
+	gBattleScripting.catchSuccess = FALSE;
     gLeveledUpInBattle = 0;
     gAbsentBattlerFlags = 0;
     gBattleStruct->runTries = 0;
@@ -5140,7 +5141,7 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
     if (!gPaletteFade.active)
     {
         ResetSpriteData();
-        if (gLeveledUpInBattle == 0 || gBattleOutcome != B_OUTCOME_WON)
+        if (gLeveledUpInBattle == 0 || (gBattleOutcome != B_OUTCOME_WON && gBattleOutcome != B_OUTCOME_CAUGHT))
         {
             gBattleMainFunc = ReturnFromBattleToOverworld;
             return;

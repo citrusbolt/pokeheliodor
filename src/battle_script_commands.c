@@ -9911,7 +9911,6 @@ static void Cmd_handleballthrow(void)
 
         if (odds > 254) // mon caught
         {
-			gBattleScripting.catchSuccess = TRUE;
             BtlController_EmitBallThrowAnim(0, BALL_3_SHAKES_SUCCESS);
             MarkBattlerForControllerExec(gActiveBattler);
             gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
@@ -9939,7 +9938,6 @@ static void Cmd_handleballthrow(void)
 
             if (shakes == BALL_3_SHAKES_SUCCESS) // mon caught, copy of the code above
             {
-				gBattleScripting.catchSuccess = TRUE;
                 gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
                 SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &gLastUsedItem);
 
