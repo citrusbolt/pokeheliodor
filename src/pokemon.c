@@ -7676,13 +7676,13 @@ u8 GivePorygon(void)
 	u16 checksum;
 	u8 encounterType;
 	
-	personality = 0x399298EBu;
-	ivs[0] = 9;
-	ivs[1] = 3;
-	ivs[2] = 18;
-	ivs[3] = 31;
-	ivs[4] = 31;
-	ivs[5] = 31;
+	personality = 0xC8693992u;
+	ivs[0] = 31;
+	ivs[1] = 31;
+	ivs[2] = 31;
+	ivs[3] = 24;
+	ivs[4] = 21;
+	ivs[5] = 11;
 	otName[0] = 0xD4; //Z
 	otName[1] = 0xBB; //A
 	otName[2] = 0xBD; //C
