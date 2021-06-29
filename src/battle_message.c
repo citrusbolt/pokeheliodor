@@ -48,6 +48,7 @@ extern const u16 gUnknown_08D85620[];
 static void ChooseMoveUsedParticle(u8 *textPtr);
 static void ChooseTypeOfMoveUsedString(u8 *dst);
 static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst);
+static void GetTitleString(u8 titleId);
 
 // EWRAM vars
 static EWRAM_DATA u8 sBattlerAbilities[MAX_BATTLERS_COUNT] = {0};
@@ -434,6 +435,85 @@ static const u8 sText_SpAtk2[] = _("SP. ATK");
 static const u8 sText_SpDef2[] = _("SP. DEF");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
+
+static const u8 sText_LinkTrainerSentOutPkmnTitle[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_OPPONENT_MON1_NAME} the {B_BUFF2}!");
+static const u8 sText_LinkTrainerSentOutPkmn2Title[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_BUFF1} the {B_BUFF2}!");
+static const u8 sText_LinkTrainerMultiSentOutPkmnTitle[] = _("{B_LINK_SCR_TRAINER_NAME} sent out\n{B_BUFF1} the {B_BUFF2}!");
+static const u8 sText_GoPkmnTitle[] = _("Go! {B_PLAYER_MON1_NAME} the {STR_VAR_3}!");
+static const u8 sText_GoPkmn2Title[] = _("Go! {B_BUFF1} the {B_BUFF2}!");
+static const u8 sText_DoItPkmnTitle[] = _("Do it!\n{B_BUFF1} the {B_BUFF2}!");
+static const u8 sText_GoForItPkmnTitle[] = _("Go for it,\n{B_BUFF1} the {B_BUFF2}!");
+static const u8 sText_YourFoesWeakGetEmPkmnTitle[] = _("Your foe's weak! Get 'em,\n{B_BUFF1} the {B_BUFF2}!");
+
+static const u8 sText_TitleCool1[]		= _("Cool 1");	//Unofficial
+static const u8 sText_TitleCool2[]		= _("Cool 2");	//Unofficial
+static const u8 sText_TitleCool3[]		= _("Cool 3");	//Unofficial
+static const u8 sText_TitleCool4[]		= _("Cool 4");	//Unofficial
+static const u8 sText_TitleBeauty1[]	= _("Beauty 1");	//Unofficial
+static const u8 sText_TitleBeauty2[]	= _("Beauty 2");	//Unofficial
+static const u8 sText_TitleBeauty3[]	= _("Beauty 3");	//Unofficial
+static const u8 sText_TitleBeauty4[]	= _("Beauty 4");	//Unofficial
+static const u8 sText_TitleCute1[]		= _("Cute 1");	//Unofficial
+static const u8 sText_TitleCute2[]		= _("Cute 2");	//Unofficial
+static const u8 sText_TitleCute3[]		= _("Cute 3");	//Unofficial
+static const u8 sText_TitleCute4[]		= _("Cute 4");	//Unofficial
+static const u8 sText_TitleSmart1[]		= _("Smart 1");	//Unofficial
+static const u8 sText_TitleSmart2[]		= _("Smart 2");	//Unofficial
+static const u8 sText_TitleSmart3[]		= _("Smart 3");	//Unofficial
+static const u8 sText_TitleSmart4[]		= _("Smart 4");	//Unofficial
+static const u8 sText_TitleTough1[]		= _("Tough 1");	//Unofficial
+static const u8 sText_TitleTough2[]		= _("Tough 2");	//Unofficial
+static const u8 sText_TitleTough3[]		= _("Tough 3");	//Unofficial
+static const u8 sText_TitleTough4[]		= _("Tough 4");	//Unofficial
+static const u8 sText_TitleChampion[]	= _("Champion");
+static const u8 sText_TitleWinning[]	= _("Winner");	//Unofficial
+static const u8 sText_TitleVictory[]	= _("Victor");	//Unofficial
+static const u8 sText_TitleArtist[]		= _("Model for Paintings");
+static const u8 sText_TitleEffort[]		= _("Once Well-Trained");
+static const u8 sText_TitleMarine[]		= _("Battle Champion");
+static const u8 sText_TitleLand[]		= _("Regional Champion");
+static const u8 sText_TitleSky[]		= _("World Champion");
+static const u8 sText_TitleCountry[]	= _("Victor");
+static const u8 sText_TitleNational[]	= _("Triumphant");
+static const u8 sText_TitleEarth[]		= _("100× Victorious");
+static const u8 sText_TitleWorld[]		= _("World Conqueror");
+static const u8 sText_TitleInvalid[]	= _("Invalid");
+
+const u8 * const sRibbonTitleTable[32] =
+{
+	[CHAMPION_RIBBON]		= sText_TitleChampion,
+	[COOL_RIBBON_NORMAL]	= sText_TitleCool1,
+	[COOL_RIBBON_SUPER]		= sText_TitleCool2,
+	[COOL_RIBBON_HYPER]		= sText_TitleCool3,
+	[COOL_RIBBON_MASTER]	= sText_TitleCool4,
+	[BEAUTY_RIBBON_NORMAL]	= sText_TitleBeauty1,
+	[BEAUTY_RIBBON_SUPER]	= sText_TitleBeauty2,
+	[BEAUTY_RIBBON_HYPER]	= sText_TitleBeauty3,
+	[BEAUTY_RIBBON_MASTER]	= sText_TitleBeauty4,
+	[CUTE_RIBBON_NORMAL]	= sText_TitleCute1,
+	[CUTE_RIBBON_SUPER]		= sText_TitleCute2,
+	[CUTE_RIBBON_HYPER]		= sText_TitleCute3,
+	[CUTE_RIBBON_MASTER]	= sText_TitleCute4,
+	[SMART_RIBBON_NORMAL]	= sText_TitleSmart1,
+	[SMART_RIBBON_SUPER]	= sText_TitleSmart2,
+	[SMART_RIBBON_HYPER]	= sText_TitleSmart3,
+	[SMART_RIBBON_MASTER]	= sText_TitleSmart4,
+	[TOUGH_RIBBON_NORMAL]	= sText_TitleTough1,
+	[TOUGH_RIBBON_SUPER]	= sText_TitleTough2,
+	[TOUGH_RIBBON_HYPER]	= sText_TitleTough3,
+	[TOUGH_RIBBON_MASTER]	= sText_TitleTough4,
+	[WINNING_RIBBON]		= sText_TitleWinning,
+	[VICTORY_RIBBON]		= sText_TitleVictory,
+	[ARTIST_RIBBON]			= sText_TitleArtist,
+	[EFFORT_RIBBON]			= sText_TitleEffort,
+	[MARINE_RIBBON]			= sText_TitleMarine,
+	[LAND_RIBBON]			= sText_TitleLand,
+	[SKY_RIBBON]			= sText_TitleSky,
+	[COUNTRY_RIBBON]		= sText_TitleCountry,
+	[NATIONAL_RIBBON]		= sText_TitleNational,
+	[EARTH_RIBBON]			= sText_TitleEarth,
+	[WORLD_RIBBON]			= sText_TitleWorld,
+};
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
 {
@@ -2154,7 +2234,15 @@ void BufferStringBattle(u16 stringID)
             }
             else
             {
-                stringPtr = sText_GoPkmn;
+				if (gBattleMons[gActiveBattler].title)
+				{
+					GetTitleString(gBattleMons[gActiveBattler].title);
+					stringPtr = sText_GoPkmnTitle;
+				}
+				else
+				{
+					stringPtr = sText_GoPkmn;
+				}
             }
         }
         else
@@ -3171,4 +3259,12 @@ u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp)
     }
 
     return 0;
+}
+
+void GetTitleString(u8 titleId)
+{
+		if (titleId > 31)
+			StringCopy(gStringVar3, sText_TitleInvalid);
+		else
+			StringCopy(gStringVar3, sRibbonTitleTable[titleId - 1]);
 }

@@ -4548,6 +4548,10 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 	case MON_DATA_VERSION_MODIFIER:
 		retVal = substruct0->versionModifier;
 		break;
+	case MON_DATA_TITLE:
+		retVal = substruct0->title;
+		mgba_printf(MGBA_LOG_INFO, "%d", retVal);
+		break;
     default:
         break;
     }
@@ -4896,6 +4900,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 		break;
 	case MON_DATA_VERSION_MODIFIER:
 		SET8(substruct0->versionModifier);
+		break;
+	case MON_DATA_TITLE:
+		SET8(substruct0->title);
 		break;
     default:
         break;
@@ -5254,6 +5261,7 @@ void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex)
     gBattleMons[battlerId].isEgg = GetMonData(&gPlayerParty[partyIndex], MON_DATA_IS_EGG, NULL);
     gBattleMons[battlerId].abilityNum = GetMonData(&gPlayerParty[partyIndex], MON_DATA_ABILITY_NUM, NULL);
     gBattleMons[battlerId].otId = GetMonData(&gPlayerParty[partyIndex], MON_DATA_OT_ID, NULL);
+	gBattleMons[battlerId].title = GetMonData(&gPlayerParty[partyIndex], MON_DATA_TITLE, NULL);
     gBattleMons[battlerId].type1 = gBaseStats[gBattleMons[battlerId].species].type1;
     gBattleMons[battlerId].type2 = gBaseStats[gBattleMons[battlerId].species].type2;
     gBattleMons[battlerId].ability = GetAbilityBySpecies(gBattleMons[battlerId].species, gBattleMons[battlerId].abilityNum);

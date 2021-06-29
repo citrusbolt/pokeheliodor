@@ -12,7 +12,8 @@ struct PokemonSubstruct0
     u8 ppBonuses;
     u8 friendship;
 	u8 versionModifier;	//Used to identify mons originated from specific unoffical games
-    u8 filler;
+	u8 title:6;		//"Active" Ribbon
+    u8 filler:2;
 };
 
 struct PokemonSubstruct1
@@ -166,7 +167,8 @@ struct BattlePokemon
     /*0x20*/ u8 ability;
     /*0x21*/ u8 type1;
     /*0x22*/ u8 type2;
-    /*0x23*/ u8 unknown;
+    /*0x23*/ u8 title:6;
+	/*0x23*/ u8 unknown:2;
     /*0x24*/ u8 pp[MAX_MON_MOVES];
     /*0x28*/ u16 hp;
     /*0x2A*/ u8 level;
