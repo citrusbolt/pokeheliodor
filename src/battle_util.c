@@ -300,6 +300,7 @@ void HandleAction_Switch(void)
     gMoveSelectionCursor[gBattlerAttacker] = 0;
 
     PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, gBattlerAttacker, *(gBattleStruct->field_58 + gBattlerAttacker))
+    PREPARE_MON_TITLE_BUFFER(gBattleTextBuff2, gBattlerAttacker, *(gBattleStruct->field_58 + gBattlerAttacker))
 
     gBattleScripting.battler = gBattlerAttacker;
     gBattlescriptCurrInstr = BattleScript_ActionSwitch;

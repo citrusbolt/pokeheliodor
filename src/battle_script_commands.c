@@ -4634,6 +4634,7 @@ static void Cmd_switchindataupdate(void)
     gBattleScripting.battler = gActiveBattler;
 
     PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, gActiveBattler, gBattlerPartyIndexes[gActiveBattler]);
+    PREPARE_MON_TITLE_BUFFER(gBattleTextBuff2, gActiveBattler,  gBattlerPartyIndexes[gActiveBattler]);
 
     gBattlescriptCurrInstr += 2;
 }

@@ -48,11 +48,12 @@ extern const u16 gUnknown_08D85620[];
 static void ChooseMoveUsedParticle(u8 *textPtr);
 static void ChooseTypeOfMoveUsedString(u8 *dst);
 static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst);
-static void GetTitleString(u8 titleId);
+static bool8 GetTitleString(u8 *dest, struct Pokemon mon);
 
 // EWRAM vars
 static EWRAM_DATA u8 sBattlerAbilities[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA struct BattleMsgData *gBattleMsgDataPtr = NULL;
+static EWRAM_DATA bool8 sTitleSwitch = FALSE;
 
 // const rom data
 // todo: make some of those names less vague: attacker/target vs pkmn, etc.
@@ -436,48 +437,66 @@ static const u8 sText_SpDef2[] = _("SP. DEF");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
 
-static const u8 sText_LinkTrainerSentOutPkmnTitle[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_OPPONENT_MON1_NAME} the {B_BUFF2}!");
-static const u8 sText_LinkTrainerSentOutPkmn2Title[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_BUFF1} the {B_BUFF2}!");
-static const u8 sText_LinkTrainerMultiSentOutPkmnTitle[] = _("{B_LINK_SCR_TRAINER_NAME} sent out\n{B_BUFF1} the {B_BUFF2}!");
-static const u8 sText_GoPkmnTitle[] = _("Go! {B_PLAYER_MON1_NAME} the {STR_VAR_3}!");
-static const u8 sText_GoPkmn2Title[] = _("Go! {B_BUFF1} the {B_BUFF2}!");
-static const u8 sText_DoItPkmnTitle[] = _("Do it!\n{B_BUFF1} the {B_BUFF2}!");
-static const u8 sText_GoForItPkmnTitle[] = _("Go for it,\n{B_BUFF1} the {B_BUFF2}!");
-static const u8 sText_YourFoesWeakGetEmPkmnTitle[] = _("Your foe's weak! Get 'em,\n{B_BUFF1} the {B_BUFF2}!");
+static const u8 sText_GoPkmnTitle[] = _("Go! {B_PLAYER_MON1_NAME} the {STR_VAR_1}!");
+static const u8 sText_GoPkmn2Title[] = _("Go! {B_BUFF1} the {STR_VAR_2}!");
+static const u8 sText_DoItPkmnTitle[] = _("Do it!\n{B_BUFF1} the {STR_VAR_2}!");
+static const u8 sText_GoForItPkmnTitle[] = _("Go for it,\n{B_BUFF1} the {STR_VAR_2}!");
+static const u8 sText_YourFoesWeakGetEmPkmnTitle[] = _("Your foe's weak! Get 'em,\n{B_BUFF1} the {STR_VAR_2}!");
+static const u8 sText_GoTwoPkmnTitleLeft[] = _("Go! {B_PLAYER_MON1_NAME} the {STR_VAR_1}\nand {B_PLAYER_MON2_NAME}!");
+static const u8 sText_GoTwoPkmnTitleRight[] = _("Go! {B_PLAYER_MON1_NAME}\nand {B_PLAYER_MON2_NAME} the {STR_VAR_2}!");
+static const u8 sText_GoTwoPkmnTitleBoth[] = _("Go! {B_PLAYER_MON1_NAME} the {STR_VAR_1}\nand {B_PLAYER_MON2_NAME} the {STR_VAR_2}!");
+static const u8 sText_InGamePartnerSentOutZGoNTitleLeft[] = _("{B_PARTNER_CLASS} {B_PARTNER_NAME} sent out\n{B_PLAYER_MON2_NAME}!\lGo, {B_PLAYER_MON1_NAME} the {STR_VAR_1}!");
+static const u8 sText_InGamePartnerSentOutZGoNTitleRight[] = _("{B_PARTNER_CLASS} {B_PARTNER_NAME} sent out\n{B_PLAYER_MON2_NAME} the {STR_VAR_2}!\lGo, {B_PLAYER_MON1_NAME}!");
+static const u8 sText_InGamePartnerSentOutZGoNTitleBoth[] = _("{B_PARTNER_CLASS} {B_PARTNER_NAME} sent out\n{B_PLAYER_MON2_NAME} the {STR_VAR_2}!\lGo, {B_PLAYER_MON1_NAME} the {STR_VAR_1}!");
+static const u8 sText_LinkPartnerSentOutPkmnGoPkmnTitleLeft[] = _("{B_LINK_PARTNER_NAME} sent out {B_LINK_PLAYER_MON2_NAME}!\nGo! {B_LINK_PLAYER_MON1_NAME} the {STR_VAR_1}!");
+static const u8 sText_LinkPartnerSentOutPkmnGoPkmnTitleRight[] = _("{B_LINK_PARTNER_NAME} sent out\n{B_LINK_PLAYER_MON2_NAME} the {STR_VAR_2}!\lGo! {B_LINK_PLAYER_MON1_NAME}!");
+static const u8 sText_LinkPartnerSentOutPkmnGoPkmnTitleBoth[] = _("{B_LINK_PARTNER_NAME} sent out\n{B_LINK_PLAYER_MON2_NAME} the {STR_VAR_2}!\lGo! {B_LINK_PLAYER_MON1_NAME} the {STR_VAR_1}!");
+static const u8 sText_LinkTrainerSentOutPkmnTitle[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_OPPONENT_MON1_NAME} the {STR_VAR_3}!");
+static const u8 sText_LinkTrainerSentOutPkmn2Title[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_BUFF1} the {STR_VAR_2}!");
+static const u8 sText_LinkTrainerMultiSentOutPkmnTitle[] = _("{B_LINK_SCR_TRAINER_NAME} sent out\n{B_BUFF1} the {STR_VAR_2}!");
+static const u8 sText_LinkTrainerSentOutTwoPkmnTitleLeft[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_OPPONENT_MON1_NAME} the {STR_VAR_3}\land {B_OPPONENT_MON2_NAME}!");
+static const u8 sText_LinkTrainerSentOutTwoPkmnTitleRight[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_OPPONENT_MON1_NAME}\land {B_OPPONENT_MON2_NAME} the {STR_VAR_2}!");
+static const u8 sText_LinkTrainerSentOutTwoPkmnTitleBoth[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_OPPONENT_MON1_NAME} the {STR_VAR_3}\land {B_OPPONENT_MON2_NAME} the {STR_VAR_2}!");
+static const u8 sText_TwoLinkTrainersSentOutPkmnTitleLeft[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_LINK_OPPONENT_MON1_NAME} the {STR_VAR_3}!\l{B_LINK_OPPONENT2_NAME} sent out {B_LINK_OPPONENT_MON2_NAME}!");
+static const u8 sText_TwoLinkTrainersSentOutPkmnTitleRight[] = _("{B_LINK_OPPONENT1_NAME} sent out {B_LINK_OPPONENT_MON1_NAME}!\n{B_LINK_OPPONENT2_NAME} sent out\l{B_LINK_OPPONENT_MON2_NAME} the {STR_VAR_2}!");
+static const u8 sText_TwoLinkTrainersSentOutPkmnTitleBoth[] = _("{B_LINK_OPPONENT1_NAME} sent out\n{B_LINK_OPPONENT_MON1_NAME} the {STR_VAR_3}!\l{B_LINK_OPPONENT2_NAME} sent out\l{B_LINK_OPPONENT_MON2_NAME} the {STR_VAR_2}!");
+static const u8 sText_Trainer1SentOutPkmnTitle[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME} sent out\n{B_OPPONENT_MON1_NAME} the {STR_VAR_3}!");
+static const u8 sText_Trainer1SentOutPkmn2Title[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME} sent out\n{B_BUFF1} the {STR_VAR_2}!");
+static const u8 sText_Trainer2SentOutPkmnTitle[] = _("{B_TRAINER2_CLASS} {B_TRAINER2_NAME} sent out\n{B_BUFF1} the {STR_VAR_2}!");
 
-static const u8 sText_TitleCool1[]		= _("Cool 1");	//Unofficial
-static const u8 sText_TitleCool2[]		= _("Cool 2");	//Unofficial
-static const u8 sText_TitleCool3[]		= _("Cool 3");	//Unofficial
-static const u8 sText_TitleCool4[]		= _("Cool 4");	//Unofficial
-static const u8 sText_TitleBeauty1[]	= _("Beauty 1");	//Unofficial
-static const u8 sText_TitleBeauty2[]	= _("Beauty 2");	//Unofficial
-static const u8 sText_TitleBeauty3[]	= _("Beauty 3");	//Unofficial
-static const u8 sText_TitleBeauty4[]	= _("Beauty 4");	//Unofficial
-static const u8 sText_TitleCute1[]		= _("Cute 1");	//Unofficial
-static const u8 sText_TitleCute2[]		= _("Cute 2");	//Unofficial
-static const u8 sText_TitleCute3[]		= _("Cute 3");	//Unofficial
-static const u8 sText_TitleCute4[]		= _("Cute 4");	//Unofficial
-static const u8 sText_TitleSmart1[]		= _("Smart 1");	//Unofficial
-static const u8 sText_TitleSmart2[]		= _("Smart 2");	//Unofficial
-static const u8 sText_TitleSmart3[]		= _("Smart 3");	//Unofficial
-static const u8 sText_TitleSmart4[]		= _("Smart 4");	//Unofficial
-static const u8 sText_TitleTough1[]		= _("Tough 1");	//Unofficial
-static const u8 sText_TitleTough2[]		= _("Tough 2");	//Unofficial
-static const u8 sText_TitleTough3[]		= _("Tough 3");	//Unofficial
-static const u8 sText_TitleTough4[]		= _("Tough 4");	//Unofficial
-static const u8 sText_TitleChampion[]	= _("Champion");
-static const u8 sText_TitleWinning[]	= _("Winner");	//Unofficial
-static const u8 sText_TitleVictory[]	= _("Victor");	//Unofficial
-static const u8 sText_TitleArtist[]		= _("Model for Paintings");
-static const u8 sText_TitleEffort[]		= _("Once Well-Trained");
-static const u8 sText_TitleMarine[]		= _("Battle Champion");
-static const u8 sText_TitleLand[]		= _("Regional Champion");
-static const u8 sText_TitleSky[]		= _("World Champion");
-static const u8 sText_TitleCountry[]	= _("Victor");
-static const u8 sText_TitleNational[]	= _("Triumphant");
-static const u8 sText_TitleEarth[]		= _("100× Victorious");
-static const u8 sText_TitleWorld[]		= _("World Conqueror");
-static const u8 sText_TitleInvalid[]	= _("Invalid");
+static const u8 sText_TitleCool1[]		= _("COOL 1");	//Unofficial
+static const u8 sText_TitleCool2[]		= _("COOL 2");	//Unofficial
+static const u8 sText_TitleCool3[]		= _("COOL 3");	//Unofficial
+static const u8 sText_TitleCool4[]		= _("COOL 4");	//Unofficial
+static const u8 sText_TitleBeauty1[]	= _("BEAUTY 1");	//Unofficial
+static const u8 sText_TitleBeauty2[]	= _("BEAUTY 2");	//Unofficial
+static const u8 sText_TitleBeauty3[]	= _("BEAUTY 3");	//Unofficial
+static const u8 sText_TitleBeauty4[]	= _("BEAUTY 4");	//Unofficial
+static const u8 sText_TitleCute1[]		= _("CUTE 1");	//Unofficial
+static const u8 sText_TitleCute2[]		= _("CUTE 2");	//Unofficial
+static const u8 sText_TitleCute3[]		= _("CUTE 3");	//Unofficial
+static const u8 sText_TitleCute4[]		= _("CUTE 4");	//Unofficial
+static const u8 sText_TitleSmart1[]		= _("SMART 1");	//Unofficial
+static const u8 sText_TitleSmart2[]		= _("SMART 2");	//Unofficial
+static const u8 sText_TitleSmart3[]		= _("SMART 3");	//Unofficial
+static const u8 sText_TitleSmart4[]		= _("SMART 4");	//Unofficial
+static const u8 sText_TitleTough1[]		= _("TOUGH 1");	//Unofficial
+static const u8 sText_TitleTough2[]		= _("TOUGH 2");	//Unofficial
+static const u8 sText_TitleTough3[]		= _("TOUGH 3");	//Unofficial
+static const u8 sText_TitleTough4[]		= _("TOUGH 4");	//Unofficial
+static const u8 sText_TitleChampion[]	= _("CHAMPION");
+static const u8 sText_TitleWinning[]	= _("WINNER");	//Unofficial
+static const u8 sText_TitleVictory[]	= _("VICTOR");	//Unofficial
+static const u8 sText_TitleArtist[]		= _("MODEL FOR PAINTINGS");
+static const u8 sText_TitleEffort[]		= _("ONCE WELL-TRAINED");
+static const u8 sText_TitleMarine[]		= _("BATTLE CHAMPION");
+static const u8 sText_TitleLand[]		= _("REGIONAL CHAMPION");
+static const u8 sText_TitleSky[]		= _("WORLD CHAMPION");
+static const u8 sText_TitleCountry[]	= _("VICTOR");
+static const u8 sText_TitleNational[]	= _("TRIUMPHANT");
+static const u8 sText_TitleEarth[]		= _("100× VICTORIOUS");
+static const u8 sText_TitleWorld[]		= _("WORLD CONQUEROR");
+static const u8 sText_TitleInvalid[]	= _("INVALID");
 
 const u8 * const sRibbonTitleTable[32] =
 {
@@ -2146,7 +2165,9 @@ static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, 0};
 void BufferStringBattle(u16 stringID)
 {
     s32 i;
+	u8 multiplayerId;
     const u8 *stringPtr = NULL;
+	bool8 title = FALSE;
 
     gBattleMsgDataPtr = (struct BattleMsgData*)(&gBattleBufferA[gActiveBattler][4]);
     gLastUsedItem = gBattleMsgDataPtr->lastItem;
@@ -2156,6 +2177,11 @@ void BufferStringBattle(u16 stringID)
     *(&gBattleStruct->hpScale) = gBattleMsgDataPtr->hpScale;
     gPotentialItemEffectBattler = gBattleMsgDataPtr->itemEffectBattler;
     *(&gBattleStruct->stringMoveType) = gBattleMsgDataPtr->moveType;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+        multiplayerId = gRecordedBattleMultiplayerId;
+    else
+        multiplayerId = GetMultiplayerId();
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
@@ -2224,25 +2250,56 @@ void BufferStringBattle(u16 stringID)
             if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
             {
                 if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
-                    stringPtr = sText_InGamePartnerSentOutZGoN;
+				{
+					if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && !GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_InGamePartnerSentOutZGoNTitleLeft;
+					else if (!GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_InGamePartnerSentOutZGoNTitleRight;
+					else if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_InGamePartnerSentOutZGoNTitleBoth;
+					else
+						stringPtr = sText_InGamePartnerSentOutZGoN;
+				}
                 else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
-                    stringPtr = sText_GoTwoPkmn;
-                else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-                    stringPtr = sText_LinkPartnerSentOutPkmnGoPkmn;
+				{
+					if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && !GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_GoTwoPkmnTitleLeft;
+					else if (!GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_GoTwoPkmnTitleRight;
+					else if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_GoTwoPkmnTitleBoth;
+					else
+						stringPtr = sText_GoTwoPkmn;
+				}
+				else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+				{
+					if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id]]) && !GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 2]]))
+						stringPtr = sText_LinkPartnerSentOutPkmnGoPkmnTitleLeft;
+					else if (!GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 2]]))
+						stringPtr = sText_LinkPartnerSentOutPkmnGoPkmnTitleRight;
+					else if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 2]]))
+						stringPtr = sText_LinkPartnerSentOutPkmnGoPkmnTitleBoth;
+					else
+						stringPtr = sText_LinkPartnerSentOutPkmnGoPkmn;
+				}
                 else
-                    stringPtr = sText_GoTwoPkmn;
+				{
+					if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && !GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_GoTwoPkmnTitleLeft;
+					else if (!GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_GoTwoPkmnTitleRight;
+					else if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]) && GetTitleString(gStringVar2, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)]]))
+						stringPtr = sText_GoTwoPkmnTitleBoth;
+					else
+						stringPtr = sText_GoTwoPkmn;
+				}
             }
             else
             {
-				if (gBattleMons[gActiveBattler].title)
-				{
-					GetTitleString(gBattleMons[gActiveBattler].title);
+				if (GetTitleString(gStringVar1, gPlayerParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]]))
 					stringPtr = sText_GoPkmnTitle;
-				}
 				else
-				{
 					stringPtr = sText_GoPkmn;
-				}
             }
         }
         else
@@ -2250,24 +2307,61 @@ void BufferStringBattle(u16 stringID)
             if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
             {
                 if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
+				{
                     stringPtr = sText_TwoTrainersSentPkmn;
+				}
                 else if (gBattleTypeFlags & BATTLE_TYPE_TOWER_LINK_MULTI)
+				{
                     stringPtr = sText_TwoTrainersSentPkmn;
+				}
                 else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-                    stringPtr = sText_TwoLinkTrainersSentOutPkmn;
+				{
+					if (GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 1]]) && !GetTitleString(gStringVar2, gEnemyParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 3]]))
+						stringPtr = sText_TwoLinkTrainersSentOutPkmnTitleLeft;
+					else if (!GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 1]]) && GetTitleString(gStringVar2, gEnemyParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 3]]))
+						stringPtr = sText_TwoLinkTrainersSentOutPkmnTitleRight;
+					else if (GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 1]]) && GetTitleString(gStringVar2, gEnemyParty[gBattlerPartyIndexes[gLinkPlayers[multiplayerId].id ^ 3]]))
+						stringPtr = sText_TwoLinkTrainersSentOutPkmnTitleBoth;
+					else
+						stringPtr = sText_TwoLinkTrainersSentOutPkmn;
+				}
                 else if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
-                    stringPtr = sText_LinkTrainerSentOutTwoPkmn;
+				{
+					if (GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)]]) && !GetTitleString(gStringVar2, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)]]))
+						stringPtr = sText_LinkTrainerSentOutTwoPkmnTitleLeft;
+					else if (!GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)]]) && GetTitleString(gStringVar2, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)]]))
+						stringPtr = sText_LinkTrainerSentOutTwoPkmnTitleRight;
+					else if (GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)]]) && GetTitleString(gStringVar2, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)]]))
+						stringPtr = sText_LinkTrainerSentOutTwoPkmnTitleBoth;
+					else
+						stringPtr = sText_LinkTrainerSentOutTwoPkmn;
+				}
                 else
+				{
                     stringPtr = sText_Trainer1SentOutTwoPkmn;
+				}
             }
             else
             {
                 if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)))
+				{
                     stringPtr = sText_Trainer1SentOutPkmn;
+				}
                 else if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM)
-                    stringPtr = sText_Trainer1SentOutPkmn;
+				{
+					if (GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)]]))
+						stringPtr = sText_Trainer1SentOutPkmnTitle;
+					else
+						stringPtr = sText_Trainer1SentOutPkmn;
+				}
                 else
-                    stringPtr = sText_LinkTrainerSentOutPkmn;
+				{
+					
+					if (GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)]]))
+						stringPtr = sText_LinkTrainerSentOutPkmnTitle;
+					else
+						stringPtr = sText_LinkTrainerSentOutPkmn;
+				}
             }
         }
         break;
@@ -2299,16 +2393,40 @@ void BufferStringBattle(u16 stringID)
         }
         break;
     case STRINGID_SWITCHINMON: // switch-in msg
+		if (gBattleTextBuff2[0] == B_BUFF_PLACEHOLDER_BEGIN)
+            ExpandBattleTextBuffPlaceholders(gBattleTextBuff2, gStringVar3);
+		gBattleTextBuff2[0] = 0;
+		
         if (GetBattlerSide(gBattleScripting.battler) == B_SIDE_PLAYER)
         {
             if (*(&gBattleStruct->hpScale) == 0 || gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-                stringPtr = sText_GoPkmn2;
+			{
+				if (sTitleSwitch)
+					stringPtr = sText_GoPkmn2Title;
+				else
+					stringPtr = sText_GoPkmn2;
+			}
             else if (*(&gBattleStruct->hpScale) == 1)
-                stringPtr = sText_DoItPkmn;
+			{
+				if (sTitleSwitch)
+					stringPtr = sText_DoItPkmnTitle;
+				else
+					stringPtr = sText_DoItPkmn;
+			}
             else if (*(&gBattleStruct->hpScale) == 2)
-                stringPtr = sText_GoForItPkmn;
+			{
+				if (sTitleSwitch)
+					stringPtr = sText_GoForItPkmnTitle;
+				else
+					stringPtr = sText_GoForItPkmn;
+			}
             else
-                stringPtr = sText_YourFoesWeakGetEmPkmn;
+			{
+				if (sTitleSwitch)
+					stringPtr = sText_YourFoesWeakGetEmPkmnTitle;
+				else
+					stringPtr = sText_YourFoesWeakGetEmPkmn;
+			}
         }
         else
         {
@@ -2317,18 +2435,43 @@ void BufferStringBattle(u16 stringID)
                 if (gBattleTypeFlags & BATTLE_TYPE_TOWER_LINK_MULTI)
                 {
                     if (gBattleScripting.battler == 1)
-                        stringPtr = sText_Trainer1SentOutPkmn2;
+					{
+						if (sTitleSwitch)
+							stringPtr = sText_Trainer1SentOutPkmn2Title;
+						else
+							stringPtr = sText_Trainer1SentOutPkmn2;
+					}
                     else
-                        stringPtr = sText_Trainer2SentOutPkmn;
+					{
+						if (sTitleSwitch)
+							stringPtr = sText_Trainer2SentOutPkmnTitle;
+						else
+							stringPtr = sText_Trainer2SentOutPkmn;
+					}
                 }
                 else
                 {
                     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-                        stringPtr = sText_LinkTrainerMultiSentOutPkmn;
+					{
+						if (sTitleSwitch)
+							stringPtr = sText_LinkTrainerMultiSentOutPkmnTitle;
+						else
+							stringPtr = sText_LinkTrainerMultiSentOutPkmn;
+					}
                     else if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM)
-                        stringPtr = sText_Trainer1SentOutPkmn2;
+					{
+						if (sTitleSwitch)
+							stringPtr = sText_Trainer1SentOutPkmn2Title;
+						else
+							stringPtr = sText_Trainer1SentOutPkmn2;
+					}
                     else
-                        stringPtr = sText_LinkTrainerSentOutPkmn2;
+					{
+						if (sTitleSwitch)
+							stringPtr = sText_LinkTrainerSentOutPkmn2Title;
+						else
+							stringPtr = sText_LinkTrainerSentOutPkmn2;
+					}
                 }
             }
             else
@@ -2950,6 +3093,7 @@ static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
     u32 srcID = 1;
     u32 value = 0;
     u8 text[12];
+	u8 title;
     u16 hword;
 
     *dst = EOS;
@@ -3053,6 +3197,14 @@ static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
             {
                 CopyItemName(hword, dst);
             }
+            srcID += 3;
+            break;
+        case B_BUFF_MON_TITLE:
+            if (GetBattlerSide(src[srcID + 1]) == B_SIDE_PLAYER)
+               sTitleSwitch = GetMonData(&gPlayerParty[src[srcID + 2]], MON_DATA_TITLE_STRING, gStringVar2);
+            else
+                sTitleSwitch = GetMonData(&gEnemyParty[src[srcID + 2]], MON_DATA_TITLE_STRING, gStringVar2);
+            StringGetEnd10(dst);
             srcID += 3;
             break;
         }
@@ -3261,10 +3413,21 @@ u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp)
     return 0;
 }
 
-void GetTitleString(u8 titleId)
+bool8 GetTitleString(u8 *dest, struct Pokemon mon)
 {
-		if (titleId > 31)
-			StringCopy(gStringVar3, sText_TitleInvalid);
-		else
-			StringCopy(gStringVar3, sRibbonTitleTable[titleId - 1]);
+	u8 titleId = GetMonData(&mon, MON_DATA_TITLE);
+	if (titleId == 0 || titleId > 32)
+		return FALSE;
+	else
+		StringCopy(dest, sRibbonTitleTable[titleId - 1]);
+	return TRUE;
+}
+
+bool8 GetTitleString2(u8 *dest, u8 titleId)
+{
+	if (titleId == 0 || titleId > 32)
+		return FALSE;
+	else
+		StringCopy(dest, sRibbonTitleTable[titleId - 1]);
+	return TRUE;
 }
