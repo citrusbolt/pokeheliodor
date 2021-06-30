@@ -4553,7 +4553,6 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 		break;
 	case MON_DATA_TITLE_STRING:
 		retVal = GetTitleString2(data, substruct0->title);
-		mgba_printf(MGBA_LOG_INFO, "Get %d", retVal);
 		break;
     default:
         break;
