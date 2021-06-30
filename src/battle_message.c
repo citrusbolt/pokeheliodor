@@ -496,7 +496,39 @@ static const u8 sText_TitleCountry[]	= _("VICTOR");
 static const u8 sText_TitleNational[]	= _("TRIUMPHANT");
 static const u8 sText_TitleEarth[]		= _("100× VICTORIOUS");
 static const u8 sText_TitleWorld[]		= _("WORLD CONQUEROR");
-static const u8 sText_TitleInvalid[]	= _("INVALID");
+
+static const u8 sText_TitleCasedCool1[]		= _("Cool");				//Unofficial
+static const u8 sText_TitleCasedCool2[]		= _("Radical");				//Unofficial
+static const u8 sText_TitleCasedCool3[]		= _("Awesome");				//Unofficial
+static const u8 sText_TitleCasedCool4[]		= _("Righteous");			//Unofficial
+static const u8 sText_TitleCasedBeauty1[]	= _("Beautiful");			//Unofficial
+static const u8 sText_TitleCasedBeauty2[]	= _("Dazzling");			//Unofficial
+static const u8 sText_TitleCasedBeauty3[]	= _("Magnificent");			//Unofficial
+static const u8 sText_TitleCasedBeauty4[]	= _("Exquisite");			//Unofficial
+static const u8 sText_TitleCasedCute1[]		= _("Cute");				//Unofficial
+static const u8 sText_TitleCasedCute2[]		= _("Charming");			//Unofficial
+static const u8 sText_TitleCasedCute3[]		= _("Adorable");			//Unofficial
+static const u8 sText_TitleCasedCute4[]		= _("Precious");			//Unofficial
+static const u8 sText_TitleCasedSmart1[]	= _("Smart");				//Unofficial
+static const u8 sText_TitleCasedSmart2[]	= _("Clever");				//Unofficial
+static const u8 sText_TitleCasedSmart3[]	= _("Brilliant");			//Unofficial
+static const u8 sText_TitleCasedSmart4[]	= _("Ingenious");			//Unofficial
+static const u8 sText_TitleCasedTough1[]	= _("Tough");				//Unofficial
+static const u8 sText_TitleCasedTough2[]	= _("Resilient");			//Unofficial
+static const u8 sText_TitleCasedTough3[]	= _("Tenacious");			//Unofficial
+static const u8 sText_TitleCasedTough4[]	= _("Intimidating");		//Unofficial
+static const u8 sText_TitleCasedChampion[]	= _("Champion");
+static const u8 sText_TitleCasedWinning[]	= _("Battle Tower Winner");	//Unofficial
+static const u8 sText_TitleCasedVictory[]	= _("Battle Tower Master");	//Unofficial
+static const u8 sText_TitleCasedArtist[]	= _("Model For Paintings");
+static const u8 sText_TitleCasedEffort[]	= _("Once Well-Trained");
+static const u8 sText_TitleCasedMarine[]	= _("Battle Champion");
+static const u8 sText_TitleCasedLand[]		= _("Regional Champion");
+static const u8 sText_TitleCasedSky[]		= _("National Champion");
+static const u8 sText_TitleCasedCountry[]	= _("Victor");
+static const u8 sText_TitleCasedNational[]	= _("Triumphant");
+static const u8 sText_TitleCasedEarth[]		= _("100× Victorious");
+static const u8 sText_TitleCasedWorld[]		= _("World Conqueror");
 
 const u8 * const sRibbonTitleTable[32] =
 {
@@ -532,6 +564,42 @@ const u8 * const sRibbonTitleTable[32] =
 	[NATIONAL_RIBBON]		= sText_TitleNational,
 	[EARTH_RIBBON]			= sText_TitleEarth,
 	[WORLD_RIBBON]			= sText_TitleWorld,
+};
+
+const u8 * const sRibbonTitleCasedTable[32] =
+{
+	[CHAMPION_RIBBON]		= sText_TitleCasedChampion,
+	[COOL_RIBBON_NORMAL]	= sText_TitleCasedCool1,
+	[COOL_RIBBON_SUPER]		= sText_TitleCasedCool2,
+	[COOL_RIBBON_HYPER]		= sText_TitleCasedCool3,
+	[COOL_RIBBON_MASTER]	= sText_TitleCasedCool4,
+	[BEAUTY_RIBBON_NORMAL]	= sText_TitleCasedBeauty1,
+	[BEAUTY_RIBBON_SUPER]	= sText_TitleCasedBeauty2,
+	[BEAUTY_RIBBON_HYPER]	= sText_TitleCasedBeauty3,
+	[BEAUTY_RIBBON_MASTER]	= sText_TitleCasedBeauty4,
+	[CUTE_RIBBON_NORMAL]	= sText_TitleCasedCute1,
+	[CUTE_RIBBON_SUPER]		= sText_TitleCasedCute2,
+	[CUTE_RIBBON_HYPER]		= sText_TitleCasedCute3,
+	[CUTE_RIBBON_MASTER]	= sText_TitleCasedCute4,
+	[SMART_RIBBON_NORMAL]	= sText_TitleCasedSmart1,
+	[SMART_RIBBON_SUPER]	= sText_TitleCasedSmart2,
+	[SMART_RIBBON_HYPER]	= sText_TitleCasedSmart3,
+	[SMART_RIBBON_MASTER]	= sText_TitleCasedSmart4,
+	[TOUGH_RIBBON_NORMAL]	= sText_TitleCasedTough1,
+	[TOUGH_RIBBON_SUPER]	= sText_TitleCasedTough2,
+	[TOUGH_RIBBON_HYPER]	= sText_TitleCasedTough3,
+	[TOUGH_RIBBON_MASTER]	= sText_TitleCasedTough4,
+	[WINNING_RIBBON]		= sText_TitleCasedWinning,
+	[VICTORY_RIBBON]		= sText_TitleCasedVictory,
+	[ARTIST_RIBBON]			= sText_TitleCasedArtist,
+	[EFFORT_RIBBON]			= sText_TitleCasedEffort,
+	[MARINE_RIBBON]			= sText_TitleCasedMarine,
+	[LAND_RIBBON]			= sText_TitleCasedLand,
+	[SKY_RIBBON]			= sText_TitleCasedSky,
+	[COUNTRY_RIBBON]		= sText_TitleCasedCountry,
+	[NATIONAL_RIBBON]		= sText_TitleCasedNational,
+	[EARTH_RIBBON]			= sText_TitleCasedEarth,
+	[WORLD_RIBBON]			= sText_TitleCasedWorld,
 };
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
@@ -3415,11 +3483,21 @@ u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp)
 
 bool8 GetTitleString(u8 *dest, struct Pokemon mon)
 {
+	u8 nickname[12];
 	u8 titleId = GetMonData(&mon, MON_DATA_TITLE);
+	GetMonData(&mon, MON_DATA_NICKNAME, nickname);
+	
 	if (titleId == 0 || titleId > 32)
+	{
 		return FALSE;
+	}
 	else
-		StringCopy(dest, sRibbonTitleTable[titleId - 1]);
+	{
+		if ((nickname[1] >= 0x16 && nickname[1] <= 0x2B) || (nickname[1] >= 0xD5 && nickname[1] <= 0xEE))
+			StringCopy(dest, sRibbonTitleCasedTable[titleId - 1]);
+		else
+			StringCopy(dest, sRibbonTitleTable[titleId - 1]);
+	}
 	return TRUE;
 }
 
@@ -3429,5 +3507,14 @@ bool8 GetTitleString2(u8 *dest, u8 titleId)
 		return FALSE;
 	else
 		StringCopy(dest, sRibbonTitleTable[titleId - 1]);
+	return TRUE;
+}
+
+bool8 GetTitleString3(u8 *dest, u8 titleId)
+{
+	if (titleId == 0 || titleId > 32)
+		return FALSE;
+	else
+		StringCopy(dest, sRibbonTitleCasedTable[titleId - 1]);
 	return TRUE;
 }

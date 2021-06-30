@@ -273,19 +273,33 @@ static u32 HandleExpandedRibbonInput(struct PokenavSub13 *structPtr)
 		struct PokenavMonList *monInfo = &mons->monData[mons->currIndex];
 		u32 ribbonId = GetRibbonId();
 		u8 title = (u8)ribbonId + 1;
-		
+
 		if (monInfo->boxId == TOTAL_BOXES_COUNT)
 		{
 			struct Pokemon *mon = &gPlayerParty[monInfo->monId];
 			if (title == GetMonData(mon, MON_DATA_TITLE))
+			{
 				title = 0;
+				PlaySE(SE_SUCCESS);
+			}
+			else
+			{
+				PlaySE(SE_USE_ITEM);
+			}
 			SetMonData(mon, MON_DATA_TITLE, &title);
 		}
 		else
 		{
 			struct BoxPokemon *boxMon = GetBoxedMonPtr(monInfo->boxId, monInfo->monId);
 			if (title == GetBoxMonData(boxMon, MON_DATA_TITLE))
+			{
 				title = 0;
+				PlaySE(SE_SUCCESS);
+			}
+			else
+			{
+				PlaySE(SE_USE_ITEM);
+			}
 			SetBoxMonData(boxMon, MON_DATA_TITLE, &title);
 		}
 	}

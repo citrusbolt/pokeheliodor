@@ -227,6 +227,7 @@ void BattlePutTextOnWindow(const u8* text, u8 windowId);
 void SetPpNumbersPaletteInMoveSelection(void);
 u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp);
 bool8 GetTitleString2(u8 *dest, u8 titleId);
+bool8 GetTitleString3(u8 *dest, u8 titleId);
 
 extern struct BattleMsgData *gBattleMsgDataPtr;
 

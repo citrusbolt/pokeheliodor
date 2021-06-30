@@ -4552,7 +4552,10 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 		retVal = substruct0->title;
 		break;
 	case MON_DATA_TITLE_STRING:
-		retVal = GetTitleString2(data, substruct0->title);
+		if ((boxMon->nickname[1] >= 0x16 && boxMon->nickname[1] <= 0x2B) || (boxMon->nickname[1] >= 0xD5 && boxMon->nickname[1] <= 0xEE))
+			retVal = GetTitleString3(data, substruct0->title);
+		else
+			retVal = GetTitleString2(data, substruct0->title);
 		break;
     default:
         break;
