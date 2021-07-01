@@ -5920,9 +5920,9 @@ static void Cmd_atknameinbuff1(void)
 
 static void Cmd_drawlvlupbox(void)
 {
-	u16 temp;
     if (gBattleScripting.drawlvlupboxState == 0)
     {
+		gBattleScripting.field_20 = gBattle_BG2_X;
         if (IsMonGettingExpSentOut())
             gBattleScripting.drawlvlupboxState = 3;
         else
@@ -5984,7 +5984,6 @@ static void Cmd_drawlvlupbox(void)
         }
         break;
     case 9:
-		temp = gBattle_BG2_X;
 		gBattle_BG2_X = 0;
         if (!sub_804F344())
         {
@@ -6009,7 +6008,7 @@ static void Cmd_drawlvlupbox(void)
             ShowBg(1);
             gBattlescriptCurrInstr++;
         }
-		gBattle_BG2_X = temp;
+		gBattle_BG2_X = gBattleScripting.field_20;
         break;
     }
 }
