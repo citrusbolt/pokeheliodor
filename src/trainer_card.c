@@ -787,7 +787,7 @@ static void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCar
 
 void TrainerCard_GenerateCardForPlayer(struct TrainerCard *trainerCard)
 {
-    memset(trainerCard, 0, 0x60);
+    memset(trainerCard, 0, sizeof(struct TrainerCard));
     trainerCard->version = GAME_VERSION;
 	trainerCard->versionModifier = VERSION_MODIFIER;
     SetPlayerCardData(trainerCard, VersionToCardType(GAME_VERSION, VERSION_MODIFIER));
@@ -806,6 +806,7 @@ void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion, u8 v
 {
     memset(dst, 0, sizeof(struct TrainerCard));
     dst->version = gameVersion;
+    dst->versionModifier = versionModifier;
 
     switch (VersionToCardType(gameVersion, versionModifier))
     {
