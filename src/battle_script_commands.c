@@ -9828,9 +9828,14 @@ static void Cmd_handleballthrow(void)
         u8 catchRate;
 
         if (gLastUsedItem == ITEM_SAFARI_BALL)
+		{
             catchRate = gBattleStruct->safariCatchFactor * 1275 / 100;
+		}
         else
+		{
+			gSaveBlock2Ptr->lastUsedBall = gLastUsedItem;
             catchRate = gBaseStats[gBattleMons[gBattlerTarget].species].catchRate;
+		}
 
         if (gLastUsedItem > ITEM_SAFARI_BALL)
         {
