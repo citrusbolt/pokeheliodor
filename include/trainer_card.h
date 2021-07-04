@@ -50,8 +50,7 @@ struct TrainerCard
     /*0x3A*/ bool16 hasAllFrontierSymbols;
     /*0x3C*/ u32 berryCrushPoints;
     /*0x40*/ u32 unionRoomNum;
-	/*0x44*/ u8 versionModifier;
-    /*0x45*/ u8 filler[7];
+    /*0x44*/ u8 filler[8];
     /*0x4C*/ bool8 shouldDrawStickers; // FRLG only
     /*0x4D*/ u8 unused;
     /*0x4E*/ u8 monIconTint; // FRLG only
@@ -60,6 +59,7 @@ struct TrainerCard
     /*0x54*/ u16 monSpecies[PARTY_SIZE]; // FRLG only
     /*0x60*/ bool16 hasAllSymbols;
     /*0x62*/ u16 frontierBP;
+	/*0x64*/ u8 versionModifier;
 };
 
 extern struct TrainerCard gTrainerCards[4];
