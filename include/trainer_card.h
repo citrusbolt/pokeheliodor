@@ -50,9 +50,10 @@ struct TrainerCard
     /*0x3A*/ bool16 hasAllFrontierSymbols;
     /*0x3C*/ u32 berryCrushPoints;
     /*0x40*/ u32 unionRoomNum;
-    /*0x44*/ u8 filler[8];
+    /*0x44*/ u32 berriesPicked; //FRLG only
+    /*0x48*/ u32 jumpsInRow; //FRLG only
     /*0x4C*/ bool8 shouldDrawStickers; // FRLG only
-    /*0x4D*/ u8 unused;
+    /*0x4D*/ bool8 hasAllMons; //FRLG only
     /*0x4E*/ u8 monIconTint; // FRLG only
     /*0x4F*/ u8 facilityClass;
     /*0x50*/ u8 stickers[TRAINER_CARD_STICKER_TYPES]; // FRLG only
