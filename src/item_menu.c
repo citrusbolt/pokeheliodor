@@ -1680,6 +1680,13 @@ static void OpenContextMenu(u8 unused)
                                 if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                                     gBagMenu->contextMenuItemsBuffer[0] = ITEMMENUACTION_WALK;
                             }
+							
+							if ((gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket] + gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]) - (gBagMenu->filler4[gBagPositionStruct.pocket] - 2) > 0)
+							{
+								gBagMenu->contextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
+								gBagMenu->contextMenuItemsBuffer[3] = ITEMMENUACTION_DUMMY;
+							}
+		
                         }
                         else
                         {
