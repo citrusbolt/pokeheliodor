@@ -474,7 +474,15 @@
 #define ITEM_MAGMA_EMBLEM 375
 #define ITEM_OLD_SEA_MAP 376
 
-#define ITEMS_COUNT 377
+// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
+#define ITEM_OVAL_CHARM 377
+#define ITEM_SHINY_CHARM 378
+#define ITEM_CATCHING_CHARM 379
+#define ITEM_EXP_CHARM 380
+
+
+
+#define ITEMS_COUNT 381
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // Range of berries given out by various NPCS

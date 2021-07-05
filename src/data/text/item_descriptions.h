@@ -1549,3 +1549,24 @@ static const u8 sOldSeaMapDesc[] = _(
     "A faded sea chart\n"
     "that shows the way\n"
     "to a certain island.");
+
+// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
+static const u8 sOvalCharmDesc[] = _(
+	"A charm to increase\n"
+	"the chance of EGGS\n"
+	"being found.");
+
+static const u8 sShinyCharmDesc[] = _(
+	"A charm to increase\n"
+	"the occurance of\n"
+	"ALT. COLOR {PKMN}.");
+
+static const u8 sCatchingCharmDesc[] = _(
+	"A charm to increase\n"
+	"the chance of\n"
+	"capturing {PKMN}.");
+
+static const u8 sExpCharmDesc[] = _(
+	"A charm to increase\n"
+	"the EXP. POINTS\n"
+	"gained in battle.");

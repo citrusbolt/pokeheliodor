@@ -14,6 +14,7 @@
 #include "battle_pyramid_bag.h"
 #include "constants/items.h"
 #include "constants/hold_effects.h"
+#include "pokedex.h"
 
 extern u16 gUnknown_0203CF30[];
 
@@ -619,6 +620,32 @@ void SwapRegisteredBike(void)
 
 u16 BagGetItemIdByPocketPosition(u8 pocketId, u16 pocketPos)
 {
+	u8 i = 0;
+	u16 charms[4];
+	s32 extraItem = pocketPos - (gBagMenu->filler4[pocketId - 1] - 2);
+	
+	if (HasAllHoennMons())
+	{
+		charms[i] =  ITEM_OVAL_CHARM;
+		i++;
+	}
+	if (HasAllMons())
+	{
+		charms[i] =  ITEM_SHINY_CHARM;
+		i++;
+	}
+	if (FlagGet(FLAG_SYS_GAME_CLEAR))
+	{
+		charms[i] =  ITEM_CATCHING_CHARM;
+		i++;
+		
+		charms[i] =  ITEM_EXP_CHARM;
+		i++;
+	}
+	
+	if (extraItem > 0)
+		return charms[extraItem - 1];
+	
     return gBagPockets[pocketId - 1].itemSlots[pocketPos].itemId;
 }
 

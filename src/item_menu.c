@@ -50,6 +50,7 @@
 #include "apprentice.h"
 #include "battle_pike.h"
 #include "constants/rgb.h"
+#include "pokedex.h"
 
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *postExitMenuMainCallback2)());
 
@@ -860,13 +861,48 @@ void LoadBagItemListBuffers(u8 pocketId)
 
     if (!gBagMenu->hideCloseBagText)
     {
-        for (i = 0; i < gBagMenu->numItemStacks[pocketId] - 1; i++)
+        for (i = 0; i < gBagMenu->filler4[pocketId] - 1; i++)
         {
             GetItemName(sListBuffer2->name[i], pocket->itemSlots[i].itemId);
             subBuffer = sListBuffer1->subBuffers;
             subBuffer[i].name = sListBuffer2->name[i];
             subBuffer[i].id = i;
         }
+
+		if (pocketId == KEYITEMS_POCKET)
+		{
+			if (HasAllHoennMons())
+			{
+				GetItemName(sListBuffer2->name[i], ITEM_OVAL_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+			}
+			if (HasAllMons())
+			{
+				GetItemName(sListBuffer2->name[i], ITEM_SHINY_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+			}
+			if (FlagGet(FLAG_SYS_GAME_CLEAR))
+			{
+				GetItemName(sListBuffer2->name[i], ITEM_CATCHING_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+				
+				GetItemName(sListBuffer2->name[i], ITEM_EXP_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+			}
+		}
+
         StringCopy(sListBuffer2->name[i], gText_CloseBag);
         subBuffer = sListBuffer1->subBuffers;
         subBuffer[i].name = sListBuffer2->name[i];
@@ -874,7 +910,7 @@ void LoadBagItemListBuffers(u8 pocketId)
     }
     else
     {
-        for (i = 0; i < gBagMenu->numItemStacks[pocketId]; i++)
+        for (i = 0; i < gBagMenu->filler4[pocketId]; i++)
         {
             GetItemName(sListBuffer2->name[i], pocket->itemSlots[i].itemId);
             subBuffer = sListBuffer1->subBuffers;
@@ -1110,7 +1146,22 @@ void UpdatePocketItemList(u8 pocketId)
 
     if (!gBagMenu->hideCloseBagText)
         gBagMenu->numItemStacks[pocketId]++;
-
+	gBagMenu->filler4[pocketId] = gBagMenu->numItemStacks[pocketId];	//True number of items
+	
+	if (pocketId == KEYITEMS_POCKET)	//Add Charms to count
+	{
+		if (HasAllHoennMons())
+			gBagMenu->numItemStacks[pocketId]++;
+		if (HasAllMons())
+			gBagMenu->numItemStacks[pocketId]++;
+		if (FlagGet(FLAG_SYS_GAME_CLEAR))
+		{
+			gBagMenu->numItemStacks[pocketId]++;
+			gBagMenu->numItemStacks[pocketId]++;
+		}
+		
+	}
+	
     if (gBagMenu->numItemStacks[pocketId] > 8)
         gBagMenu->numShownItems[pocketId] = 8;
     else
@@ -1425,6 +1476,8 @@ static bool8 CanSwapItems(void)
     if (gBagPositionStruct.location <= ITEMMENULOCATION_BATTLE)
     {
         u8 temp = gBagPositionStruct.pocket - 2;
+		if ((gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket] + gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]) - (gBagMenu->filler4[gBagPositionStruct.pocket] - 2) > 0)
+			return FALSE;
         if (temp > 1)
             return TRUE;
     }
