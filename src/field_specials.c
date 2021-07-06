@@ -2988,7 +2988,15 @@ void SetBattleTowerLinkPlayerGfx(void)
 				}
 				break;
 			case DEV_SHINY_DRAGON_HUNTER:
-				if ((u8)gLinkPlayers[i].version == VERSION_FIRERED || (u8)gLinkPlayers[i].version == VERSION_LEAFGREEN)
+				if ((u8)gLinkPlayers[i].version == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF);
+				}
+				else if ((u8)gLinkPlayers[i].version == VERSION_LEAFGREEN)
 				{
 					foundMatch = TRUE;
 					if (gLinkPlayers[i].gender == MALE)
