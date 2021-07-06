@@ -2971,16 +2971,71 @@ void ShowGlassWorkshopMenu(void)
 void SetBattleTowerLinkPlayerGfx(void)
 {
     u8 i;
+	bool8 foundMatch;
+	
     for (i = 0; i < 2; i++)
     {
-        if (gLinkPlayers[i].gender == MALE)
-        {
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
-        }
-        else
-        {
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
-        }
+        foundMatch = FALSE;
+		switch ((u8)gLinkPlayers[i].versionModifier)
+		{
+			case DEV_SOLITAIRI:
+				if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
+				}
+				break;
+			case DEV_SHINY_DRAGON_HUNTER:
+				if ((u8)gLinkPlayers[i].version == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF);
+				}
+				else if ((u8)gLinkPlayers[i].version == VERSION_LEAFGREEN)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF);
+				}
+				break;
+			case DEV_SOLITAIRI_2:
+				if ((u8)gLinkPlayers[i].version == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_GOLD);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_KRIS);
+				}
+				break;
+			case DEV_TEST:
+				foundMatch = TRUE;
+				if (gLinkPlayers[i].gender == MALE)
+					VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_WALLY);
+				else
+					VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_STEVEN);
+				break;
+		}
+		
+		if (!foundMatch)
+		{
+			if (gLinkPlayers[i].gender == MALE)
+			{
+				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_E_BRENDAN);
+			}
+			else
+			{
+				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_E_MAY);
+			}
+		}
     }
 }
 
