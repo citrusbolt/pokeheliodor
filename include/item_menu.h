@@ -39,7 +39,8 @@
 #define ITEMMENUACTION_SELECT_BUTTON 18
 #define ITEMMENUACTION_L_BUTTON     19
 #define ITEMMENUACTION_R_BUTTON     20
-#define ITEMMENUACTION_DUMMY        21
+#define ITEMMENUACTION_RECONFIGURE  21
+#define ITEMMENUACTION_DUMMY        22
 
 // Exported type declarations
 struct BagStruct

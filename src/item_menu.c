@@ -177,6 +177,8 @@ static void ItemMenu_RegisterL(u8 taskId);
 static void ItemMenu_RegisterR(u8 taskId);
 static void ItemMenu_Deselect(u8 taskId);
 
+static void ItemMenu_Reconfigure(u8 taskId);
+
 // .rodata
 
 static const struct BgTemplate sBgTemplates_ItemMenu[] =
@@ -232,13 +234,15 @@ static const struct ListMenuTemplate sItemListMenu =
     .cursorKind = 0
 };
 
-static const u8 sMenuText_ByName[] = _("Name");
-static const u8 sMenuText_ByType[] = _("Type");
-static const u8 sMenuText_ByAmount[] = _("Amount");
-static const u8 sMenuText_ByNumber[] = _("Number");
-static const u8 sMenuText_Select[] = _("Select");
-static const u8 sMenuText_L[] = _("L Button");
-static const u8 sMenuText_R[] = _("R Button");
+static const u8 sMenuText_ByName[] = _("NAME");
+static const u8 sMenuText_ByType[] = _("TYPE");
+static const u8 sMenuText_ByAmount[] = _("AMOUNT");
+static const u8 sMenuText_ByNumber[] = _("NUMBER");
+static const u8 sMenuText_Select[] = _("SELECT");
+static const u8 sMenuText_L[] = _("L BUTTON");
+static const u8 sMenuText_R[] = _("R BUTTON");
+static const u8 sMenuText_Reconfigure[] = _("RECONFIGURE");
+
 static const struct MenuAction sItemMenuActions[] = {
     [ITEMMENUACTION_USE] =          {gMenuText_Use, ItemMenu_UseOutOfBattle},
     [ITEMMENUACTION_TOSS] =         {gMenuText_Toss, ItemMenu_Toss},
@@ -261,6 +265,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ITEMMENUACTION_SELECT_BUTTON] = {sMenuText_Select, ItemMenu_RegisterSelect},
     [ITEMMENUACTION_L_BUTTON] =     {sMenuText_L, ItemMenu_RegisterL},
     [ITEMMENUACTION_R_BUTTON] =     {sMenuText_R, ItemMenu_RegisterR},
+	[ITEMMENUACTION_RECONFIGURE] =  {sMenuText_Reconfigure, ItemMenu_Reconfigure},
     [ITEMMENUACTION_DUMMY] =        {gText_EmptyString2, NULL}
 };
 
@@ -1679,6 +1684,7 @@ static void OpenContextMenu(u8 unused)
                             {
                                 if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                                     gBagMenu->contextMenuItemsBuffer[0] = ITEMMENUACTION_WALK;
+								gBagMenu->contextMenuItemsBuffer[2] = ITEMMENUACTION_RECONFIGURE;
                             }
 							
 							if ((gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket] + gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]) - (gBagMenu->filler4[gBagPositionStruct.pocket] - 2) > 0)
@@ -3258,3 +3264,41 @@ bool8 UseRegisteredKeyItemOnField(u8 button)
 }
 
 #undef tUsingRegisteredKeyItem
+
+
+static void ItemMenu_Reconfigure(u8 taskId)
+{
+	u32 i;
+	s16* data = gTasks[taskId].data;
+	u16* scrollPos = &gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket];
+	u16* cursorPos = &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket];
+	
+	if (gSpecialVar_ItemId == ITEM_MACH_BIKE)
+	{
+		RemoveBagItem(ITEM_MACH_BIKE, 1);
+		AddBagItem(ITEM_ACRO_BIKE, 1);
+		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE))
+			 SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+	}
+	else
+	{
+		RemoveBagItem(ITEM_ACRO_BIKE, 1);
+		AddBagItem(ITEM_MACH_BIKE, 1);
+		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE))
+			 SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
+	}
+	
+	SwapRegisteredBike();
+	
+	PlaySE(SE_BIKE_BELL);
+	DestroyListMenuTask(data[0], scrollPos, cursorPos);
+	UpdatePocketItemList(gBagPositionStruct.pocket);
+	SetInitialScrollAndCursorPositions(gBagPositionStruct.pocket);
+	LoadBagItemListBuffers(gBagPositionStruct.pocket);
+	data[0] = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
+    BagMenu_RemoveSomeWindow();
+    BagMenu_PrintDescription(data[1]);
+	ScheduleBgCopyTilemapToVram(0);
+    BagMenu_PrintCursor_(data[0], 0);
+	set_callback3_to_bag(taskId);
+}
