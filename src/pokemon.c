@@ -7790,6 +7790,8 @@ void RespawnAllLegendaries(void)
 		
 		FlagClear(FLAG_BATTLED_DEOXYS);
 		
+		FlagClear(FLAG_HIDDEN_ITEM_NAVEL_ROCK_TOP_SACRED_ASH);
+		
 		if (VarGet(VAR_ROAMER_POKEMON) == 6 && !roamer->active && FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS))
 		{
 			if (FlagGet(FLAG_ROAMER_QUEST))

@@ -56,6 +56,7 @@ static void UpdatePerDay(struct Time *localTime)
 			FlagSet(FLAG_UNOWN_SETTLED);
 		if (FlagGet(FLAG_UNOWN_SETTLED))
 			CycleAlteringCave(localTime->days - VarGet(VAR_UNOWN_RELEASED));
+		RespawnHiddenItems(daysSince);
         *days = localTime->days;
     }
 }
