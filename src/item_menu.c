@@ -3268,10 +3268,17 @@ bool8 UseRegisteredKeyItemOnField(u8 button)
 
 static void ItemMenu_Reconfigure(u8 taskId)
 {
-	u32 i;
+	u8 i;
 	s16* data = gTasks[taskId].data;
 	u16* scrollPos = &gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket];
 	u16* cursorPos = &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket];
+	u16 paletteBackup[0x10];
+	
+	for (i = 0; i < 16; i++)
+	{
+		paletteBackup[i] = gPlttBufferUnfaded[0x100 + i];
+		paletteBackup[i] = gPlttBufferFaded[0x100 + i];
+	}
 	
 	if (gSpecialVar_ItemId == ITEM_MACH_BIKE)
 	{
@@ -3287,8 +3294,13 @@ static void ItemMenu_Reconfigure(u8 taskId)
 		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE))
 			 SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
 	}
-	
 	SwapRegisteredBike();
+	
+	for (i = 0; i < 16; i++)
+	{
+		gPlttBufferUnfaded[0x100 + i] = paletteBackup[i];
+		gPlttBufferFaded[0x100 + i] = paletteBackup[i];
+	}
 	
 	PlaySE(SE_BIKE_BELL);
 	DestroyListMenuTask(data[0], scrollPos, cursorPos);
