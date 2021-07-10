@@ -25,6 +25,7 @@
 #include "rtc.h"
 #include "pokedex.h"
 #include "item.h"
+#include "power.h"
 
 extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
@@ -485,6 +486,8 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 		rolls += MASUDA_METHOD_REROLLS;
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
+		rolls += POWER_LUCKY_REROLLS;
 
     // don't inherit nature
     if (parent > 1)
@@ -920,6 +923,8 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
+		rolls += POWER_LUCKY_REROLLS;
 	
 	do
 	{
@@ -993,6 +998,7 @@ void GiveEggFromDaycare(void)
 static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
 {
     u32 i, validEggs = 0;
+	u8 cycleLength = 255;
 
     for (i = 0; i < DAYCARE_MON_COUNT; i++)
     {
@@ -1025,8 +1031,24 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
             TriggerPendingDaycareEgg();
     }
 
+	if (gPowers[POWER_HATCH][POWER_TIME] > 0)
+	{
+		switch (gPowers[POWER_HATCH][POWER_LEVEL])
+		{
+			case 1:
+				cycleLength = 205;
+				break;
+			case 2:
+				cycleLength = 171;
+				break;
+			case 3:
+				cycleLength = 129;
+				break;
+		}
+	}
+
     // Try to hatch Egg
-    if (++daycare->stepCounter == 255)
+    if (++daycare->stepCounter == cycleLength)
     {
         u32 eggCycles;
         u8 toSub = GetEggCyclesToSubtract();
@@ -1903,6 +1925,8 @@ void GiveEventEgg(void)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
+		rolls += POWER_LUCKY_REROLLS;
 	
 	do
 	{

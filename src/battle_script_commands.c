@@ -54,6 +54,7 @@
 #include "constants/party_menu.h"
 #include "item_use.h"
 #include "field_player_avatar.h"
+#include "power.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
@@ -3348,6 +3349,22 @@ static void Cmd_getexp(void)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
 					if (FlagGet(FLAG_SYS_GAME_CLEAR))
 						gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+					
+					if (gPowers[POWER_EXP][POWER_TIME] > 0)
+					{
+						switch (gPowers[POWER_EXP][POWER_LEVEL])
+						{
+							case 1:
+								gBattleMoveDamage = gBattleMoveDamage * 120 / 100;
+								break;
+							case 2:
+								gBattleMoveDamage = gBattleMoveDamage * 150 / 100;
+								break;
+							case 3:
+								gBattleMoveDamage = gBattleMoveDamage * 2;
+								break;
+						}
+					}
 
                     if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
                     {
@@ -5596,6 +5613,22 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
         else
             moneyReward = 4 * lastMonLevel * gBattleStruct->moneyMultiplier * gTrainerMoneyTable[i].value;
     }
+
+	if (gPowers[POWER_PRIZE][POWER_TIME] > 0)
+	{
+		switch (gPowers[POWER_PRIZE][POWER_LEVEL])
+		{
+			case 1:
+				moneyReward = moneyReward * 150 / 100;
+				break;
+			case 2:
+				moneyReward = moneyReward * 2;
+				break;
+			case 3:
+				moneyReward = moneyReward * 3;
+				break;
+		}
+	}
 
     return moneyReward;
 }
@@ -9891,6 +9924,22 @@ static void Cmd_handleballthrow(void)
 
 		if (FlagGet(FLAG_SYS_GAME_CLEAR))
 			ballMultiplier *= 1.5;
+
+		if (gPowers[POWER_CAPTURE][POWER_TIME] > 0)
+		{
+			switch (gPowers[POWER_CAPTURE][POWER_LEVEL])
+			{
+				case 1:
+					ballMultiplier = ballMultiplier * 150 / 100;
+					break;
+				case 2:
+					ballMultiplier = ballMultiplier * 2;
+					break;
+				case 3:
+					ballMultiplier = ballMultiplier * 250 / 100;
+					break;
+			}
+		}
 
         odds = (catchRate * ballMultiplier / 10)
             * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)

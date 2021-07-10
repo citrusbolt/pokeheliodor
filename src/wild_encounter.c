@@ -23,6 +23,7 @@
 #include "constants/maps.h"
 #include "constants/weather.h"
 #include "pokedex.h"
+#include "power.h"
 #include "mgba.h"
 
 extern const u8 EventScript_RepelWoreOff[];
@@ -166,55 +167,125 @@ static void FeebasSeedRng(u16 seed)
 
 static u8 ChooseWildMonIndex_Land(void)
 {
+	u8 wildMonIndex = 0;
+	bool8 swap = FALSE;
     u8 rand = Random() % ENCOUNTER_CHANCE_LAND_MONS_TOTAL;
 
     if (rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_0)
-        return 0;
+        wildMonIndex = 0;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_0 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_1)
-        return 1;
+        wildMonIndex = 1;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_1 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_2)
-        return 2;
+        wildMonIndex = 2;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_2 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_3)
-        return 3;
+        wildMonIndex = 3;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_3 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_4)
-        return 4;
+        wildMonIndex = 4;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_4 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_5)
-        return 5;
+        wildMonIndex = 5;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_5 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_6)
-        return 6;
+        wildMonIndex = 6;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_6 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_7)
-        return 7;
+        wildMonIndex = 7;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_7 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_8)
-        return 8;
+        wildMonIndex = 8;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_8 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_9)
-        return 9;
+        wildMonIndex = 9;
     else if (rand == ENCOUNTER_CHANCE_LAND_MONS_SLOT_9)
-        return 10;
+        wildMonIndex = 10;
     else
-        return 11;
+        wildMonIndex = 11;
+	
+	if (gPowers[POWER_LUCKY][POWER_TIME] > 0)
+	{
+		switch (gPowers[POWER_LUCKY][POWER_LEVEL])
+		{
+			case 1:
+				if (Random() % 10 < 2)
+					swap = TRUE;
+				break;
+			case 2:
+				if (Random() % 10 < 5)
+					swap = TRUE;
+				break;
+			case 3:
+				swap = TRUE;
+				break;
+		}
+	}
+	
+	if (swap)
+		wildMonIndex = 11 - wildMonIndex;
+	
+	return wildMonIndex;
 }
 
 static u8 ChooseWildMonIndex_WaterRock(void)
 {
+	u8 wildMonIndex = 0;
+	bool8 swap = FALSE;
     u8 rand = Random() % ENCOUNTER_CHANCE_WATER_MONS_TOTAL;
 
     if (rand < ENCOUNTER_CHANCE_WATER_MONS_SLOT_0)
-        return 0;
+        wildMonIndex = 0;
     else if (rand >= ENCOUNTER_CHANCE_WATER_MONS_SLOT_0 && rand < ENCOUNTER_CHANCE_WATER_MONS_SLOT_1)
-        return 1;
+        wildMonIndex = 1;
     else if (rand >= ENCOUNTER_CHANCE_WATER_MONS_SLOT_1 && rand < ENCOUNTER_CHANCE_WATER_MONS_SLOT_2)
-        return 2;
+        wildMonIndex = 2;
     else if (rand >= ENCOUNTER_CHANCE_WATER_MONS_SLOT_2 && rand < ENCOUNTER_CHANCE_WATER_MONS_SLOT_3)
-        return 3;
+        wildMonIndex = 3;
     else
-        return 4;
+        wildMonIndex = 4;
+	
+		
+	if (gPowers[POWER_LUCKY][POWER_TIME] > 0)
+	{
+		switch (gPowers[POWER_LUCKY][POWER_LEVEL])
+		{
+			case 1:
+				if (Random() % 10 < 2)
+					swap = TRUE;
+				break;
+			case 2:
+				if (Random() % 10 < 5)
+					swap = TRUE;
+				break;
+			case 3:
+				swap = TRUE;
+				break;
+		}
+	}
+	
+	if (swap)
+		wildMonIndex = 4 - wildMonIndex;
+	
+	return wildMonIndex;
 }
 
 static u8 ChooseWildMonIndex_Fishing(u8 rod)
 {
     u8 wildMonIndex = 0;
+	bool8 swap = FALSE;
     u8 rand = Random() % max(max(ENCOUNTER_CHANCE_FISHING_MONS_OLD_ROD_TOTAL, ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_TOTAL),
                              ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_TOTAL);
+
+	if (gPowers[POWER_LUCKY][POWER_TIME] > 0)
+	{
+		switch (gPowers[POWER_LUCKY][POWER_LEVEL])
+		{
+			case 1:
+				if (Random() % 10 < 2)
+					swap = TRUE;
+				break;
+			case 2:
+				if (Random() % 10 < 5)
+					swap = TRUE;
+				break;
+			case 3:
+				swap = TRUE;
+				break;
+		}
+	}
 
     switch (rod)
     {
@@ -223,6 +294,9 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
             wildMonIndex = 0;
         else
             wildMonIndex = 1;
+		
+		if (swap)
+			wildMonIndex = 1 - wildMonIndex;
         break;
     case GOOD_ROD:
         if (rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_2)
@@ -231,6 +305,9 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
             wildMonIndex = 3;
         if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_3 && rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_4)
             wildMonIndex = 4;
+		
+		if (swap)
+			wildMonIndex = 6 - wildMonIndex;
         break;
     case SUPER_ROD:
         if (rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_5)
@@ -243,6 +320,9 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
             wildMonIndex = 8;
         if (rand == ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_8)
             wildMonIndex = 9;
+		
+		if (swap)
+			wildMonIndex = 14 - wildMonIndex;
         break;
     }
     return wildMonIndex;
@@ -431,6 +511,8 @@ static u32 GenerateUnownPersonalityByLetter(u8 letter)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
+		rolls += POWER_LUCKY_REROLLS;
 	
 	do
 	{
@@ -600,6 +682,39 @@ static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
         else if (ability == ABILITY_SAND_VEIL && gSaveBlock1Ptr->weather == WEATHER_SANDSTORM)
             encounterRate /= 2;
     }
+	
+	if (gPowers[POWER_ENCOUNTER][POWER_TIME] > 0)
+	{
+		switch (gPowers[POWER_ENCOUNTER][POWER_LEVEL])
+		{
+			case 1:
+				encounterRate = encounterRate * 150 / 100;
+				break;
+			case 2:
+				encounterRate = encounterRate * 2;
+				break;
+			case 3:
+				encounterRate = encounterRate * 3;
+				break;
+		}
+	}
+	
+	if (gPowers[POWER_STEALTH][POWER_TIME] > 0)
+	{
+		switch (gPowers[POWER_STEALTH][POWER_LEVEL])
+		{
+			case 1:
+				encounterRate = encounterRate * 66 / 100;
+				break;
+			case 2:
+				encounterRate = encounterRate * 50 / 100;
+				break;
+			case 3:
+				encounterRate = encounterRate * 33 / 100;
+				break;
+		}
+	}
+	
     if (encounterRate > 2880)
         encounterRate = 2880;
     return DoWildEncounterRateDiceRoll(encounterRate);

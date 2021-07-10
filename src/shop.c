@@ -38,6 +38,7 @@
 #include "constants/metatile_behaviors.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "power.h"
 
 #define TAG_SCROLL_ARROW   2100
 #define TAG_ITEM_ICON_BASE 2110
@@ -555,24 +556,55 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
 static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
 {
     u8 x;
-
+	u16 price;
+	
     if (item != LIST_CANCEL)
     {
         if (sMartInfo.martType == MART_TYPE_NORMAL)
         {
-            ConvertIntToDecimalStringN(
-                gStringVar1,
-                ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT),
-                STR_CONV_MODE_LEFT_ALIGN,
-                5);
+			if (gPowers[POWER_BARGAIN][POWER_TIME] > 0)
+			{
+				switch (gPowers[POWER_BARGAIN][POWER_LEVEL])
+				{
+					case 1:
+						price = (ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 90 / 100;
+						break;
+					case 2:
+						price = (ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 75 / 100;
+						break;
+					case 3:
+						price = (ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 50 / 100;
+						break;
+				}
+			}
+			else
+			{
+				price = ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT);
+			}
+			ConvertIntToDecimalStringN(gStringVar1, price, STR_CONV_MODE_LEFT_ALIGN, 5);
         }
         else
         {
-            ConvertIntToDecimalStringN(
-                gStringVar1,
-                gDecorations[item].price,
-                STR_CONV_MODE_LEFT_ALIGN,
-                5);
+			if (gPowers[POWER_BARGAIN][POWER_TIME] > 0)
+			{
+				switch (gPowers[POWER_BARGAIN][POWER_LEVEL])
+				{
+					case 1:
+						price = gDecorations[item].price * 90 / 100;
+						break;
+					case 2:
+						price = gDecorations[item].price * 75 / 100;
+						break;
+					case 3:
+						price = gDecorations[item].price * 50 / 100;
+						break;
+				}
+			}
+			else
+			{
+				price = gDecorations[item].price;
+			}
+            ConvertIntToDecimalStringN(gStringVar1, price, STR_CONV_MODE_LEFT_ALIGN, 5);
         }
 
         StringExpandPlaceholders(gStringVar4, gText_PokedollarVar1);

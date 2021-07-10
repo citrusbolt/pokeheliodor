@@ -36,6 +36,7 @@
 #include "title_screen.h"
 #include "window.h"
 #include "mystery_gift.h"
+#include "power.h"
 
 /*
  * Main menu state machine
@@ -643,6 +644,8 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         switch (gSaveFileStatus)
         {
             case SAVE_STATUS_OK:
+			
+				TestPowers();
 				if (FlagGet(FLAG_SYS_GAME_CLEAR) && !FlagGet(FLAG_RECEIVED_PORYGON) && Random() % 44 == 0)
 				{
 					if (GivePorygon() == 2)
