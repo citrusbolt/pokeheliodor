@@ -3,8 +3,6 @@
 #include "sprite.h"
 #include "palette.h"
 #include "constants/rgb.h"
-#include "mgba.h"
-#include "random.h"
 
 const u32 gBitTable[] =
 {
@@ -135,6 +133,8 @@ static const s8 sHueShiftSpeciesLimit[NUM_SPECIES] =
 	[SPECIES_PERSIAN] = -1,
 	[SPECIES_PSYDUCK] = 3,
 	[SPECIES_GOLDUCK] = 3,
+	[SPECIES_GROWLITHE] = 1,
+	[SPECIES_ARCANINE] = 1,
 	[SPECIES_POLIWAG] = 1,
 	[SPECIES_POLIWHIRL] = 1,
 	[SPECIES_ABRA] = -1,
