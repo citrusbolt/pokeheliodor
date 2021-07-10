@@ -8,10 +8,8 @@
 #define POWER_CAPTURE	4
 #define POWER_ENCOUNTER	5
 #define POWER_STEALTH	6
-#define POWER_HP_HEAL	7
-#define POWER_PP_HEAL	8
-#define POWER_FRIEND	9
-#define POWER_LUCKY		10
+#define POWER_FRIEND	7
+#define POWER_LUCKY		8
 
 #define POWER_NUM_TYPES (POWER_LUCKY + 1)
 
@@ -25,5 +23,7 @@ extern EWRAM_DATA u8 gPowers[POWER_NUM_TYPES][2];	// Level by Time Remaining
 void TestPowers(void);
 void DecrementPowerTime(s32);
 void ResetPowerTime(void);
+bool8 BuyPower(u8, u8);
+void GivePowerPoints(void);
 
 #endif

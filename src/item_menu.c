@@ -876,6 +876,12 @@ void LoadBagItemListBuffers(u8 pocketId)
 
 		if (pocketId == KEYITEMS_POCKET)
 		{
+			GetItemName(sListBuffer2->name[i], ITEM_POWER_PAD);
+			subBuffer = sListBuffer1->subBuffers;
+			subBuffer[i].name = sListBuffer2->name[i];
+			subBuffer[i].id = i;
+			i++;
+			
 			if (HasAllHoennMons())
 			{
 				GetItemName(sListBuffer2->name[i], ITEM_OVAL_CHARM);
@@ -1153,8 +1159,10 @@ void UpdatePocketItemList(u8 pocketId)
         gBagMenu->numItemStacks[pocketId]++;
 	gBagMenu->filler4[pocketId] = gBagMenu->numItemStacks[pocketId];	//True number of items
 	
-	if (pocketId == KEYITEMS_POCKET)	//Add Charms to count
+	if (pocketId == KEYITEMS_POCKET)	//Add new Key Items to count
 	{
+		gBagMenu->numItemStacks[pocketId]++;	//Add Power Pad
+		
 		if (HasAllHoennMons())
 			gBagMenu->numItemStacks[pocketId]++;
 		if (HasAllMons())
@@ -1687,11 +1695,11 @@ static void OpenContextMenu(u8 unused)
 								gBagMenu->contextMenuItemsBuffer[2] = ITEMMENUACTION_RECONFIGURE;
                             }
 							
-							if ((gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket] + gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]) - (gBagMenu->filler4[gBagPositionStruct.pocket] - 2) > 0)
-							{
-								gBagMenu->contextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
-								gBagMenu->contextMenuItemsBuffer[3] = ITEMMENUACTION_DUMMY;
-							}
+							//if ((gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket] + gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]) - (gBagMenu->filler4[gBagPositionStruct.pocket] - 2) > 0)
+							//{
+							//	gBagMenu->contextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
+							//	gBagMenu->contextMenuItemsBuffer[3] = ITEMMENUACTION_DUMMY;
+							//}
 		
                         }
                         else
@@ -3231,7 +3239,7 @@ bool8 UseRegisteredKeyItemOnField(u8 button)
     
     if (registeredItem != ITEM_NONE)
     {
-        if (CheckBagHasItem(registeredItem, 1) == TRUE)
+        if (CheckBagHasItem(registeredItem, 1) == TRUE || registeredItem >= ITEM_POWER_PAD)
         {
             ScriptContext2_Enable();
             FreezeObjectEvents();

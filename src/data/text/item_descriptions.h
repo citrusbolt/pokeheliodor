@@ -1551,6 +1551,10 @@ static const u8 sOldSeaMapDesc[] = _(
     "to a certain island.");
 
 // "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
+static const u8 sPowerPadDesc[] = _(
+	"A device used to\n"
+	"access H-POWERS.");
+
 static const u8 sOvalCharmDesc[] = _(
 	"A charm to increase\n"
 	"the chance of EGGS\n"

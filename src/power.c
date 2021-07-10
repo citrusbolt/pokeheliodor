@@ -1,21 +1,22 @@
 #include "global.h"
+#include "overworld.h"
 #include "power.h"
+#include "constants/game_stat.h"
+#include "mgba.h"
 
 EWRAM_DATA u8 gPowers[POWER_NUM_TYPES][2] = {0};
 
 static const u8 sPowerPrices[POWER_NUM_TYPES][3] =
 {
-	[POWER_HATCH]		= {  3,  4,  5 },
-	[POWER_BARGAIN]		= {  3,  4,  5 },
-	[POWER_PRIZE]		= {  2,  3,  4 },
-	[POWER_EXP]			= {  2,  3,  4 },
-	[POWER_CAPTURE]		= {  4,  5,  6 },
-	[POWER_ENCOUNTER]	= {  2,  3,  4 },
-	[POWER_STEALTH]		= {  2,  3,  4 },
-	[POWER_HP_HEAL]		= {  2,  3,  4 },
-	[POWER_PP_HEAL]		= {  2,  3,  4 },
-	[POWER_FRIEND]		= {  2,  3,  4 },
-	[POWER_LUCKY]		= { 10, 20, 30 },
+	[POWER_HATCH]		= {  1,  2,  3 },
+	[POWER_BARGAIN]		= {  1,  2,  3 },
+	[POWER_PRIZE]		= {  1,  2,  3 },
+	[POWER_EXP]			= {  1,  2,  3 },
+	[POWER_CAPTURE]		= {  1,  2,  3 },
+	[POWER_ENCOUNTER]	= {  1,  2,  3 },
+	[POWER_STEALTH]		= {  1,  2,  3 },
+	[POWER_FRIEND]		= {  1,  2,  3 },
+	[POWER_LUCKY]		= {  5, 10, 15 },
 };
 
 void TestPowers(void)
@@ -63,7 +64,7 @@ bool8 BuyPower(u8 type, u8 level)
 			gPowers[type][POWER_TIME] = 10;
 			break;
 		case 2:
-			gPowers[type][POWER_TIME] = 30;
+			gPowers[type][POWER_TIME] = 20;
 			break;
 		case 3:
 			gPowers[type][POWER_TIME] = 60;
@@ -75,4 +76,29 @@ bool8 BuyPower(u8 type, u8 level)
 	gSaveBlock2Ptr->powerPoints -= sPowerPrices[type][level];
 	gPowers[type][POWER_LEVEL] = level;
 	return TRUE;
+}
+
+void GivePowerPoints(void)
+{
+	u32 newTotalPoints = 0;
+	u32 freshPoints;
+	
+	newTotalPoints += GetGameStat(GAME_STAT_PLANTED_BERRIES) / 10;
+	newTotalPoints += GetGameStat(GAME_STAT_TRAINER_BATTLES) / 5;
+	newTotalPoints += GetGameStat(GAME_STAT_ENTERED_HOF) * 5;
+	newTotalPoints += GetGameStat(GAME_STAT_POKEMON_CAPTURES) / 10;
+	newTotalPoints += GetGameStat(GAME_STAT_HATCHED_EGGS);
+	newTotalPoints += GetGameStat(GAME_STAT_EVOLVED_POKEMON);
+	newTotalPoints += GetGameStat(GAME_STAT_SLOT_JACKPOTS) * 30;
+	newTotalPoints += GetGameStat(GAME_STAT_BATTLE_TOWER_BEST_STREAK);
+	newTotalPoints += GetGameStat(GAME_STAT_WON_CONTEST);
+	newTotalPoints += GetGameStat(GAME_STAT_RECEIVED_RIBBONS);
+	newTotalPoints += GetGameStat(GAME_STAT_WON_POKEMON_LOTTERY) / 5;
+	freshPoints = newTotalPoints - gSaveBlock2Ptr->totalEarnedPowerPoints;
+	if (gSaveBlock2Ptr->powerPoints + freshPoints > 0xFFFF)
+		freshPoints = 0xFFFF - gSaveBlock2Ptr->powerPoints;
+	gSaveBlock2Ptr->powerPoints += freshPoints;
+	gSaveBlock2Ptr->totalEarnedPowerPoints += freshPoints;
+	
+	mgba_printf(MGBA_LOG_INFO, "%d", freshPoints);
 }

@@ -403,6 +403,7 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_MAGMA_EMBLEM] = {gItemIcon_MagmaEmblem, gItemIconPalette_MagmaEmblem},
     [ITEM_OLD_SEA_MAP] = {gItemIcon_OldSeaMap, gItemIconPalette_OldSeaMap},
 	// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
+    [ITEM_POWER_PAD] = {gItemIcon_PowerPad, gItemIconPalette_PowerPad},
     [ITEM_OVAL_CHARM] = {gItemIcon_OvalCharm, gItemIconPalette_OvalCharm},
     [ITEM_SHINY_CHARM] = {gItemIcon_ShinyCharm, gItemIconPalette_ShinyCharm},
     [ITEM_CATCHING_CHARM] = {gItemIcon_CatchingCharm, gItemIconPalette_CatchingCharm},

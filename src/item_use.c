@@ -41,6 +41,7 @@
 #include "constants/item_effects.h"
 #include "constants/items.h"
 #include "constants/songs.h"
+#include "power.h"
 
 static void SetUpItemUseCallback(u8 taskId);
 static void FieldCB_UseItemOnField(void);
@@ -1143,6 +1144,18 @@ void ItemUseInBattle_EnigmaBerry(u8 taskId)
 void ItemUseOutOfBattle_CannotUse(u8 taskId)
 {
     DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+}
+
+void ItemUseOutOfBattle_PowerPad(u8 taskId)
+{
+	if (!gTasks[taskId].tUsingRegisteredKeyItem)
+	{
+		DisplayItemMessage(taskId, 1, gText_PowerPadNoService, BagMenu_InitListsMenu);
+	}
+	else
+	{
+		DisplayItemMessageOnField(taskId, gText_PowerPadNoService, Task_CloseCantUseKeyItemMessage);
+	}
 }
 
 #undef tUsingRegisteredKeyItem

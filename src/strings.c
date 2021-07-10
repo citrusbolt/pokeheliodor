@@ -1926,3 +1926,4 @@ const u8 gText_ShinySquare[] = _("{EMOJI_SQUARE}");
 const u8 gText_FatefulTriangle[] = _("{EMOJI_TRIANGLE}");
 const u8 gText_ShinyStarMale[] = _("{COLOR DYNAMIC_COLOR2}{STAR}");
 const u8 gText_ShinyStarFemale[] = _("{COLOR DYNAMIC_COLOR1}{STAR}");
+const u8 gText_PowerPadNoService[] = _("The device just displays static…{PAUSE_UNTIL_PRESS}");

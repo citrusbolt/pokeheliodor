@@ -4542,7 +4542,19 @@ const struct Item gItems[] =
 
 // "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
 
-    [ITEM_OVAL_CHARM] =
+    [ITEM_POWER_PAD] =
+    {
+        .name = _("POWER PAD"),
+        .itemId = ITEM_POWER_PAD,
+        .price = 0,
+        .description = sPowerPadDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_PowerPad,
+    },
+	[ITEM_OVAL_CHARM] =
     {
         .name = _("OVAL CHARM"),
         .itemId = ITEM_OVAL_CHARM,
