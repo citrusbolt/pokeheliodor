@@ -74,13 +74,13 @@ static void UpdatePerMinute(struct Time *localTime)
         if (minutes >= 0)
         {
             BerryTreeTimeUpdate(minutes);
-            gSaveBlock2Ptr->lastBerryTreeUpdate = *localTime;
 			DecrementPowerTime(minutes);
         }
 		else if (minutes < 0)
 		{
 			ResetPowerTime();
 		}
+		gSaveBlock2Ptr->lastBerryTreeUpdate = *localTime;
     }
 }
 
