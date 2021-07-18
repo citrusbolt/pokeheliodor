@@ -93,7 +93,7 @@ static void Task_ReturnToItemListAfterDecorationPurchase(u8 taskId);
 static void Task_HandleShopMenuBuy(u8 taskId);
 static void Task_HandleShopMenuSell(u8 taskId);
 static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, struct ListMenu *list);
-static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y);
+static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y);
 
 static const struct YesNoFuncTable sShopPurchaseYesNoFuncs =
 {
@@ -554,12 +554,12 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
     BuyMenuPrint(2, description, 3, 1, 0, 0);
 }
 
-static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
+static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y)
 {
     u8 x;
 	u16 price;
 	
-    if (item != LIST_CANCEL)
+    if (itemId != LIST_CANCEL)
     {
         if (sMartInfo.martType == MART_TYPE_NORMAL)
         {
@@ -568,19 +568,19 @@ static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
 				switch (gPowerLevel)
 				{
 					case 1:
-						price = (ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 90 / 100;
+						price = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 90 / 100;
 						break;
 					case 2:
-						price = (ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 75 / 100;
+						price = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 75 / 100;
 						break;
 					case 3:
-						price = (ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 50 / 100;
+						price = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 50 / 100;
 						break;
 				}
 			}
 			else
 			{
-				price = ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT);
+				price = ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT);
 			}
 			ConvertIntToDecimalStringN(gStringVar1, price, STR_CONV_MODE_LEFT_ALIGN, 5);
         }
@@ -591,19 +591,19 @@ static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
 				switch (gPowerLevel)
 				{
 					case 1:
-						price = gDecorations[item].price * 90 / 100;
+						price = gDecorations[itemId].price * 90 / 100;
 						break;
 					case 2:
-						price = gDecorations[item].price * 75 / 100;
+						price = gDecorations[itemId].price * 75 / 100;
 						break;
 					case 3:
-						price = gDecorations[item].price * 50 / 100;
+						price = gDecorations[itemId].price * 50 / 100;
 						break;
 				}
 			}
 			else
 			{
-				price = gDecorations[item].price;
+				price = gDecorations[itemId].price;
 			}
             ConvertIntToDecimalStringN(gStringVar1, price, STR_CONV_MODE_LEFT_ALIGN, 5);
         }
