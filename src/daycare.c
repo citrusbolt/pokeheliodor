@@ -26,6 +26,7 @@
 #include "pokedex.h"
 #include "item.h"
 #include "power.h"
+#include "constants/power.h"
 
 extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 

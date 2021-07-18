@@ -54,6 +54,7 @@
 #include "wild_encounter.h"
 #include "roamer.h"
 #include "power.h"
+#include "constants/power.h"
 
 struct SpeciesItem
 {

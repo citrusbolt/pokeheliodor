@@ -55,6 +55,7 @@
 #include "item_use.h"
 #include "field_player_avatar.h"
 #include "power.h"
+#include "constants/power.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
@@ -9923,7 +9924,7 @@ static void Cmd_handleballthrow(void)
             ballMultiplier = sBallCatchBonuses[gLastUsedItem - ITEM_ULTRA_BALL];
 
 		if (FlagGet(FLAG_SYS_GAME_CLEAR))
-			ballMultiplier *= 1.5;
+			ballMultiplier = ballMultiplier * 150 / 100;
 
 		if (gPowerType == POWER_CAPTURE&& gPowerTime > 0)
 		{

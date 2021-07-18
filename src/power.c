@@ -1,24 +1,25 @@
 #include "global.h"
 #include "overworld.h"
 #include "power.h"
+#include "constants/power.h"
 #include "constants/game_stat.h"
-#include "mgba.h"
+#include "event_data.h"
 
 EWRAM_DATA u8 gPowerType = POWER_NONE;
 EWRAM_DATA u8 gPowerLevel = 0;
 EWRAM_DATA u8 gPowerTime = 0;
 
-static const u8 sPowerPrices[POWER_NUM_TYPES][3] =
+static const u8 sPowerPrices[POWER_NUM_TYPES][4] =
 {
-	[POWER_HATCH]		= {  1,  2,  3 },
-	[POWER_BARGAIN]		= {  1,  2,  3 },
-	[POWER_PRIZE]		= {  1,  2,  3 },
-	[POWER_EXP]			= {  1,  2,  3 },
-	[POWER_CAPTURE]		= {  1,  2,  3 },
-	[POWER_ENCOUNTER]	= {  1,  2,  3 },
-	[POWER_STEALTH]		= {  1,  2,  3 },
-	[POWER_FRIEND]		= {  1,  2,  3 },
-	[POWER_LUCKY]		= {  5, 10, 15 },
+	[POWER_HATCH]		= {  0, 1,  2,  3 },
+	[POWER_BARGAIN]		= {  0, 1,  2,  3 },
+	[POWER_PRIZE]		= {  0, 1,  2,  3 },
+	[POWER_EXP]			= {  0, 1,  2,  3 },
+	[POWER_CAPTURE]		= {  0, 1,  2,  3 },
+	[POWER_ENCOUNTER]	= {  0, 1,  2,  3 },
+	[POWER_STEALTH]		= {  0, 1,  2,  3 },
+	[POWER_FRIEND]		= {  0, 1,  2,  3 },
+	[POWER_LUCKY]		= {  0, 5, 10, 15 },
 };
 
 void GivePower(u8 type, u8 level, u8 time)
@@ -45,10 +46,16 @@ void ResetPowerTime(void)
 	gPowerTime = 0;
 }
 
-bool8 BuyPower(u8 type, u8 level)
+void BuyPower(void)
 {
+	u8 type = gSpecialVar_0x8004;
+	u8 level = gSpecialVar_0x8005;
+	
 	if (gSaveBlock2Ptr->powerPoints < sPowerPrices[type][level])
-		return FALSE;
+	{
+		gSpecialVar_Result = FALSE;
+		return;
+	}
 	
 	switch (level)
 	{
@@ -62,13 +69,14 @@ bool8 BuyPower(u8 type, u8 level)
 			gPowerTime = 60;
 			break;
 		default:
-			return FALSE;
+			gSpecialVar_Result = FALSE;
+			return;
 	}
 	
 	gSaveBlock2Ptr->powerPoints -= sPowerPrices[type][level];
 	gPowerType = type;
 	gPowerLevel = level;
-	return TRUE;
+	gSpecialVar_Result = TRUE;
 }
 
 void GivePowerPoints(void)
@@ -92,6 +100,4 @@ void GivePowerPoints(void)
 		freshPoints = 0xFFFF - gSaveBlock2Ptr->powerPoints;
 	gSaveBlock2Ptr->powerPoints += freshPoints;
 	gSaveBlock2Ptr->totalEarnedPowerPoints += freshPoints;
-	
-	mgba_printf(MGBA_LOG_INFO, "%d", freshPoints);
 }

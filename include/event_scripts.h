@@ -611,5 +611,6 @@ extern const u8 EventScript_ConfirmLeaveCableClubRoom[];
 extern const u8 EventScript_TerminateLink[];
 
 extern const u8 EventScript_Incubator[];
+extern const u8 EventScript_PowerPurchase[];
 
 #endif // GUARD_EVENT_SCRIPTS_H

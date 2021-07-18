@@ -24,6 +24,7 @@
 #include "constants/weather.h"
 #include "pokedex.h"
 #include "power.h"
+#include "constants/power.h"
 #include "mgba.h"
 
 extern const u8 EventScript_RepelWoreOff[];

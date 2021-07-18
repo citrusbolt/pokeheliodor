@@ -47,6 +47,7 @@
 #include "constants/rgb.h"
 #include "rtc.h"
 #include "power.h"
+#include "constants/power.h"
 #include "clock.h"
 #include "mgba.h"
 

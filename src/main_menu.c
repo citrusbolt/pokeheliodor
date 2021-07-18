@@ -36,7 +36,6 @@
 #include "title_screen.h"
 #include "window.h"
 #include "mystery_gift.h"
-#include "power.h"
 
 /*
  * Main menu state machine

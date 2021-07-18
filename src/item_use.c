@@ -42,6 +42,7 @@
 #include "constants/items.h"
 #include "constants/songs.h"
 #include "power.h"
+#include "constants/power.h"
 #include "clock.h"
 #include "international_string_util.h"
 #include "field_specials.h"
@@ -76,10 +77,6 @@ static void Task_CloseCantUseKeyItemMessage(u8 taskId);
 static void SetDistanceOfClosestHiddenItem(u8 taskId, s16 x, s16 y);
 static void CB2_OpenPokeblockFromBag(void);
 static void ItemUseOnFieldCB_PowerPurchase(u8 taskId);
-static void Task_ClosePowerPurchaseMenu(u8 taskId);
-static void ItemUseOutOfBattle_PowerPad2(u8 taskId);
-static void CB2_OpenPowerPadFromBag(void);
-static void Task_OpenRegisteredPowerPad(u8 taskId);
 
 // EWRAM variables
 EWRAM_DATA static void(*sItemUseOnFieldCB)(u8 taskId) = NULL;
@@ -1158,7 +1155,9 @@ void ItemUseOutOfBattle_CannotUse(u8 taskId)
 
 void ItemUseOutOfBattle_PowerPad(u8 taskId)
 {
+	PlaySE(SE_PC_ON);
 	DoTimeBasedEvents();
+	GivePowerPoints();
 	
 	if (!gTasks[taskId].tUsingRegisteredKeyItem)
 	{
@@ -1262,37 +1261,9 @@ void ItemUseOutOfBattle_PowerPad(u8 taskId)
 
 static void ItemUseOnFieldCB_PowerPurchase(u8 taskId)
 {
-	u8 string[32];
-	u32 x;
-	static const struct WindowTemplate powerPoints_WindowTemplate = {
-		.bg = 0,
-		.tilemapLeft = 1,
-		.tilemapTop = 1,
-		.width = 7,
-		.height = 2,
-		.paletteNum = 15,
-		.baseBlock = 6,
-	};
-	
-	DisplayItemMessageOnField(taskId, gText_PowerPadNoService, Task_ClosePowerPurchaseMenu);
-    sPowerPointsWindowId = AddWindow(&powerPoints_WindowTemplate);
-	SetStandardWindowBorderStyle(sPowerPointsWindowId, 0);
-	StringCopy(ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->powerPoints, STR_CONV_MODE_RIGHT_ALIGN, 7), gText_Pt);
-	x = GetStringRightAlignXOffset(1, string, 52);
-	AddTextPrinterParameterized(sPowerPointsWindowId, 1, string, x, 1, 0, NULL);
-	CopyWindowToVram(sPowerPointsWindowId, 2);
-	ScriptContext1_Stop();
-	
-}
-
-static void Task_ClosePowerPurchaseMenu(u8 taskId)
-{
-    ClearStdWindowAndFrameToTransparent(sPowerPointsWindowId, TRUE);
-    RemoveWindow(sPowerPointsWindowId);
-    ClearDialogWindowAndFrame(0, 1);
-    ScriptUnfreezeObjectEvents();
-    ScriptContext2_Disable();
-    DestroyTask(taskId);
+	ScriptContext2_Enable();
+	ScriptContext1_SetupScript(EventScript_PowerPurchase);
+	DestroyTask(taskId);
 }
 
 #undef tUsingRegisteredKeyItem

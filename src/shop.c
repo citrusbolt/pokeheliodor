@@ -39,6 +39,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "power.h"
+#include "constants/power.h"
 
 #define TAG_SCROLL_ARROW   2100
 #define TAG_ITEM_ICON_BASE 2110
@@ -964,14 +965,50 @@ static void Task_BuyMenu(u8 taskId)
             BuyMenuRemoveScrollIndicatorArrows();
             BuyMenuPrintCursor(tListTaskId, 2);
 
-            if (sMartInfo.martType == MART_TYPE_NORMAL)
-            {
-                sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT));
-            }
-            else
-            {
-                sShopData->totalCost = gDecorations[itemId].price;
-            }
+			if (sMartInfo.martType == MART_TYPE_NORMAL)
+			{
+				if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+				{
+					switch (gPowerLevel)
+					{
+						case 1:
+							sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 90 / 100;
+							break;
+						case 2:
+							sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 75 / 100;
+							break;
+						case 3:
+							sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 50 / 100;
+							break;
+					}
+				}
+				else
+				{
+					sShopData->totalCost = ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT);
+				}
+			}
+			else
+			{
+				if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+				{
+					switch (gPowerLevel)
+					{
+						case 1:
+							sShopData->totalCost = gDecorations[itemId].price * 90 / 100;
+							break;
+						case 2:
+							sShopData->totalCost = gDecorations[itemId].price * 75 / 100;
+							break;
+						case 3:
+							sShopData->totalCost = gDecorations[itemId].price * 50 / 100;
+							break;
+					}
+				}
+				else
+				{
+					sShopData->totalCost = gDecorations[itemId].price;
+				}
+			}
 
             if (!IsEnoughMoney(&gSaveBlock1Ptr->money, sShopData->totalCost))
             {
@@ -1046,7 +1083,25 @@ static void Task_BuyHowManyDialogueHandleInput(u8 taskId)
 
     if (AdjustQuantityAccordingToDPadInput(&tItemCount, sShopData->maxQuantity) == TRUE)
     {
-        sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount;
+		if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+		{
+			switch (gPowerLevel)
+			{
+				case 1:
+					sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount * 90 / 100;
+					break;
+				case 2:
+					sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount * 75 / 100;
+					break;
+				case 3:
+					sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount * 50 / 100;
+					break;
+			}
+		}
+		else
+		{
+			sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount;
+		}
         BuyMenuPrintItemQuantityAndPrice(taskId);
     }
     else
