@@ -300,6 +300,7 @@ void HandleAction_Switch(void)
     gMoveSelectionCursor[gBattlerAttacker] = 0;
 
     PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, gBattlerAttacker, *(gBattleStruct->field_58 + gBattlerAttacker))
+    PREPARE_MON_TITLE_BUFFER(gBattleTextBuff2, gBattlerAttacker, *(gBattleStruct->field_58 + gBattlerAttacker))
 
     gBattleScripting.battler = gBattlerAttacker;
     gBattlescriptCurrInstr = BattleScript_ActionSwitch;
@@ -4118,4 +4119,15 @@ u8 IsMonDisobedient(void)
             return 1;
         }
     }
+}
+
+void HandleAction_ThrowBall(void)
+{
+    gBattlerAttacker = gBattlerByTurnOrder[gCurrentTurnActionNumber];
+    gBattle_BG0_X = 0;
+    gBattle_BG0_Y = 0;
+    gLastUsedItem = gSaveBlock2Ptr->lastUsedBall;
+    RemoveBagItem(gLastUsedItem, 1);
+    gBattlescriptCurrInstr = BattleScript_BallThrow;
+    gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }

@@ -182,7 +182,8 @@ SootopolisCity_EventScript_SetWallaceLeft:: @ 81E58C7
 	return
 
 SootopolisCity_EventScript_SetExpertBlockCaveEntrance:: @ 81E58D3
-	goto_if_set FLAG_SHOWN_SUICUNE, SootopolisCity_EventScript_SetExpertShownSuicune
+	compare VAR_CAVE_OF_ORIGIN_STATE, 1
+	goto_if_ge SootopolisCity_EventScript_SetExpertShownSuicune
 	setobjectxyperm LOCALID_EXPERT, 31, 18
 	return
 
@@ -743,10 +744,11 @@ SootopolisCity_EventScript_ExpertLeadToCave:: @ 81E5EBA
 	end
 
 SootopolisCity_EventScript_ExpertPostLegendaries:: @ 81E5EC4
-	goto_if_set FLAG_SHOWN_SUICUNE, SootopolisCity_EventScript_ExpertShownSuicune
+	compare VAR_CAVE_OF_ORIGIN_STATE, 1
+	goto_if_ge SootopolisCity_EventScript_ExpertShownSuicune
 	msgbox SootopolisCity_Text_CaveOfOriginSleepsToo, MSGBOX_DEFAULT
 	msgbox SootopolisCity_Text_CaveOfOriginSuicune, MSGBOX_DEFAULT
-	setvar VAR_0x8004, SPECIES_SUICUNE
+	setvar VAR_0x8004, SPECIES_BLAZIKEN
 	specialvar VAR_RESULT, IsSpeciesInParty
 	compare VAR_RESULT, TRUE
 	goto_if_eq SootopolisCity_EventScript_ExpertShowSuicune
@@ -760,7 +762,7 @@ SootopolisCity_EventScript_ExpertLegendaries:: @ 81E5ECE
 
 SootopolisCity_EventScript_ExpertShowSuicune::
 	msgbox SootopolisCity_Text_CaveOfOriginThatPokemon, MSGBOX_DEFAULT
-	setflag FLAG_SHOWN_SUICUNE
+	setvar VAR_CAVE_OF_ORIGIN_STATE, 1
 	applymovement LOCALID_EXPERT, SootopolisCity_Movement_ShownSuicune
 	waitmovement 0
 	turnobject LOCALID_EXPERT, DIR_WEST

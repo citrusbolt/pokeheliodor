@@ -11,6 +11,7 @@
 #include "main.h"
 #include "overworld.h"
 #include "wallclock.h"
+#include "power.h"
 
 static void UpdatePerDay(struct Time *localTime);
 static void UpdatePerMinute(struct Time *localTime);
@@ -25,7 +26,7 @@ static void InitTimeBasedEvents(void)
 
 void DoTimeBasedEvents(void)
 {
-    if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter())
+    if (FlagGet(FLAG_SYS_CLOCK_SET))
     {
         RtcCalcLocalTime();
         UpdatePerDay(&gLocalTime);
@@ -56,6 +57,7 @@ static void UpdatePerDay(struct Time *localTime)
 			FlagSet(FLAG_UNOWN_SETTLED);
 		if (FlagGet(FLAG_UNOWN_SETTLED))
 			CycleAlteringCave(localTime->days - VarGet(VAR_UNOWN_RELEASED));
+		RespawnHiddenItems(daysSince);
         *days = localTime->days;
     }
 }
@@ -72,8 +74,13 @@ static void UpdatePerMinute(struct Time *localTime)
         if (minutes >= 0)
         {
             BerryTreeTimeUpdate(minutes);
-            gSaveBlock2Ptr->lastBerryTreeUpdate = *localTime;
+			DecrementPowerTime(minutes);
         }
+		else if (minutes < 0)
+		{
+			ResetPowerTime();
+		}
+		gSaveBlock2Ptr->lastBerryTreeUpdate = *localTime;
     }
 }
 

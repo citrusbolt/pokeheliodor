@@ -57,6 +57,7 @@ BattleFrontier_Lounge4_EventScript_ShowEggToEraser::
 
 BattleFrontier_Lounge4_EventScript_RefuseErase::
 	msgbox BattleFrontier_Lounge4_Text_CancelMonErase, MSGBOX_DEFAULT
+	special CloseBattlePointsWindow
 	release
 	end
 

@@ -71,6 +71,7 @@
 #define B_BUFF_NEGATIVE_FLAVOR          8
 #define B_BUFF_ABILITY                  9
 #define B_BUFF_ITEM                     10
+#define B_BUFF_MON_TITLE                11
 
 #define B_BUFF_PLACEHOLDER_BEGIN        0xFD
 #define B_BUFF_EOS                      0xFF
@@ -195,6 +196,15 @@
     textVar[4] = B_BUFF_EOS;                                    \
 }
 
+#define PREPARE_MON_TITLE_BUFFER(textVar, battler, partyId)     \
+{                                                               \
+    textVar[0] = B_BUFF_PLACEHOLDER_BEGIN;                      \
+    textVar[1] = B_BUFF_MON_TITLE;                              \
+    textVar[2] = battler;                                       \
+    textVar[3] = partyId;                                       \
+    textVar[4] = B_BUFF_EOS;                                    \
+}
+
 struct BattleMsgData
 {
     u16 currentMove;
@@ -216,6 +226,8 @@ u32 BattleStringExpandPlaceholders(const u8* src, u8* dst);
 void BattlePutTextOnWindow(const u8* text, u8 windowId);
 void SetPpNumbersPaletteInMoveSelection(void);
 u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp);
+bool8 GetTitleString2(u8 *dest, u8 titleId);
+bool8 GetTitleString3(u8 *dest, u8 titleId);
 
 extern struct BattleMsgData *gBattleMsgDataPtr;
 

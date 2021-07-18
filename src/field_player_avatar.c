@@ -676,6 +676,10 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_DASH;
         return;
     }
+	else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
+	{
+		PlayerGoSpeed2(direction);
+	}
     else
     {
         PlayerGoSpeed1(direction);

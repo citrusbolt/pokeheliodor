@@ -38,6 +38,8 @@
 #include "constants/metatile_behaviors.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "power.h"
+#include "constants/power.h"
 
 #define TAG_SCROLL_ARROW   2100
 #define TAG_ITEM_ICON_BASE 2110
@@ -91,7 +93,7 @@ static void Task_ReturnToItemListAfterDecorationPurchase(u8 taskId);
 static void Task_HandleShopMenuBuy(u8 taskId);
 static void Task_HandleShopMenuSell(u8 taskId);
 static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, struct ListMenu *list);
-static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y);
+static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y);
 
 static const struct YesNoFuncTable sShopPurchaseYesNoFuncs =
 {
@@ -552,27 +554,58 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
     BuyMenuPrint(2, description, 3, 1, 0, 0);
 }
 
-static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
+static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y)
 {
     u8 x;
-
-    if (item != LIST_CANCEL)
+	u16 price;
+	
+    if (itemId != LIST_CANCEL)
     {
         if (sMartInfo.martType == MART_TYPE_NORMAL)
         {
-            ConvertIntToDecimalStringN(
-                gStringVar1,
-                ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT),
-                STR_CONV_MODE_LEFT_ALIGN,
-                5);
+			if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+			{
+				switch (gPowerLevel)
+				{
+					case 1:
+						price = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 90 / 100;
+						break;
+					case 2:
+						price = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 75 / 100;
+						break;
+					case 3:
+						price = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 50 / 100;
+						break;
+				}
+			}
+			else
+			{
+				price = ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT);
+			}
+			ConvertIntToDecimalStringN(gStringVar1, price, STR_CONV_MODE_LEFT_ALIGN, 5);
         }
         else
         {
-            ConvertIntToDecimalStringN(
-                gStringVar1,
-                gDecorations[item].price,
-                STR_CONV_MODE_LEFT_ALIGN,
-                5);
+			if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+			{
+				switch (gPowerLevel)
+				{
+					case 1:
+						price = gDecorations[itemId].price * 90 / 100;
+						break;
+					case 2:
+						price = gDecorations[itemId].price * 75 / 100;
+						break;
+					case 3:
+						price = gDecorations[itemId].price * 50 / 100;
+						break;
+				}
+			}
+			else
+			{
+				price = gDecorations[itemId].price;
+			}
+            ConvertIntToDecimalStringN(gStringVar1, price, STR_CONV_MODE_LEFT_ALIGN, 5);
         }
 
         StringExpandPlaceholders(gStringVar4, gText_PokedollarVar1);
@@ -932,14 +965,50 @@ static void Task_BuyMenu(u8 taskId)
             BuyMenuRemoveScrollIndicatorArrows();
             BuyMenuPrintCursor(tListTaskId, 2);
 
-            if (sMartInfo.martType == MART_TYPE_NORMAL)
-            {
-                sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT));
-            }
-            else
-            {
-                sShopData->totalCost = gDecorations[itemId].price;
-            }
+			if (sMartInfo.martType == MART_TYPE_NORMAL)
+			{
+				if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+				{
+					switch (gPowerLevel)
+					{
+						case 1:
+							sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 90 / 100;
+							break;
+						case 2:
+							sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 75 / 100;
+							break;
+						case 3:
+							sShopData->totalCost = (ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 50 / 100;
+							break;
+					}
+				}
+				else
+				{
+					sShopData->totalCost = ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT);
+				}
+			}
+			else
+			{
+				if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+				{
+					switch (gPowerLevel)
+					{
+						case 1:
+							sShopData->totalCost = gDecorations[itemId].price * 90 / 100;
+							break;
+						case 2:
+							sShopData->totalCost = gDecorations[itemId].price * 75 / 100;
+							break;
+						case 3:
+							sShopData->totalCost = gDecorations[itemId].price * 50 / 100;
+							break;
+					}
+				}
+				else
+				{
+					sShopData->totalCost = gDecorations[itemId].price;
+				}
+			}
 
             if (!IsEnoughMoney(&gSaveBlock1Ptr->money, sShopData->totalCost))
             {
@@ -1014,7 +1083,25 @@ static void Task_BuyHowManyDialogueHandleInput(u8 taskId)
 
     if (AdjustQuantityAccordingToDPadInput(&tItemCount, sShopData->maxQuantity) == TRUE)
     {
-        sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount;
+		if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
+		{
+			switch (gPowerLevel)
+			{
+				case 1:
+					sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount * 90 / 100;
+					break;
+				case 2:
+					sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount * 75 / 100;
+					break;
+				case 3:
+					sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount * 50 / 100;
+					break;
+			}
+		}
+		else
+		{
+			sShopData->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount;
+		}
         BuyMenuPrintItemQuantityAndPrice(taskId);
     }
     else

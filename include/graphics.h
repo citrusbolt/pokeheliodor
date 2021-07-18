@@ -5112,4 +5112,17 @@ extern const u32 gMonPalette_Egg_Dragon2[];
 extern const u32 gMonPalette_Egg_Dark1[];
 extern const u32 gMonPalette_Egg_Dark2[];
 
+
+// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
+extern const u32 gItemIcon_PowerPad[];
+extern const u32 gItemIconPalette_PowerPad[];
+extern const u32 gItemIcon_OvalCharm[];
+extern const u32 gItemIconPalette_OvalCharm[];
+extern const u32 gItemIcon_ShinyCharm[];
+extern const u32 gItemIconPalette_ShinyCharm[];
+extern const u32 gItemIcon_CatchingCharm[];
+extern const u32 gItemIconPalette_CatchingCharm[];
+extern const u32 gItemIcon_ExpCharm[];
+extern const u32 gItemIconPalette_ExpCharm[];
+
 #endif //GUARD_GRAPHICS_H

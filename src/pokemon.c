@@ -55,6 +55,8 @@
 #include "constants/species.h"
 #include "wild_encounter.h"
 #include "roamer.h"
+#include "power.h"
+#include "constants/power.h"
 
 struct SpeciesItem
 {
@@ -2404,6 +2406,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	metLocation = GetCurrentRegionMapSectionId();
 
@@ -2784,6 +2788,8 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	do
 	{
@@ -2812,6 +2818,8 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 
     if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {
@@ -4550,6 +4558,15 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 	case MON_DATA_VERSION_MODIFIER:
 		retVal = substruct0->versionModifier;
 		break;
+	case MON_DATA_TITLE:
+		retVal = substruct0->title;
+		break;
+	case MON_DATA_TITLE_STRING:
+		if ((boxMon->nickname[1] >= 0x16 && boxMon->nickname[1] <= 0x2B) || (boxMon->nickname[1] >= 0xD5 && boxMon->nickname[1] <= 0xEE))
+			retVal = GetTitleString3(data, substruct0->title);
+		else
+			retVal = GetTitleString2(data, substruct0->title);
+		break;
     default:
         break;
     }
@@ -4898,6 +4915,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 		break;
 	case MON_DATA_VERSION_MODIFIER:
 		SET8(substruct0->versionModifier);
+		break;
+	case MON_DATA_TITLE:
+		SET8(substruct0->title);
 		break;
     default:
         break;
@@ -5285,17 +5305,32 @@ bool8 ExecuteTableBasedItemEffect(struct Pokemon *mon, u16 item, u8 partyIndex, 
     {                                                                                                   \
         friendshipChange = itemEffect[itemEffectParam];                                                 \
         friendship = GetMonData(mon, MON_DATA_FRIENDSHIP, NULL);                                        \
+        if (friendshipChange > 0)                                                                       \
+        {                                                                                               \
+            if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == ITEM_LUXURY_BALL)                           \
+                friendshipChange++;                                                                     \
+            if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())         \
+                friendshipChange++;                                                                     \
+        }                                                                                               \
         if (friendshipChange > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)                            \
             friendship += 150 * friendshipChange / 100;                                                 \
         else                                                                                            \
             friendship += friendshipChange;                                                             \
-        if (friendshipChange > 0)                                                                       \
-        {                                                                                               \
-            if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == ITEM_LUXURY_BALL)                           \
-                friendship++;                                                                           \
-            if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())         \
-                friendship++;                                                                           \
-        }                                                                                               \
+		if (gPowerType == POWER_FRIEND && gPowerTime > 0)                                                      \
+		{                                                                                               \
+			switch (gPowerLevel)                                                 \
+			{                                                                                           \
+				case 1:                                                                                 \
+					friendship += 1;                                                                      \
+					break;                                                                              \
+				case 2:                                                                                 \
+					friendship += 2;                                                                      \
+					break;                                                                              \
+				case 3:                                                                                 \
+					friendship += 3;                                                                      \
+					break;                                                                              \
+			}                                                                                           \
+		}                                                                                               \
         if (friendship < 0)                                                                             \
             friendship = 0;                                                                             \
         if (friendship > MAX_FRIENDSHIP)                                                                \
@@ -6464,16 +6499,33 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
          && (event != FRIENDSHIP_EVENT_LEAGUE_BATTLE || IS_LEAGUE_BATTLE))
         {
             s8 mod = sFriendshipEventModifiers[event][friendshipLevel];
-            if (mod > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)
-                mod = (150 * mod) / 100;
-            friendship += mod;
             if (mod > 0)
             {
                 if (GetMonData(mon, MON_DATA_POKEBALL, 0) == ITEM_LUXURY_BALL)
-                    friendship++;
+                    mod++;
                 if (GetMonData(mon, MON_DATA_MET_LOCATION, 0) == GetCurrentRegionMapSectionId())
-                    friendship++;
+                    mod++;
             }
+            if (mod > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)
+                mod = (150 * mod) / 100;
+			
+			if (gPowerType == POWER_FRIEND && gPowerTime > 0)
+			{
+				switch (gPowerLevel)
+				{
+					case 1:
+						mod += 1;
+						break;
+					case 2:
+						mod += 2;
+						break;
+					case 3:
+						mod += 3;
+						break;
+				}
+			}
+			
+            friendship += mod;
             if (friendship < 0)
                 friendship = 0;
             if (friendship > MAX_FRIENDSHIP)
@@ -7678,13 +7730,13 @@ u8 GivePorygon(void)
 	u16 checksum;
 	u8 encounterType;
 	
-	personality = 0x399298EBu;
-	ivs[0] = 9;
-	ivs[1] = 3;
-	ivs[2] = 18;
-	ivs[3] = 31;
-	ivs[4] = 31;
-	ivs[5] = 31;
+	personality = 0xC8693992u;
+	ivs[0] = 31;
+	ivs[1] = 31;
+	ivs[2] = 31;
+	ivs[3] = 24;
+	ivs[4] = 21;
+	ivs[5] = 11;
 	otName[0] = 0xD4; //Z
 	otName[1] = 0xBB; //A
 	otName[2] = 0xBD; //C
@@ -7779,6 +7831,8 @@ void RespawnAllLegendaries(void)
 		FlagClear(FLAG_CAUGHT_HO_OH);
 		
 		FlagClear(FLAG_BATTLED_DEOXYS);
+		
+		FlagClear(FLAG_HIDDEN_ITEM_NAVEL_ROCK_TOP_SACRED_ASH);
 		
 		if (VarGet(VAR_ROAMER_POKEMON) == 6 && !roamer->active && FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS))
 		{

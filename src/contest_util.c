@@ -2475,13 +2475,14 @@ void ShowContestPainting(void)
 void SetLinkContestPlayerGfx(void)
 {
     int i;
-	bool8 foundMatch = FALSE;
+	bool8 foundMatch;
 
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
     {
         for (i = 0; i < gNumLinkContestPlayers; i++)
         {
             int version = (u8)gLinkPlayers[i].version;
+			foundMatch = FALSE;
 			switch ((u8)gLinkPlayers[i].versionModifier)
 			{
 				case DEV_SOLITAIRI:
@@ -2536,7 +2537,7 @@ void LoadLinkContestPlayerPalettes(void)
     int version;
     struct Sprite *sprite;
     static const u8 sContestantLocalIds[CONTESTANT_COUNT] = { 3, 4, 5, 14 };
-	bool8 foundMatch = FALSE;
+	bool8 foundMatch;
 
     gReservedSpritePaletteCount = 12;
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
@@ -2547,6 +2548,7 @@ void LoadLinkContestPlayerPalettes(void)
             sprite = &gSprites[gObjectEvents[objectEventId].spriteId];
             sprite->oam.paletteNum = 6 + i;
             version = (u8)gLinkPlayers[i].version;
+			foundMatch = FALSE;
 			switch ((u8)gLinkPlayers[i].versionModifier)
 			{
 				case DEV_SOLITAIRI:

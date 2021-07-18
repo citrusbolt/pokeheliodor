@@ -1851,44 +1851,44 @@ u8 GetWirelessCommType(void)
 
 void ConvertLinkPlayerName(struct LinkPlayer *player)
 {
-	switch (player->versionModifier)
-	{
-		case DEV_GAME_FREAK:
-			if ((player->version & 0xFF) == VERSION_SAPPHIRE)
-				mgba_printf(MGBA_LOG_INFO, "Linked with Sapphire.");
-			else if ((player->version & 0xFF) == VERSION_RUBY)
-				mgba_printf(MGBA_LOG_INFO, "Linked with Ruby.");
-			else if ((player->version & 0xFF) == VERSION_EMERALD)
-				mgba_printf(MGBA_LOG_INFO, "Linked with Emerald.");
-			else if (player->version == 18180)
-				mgba_printf(MGBA_LOG_INFO, "Linked with CrystalDust.");
-			else if ((player->version & 0xFF) == VERSION_FIRERED)
-				mgba_printf(MGBA_LOG_INFO, "Linked with FireRed.");
-			else if ((player->version & 0xFF) == VERSION_LEAFGREEN)
-				mgba_printf(MGBA_LOG_INFO, "Linked with LeafGreen.");
-			else
-				mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-			break;
-		case DEV_SOLITAIRI:
-			if ((player->version & 0xFF) == VERSION_EMERALD)
-				mgba_printf(MGBA_LOG_INFO, "Linked with Heliodor.");
-			else
-				mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-			break;
-		case DEV_SHINY_DRAGON_HUNTER:
-			if ((player->version & 0xFF) == VERSION_FIRERED)
-				mgba_printf(MGBA_LOG_INFO, "Linked with FireRed DX.");
-			else if ((player->version & 0xFF) == VERSION_LEAFGREEN)
-				mgba_printf(MGBA_LOG_INFO, "Linked with LeafGreen DX.");
-			else
-				mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-			break;
-		case DEV_TEST:
-			mgba_printf(MGBA_LOG_INFO, "Linked with test case.");
-		default:
-			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-			break;
-	}
+	//switch (player->versionModifier)
+	//{
+	//	case DEV_GAME_FREAK:
+	//		if ((player->version & 0xFF) == VERSION_SAPPHIRE)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with Sapphire.");
+	//		else if ((player->version & 0xFF) == VERSION_RUBY)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with Ruby.");
+	//		else if ((player->version & 0xFF) == VERSION_EMERALD)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with Emerald.");
+	//		else if (player->version == 18180)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with CrystalDust.");
+	//		else if ((player->version & 0xFF) == VERSION_FIRERED)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with FireRed.");
+	//		else if ((player->version & 0xFF) == VERSION_LEAFGREEN)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with LeafGreen.");
+	//		else
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
+	//		break;
+	//	case DEV_SOLITAIRI:
+	//		if ((player->version & 0xFF) == VERSION_EMERALD)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with Heliodor.");
+	//		else
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
+	//		break;
+	//	case DEV_SHINY_DRAGON_HUNTER:
+	//		if ((player->version & 0xFF) == VERSION_FIRERED)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with FireRed DX.");
+	//		else if ((player->version & 0xFF) == VERSION_LEAFGREEN)
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with LeafGreen DX.");
+	//		else
+	//			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
+	//		break;
+	//	case DEV_TEST:
+	//		mgba_printf(MGBA_LOG_INFO, "Linked with test case.");
+	//	default:
+	//		mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
+	//		break;
+	//}
     player->progressFlagsCopy = player->progressFlags; // ? Perhaps relocating for a longer name field
     ConvertInternationalString(player->name, player->language);
 }

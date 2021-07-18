@@ -97,8 +97,8 @@ EventScript_CouponExchange::
 	case 13, EventScript_CouponExchange_MasterBall
 	case 14, EventScript_CouponExchange_50BP
 	case 15, EventScript_CouponExchange_500BP
-	case 16, EventScript_PCMainMenu
-	case MULTI_B_PRESSED, EventScript_PCMainMenu
+	case 16, EventScript_CouponExchange_Exit
+	case MULTI_B_PRESSED, EventScript_CouponExchange_Exit
 	end
 
 EventScript_CouponExchange_PremierBall::
@@ -330,6 +330,10 @@ EventScript_CouponExchange_NoRoomForBP::
 	goto EventScript_PCMainMenu
 	release
 	end
+
+EventScript_CouponExchange_Exit::
+	special CloseBattlePointsWindow
+	goto EventScript_PCMainMenu
 
 EventScript_CouponExchange_Text_WellSendItToPC:
 	.string "Thank you!\n"

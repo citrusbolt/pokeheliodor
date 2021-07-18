@@ -36,5 +36,7 @@ void Task_UseDigEscapeRopeOnField(u8 taskId);
 u8 CanUseDigOrEscapeRopeOnCurMap(void);
 u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId);
 bool32 CanFish(void);
+u32 CanThrowBall(void);
+void ItemUseOutOfBattle_PowerPad(u8);
 
 #endif // GUARD_ITEM_USE_H

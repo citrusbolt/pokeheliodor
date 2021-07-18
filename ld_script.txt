@@ -336,6 +336,7 @@ SECTIONS {
         src/international_string_util.o(.text);
 	src/mgba.o(.text);
 	src/printf.o(.text);
+	src/power.o(.text);
     } =0
 
     script_data :
@@ -696,6 +697,7 @@ SECTIONS {
         src/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);
 	src/printf.o(.rodata);
+	src/power.o(.rodata);
     } =0
 
     song_data :

@@ -4538,4 +4538,68 @@ const struct Item gItems[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
+	
+
+// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
+
+    [ITEM_POWER_PAD] =
+    {
+        .name = _("POWER PAD"),
+        .itemId = ITEM_POWER_PAD,
+        .price = 0,
+        .description = sPowerPadDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_PowerPad,
+    },
+	[ITEM_OVAL_CHARM] =
+    {
+        .name = _("OVAL CHARM"),
+        .itemId = ITEM_OVAL_CHARM,
+        .price = 0,
+        .description = sOvalCharmDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+    [ITEM_SHINY_CHARM] =
+    {
+        .name = _("SHINY CHARM"),
+        .itemId = ITEM_SHINY_CHARM,
+        .price = 0,
+        .description = sShinyCharmDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+    [ITEM_CATCHING_CHARM] =
+    {
+        .name = _("CATCH CHARM"),
+        .itemId = ITEM_CATCHING_CHARM,
+        .price = 0,
+        .description = sCatchingCharmDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+    [ITEM_EXP_CHARM] =
+    {
+        .name = _("EXP. CHARM"),
+        .itemId = ITEM_EXP_CHARM,
+        .price = 0,
+        .description = sExpCharmDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
 };

@@ -12,7 +12,8 @@ struct PokemonSubstruct0
     u8 ppBonuses;
     u8 friendship;
 	u8 versionModifier;	//Used to identify mons originated from specific unoffical games
-    u8 filler;
+	u8 title:6;		//"Active" Ribbon
+    u8 filler:2;
 };
 
 struct PokemonSubstruct1

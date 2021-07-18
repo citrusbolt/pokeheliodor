@@ -67,6 +67,8 @@
 #include "constants/metatile_labels.h"
 #include "palette.h"
 #include "item.h"
+#include "power.h"
+#include "constants/power.h"
 
 EWRAM_DATA bool8 gBikeCyclingChallenge = FALSE;
 EWRAM_DATA u8 gBikeCollisions = 0;
@@ -134,6 +136,7 @@ static void Task_IncubatorTurnOnEffect(u8);
 static void IncubatorTurnOnEffect_0(struct Task *);
 static void IncubatorTurnOnEffect_1(s16, s8, s8);
 static void IncubatorTurnOffEffect(void);
+void UpdatePowerPointsWindow(void);
 
 void Special_ShowDiploma(void)
 {
@@ -2499,6 +2502,16 @@ void ShowScrollableMultichoice(void)
             task->tKeepOpenAfterSelect = FALSE;
             task->tTaskId = taskId;
             break;
+        case SCROLL_MULTI_POWER_PURCHASE:
+            task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+            task->tNumItems = 28;
+            task->tLeft = 14;
+            task->tTop = 1;
+            task->tWidth = 15;
+            task->tHeight = 12;
+            task->tKeepOpenAfterSelect = FALSE;
+            task->tTaskId = taskId;
+            break;
         default:
             gSpecialVar_Result = MULTI_B_PRESSED;
             DestroyTask(taskId);
@@ -2719,6 +2732,37 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_MasterBall100000pt,
 		gText_50BP10000pt,
 		gText_500BP100000pt,
+        gText_Exit
+    },
+    [SCROLL_MULTI_POWER_PURCHASE] =
+    {
+        gText_PowerPurchaseHatch1,
+        gText_PowerPurchaseHatch2,
+        gText_PowerPurchaseHatch3,
+        gText_PowerPurchaseBargain1,
+        gText_PowerPurchaseBargain2,
+        gText_PowerPurchaseBargain3,
+        gText_PowerPurchasePrize1,
+        gText_PowerPurchasePrize2,
+        gText_PowerPurchasePrize3,
+		gText_PowerPurchaseExp1,
+		gText_PowerPurchaseExp2,
+		gText_PowerPurchaseExp3,
+		gText_PowerPurchaseCapture1,
+        gText_PowerPurchaseCapture2,
+		gText_PowerPurchaseCapture3,
+		gText_PowerPurchaseEncounter1,
+		gText_PowerPurchaseEncounter2,
+		gText_PowerPurchaseEncounter3,
+		gText_PowerPurchaseStealth1,
+		gText_PowerPurchaseStealth2,
+		gText_PowerPurchaseStealth3,
+		gText_PowerPurchaseFriend1,
+		gText_PowerPurchaseFriend2,
+		gText_PowerPurchaseFriend3,
+		gText_PowerPurchaseLucky1,
+		gText_PowerPurchaseLucky2,
+		gText_PowerPurchaseLucky3,
         gText_Exit
     }
 };
@@ -2971,16 +3015,71 @@ void ShowGlassWorkshopMenu(void)
 void SetBattleTowerLinkPlayerGfx(void)
 {
     u8 i;
+	bool8 foundMatch;
+	
     for (i = 0; i < 2; i++)
     {
-        if (gLinkPlayers[i].gender == MALE)
-        {
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
-        }
-        else
-        {
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
-        }
+        foundMatch = FALSE;
+		switch ((u8)gLinkPlayers[i].versionModifier)
+		{
+			case DEV_SOLITAIRI:
+				if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
+				}
+				break;
+			case DEV_SHINY_DRAGON_HUNTER:
+				if ((u8)gLinkPlayers[i].version == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF);
+				}
+				else if ((u8)gLinkPlayers[i].version == VERSION_LEAFGREEN)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF);
+				}
+				break;
+			case DEV_SOLITAIRI_2:
+				if ((u8)gLinkPlayers[i].version == VERSION_FIRERED)
+				{
+					foundMatch = TRUE;
+					if (gLinkPlayers[i].gender == MALE)
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_GOLD);
+					else
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_KRIS);
+				}
+				break;
+			case DEV_TEST:
+				foundMatch = TRUE;
+				if (gLinkPlayers[i].gender == MALE)
+					VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_WALLY);
+				else
+					VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_STEVEN);
+				break;
+		}
+		
+		if (!foundMatch)
+		{
+			if (gLinkPlayers[i].gender == MALE)
+			{
+				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_E_BRENDAN);
+			}
+			else
+			{
+				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_E_MAY);
+			}
+		}
     }
 }
 
@@ -3203,7 +3302,39 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
 {
     #include "data/battle_frontier/battle_frontier_exchange_corner.h"
 
-    if ((menu >= SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_1 && menu <= SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR) || menu == SCROLL_MULTI_COUPON_EXCHANGE)
+	static const u8 *const sPowerPurchase_Descriptions[] = 
+	{
+		EventScript_PowerPurchase_Text_HatchDesc1,
+		EventScript_PowerPurchase_Text_HatchDesc2,
+		EventScript_PowerPurchase_Text_HatchDesc3,
+		EventScript_PowerPurchase_Text_BargainDesc1,
+		EventScript_PowerPurchase_Text_BargainDesc2,
+		EventScript_PowerPurchase_Text_BargainDesc3,
+		EventScript_PowerPurchase_Text_PrizeDesc1,
+		EventScript_PowerPurchase_Text_PrizeDesc2,
+		EventScript_PowerPurchase_Text_PrizeDesc3,
+		EventScript_PowerPurchase_Text_ExpDesc1,
+		EventScript_PowerPurchase_Text_ExpDesc2,
+		EventScript_PowerPurchase_Text_ExpDesc3,
+		EventScript_PowerPurchase_Text_CaptureDesc1,
+		EventScript_PowerPurchase_Text_CaptureDesc2,
+		EventScript_PowerPurchase_Text_CaptureDesc3,
+		EventScript_PowerPurchase_Text_EncounterDesc1,
+		EventScript_PowerPurchase_Text_EncounterDesc2,
+		EventScript_PowerPurchase_Text_EncounterDesc3,
+		EventScript_PowerPurchase_Text_StealthDesc1,
+		EventScript_PowerPurchase_Text_StealthDesc2,
+		EventScript_PowerPurchase_Text_StealthDesc3,
+		EventScript_PowerPurchase_Text_FriendDesc1,
+		EventScript_PowerPurchase_Text_FriendDesc2,
+		EventScript_PowerPurchase_Text_FriendDesc3,
+		EventScript_PowerPurchase_Text_LuckyDesc1,
+		EventScript_PowerPurchase_Text_LuckyDesc2,
+		EventScript_PowerPurchase_Text_LuckyDesc3,
+		gText_Exit
+	};
+
+    if ((menu >= SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_1 && menu <= SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR) || menu >= SCROLL_MULTI_COUPON_EXCHANGE)
     {
         FillWindowPixelRect(0, PIXEL_FILL(1), 0, 0, 216, 32);
         switch (menu)
@@ -3249,6 +3380,9 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
 				else
 					ShowFrontierExchangeCornerItemIcon(sCouponExchange[selection]);
                 break;
+			case SCROLL_MULTI_POWER_PURCHASE:
+				AddTextPrinterParameterized2(0, 1, sPowerPurchase_Descriptions[selection], 0, NULL, 2, 1, 3);
+				break;
         }
     }
 }
@@ -3619,7 +3753,7 @@ static void ChangeDeoxysRockLevel(u8 rockLevel)
 {
     u8 objectEventId;
     LoadPalette(&sDeoxysRockPalettes[rockLevel], 0x1A0, 8);
-    TryGetObjectEventIdByLocalIdAndMap(1, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
+    TryGetObjectEventIdByLocalIdAndMap(LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
 
     if (rockLevel == 0)
         PlaySE(SE_M_CONFUSE_RAY);
@@ -3627,9 +3761,9 @@ static void ChangeDeoxysRockLevel(u8 rockLevel)
         PlaySE(SE_RG_DEOXYS_MOVE);
 
     CreateTask(WaitForDeoxysRockMovement, 8);
-    gFieldEffectArguments[0] = 1;
-    gFieldEffectArguments[1] = 58;
-    gFieldEffectArguments[2] = 26;
+    gFieldEffectArguments[0] = LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK;
+    gFieldEffectArguments[1] = MAP_NUM(BIRTH_ISLAND_EXTERIOR);
+    gFieldEffectArguments[2] = MAP_GROUP(BIRTH_ISLAND_EXTERIOR);
     gFieldEffectArguments[3] = sDeoxysRockCoords[rockLevel][0];
     gFieldEffectArguments[4] = sDeoxysRockCoords[rockLevel][1];
 
@@ -3876,18 +4010,18 @@ u32 GetMartEmployeeObjectEventId(void)
 {
     static const u8 sPokeMarts[][3] =
     {
-        { MAP_GROUP(OLDALE_TOWN_MART),     MAP_NUM(OLDALE_TOWN_MART),     1 },
-        { MAP_GROUP(LAVARIDGE_TOWN_MART),  MAP_NUM(LAVARIDGE_TOWN_MART),  1 }, 
-        { MAP_GROUP(FALLARBOR_TOWN_MART),  MAP_NUM(FALLARBOR_TOWN_MART),  1 },
-        { MAP_GROUP(VERDANTURF_TOWN_MART), MAP_NUM(VERDANTURF_TOWN_MART), 1 },
-        { MAP_GROUP(PETALBURG_CITY_MART),  MAP_NUM(PETALBURG_CITY_MART),  1 },
-        { MAP_GROUP(SLATEPORT_CITY_MART),  MAP_NUM(SLATEPORT_CITY_MART),  1 },
-        { MAP_GROUP(MAUVILLE_CITY_MART),   MAP_NUM(MAUVILLE_CITY_MART),   1 },
-        { MAP_GROUP(RUSTBORO_CITY_MART),   MAP_NUM(RUSTBORO_CITY_MART),   1 },
-        { MAP_GROUP(FORTREE_CITY_MART),    MAP_NUM(FORTREE_CITY_MART),    1 },
-        { MAP_GROUP(MOSSDEEP_CITY_MART),   MAP_NUM(MOSSDEEP_CITY_MART),   1 },
-        { MAP_GROUP(SOOTOPOLIS_CITY_MART), MAP_NUM(SOOTOPOLIS_CITY_MART), 1 },
-        { MAP_GROUP(BATTLE_FRONTIER_MART), MAP_NUM(BATTLE_FRONTIER_MART), 1 }
+        { MAP_GROUP(OLDALE_TOWN_MART),     MAP_NUM(OLDALE_TOWN_MART),     LOCALID_OLDALE_MART_CLERK },
+        { MAP_GROUP(LAVARIDGE_TOWN_MART),  MAP_NUM(LAVARIDGE_TOWN_MART),  LOCALID_LAVARIDGE_MART_CLERK },
+        { MAP_GROUP(FALLARBOR_TOWN_MART),  MAP_NUM(FALLARBOR_TOWN_MART),  LOCALID_FALLARBOR_MART_CLERK },
+        { MAP_GROUP(VERDANTURF_TOWN_MART), MAP_NUM(VERDANTURF_TOWN_MART), LOCALID_VERDANTURF_MART_CLERK },
+        { MAP_GROUP(PETALBURG_CITY_MART),  MAP_NUM(PETALBURG_CITY_MART),  LOCALID_PETALBURG_MART_CLERK },
+        { MAP_GROUP(SLATEPORT_CITY_MART),  MAP_NUM(SLATEPORT_CITY_MART),  LOCALID_SLATEPORT_MART_CLERK },
+        { MAP_GROUP(MAUVILLE_CITY_MART),   MAP_NUM(MAUVILLE_CITY_MART),   LOCALID_MAUVILLE_MART_CLERK },
+        { MAP_GROUP(RUSTBORO_CITY_MART),   MAP_NUM(RUSTBORO_CITY_MART),   LOCALID_RUSTBORO_MART_CLERK },
+        { MAP_GROUP(FORTREE_CITY_MART),    MAP_NUM(FORTREE_CITY_MART),    LOCALID_FORTREE_MART_CLERK },
+        { MAP_GROUP(MOSSDEEP_CITY_MART),   MAP_NUM(MOSSDEEP_CITY_MART),   LOCALID_MOSSDEEP_MART_CLERK },
+        { MAP_GROUP(SOOTOPOLIS_CITY_MART), MAP_NUM(SOOTOPOLIS_CITY_MART), LOCALID_SOOTOPOLIS_MART_CLERK },
+        { MAP_GROUP(BATTLE_FRONTIER_MART), MAP_NUM(BATTLE_FRONTIER_MART), LOCALID_BATTLE_FRONTIER_MART_CLERK }
     };
 
     u8 i;
@@ -4833,4 +4967,71 @@ void ReleaseUnown(void)
 		FlagSet(FLAG_UNOWN_RELEASED);
 		VarSet(VAR_UNOWN_RELEASED, gLocalTime.days);
 	}
+}
+
+void ShowPowerPointsWindow(void)
+{
+    static const struct WindowTemplate sPowerPoints_WindowTemplate = {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 1,
+        .width = 7,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 6,
+    };
+
+    sBattlePointsWindowId = AddWindow(&sPowerPoints_WindowTemplate);
+    SetStandardWindowBorderStyle(sBattlePointsWindowId, 0);
+    UpdatePowerPointsWindow();
+    CopyWindowToVram(sBattlePointsWindowId, 2);
+}
+
+void UpdatePowerPointsWindow(void)
+{
+    u8 string[32];
+    u32 x;
+    StringCopy(ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->powerPoints, STR_CONV_MODE_RIGHT_ALIGN, 7), gText_Pt);
+    x = GetStringRightAlignXOffset(1, string, 52);
+    AddTextPrinterParameterized(sBattlePointsWindowId, 1, string, x, 1, 0, NULL);
+}
+
+void BufferPowerConfirm(void)
+{
+	u8 type = gSpecialVar_Result / 3 + 1;
+	u8 level = gSpecialVar_Result % 3 + 1;
+	
+	switch (type)
+	{
+		case POWER_HATCH:
+			StringCopy(gStringVar1, gText_PowerHatch);
+			break;
+		case POWER_BARGAIN:
+			StringCopy(gStringVar1, gText_PowerBargain);
+			break;
+		case POWER_PRIZE:
+			StringCopy(gStringVar1, gText_PowerPrize);
+			break;
+		case POWER_EXP:
+			StringCopy(gStringVar1, gText_PowerExp);
+			break;
+		case POWER_CAPTURE:
+			StringCopy(gStringVar1, gText_PowerCapture);
+			break;
+		case POWER_ENCOUNTER:
+			StringCopy(gStringVar1, gText_PowerEncounter);
+			break;
+		case POWER_STEALTH:
+			StringCopy(gStringVar1, gText_PowerStealth);
+			break;
+		case POWER_FRIEND:
+			StringCopy(gStringVar1, gText_PowerFriend);
+			break;
+		case POWER_LUCKY:
+			StringCopy(gStringVar1, gText_PowerLucky);
+			break;
+	}
+	ConvertIntToDecimalStringN(gStringVar2, level, STR_CONV_MODE_LEADING_ZEROS, 1);
+	gSpecialVar_0x8004 = type;
+	gSpecialVar_0x8005 = level;
 }

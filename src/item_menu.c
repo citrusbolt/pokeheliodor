@@ -50,6 +50,7 @@
 #include "apprentice.h"
 #include "battle_pike.h"
 #include "constants/rgb.h"
+#include "pokedex.h"
 
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *postExitMenuMainCallback2)());
 
@@ -134,7 +135,7 @@ void UpdatePocketScrollPositions(void);
 u8 CreateBagInputHandlerTask(u8);
 void sub_81AC23C(u8);
 void BagMenu_MoveCursorCallback(s32 a, bool8 b, struct ListMenu*);
-void BagMenu_ItemPrintCallback(u8 windowId, s32 itemIndex, u8 a);
+void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 a);
 void ItemMenu_UseOutOfBattle(u8 taskId);
 void ItemMenu_Toss(u8 taskId);
 static void ItemMenu_Register(u8 taskId);
@@ -175,6 +176,8 @@ static void ItemMenu_RegisterSelect(u8 taskId);
 static void ItemMenu_RegisterL(u8 taskId);
 static void ItemMenu_RegisterR(u8 taskId);
 static void ItemMenu_Deselect(u8 taskId);
+
+static void ItemMenu_Reconfigure(u8 taskId);
 
 // .rodata
 
@@ -231,13 +234,15 @@ static const struct ListMenuTemplate sItemListMenu =
     .cursorKind = 0
 };
 
-static const u8 sMenuText_ByName[] = _("Name");
-static const u8 sMenuText_ByType[] = _("Type");
-static const u8 sMenuText_ByAmount[] = _("Amount");
-static const u8 sMenuText_ByNumber[] = _("Number");
-static const u8 sMenuText_Select[] = _("Select");
-static const u8 sMenuText_L[] = _("L Button");
-static const u8 sMenuText_R[] = _("R Button");
+static const u8 sMenuText_ByName[] = _("NAME");
+static const u8 sMenuText_ByType[] = _("TYPE");
+static const u8 sMenuText_ByAmount[] = _("AMOUNT");
+static const u8 sMenuText_ByNumber[] = _("NUMBER");
+static const u8 sMenuText_Select[] = _("SELECT");
+static const u8 sMenuText_L[] = _("L BUTTON");
+static const u8 sMenuText_R[] = _("R BUTTON");
+static const u8 sMenuText_Reconfigure[] = _("RECONFIGURE");
+
 static const struct MenuAction sItemMenuActions[] = {
     [ITEMMENUACTION_USE] =          {gMenuText_Use, ItemMenu_UseOutOfBattle},
     [ITEMMENUACTION_TOSS] =         {gMenuText_Toss, ItemMenu_Toss},
@@ -260,6 +265,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ITEMMENUACTION_SELECT_BUTTON] = {sMenuText_Select, ItemMenu_RegisterSelect},
     [ITEMMENUACTION_L_BUTTON] =     {sMenuText_L, ItemMenu_RegisterL},
     [ITEMMENUACTION_R_BUTTON] =     {sMenuText_R, ItemMenu_RegisterR},
+	[ITEMMENUACTION_RECONFIGURE] =  {sMenuText_Reconfigure, ItemMenu_Reconfigure},
     [ITEMMENUACTION_DUMMY] =        {gText_EmptyString2, NULL}
 };
 
@@ -860,13 +866,54 @@ void LoadBagItemListBuffers(u8 pocketId)
 
     if (!gBagMenu->hideCloseBagText)
     {
-        for (i = 0; i < gBagMenu->numItemStacks[pocketId] - 1; i++)
+        for (i = 0; i < gBagMenu->filler4[pocketId] - 1; i++)
         {
             GetItemName(sListBuffer2->name[i], pocket->itemSlots[i].itemId);
             subBuffer = sListBuffer1->subBuffers;
             subBuffer[i].name = sListBuffer2->name[i];
             subBuffer[i].id = i;
         }
+
+		if (pocketId == KEYITEMS_POCKET)
+		{
+			GetItemName(sListBuffer2->name[i], ITEM_POWER_PAD);
+			subBuffer = sListBuffer1->subBuffers;
+			subBuffer[i].name = sListBuffer2->name[i];
+			subBuffer[i].id = i;
+			i++;
+			
+			if (HasAllHoennMons())
+			{
+				GetItemName(sListBuffer2->name[i], ITEM_OVAL_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+			}
+			if (HasAllMons())
+			{
+				GetItemName(sListBuffer2->name[i], ITEM_SHINY_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+			}
+			if (FlagGet(FLAG_SYS_GAME_CLEAR))
+			{
+				GetItemName(sListBuffer2->name[i], ITEM_CATCHING_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+				
+				GetItemName(sListBuffer2->name[i], ITEM_EXP_CHARM);
+				subBuffer = sListBuffer1->subBuffers;
+				subBuffer[i].name = sListBuffer2->name[i];
+				subBuffer[i].id = i;
+				i++;
+			}
+		}
+
         StringCopy(sListBuffer2->name[i], gText_CloseBag);
         subBuffer = sListBuffer1->subBuffers;
         subBuffer[i].name = sListBuffer2->name[i];
@@ -874,7 +921,7 @@ void LoadBagItemListBuffers(u8 pocketId)
     }
     else
     {
-        for (i = 0; i < gBagMenu->numItemStacks[pocketId]; i++)
+        for (i = 0; i < gBagMenu->filler4[pocketId]; i++)
         {
             GetItemName(sListBuffer2->name[i], pocket->itemSlots[i].itemId);
             subBuffer = sListBuffer1->subBuffers;
@@ -936,7 +983,7 @@ void BagMenu_MoveCursorCallback(s32 itemIndex, bool8 onInit, struct ListMenu *li
     }
 }
 
-void BagMenu_ItemPrintCallback(u8 windowId, s32 itemIndex, u8 y)
+void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
 {
     u16 itemId;
     u16 itemQuantity;
@@ -1110,7 +1157,24 @@ void UpdatePocketItemList(u8 pocketId)
 
     if (!gBagMenu->hideCloseBagText)
         gBagMenu->numItemStacks[pocketId]++;
-
+	gBagMenu->filler4[pocketId] = gBagMenu->numItemStacks[pocketId];	//True number of items
+	
+	if (pocketId == KEYITEMS_POCKET)	//Add new Key Items to count
+	{
+		gBagMenu->numItemStacks[pocketId]++;	//Add Power Pad
+		
+		if (HasAllHoennMons())
+			gBagMenu->numItemStacks[pocketId]++;
+		if (HasAllMons())
+			gBagMenu->numItemStacks[pocketId]++;
+		if (FlagGet(FLAG_SYS_GAME_CLEAR))
+		{
+			gBagMenu->numItemStacks[pocketId]++;
+			gBagMenu->numItemStacks[pocketId]++;
+		}
+		
+	}
+	
     if (gBagMenu->numItemStacks[pocketId] > 8)
         gBagMenu->numShownItems[pocketId] = 8;
     else
@@ -1425,6 +1489,8 @@ static bool8 CanSwapItems(void)
     if (gBagPositionStruct.location <= ITEMMENULOCATION_BATTLE)
     {
         u8 temp = gBagPositionStruct.pocket - 2;
+		if ((gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket] + gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]) - (gBagMenu->filler4[gBagPositionStruct.pocket] - 2) > 0)
+			return FALSE;
         if (temp > 1)
             return TRUE;
     }
@@ -1626,7 +1692,15 @@ static void OpenContextMenu(u8 unused)
                             {
                                 if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                                     gBagMenu->contextMenuItemsBuffer[0] = ITEMMENUACTION_WALK;
+								gBagMenu->contextMenuItemsBuffer[2] = ITEMMENUACTION_RECONFIGURE;
                             }
+							
+							//if ((gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket] + gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]) - (gBagMenu->filler4[gBagPositionStruct.pocket] - 2) > 0)
+							//{
+							//	gBagMenu->contextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
+							//	gBagMenu->contextMenuItemsBuffer[3] = ITEMMENUACTION_DUMMY;
+							//}
+		
                         }
                         else
                         {
@@ -3165,7 +3239,7 @@ bool8 UseRegisteredKeyItemOnField(u8 button)
     
     if (registeredItem != ITEM_NONE)
     {
-        if (CheckBagHasItem(registeredItem, 1) == TRUE)
+        if (CheckBagHasItem(registeredItem, 1) == TRUE || registeredItem >= ITEM_POWER_PAD)
         {
             ScriptContext2_Enable();
             FreezeObjectEvents();
@@ -3198,3 +3272,53 @@ bool8 UseRegisteredKeyItemOnField(u8 button)
 }
 
 #undef tUsingRegisteredKeyItem
+
+
+static void ItemMenu_Reconfigure(u8 taskId)
+{
+	u8 i;
+	s16* data = gTasks[taskId].data;
+	u16* scrollPos = &gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket];
+	u16* cursorPos = &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket];
+	u16 paletteBackup[0x10];
+	
+	for (i = 0; i < 16; i++)
+	{
+		paletteBackup[i] = gPlttBufferUnfaded[0x100 + i];
+		paletteBackup[i] = gPlttBufferFaded[0x100 + i];
+	}
+	
+	if (gSpecialVar_ItemId == ITEM_MACH_BIKE)
+	{
+		RemoveBagItem(ITEM_MACH_BIKE, 1);
+		AddBagItem(ITEM_ACRO_BIKE, 1);
+		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE))
+			 SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+	}
+	else
+	{
+		RemoveBagItem(ITEM_ACRO_BIKE, 1);
+		AddBagItem(ITEM_MACH_BIKE, 1);
+		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE))
+			 SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
+	}
+	SwapRegisteredBike();
+	
+	for (i = 0; i < 16; i++)
+	{
+		gPlttBufferUnfaded[0x100 + i] = paletteBackup[i];
+		gPlttBufferFaded[0x100 + i] = paletteBackup[i];
+	}
+	
+	PlaySE(SE_BIKE_BELL);
+	DestroyListMenuTask(data[0], scrollPos, cursorPos);
+	UpdatePocketItemList(gBagPositionStruct.pocket);
+	SetInitialScrollAndCursorPositions(gBagPositionStruct.pocket);
+	LoadBagItemListBuffers(gBagPositionStruct.pocket);
+	data[0] = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
+    BagMenu_RemoveSomeWindow();
+    BagMenu_PrintDescription(data[1]);
+	ScheduleBgCopyTilemapToVram(0);
+    BagMenu_PrintCursor_(data[0], 0);
+	set_callback3_to_bag(taskId);
+}

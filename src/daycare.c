@@ -25,6 +25,8 @@
 #include "rtc.h"
 #include "pokedex.h"
 #include "item.h"
+#include "power.h"
+#include "constants/power.h"
 
 extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
@@ -32,7 +34,7 @@ extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 static void ClearDaycareMonMail(struct DaycareMail *mail);
 static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *daycare);
 static u8 GetDaycareCompatibilityScore(struct DayCare *daycare);
-static void DaycarePrintMonInfo(u8 windowId, s32 daycareSlotId, u8 y);
+static void DaycarePrintMonInfo(u8 windowId, u32 daycareSlotId, u8 y);
 
 // RAM buffers used to assist with BuildEggMoveset()
 EWRAM_DATA static u16 sHatchedEggLevelUpMoves[EGG_LVL_UP_MOVES_ARRAY_COUNT] = {0};
@@ -485,6 +487,8 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 		rolls += MASUDA_METHOD_REROLLS;
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 
     // don't inherit nature
     if (parent > 1)
@@ -920,6 +924,8 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	do
 	{
@@ -993,6 +999,7 @@ void GiveEggFromDaycare(void)
 static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
 {
     u32 i, validEggs = 0;
+	u8 cycleLength = 255;
 
     for (i = 0; i < DAYCARE_MON_COUNT; i++)
     {
@@ -1025,8 +1032,24 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
             TriggerPendingDaycareEgg();
     }
 
+	if (gPowerType == POWER_HATCH && gPowerTime > 0)
+	{
+		switch (gPowerLevel)
+		{
+			case 1:
+				cycleLength = 205;
+				break;
+			case 2:
+				cycleLength = 171;
+				break;
+			case 3:
+				cycleLength = 129;
+				break;
+		}
+	}
+
     // Try to hatch Egg
-    if (++daycare->stepCounter == 255)
+    if (++daycare->stepCounter == cycleLength)
     {
         u32 eggCycles;
         u8 toSub = GetEggCyclesToSubtract();
@@ -1354,7 +1377,7 @@ static void DaycarePrintMonLvl(struct DayCare *daycare, u8 windowId, u32 daycare
     DaycareAddTextPrinter(windowId, lvlText, x, y);
 }
 
-static void DaycarePrintMonInfo(u8 windowId, s32 daycareSlotId, u8 y)
+static void DaycarePrintMonInfo(u8 windowId, u32 daycareSlotId, u8 y)
 {
     if (daycareSlotId < (unsigned) DAYCARE_MON_COUNT)
     {
@@ -1903,6 +1926,8 @@ void GiveEventEgg(void)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	do
 	{

@@ -69,9 +69,9 @@
 #define FLAG_JYNX_TRADE_COMPLETED 0x39
 #define FLAG_RECEIVED_TYROGUE_EGG 0x3A
 #define FLAG_RECEIVED_STARTER_EGG 0x3B
-#define FLAG_SHOWN_SUICUNE   0x3C
-#define FLAG_UNOWN_RELEASED  0x3D
-#define FLAG_UNOWN_SETTLED   0x3E
+#define FLAG_UNOWN_RELEASED  0x3C
+#define FLAG_UNOWN_SETTLED   0x3D
+#define FLAG_UNUSED_0x03E    0x3E // Unused Flag
 #define FLAG_UNUSED_0x03F    0x3F // Unused Flag
 #define FLAG_UNUSED_0x040    0x40 // Unused Flag
 #define FLAG_UNUSED_0x041    0x41 // Unused Flag

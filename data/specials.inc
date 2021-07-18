@@ -573,3 +573,7 @@ gSpecials:: @ 81DBA64
 	def_special CheckIfEligibleForEventEgg
 	def_special ReleaseUnown
 	def_special IsSpeciesInParty
+	def_special ShowPowerPointsWindow
+	def_special UpdatePowerPointsWindow
+	def_special BufferPowerConfirm
+	def_special BuyPower

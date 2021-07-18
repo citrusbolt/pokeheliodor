@@ -54,6 +54,8 @@
 #include "constants/party_menu.h"
 #include "item_use.h"
 #include "field_player_avatar.h"
+#include "power.h"
+#include "constants/power.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
@@ -3278,7 +3280,7 @@ static void Cmd_getexp(void)
 
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
-                *exp = calculatedExp / 2 / viaSentIn;
+                *exp = SAFE_DIV(calculatedExp / 2, viaSentIn);
                 if (*exp == 0)
                     *exp = 1;
 
@@ -3290,7 +3292,7 @@ static void Cmd_getexp(void)
             }
             else
             {
-                *exp = calculatedExp / viaSentIn;
+                *exp = SAFE_DIV(calculatedExp, viaSentIn);
                 if (*exp == 0)
                     *exp = 1;
                 gExpShareExp = 0;
@@ -3348,6 +3350,22 @@ static void Cmd_getexp(void)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
 					if (FlagGet(FLAG_SYS_GAME_CLEAR))
 						gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+					
+					if (gPowerType == POWER_EXP && gPowerTime > 0)
+					{
+						switch (gPowerLevel)
+						{
+							case 1:
+								gBattleMoveDamage = gBattleMoveDamage * 120 / 100;
+								break;
+							case 2:
+								gBattleMoveDamage = gBattleMoveDamage * 150 / 100;
+								break;
+							case 3:
+								gBattleMoveDamage = gBattleMoveDamage * 2;
+								break;
+						}
+					}
 
                     if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
                     {
@@ -4634,6 +4652,7 @@ static void Cmd_switchindataupdate(void)
     gBattleScripting.battler = gActiveBattler;
 
     PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, gActiveBattler, gBattlerPartyIndexes[gActiveBattler]);
+    PREPARE_MON_TITLE_BUFFER(gBattleTextBuff2, gActiveBattler,  gBattlerPartyIndexes[gActiveBattler]);
 
     gBattlescriptCurrInstr += 2;
 }
@@ -5596,6 +5615,22 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
             moneyReward = 4 * lastMonLevel * gBattleStruct->moneyMultiplier * gTrainerMoneyTable[i].value;
     }
 
+	if (gPowerType == POWER_PRIZE && gPowerTime > 0)
+	{
+		switch (gPowerLevel)
+		{
+			case 1:
+				moneyReward = moneyReward * 150 / 100;
+				break;
+			case 2:
+				moneyReward = moneyReward * 2;
+				break;
+			case 3:
+				moneyReward = moneyReward * 3;
+				break;
+		}
+	}
+
     return moneyReward;
 }
 
@@ -5919,9 +5954,9 @@ static void Cmd_atknameinbuff1(void)
 
 static void Cmd_drawlvlupbox(void)
 {
-	u16 temp;
     if (gBattleScripting.drawlvlupboxState == 0)
     {
+		gBattleScripting.field_20 = gBattle_BG2_X;
         if (IsMonGettingExpSentOut())
             gBattleScripting.drawlvlupboxState = 3;
         else
@@ -5983,7 +6018,6 @@ static void Cmd_drawlvlupbox(void)
         }
         break;
     case 9:
-		temp = gBattle_BG2_X;
 		gBattle_BG2_X = 0;
         if (!sub_804F344())
         {
@@ -6008,7 +6042,7 @@ static void Cmd_drawlvlupbox(void)
             ShowBg(1);
             gBattlescriptCurrInstr++;
         }
-		gBattle_BG2_X = temp;
+		gBattle_BG2_X = gBattleScripting.field_20;
         break;
     }
 }
@@ -9828,9 +9862,14 @@ static void Cmd_handleballthrow(void)
         u8 catchRate;
 
         if (gLastUsedItem == ITEM_SAFARI_BALL)
+		{
             catchRate = gBattleStruct->safariCatchFactor * 1275 / 100;
+		}
         else
+		{
+			gSaveBlock2Ptr->lastUsedBall = gLastUsedItem;
             catchRate = gBaseStats[gBattleMons[gBattlerTarget].species].catchRate;
+		}
 
         if (gLastUsedItem > ITEM_SAFARI_BALL)
         {
@@ -9885,7 +9924,23 @@ static void Cmd_handleballthrow(void)
             ballMultiplier = sBallCatchBonuses[gLastUsedItem - ITEM_ULTRA_BALL];
 
 		if (FlagGet(FLAG_SYS_GAME_CLEAR))
-			ballMultiplier *= 1.5;
+			ballMultiplier = ballMultiplier * 150 / 100;
+
+		if (gPowerType == POWER_CAPTURE&& gPowerTime > 0)
+		{
+			switch (gPowerLevel)
+			{
+				case 1:
+					ballMultiplier = ballMultiplier * 150 / 100;
+					break;
+				case 2:
+					ballMultiplier = ballMultiplier * 2;
+					break;
+				case 3:
+					ballMultiplier = ballMultiplier * 250 / 100;
+					break;
+			}
+		}
 
         odds = (catchRate * ballMultiplier / 10)
             * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
