@@ -3174,5 +3174,17 @@ extern const u8 gText_FatefulTriangle[];
 extern const u8 gText_ShinyStarMale[];
 extern const u8 gText_ShinyStarFemale[];
 extern const u8 gText_PowerPadNoService[];
+extern const u8 gText_PowerHatch[];
+extern const u8 gText_PowerBargain[];
+extern const u8 gText_PowerPrize[];
+extern const u8 gText_PowerExp[];
+extern const u8 gText_PowerCapture[];
+extern const u8 gText_PowerEncounter[];
+extern const u8 gText_PowerStealth[];
+extern const u8 gText_PowerFriend[];
+extern const u8 gText_PowerLucky[];
+extern const u8 gText_PowerStatus[];
+extern const u8 gText_PowerActive[];
+extern const u8 gText_PowerActiveOneMinute[];
 
 #endif // GUARD_STRINGS_H

@@ -46,6 +46,9 @@
 #include "union_room.h"
 #include "constants/rgb.h"
 #include "rtc.h"
+#include "power.h"
+#include "clock.h"
+#include "mgba.h"
 
 // Menu actions
 enum
@@ -90,6 +93,7 @@ EWRAM_DATA static u8 sSaveDialogTimer = 0;
 EWRAM_DATA static bool8 sSavingComplete = FALSE;
 EWRAM_DATA static u8 sSaveInfoWindowId = 0;
 EWRAM_DATA static u8 sCurrentTimeWindowId = 0;
+EWRAM_DATA static u8 sCurrentPowerWindowId = 0;
 
 // Menu action callbacks
 static bool8 StartMenuPokedexCallback(void);
@@ -247,6 +251,8 @@ static void RemoveSaveInfoWindow(void);
 static void HideStartMenuWindow(void);
 static void ShowCurrentTimeWindow(void);
 static void UpdateClockDisplay(void);
+static void ShowCurrentPowerWindow(void);
+static void UpdatePowerDisplay(void);
 
 void SetDexPokemonPokenavFlags(void) // unused
 {
@@ -433,6 +439,13 @@ static void RemoveExtraStartMenuWindows(void)
         RemoveWindow(sCurrentTimeWindowId);
 		FlagClear(FLAG_TEMP_5);
 	}
+	if (gPowerTime > 0)
+	{
+		ClearStdWindowAndFrameToTransparent(sCurrentPowerWindowId, FALSE);
+        CopyWindowToVram(sCurrentPowerWindowId, 2);
+        RemoveWindow(sCurrentPowerWindowId);
+		FlagClear(FLAG_TEMP_6);
+	}
 }
 
 static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
@@ -492,6 +505,8 @@ static bool32 InitStartMenuStep(void)
             ShowPyramidFloorWindow();
 		if (FlagGet(FLAG_SYS_CLOCK_SET))
 			ShowCurrentTimeWindow();
+		if (gPowerTime > 0 && gPowerLevel > 0 && gPowerType != POWER_NONE)
+			ShowCurrentPowerWindow();
         sInitStartMenuData[0]++;
         break;
     case 4:
@@ -583,7 +598,10 @@ void ShowStartMenu(void)
 
 static bool8 HandleStartMenuInput(void)
 {
-	UpdateClockDisplay();
+	if (FlagGet(FLAG_TEMP_5))
+		UpdateClockDisplay();
+	if (FlagGet(FLAG_TEMP_6))
+		UpdatePowerDisplay();
     if (JOY_NEW(DPAD_UP))
     {
         PlaySE(SE_SELECT);
@@ -721,6 +739,8 @@ static bool8 StartMenuSaveCallback(void)
 {
     if (InBattlePyramid())
         RemoveExtraStartMenuWindows();
+	if (FlagGet(FLAG_TEMP_6))
+		ClearDialogWindowAndFrameToTransparent(sCurrentPowerWindowId, FALSE);
 
     gMenuCallback = SaveStartCallback; // Display save menu
 
@@ -1518,4 +1538,111 @@ void UpdateClockDisplay(void)
 	}
 	AddTextPrinterParameterized(sCurrentTimeWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
 	CopyWindowToVram(sCurrentTimeWindowId, 2);
+}
+
+static void ShowCurrentPowerWindow(void)
+{
+	struct WindowTemplate CurrentPowerWindowTemplate = {0, 1, 13, 16, 2, 0xF, 63};
+	
+	FlagSet(FLAG_TEMP_6);
+	
+	switch (gPowerType)
+	{
+		case POWER_HATCH:
+			StringCopy(gStringVar1, gText_PowerHatch);
+			CurrentPowerWindowTemplate.width = 13;
+			break;
+		case POWER_BARGAIN:
+			StringCopy(gStringVar1, gText_PowerBargain);
+			CurrentPowerWindowTemplate.width = 14;
+			break;
+		case POWER_PRIZE:
+			StringCopy(gStringVar1, gText_PowerPrize);
+			CurrentPowerWindowTemplate.width = 13;
+			break;
+		case POWER_EXP:
+			StringCopy(gStringVar1, gText_PowerExp);
+			CurrentPowerWindowTemplate.width = 12;
+			break;
+		case POWER_CAPTURE:
+			StringCopy(gStringVar1, gText_PowerCapture);
+			CurrentPowerWindowTemplate.width = 14;
+			break;
+		case POWER_ENCOUNTER:
+			StringCopy(gStringVar1, gText_PowerEncounter);
+			CurrentPowerWindowTemplate.width = 16;
+			break;
+		case POWER_STEALTH:
+			StringCopy(gStringVar1, gText_PowerStealth);
+			CurrentPowerWindowTemplate.width = 14;
+			break;
+		case POWER_FRIEND:
+			StringCopy(gStringVar1, gText_PowerFriend);
+			CurrentPowerWindowTemplate.width = 13;
+			break;
+		case POWER_LUCKY:
+			StringCopy(gStringVar1, gText_PowerLucky);
+			CurrentPowerWindowTemplate.width = 13;
+			break;
+	}
+
+	sCurrentPowerWindowId = AddWindow(&CurrentPowerWindowTemplate);
+	PutWindowTilemap(sCurrentPowerWindowId);
+	DrawStdWindowFrame(sCurrentPowerWindowId, FALSE);
+	ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
+	ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEADING_ZEROS, 1);
+	StringExpandPlaceholders(gStringVar4, gText_PowerStatus);
+	AddTextPrinterParameterized(sCurrentPowerWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
+	CopyWindowToVram(sCurrentPowerWindowId, 2);
+}
+
+void UpdatePowerDisplay(void)
+{
+	DoTimeBasedEvents();
+	
+	if (gPowerTime == 0 || gPowerLevel == 0 || gPowerType == 0)
+	{
+		FlagClear(FLAG_TEMP_6);
+		ClearStdWindowAndFrameToTransparent(sCurrentPowerWindowId, FALSE);
+        CopyWindowToVram(sCurrentPowerWindowId, 2);
+        RemoveWindow(sCurrentPowerWindowId);
+        InitStartMenu();
+		return;
+	}
+	switch (gPowerType)
+	{
+		case POWER_HATCH:
+			StringCopy(gStringVar1, gText_PowerHatch);
+			break;
+		case POWER_BARGAIN:
+			StringCopy(gStringVar1, gText_PowerBargain);
+			break;
+		case POWER_PRIZE:
+			StringCopy(gStringVar1, gText_PowerPrize);
+			break;
+		case POWER_EXP:
+			StringCopy(gStringVar1, gText_PowerExp);
+			break;
+		case POWER_CAPTURE:
+			StringCopy(gStringVar1, gText_PowerCapture);
+			break;
+		case POWER_ENCOUNTER:
+			StringCopy(gStringVar1, gText_PowerEncounter);
+			break;
+		case POWER_STEALTH:
+			StringCopy(gStringVar1, gText_PowerStealth);
+			break;
+		case POWER_FRIEND:
+			StringCopy(gStringVar1, gText_PowerFriend);
+			break;
+		case POWER_LUCKY:
+			StringCopy(gStringVar1, gText_PowerLucky);
+			break;
+	}
+
+	ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
+	ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
+	StringExpandPlaceholders(gStringVar4, gText_PowerStatus);
+	AddTextPrinterParameterized(sCurrentPowerWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
+	CopyWindowToVram(sCurrentPowerWindowId, 2);
 }

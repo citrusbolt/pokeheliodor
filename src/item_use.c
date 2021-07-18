@@ -42,6 +42,10 @@
 #include "constants/items.h"
 #include "constants/songs.h"
 #include "power.h"
+#include "clock.h"
+#include "international_string_util.h"
+#include "field_specials.h"
+#include "constants/field_specials.h"
 
 static void SetUpItemUseCallback(u8 taskId);
 static void FieldCB_UseItemOnField(void);
@@ -71,9 +75,15 @@ static void Task_UseRepel(u8 taskId);
 static void Task_CloseCantUseKeyItemMessage(u8 taskId);
 static void SetDistanceOfClosestHiddenItem(u8 taskId, s16 x, s16 y);
 static void CB2_OpenPokeblockFromBag(void);
+static void ItemUseOnFieldCB_PowerPurchase(u8 taskId);
+static void Task_ClosePowerPurchaseMenu(u8 taskId);
+static void ItemUseOutOfBattle_PowerPad2(u8 taskId);
+static void CB2_OpenPowerPadFromBag(void);
+static void Task_OpenRegisteredPowerPad(u8 taskId);
 
 // EWRAM variables
 EWRAM_DATA static void(*sItemUseOnFieldCB)(u8 taskId) = NULL;
+EWRAM_DATA u8 sPowerPointsWindowId = 0;
 
 // Below is set TRUE by UseRegisteredKeyItemOnField
 #define tUsingRegisteredKeyItem  data[3]
@@ -1148,14 +1158,141 @@ void ItemUseOutOfBattle_CannotUse(u8 taskId)
 
 void ItemUseOutOfBattle_PowerPad(u8 taskId)
 {
+	DoTimeBasedEvents();
+	
 	if (!gTasks[taskId].tUsingRegisteredKeyItem)
 	{
-		DisplayItemMessage(taskId, 1, gText_PowerPadNoService, BagMenu_InitListsMenu);
+		if (gPowerTime > 0)
+		{
+			switch (gPowerType)
+			{
+				case POWER_HATCH:
+					StringCopy(gStringVar1, gText_PowerHatch);
+					break;
+				case POWER_BARGAIN:
+					StringCopy(gStringVar1, gText_PowerBargain);
+					break;
+				case POWER_PRIZE:
+					StringCopy(gStringVar1, gText_PowerPrize);
+					break;
+				case POWER_EXP:
+					StringCopy(gStringVar1, gText_PowerExp);
+					break;
+				case POWER_CAPTURE:
+					StringCopy(gStringVar1, gText_PowerCapture);
+					break;
+				case POWER_ENCOUNTER:
+					StringCopy(gStringVar1, gText_PowerEncounter);
+					break;
+				case POWER_STEALTH:
+					StringCopy(gStringVar1, gText_PowerStealth);
+					break;
+				case POWER_FRIEND:
+					StringCopy(gStringVar1, gText_PowerFriend);
+					break;
+				case POWER_LUCKY:
+					StringCopy(gStringVar1, gText_PowerLucky);
+					break;
+			}
+			
+			ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
+			ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
+			if (gPowerTime > 1)
+				StringExpandPlaceholders(gStringVar4, gText_PowerActive);
+			else
+				StringExpandPlaceholders(gStringVar4, gText_PowerActiveOneMinute);
+			DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
+		}
+		else
+		{
+			sItemUseOnFieldCB = ItemUseOnFieldCB_PowerPurchase;
+			SetUpItemUseOnFieldCallback(taskId);
+		}
 	}
 	else
 	{
-		DisplayItemMessageOnField(taskId, gText_PowerPadNoService, Task_CloseCantUseKeyItemMessage);
+		if (gPowerTime > 0)
+		{
+			switch (gPowerType)
+			{
+				case POWER_HATCH:
+					StringCopy(gStringVar1, gText_PowerHatch);
+					break;
+				case POWER_BARGAIN:
+					StringCopy(gStringVar1, gText_PowerBargain);
+					break;
+				case POWER_PRIZE:
+					StringCopy(gStringVar1, gText_PowerPrize);
+					break;
+				case POWER_EXP:
+					StringCopy(gStringVar1, gText_PowerExp);
+					break;
+				case POWER_CAPTURE:
+					StringCopy(gStringVar1, gText_PowerCapture);
+					break;
+				case POWER_ENCOUNTER:
+					StringCopy(gStringVar1, gText_PowerEncounter);
+					break;
+				case POWER_STEALTH:
+					StringCopy(gStringVar1, gText_PowerStealth);
+					break;
+				case POWER_FRIEND:
+					StringCopy(gStringVar1, gText_PowerFriend);
+					break;
+				case POWER_LUCKY:
+					StringCopy(gStringVar1, gText_PowerLucky);
+					break;
+			}
+			
+			ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
+			ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
+			if (gPowerTime > 1)
+				StringExpandPlaceholders(gStringVar4, gText_PowerActive);
+			else
+				StringExpandPlaceholders(gStringVar4, gText_PowerActiveOneMinute);
+			DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
+		}
+		else
+		{
+			sItemUseOnFieldCB = ItemUseOnFieldCB_PowerPurchase;
+			SetUpItemUseOnFieldCallback(taskId);
+		}
 	}
+}
+
+static void ItemUseOnFieldCB_PowerPurchase(u8 taskId)
+{
+	u8 string[32];
+	u32 x;
+	static const struct WindowTemplate powerPoints_WindowTemplate = {
+		.bg = 0,
+		.tilemapLeft = 1,
+		.tilemapTop = 1,
+		.width = 7,
+		.height = 2,
+		.paletteNum = 15,
+		.baseBlock = 6,
+	};
+	
+	DisplayItemMessageOnField(taskId, gText_PowerPadNoService, Task_ClosePowerPurchaseMenu);
+    sPowerPointsWindowId = AddWindow(&powerPoints_WindowTemplate);
+	SetStandardWindowBorderStyle(sPowerPointsWindowId, 0);
+	StringCopy(ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->powerPoints, STR_CONV_MODE_RIGHT_ALIGN, 7), gText_Pt);
+	x = GetStringRightAlignXOffset(1, string, 52);
+	AddTextPrinterParameterized(sPowerPointsWindowId, 1, string, x, 1, 0, NULL);
+	CopyWindowToVram(sPowerPointsWindowId, 2);
+	ScriptContext1_Stop();
+	
+}
+
+static void Task_ClosePowerPurchaseMenu(u8 taskId)
+{
+    ClearStdWindowAndFrameToTransparent(sPowerPointsWindowId, TRUE);
+    RemoveWindow(sPowerPointsWindowId);
+    ClearDialogWindowAndFrame(0, 1);
+    ScriptUnfreezeObjectEvents();
+    ScriptContext2_Disable();
+    DestroyTask(taskId);
 }
 
 #undef tUsingRegisteredKeyItem

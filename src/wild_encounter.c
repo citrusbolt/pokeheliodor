@@ -196,9 +196,9 @@ static u8 ChooseWildMonIndex_Land(void)
     else
         wildMonIndex = 11;
 	
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0)
+	if (gPowerType == POWER_LUCKY && gPowerTime > 0)
 	{
-		switch (gPowers[POWER_LUCKY][POWER_LEVEL])
+		switch (gPowerLevel)
 		{
 			case 1:
 				if (Random() % 10 < 2)
@@ -238,9 +238,9 @@ static u8 ChooseWildMonIndex_WaterRock(void)
         wildMonIndex = 4;
 	
 		
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0)
+	if (gPowerType == POWER_LUCKY && gPowerTime > 0)
 	{
-		switch (gPowers[POWER_LUCKY][POWER_LEVEL])
+		switch (gPowerLevel)
 		{
 			case 1:
 				if (Random() % 10 < 2)
@@ -269,9 +269,9 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     u8 rand = Random() % max(max(ENCOUNTER_CHANCE_FISHING_MONS_OLD_ROD_TOTAL, ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_TOTAL),
                              ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_TOTAL);
 
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0)
+	if (gPowerType == POWER_LUCKY && gPowerTime > 0)
 	{
-		switch (gPowers[POWER_LUCKY][POWER_LEVEL])
+		switch (gPowerLevel)
 		{
 			case 1:
 				if (Random() % 10 < 2)
@@ -511,8 +511,8 @@ static u32 GenerateUnownPersonalityByLetter(u8 letter)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
-		rolls += POWER_LUCKY_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	do
 	{
@@ -683,9 +683,9 @@ static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
             encounterRate /= 2;
     }
 	
-	if (gPowers[POWER_ENCOUNTER][POWER_TIME] > 0)
+	if (gPowerType == POWER_ENCOUNTER && gPowerTime > 0)
 	{
-		switch (gPowers[POWER_ENCOUNTER][POWER_LEVEL])
+		switch (gPowerLevel)
 		{
 			case 1:
 				encounterRate = encounterRate * 150 / 100;
@@ -699,9 +699,9 @@ static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
 		}
 	}
 	
-	if (gPowers[POWER_STEALTH][POWER_TIME] > 0)
+	if (gPowerType == POWER_STEALTH && gPowerTime > 0)
 	{
-		switch (gPowers[POWER_STEALTH][POWER_LEVEL])
+		switch (gPowerLevel)
 		{
 			case 1:
 				encounterRate = encounterRate * 66 / 100;

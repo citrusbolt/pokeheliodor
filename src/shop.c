@@ -562,9 +562,9 @@ static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
     {
         if (sMartInfo.martType == MART_TYPE_NORMAL)
         {
-			if (gPowers[POWER_BARGAIN][POWER_TIME] > 0)
+			if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
 			{
-				switch (gPowers[POWER_BARGAIN][POWER_LEVEL])
+				switch (gPowerLevel)
 				{
 					case 1:
 						price = (ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT)) * 90 / 100;
@@ -585,9 +585,9 @@ static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
         }
         else
         {
-			if (gPowers[POWER_BARGAIN][POWER_TIME] > 0)
+			if (gPowerType == POWER_BARGAIN && gPowerTime > 0)
 			{
-				switch (gPowers[POWER_BARGAIN][POWER_LEVEL])
+				switch (gPowerLevel)
 				{
 					case 1:
 						price = gDecorations[item].price * 90 / 100;

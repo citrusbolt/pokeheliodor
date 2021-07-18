@@ -1,26 +1,24 @@
 #ifndef GUARD_POWER_H
 #define GUARD_POWER_H
 
-#define POWER_HATCH		0
-#define POWER_BARGAIN	1
-#define POWER_PRIZE		2
-#define POWER_EXP		3
-#define POWER_CAPTURE	4
-#define POWER_ENCOUNTER	5
-#define POWER_STEALTH	6
-#define POWER_FRIEND	7
-#define POWER_LUCKY		8
+#define POWER_NONE		0
+#define POWER_HATCH		1
+#define POWER_BARGAIN	2
+#define POWER_PRIZE		3
+#define POWER_EXP		4
+#define POWER_CAPTURE	5
+#define POWER_ENCOUNTER	6
+#define POWER_STEALTH	7
+#define POWER_FRIEND	8
+#define POWER_LUCKY		9
 
-#define POWER_NUM_TYPES (POWER_LUCKY + 1)
+#define POWER_NUM_TYPES	(POWER_LUCKY + 1)
 
-#define POWER_LEVEL		0
-#define POWER_TIME		1
+extern EWRAM_DATA u8 gPowerType;
+extern EWRAM_DATA u8 gPowerLevel;
+extern EWRAM_DATA u8 gPowerTime;
 
-#define POWER_LUCKY_REROLLS	2
-
-extern EWRAM_DATA u8 gPowers[POWER_NUM_TYPES][2];	// Level by Time Remaining
-
-void TestPowers(void);
+void GivePower(u8, u8, u8);
 void DecrementPowerTime(s32);
 void ResetPowerTime(void);
 bool8 BuyPower(u8, u8);

@@ -486,8 +486,8 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 		rolls += MASUDA_METHOD_REROLLS;
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
-		rolls += POWER_LUCKY_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 
     // don't inherit nature
     if (parent > 1)
@@ -923,8 +923,8 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
-		rolls += POWER_LUCKY_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	do
 	{
@@ -1031,9 +1031,9 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
             TriggerPendingDaycareEgg();
     }
 
-	if (gPowers[POWER_HATCH][POWER_TIME] > 0)
+	if (gPowerType == POWER_HATCH && gPowerTime > 0)
 	{
-		switch (gPowers[POWER_HATCH][POWER_LEVEL])
+		switch (gPowerLevel)
 		{
 			case 1:
 				cycleLength = 205;
@@ -1925,8 +1925,8 @@ void GiveEventEgg(void)
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
-		rolls += POWER_LUCKY_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	do
 	{

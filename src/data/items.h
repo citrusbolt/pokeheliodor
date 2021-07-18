@@ -4551,7 +4551,7 @@ const struct Item gItems[] =
         .importance = 1,
         .unk19 = 1,
         .pocket = POCKET_KEY_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
+        .type = ITEM_USE_FIELD,
         .fieldUseFunc = ItemUseOutOfBattle_PowerPad,
     },
 	[ITEM_OVAL_CHARM] =

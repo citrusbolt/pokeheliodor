@@ -2403,8 +2403,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
-		rolls += POWER_LUCKY_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	metLocation = GetCurrentRegionMapSectionId();
 
@@ -2785,8 +2785,8 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
-		rolls += POWER_LUCKY_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 	
 	do
 	{
@@ -2815,8 +2815,8 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
-	if (gPowers[POWER_LUCKY][POWER_TIME] > 0 && gPowers[POWER_LUCKY][POWER_LEVEL] == 3)
-		rolls += POWER_LUCKY_REROLLS;
+	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+		rolls *= 2;
 
     if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {
@@ -5313,9 +5313,9 @@ bool8 ExecuteTableBasedItemEffect(struct Pokemon *mon, u16 item, u8 partyIndex, 
             friendship += 150 * friendshipChange / 100;                                                 \
         else                                                                                            \
             friendship += friendshipChange;                                                             \
-		if (gPowers[POWER_FRIEND][POWER_TIME] > 0)                                                      \
+		if (gPowerType == POWER_FRIEND && gPowerTime > 0)                                                      \
 		{                                                                                               \
-			switch (gPowers[POWER_FRIEND][POWER_LEVEL])                                                 \
+			switch (gPowerLevel)                                                 \
 			{                                                                                           \
 				case 1:                                                                                 \
 					friendship += 1;                                                                      \
@@ -6506,9 +6506,9 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
             if (mod > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)
                 mod = (150 * mod) / 100;
 			
-			if (gPowers[POWER_FRIEND][POWER_TIME] > 0)
+			if (gPowerType == POWER_FRIEND && gPowerTime > 0)
 			{
-				switch (gPowers[POWER_FRIEND][POWER_LEVEL])
+				switch (gPowerLevel)
 				{
 					case 1:
 						mod += 1;

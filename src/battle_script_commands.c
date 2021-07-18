@@ -3350,9 +3350,9 @@ static void Cmd_getexp(void)
 					if (FlagGet(FLAG_SYS_GAME_CLEAR))
 						gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
 					
-					if (gPowers[POWER_EXP][POWER_TIME] > 0)
+					if (gPowerType == POWER_EXP && gPowerTime > 0)
 					{
-						switch (gPowers[POWER_EXP][POWER_LEVEL])
+						switch (gPowerLevel)
 						{
 							case 1:
 								gBattleMoveDamage = gBattleMoveDamage * 120 / 100;
@@ -5614,9 +5614,9 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
             moneyReward = 4 * lastMonLevel * gBattleStruct->moneyMultiplier * gTrainerMoneyTable[i].value;
     }
 
-	if (gPowers[POWER_PRIZE][POWER_TIME] > 0)
+	if (gPowerType == POWER_PRIZE && gPowerTime > 0)
 	{
-		switch (gPowers[POWER_PRIZE][POWER_LEVEL])
+		switch (gPowerLevel)
 		{
 			case 1:
 				moneyReward = moneyReward * 150 / 100;
@@ -9925,9 +9925,9 @@ static void Cmd_handleballthrow(void)
 		if (FlagGet(FLAG_SYS_GAME_CLEAR))
 			ballMultiplier *= 1.5;
 
-		if (gPowers[POWER_CAPTURE][POWER_TIME] > 0)
+		if (gPowerType == POWER_CAPTURE&& gPowerTime > 0)
 		{
-			switch (gPowers[POWER_CAPTURE][POWER_LEVEL])
+			switch (gPowerLevel)
 			{
 				case 1:
 					ballMultiplier = ballMultiplier * 150 / 100;
