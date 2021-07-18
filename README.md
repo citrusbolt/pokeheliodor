@@ -21,7 +21,6 @@ The highest design priorities are 100% compatibility in terms of:
   * Pokémon not normally found in Pokémon Emerald are generated with different game IDs, languages, and pseudo-random number generation methods to replicate the encounters in which they can normally be found in other games.
   * This includes new wild encounter tables post-National Dex acquisition, additional gifts, in-game trades, and an extended roamer quest.
     * If importing a save file from Pokémon Emerald after capturing/defeating the roaming Latias/Latios, speak to the new NPC at the Weather Institute to force the next roamer to initialize.
-  * Trading is still required to get all starter Pokémon.
 * An egg incubator is available for use that relies upon the real-time clock instead of the step counter.
 * All tutor moves found in Generation 3 games are available for purchase at the Battle Frontier.
 * Moves learned by level-up exclusively in Pokémon FireRed and Pokémon LeafGreen are added to the learnsets.
@@ -55,6 +54,7 @@ The highest design priorities are 100% compatibility in terms of:
 * Legendary Pokémon (and Sudowoodo) that have been defeated without being caught will respawn when the Elite Four is defeated.
   * The respawn will only trigger if the Pokémon is not registered as "caught" in the Pokédex, so trading over a legendary Pokémon will interfere with this.
   * Roaming Pokémon will respawn instantly somewhere in the region when knocked out.
+  * After every 10 Elite Four victories, all Legendary and Mythical Pokémon (and Sudowoodo) will respawn whether they've been captured or not.
 * The clock offset can be changed by pressing 'B', 'Left', and 'Select' on the title screen.
 * Secret Power, Cut, Surf, Strength, Rock Smash, Waterfall, and Dive can be used as long as one of the party members is capable of learning the move.
   * The respective badge is still required.
@@ -75,6 +75,7 @@ The highest design priorities are 100% compatibility in terms of:
 * A clock has been added to the start menu.
 * Pokémon have slight differences in coloration that varies with the individual.
 * Eggs are colored based on the Type(s) of the Pokémon inside.
+* A system similar to Pass/O/Rotom Power has been added and can be accessed through the Power Pad, a Key Item found in the Bag by default.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
