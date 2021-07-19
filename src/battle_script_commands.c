@@ -7431,6 +7431,23 @@ static void Cmd_givepaydaymoney(void)
     if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)) && gPaydayMoney != 0)
     {
         u32 bonusMoney = gPaydayMoney * gBattleStruct->moneyMultiplier;
+		
+		if (gPowerType == POWER_PRIZE && gPowerTime > 0)
+		{
+			switch (gPowerLevel)
+			{
+				case 1:
+					bonusMoney = bonusMoney * 150 / 100;
+					break;
+				case 2:
+					bonusMoney = bonusMoney * 2;
+					break;
+				case 3:
+					bonusMoney = bonusMoney * 3;
+					break;
+			}
+		}
+		
         AddMoney(&gSaveBlock1Ptr->money, bonusMoney);
 
         PREPARE_HWORD_NUMBER_BUFFER(gBattleTextBuff1, 5, bonusMoney)
