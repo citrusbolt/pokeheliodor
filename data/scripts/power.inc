@@ -146,6 +146,18 @@ EventScript_PowerPurchase_Text_FriendDesc2::
 EventScript_PowerPurchase_Text_FriendDesc3::
 	.string "Helps {PKMN} grow friendly much faster.\n"
 	.string "The effect lasts 60 minutes.$"
+	
+EventScript_PowerPurchase_Text_ItemDesc1::
+	.string "Increases the chance of finding items\n"
+	.string "a little. The effect lasts 10 minutes.$"
+
+EventScript_PowerPurchase_Text_ItemDesc2::
+	.string "Increases the chance of finding items.\n"
+	.string "The effect lasts 20 minutes.$"
+
+EventScript_PowerPurchase_Text_ItemDesc3::
+	.string "Increases the chance of finding items\n"
+	.string "a lot. The effect lasts 60 minutes.$"
 
 EventScript_PowerPurchase_Text_LuckyDesc1::
 	.string "Increases the chance of finding rare {PKMN}\n"

@@ -7216,14 +7216,35 @@ void SetWildMonHeldItem(void)
     {
         u16 rnd = Random() % 100;
         u16 species = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, 0);
-        u16 var1 = 45;
+        u16 var1 = 45;	// 50% chance for first item, 5% chance for second
         u16 var2 = 95;
         if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG, 0)
             && GetMonAbility(&gPlayerParty[0]) == ABILITY_COMPOUND_EYES)
         {
-            var1 = 20;
+            var1 = 20;	// 60%/20% odds
             var2 = 80;
         }
+		
+		if (gPowerType == POWER_ITEM && gPowerTime > 0)
+		{
+			switch (gPowerLevel)
+			{
+				case 1:
+					var1 = var1 * 75 / 100;		// 38%/29%
+					var2 = var2 * 75 / 100;		// 45%/40% with Compoundeyes
+					break;
+				case 2:
+					var1 = var1 * 50 / 100;		// 25%/53%
+					var2 = var2 * 50 / 100;		// 30%/60% with Compoundeyes
+					break;
+				case 3:
+					var1 = 0;					// 23%/77%
+					var2 = var2 * 25 / 100;		// 20%/80% with Compoundeyes
+					break;
+			}
+		}
+
+		
         if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
         {
             s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);

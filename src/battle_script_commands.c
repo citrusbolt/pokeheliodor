@@ -9591,6 +9591,23 @@ static void Cmd_pickup(void)
     s32 i;
     u16 species, heldItem;
     u8 ability;
+	u8 activationTrigger = 1;
+
+	if (gPowerType == POWER_ITEM && gPowerTime > 0)
+	{
+		switch (gPowerLevel)
+		{
+			case 1:
+				activationTrigger = 2;
+				break;
+			case 2:
+				activationTrigger = 5;
+				break;
+			case 3:
+				activationTrigger = 10;
+				break;
+		}
+	}
 
     if (InBattlePike())
     {
@@ -9612,7 +9629,7 @@ static void Cmd_pickup(void)
                 && species != 0
                 && species != SPECIES_EGG
                 && heldItem == ITEM_NONE
-                && (Random() % 10) == 0)
+                && (Random() % 10) < activationTrigger)
             {
                 heldItem = GetBattlePyramidPickupItemId();
                 SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &heldItem);
@@ -9635,7 +9652,7 @@ static void Cmd_pickup(void)
                 && species != 0
                 && species != SPECIES_EGG
                 && heldItem == ITEM_NONE
-                && (Random() % 10) == 0)
+                && (Random() % 10) < activationTrigger)
             {
                 s32 j;
                 s32 rand = Random() % 100;
@@ -9645,16 +9662,35 @@ static void Cmd_pickup(void)
 
                 for (j = 0; j < (int)ARRAY_COUNT(sPickupProbabilities); j++)
                 {
-                    if (sPickupProbabilities[j] > rand)
-                    {
-                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + j]);
-                        break;
-                    }
-                    else if (rand == 99 || rand == 98)
-                    {
-                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (99 - rand)]);
-                        break;
-                    }
+					if (gPowerType == POWER_ITEM && gPowerLevel == 3 && gPowerTime > 0)
+					{
+						if (sPickupProbabilities[j] > rand)
+						{
+							if (j == 0)
+								SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (rand % 1)]);
+							else
+								SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + 8 - j]);
+							break;
+						}
+						else if (rand == 99 || rand == 98)
+						{
+							SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10]);
+							break;
+						}
+					}
+					else
+					{
+						if (sPickupProbabilities[j] > rand)
+						{
+							SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + j]);
+							break;
+						}
+						else if (rand == 99 || rand == 98)
+						{
+							SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (99 - rand)]);
+							break;
+						}
+					}
                 }
             }
         }

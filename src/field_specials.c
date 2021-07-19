@@ -2504,7 +2504,7 @@ void ShowScrollableMultichoice(void)
             break;
         case SCROLL_MULTI_POWER_PURCHASE:
             task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
-            task->tNumItems = 28;
+            task->tNumItems = 31;
             task->tLeft = 14;
             task->tTop = 1;
             task->tWidth = 15;
@@ -2760,6 +2760,9 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
 		gText_PowerPurchaseFriend1,
 		gText_PowerPurchaseFriend2,
 		gText_PowerPurchaseFriend3,
+		gText_PowerPurchaseItem1,
+		gText_PowerPurchaseItem2,
+		gText_PowerPurchaseItem3,
 		gText_PowerPurchaseLucky1,
 		gText_PowerPurchaseLucky2,
 		gText_PowerPurchaseLucky3,
@@ -3328,6 +3331,9 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
 		EventScript_PowerPurchase_Text_FriendDesc1,
 		EventScript_PowerPurchase_Text_FriendDesc2,
 		EventScript_PowerPurchase_Text_FriendDesc3,
+		EventScript_PowerPurchase_Text_ItemDesc1,
+		EventScript_PowerPurchase_Text_ItemDesc2,
+		EventScript_PowerPurchase_Text_ItemDesc3,
 		EventScript_PowerPurchase_Text_LuckyDesc1,
 		EventScript_PowerPurchase_Text_LuckyDesc2,
 		EventScript_PowerPurchase_Text_LuckyDesc3,
@@ -5026,6 +5032,9 @@ void BufferPowerConfirm(void)
 			break;
 		case POWER_FRIEND:
 			StringCopy(gStringVar1, gText_PowerFriend);
+			break;
+		case POWER_ITEM:
+			StringCopy(gStringVar1, gText_PowerItem);
 			break;
 		case POWER_LUCKY:
 			StringCopy(gStringVar1, gText_PowerLucky);

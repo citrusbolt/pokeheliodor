@@ -1189,6 +1189,9 @@ void ItemUseOutOfBattle_PowerPad(u8 taskId)
 				case POWER_FRIEND:
 					StringCopy(gStringVar1, gText_PowerFriend);
 					break;
+				case POWER_ITEM:
+					StringCopy(gStringVar1, gText_PowerItem);
+					break;
 				case POWER_LUCKY:
 					StringCopy(gStringVar1, gText_PowerLucky);
 					break;
@@ -1237,6 +1240,9 @@ void ItemUseOutOfBattle_PowerPad(u8 taskId)
 					break;
 				case POWER_FRIEND:
 					StringCopy(gStringVar1, gText_PowerFriend);
+					break;
+				case POWER_ITEM:
+					StringCopy(gStringVar1, gText_PowerItem);
 					break;
 				case POWER_LUCKY:
 					StringCopy(gStringVar1, gText_PowerLucky);

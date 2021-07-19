@@ -19,6 +19,7 @@ static const u8 sPowerPrices[POWER_NUM_TYPES][4] =
 	[POWER_ENCOUNTER]	= {  0, 1,  2,  3 },
 	[POWER_STEALTH]		= {  0, 1,  2,  3 },
 	[POWER_FRIEND]		= {  0, 1,  2,  3 },
+	[POWER_ITEM]		= {  0, 1,  2,  3 },
 	[POWER_LUCKY]		= {  0, 5, 10, 15 },
 };
 

@@ -36,6 +36,8 @@
 #include "constants/maps.h"
 #include "constants/moves.h"
 #include "constants/trainers.h"
+#include "power.h"
+#include "constants/power.h"
 
 extern const struct MapLayout *const gMapLayouts[];
 extern const u16 gUnknown_08D856C8[][16];
@@ -1976,9 +1978,19 @@ u16 GetBattlePyramidPickupItemId(void)
 
     if (i >= PICKUP_ITEMS_PER_ROUND)
         i = PICKUP_ITEMS_PER_ROUND - 1;
-
-    if (lvlMode != FRONTIER_LVL_50)
-        return sPickupItemsLvlOpen[round][i];
-    else
-        return sPickupItemsLvl50[round][i];
+	
+	if (gPowerType == POWER_ITEM && gPowerLevel == 3 && gPowerTime > 0)
+	{
+		if (lvlMode != FRONTIER_LVL_50)
+			return sPickupItemsLvlOpen[round][9 - i];
+		else
+			return sPickupItemsLvl50[round][9 - i];
+	}
+	else
+	{
+		if (lvlMode != FRONTIER_LVL_50)
+			return sPickupItemsLvlOpen[round][i];
+		else
+			return sPickupItemsLvl50[round][i];
+	}
 }

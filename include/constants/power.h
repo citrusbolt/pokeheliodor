@@ -10,7 +10,8 @@
 #define POWER_ENCOUNTER	6
 #define POWER_STEALTH	7
 #define POWER_FRIEND	8
-#define POWER_LUCKY		9
+#define POWER_ITEM		9
+#define POWER_LUCKY		10
 
 #define POWER_NUM_TYPES	(POWER_LUCKY + 1)
 #define POWER_NUM_OPTIONS ((POWER_NUM_TYPES - 1) * 3)
