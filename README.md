@@ -62,7 +62,7 @@ The highest design priorities are 100% compatibility in terms of:
   * The cap on EVs able to be earned through vitamins has been removed as well.
 * The battle and summary screens report the correct type and base power for Hidden Power.
 * Synchronize's field effect is 100% effective.
-* If the first member of the party has Lightningrod or Flash Fire as its ability, there is a 50% chance of finding a Lightning or Fire-type Pokémon respectively in a wild encounter if an applicable encounter is possible in that area.
+* If the first member of the party has Lightningrod or Flash Fire as its ability, there is a 50% chance of finding a Electric or Fire-type Pokémon respectively in a wild encounter if an applicable encounter is possible in that area.
 * Catching a Pokémon yields experience points.
 * All TMs are purchasable.
 * HM moves can be forgotten without the use of the Move Deleter.
