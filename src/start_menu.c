@@ -1585,6 +1585,9 @@ static void ShowCurrentPowerWindow(void)
 			StringCopy(gStringVar1, gText_PowerItem);
 			CurrentPowerWindowTemplate.width = 15;
 			break;
+		case POWER_TRAINING:
+			StringCopy(gStringVar1, gText_PowerTraining);
+			break;
 		case POWER_LUCKY:
 			StringCopy(gStringVar1, gText_PowerLucky);
 			CurrentPowerWindowTemplate.width = 13;
@@ -1642,6 +1645,9 @@ void UpdatePowerDisplay(void)
 			break;
 		case POWER_ITEM:
 			StringCopy(gStringVar1, gText_PowerItem);
+			break;
+		case POWER_TRAINING:
+			StringCopy(gStringVar1, gText_PowerTraining);
 			break;
 		case POWER_LUCKY:
 			StringCopy(gStringVar1, gText_PowerLucky);

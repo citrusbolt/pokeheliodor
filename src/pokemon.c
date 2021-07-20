@@ -6580,6 +6580,22 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
             break;
         }
 
+		if (gPowerType == POWER_TRAINING && gPowerTime > 0 && evIncrease > 0)
+		{
+			switch (gPowerLevel)
+			{
+				case 1:
+					evIncrease += 1;
+					break;
+				case 2:
+					evIncrease += 2;
+					break;
+				case 3:
+					evIncrease += 4;
+					break;
+			}
+		}
+
         heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, 0);
         if (heldItem == ITEM_ENIGMA_BERRY)
         {
