@@ -659,10 +659,8 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
             switch (graphicsId)
             {
             case OBJ_EVENT_GFX_LINK_RS_BRENDAN:
-                LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);
-                break;
             case OBJ_EVENT_GFX_LINK_RS_MAY:
-                LoadPalette(gObjectEventPal_RubySapphireMay, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                LoadPalette(gObjectEventPal_RubySapphireHero, 0x100 + (adjustedPaletteNum << 4), 0x20);
                 break;
             case OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL:
                 LoadPalette(gObjectEventPal_Brendan, 0x100 + (adjustedPaletteNum << 4), 0x20);
@@ -683,10 +681,10 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
                 LoadPalette(gObjectEventPal_Kris, 0x100 + (adjustedPaletteNum << 4), 0x20);
                 break;
             case OBJ_EVENT_GFX_WALLY:
-                LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_RubySapphireHero, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
                 break;
             case OBJ_EVENT_GFX_STEVEN:
-                LoadPalette(gObjectEventPal_RubySapphireMay, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_RubySapphireHero, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
                 break;
             }
         }

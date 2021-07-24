@@ -5029,8 +5029,7 @@ extern const u16 gFrontierFactorySelectMenu_Pal[];
 // Object event pals
 extern const u16 gObjectEventPal_Brendan[];
 extern const u16 gObjectEventPal_May[];
-extern const u16 gObjectEventPal_RubySapphireBrendan[];
-extern const u16 gObjectEventPal_RubySapphireMay[];
+extern const u16 gObjectEventPal_RubySapphireHero[];
 extern const u16 gObjectEventPal_EmeraldBrendan[];
 extern const u16 gObjectEventPal_EmeraldMay[];
 extern const u16 gObjectEventPal_Gold[];
