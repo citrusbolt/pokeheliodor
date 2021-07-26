@@ -832,7 +832,7 @@ static void DisplaySentToPCMessage(void)
 static bool8 MainState_WaitSentToPCMessage(void)
 {
     RunTextPrinters();
-    if (!IsTextPrinterActive(0) && JOY_NEW(A_BUTTON))
+    if (!IsTextPrinterActive(0) && (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)))
         sNamingScreen->state = STATE_FADE_OUT;
 
     return FALSE;
