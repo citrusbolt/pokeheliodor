@@ -78,6 +78,13 @@ BattleScript_TryNicknameCaughtMon::
 	waitstate
 	setbyte gBattleCommunication, 0
 	trygivecaughtmonnick BattleScript_GiveCaughtMonEnd
+	checkcaughtmonhasitem BattleScript_ContinueCaughtMon
+	printstring STRINGID_TAKEITEMCAPTURED
+	waitstate
+	setbyte gBattleCommunication, 0
+	trytakecaughtmonitem BattleScript_ContinueCaughtMon
+	printstring STRINGID_ITEMTAKEN
+BattleScript_ContinueCaughtMon::
 	givecaughtmon
 	printfromtable gCaughtMonStringIds
 	waitmessage B_WAIT_TIME_LONG

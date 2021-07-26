@@ -3254,5 +3254,7 @@ extern const u8 EventScript_PowerPurchase_Text_TrainingDesc3[];
 extern const u8 EventScript_PowerPurchase_Text_LuckyDesc1[];
 extern const u8 EventScript_PowerPurchase_Text_LuckyDesc2[];
 extern const u8 EventScript_PowerPurchase_Text_LuckyDesc3[];
+extern const u8 gText_TakeItemCaptured[];
+extern const u8 gText_ItemTaken[];
 
 #endif // GUARD_STRINGS_H

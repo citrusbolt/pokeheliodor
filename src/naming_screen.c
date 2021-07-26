@@ -125,6 +125,10 @@ enum {
     STATE_START_PAGE_SWAP,
     STATE_WAIT_PAGE_SWAP,
     STATE_PRESSED_OK,
+	STATE_WAIT_ASK_TO_TAKE_ITEM_MESSAGE,
+    STATE_TAKE_ITEM_MESSAGE,
+	STATE_WAIT_TAKE_ITEM_MESSAGE,
+	STATE_SENT_TO_PC_MESSAGE,
     STATE_WAIT_SENT_TO_PC_MESSAGE,
     STATE_FADE_OUT,
     STATE_EXIT,
@@ -341,6 +345,12 @@ static bool8 MainState_MoveToOKButton(void);
 static bool8 MainState_PressedOKButton(void);
 static bool8 MainState_FadeOut(void);
 static bool8 MainState_Exit(void);
+static bool8 MainState_WaitAskToTakeMessage(void);
+static bool8 MainState_TakeItemMessage(void);
+static bool8 MainState_WaitTakeItemMessage(void);
+static bool8 MainState_SentToPCMessage(void);
+static void DisplayAskToTakeItemMessage(void);
+static void DisplayTakeItemMessage(void);
 static void DisplaySentToPCMessage(void);
 static bool8 MainState_WaitSentToPCMessage(void);
 static bool8 MainState_StartPageSwap(void);
@@ -570,6 +580,18 @@ static void Task_NamingScreen(u8 taskId)
     case STATE_PRESSED_OK:
         MainState_PressedOKButton();
         break;
+    case STATE_WAIT_ASK_TO_TAKE_ITEM_MESSAGE:
+        MainState_WaitAskToTakeMessage();
+        break;
+    case STATE_TAKE_ITEM_MESSAGE:
+        MainState_TakeItemMessage();
+        break;
+    case STATE_WAIT_TAKE_ITEM_MESSAGE:
+        MainState_WaitTakeItemMessage();
+        break;
+    case STATE_SENT_TO_PC_MESSAGE:
+        MainState_SentToPCMessage();
+        break;
     case STATE_WAIT_SENT_TO_PC_MESSAGE:
         MainState_WaitSentToPCMessage();
         break;
@@ -677,8 +699,8 @@ static bool8 MainState_PressedOKButton(void)
     if (sNamingScreen->templateNum == NAMING_SCREEN_CAUGHT_MON 
         && CalculatePlayerPartyCount() >= PARTY_SIZE)
     {
-        DisplaySentToPCMessage();
-        sNamingScreen->state = STATE_WAIT_SENT_TO_PC_MESSAGE;
+        sNamingScreen->state = STATE_WAIT_ASK_TO_TAKE_ITEM_MESSAGE;
+        DisplayAskToTakeItemMessage();
         return FALSE;
     }
     else
@@ -707,6 +729,77 @@ static bool8 MainState_Exit(void)
         FREE_AND_SET_NULL(sNamingScreen);
     }
     return FALSE;
+}
+
+static void DisplayAskToTakeItemMessage(void)
+{
+	if (DoesCaughtMonHaveItem())
+	{
+		StringCopy(gStringVar2, sNamingScreen->destBuffer);
+		StringExpandPlaceholders(gStringVar4, gText_TakeItemCaptured);
+		DrawDialogueFrame(0, 0);
+		gTextFlags.canABSpeedUpPrint = TRUE;
+		AddTextPrinterParameterized2(0, 1, gStringVar4, GetPlayerTextSpeedDelay(), 0, 2, 1, 3);
+		DisplayYesNoMenuDefaultYes();
+		CopyWindowToVram(0, 3);
+	}
+	else
+	{
+		sNamingScreen->state = STATE_SENT_TO_PC_MESSAGE;
+	}
+}
+
+static bool8 MainState_WaitAskToTakeMessage(void)
+{
+	switch (Menu_ProcessInputNoWrapClearOnChoose())
+	{
+	case 0:
+		PlaySE(SE_SELECT);
+		FillWindowPixelBuffer(0, PIXEL_FILL(1));
+		sNamingScreen->state = STATE_TAKE_ITEM_MESSAGE;
+		break;
+	case 1:
+	case -1:
+		PlaySE(SE_SELECT);
+		sNamingScreen->state = STATE_SENT_TO_PC_MESSAGE;
+	}
+
+    RunTextPrinters();
+
+    return FALSE;
+}
+
+static bool8 MainState_TakeItemMessage(void)
+{
+	DisplayTakeItemMessage();
+	sNamingScreen->state = STATE_WAIT_TAKE_ITEM_MESSAGE;
+	return FALSE;
+}
+
+static void DisplayTakeItemMessage(void)
+{
+	PutCaughtMonItemInBag();
+	StringExpandPlaceholders(gStringVar4, gText_ItemTaken);
+	DrawDialogueFrame(0, 0);
+	gTextFlags.canABSpeedUpPrint = TRUE;
+	AddTextPrinterParameterized2(0, 1, gStringVar4, GetPlayerTextSpeedDelay(), 0, 2, 1, 3);
+	CopyWindowToVram(0, 3);
+}
+
+static bool8 MainState_WaitTakeItemMessage(void)
+{
+    RunTextPrinters();
+    if (!IsTextPrinterActive(0) && (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)))
+        sNamingScreen->state = STATE_SENT_TO_PC_MESSAGE;
+
+    return FALSE;
+}
+
+static bool8 MainState_SentToPCMessage(void)
+{
+	DisplaySentToPCMessage();
+	sNamingScreen->state = STATE_WAIT_SENT_TO_PC_MESSAGE;
+	return FALSE;
 }
 
 static void DisplaySentToPCMessage(void)
