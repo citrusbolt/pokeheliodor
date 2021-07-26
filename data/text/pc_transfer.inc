@@ -29,3 +29,11 @@ gText_NoMoreRoomForPokemon:: @ 827331C
 gText_NicknameThisPokemon:: @ 8273374
 	.string "Do you want to give a nickname to\n"
 	.string "this {STR_VAR_1}?$"
+
+gText_TakeItemCaptured::
+	.string "{STR_VAR_2} has a {STR_VAR_1}.\n"
+	.string "Would you like to place it in your Bag?$"
+
+gText_ItemTaken::
+	.string "You placed the {STR_VAR_1}\n"
+	.string "in your Bag.$"

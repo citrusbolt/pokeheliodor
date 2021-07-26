@@ -440,5 +440,7 @@ u8 GivePorygon(void);
 void RespawnLegendaries(void);
 void RespawnAllLegendaries(void);
 bool8 IsMewtwoInParty(void);
+bool8 DoesCaughtMonHaveItem(void);
+void PutCaughtMonItemInBag(void);
 
 #endif // GUARD_POKEMON_H

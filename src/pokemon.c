@@ -8026,3 +8026,47 @@ bool8 IsSpeciesInParty(void)
 	}
 	return FALSE;
 }
+
+bool8 DoesCaughtMonHaveItem(void)
+{
+	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, 0);
+	if(item != ITEM_NONE)
+	{
+		CopyItemNameHandlePlural(item, gStringVar1, 1);
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
+void PutCaughtMonItemInBag(void)
+{
+	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, 0);
+	AddBagItem(item, 1);
+	item = ITEM_NONE;
+	SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, &item);
+}
+
+bool8 DoesGiftMonHaveItem(void)
+{
+	u16 item = GetBoxMonData(GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos), MON_DATA_HELD_ITEM, 0);
+	if(item != ITEM_NONE)
+	{
+		CopyItemNameHandlePlural(item, gStringVar1, 1);
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
+void PutGiftMonItemInBag(void)
+{
+	u16 item = GetBoxMonData(GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos), MON_DATA_HELD_ITEM, 0);
+	AddBagItem(item, 1);
+	item = ITEM_NONE;
+	SetBoxMonData(GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos), MON_DATA_HELD_ITEM, &item);
+}

@@ -577,3 +577,5 @@ gSpecials:: @ 81DBA64
 	def_special UpdatePowerPointsWindow
 	def_special BufferPowerConfirm
 	def_special BuyPower
+	def_special DoesGiftMonHaveItem
+	def_special PutGiftMonItemInBag

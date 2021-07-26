@@ -876,9 +876,9 @@ void RockSmashWildEncounter(void)
     {
         const struct WildPokemonInfo *wildPokemonInfo;
 		if (IsNationalPokedexEnabled())
-			gWildMonHeaders[headerId].rockSmashMonsNatInfo;
+			wildPokemonInfo = gWildMonHeaders[headerId].rockSmashMonsNatInfo;
 		else
-			gWildMonHeaders[headerId].rockSmashMonsInfo;
+			wildPokemonInfo = gWildMonHeaders[headerId].rockSmashMonsInfo;
 
         if (wildPokemonInfo == NULL)
         {

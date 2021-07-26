@@ -670,6 +670,8 @@ const u8 gText_EmptyString3[] = _("");
 static const u8 sText_YouThrowABallNowRight[] = _("You throw a BALL now, right?\nI… I'll do my best!");
 static const u8 sText_PlayerLostToEnemyTrainer[] = _("{B_PLAYER_NAME} is out of\nusable POKéMON!\pPlayer lost against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_PlayerPaidPrizeMoney[] = _("{B_PLAYER_NAME} paid ¥{B_BUFF1} as the prize\nmoney…\p… … … …\p{B_PLAYER_NAME} whited out!{PAUSE_UNTIL_PRESS}");
+static const u8 sText_TakeItemCaptured[] = _("{B_OPPONENT_MON1_NAME} has a {STR_VAR_1}.\nWould you like to place it in your Bag?");
+static const u8 sText_ItemTaken[] = _("You placed the {STR_VAR_1}\nin your Bag.\p");
 
 // early declaration of strings
 static const u8 sText_PkmnIncapableOfPower[];
@@ -1060,6 +1062,8 @@ const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_TRAINER2WINTEXT - 12] = sText_Trainer2WinText,
 	[STRINGID_PLAYERLOSTTOENEMYTRAINER - 12] = sText_PlayerLostToEnemyTrainer,
     [STRINGID_PLAYERPAIDPRIZEMONEY - 12] = sText_PlayerPaidPrizeMoney,
+    [STRINGID_TAKEITEMCAPTURED - 12] = sText_TakeItemCaptured,
+    [STRINGID_ITEMTAKEN - 12] = sText_ItemTaken,
 };
 
 const u16 gMissStringIds[] =
