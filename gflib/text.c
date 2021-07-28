@@ -64,7 +64,7 @@ const struct GlyphWidthFunc gGlyphWidthFuncs[] =
     { 0x7, GetGlyphWidthFont7 },
     { 0x8, GetGlyphWidthFont8 },
     { 0x9, GetGlyphWidthFont9 },
-    { 0x10, GetGlyphWidthFont10 }
+    { 0xA, GetGlyphWidthFont10 }
 };
 
 const struct KeypadIcon gKeypadIcons[] =
