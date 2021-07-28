@@ -3256,5 +3256,18 @@ extern const u8 EventScript_PowerPurchase_Text_LuckyDesc2[];
 extern const u8 EventScript_PowerPurchase_Text_LuckyDesc3[];
 extern const u8 gText_TakeItemCaptured[];
 extern const u8 gText_ItemTaken[];
+extern const u8 gText_RSCardIDNo[];
+extern const u8 gText_RSCardName[];
+extern const u8 gText_RSCardTime[];
+extern const u8 gText_RSCardColon[];
+extern const u8 gText_RSCardHallOfFame[];
+extern const u8 gText_RSCardBattles[];
+extern const u8 gText_RSCardContests[];
+extern const u8 gText_RSCardTower[];
+extern const u8 gText_RSCardTowerStats[];
+extern const u8 gText_FRLGCardWinsLosses[];
+extern const u8 gText_FRLGCardWins[];
+extern const u8 gText_FRLGCardLosses[];
+
 
 #endif // GUARD_STRINGS_H
