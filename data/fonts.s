@@ -82,3 +82,11 @@ gFont10LatinGlyphs::
 	.align 2
 gFont10LatinGlyphWidths::
 	.include "graphics/fonts/emerald_widths.inc"
+	.align 2
+
+gFont11LatinGlyphs::
+	.incbin "graphics/fonts/ruby_sapphire.latfont"
+
+	.align 2
+gFont11LatinGlyphWidths::
+	.include "graphics/fonts/ruby_sapphire_widths.inc"

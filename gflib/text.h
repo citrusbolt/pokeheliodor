@@ -399,6 +399,7 @@ u16 Font7Func(struct TextPrinter *textPrinter);
 u16 Font8Func(struct TextPrinter *textPrinter);
 u16 Font9Func(struct TextPrinter *textPrinter);
 u16 Font10Func(struct TextPrinter *textPrinter);
+u16 Font11Func(struct TextPrinter *textPrinter);
 
 void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter);
 void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter);
@@ -433,6 +434,8 @@ void DecompressGlyphFont9(u16 glyphId);
 u32 GetGlyphWidthFont9(u16 glyphId, bool32 isJapanese);
 void DecompressGlyphFont10(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont10(u16 glyphId, bool32 isJapanese);
+void DecompressGlyphFont11(u16 glyphId, bool32 isJapanese);
+u32 GetGlyphWidthFont11(u16 glyphId, bool32 isJapanese);
 
 // unk_text_util_2.c
 u16 Font6Func(struct TextPrinter *textPrinter);
