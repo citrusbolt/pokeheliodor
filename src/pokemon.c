@@ -2793,7 +2793,10 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 	{
 		do
 		{
-			personality = Random32();
+			if (species == SPECIES_UNOWN)
+					personality = (Random() << 16) | Random();
+				else
+					personality = Random32();
 		}
 		while (nature != GetNatureFromPersonality(personality));
 		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
