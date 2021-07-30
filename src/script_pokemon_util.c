@@ -73,6 +73,9 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 u
     sentToPc = GiveMonToPlayer(&mon);
     nationalDexNum = SpeciesToNationalPokedexNum(species);
 
+	if (IsMonShiny(&mon))
+		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+
     switch(sentToPc)
     {
     case 0:
@@ -111,6 +114,9 @@ u8 ScriptGiveUnown(u8 level, u16 item)
 	sentToPc = GiveMonToPlayer(&mon);
     nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_UNOWN);
 	personality = GetMonData(&mon, MON_DATA_PERSONALITY);
+
+	if (IsMonShiny(&mon))
+		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 
     switch(sentToPc)
     {
@@ -186,6 +192,8 @@ void CreateScriptedWildMon(u16 species, u8 level, u16 item)
         heldItem[1] = item >> 8;
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, heldItem);
     }
+	if (IsMonShiny(&gEnemyParty[0]))
+		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 }
 
 void ScriptSetMonMoveSlot(u8 monIndex, u16 move, u8 slot)

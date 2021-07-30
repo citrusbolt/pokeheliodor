@@ -381,6 +381,9 @@ static void AddHatchedMonToParty(u8 id)
 
     MonRestorePP(mon);
     CalculateMonStats(mon);
+
+	if (IsMonShiny(mon))
+		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 }
 
 void ScriptHatchMon(void)
