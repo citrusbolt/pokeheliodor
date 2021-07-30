@@ -209,6 +209,8 @@ void NewGameInitData(void)
     gSaveBlock1Ptr->registeredItemL = 0;
     gSaveBlock1Ptr->registeredItemR = 0;
 	gSaveBlock2Ptr->lastUsedBall = 0;
+	gSaveBlock2Ptr->powerPoints = 0;
+	gSaveBlock2Ptr->totalEarnedPowerPoints = 0;
 }
 
 static void ResetMiniGamesRecords(void)

@@ -805,12 +805,16 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             {
                 if (DoMassOutbreakEncounterTest() == TRUE && SetUpMassOutbreakEncounter(WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
+					if (IsMonShiny(&gEnemyParty[0]))
+						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
                     BattleSetup_StartWildBattle();
                     return TRUE;
                 }
 				
 				 if (IsNationalPokedexEnabled() && TryGenerateWildMon(gWildMonHeaders[headerId].landMonsNatInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
+					if (IsMonShiny(&gEnemyParty[0]))
+						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
                     BattleSetup_StartWildBattle();
                     return TRUE;
                 }
@@ -818,6 +822,8 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                 // try a regular wild land encounter
                 if (TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
+					if (IsMonShiny(&gEnemyParty[0]))
+						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
                     BattleSetup_StartWildBattle();
                     return TRUE;
                 }
@@ -850,12 +856,16 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             {
 				 if (IsNationalPokedexEnabled() && TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatInfo, WILD_AREA_WATER, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
+					if (IsMonShiny(&gEnemyParty[0]))
+						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
                     BattleSetup_StartWildBattle();
                     return TRUE;
                 }
 
                 if (TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsInfo, WILD_AREA_WATER, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
+					if (IsMonShiny(&gEnemyParty[0]))
+						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
                     BattleSetup_StartWildBattle();
                     return TRUE;
                 }
@@ -887,6 +897,8 @@ void RockSmashWildEncounter(void)
         else if (DoWildEncounterRateTest(wildPokemonInfo->encounterRate, 1) == TRUE
          && TryGenerateWildMon(wildPokemonInfo, 2, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
         {
+			if (IsMonShiny(&gEnemyParty[0]))
+				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
             BattleSetup_StartWildBattle();
             gSpecialVar_Result = TRUE;
         }
@@ -949,6 +961,8 @@ bool8 SweetScentWildEncounter(void)
             else
                 TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, 0);
 
+			if (IsMonShiny(&gEnemyParty[0]))
+				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
             BattleSetup_StartWildBattle();
             return TRUE;
         }
@@ -966,6 +980,8 @@ bool8 SweetScentWildEncounter(void)
             }
 
             TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsInfo, WILD_AREA_WATER, 0);
+			if (IsMonShiny(&gEnemyParty[0]))
+				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
             BattleSetup_StartWildBattle();
             return TRUE;
         }
@@ -1004,6 +1020,8 @@ void FishingWildEncounter(u8 rod)
     }
     IncrementGameStat(GAME_STAT_FISHING_CAPTURES);
     SetPokemonAnglerSpecies(species);
+	if (IsMonShiny(&gEnemyParty[0]))
+		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
     BattleSetup_StartWildBattle();
 }
 

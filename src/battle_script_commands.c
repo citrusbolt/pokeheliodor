@@ -10343,7 +10343,7 @@ static void Cmd_trainerslideout(void)
 static void Cmd_checkcaughtmonhasitem(void)
 {
 	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM);
-	if (item != ITEM_NONE)
+	if (item != ITEM_NONE && CheckBagHasSpace(item, 1))
 	{
 		CopyItemNameHandlePlural(item, gStringVar1, 1);
 		gBattlescriptCurrInstr += 5;

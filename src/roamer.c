@@ -136,8 +136,9 @@ static void CreateInitialRoamerMon(bool16 createRoamer)
 	if (createRoamer > 3)
 		sRoamerLocation[MAP_NUM] = sLandRoamerLocations[Random() % (ARRAY_COUNT(sLandRoamerLocations) - 1)][0];
 	else
-		
 		sRoamerLocation[MAP_NUM] = sRoamerLocations[Random() % (ARRAY_COUNT(sRoamerLocations) - 1)][0];
+	if (IsMonShiny(&gEnemyParty[0]))
+		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 }
 
 void InitRoamer(void)

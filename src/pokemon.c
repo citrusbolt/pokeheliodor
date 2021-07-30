@@ -2793,7 +2793,10 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 	{
 		do
 		{
-			personality = Random32();
+			if (species == SPECIES_UNOWN)
+					personality = (Random() << 16) | Random();
+				else
+					personality = Random32();
 		}
 		while (nature != GetNatureFromPersonality(personality));
 		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
@@ -8030,7 +8033,7 @@ bool8 IsSpeciesInParty(void)
 bool8 DoesCaughtMonHaveItem(void)
 {
 	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, 0);
-	if(item != ITEM_NONE)
+	if(item != ITEM_NONE && CheckBagHasSpace(item, 1))
 	{
 		CopyItemNameHandlePlural(item, gStringVar1, 1);
 		return TRUE;
@@ -8052,7 +8055,7 @@ void PutCaughtMonItemInBag(void)
 bool8 DoesGiftMonHaveItem(void)
 {
 	u16 item = GetBoxMonData(GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos), MON_DATA_HELD_ITEM, 0);
-	if(item != ITEM_NONE)
+	if(item != ITEM_NONE && CheckBagHasSpace(item, 1))
 	{
 		CopyItemNameHandlePlural(item, gStringVar1, 1);
 		return TRUE;
