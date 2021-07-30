@@ -5,6 +5,8 @@
 #include "roamer.h"
 #include "constants/maps.h"
 #include "pokedex.h"
+#include "overworld.h"
+#include "constants/game_stat.h"
 
 enum
 {
