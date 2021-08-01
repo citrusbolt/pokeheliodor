@@ -52,6 +52,7 @@ void BuyPower(void)
 {
 	u8 type = gSpecialVar_0x8004;
 	u8 level = gSpecialVar_0x8005;
+	u16 time;
 	
 	if (gSaveBlock2Ptr->powerPoints < sPowerPrices[type][level])
 	{
@@ -62,22 +63,42 @@ void BuyPower(void)
 	switch (level)
 	{
 		case 1:
-			gPowerTime = 10;
+			time = 10;
 			break;
 		case 2:
-			gPowerTime = 20;
+			time = 20;
 			break;
 		case 3:
-			gPowerTime = 60;
+			time = 60;
 			break;
 		default:
 			gSpecialVar_Result = FALSE;
 			return;
 	}
 	
+	if (gPowerType == type && gPowerTime > 0)
+	{
+		if (time + gPowerTime > 255)
+		{
+			gSpecialVar_Result = 2;
+			return;
+		}
+		else
+		{
+			gPowerTime += time;
+		}
+		
+		if (gPowerLevel < level)
+			gPowerLevel = level;
+	}
+	else
+	{
+		gPowerType = type;
+		gPowerLevel = level;
+		gPowerTime = time;
+	}
+	
 	gSaveBlock2Ptr->powerPoints -= sPowerPrices[type][level];
-	gPowerType = type;
-	gPowerLevel = level;
 	gSpecialVar_Result = TRUE;
 }
 

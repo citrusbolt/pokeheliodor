@@ -1,4 +1,7 @@
 EventScript_PowerPurchase::
+	compare VAR_0x8004, TRUE
+	goto_if_eq EventScript_PowerPurchase_Active
+EventScript_PowerPurchase_Menu::
 	message EventScript_PowerPurchase_Text_WhichPower
 	waitmessage
 	special ShowPowerPointsWindow
@@ -12,12 +15,21 @@ EventScript_PowerPurchase::
 	special BufferPowerConfirm
 	msgbox EventScript_PowerPurchase_Text_ConfirmPurchase, MSGBOX_YESNO
 	compare VAR_RESULT, NO
-	goto_if_eq EventScript_PowerPurchase
+	goto_if_eq EventScript_PowerPurchase_Menu
 	special BuyPower
 	compare VAR_RESULT, TRUE
 	goto_if_eq EventScript_PowerPurchase_PowerActivated
+	compare VAR_RESULT, 2
+	goto_if_eq EventScript_PowerPurchase_TimeMaxedOut
 	msgbox EventScript_PowerPurchase_Text_DontHaveEnoughPoints, MSGBOX_DEFAULT
-	goto EventScript_PowerPurchase
+	goto EventScript_PowerPurchase_Menu
+
+EventScript_PowerPurchase_Active::
+	msgbox gStringVar4, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_PowerPurchase_Menu
+	release
+	end
 
 EventScript_PowerPurchase_PowerActivated::
 	special UpdatePowerPointsWindow
@@ -27,7 +39,10 @@ EventScript_PowerPurchase_PowerActivated::
 	waitse
 	playse SE_USE_ITEM
 	msgbox EventScript_PowerPurchase_Text_PowerActivated, MSGBOX_DEFAULT
-	
+	goto EventScript_PowerPurchase_Exit
+
+EventScript_PowerPurchase_TimeMaxedOut::
+	msgbox EventScript_PowerPurchase_Text_TimeMaxedOut, MSGBOX_DEFAULT
 EventScript_PowerPurchase_Exit::
 	special CloseBattlePointsWindow
 	release
@@ -182,3 +197,7 @@ EventScript_PowerPurchase_Text_LuckyDesc2::
 EventScript_PowerPurchase_Text_LuckyDesc3::
 	.string "Increases the chance of finding rare {PKMN}\n"
 	.string "a lot. The effect lasts 60 minutes.$"
+
+EventScript_PowerPurchase_Text_TimeMaxedOut:
+	.string "H-{STR_VAR_1} time can not\n"
+	.string "be increased that much!$"

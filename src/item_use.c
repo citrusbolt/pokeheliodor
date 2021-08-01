@@ -1159,113 +1159,57 @@ void ItemUseOutOfBattle_PowerPad(u8 taskId)
 	DoTimeBasedEvents();
 	GivePowerPoints();
 	
-	if (!gTasks[taskId].tUsingRegisteredKeyItem)
+	if (gPowerTime > 0)
 	{
-		if (gPowerTime > 0)
+		switch (gPowerType)
 		{
-			switch (gPowerType)
-			{
-				case POWER_HATCH:
-					StringCopy(gStringVar1, gText_PowerHatch);
-					break;
-				case POWER_BARGAIN:
-					StringCopy(gStringVar1, gText_PowerBargain);
-					break;
-				case POWER_PRIZE:
-					StringCopy(gStringVar1, gText_PowerPrize);
-					break;
-				case POWER_EXP:
-					StringCopy(gStringVar1, gText_PowerExp);
-					break;
-				case POWER_CAPTURE:
-					StringCopy(gStringVar1, gText_PowerCapture);
-					break;
-				case POWER_ENCOUNTER:
-					StringCopy(gStringVar1, gText_PowerEncounter);
-					break;
-				case POWER_STEALTH:
-					StringCopy(gStringVar1, gText_PowerStealth);
-					break;
-				case POWER_FRIEND:
-					StringCopy(gStringVar1, gText_PowerFriend);
-					break;
-				case POWER_ITEM:
-					StringCopy(gStringVar1, gText_PowerItem);
-					break;
-				case POWER_TRAINING:
-					StringCopy(gStringVar1, gText_PowerTraining);
-					break;
-				case POWER_LUCKY:
-					StringCopy(gStringVar1, gText_PowerLucky);
-					break;
-			}
-			
-			ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
-			ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
-			if (gPowerTime > 1)
-				StringExpandPlaceholders(gStringVar4, gText_PowerActive);
-			else
-				StringExpandPlaceholders(gStringVar4, gText_PowerActiveOneMinute);
-			DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
+			case POWER_HATCH:
+				StringCopy(gStringVar1, gText_PowerHatch);
+				break;
+			case POWER_BARGAIN:
+				StringCopy(gStringVar1, gText_PowerBargain);
+				break;
+			case POWER_PRIZE:
+				StringCopy(gStringVar1, gText_PowerPrize);
+				break;
+			case POWER_EXP:
+				StringCopy(gStringVar1, gText_PowerExp);
+				break;
+			case POWER_CAPTURE:
+				StringCopy(gStringVar1, gText_PowerCapture);
+				break;
+			case POWER_ENCOUNTER:
+				StringCopy(gStringVar1, gText_PowerEncounter);
+				break;
+			case POWER_STEALTH:
+				StringCopy(gStringVar1, gText_PowerStealth);
+				break;
+			case POWER_FRIEND:
+				StringCopy(gStringVar1, gText_PowerFriend);
+				break;
+			case POWER_TRAINING:
+				StringCopy(gStringVar1, gText_PowerTraining);
+				break;
+			case POWER_LUCKY:
+				StringCopy(gStringVar1, gText_PowerLucky);
+				break;
 		}
+		
+		ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
+		ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
+		if (gPowerTime > 1)
+			StringExpandPlaceholders(gStringVar4, gText_PowerActive);
 		else
-		{
-			sItemUseOnFieldCB = ItemUseOnFieldCB_PowerPurchase;
-			SetUpItemUseOnFieldCallback(taskId);
-		}
+			StringExpandPlaceholders(gStringVar4, gText_PowerActiveOneMinute);
+		gSpecialVar_0x8004 = TRUE;
 	}
 	else
 	{
-		if (gPowerTime > 0)
-		{
-			switch (gPowerType)
-			{
-				case POWER_HATCH:
-					StringCopy(gStringVar1, gText_PowerHatch);
-					break;
-				case POWER_BARGAIN:
-					StringCopy(gStringVar1, gText_PowerBargain);
-					break;
-				case POWER_PRIZE:
-					StringCopy(gStringVar1, gText_PowerPrize);
-					break;
-				case POWER_EXP:
-					StringCopy(gStringVar1, gText_PowerExp);
-					break;
-				case POWER_CAPTURE:
-					StringCopy(gStringVar1, gText_PowerCapture);
-					break;
-				case POWER_ENCOUNTER:
-					StringCopy(gStringVar1, gText_PowerEncounter);
-					break;
-				case POWER_STEALTH:
-					StringCopy(gStringVar1, gText_PowerStealth);
-					break;
-				case POWER_FRIEND:
-					StringCopy(gStringVar1, gText_PowerFriend);
-					break;
-				case POWER_TRAINING:
-					StringCopy(gStringVar1, gText_PowerTraining);
-					break;
-				case POWER_LUCKY:
-					StringCopy(gStringVar1, gText_PowerLucky);
-					break;
-			}
-			
-			ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
-			ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
-			if (gPowerTime > 1)
-				StringExpandPlaceholders(gStringVar4, gText_PowerActive);
-			else
-				StringExpandPlaceholders(gStringVar4, gText_PowerActiveOneMinute);
-			DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
-		}
-		else
-		{
-			sItemUseOnFieldCB = ItemUseOnFieldCB_PowerPurchase;
-			SetUpItemUseOnFieldCallback(taskId);
-		}
+		gSpecialVar_0x8004 = FALSE;
 	}
+
+	sItemUseOnFieldCB = ItemUseOnFieldCB_PowerPurchase;
+	SetUpItemUseOnFieldCallback(taskId);
 }
 
 static void ItemUseOnFieldCB_PowerPurchase(u8 taskId)
