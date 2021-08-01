@@ -587,6 +587,8 @@ static u32 AllocateFrontierPassData(void (*callback)(void))
     sPassData->hasBattleRecord = CanCopyRecordedBattleSaveData();
     sPassData->unkE = 0;
     sPassData->trainerStars = CountPlayerTrainerStars();
+	if (sPassData->trainerStars > 4)
+		sPassData->trainerStars = 4;
     for (i = 0; i < 7; i++)
     {
         if (FlagGet(FLAG_SYS_TOWER_SILVER + i * 2))
