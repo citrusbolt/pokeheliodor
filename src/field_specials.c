@@ -5112,22 +5112,22 @@ void UpdateTrainerCardStickers(void)
 	{
 		case 0:
 			StringCopy(gStringVar1, gText_CardTerminal_StickerHOFName);
-			if (gSaveBlock1Ptr->trainerCardStickers[0] == 0 && GetGameStat(GAME_STAT_ENTERED_HOF) > 1)
+			if (gSaveBlock1Ptr->trainerCardStickers[0] == 0 && GetGameStat(GAME_STAT_ENTERED_HOF) >= 1)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[0] = 1;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 1 && GetGameStat(GAME_STAT_ENTERED_HOF) > 40)
+			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 1 && GetGameStat(GAME_STAT_ENTERED_HOF) >= 40)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[0] = 2;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 2 && GetGameStat(GAME_STAT_ENTERED_HOF) > 100)
+			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 2 && GetGameStat(GAME_STAT_ENTERED_HOF) >= 100)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[0] = 3;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 3 && GetGameStat(GAME_STAT_ENTERED_HOF) > 200)
+			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 3 && GetGameStat(GAME_STAT_ENTERED_HOF) >= 200)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[0] = 4;
 				gSpecialVar_Result = TRUE;
@@ -5135,22 +5135,22 @@ void UpdateTrainerCardStickers(void)
 			break;
 		case 1:
 			StringCopy(gStringVar1, gText_CardTerminal_StickerEggName);
-			if (gSaveBlock1Ptr->trainerCardStickers[1] == 0 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 1)
+			if (gSaveBlock1Ptr->trainerCardStickers[1] == 0 && GetGameStat(GAME_STAT_HATCHED_EGGS) >= 1)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[1] = 1;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 1 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 100)
+			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 1 && GetGameStat(GAME_STAT_HATCHED_EGGS) >= 100)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[1] = 2;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 2 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 200)
+			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 2 && GetGameStat(GAME_STAT_HATCHED_EGGS) >= 200)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[1] = 3;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 3 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 300)
+			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 3 && GetGameStat(GAME_STAT_HATCHED_EGGS) >= 300)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[1] = 4;
 				gSpecialVar_Result = TRUE;
@@ -5158,22 +5158,22 @@ void UpdateTrainerCardStickers(void)
 			break;
 		case 2:
 			StringCopy(gStringVar1, gText_CardTerminal_StickerBattleName);
-			if (gSaveBlock1Ptr->trainerCardStickers[2] == 0 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 1)
+			if (gSaveBlock1Ptr->trainerCardStickers[2] == 0 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) >= 1)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[2] = 1;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 1 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 20)
+			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 1 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) >= 20)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[2] = 2;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 2 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 50)
+			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 2 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) >= 50)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[2] = 3;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 3 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 100)
+			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 3 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) >= 100)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[2] = 4;
 				gSpecialVar_Result = TRUE;
@@ -5181,22 +5181,22 @@ void UpdateTrainerCardStickers(void)
 			break;
 		case 3:
 			StringCopy(gStringVar1, gText_CardTerminal_StickerShinyName);
-			if (gSaveBlock1Ptr->trainerCardStickers[3] == 0 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 1)
+			if (gSaveBlock1Ptr->trainerCardStickers[3] == 0 && GetGameStat(GAME_STAT_SHINIES_FOUND) >= 1)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[3] = 1;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 1 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 10)
+			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 1 && GetGameStat(GAME_STAT_SHINIES_FOUND) >= 10)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[3] = 2;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 2 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 25)
+			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 2 && GetGameStat(GAME_STAT_SHINIES_FOUND) >= 25)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[3] = 3;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 3 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 50)
+			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 3 && GetGameStat(GAME_STAT_SHINIES_FOUND) >= 50)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[3] = 4;
 				gSpecialVar_Result = TRUE;
@@ -5204,22 +5204,22 @@ void UpdateTrainerCardStickers(void)
 			break;
 		case 4:
 			StringCopy(gStringVar1, gText_CardTerminal_StickerBerryName);
-			if (gSaveBlock1Ptr->trainerCardStickers[4] == 0 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 10)
+			if (gSaveBlock1Ptr->trainerCardStickers[4] == 0 && GetGameStat(GAME_STAT_PLANTED_BERRIES) >= 10)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[4] = 1;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 1 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 50)
+			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 1 && GetGameStat(GAME_STAT_PLANTED_BERRIES) >= 50)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[4] = 2;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 2 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 150)
+			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 2 && GetGameStat(GAME_STAT_PLANTED_BERRIES) >= 150)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[4] = 3;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 3 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 300)
+			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 3 && GetGameStat(GAME_STAT_PLANTED_BERRIES) >= 300)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[4] = 4;
 				gSpecialVar_Result = TRUE;
@@ -5227,22 +5227,22 @@ void UpdateTrainerCardStickers(void)
 			break;
 		case 5:
 			StringCopy(gStringVar1, gText_CardTerminal_StickerCatchName);
-			if (gSaveBlock1Ptr->trainerCardStickers[5] == 0 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 50)
+			if (gSaveBlock1Ptr->trainerCardStickers[5] == 0 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) >= 50)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[5] = 1;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 1 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 150)
+			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 1 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) >= 150)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[5] = 2;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 2 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 250)
+			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 2 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) >= 250)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[5] = 3;
 				gSpecialVar_Result = TRUE;
 			}
-			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 3 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 400)
+			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 3 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) >= 400)
 			{
 				gSaveBlock1Ptr->trainerCardStickers[5] = 4;
 				gSpecialVar_Result = TRUE;
