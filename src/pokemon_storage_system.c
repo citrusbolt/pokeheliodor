@@ -1874,12 +1874,12 @@ static void ChooseBoxMenu_CreateSprites(u8 curBox)
         anim = 0;
         if (i & 2)
         {
-            sChooseBoxMenu->menuSideSprites[i]->pos1.x = 196;
+            sChooseBoxMenu->menuSideSprites[i]->x = 196;
             anim = 2;
         }
         if (i & 1)
         {
-            sChooseBoxMenu->menuSideSprites[i]->pos1.y = 112;
+            sChooseBoxMenu->menuSideSprites[i]->y = 112;
             sChooseBoxMenu->menuSideSprites[i]->oam.size = 0;
             anim++;
         }
@@ -1971,11 +1971,11 @@ static void SpriteCB_ChooseBoxArrow(struct Sprite *sprite)
     if (++sprite->data[1] > 3)
     {
         sprite->data[1] = 0;
-        sprite->pos2.x += sprite->data[0];
+        sprite->x2 += sprite->data[0];
         if (++sprite->data[2] > 5)
         {
             sprite->data[2] = 0;
-            sprite->pos2.x = 0;
+            sprite->x2 = 0;
         }
     }
 }
@@ -3882,8 +3882,8 @@ static void CreateMarkingComboSprite(void)
     sStorage->markingComboSprite = CreateMonMarkingComboSprite(GFXTAG_MARKING_COMBO, PALTAG_MARKING_COMBO, NULL);
     sStorage->markingComboSprite->oam.priority = 1;
     sStorage->markingComboSprite->subpriority = 1;
-    sStorage->markingComboSprite->pos1.x = 40;
-    sStorage->markingComboSprite->pos1.y = 150;
+    sStorage->markingComboSprite->x = 40;
+    sStorage->markingComboSprite->y = 150;
     sStorage->markingComboTilesPtr = (void*) OBJ_VRAM0 + 32 * GetSpriteTileStartByTag(GFXTAG_MARKING_COMBO);
 }
 
@@ -4549,13 +4549,13 @@ static void SpriteCB_BoxMonIconScrollIn(struct Sprite *sprite)
     {
         // Icon moving
         sprite->sDistance--;
-        sprite->pos1.x += sprite->sSpeed;
+        sprite->x += sprite->sSpeed;
     }
     else
     {
         // Icon arrived
         sStorage->iconScrollNumIncoming--;
-        sprite->pos1.x = sprite->sScrollInDestX;
+        sprite->x = sprite->sScrollInDestX;
         sprite->callback = SpriteCallbackDummy;
     }
 }
@@ -4569,8 +4569,8 @@ static void SpriteCB_BoxMonIconScrollOut(struct Sprite *sprite)
     else
     {
         // Icon moving
-        sprite->pos1.x += sprite->sSpeed;
-        sprite->sScrollOutX = sprite->pos1.x + sprite->pos2.x;
+        sprite->x += sprite->sSpeed;
+        sprite->sScrollOutX = sprite->x + sprite->x2;
 
         // Check if icon offscreen
         if (sprite->sScrollOutX <= 68 || sprite->sScrollOutX >= 252)
@@ -4794,7 +4794,7 @@ static void CreatePartyMonsSprites(bool8 visible)
     {
         for (i = 0; i < count; i++)
         {
-            sStorage->partySprites[i]->pos1.y -= DISPLAY_HEIGHT;
+            sStorage->partySprites[i]->y -= DISPLAY_HEIGHT;
             sStorage->partySprites[i]->invisible = TRUE;
         }
     }
@@ -4851,8 +4851,8 @@ static void MovePartySpriteToNextSlot(struct Sprite *sprite, u16 partyId)
     else
         x = 152, y = 8 * (3 * (partyId - 1)) + 16;
 
-    sprite->sMonX = (u16)(sprite->pos1.x) * 8;
-    sprite->sMonY = (u16)(sprite->pos1.y) * 8;
+    sprite->sMonX = (u16)(sprite->x) * 8;
+    sprite->sMonY = (u16)(sprite->y) * 8;
     sprite->sSpeedX = ((x * 8) - sprite->sMonX) / 8;
     sprite->sSpeedY = ((y * 8) - sprite->sMonY) / 8;
     sprite->data[6] = 8;
@@ -4865,21 +4865,21 @@ static void SpriteCB_MovePartyMonToNextSlot(struct Sprite *sprite)
     {
         s16 x = sprite->sMonX += sprite->sSpeedX;
         s16 y = sprite->sMonY += sprite->sSpeedY;
-        sprite->pos1.x = x / 8u;
-        sprite->pos1.y = y / 8u;
+        sprite->x = x / 8u;
+        sprite->y = y / 8u;
         sprite->sMoveSteps--;
     }
     else
     {
         if (sprite->sPartyId == 0)
         {
-            sprite->pos1.x = 104;
-            sprite->pos1.y = 64;
+            sprite->x = 104;
+            sprite->y = 64;
         }
         else
         {
-            sprite->pos1.x = 152;
-            sprite->pos1.y = 8 * (3 * (sprite->sPartyId - 1)) + 16;
+            sprite->x = 152;
+            sprite->y = 8 * (3 * (sprite->sPartyId - 1)) + 16;
         }
         sprite->callback = SpriteCallbackDummy;
         sStorage->partySprites[sprite->sPartyId] = sprite;
@@ -4911,8 +4911,8 @@ static void MovePartySprites(s16 yDelta)
     {
         if (sStorage->partySprites[i] != NULL)
         {
-            sStorage->partySprites[i]->pos1.y += yDelta;
-            posY = sStorage->partySprites[i]->pos1.y + sStorage->partySprites[i]->pos2.y + sStorage->partySprites[i]->centerToCornerVecY;
+            sStorage->partySprites[i]->y += yDelta;
+            posY = sStorage->partySprites[i]->y + sStorage->partySprites[i]->y2 + sStorage->partySprites[i]->centerToCornerVecY;
             posY += 16;
             if (posY > 192)
                 sStorage->partySprites[i]->invisible = TRUE;
@@ -5012,12 +5012,12 @@ static bool8 MoveShiftingMons(void)
     sStorage->shiftTimer++;
     if (sStorage->shiftTimer & 1)
     {
-        (*sStorage->shiftMonSpritePtr)->pos1.y--;
-        sStorage->movingMonSprite->pos1.y++;
+        (*sStorage->shiftMonSpritePtr)->y--;
+        sStorage->movingMonSprite->y++;
     }
 
-    (*sStorage->shiftMonSpritePtr)->pos2.x = gSineTable[sStorage->shiftTimer * 8] / 16;
-    sStorage->movingMonSprite->pos2.x = -(gSineTable[sStorage->shiftTimer * 8] / 16);
+    (*sStorage->shiftMonSpritePtr)->x2 = gSineTable[sStorage->shiftTimer * 8] / 16;
+    sStorage->movingMonSprite->x2 = -(gSineTable[sStorage->shiftTimer * 8] / 16);
     if (sStorage->shiftTimer == 8)
     {
         sStorage->movingMonSprite->oam.priority = (*sStorage->shiftMonSpritePtr)->oam.priority;
@@ -5114,8 +5114,8 @@ static void SetMovingMonPriority(u8 priority)
 
 static void SpriteCB_HeldMon(struct Sprite *sprite)
 {
-    sprite->pos1.x = sStorage->cursorSprite->pos1.x;
-    sprite->pos1.y = sStorage->cursorSprite->pos1.y + sStorage->cursorSprite->pos2.y + 4;
+    sprite->x = sStorage->cursorSprite->x;
+    sprite->y = sStorage->cursorSprite->y + sStorage->cursorSprite->y2 + 4;
 }
 
 static u16 TryLoadMonIconTiles(u16 species)
@@ -5615,7 +5615,7 @@ static void SpriteCB_IncomingBoxTitle(struct Sprite *sprite)
 {
     if (sprite->sIncomingDelay != 0)
         sprite->sIncomingDelay--;
-    else if ((sprite->pos1.x += sprite->sSpeed) == sprite->sIncomingX)
+    else if ((sprite->x += sprite->sSpeed) == sprite->sIncomingX)
         sprite->callback = SpriteCallbackDummy;
 }
 
@@ -5627,8 +5627,8 @@ static void SpriteCB_OutgoingBoxTitle(struct Sprite *sprite)
     }
     else
     {
-        sprite->pos1.x += sprite->sSpeed;
-        sprite->sOutgoingX = sprite->pos1.x + sprite->pos2.x;
+        sprite->x += sprite->sSpeed;
+        sprite->sOutgoingX = sprite->x + sprite->x2;
         if (sprite->sOutgoingX < 64 || sprite->sOutgoingX > DISPLAY_WIDTH + 16)
             DestroySprite(sprite);
     }
@@ -5693,7 +5693,7 @@ static void StartBoxScrollArrowsSlide(s8 direction)
 
     for (i = 0; i < 2; i++)
     {
-        sStorage->arrowSprites[i]->pos2.x = 0;
+        sStorage->arrowSprites[i]->x2 = 0;
         sStorage->arrowSprites[i]->sState = 2;
     }
     if (direction < 0)
@@ -5721,8 +5721,8 @@ static void StopBoxScrollArrowsSlide(void)
 
     for (i = 0; i < 2; i++)
     {
-        sStorage->arrowSprites[i]->pos1.x = 136 * i + 92;
-        sStorage->arrowSprites[i]->pos2.x = 0;
+        sStorage->arrowSprites[i]->x = 136 * i + 92;
+        sStorage->arrowSprites[i]->x2 = 0;
         sStorage->arrowSprites[i]->invisible = FALSE;
     }
     AnimateBoxScrollArrows(TRUE);
@@ -5757,17 +5757,17 @@ static void SpriteCB_Arrow(struct Sprite *sprite)
     switch (sprite->sState)
     {
     case 0:
-        sprite->pos2.x = 0;
+        sprite->x2 = 0;
         break;
     case 1:
         if (++sprite->sTimer > 3)
         {
             sprite->sTimer = 0;
-            sprite->pos2.x += sprite->sSpeed;
+            sprite->x2 += sprite->sSpeed;
             if (++sprite->data[2] > 5)
             {
                 sprite->data[2] = 0;
-                sprite->pos2.x = 0;
+                sprite->x2 = 0;
             }
         }
         break;
@@ -5775,18 +5775,18 @@ static void SpriteCB_Arrow(struct Sprite *sprite)
         sprite->sState = 3;
         break;
     case 3:
-        sprite->pos1.x -= sStorage->scrollSpeed;
-        if (sprite->pos1.x <= 72 || sprite->pos1.x >= DISPLAY_WIDTH + 8)
+        sprite->x -= sStorage->scrollSpeed;
+        if (sprite->x <= 72 || sprite->x >= DISPLAY_WIDTH + 8)
             sprite->invisible = TRUE;
         if (--sprite->sTimer == 0)
         {
-            sprite->pos1.x = sprite->data[2];
+            sprite->x = sprite->data[2];
             sprite->invisible = FALSE;
             sprite->sState = 4;
         }
         break;
     case 4:
-        sprite->pos1.x -= sStorage->scrollSpeed;
+        sprite->x -= sStorage->scrollSpeed;
         break;
     }
 }
@@ -5918,35 +5918,35 @@ static bool8 UpdateCursorPos(void)
         // Update position toward target
         sStorage->cursorNewX += sStorage->cursorSpeedX;
         sStorage->cursorNewY += sStorage->cursorSpeedY;
-        sStorage->cursorSprite->pos1.x = sStorage->cursorNewX >> 8;
-        sStorage->cursorSprite->pos1.y = sStorage->cursorNewY >> 8;
+        sStorage->cursorSprite->x = sStorage->cursorNewX >> 8;
+        sStorage->cursorSprite->y = sStorage->cursorNewY >> 8;
         
         // Limit cursor on right
-        if (sStorage->cursorSprite->pos1.x > DISPLAY_WIDTH + 16)
+        if (sStorage->cursorSprite->x > DISPLAY_WIDTH + 16)
         {
-            tmp = sStorage->cursorSprite->pos1.x - (DISPLAY_WIDTH + 16);
-            sStorage->cursorSprite->pos1.x = tmp + 64;
+            tmp = sStorage->cursorSprite->x - (DISPLAY_WIDTH + 16);
+            sStorage->cursorSprite->x = tmp + 64;
         }
 
         // Limit cursor on left
-        if (sStorage->cursorSprite->pos1.x < 64)
+        if (sStorage->cursorSprite->x < 64)
         {
-            tmp = 64 - sStorage->cursorSprite->pos1.x;
-            sStorage->cursorSprite->pos1.x = DISPLAY_WIDTH + 16 - tmp;
+            tmp = 64 - sStorage->cursorSprite->x;
+            sStorage->cursorSprite->x = DISPLAY_WIDTH + 16 - tmp;
         }
 
         // Limit cursor on bottom
-        if (sStorage->cursorSprite->pos1.y > DISPLAY_HEIGHT + 16)
+        if (sStorage->cursorSprite->y > DISPLAY_HEIGHT + 16)
         {
-            tmp = sStorage->cursorSprite->pos1.y - (DISPLAY_HEIGHT + 16);
-            sStorage->cursorSprite->pos1.y = tmp - 16;
+            tmp = sStorage->cursorSprite->y - (DISPLAY_HEIGHT + 16);
+            sStorage->cursorSprite->y = tmp - 16;
         }
 
         // Limit cursor on top
-        if (sStorage->cursorSprite->pos1.y < -16)
+        if (sStorage->cursorSprite->y < -16)
         {
-            tmp = -16 - sStorage->cursorSprite->pos1.y;
-            sStorage->cursorSprite->pos1.y = DISPLAY_HEIGHT + 16 - tmp;
+            tmp = -16 - sStorage->cursorSprite->y;
+            sStorage->cursorSprite->y = DISPLAY_HEIGHT + 16 - tmp;
         }
 
         // Cursor flips vertically when moving on/off the top buttons
@@ -5956,8 +5956,8 @@ static bool8 UpdateCursorPos(void)
     else
     {
         // Time is up for cursor movement, make sure it's exactly at target
-        sStorage->cursorSprite->pos1.x = sStorage->cursorTargetX;
-        sStorage->cursorSprite->pos1.y = sStorage->cursorTargetY;
+        sStorage->cursorSprite->x = sStorage->cursorTargetX;
+        sStorage->cursorSprite->y = sStorage->cursorTargetY;
         DoCursorNewPosUpdate();
     }
 
@@ -5990,26 +5990,26 @@ static void InitCursorMove(void)
     switch (sStorage->cursorVerticalWrap)
     {
         default: // No wrap
-            yDistance = sStorage->cursorTargetY - sStorage->cursorSprite->pos1.y;
+            yDistance = sStorage->cursorTargetY - sStorage->cursorSprite->y;
             break;
         case -1: // Wrap from top to bottom
-            yDistance = sStorage->cursorTargetY - 192 - sStorage->cursorSprite->pos1.y;
+            yDistance = sStorage->cursorTargetY - 192 - sStorage->cursorSprite->y;
             break;
         case 1: // Wrap from bottom to top
-            yDistance = sStorage->cursorTargetY + 192 - sStorage->cursorSprite->pos1.y;
+            yDistance = sStorage->cursorTargetY + 192 - sStorage->cursorSprite->y;
             break;
     }
 
     switch (sStorage->cursorHorizontalWrap)
     {
         default: // No Wrap
-            xDistance = sStorage->cursorTargetX - sStorage->cursorSprite->pos1.x;
+            xDistance = sStorage->cursorTargetX - sStorage->cursorSprite->x;
             break;
         case -1: // Wrap from left to right
-            xDistance = sStorage->cursorTargetX - 192 - sStorage->cursorSprite->pos1.x;
+            xDistance = sStorage->cursorTargetX - 192 - sStorage->cursorSprite->x;
             break;
         case 1: // Wrap from right to left
-            xDistance = sStorage->cursorTargetX + 192 - sStorage->cursorSprite->pos1.x;
+            xDistance = sStorage->cursorTargetX + 192 - sStorage->cursorSprite->x;
             break;
     }
 
@@ -6017,8 +6017,8 @@ static void InitCursorMove(void)
     xDistance <<= 8;
     sStorage->cursorSpeedX = xDistance / sStorage->cursorMoveSteps;
     sStorage->cursorSpeedY = yDistance / sStorage->cursorMoveSteps;
-    sStorage->cursorNewX = sStorage->cursorSprite->pos1.x << 8;
-    sStorage->cursorNewY = sStorage->cursorSprite->pos1.y << 8;
+    sStorage->cursorNewX = sStorage->cursorSprite->x << 8;
+    sStorage->cursorNewY = sStorage->cursorSprite->y << 8;
 }
 
 static void SetCursorPosition(u8 newCursorArea, u8 newCursorPosition)
@@ -6294,13 +6294,13 @@ static bool8 MultiMonPlaceChange_Up(void)
 
 static bool8 MonPlaceChange_CursorDown(void)
 {
-    switch (sStorage->cursorSprite->pos2.y)
+    switch (sStorage->cursorSprite->y2)
     {
     default:
-        sStorage->cursorSprite->pos2.y++;
+        sStorage->cursorSprite->y2++;
         break;
     case 0:
-        sStorage->cursorSprite->pos2.y++;
+        sStorage->cursorSprite->y2++;
         break;
     case 8: // Cursor has reached bottom
         return FALSE;
@@ -6311,12 +6311,12 @@ static bool8 MonPlaceChange_CursorDown(void)
 
 static bool8 MonPlaceChange_CursorUp(void)
 {
-    switch (sStorage->cursorSprite->pos2.y)
+    switch (sStorage->cursorSprite->y2)
     {
     case 0: // Cursor has reached top
         return FALSE;
     default:
-        sStorage->cursorSprite->pos2.y--;
+        sStorage->cursorSprite->y2--;
         break;
     }
 
@@ -7765,8 +7765,8 @@ static bool8 SetMenuTexts_Item(void)
 
 static void SpriteCB_CursorShadow(struct Sprite *sprite)
 {
-    sprite->pos1.x = sStorage->cursorSprite->pos1.x;
-    sprite->pos1.y = sStorage->cursorSprite->pos1.y + 20;
+    sprite->x = sStorage->cursorSprite->x;
+    sprite->y = sStorage->cursorSprite->y + 20;
 }
 
 static void CreateCursorSprites(void)
@@ -9101,20 +9101,20 @@ static void SetItemIconPosition(u8 id, u8 cursorArea, u8 cursorPos)
     case CURSOR_AREA_IN_BOX:
         x = cursorPos % IN_BOX_COLUMNS;
         y = cursorPos / IN_BOX_COLUMNS;
-        sStorage->itemIcons[id].sprite->pos1.x = (24 * x) + 112;
-        sStorage->itemIcons[id].sprite->pos1.y = (24 * y) + 56;
+        sStorage->itemIcons[id].sprite->x = (24 * x) + 112;
+        sStorage->itemIcons[id].sprite->y = (24 * y) + 56;
         sStorage->itemIcons[id].sprite->oam.priority = 2;
         break;
     case CURSOR_AREA_IN_PARTY:
         if (cursorPos == 0)
         {
-            sStorage->itemIcons[id].sprite->pos1.x = 116;
-            sStorage->itemIcons[id].sprite->pos1.y = 76;
+            sStorage->itemIcons[id].sprite->x = 116;
+            sStorage->itemIcons[id].sprite->y = 76;
         }
         else
         {
-            sStorage->itemIcons[id].sprite->pos1.x = 164;
-            sStorage->itemIcons[id].sprite->pos1.y = 24 * (cursorPos - 1) + 28;
+            sStorage->itemIcons[id].sprite->x = 164;
+            sStorage->itemIcons[id].sprite->y = 24 * (cursorPos - 1) + 28;
         }
         sStorage->itemIcons[id].sprite->oam.priority = 1;
         break;
@@ -9303,8 +9303,8 @@ static void SpriteCB_ItemIcon_ToHand(struct Sprite *sprite)
     switch (sprite->sState)
     {
     case 0:
-        sprite->data[1] = sprite->pos1.x << 4;
-        sprite->data[2] = sprite->pos1.y << 4;
+        sprite->data[1] = sprite->x << 4;
+        sprite->data[2] = sprite->y << 4;
         sprite->data[3] = 10;
         sprite->data[4] = 21;
         sprite->data[5] = 0;
@@ -9312,8 +9312,8 @@ static void SpriteCB_ItemIcon_ToHand(struct Sprite *sprite)
     case 1:
         sprite->data[1] -= sprite->data[3];
         sprite->data[2] -= sprite->data[4];
-        sprite->pos1.x = sprite->data[1] >> 4;
-        sprite->pos1.y = sprite->data[2] >> 4;
+        sprite->x = sprite->data[1] >> 4;
+        sprite->y = sprite->data[2] >> 4;
         if (++sprite->data[5] > 11)
             sprite->callback = SpriteCB_ItemIcon_SetPosToCursor;
         break;
@@ -9322,8 +9322,8 @@ static void SpriteCB_ItemIcon_ToHand(struct Sprite *sprite)
 
 static void SpriteCB_ItemIcon_SetPosToCursor(struct Sprite *sprite)
 {
-    sprite->pos1.x = sStorage->cursorSprite->pos1.x + 4;
-    sprite->pos1.y = sStorage->cursorSprite->pos1.y + sStorage->cursorSprite->pos2.y + 8;
+    sprite->x = sStorage->cursorSprite->x + 4;
+    sprite->y = sStorage->cursorSprite->y + sStorage->cursorSprite->y2 + 8;
     sprite->oam.priority = sStorage->cursorSprite->oam.priority;
 }
 
@@ -9332,8 +9332,8 @@ static void SpriteCB_ItemIcon_ToMon(struct Sprite *sprite)
     switch (sprite->sState)
     {
     case 0:
-        sprite->data[1] = sprite->pos1.x << 4;
-        sprite->data[2] = sprite->pos1.y << 4;
+        sprite->data[1] = sprite->x << 4;
+        sprite->data[2] = sprite->y << 4;
         sprite->data[3] = 10;
         sprite->data[4] = 21;
         sprite->data[5] = 0;
@@ -9341,8 +9341,8 @@ static void SpriteCB_ItemIcon_ToMon(struct Sprite *sprite)
     case 1:
         sprite->data[1] += sprite->data[3];
         sprite->data[2] += sprite->data[4];
-        sprite->pos1.x = sprite->data[1] >> 4;
-        sprite->pos1.y = sprite->data[2] >> 4;
+        sprite->x = sprite->data[1] >> 4;
+        sprite->y = sprite->data[2] >> 4;
         if (++sprite->data[5] > 11)
         {
             SetItemIconPosition(GetItemIconIdxBySprite(sprite), sprite->sCursorArea, sprite->sCursorPos);
@@ -9357,8 +9357,8 @@ static void SpriteCB_ItemIcon_SwapToHand(struct Sprite *sprite)
     switch (sprite->sState)
     {
     case 0:
-        sprite->data[1] = sprite->pos1.x << 4;
-        sprite->data[2] = sprite->pos1.y << 4;
+        sprite->data[1] = sprite->x << 4;
+        sprite->data[2] = sprite->y << 4;
         sprite->data[3] = 10;
         sprite->data[4] = 21;
         sprite->data[5] = 0;
@@ -9366,13 +9366,13 @@ static void SpriteCB_ItemIcon_SwapToHand(struct Sprite *sprite)
     case 1:
         sprite->data[1] -= sprite->data[3];
         sprite->data[2] -= sprite->data[4];
-        sprite->pos1.x = sprite->data[1] >> 4;
-        sprite->pos1.y = sprite->data[2] >> 4;
-        sprite->pos2.x = gSineTable[sprite->data[5] * 8] >> 4;
+        sprite->x = sprite->data[1] >> 4;
+        sprite->y = sprite->data[2] >> 4;
+        sprite->x2 = gSineTable[sprite->data[5] * 8] >> 4;
         if (++sprite->data[5] > 11)
         {
             SetItemIconPosition(GetItemIconIdxBySprite(sprite), sprite->sCursorArea, sprite->sCursorPos);
-            sprite->pos2.x = 0;
+            sprite->x2 = 0;
             sprite->callback = SpriteCB_ItemIcon_SetPosToCursor;
         }
         break;
@@ -9384,8 +9384,8 @@ static void SpriteCB_ItemIcon_SwapToMon(struct Sprite *sprite)
     switch (sprite->sState)
     {
     case 0:
-        sprite->data[1] = sprite->pos1.x << 4;
-        sprite->data[2] = sprite->pos1.y << 4;
+        sprite->data[1] = sprite->x << 4;
+        sprite->data[2] = sprite->y << 4;
         sprite->data[3] = 10;
         sprite->data[4] = 21;
         sprite->data[5] = 0;
@@ -9393,14 +9393,14 @@ static void SpriteCB_ItemIcon_SwapToMon(struct Sprite *sprite)
     case 1:
         sprite->data[1] += sprite->data[3];
         sprite->data[2] += sprite->data[4];
-        sprite->pos1.x = sprite->data[1] >> 4;
-        sprite->pos1.y = sprite->data[2] >> 4;
-        sprite->pos2.x = -(gSineTable[sprite->data[5] * 8] >> 4);
+        sprite->x = sprite->data[1] >> 4;
+        sprite->y = sprite->data[2] >> 4;
+        sprite->x2 = -(gSineTable[sprite->data[5] * 8] >> 4);
         if (++sprite->data[5] > 11)
         {
             SetItemIconPosition(GetItemIconIdxBySprite(sprite), sprite->sCursorArea, sprite->sCursorPos);
             sprite->callback = SpriteCallbackDummy;
-            sprite->pos2.x = 0;
+            sprite->x2 = 0;
         }
         break;
     }
@@ -9408,8 +9408,8 @@ static void SpriteCB_ItemIcon_SwapToMon(struct Sprite *sprite)
 
 static void SpriteCB_ItemIcon_HideParty(struct Sprite *sprite)
 {
-    sprite->pos1.y -= 8;
-    if (sprite->pos1.y + sprite->pos2.y < -16)
+    sprite->y -= 8;
+    if (sprite->y + sprite->y2 < -16)
     {
         sprite->callback = SpriteCallbackDummy;
         SetItemIconActive(GetItemIconIdxBySprite(sprite), FALSE);

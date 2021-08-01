@@ -10,31 +10,31 @@ gText_NurseIntro_Night::
 	.string "Good evening! You're out late.\n"
 	.string "Welcome to our POKéMON CENTER.\p$"
 
-gText_WouldYouLikeToRestYourPkmn:: @ 82726EB
+gText_WouldYouLikeToRestYourPkmn::
     .string "We restore your tired POKéMON\n"
     .string "to full health.\p"
     .string "Would you like to rest your POKéMON?$"
 
-gText_IllTakeYourPkmn:: @ 8272768
+gText_IllTakeYourPkmn::
     .string "Okay, I'll take your POKéMON\n"
     .string "for a few seconds.$"
 
-gText_RestoredPkmnToFullHealth:: @ 8272798
+gText_RestoredPkmnToFullHealth::
     .string "Thank you for waiting.\p"
     .string "We've restored your POKéMON\n"
     .string "to full health.$"
 
-gText_WeHopeToSeeYouAgain:: @ 82727DB
+gText_WeHopeToSeeYouAgain::
     .string "We hope to see you again!$"
 
-gText_WelcomeCutShort:: @ 82727F5
+gText_WelcomeCutShort::
 	.string "Hello!\n"
 	.string "Welcome to our POKéMON CENTER.\p$"
     .string "We restore your tired POKéMON\n"
     .string "to full health.\p"
     .string "Would you like to…$"
 
-gText_NoticesGoldCard:: @ 8272860
+gText_NoticesGoldCard::
     .string "Th-that card…\n"
     .string "Could it be… The GOLD CARD?!\p"
     .string "Oh, the gold color is brilliant!\n"
@@ -46,25 +46,25 @@ gText_NoticesGoldCard:: @ 8272860
     .string "Okay, {PLAYER}, please allow me\n"
     .string "the honor of resting your POKéMON!$"
 
-gText_YouWantTheUsual_Morning:: @ 8272982
+gText_YouWantTheUsual_Morning::
     .string "I hope you're having\n"
 	.string "a great morning, {PLAYER}!\p"
     .string "You want the usual, am I right?$"
 
-gText_YouWantTheUsual:: @ 8272982
+gText_YouWantTheUsual::
     .string "I'm delighted to see you, {PLAYER}!\n"
     .string "You want the usual, am I right?$"
 
-gText_YouWantTheUsual_Night:: @ 8272982
+gText_YouWantTheUsual_Night::
     .string "How's your night going {PLAYER}?\n"
     .string "You want the usual, am I right?$"
 
-gText_IllTakeYourPkmn2:: @ 82729C0
+gText_IllTakeYourPkmn2::
     .string "Okay, I'll take your POKéMON\n"
     .string "for a few seconds.$"
 
-gText_ThankYouForWaiting:: @ 82729F0
+gText_ThankYouForWaiting::
     .string "Thank you for waiting.$"
 
-gText_WeHopeToSeeYouAgain2:: @ 8272A07
+gText_WeHopeToSeeYouAgain2::
     .string "We hope to see you again!$"

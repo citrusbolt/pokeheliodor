@@ -1,6 +1,6 @@
 .set LOCALID_ZAPDOS, 1
 
-NewMauville_Entrance_MapScripts:: @ 82372AD
+NewMauville_Entrance_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, NewMauville_Entrance_OnResume
 	map_script MAP_SCRIPT_ON_LOAD, NewMauville_Entrance_OnLoad
 	map_script MAP_SCRIPT_ON_TRANSITION, NewMauville_Entrance_OnTransition
@@ -17,12 +17,12 @@ NewMauville_Entrance_EventScript_TryRemoveZapdos::
 	removeobject VAR_LAST_TALKED
 	return
 
-NewMauville_Entrance_OnLoad: @ 82372B8
+NewMauville_Entrance_OnLoad:
 	compare VAR_NEW_MAUVILLE_STATE, 0
 	call_if_eq NewMauville_Entrance_EventScript_CloseDoor
 	end
 
-NewMauville_Entrance_EventScript_CloseDoor:: @ 82372C4
+NewMauville_Entrance_EventScript_CloseDoor::
 	setmetatile 3, 0, METATILE_Facility_NewMauvilleDoor_Closed_Tile0, 1
 	setmetatile 4, 0, METATILE_Facility_NewMauvilleDoor_Closed_Tile1, 1
 	setmetatile 5, 0, METATILE_Facility_NewMauvilleDoor_Closed_Tile2, 1
@@ -31,7 +31,7 @@ NewMauville_Entrance_EventScript_CloseDoor:: @ 82372C4
 	setmetatile 5, 1, METATILE_Facility_NewMauvilleDoor_Closed_Tile5, 1
 	return
 
-NewMauville_Entrance_OnTransition: @ 82372FB
+NewMauville_Entrance_OnTransition:
 	setflag FLAG_LANDMARK_NEW_MAUVILLE
 	special ResumeRoamerQuest
 	compare VAR_RESULT, 1
@@ -42,7 +42,7 @@ NewMauville_Entrance_OnTransition: @ 82372FB
 	removeobject LOCALID_ZAPDOS
 	end
 
-NewMauville_Entrance_EventScript_Door:: @ 82372FF
+NewMauville_Entrance_EventScript_Door::
 	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
 	waitmovement 0
@@ -105,17 +105,17 @@ NewMauville_Entrance_EventScript_RanFromZapdos::
 	goto Common_EventScript_LegendaryFlewAway
 	end
 
-NewMauville_Entrance_EventScript_DontOpenDoor:: @ 8237380
+NewMauville_Entrance_EventScript_DontOpenDoor::
 	releaseall
 	end
 
-NewMauville_Entrance_Text_DoorIsLocked: @ 8237382
+NewMauville_Entrance_Text_DoorIsLocked:
 	.string "The door is locked.$"
 
-NewMauville_Entrance_Text_UseBasementKey: @ 8237396
+NewMauville_Entrance_Text_UseBasementKey:
 	.string "Use the BASEMENT KEY?$"
 
-NewMauville_Entrance_Text_UsedBasementKey: @ 82373AC
+NewMauville_Entrance_Text_UsedBasementKey:
 	.string "{PLAYER} used the BASEMENT KEY.\p"
 	.string "The door opened!$"
 

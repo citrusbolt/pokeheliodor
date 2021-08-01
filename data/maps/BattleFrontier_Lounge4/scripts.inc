@@ -1,16 +1,16 @@
-BattleFrontier_Lounge4_MapScripts:: @ 826358C
+BattleFrontier_Lounge4_MapScripts::
 	.byte 0
 
-BattleFrontier_Lounge4_EventScript_Woman:: @ 826358D
+BattleFrontier_Lounge4_EventScript_Woman::
 	msgbox BattleFrontier_Lounge4_Text_WonderIfInterviewsAiring, MSGBOX_NPC
 	end
 
-BattleFrontier_Lounge4_EventScript_EVReader:: @ 8263596
+BattleFrontier_Lounge4_EventScript_EVReader::
 	msgbox BattleFrontier_Lounge4_Text_LetsReadEVs, MSGBOX_NPC
 	goto BattleFrontier_Lounge4_EventScript_ChooseMonToShowReader
 	end
 
-BattleFrontier_Lounge4_EventScript_EVEraser:: @ 826359F
+BattleFrontier_Lounge4_EventScript_EVEraser::
 	special ShowBattlePointsWindow
 	msgbox BattleFrontier_Lounge4_Text_OfferToResetEVs, MSGBOX_YESNO
 	compare VAR_RESULT, NO
@@ -100,15 +100,15 @@ BattleFrontier_Lounge4_EventScript_EVsNotMaxed::
 	release
 	end
 
-BattleFrontier_Lounge4_Text_WonderIfInterviewsAiring: @ 82635A8
+BattleFrontier_Lounge4_Text_WonderIfInterviewsAiring:
 	.string "I wonder if they'll be airing interviews\n"
 	.string "with tough TRAINERS today?$"
 
-BattleFrontier_Lounge4_Text_IfIOpenedRestaurantHere: @ 82635EC
+BattleFrontier_Lounge4_Text_IfIOpenedRestaurantHere:
 	.string "If I opened a restaurant here,\n"
 	.string "it'd make money for sure.$"
 
-BattleFrontier_Lounge4_Text_OfferToResetEVs: @ 8263625
+BattleFrontier_Lounge4_Text_OfferToResetEVs:
 	.string "Sometimes it's good to start anew\n"
 	.string "and go down a fresh path.\p"
 	.string "If you want a POKéMON to\n"
