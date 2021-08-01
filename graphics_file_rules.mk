@@ -340,6 +340,12 @@ $(FONTGFXDIR)/unused_frlg_down_arrow.4bpp: %.4bpp: %.png
 $(FONTGFXDIR)/keypad_icons.4bpp: %.4bpp: %.png
 	$(GFX) $< $@
 
+$(FONTGFXDIR)/emerald.latfont: $(FONTGFXDIR)/emerald.png
+	$(GFX) $< $@
+
+$(FONTGFXDIR)/ruby_sapphire.latfont: $(FONTGFXDIR)/ruby_sapphire.png
+	$(GFX) $< $@
+
 
 
 ### Miscellaneous ###

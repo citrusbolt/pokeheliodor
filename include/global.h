@@ -1046,7 +1046,15 @@ struct SaveBlock1
 	/*0x3604*/ struct EnigmaBerryDesc enigmaBerryDesc;
     /*0x3660*/ u16 registeredItemL;
     /*0x3662*/ u16 registeredItemR;
-    /*0x3664*/ u8 field_3598[0xB4];
+	/*0x3664*/ u8 trainerCardLayout;
+	/*0x3665*/ u8 trainerCardStickers[6];
+	/*0x366B*/ u32 trainerCardStat0:4;
+	           u32 trainerCardStat1:4;
+	           u32 trainerCardStat2:4;
+	           u32 trainerCardStat3:4;
+	           u32 trainerCardStat4:4;
+	           u32 filler:12;
+    /*0x367C*/ u8 field_3598[0xA9];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;

@@ -4,7 +4,7 @@ Common_EventScript_PkmnCenterNurse:: @ 827191E
     setvar VAR_0x8004, 0
     specialvar VAR_RESULT, CountPlayerTrainerStars
     compare VAR_RESULT, 4
-    goto_if_eq EventScript_PkmnCenterNurse_GoldCard
+    goto_if_ge EventScript_PkmnCenterNurse_GoldCard
 	gettime
 	compare VAR_0x8003, TIME_MORNING
 	call_if_eq EventScript_PkmnCenterNurse_IntroMorning

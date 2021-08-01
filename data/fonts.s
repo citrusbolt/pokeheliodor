@@ -74,3 +74,19 @@ gFont2JapaneseGlyphs:: @ 866C8E4
 	.align 2
 gFont2JapaneseGlyphWidths:: @ 86748E4
 	.include "graphics/fonts/font2_japanese_widths.inc"
+
+	.align 2
+gFont10LatinGlyphs::
+	.incbin "graphics/fonts/emerald.latfont"
+
+	.align 2
+gFont10LatinGlyphWidths::
+	.include "graphics/fonts/emerald_widths.inc"
+	.align 2
+
+gFont11LatinGlyphs::
+	.incbin "graphics/fonts/ruby_sapphire.latfont"
+
+	.align 2
+gFont11LatinGlyphWidths::
+	.include "graphics/fonts/ruby_sapphire_widths.inc"

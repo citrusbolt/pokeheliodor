@@ -77,18 +77,12 @@
 #define OBJ_EVENT_GFX_SPENSER                     73
 #define OBJ_EVENT_GFX_NOLAND                      74
 #define OBJ_EVENT_GFX_LUCY                        75
-//#define OBJ_EVENT_GFX_UNUSED_NATU_DOLL            76
-//#define OBJ_EVENT_GFX_UNUSED_MAGNEMITE_DOLL       77
-#define OBJ_EVENT_GFX_ZAPDOS                      76
-#define OBJ_EVENT_GFX_MEWTWO                      77
-//#define OBJ_EVENT_GFX_UNUSED_SQUIRTLE_DOLL        78
-//#define OBJ_EVENT_GFX_UNUSED_WOOPER_DOLL          79
-#define OBJ_EVENT_GFX_LINK_E_BRENDAN              78
-#define OBJ_EVENT_GFX_LINK_E_MAY                  79
-//#define OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL         80
-//#define OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL        81
-#define OBJ_EVENT_GFX_LINK_GOLD                   80
-#define OBJ_EVENT_GFX_LINK_KRIS                   81
+#define OBJ_EVENT_GFX_UNUSED_NATU_DOLL            76
+#define OBJ_EVENT_GFX_UNUSED_MAGNEMITE_DOLL       77
+#define OBJ_EVENT_GFX_UNUSED_SQUIRTLE_DOLL        78
+#define OBJ_EVENT_GFX_UNUSED_WOOPER_DOLL          79
+#define OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL         80
+#define OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL        81
 #define OBJ_EVENT_GFX_CUTTABLE_TREE               82
 #define OBJ_EVENT_GFX_MART_EMPLOYEE               83
 #define OBJ_EVENT_GFX_ROOFTOP_SALE_WOMAN          84
@@ -246,15 +240,21 @@
 #define OBJ_EVENT_GFX_LINK_RS_MAY                236
 #define OBJ_EVENT_GFX_LUGIA                      237
 #define OBJ_EVENT_GFX_HOOH                       238
+#define OBJ_EVENT_GFX_ZAPDOS                     239
+#define OBJ_EVENT_GFX_MEWTWO                     240
+#define OBJ_EVENT_GFX_LINK_E_BRENDAN             241
+#define OBJ_EVENT_GFX_LINK_E_MAY                 242
+#define OBJ_EVENT_GFX_LINK_GOLD                  243
+#define OBJ_EVENT_GFX_LINK_KRIS                  244
 
-#define NUM_OBJ_EVENT_GFX                        239
+#define NUM_OBJ_EVENT_GFX                        245
 
 
 // These are dynamic object gfx ids.
 // They correspond with the values of the VAR_OBJ_GFX_ID_X vars.
 // More info about them in include/constants/vars.h
-#define OBJ_EVENT_GFX_VARS   (NUM_OBJ_EVENT_GFX + 1)
-#define OBJ_EVENT_GFX_VAR_0  (OBJ_EVENT_GFX_VARS + 0x0) // 240
+#define OBJ_EVENT_GFX_VARS   (0xFFF0)
+#define OBJ_EVENT_GFX_VAR_0  (OBJ_EVENT_GFX_VARS + 0x0)
 #define OBJ_EVENT_GFX_VAR_1  (OBJ_EVENT_GFX_VARS + 0x1)
 #define OBJ_EVENT_GFX_VAR_2  (OBJ_EVENT_GFX_VARS + 0x2)
 #define OBJ_EVENT_GFX_VAR_3  (OBJ_EVENT_GFX_VARS + 0x3)
@@ -269,7 +269,7 @@
 #define OBJ_EVENT_GFX_VAR_C  (OBJ_EVENT_GFX_VARS + 0xC)
 #define OBJ_EVENT_GFX_VAR_D  (OBJ_EVENT_GFX_VARS + 0xD)
 #define OBJ_EVENT_GFX_VAR_E  (OBJ_EVENT_GFX_VARS + 0xE)
-#define OBJ_EVENT_GFX_VAR_F  (OBJ_EVENT_GFX_VARS + 0xF) // 255
+#define OBJ_EVENT_GFX_VAR_F  (OBJ_EVENT_GFX_VARS + 0xF)
 
 #define SHADOW_SIZE_S   0
 #define SHADOW_SIZE_M   1

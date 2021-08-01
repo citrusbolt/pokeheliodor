@@ -148,6 +148,8 @@ void ResetMenuAndMonGlobals(void)
 
 void NewGameInitData(void)
 {
+	u8 i;
+
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
 
@@ -211,6 +213,16 @@ void NewGameInitData(void)
 	gSaveBlock2Ptr->lastUsedBall = 0;
 	gSaveBlock2Ptr->powerPoints = 0;
 	gSaveBlock2Ptr->totalEarnedPowerPoints = 0;
+	gSaveBlock1Ptr->trainerCardLayout = 3;
+	gSaveBlock1Ptr->trainerCardStat0 = 0;
+	gSaveBlock1Ptr->trainerCardStat1 = 0;
+	gSaveBlock1Ptr->trainerCardStat2 = 0;
+	gSaveBlock1Ptr->trainerCardStat3 = 0;
+	gSaveBlock1Ptr->trainerCardStat4 = 0;
+	for (i = 0; i < 6; i++)
+		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
+	
+	VarSet(VAR_SAVE_VER, 1);
 }
 
 static void ResetMiniGamesRecords(void)

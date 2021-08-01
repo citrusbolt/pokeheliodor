@@ -249,7 +249,7 @@ static const u8 sTileBitAttributes[] =
     [MB_UNUSED_EC] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_UNUSED_ED] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_UNUSED_EE] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_INCUBATOR] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_CARD_TERMINAL] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
 };
 
 bool8 MetatileBehavior_IsATile(u8 metatileBehavior)
@@ -1496,9 +1496,11 @@ bool8 MetatileBehavior_IsTrainerHillTimer(u8 metatileBehavior)
         return FALSE;
 }
 
-bool8 MetatileBehavior_IsIncubator(u8 metatileBehavior)
+bool8 MetatileBehavior_IsPlayerFacingCardTerminal(u8 metatileBehavior, u8 playerDir)
 {
-    if (metatileBehavior == MB_INCUBATOR)
+	if (playerDir != CONNECTION_EAST)
+		return FALSE;
+    else if (metatileBehavior == MB_CARD_TERMINAL)
         return TRUE;
     else
         return FALSE;

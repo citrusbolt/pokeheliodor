@@ -43,6 +43,8 @@
 #define SCROLL_MULTI_FOSSILS                              13
 #define SCROLL_MULTI_COUPON_EXCHANGE                      14
 #define SCROLL_MULTI_POWER_PURCHASE                       15
+#define SCROLL_MULTI_CARD_TERMINAL_STICKER                16
+#define SCROLL_MULTI_CARD_TERMINAL_STATS                  17
 
 #define MAX_SCROLL_MULTI_ON_SCREEN 6
 #define MAX_SCROLL_MULTI_LENGTH 34

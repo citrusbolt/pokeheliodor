@@ -2564,9 +2564,9 @@ void LoadLinkContestPlayerPalettes(void)
 				case DEV_TEST:
 					foundMatch = TRUE;
 					if (gLinkPlayers[i].gender == MALE)
-						LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
+						LoadPalette(gObjectEventPal_RubySapphireHero, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
 					else
-						LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
+						LoadPalette(gObjectEventPal_RubySapphireHero, 0x160 + i * 0x10, 0x20);	//Not correct, but will work for testing
 					break;
 			}
 			
@@ -2574,10 +2574,7 @@ void LoadLinkContestPlayerPalettes(void)
 			{
 				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
 				{
-					if (gLinkPlayers[i].gender == MALE)
-						LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);
-					else
-						LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);
+					LoadPalette(gObjectEventPal_RubySapphireHero, 0x160 + i * 0x10, 0x20);
 				}
 				else
 				{

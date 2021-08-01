@@ -418,8 +418,8 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return EventScript_Questionnaire;
     if (MetatileBehavior_IsTrainerHillTimer(metatileBehavior) == TRUE)
         return EventScript_TrainerHillTimer;
-	if (MetatileBehavior_IsIncubator(metatileBehavior) == TRUE)
-		return EventScript_Incubator;
+	if (MetatileBehavior_IsPlayerFacingCardTerminal(metatileBehavior, direction) == TRUE)
+		return EventScript_CardTerminal;
 
     height = position->height;
     if (height == MapGridGetZCoordAt(position->x, position->y))
