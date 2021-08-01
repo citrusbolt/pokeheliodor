@@ -183,8 +183,7 @@ struct ObjectEvent
              u32 fixedPriority:1;
              u32 hideReflection:1;
              int :0;
-    /*0x04*/ u8 spriteId:7;
-    /*0x05*/ u16 graphicsId:9;
+    /*0x04*/ u16 graphicsId;
     /*0x06*/ u8 movementType;
     /*0x07*/ u8 trainerType;
     /*0x08*/ u8 localId;
@@ -208,7 +207,8 @@ struct ObjectEvent
     /*0x20*/ u8 previousMovementDirection;
     /*0x21*/ u8 directionSequenceIndex;
     /*0x22*/ u8 playerCopyableMovement;
-    /*size = 0x25(??)*/
+	/*0x23*/ u8 spriteId;
+    /*size = 0x24*/
 };
 
 struct ObjectEventGraphicsInfo
