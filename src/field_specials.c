@@ -69,6 +69,7 @@
 #include "item.h"
 #include "power.h"
 #include "constants/power.h"
+#include "mail.h"
 
 EWRAM_DATA bool8 gBikeCyclingChallenge = FALSE;
 EWRAM_DATA u8 gBikeCollisions = 0;
@@ -2510,6 +2511,26 @@ void ShowScrollableMultichoice(void)
             task->tKeepOpenAfterSelect = FALSE;
             task->tTaskId = taskId;
             break;
+        case SCROLL_MULTI_CARD_TERMINAL_STICKER:
+            task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+            task->tNumItems = 7;
+            task->tLeft = 14;
+            task->tTop = 1;
+            task->tWidth = 15;
+            task->tHeight = 12;
+            task->tKeepOpenAfterSelect = FALSE;
+            task->tTaskId = taskId;
+            break;
+        case SCROLL_MULTI_CARD_TERMINAL_STATS:
+            task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+            task->tNumItems = 13;
+            task->tLeft = 14;
+            task->tTop = 1;
+            task->tWidth = 15;
+            task->tHeight = 12;
+            task->tKeepOpenAfterSelect = FALSE;
+            task->tTaskId = taskId;
+            break;
         default:
             gSpecialVar_Result = MULTI_B_PRESSED;
             DestroyTask(taskId);
@@ -2768,6 +2789,32 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
 		gText_PowerPurchaseLucky2,
 		gText_PowerPurchaseLucky3,
         gText_Exit
+    },
+    [SCROLL_MULTI_CARD_TERMINAL_STICKER] =
+    {
+        gText_CardTerminal_StickerHOF,
+		gText_CardTerminal_StickerEgg,
+		gText_CardTerminal_StickerBattle,
+		gText_CardTerminal_StickerShiny,
+		gText_CardTerminal_StickerBerry,
+		gText_CardTerminal_StickerCatch,
+		gText_Back
+    },
+    [SCROLL_MULTI_CARD_TERMINAL_STATS] =
+    {
+        gText_CardTerminal_StatBlank,
+		gText_CardTerminal_StatHOF,
+		gText_CardTerminal_StatBattle,
+		gText_CardTerminal_StatTrade,
+        gText_CardTerminal_StatPokeblock,
+		gText_CardTerminal_StatContest,
+		gText_CardTerminal_StatTower,
+		gText_CardTerminal_StatUnionRoom,
+        gText_CardTerminal_StatBerryCrush,
+		gText_CardTerminal_StatBattlePoints,
+		gText_CardTerminal_StatShiny,
+		gText_CardTerminal_StatPowerPoints,
+        gText_Back
     }
 };
 
@@ -5050,4 +5097,192 @@ void BufferPowerConfirm(void)
 	ConvertIntToDecimalStringN(gStringVar2, level, STR_CONV_MODE_LEADING_ZEROS, 1);
 	gSpecialVar_0x8004 = type;
 	gSpecialVar_0x8005 = level;
+}
+
+void UpdateTrainerCardLayout(void)
+{
+	gSaveBlock1Ptr->trainerCardLayout = gSpecialVar_Result;
+}
+
+void UpdateTrainerCardStickers(void)
+{
+	gSpecialVar_Result = FALSE;
+	
+	switch (gSpecialVar_0x8004)
+	{
+		case 0:
+			StringCopy(gStringVar1, gText_CardTerminal_StickerHOFName);
+			if (gSaveBlock1Ptr->trainerCardStickers[0] == 0 && GetGameStat(GAME_STAT_ENTERED_HOF) > 1)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[0] = 1;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 1 && GetGameStat(GAME_STAT_ENTERED_HOF) > 40)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[0] = 2;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 2 && GetGameStat(GAME_STAT_ENTERED_HOF) > 100)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[0] = 3;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[0] == 3 && GetGameStat(GAME_STAT_ENTERED_HOF) > 200)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[0] = 4;
+				gSpecialVar_Result = TRUE;
+			}
+			break;
+		case 1:
+			StringCopy(gStringVar1, gText_CardTerminal_StickerEggName);
+			if (gSaveBlock1Ptr->trainerCardStickers[1] == 0 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 1)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[1] = 1;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 1 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 100)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[1] = 2;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 2 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 200)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[1] = 3;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[1] == 3 && GetGameStat(GAME_STAT_HATCHED_EGGS) > 300)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[1] = 4;
+				gSpecialVar_Result = TRUE;
+			}
+			break;
+		case 2:
+			StringCopy(gStringVar1, gText_CardTerminal_StickerBattleName);
+			if (gSaveBlock1Ptr->trainerCardStickers[2] == 0 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 1)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[2] = 1;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 1 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 20)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[2] = 2;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 2 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 50)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[2] = 3;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[2] == 3 && GetGameStat(GAME_STAT_LINK_BATTLE_WINS) > 100)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[2] = 4;
+				gSpecialVar_Result = TRUE;
+			}
+			break;
+		case 3:
+			StringCopy(gStringVar1, gText_CardTerminal_StickerShinyName);
+			if (gSaveBlock1Ptr->trainerCardStickers[3] == 0 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 1)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[3] = 1;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 1 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 10)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[3] = 2;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 2 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 25)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[3] = 3;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[3] == 3 && GetGameStat(GAME_STAT_SHINIES_FOUND) > 50)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[3] = 4;
+				gSpecialVar_Result = TRUE;
+			}
+			break;
+		case 4:
+			StringCopy(gStringVar1, gText_CardTerminal_StickerBerryName);
+			if (gSaveBlock1Ptr->trainerCardStickers[4] == 0 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 10)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[4] = 1;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 1 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 50)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[4] = 2;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 2 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 150)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[4] = 3;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[4] == 3 && GetGameStat(GAME_STAT_PLANTED_BERRIES) > 300)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[4] = 4;
+				gSpecialVar_Result = TRUE;
+			}
+			break;
+		case 5:
+			StringCopy(gStringVar1, gText_CardTerminal_StickerCatchName);
+			if (gSaveBlock1Ptr->trainerCardStickers[5] == 0 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 50)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[5] = 1;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 1 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 150)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[5] = 2;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 2 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 250)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[5] = 3;
+				gSpecialVar_Result = TRUE;
+			}
+			else if (gSaveBlock1Ptr->trainerCardStickers[5] == 3 && GetGameStat(GAME_STAT_POKEMON_CAPTURES) > 400)
+			{
+				gSaveBlock1Ptr->trainerCardStickers[5] = 4;
+				gSpecialVar_Result = TRUE;
+			}
+			break;
+	}
+}
+
+void UpdateTrainerCardMonIcons(void)
+{
+	u16 species[PARTY_SIZE];
+	u32 personality[PARTY_SIZE];
+	u8 i;
+	u8 partyCount;
+	
+	for (i = 0; i < PARTY_SIZE; i++)
+		species[i] = SPECIES_NONE;
+	
+	partyCount = CalculatePlayerPartyCount();
+	
+	for (i = 0; i < partyCount; i++)
+	{
+		species[i] = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
+		personality[i] = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, NULL);
+	}
+	
+	VarSet(VAR_TRAINER_CARD_MON_ICON_0, SpeciesToMailSpecies(species[0], personality[0]));
+	VarSet(VAR_TRAINER_CARD_MON_ICON_1, SpeciesToMailSpecies(species[1], personality[1]));
+	VarSet(VAR_TRAINER_CARD_MON_ICON_2, SpeciesToMailSpecies(species[2], personality[2]));
+	VarSet(VAR_TRAINER_CARD_MON_ICON_3, SpeciesToMailSpecies(species[3], personality[3]));
+	VarSet(VAR_TRAINER_CARD_MON_ICON_4, SpeciesToMailSpecies(species[4], personality[4]));
+	VarSet(VAR_TRAINER_CARD_MON_ICON_5, SpeciesToMailSpecies(species[5], personality[5]));
+	VarSet(VAR_TRAINER_CARD_MON_ICON_TINT, gSpecialVar_Result);
+}
+
+void UpdateTrainerCardStats(void)
+{
+	gSaveBlock1Ptr->trainerCardStat0 = gSpecialVar_0x8005;
+	gSaveBlock1Ptr->trainerCardStat1 = gSpecialVar_0x8006;
+	gSaveBlock1Ptr->trainerCardStat2 = gSpecialVar_0x8007;
+	gSaveBlock1Ptr->trainerCardStat3 = gSpecialVar_0x8008;
+	gSaveBlock1Ptr->trainerCardStat4 = gSpecialVar_0x8009;
 }

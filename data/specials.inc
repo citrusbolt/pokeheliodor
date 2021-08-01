@@ -579,3 +579,8 @@ gSpecials:: @ 81DBA64
 	def_special BuyPower
 	def_special DoesGiftMonHaveItem
 	def_special PutGiftMonItemInBag
+	def_special UpdateTrainerCardLayout
+	def_special UpdateTrainerCardStickers
+	def_special UpdateTrainerCardMonIcons
+	def_special UpdateTrainerCardStats
+	def_special ScriptMenu_CreateCardTerminalMultichoice

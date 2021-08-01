@@ -240,7 +240,7 @@
 #define MB_UNUSED_EC 0xEC
 #define MB_UNUSED_ED 0xED
 #define MB_UNUSED_EE 0xEE
-#define MB_INCUBATOR 0xEF
+#define MB_CARD_TERMINAL 0xEF
 #define MB_INVALID   0xFF
 
 #endif // GUARD_METATILE_BEHAVIORS_H

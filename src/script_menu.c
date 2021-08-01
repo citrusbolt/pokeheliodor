@@ -38,6 +38,7 @@ static bool8 IsPicboxClosed(void);
 static void CreateStartMenuForPokenavTutorial(void);
 static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId);
 static void CreateFossilMultichoice(void);
+static void CreateCardTerminalMultichoice(void);
 
 bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
 {
@@ -909,3 +910,78 @@ void GetFossilSelection(void)
         gSpecialVar_Result = sFossilSelections[gSpecialVar_Result];
     }
 }
+
+bool8 ScriptMenu_CreateCardTerminalMultichoice(void)
+{
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
+    {
+        return FALSE;
+    }
+    else
+    {
+        CreateCardTerminalMultichoice();
+        return TRUE;
+    }
+}
+
+static void CreateCardTerminalMultichoice(void)
+{
+    u32 pixelWidth;
+    u8 width;
+    u8 windowId;
+    u8 i;
+
+    GetFontAttribute(1, FONTATTR_MAX_LETTER_WIDTH);
+
+	pixelWidth = 0;
+
+	if (gSpecialVar_Result == 255)
+	{
+		for (i = 0; i < 5; i++)
+			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[i], pixelWidth);
+		
+		width = ConvertPixelWidthToTileWidth(pixelWidth);
+		windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, 2, width, 10);
+		SetStandardWindowBorderStyle(windowId, 0);
+		
+		for (i = 0; i < 5; i++)
+				AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[i], 8, i * 16 + 1, TEXT_SPEED_FF, NULL);
+		
+		InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 5, 0);
+		CopyWindowToVram(windowId, 3);
+		InitMultichoiceCheckWrap(FALSE, 5, windowId, MULTI_CARD_TERMINAL_MENU);
+	}
+	else if (gSpecialVar_Result == 0)
+	{
+		for (i = 0; i < 5; i++)
+			pixelWidth = DisplayTextAndGetWidth(sCardTerminalType[i], pixelWidth);
+		
+		width = ConvertPixelWidthToTileWidth(pixelWidth);
+		windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, 2, width, 10);
+		SetStandardWindowBorderStyle(windowId, 0);
+		
+		for (i = 0; i < 5; i++)
+				AddTextPrinterParameterized(windowId, 1, sCardTerminalType[i], 8, i * 16 + 1, TEXT_SPEED_FF, NULL);
+		
+		InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 5, 0);
+		CopyWindowToVram(windowId, 3);
+		InitMultichoiceCheckWrap(FALSE, 5, windowId, MULTI_CARD_TERMINAL_TYPE);
+	}
+	else if (gSpecialVar_Result == 2)
+	{
+		for (i = 0; i < 5; i++)
+			pixelWidth = DisplayTextAndGetWidth(sCardTerminalIconTint[i], pixelWidth);
+		
+		width = ConvertPixelWidthToTileWidth(pixelWidth);
+		windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, 2, width, 10);
+		SetStandardWindowBorderStyle(windowId, 0);
+		
+		for (i = 0; i < 5; i++)
+				AddTextPrinterParameterized(windowId, 1, sCardTerminalIconTint[i], 8, i * 16 + 1, TEXT_SPEED_FF, NULL);
+		
+		InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 5, 0);
+		CopyWindowToVram(windowId, 3);
+		InitMultichoiceCheckWrap(FALSE, 5, windowId, MULTI_CARD_TERMINAL_ICON_TINT);
+	}
+}
+

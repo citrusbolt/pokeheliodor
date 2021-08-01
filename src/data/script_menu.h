@@ -1017,3 +1017,30 @@ static const u8 *const sFossils[FOSSIL_SELECTION_COUNT] =
     [FOSSIL_SELECTION_AMBER]      = gText_OldAmber,
     [FOSSIL_SELECTION_EXIT]       = gText_Exit,
 };
+
+static const u8 *const sCardTerminalMenu[] =
+{
+	gText_CardTerminal_Type,
+	gText_CardTerminal_Stickers,
+	gText_CardTerminal_Icons,
+	gText_CardTerminal_Stats,
+	gText_Exit,
+};
+
+static const u8 *const sCardTerminalType[] =
+{
+	gText_CardTerminal_TypeRS,
+	gText_CardTerminal_TypeRG,
+	gText_CardTerminal_TypeE,
+	gText_CardTerminal_TypeH,
+	gText_Back
+};
+
+static const u8 *const sCardTerminalIconTint[] =
+{
+    gText_CardTerminal_TintNormal,
+	gText_CardTerminal_TintBlack,
+	gText_CardTerminal_TintPink,
+	gText_CardTerminal_TintSepia,
+    gText_Back
+};
