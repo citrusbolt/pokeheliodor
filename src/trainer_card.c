@@ -867,7 +867,7 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	trainerCard->jumpsInRow = gSaveBlock2Ptr->pokeJump.jumpsInRow;
 	trainerCard->shouldDrawStickers = FALSE;
 	trainerCard->hasAllMons = (trainerCard->caughtMonsCount == 386);
-	trainerCard->monIconTint = gSaveBlock1Ptr->trainerCardIconTint;
+	trainerCard->monIconTint = VarGet(VAR_TRAINER_CARD_MON_ICON_TINT);
 
 	if (trainerCard->gender == FEMALE)
 		trainerCard->facilityClass = gLinkPlayerFacilityClasses[(trainerCard->trainerId % NUM_FEMALE_LINK_FACILITY_CLASSES) + NUM_MALE_LINK_FACILITY_CLASSES];
@@ -882,10 +882,12 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	}
 
 	trainerCard->versionModifier = VERSION_MODIFIER;
-
-	for (i = 0; i < PARTY_SIZE; i++)
-		trainerCard->monSpecies[i] = gSaveBlock1Ptr->trainerCardIcons[i];
-
+	trainerCard->monSpecies[0] = VarGet(VAR_TRAINER_CARD_MON_ICON_0);
+	trainerCard->monSpecies[1] = VarGet(VAR_TRAINER_CARD_MON_ICON_1);
+	trainerCard->monSpecies[2] = VarGet(VAR_TRAINER_CARD_MON_ICON_2);
+	trainerCard->monSpecies[3] = VarGet(VAR_TRAINER_CARD_MON_ICON_3);
+	trainerCard->monSpecies[4] = VarGet(VAR_TRAINER_CARD_MON_ICON_4);
+	trainerCard->monSpecies[5] = VarGet(VAR_TRAINER_CARD_MON_ICON_5);
 	trainerCard->hasAllSymbols = HasAllFrontierSymbols();
 	trainerCard->frontierBP = gSaveBlock2Ptr->frontier.cardBattlePoints;
 	trainerCard->monForm0 = 0;
