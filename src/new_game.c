@@ -214,8 +214,11 @@ void NewGameInitData(void)
 	gSaveBlock2Ptr->powerPoints = 0;
 	gSaveBlock2Ptr->totalEarnedPowerPoints = 0;
 	gSaveBlock1Ptr->trainerCardLayout = 3;
-	for (i = 0; i < 5; i++)
-		gSaveBlock1Ptr->trainerCardStats[i] = 0;
+	gSaveBlock1Ptr->trainerCardStat0 = 0;
+	gSaveBlock1Ptr->trainerCardStat1 = 0;
+	gSaveBlock1Ptr->trainerCardStat2 = 0;
+	gSaveBlock1Ptr->trainerCardStat3 = 0;
+	gSaveBlock1Ptr->trainerCardStat4 = 0;
 	for (i = 0; i < 6; i++)
 		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
 	for (i = 0; i < 6; i++)

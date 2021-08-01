@@ -246,6 +246,7 @@ static void MainMenu_FormatSavegamePokedex(void);
 static void MainMenu_FormatSavegameTime(void);
 static void MainMenu_FormatSavegameBadges(void);
 static void NewGameBirchSpeech_CreateDialogueWindowBorder(u8, u8, u8, u8, u8, u8);
+static void PatchSave(void);
 
 // .rodata
 
@@ -643,6 +644,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         switch (gSaveFileStatus)
         {
             case SAVE_STATUS_OK:
+				PatchSave();
 				if (FlagGet(FLAG_SYS_GAME_CLEAR) && !FlagGet(FLAG_RECEIVED_PORYGON) && Random() % 44 == 0)
 				{
 					if (GivePorygon() == 2)
@@ -2331,6 +2333,15 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
         NewGameBirchSpeech_ShowDialogueWindow(0, 1);
         gTasks[taskId].func = Task_NewGameBirchSpeech_SoItsPlayerName;
     }
+}
+
+static void PatchSave(void)
+{
+	if (VarGet(VAR_SAVE_VER) == 0)
+	{
+		gSaveBlock1Ptr->trainerCardLayout = 3;
+		VarSet(VAR_SAVE_VER, 1);	
+	}
 }
 
 #undef tTimer

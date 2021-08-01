@@ -894,11 +894,11 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	trainerCard->monForm3 = 0;
 	trainerCard->monForm4 = 0;
 	trainerCard->monForm5 = 0;
-	trainerCard->stat0 = gSaveBlock1Ptr->trainerCardStats[0];
-	trainerCard->stat1 = gSaveBlock1Ptr->trainerCardStats[1];
-	trainerCard->stat2 = gSaveBlock1Ptr->trainerCardStats[2];
-	trainerCard->stat3 = gSaveBlock1Ptr->trainerCardStats[3];
-	trainerCard->stat4 = gSaveBlock1Ptr->trainerCardStats[4];
+	trainerCard->stat0 = gSaveBlock1Ptr->trainerCardStat0;
+	trainerCard->stat1 = gSaveBlock1Ptr->trainerCardStat1;
+	trainerCard->stat2 = gSaveBlock1Ptr->trainerCardStat2;
+	trainerCard->stat3 = gSaveBlock1Ptr->trainerCardStat3;
+	trainerCard->stat4 = gSaveBlock1Ptr->trainerCardStat4;
 	trainerCard->powerPoints = gSaveBlock2Ptr->totalEarnedPowerPoints;
 
 	if (gSaveBlock2Ptr->totalEarnedPowerPoints > 0xFFFF)
