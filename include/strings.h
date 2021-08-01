@@ -3268,6 +3268,15 @@ extern const u8 gText_RSCardTowerStats[];
 extern const u8 gText_FRLGCardWinsLosses[];
 extern const u8 gText_FRLGCardWins[];
 extern const u8 gText_FRLGCardLosses[];
-
+extern const u8 gText_HCardNA[];
+extern const u8 gText_HCardTower[];
+extern const u8 gText_HCardTowerStats[];
+extern const u8 gText_HCard5StarTowerStats[];
+extern const u8 gText_HCardShinyCount[];
+extern const u8 gText_HCardPowerPoints[];
+extern const u8 gText_HCardNumPowerPoints[];
+extern const u8 gText_HCardWinsLosses[];
+extern const u8 gText_HCardTrainerName[];
+extern const u8 gText_BlackCard[];
 
 #endif // GUARD_STRINGS_H
