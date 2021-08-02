@@ -129,6 +129,7 @@ EventScript_CardTerminal_UpdatedSticker:
 	end
 
 EventScript_CardTerminal_Updated:
+	playse MUS_RG_PHOTO
 	msgbox EventScript_CardTerminal_Text_Updated, MSGBOX_DEFAULT
 	goto EventScript_CardTerminal_Exit
 	end
