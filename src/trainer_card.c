@@ -31,7 +31,6 @@
 #include "constants/battle_frontier.h"
 #include "constants/rgb.h"
 #include "constants/trainers.h"
-#include "mgba.h"
 
 struct TrainerCardData
 {
@@ -49,7 +48,7 @@ struct TrainerCardData
     bool8 hasHofResult;
     bool8 hasLinkResults;
     bool8 hasBattleTowerWins;
-    bool8 unused_E;
+    bool8 isDX;
     bool8 unused_F;
     bool8 hasTrades;
     u8 badgeCount[NUM_BADGES];
@@ -960,7 +959,6 @@ static void SetDataFromTrainerCard(void)
     sData->hasHofResult = FALSE;
     sData->hasLinkResults = FALSE;
     sData->hasBattleTowerWins = FALSE;
-    sData->unused_E = FALSE;
     sData->unused_F = FALSE;
     sData->hasTrades = FALSE;
     memset(sData->badgeCount, 0, sizeof(sData->badgeCount));
@@ -1463,7 +1461,8 @@ static void PrintTimeOnCard(void)
 
 static void PrintProfilePhraseOnCard(void)
 {
-	u8 x, y1, y2, font;
+	u8 x, y1, y2, font, i;
+	u8 buffer[32];
 	u8 space = 6;
 
 	if (sData->cardLayout == CARD_LAYOUT_RS)
@@ -1514,6 +1513,37 @@ static void PrintProfilePhraseOnCard(void)
 			AddTextPrinterParameterized3(1, font, GetStringWidth(font, sData->easyChatProfile[0], 0) + space + x, y1, sTrainerCardRSContentColors, TEXT_SPEED_FF, sData->easyChatProfile[1]);
 			AddTextPrinterParameterized3(1, font, x, y2, sTrainerCardRSContentColors, TEXT_SPEED_FF, sData->easyChatProfile[2]);
 			AddTextPrinterParameterized3(1, font, GetStringWidth(font, sData->easyChatProfile[2], 0) + space + x, y2, sTrainerCardRSContentColors, TEXT_SPEED_FF, sData->easyChatProfile[3]);
+		}
+		else if (sData->isDX)
+		{
+			StringCopy(buffer, sData->easyChatProfile[0]);
+			for (i = 0; i < 32; i++)
+			{
+				if (buffer[i] == 0)
+					buffer[i] = 10;
+			}
+			AddTextPrinterParameterized3(1, font, x, y1, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
+			StringCopy(buffer, sData->easyChatProfile[1]);
+			for (i = 0; i < 32; i++)
+			{
+				if (buffer[i] == 0)
+					buffer[i] = 10;
+			}
+			AddTextPrinterParameterized3(1, font, GetStringWidth(font, sData->easyChatProfile[0], 0) + space + x, y1, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
+			StringCopy(buffer, sData->easyChatProfile[2]);
+			for (i = 0; i < 32; i++)
+			{
+				if (buffer[i] == 0)
+					buffer[i] = 10;
+			}
+			AddTextPrinterParameterized3(1, font, x, y2, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
+			StringCopy(buffer, sData->easyChatProfile[3]);
+			for (i = 0; i < 32; i++)
+			{
+				if (buffer[i] == 0)
+					buffer[i] = 10;
+			}
+			AddTextPrinterParameterized3(1, font, GetStringWidth(font, sData->easyChatProfile[2], 0) + space + x, y2, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
 		}
 		else
 		{
@@ -2484,8 +2514,6 @@ static u8 GetSetCardType(void)
 {
 	u8 i;
 
-	mgba_printf(MGBA_LOG_INFO, "%x", sizeof(struct TrainerCard));
-
     if (sData == NULL)
     {
         if (gGameVersion == VERSION_FIRERED || gGameVersion == VERSION_LEAFGREEN)
@@ -2546,6 +2574,7 @@ static u8 GetSetCardType(void)
 				if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
 				{
 					sData->cardLayout = CARD_LAYOUT_FRLG;
+					sData->isDX = TRUE;
 					sData->stats[0] = CARD_STAT_HOF_DEBUT;
 					sData->stats[1] = CARD_STAT_LINK_BATTLES;
 					sData->stats[2] = CARD_STAT_TRADES;
@@ -2555,7 +2584,7 @@ static u8 GetSetCardType(void)
 					else
 						sData->stats[4] = CARD_STAT_BERRY_CRUSH;
 					sData->stats[5] = CARD_STAT_NONE;
-					return CARD_TYPE_CRYSTALDUST;
+					return CARD_TYPE_FRLG;
 				}
 				break;
 			case DEV_SOLITAIRI_2:
