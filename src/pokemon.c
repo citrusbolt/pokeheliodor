@@ -8010,7 +8010,7 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 		return REGION_JOHTO;
 	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
 		return REGION_JOHTO;
-	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)z
+	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
 		return REGION_SINNOH;
 	else if (originGame == VERSION_GAMECUBE)
 		return REGION_ORRE;
