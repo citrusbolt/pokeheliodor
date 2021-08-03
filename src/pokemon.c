@@ -7998,16 +7998,19 @@ bool8 IsMewtwoInParty(void)
 	return FALSE;
 }
 
-u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)	//Does not necessarily align with origin game ID due to Heliodor using multiple and due to CrystalDust (eventually) containing two regions
+u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 {
-	u8 originGame, metLocation;
+	u8 originGame, versionModifier, metLocation;
 	
 	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
+	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
 	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
 	
-	if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
+	if (versionModifier == DEV_SOLITAIRI && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
 		return REGION_JOHTO;
-	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
+	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
+		return REGION_JOHTO;
+	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)z
 		return REGION_SINNOH;
 	else if (originGame == VERSION_GAMECUBE)
 		return REGION_ORRE;

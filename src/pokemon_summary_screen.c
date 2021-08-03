@@ -261,6 +261,7 @@ static void PrintMonAbilityDescription(void);
 static void BufferMonTrainerMemo(void);
 static void PrintMonTrainerMemo(void);
 static void BufferNatureString(void);
+static void BufferCharacteristicString(void);
 static void GetMetLevelString(u8 *a);
 static bool8 DoesMonOTMatchOwner(void);
 static bool8 DidMonComeFromGBAGames(void);
@@ -322,6 +323,7 @@ static void BufferStat(u8 *dst, s8 natureMod, u32 stat, u32 strId, u32 n);
 // const rom data
 #include "data/text/move_descriptions.h"
 #include "data/text/nature_names.h"
+#include "data/text/characteristics.h"
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -3095,12 +3097,14 @@ static void PrintMonAbilityDescription(void)
 static void BufferMonTrainerMemo(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
+	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     const u8 *text;
 
     DynamicPlaceholderTextUtil_Reset();
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoNatureTextColor);
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sMemoMiscTextColor);
     BufferNatureString();
+    BufferCharacteristicString();
 
     if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE || IsInGamePartnerMon() == TRUE)
     {
@@ -3111,6 +3115,8 @@ static void BufferMonTrainerMemo(void)
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
+
+		DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gRegionNames[WhatRegionWasMonCaughtIn(mon)]);
 
 		if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_SAPPHIRE)
 		{
@@ -3620,7 +3626,7 @@ static void BufferMonTrainerMemo(void)
 
 static void PrintMonTrainerMemo(void)
 {
-    PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), gStringVar4, 0, 1, 0, 0);
+	AddTextPrinterParameterized4(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), 8, 0, 1, 0, 2, sTextColors[0], 0, gStringVar4);
 }
 
 static void BufferNatureString(void)
@@ -3628,6 +3634,59 @@ static void BufferNatureString(void)
     struct PokemonSummaryScreenData *sumStruct = sMonSummaryScreen;
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, gNatureNamePointers[sumStruct->summary.nature]);
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gText_EmptyString5);
+}
+
+static void BufferCharacteristicString(void)
+{
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+	u8 index, highestIV, highestValue, i, j;
+	u8 iv[6];
+	u8 ties[6] = { 0, 0, 0, 0, 0, 0 };
+
+	iv[0] = GetMonData(mon, MON_DATA_HP_IV);
+	iv[1] = GetMonData(mon, MON_DATA_ATK_IV);
+	iv[2] = GetMonData(mon, MON_DATA_DEF_IV);
+	iv[3] = GetMonData(mon, MON_DATA_SPEED_IV);
+	iv[4] = GetMonData(mon, MON_DATA_SPATK_IV);
+	iv[5] = GetMonData(mon, MON_DATA_SPDEF_IV);
+	index = sum->pid % 6;
+
+	highestValue = iv[0];
+	
+	for (i = 0; i < 6; i++)
+	{
+		if (iv[i] > highestValue)
+		{
+			highestValue = iv[i];
+			ties[0] = i + 1;
+			for (j = 1; j < 6; j++)
+				ties[j] = 0;
+		}
+		else if (iv[i] == highestValue)
+		{
+			for (j = 0; j < 6; j++)
+			{
+				if (ties[j] == 0)
+				{
+					ties[j] = i + 1;
+					break;
+				}
+			}
+		}
+	}
+	
+	for (i = 0; i < 6; i++)
+	{
+		if (ties[(index + i) % 6] != 0)
+		{
+			highestIV = ties[(index + i) % 6] - 1;
+			break;
+		}
+	}
+
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(6, gCharacteristicPointers[(highestValue % 5) * 6 + highestIV]);
+	DynamicPlaceholderTextUtil_SetPlaceholderPtr(7, gNatureFlavorPointers[sum->nature]);
 }
 
 static void GetMetLevelString(u8 *output)
