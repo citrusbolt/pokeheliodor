@@ -19,6 +19,7 @@
 #include "text_window.h"
 #include "decompress.h"
 #include "constants/rgb.h"
+#include "event_data.h"
 
 // this file's functions
 static void CB2_MysteryEventMenu(void);
@@ -257,6 +258,7 @@ static void CB2_MysteryEventMenu(void)
         if (gReceivedRemoteLinkPlayers == 0)
         {
             u16 unkVal = RunMysteryEventScript(gDecompressionBuffer);
+			FlagSet(FLAG_USED_EREADER);
             CpuFill32(0, gDecompressionBuffer, 0x7D4);
             if (!GetEventLoadMessage(gStringVar4, unkVal))
                 TrySavingData(SAVE_NORMAL);

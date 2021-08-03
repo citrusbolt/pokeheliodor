@@ -930,6 +930,7 @@ static void CreateCardTerminalMultichoice(void)
     u8 width;
     u8 windowId;
     u8 i;
+	u8 count;
 
     GetFontAttribute(1, FONTATTR_MAX_LETTER_WIDTH);
 
@@ -937,17 +938,41 @@ static void CreateCardTerminalMultichoice(void)
 
 	if (gSpecialVar_Result == 255)
 	{
-		for (i = 0; i < 5; i++)
+		if (FlagGet(FLAG_USED_EREADER))
+			count = 6;
+		else
+			count = 5;
+		
+		for (i = 0; i < 4; i++)
 			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[i], pixelWidth);
+		if (count == 5)
+		{
+			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[5], pixelWidth);
+		}
+		else
+		{
+			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[4], pixelWidth);
+			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[5], pixelWidth);
+		}
+
 		
 		width = ConvertPixelWidthToTileWidth(pixelWidth);
-		windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, 2, width, 10);
+		windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
 		SetStandardWindowBorderStyle(windowId, 0);
 		
-		for (i = 0; i < 5; i++)
-				AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[i], 8, i * 16 + 1, TEXT_SPEED_FF, NULL);
+		for (i = 0; i < 4; i++)
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[i], 8, i * 16 + 1, TEXT_SPEED_FF, NULL);
+		if (count == 5)
+		{
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 65, TEXT_SPEED_FF, NULL);
+		}
+		else
+		{
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[4], 8, 65, TEXT_SPEED_FF, NULL);
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 81, TEXT_SPEED_FF, NULL);
+		}
 		
-		InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 5, 0);
+		InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, count, 0);
 		CopyWindowToVram(windowId, 3);
 		InitMultichoiceCheckWrap(FALSE, 5, windowId, MULTI_CARD_TERMINAL_MENU);
 	}

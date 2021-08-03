@@ -591,6 +591,8 @@ static bool8 LoadCardGfx(void)
             LZ77UnCompWram(gHoennTrainerCardBack_Tilemap, sData->backTilemap);
         else if (sData->cardLayout == CARD_LAYOUT_FRLG)
             LZ77UnCompWram(gKantoTrainerCardBack_Tilemap, sData->backTilemap);
+        else if (sData->cardLayout == CARD_LAYOUT_HELIODOR && sData->trainerCard.displayDotCode)
+            LZ77UnCompWram(gHeliodorDotCodeTrainerCardBack_Tilemap, sData->backTilemap);
         else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
             LZ77UnCompWram(gHeliodorTrainerCardBack_Tilemap, sData->backTilemap);
         break;
@@ -908,6 +910,7 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	trainerCard->hSticker0 = gSaveBlock1Ptr->trainerCardStickers[3];
 	trainerCard->hSticker1 = gSaveBlock1Ptr->trainerCardStickers[4];
 	trainerCard->hSticker2 = gSaveBlock1Ptr->trainerCardStickers[5];
+	trainerCard->displayDotCode = FlagGet(FLAG_DISPLAY_DOT_CODE);
 }
 
 static void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCard)
@@ -1598,7 +1601,7 @@ static void PrintNameOnCardBack(void)
 	else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
 	{
 		txtPtr = StringCopy(buffer, sData->textPlayersCard);
-		y = 9;
+		y = 10;
 		font = 0;
 		x = GetStringCenterAlignXOffset(font, buffer, 240) - 7;
 	}

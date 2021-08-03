@@ -2000,6 +2000,7 @@ const u8 gText_CardTerminal_Type[] = _("CHANGE STYLE");
 const u8 gText_CardTerminal_Stickers[] = _("UPDATE STICKERS (RG/H-STYLES)");
 const u8 gText_CardTerminal_Icons[] = _("UPDATE PARTY (RG/H-STYLES)");
 const u8 gText_CardTerminal_Stats[] = _("CHOOSE STATS (H-STYLE)");
+const u8 gText_CardTerminal_DotCode[] = _("TOGGLE DOT CODE (H-STYLE)");
 const u8 gText_CardTerminal_TypeRS[] = _("RS-STYLE");
 const u8 gText_CardTerminal_TypeRG[] = _("RG-STYLE");
 const u8 gText_CardTerminal_TypeE[] = _("E-STYLE");

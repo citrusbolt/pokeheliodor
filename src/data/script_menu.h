@@ -1024,6 +1024,7 @@ static const u8 *const sCardTerminalMenu[] =
 	gText_CardTerminal_Stickers,
 	gText_CardTerminal_Icons,
 	gText_CardTerminal_Stats,
+	gText_CardTerminal_DotCode,
 	gText_Exit,
 };
 

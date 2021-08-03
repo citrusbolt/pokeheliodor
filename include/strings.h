@@ -3282,6 +3282,7 @@ extern const u8 gText_CardTerminal_Type[];
 extern const u8 gText_CardTerminal_Stickers[];
 extern const u8 gText_CardTerminal_Icons[];
 extern const u8 gText_CardTerminal_Stats[];
+extern const u8 gText_CardTerminal_DotCode[];
 extern const u8 gText_CardTerminal_TypeRS[];
 extern const u8 gText_CardTerminal_TypeRG[];
 extern const u8 gText_CardTerminal_TypeE[];

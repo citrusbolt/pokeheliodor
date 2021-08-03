@@ -12,6 +12,7 @@ EventScript_CardTerminal_Menu:
 	case 1, EventScript_CardTerminal_Sticker
 	case 2, EventScript_CardTerminal_IconTint
 	case 3, EventScript_CardTerminal_Stat1
+	case 4, EventScript_CardTerminal_DotCode
 	case MULTI_B_PRESSED, EventScript_CardTerminal_Exit
 	end
 
@@ -83,9 +84,9 @@ EventScript_CardTerminal_Stat2:
 	waitstate
 	copyvar VAR_0x8006, VAR_RESULT
 	compare VAR_RESULT, 12
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat1
 	compare VAR_RESULT, MULTI_B_PRESSED
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat1
 EventScript_CardTerminal_Stat3:
 	message EventScript_CardTerminal_Text_Stat3
 	waitmessage
@@ -94,9 +95,9 @@ EventScript_CardTerminal_Stat3:
 	waitstate
 	copyvar VAR_0x8007, VAR_RESULT
 	compare VAR_RESULT, 12
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat2
 	compare VAR_RESULT, MULTI_B_PRESSED
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat2
 EventScript_CardTerminal_Stat4:
 	message EventScript_CardTerminal_Text_Stat4
 	waitmessage
@@ -105,9 +106,9 @@ EventScript_CardTerminal_Stat4:
 	waitstate
 	copyvar VAR_0x8008, VAR_RESULT
 	compare VAR_RESULT, 12
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat3
 	compare VAR_RESULT, MULTI_B_PRESSED
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat3
 EventScript_CardTerminal_Stat5:
 	message EventScript_CardTerminal_Text_Stat5
 	waitmessage
@@ -116,10 +117,36 @@ EventScript_CardTerminal_Stat5:
 	waitstate
 	copyvar VAR_0x8009, VAR_RESULT
 	compare VAR_RESULT, 12
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat4
 	compare VAR_RESULT, MULTI_B_PRESSED
-	goto_if_eq EventScript_CardTerminal_Menu
+	goto_if_eq EventScript_CardTerminal_Stat4
 	special UpdateTrainerCardStats
+	goto EventScript_CardTerminal_Updated
+	end
+
+EventScript_CardTerminal_DotCode:
+	goto_if_unset FLAG_USED_EREADER, EventScript_CardTerminal_Exit
+	goto_if_set FLAG_DISPLAY_DOT_CODE, EventScript_CardTerminal_DotCode_Remove
+	msgbox EventScript_CardTerminal_Text_DotCode_Apply, MSGBOX_YESNO
+	compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_CardTerminal_DotCode_Do_Apply
+	goto EventScript_CardTerminal_Menu
+	end
+
+EventScript_CardTerminal_DotCode_Remove:
+	msgbox EventScript_CardTerminal_Text_DotCode_Remove, MSGBOX_YESNO
+	compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_CardTerminal_DotCode_Do_Remove
+	goto EventScript_CardTerminal_Menu
+	end
+
+EventScript_CardTerminal_DotCode_Do_Apply:
+	setflag FLAG_DISPLAY_DOT_CODE
+	goto EventScript_CardTerminal_Updated
+	end
+
+EventScript_CardTerminal_DotCode_Do_Remove:
+	clearflag FLAG_DISPLAY_DOT_CODE
 	goto EventScript_CardTerminal_Updated
 	end
 
@@ -181,3 +208,11 @@ EventScript_CardTerminal_Text_UpdatedSticker:
 EventScript_CardTerminal_Text_Updated:
 	.string "Your Trainer Card has\n"
 	.string "been updated!$"
+
+EventScript_CardTerminal_Text_DotCode_Apply:
+	.string "Would you like to apply\n"
+	.string "an e-Readear dot code?$"
+
+EventScript_CardTerminal_Text_DotCode_Remove:
+	.string "Would you like to remove\n"
+	.string "your e-Readear dot code?$"

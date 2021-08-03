@@ -51,8 +51,8 @@ struct TrainerCard
     /*0x00*/ u8 gender;
     /*0x01*/ u8 stars;
     /*0x02*/ bool8 hasPokedex;
-    /*0x03*/ bool8 caughtAllHoenn;
-    /*0x04*/ bool8 hasAllPaintings;
+    /*0x03*/ bool8 caughtAllHoenn; // Free for use
+    /*0x04*/ bool8 hasAllPaintings; //Free for use
 	/*0x05*/ u8 extraStars;
     /*0x06*/ u16 hofDebutHours;
     /*0x08*/ u16 hofDebutMinutes;
@@ -74,19 +74,19 @@ struct TrainerCard
     /*0x30*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     /*0x38*/ u8 version;
 	/*0x39*/ u8 cardLayout;
-    /*0x3A*/ bool16 hasAllFrontierSymbols;
+    /*0x3A*/ bool16 hasAllFrontierSymbols; // Free for use
     /*0x3C*/ u32 berryCrushPoints;
     /*0x40*/ u32 unionRoomNum;
-    /*0x44*/ u32 berriesPicked; //FRLG only
-    /*0x48*/ u32 jumpsInRow; //FRLG only
-    /*0x4C*/ bool8 shouldDrawStickers; // FRLG only
-    /*0x4D*/ bool8 hasAllMons; //FRLG only
-    /*0x4E*/ u8 monIconTint; // FRLG only
+    /*0x44*/ u32 berriesPicked; // Free for use
+    /*0x48*/ u32 jumpsInRow; // Free for use
+    /*0x4C*/ bool8 shouldDrawStickers;
+    /*0x4D*/ bool8 hasAllMons; // Free for use
+    /*0x4E*/ u8 monIconTint;
     /*0x4F*/ u8 facilityClass;
-    /*0x50*/ u8 stickers[TRAINER_CARD_STICKER_TYPES]; // FRLG only
+    /*0x50*/ u8 stickers[TRAINER_CARD_STICKER_TYPES];
 	/*0x53*/ u8 versionModifier;
-    /*0x54*/ u16 monSpecies[PARTY_SIZE]; // FRLG only
-    /*0x60*/ bool16 hasAllSymbols;
+    /*0x54*/ u16 monSpecies[PARTY_SIZE];
+    /*0x60*/ bool16 hasAllSymbols; // Free for use
     /*0x62*/ u16 frontierBP;
 	/*0x64*/ u32 monForm0:2;
 	         u32 monForm1:2;
@@ -103,7 +103,8 @@ struct TrainerCard
 	/*0x6A*/ u16 hSticker0:3;
 	         u16 hSticker1:3;
 	         u16 hSticker2:3;
-             u16 filler:7;
+			 u16 displayDotCode:1;
+             u16 filler:6;
 };
 
 extern struct TrainerCard gTrainerCards[4];
