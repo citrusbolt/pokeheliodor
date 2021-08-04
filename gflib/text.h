@@ -422,20 +422,18 @@ u8 GetFontAttribute(u8 fontId, u8 attributeId);
 u8 GetMenuCursorDimensionByFont(u8 fontId, u8 whichDimension);
 void DecompressGlyphFont0(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont0(u16 glyphId, bool32 isJapanese);
-void DecompressGlyphFont7(u16 glyphId, bool32 isJapanese);
-u32 GetGlyphWidthFont7(u16 glyphId, bool32 isJapanese);
-void DecompressGlyphFont8(u16 glyphId, bool32 isJapanese);
-u32 GetGlyphWidthFont8(u16 glyphId, bool32 isJapanese);
-void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese);
-u32 GetGlyphWidthFont2(u16 glyphId, bool32 isJapanese);
 void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont1(u16 glyphId, bool32 isJapanese);
+void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese);
+u32 GetGlyphWidthFont2(u16 glyphId, bool32 isJapanese);
+void DecompressGlyphFont3(u16 glyphId, bool32 isJapanese);
+u32 GetGlyphWidthFont3(u16 glyphId, bool32 isJapanese);
+void DecompressGlyphFont4(u16 glyphId, bool32 isJapanese);
+u32 GetGlyphWidthFont4(u16 glyphId, bool32 isJapanese);
+void DecompressGlyphFont7(u16 glyphId, bool32 isJapanese);
+u32 GetGlyphWidthFont7(u16 glyphId, bool32 isJapanese);
 void DecompressGlyphFont9(u16 glyphId);
 u32 GetGlyphWidthFont9(u16 glyphId, bool32 isJapanese);
-void DecompressGlyphFont10(u16 glyphId, bool32 isJapanese);
-u32 GetGlyphWidthFont10(u16 glyphId, bool32 isJapanese);
-void DecompressGlyphFont11(u16 glyphId, bool32 isJapanese);
-u32 GetGlyphWidthFont11(u16 glyphId, bool32 isJapanese);
 
 // unk_text_util_2.c
 u16 Font6Func(struct TextPrinter *textPrinter);

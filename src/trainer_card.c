@@ -1175,13 +1175,13 @@ static void PrintNameOnCardFront(void)
 	{
 		x = 16;
 		y = 32;
-		font = 11;
+		font = 4;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
 	{
 		x = 16;
 		y = 33;
-		font = 10;
+		font = 3;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_FRLG)
 	{
@@ -1226,13 +1226,13 @@ static void PrintIdOnCard(void)
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
 		y = 8;
-		font = 11;
+		font = 4;
 		x = GetStringCenterAlignXOffset(font, buffer, 96) + 107;
 	}
 	if (sData->cardLayout == CARD_LAYOUT_EMERALD)
 	{
 		y = 9;
-		font = 10;
+		font = 3;
 		x = GetStringCenterAlignXOffset(font, buffer, 96) + 120;
 	}
     else if (sData->cardLayout == CARD_LAYOUT_FRLG)
@@ -1261,13 +1261,13 @@ static void PrintMoneyOnCard(void)
 	{
 		x = 16;
 		y = 56;
-		font = 11;
+		font = 4;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
 	{
 		x = 16;
 		y = 57;
-		font = 10;
+		font = 3;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_FRLG)
 	{
@@ -1318,13 +1318,13 @@ static void PrintPokedexOnCard(void)
 		{
 			x = 16;
 			y = 72;
-			font = 11;
+			font = 4;
 		}
 		else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
 		{
 			x = 16;
 			y = 73;
-			font = 10;
+			font = 3;
 		}
 		else if (sData->cardLayout == CARD_LAYOUT_FRLG)
 		{
@@ -1373,13 +1373,13 @@ static void PrintTimeOnCard(void)
 	{
 		x = 16;
 		y = 88;
-		font = 11;
+		font = 4;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
 	{
 		x = 16;
 		y = 89;
-		font = 10;
+		font = 3;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_FRLG)
 	{
@@ -1473,7 +1473,7 @@ static void PrintProfilePhraseOnCard(void)
 		x = 8;
 		y1 = 104;
 		y2 = 120;
-		font = 11;
+		font = 4;
 		space = 3;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
@@ -1481,7 +1481,7 @@ static void PrintProfilePhraseOnCard(void)
 		x = 8;
 		y1 = 104;
 		y2 = 120;
-		font = 10;
+		font = 3;
 		space = 6;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_FRLG)
@@ -1583,13 +1583,13 @@ static void PrintNameOnCardBack(void)
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
 		y = 8;
-		font = 11;
+		font = 4;
 		x = GetStringRightAlignXOffset(font, sData->textPlayersCard, 216);
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
 	{
 		y = 9;
-		font = 10;
+		font = 3;
 		x = GetStringRightAlignXOffset(font, sData->textPlayersCard, 216);
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_FRLG)
@@ -1623,13 +1623,13 @@ static void PrintStatOnBackOfCard(u8 top, const u8* statName, u8* stat, const u8
 	{
 		x = 16;
 		y = 32;
-		font = 11;
+		font = 4;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
 	{
 		x = 16;
 		y = 33;
-		font = 10;
+		font = 3;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_FRLG)
 	{
@@ -1723,8 +1723,8 @@ static void PrintHofDebutTimeOnCard(u8 slot)
 			str = ConvertIntToDecimalStringN(str, sData->trainerCard.hofDebutMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
 			str = StringCopy(str, gText_RSCardColon);
 			str = ConvertIntToDecimalStringN(str, sData->trainerCard.hofDebutSeconds, STR_CONV_MODE_LEADING_ZEROS, 2);
-			AddTextPrinterParameterized3(1, 11, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, gText_RSCardHallOfFame);
-			AddTextPrinterParameterized3(1, 11, GetStringRightAlignXOffset(11, gStringVar1, 216), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, gStringVar1);
+			AddTextPrinterParameterized3(1, 4, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, gText_RSCardHallOfFame);
+			AddTextPrinterParameterized3(1, 3, GetStringRightAlignXOffset(11, gStringVar1, 216), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, gStringVar1);
 		}
 		else
 		{
@@ -1771,9 +1771,9 @@ static void PrintLinkBattleResultsOnCard(u8 slot)
     {
 		if (sData->cardLayout == CARD_LAYOUT_RS)
 		{
-			AddTextPrinterParameterized3(1, 11, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, sData->textLinkBattleType);
-			AddTextPrinterParameterized3(1, 11, GetStringRightAlignXOffset(11, sData->textLinkBattleLosses, 168), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
-			AddTextPrinterParameterized3(1, 11, GetStringRightAlignXOffset(11, sData->textLinkBattleLosses, 216), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textLinkBattleLosses);
+			AddTextPrinterParameterized3(1, 4, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, sData->textLinkBattleType);
+			AddTextPrinterParameterized3(1, 4, GetStringRightAlignXOffset(11, sData->textLinkBattleLosses, 168), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
+			AddTextPrinterParameterized3(1, 4, GetStringRightAlignXOffset(11, sData->textLinkBattleLosses, 216), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textLinkBattleLosses);
 		}
 		else if (sData->cardLayout == CARD_LAYOUT_FRLG)
 		{
@@ -1876,13 +1876,13 @@ static void PrintBattleTowerStringOnCard(u8 slot)
 	{
 		if (sData->cardLayout == CARD_LAYOUT_RS)
 		{
-			AddTextPrinterParameterized3(1, 11, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, gText_RSCardTower);
-			AddTextPrinterParameterized3(1, 11, 104, slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textBattleTower);
+			AddTextPrinterParameterized3(1, 4, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, gText_RSCardTower);
+			AddTextPrinterParameterized3(1, 4, 104, slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textBattleTower);
 		}
 		else
 		{
-			AddTextPrinterParameterized3(1, 11, 16, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTower);
-			AddTextPrinterParameterized3(1, 11, 104, slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTower);
+			AddTextPrinterParameterized3(1, 4, 16, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTower);
+			AddTextPrinterParameterized3(1, 4, 104, slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTower);
 		}
 	}
 }
