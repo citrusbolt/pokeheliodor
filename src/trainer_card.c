@@ -55,15 +55,16 @@ struct TrainerCardData
     u8 easyChatProfile[TRAINER_CARD_PROFILE_LENGTH][13];
     u8 textPlayersCard[70];
     u8 textHofTime[70];
-    u8 textLinkBattleType[140];
+    u8 textLinkBattleType[70];
     u8 textLinkBattleWins[70];
-    u8 textLinkBattleLosses[140];
-    u8 textNumTrades[140];
-    u8 textBerryCrushPts[140];
+    u8 textLinkBattleLosses[70];
+    u8 textNumTrades[70];
+    u8 textBerryCrushPts[70];
     u8 textUnionRoomStats[70];
     u8 textNumLinkPokeblocks[70];
     u8 textNumLinkContests[70];
-    u8 textBattleTower[70];
+    u8 textBattleTowerWins[70];
+    u8 textBattleTowerStreak[70];
     u8 textBattlePoints[70];
     u8 textShinyCount[70];
     u8 textPowerPoints[70];
@@ -1571,7 +1572,7 @@ static void PrintNameOnCardBack(void)
 	else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
 	{
 		txtPtr = StringCopy(buffer, sData->textPlayersCard);
-		y = 10;
+		y = 9;
 		font = 0;
 		x = GetStringCenterAlignXOffset(font, buffer, 240) - 7;
 	}
@@ -1727,14 +1728,14 @@ static void PrintLinkBattleResultsOnCard(u8 slot)
 	{
 		AddTextPrinterParameterized3(1, 1, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, sData->textLinkBattleType);
 		AddTextPrinterParameterized3(1, 1, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardWinsLosses);
-		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 168), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
+		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textLinkBattleWins, 168), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
 		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 216), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SPEED_FF, sData->textLinkBattleLosses);
 	}
     else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
 	{
 		AddTextPrinterParameterized3(1, 1, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, sData->textLinkBattleType);
 		AddTextPrinterParameterized3(1, 1, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardWinsLosses);
-		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
+		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textLinkBattleWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
 		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textLinkBattleLosses);
 	}
     else if (sData->hasLinkResults)
@@ -1742,7 +1743,7 @@ static void PrintLinkBattleResultsOnCard(u8 slot)
 		if (sData->cardLayout == CARD_LAYOUT_RS)
 		{
 			AddTextPrinterParameterized3(1, 4, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, sData->textLinkBattleType);
-			AddTextPrinterParameterized3(1, 4, GetStringRightAlignXOffset(4, sData->textLinkBattleLosses, 168), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
+			AddTextPrinterParameterized3(1, 4, GetStringRightAlignXOffset(4, sData->textLinkBattleWins, 168), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textLinkBattleWins);
 			AddTextPrinterParameterized3(1, 4, GetStringRightAlignXOffset(4, sData->textLinkBattleLosses, 216), slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textLinkBattleLosses);
 		}
 		else if (sData->cardLayout == CARD_LAYOUT_FRLG)
@@ -1825,34 +1826,48 @@ static void PrintContestStringOnCard(u8 slot)
 
 static void BufferBattleTowerWins(void)
 {
-	ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.battleTowerWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
-	ConvertIntToDecimalStringN(gStringVar2, sData->trainerCard.battleTowerStraightWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
 	if (sData->cardLayout == CARD_LAYOUT_RS)
-		StringExpandPlaceholders(sData->textBattleTower, gText_RSCardTowerStats);
-	else if (sData->cardLayout == CARD_LAYOUT_HELIODOR && (sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
-		StringExpandPlaceholders(sData->textBattleTower, gText_HCard5StarTowerStats);
+	{
+		ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.battleTowerWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
+		ConvertIntToDecimalStringN(gStringVar2, sData->trainerCard.battleTowerStraightWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
+		StringExpandPlaceholders(sData->textBattleTowerWins, gText_RSCardTowerStats);
+	}
 	else
-		StringExpandPlaceholders(sData->textBattleTower, gText_HCardTowerStats);
+	{
+		ConvertIntToDecimalStringN(sData->textBattleTowerWins, sData->trainerCard.battleTowerWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
+		ConvertIntToDecimalStringN(sData->textBattleTowerStreak, sData->trainerCard.battleTowerStraightWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
+	}
 }
 
 static void PrintBattleTowerStringOnCard(u8 slot)
 {
-	if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
+	if (sData->cardLayout == CARD_LAYOUT_HELIODOR && (sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
 	{
 		AddTextPrinterParameterized3(1, 1, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTower);
-		AddTextPrinterParameterized3(1, 1, 129, slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTower);
+		AddTextPrinterParameterized3(1, 1, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTowerStats);
+		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SPEED_FF, sData->textBattleTowerWins);
+		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SPEED_FF, sData->textBattleTowerStreak);
+	}
+	else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
+	{
+		AddTextPrinterParameterized3(1, 1, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTower);
+		AddTextPrinterParameterized3(1, 1, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTowerStats);
+		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTowerWins);
+		AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTowerStreak);
 	}
 	else if (sData->hasBattleTowerWins)
 	{
 		if (sData->cardLayout == CARD_LAYOUT_RS)
 		{
 			AddTextPrinterParameterized3(1, 4, 16, slot * 16 + 32, sTrainerCardRSContentColors, TEXT_SPEED_FF, gText_RSCardTower);
-			AddTextPrinterParameterized3(1, 4, 104, slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textBattleTower);
+			AddTextPrinterParameterized3(1, 4, 104, slot * 16 + 32, sTrainerCardRSStatColors, TEXT_SPEED_FF, sData->textBattleTowerWins);
 		}
 		else
 		{
-			AddTextPrinterParameterized3(1, 3, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTower);
-			AddTextPrinterParameterized3(1, 3, 129, slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTower);
+			AddTextPrinterParameterized3(1, 1, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTower);
+			AddTextPrinterParameterized3(1, 1, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HCardTowerStats);
+			AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTowerWins);
+			AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SPEED_FF, sData->textBattleTowerStreak);
 		}
 	}
 }
