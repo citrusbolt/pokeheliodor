@@ -5,6 +5,7 @@ EventScript_CardTerminal_Menu:
 	message EventScript_CardTerminal_Text_Begin
 	waitmessage
 	setvar VAR_RESULT, 255
+	setvar VAR_0x8004, 0
 	special ScriptMenu_CreateCardTerminalMultichoice
 	waitstate
 	switch VAR_RESULT
@@ -35,6 +36,8 @@ EventScript_CardTerminal_Type:
 	end
 
 EventScript_CardTerminal_Sticker:
+	compare VAR_0x8004, 1
+	goto_if_eq EventScript_CardTerminal_Exit
 	message EventScript_CardTerminal_Text_Sticker
 	waitmessage
 	setvar VAR_0x8004, SCROLL_MULTI_CARD_TERMINAL_STICKER
@@ -66,6 +69,8 @@ EventScript_CardTerminal_IconTint:
 	end
 
 EventScript_CardTerminal_Stat1:
+	compare VAR_0x8004, 1
+	goto_if_eq EventScript_CardTerminal_Exit
 	message EventScript_CardTerminal_Text_Stat1
 	waitmessage
 	setvar VAR_0x8004, SCROLL_MULTI_CARD_TERMINAL_STATS

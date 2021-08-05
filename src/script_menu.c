@@ -17,6 +17,7 @@
 #include "constants/items.h"
 #include "constants/script_menu.h"
 #include "constants/songs.h"
+#include "trainer_card.h"
 
 #include "data/script_menu.h"
 
@@ -938,40 +939,69 @@ static void CreateCardTerminalMultichoice(void)
 
 	if (gSpecialVar_Result == 255)
 	{
-		if (FlagGet(FLAG_USED_EREADER))
-			count = 6;
-		else
-			count = 5;
-		
-		for (i = 0; i < 4; i++)
-			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[i], pixelWidth);
-		if (count == 5)
+		if (gSaveBlock1Ptr->trainerCardLayout == CARD_LAYOUT_HELIODOR)
 		{
-			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[5], pixelWidth);
+			if (FlagGet(FLAG_USED_EREADER))
+				count = 6;
+			else
+				count = 5;
+			for (i = 0; i < 4; i++)
+				pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[i], pixelWidth);
+			if (count == 5)
+			{
+				pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[5], pixelWidth);
+			}
+			else
+			{
+				pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[4], pixelWidth);
+				pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[5], pixelWidth);
+			}
+
+			width = ConvertPixelWidthToTileWidth(pixelWidth);
+			windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
+			SetStandardWindowBorderStyle(windowId, 0);
+			
+			for (i = 0; i < 4; i++)
+				AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[i], 8, i * 16 + 1, TEXT_SPEED_FF, NULL);
+			if (count == 5)
+			{
+				AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 65, TEXT_SPEED_FF, NULL);
+			}
+			else
+			{
+				AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[4], 8, 65, TEXT_SPEED_FF, NULL);
+				AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 81, TEXT_SPEED_FF, NULL);
+			}
+		}
+		else if (gSaveBlock1Ptr->trainerCardLayout == CARD_LAYOUT_FRLG)
+		{
+			gSpecialVar_0x8004 = 1;
+			count = 4;
+			for (i = 0; i < count; i++)
+				pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[i], pixelWidth);
+
+			width = ConvertPixelWidthToTileWidth(pixelWidth);
+			windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
+			SetStandardWindowBorderStyle(windowId, 0);
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[0], 8, 1, TEXT_SPEED_FF, NULL);
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[1], 8, 17, TEXT_SPEED_FF, NULL);
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[2], 8, 33, TEXT_SPEED_FF, NULL);
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 49, TEXT_SPEED_FF, NULL);
 		}
 		else
 		{
-			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[4], pixelWidth);
-			pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[5], pixelWidth);
+			gSpecialVar_0x8004 = 1;
+			count = 2;
+			for (i = 0; i < count; i++)
+				pixelWidth = DisplayTextAndGetWidth(sCardTerminalMenu[i], pixelWidth);
+
+			width = ConvertPixelWidthToTileWidth(pixelWidth);
+			windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
+			SetStandardWindowBorderStyle(windowId, 0);
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[0], 8, 1, TEXT_SPEED_FF, NULL);
+			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 17, TEXT_SPEED_FF, NULL);
 		}
 
-		
-		width = ConvertPixelWidthToTileWidth(pixelWidth);
-		windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
-		SetStandardWindowBorderStyle(windowId, 0);
-		
-		for (i = 0; i < 4; i++)
-			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[i], 8, i * 16 + 1, TEXT_SPEED_FF, NULL);
-		if (count == 5)
-		{
-			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 65, TEXT_SPEED_FF, NULL);
-		}
-		else
-		{
-			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[4], 8, 65, TEXT_SPEED_FF, NULL);
-			AddTextPrinterParameterized(windowId, 1, sCardTerminalMenu[5], 8, 81, TEXT_SPEED_FF, NULL);
-		}
-		
 		InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, count, 0);
 		CopyWindowToVram(windowId, 3);
 		InitMultichoiceCheckWrap(FALSE, 5, windowId, MULTI_CARD_TERMINAL_MENU);
