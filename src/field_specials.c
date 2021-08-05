@@ -5286,3 +5286,18 @@ void UpdateTrainerCardStats(void)
 	gSaveBlock1Ptr->trainerCardStat3 = gSpecialVar_0x8008;
 	gSaveBlock1Ptr->trainerCardStat4 = gSpecialVar_0x8009;
 }
+
+void SetEonTicketAsRecordMixingGift(void)
+{
+    u32 i, checksum = 0;
+    u8 *data = (u8*)(&gSaveBlock1Ptr->recordMixingGift.data);
+
+	gSaveBlock1Ptr->recordMixingGift.data.unk0 = 27;
+	gSaveBlock1Ptr->recordMixingGift.data.quantity = 151;
+	gSaveBlock1Ptr->recordMixingGift.data.itemId = ITEM_EON_TICKET;
+
+    for (i = 0; i < sizeof(gSaveBlock1Ptr->recordMixingGift.data); i++)
+        checksum += data[i];
+
+	gSaveBlock1Ptr->recordMixingGift.checksum = checksum;
+}

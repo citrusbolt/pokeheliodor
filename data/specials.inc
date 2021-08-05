@@ -584,3 +584,4 @@ gSpecials::
 	def_special UpdateTrainerCardMonIcons
 	def_special UpdateTrainerCardStats
 	def_special ScriptMenu_CreateCardTerminalMultichoice
+	def_special SetEonTicketAsRecordMixingGift

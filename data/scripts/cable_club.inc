@@ -44,6 +44,7 @@ CableClub_EventScript_DistributeEonTicket::
 	giveitem ITEM_EON_TICKET
 	setflag FLAG_ENABLE_SHIP_SOUTHERN_ISLAND
 	setvar VAR_DISTRIBUTE_EON_TICKET, 0
+	special SetEonTicketAsRecordMixingGift
 	msgbox Mevent_Text_TryUsingItAtLilycovePort, MSGBOX_DEFAULT
 	release
 	end

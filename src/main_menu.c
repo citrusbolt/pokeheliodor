@@ -36,6 +36,7 @@
 #include "title_screen.h"
 #include "window.h"
 #include "mystery_gift.h"
+#include "field_specials.h"
 
 /*
  * Main menu state machine
@@ -2341,6 +2342,12 @@ static void PatchSave(void)
 	{
 		gSaveBlock1Ptr->trainerCardLayout = 3;
 		VarSet(VAR_SAVE_VER, 1);	
+	}
+	if (VarGet(VAR_SAVE_VER) == 1)
+	{
+		if (FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND))
+			SetEonTicketAsRecordMixingGift();
+		VarSet(VAR_SAVE_VER, 2);
 	}
 }
 
