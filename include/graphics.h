@@ -5113,7 +5113,6 @@ extern const u32 gMonPalette_Egg_Dragon2[];
 extern const u32 gMonPalette_Egg_Dark1[];
 extern const u32 gMonPalette_Egg_Dark2[];
 
-
 // "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
 extern const u32 gItemIcon_PowerPad[];
 extern const u32 gItemIconPalette_PowerPad[];
@@ -5125,5 +5124,32 @@ extern const u32 gItemIcon_CatchingCharm[];
 extern const u32 gItemIconPalette_CatchingCharm[];
 extern const u32 gItemIcon_ExpCharm[];
 extern const u32 gItemIconPalette_ExpCharm[];
+
+
+// Poke Ball Summary Icons
+extern const u32 gBallIcon_Poke[];
+extern const u32 gBallIconPalette_Poke[];
+extern const u32 gBallIcon_Safari[];
+extern const u32 gBallIconPalette_Safari[];
+extern const u32 gBallIcon_Great[];
+extern const u32 gBallIconPalette_Great[];
+extern const u32 gBallIcon_Ultra[];
+extern const u32 gBallIconPalette_Ultra[];
+extern const u32 gBallIcon_Master[];
+extern const u32 gBallIconPalette_Master[];
+extern const u32 gBallIcon_Net[];
+extern const u32 gBallIconPalette_Net[];
+extern const u32 gBallIcon_Dive[];
+extern const u32 gBallIconPalette_Dive[];
+extern const u32 gBallIcon_Nest[];
+extern const u32 gBallIconPalette_Nest[];
+extern const u32 gBallIcon_Repeat[];
+extern const u32 gBallIconPalette_Repeat[];
+extern const u32 gBallIcon_Timer[];
+extern const u32 gBallIconPalette_Timer[];
+extern const u32 gBallIcon_Luxury[];
+extern const u32 gBallIconPalette_Luxury[];
+extern const u32 gBallIcon_Premier[];
+extern const u32 gBallIconPalette_Premier[];
 
 #endif //GUARD_GRAPHICS_H

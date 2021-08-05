@@ -47,6 +47,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "mgba.h"
+#include "item_icon.h"
 
 enum {
     PSS_PAGE_INFO,
@@ -3626,7 +3627,7 @@ static void BufferMonTrainerMemo(void)
 
 static void PrintMonTrainerMemo(void)
 {
-	AddTextPrinterParameterized4(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), 8, 0, 1, 0, 2, sTextColors[0], 0, gStringVar4);
+	AddTextPrinterParameterized4(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), 0, 0, 1, 0, 0, sTextColors[0], 0, gStringVar4);
 }
 
 static void BufferNatureString(void)
@@ -4698,11 +4699,14 @@ static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon)
 static void CreateCaughtBallSprite(struct Pokemon *mon)
 {
     u8 ball = ItemIdToBallId(GetMonData(mon, MON_DATA_POKEBALL));
-
-    LoadBallGfx(ball);
-    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 10, 135, 0);
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].callback = SpriteCallbackDummy;
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].oam.priority = 3;
+	
+	FreeSpriteTilesByTag(5500);
+	FreeSpritePaletteByTag(5500);
+	sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = AddBallIconSprite(5500, 5500, ball);
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].callback = SpriteCallbackDummy;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].oam.priority = 0;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].x = 11;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].y = 135;
 }
 
 static void CreateSetStatusSprite(void)

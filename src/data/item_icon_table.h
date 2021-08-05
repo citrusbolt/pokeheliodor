@@ -411,3 +411,19 @@ const u32 *const gItemIconTable[][2] =
     // Return to field arrow
     [ITEM_FIELD_ARROW] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };
+
+const u32 *const gBallIconTable[][2] =
+{
+    [BALL_POKE] = {gBallIcon_Poke, gBallIconPalette_Poke},
+    [BALL_GREAT] = {gBallIcon_Great, gBallIconPalette_Great},
+    [BALL_SAFARI] = {gBallIcon_Safari, gBallIconPalette_Safari},
+    [BALL_ULTRA] = {gBallIcon_Ultra, gBallIconPalette_Ultra},
+    [BALL_MASTER] = {gBallIcon_Master, gBallIconPalette_Master},
+    [BALL_NET] = {gBallIcon_Net, gBallIconPalette_Net},
+    [BALL_DIVE] = {gBallIcon_Dive, gBallIconPalette_Dive},
+    [BALL_NEST] = {gBallIcon_Nest, gBallIconPalette_Nest},
+    [BALL_REPEAT] = {gBallIcon_Repeat, gBallIconPalette_Repeat},
+    [BALL_TIMER] = {gBallIcon_Timer, gBallIconPalette_Timer},
+    [BALL_LUXURY] = {gBallIcon_Luxury, gBallIconPalette_Luxury},
+    [BALL_PREMIER] = {gBallIcon_Premier, gBallIconPalette_Premier},
+};
