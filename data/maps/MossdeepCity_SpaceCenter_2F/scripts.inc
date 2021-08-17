@@ -398,7 +398,7 @@ MossdeepCity_SpaceCenter_2F_Text_MossdeepIdealForRockets:
 	.string "The universe is so vast!\n"
 	.string "Do you think there are any other\l"
 	.string "inhabited worlds out there?\p"
-	.string "I'm hoping my research here will\l"
+	.string "I'm hoping my research here will\n"
 	.string "find evidence of them.$"
 
 MossdeepCity_SpaceCenter_2F_Text_WhyWouldMagmaStealRocketFuel:
