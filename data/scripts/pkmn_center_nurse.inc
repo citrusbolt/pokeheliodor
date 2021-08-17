@@ -20,15 +20,15 @@ Common_EventScript_PkmnCenterNurse::
     end
 
 EventScript_PkmnCenterNurse_IntroMorning:
-	message gText_NurseIntro_Morning
+	msgbox gText_NurseIntro_Morning, MSGBOX_DEFAULT
 	return
 
 EventScript_PkmnCenterNurse_IntroDay:
-	message gText_NurseIntro_Day
+	msgbox gText_NurseIntro_Day, MSGBOX_DEFAULT
 	return
 
 EventScript_PkmnCenterNurse_IntroNight:
-	message gText_NurseIntro_Night
+	msgbox gText_NurseIntro_Night, MSGBOX_DEFAULT
 	return
 
 EventScript_PkmnCenterNurse_Goodbye::
