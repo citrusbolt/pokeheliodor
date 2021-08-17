@@ -748,7 +748,7 @@ SootopolisCity_EventScript_ExpertPostLegendaries::
 	goto_if_ge SootopolisCity_EventScript_ExpertShownSuicune
 	msgbox SootopolisCity_Text_CaveOfOriginSleepsToo, MSGBOX_DEFAULT
 	msgbox SootopolisCity_Text_CaveOfOriginSuicune, MSGBOX_DEFAULT
-	setvar VAR_0x8004, SPECIES_BLAZIKEN
+	setvar VAR_0x8004, SPECIES_SUICUNE
 	specialvar VAR_RESULT, IsSpeciesInParty
 	compare VAR_RESULT, TRUE
 	goto_if_eq SootopolisCity_EventScript_ExpertShowSuicune
