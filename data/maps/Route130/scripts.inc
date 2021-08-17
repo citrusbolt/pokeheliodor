@@ -44,7 +44,7 @@ Route130_OnTransition:
 
 Route130_EventScript_SetMirageIslandLayout::
 	setmaplayoutindex LAYOUT_ROUTE130_MIRAGE_ISLAND
-	goto_if_eq Route130_EventScript_ShowMewtwo
+	goto_if_unset FLAG_DEFEATED_MEWTWO, Route130_EventScript_ShowMewtwo
 	setflag FLAG_HIDE_MEWTWO
 	removeobject LOCALID_MEWTWO
 	end
