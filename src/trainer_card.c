@@ -782,8 +782,7 @@ u32 CountPlayerTrainerStars(void)
 			stars++;
 		if (HasAllFrontierSymbols())
 			stars++;
-		if (CountPlayerTrainerExtraStars())
-			stars++;
+		stars += CountPlayerTrainerExtraStars();
 	}
 
     return stars;
@@ -818,12 +817,14 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	trainerCard->stars = CountPlayerTrainerStars();
 
 	if (trainerCard->stars > 4)
+	{
+		trainerCard->extraStars = trainerCard->stars - 4;
 		trainerCard->stars = 4;
+	}
 
 	trainerCard->hasPokedex = FlagGet(FLAG_SYS_POKEDEX_GET);
 	trainerCard->caughtAllHoenn = HasAllHoennMons();
 	trainerCard->hasAllPaintings = (CountPlayerMuseumPaintings() >= CONTEST_CATEGORIES_COUNT);
-	trainerCard->extraStars = CountPlayerTrainerExtraStars();
 
 	hofDebut = GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME);
 	if (!GetGameStat(GAME_STAT_ENTERED_HOF))
