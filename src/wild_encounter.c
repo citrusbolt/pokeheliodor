@@ -612,7 +612,7 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
 
 	if (wildMonInfo->wildPokemon[wildMonIndex].species == SPECIES_UNOWN)
 		CreateWildUnown(wildMonIndex, level);
-	else if (FlagGet(FLAG_UNOWN_RELEASED) && !FlagGet(FLAG_UNOWN_SETTLED) && Random() % 4 == 0)
+	else if (FlagGet(FLAG_UNOWN_RELEASED) && !FlagGet(FLAG_UNOWN_SETTLED) && Random() % 8 == 0)
 		CreateWildMon(SPECIES_UNOWN, 25);
 	else
 		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
@@ -631,7 +631,7 @@ static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 
     wildMonIndex = ChooseWildMonIndex_Fishing(rod);
     level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
 
-	if (FlagGet(FLAG_UNOWN_RELEASED) && !FlagGet(FLAG_UNOWN_SETTLED) && Random() % 4 == 0)
+	if (FlagGet(FLAG_UNOWN_RELEASED) && !FlagGet(FLAG_UNOWN_SETTLED) && Random() % 8 == 0)
 		CreateWildMon(SPECIES_UNOWN, 25);
 	else
 		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
