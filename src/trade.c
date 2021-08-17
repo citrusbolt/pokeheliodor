@@ -4530,6 +4530,7 @@ u16 GetInGameTradeSpeciesInfo(void)
 				StringCopy(gStringVar2, gSpeciesNames[SPECIES_SQUIRTLE]);
 			return SPECIES_MUDKIP;
 		default:
+			StringCopy(gStringVar1, gSpeciesNames[SPECIES_TREECKO]);
 			if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
 				StringCopy(gStringVar2, gSpeciesNames[SPECIES_BULBASAUR]);
 			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
@@ -4642,7 +4643,7 @@ static void _CreateInGameTradePokemon(u8 whichPlayerMon, u8 whichInGameTrade)
 			else if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_GET_CAUGHT) && !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_GET_CAUGHT) && GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_GET_CAUGHT))
 				species = SPECIES_CHARMANDER;
 			else
-				species = SPECIES_TREECKO;
+				species = SPECIES_BULBASAUR;
 			break;
 		}
 	}
