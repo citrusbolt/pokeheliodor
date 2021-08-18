@@ -109,20 +109,60 @@ static void CreateInitialRoamerMon(bool16 createRoamer)
     case 6:
 		(&gSaveBlock1Ptr->roamer)->species = SPECIES_SUICUNE;
 		break;
+	case 7:
+		switch (Random() % 10)
+		{
+		case 0:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_ARTICUNO;
+			break;
+		case 1:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_ZAPDOS;
+			break;
+		case 2:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_MOLTRES;
+			break;
+		case 3:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_RAIKOU;
+			break;
+		case 4:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_ENTEI;
+			break;
+		case 5:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_SUICUNE;
+			break;
+		case 6:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_LUGIA;
+			break;
+		case 7:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_HO_OH;
+			break;
+		case 8:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_LATIAS;
+			break;
+		case 9:
+			(&gSaveBlock1Ptr->roamer)->species = SPECIES_LATIOS;
+			break;
+		}
+		break;
 	default: //error case
 		(&gSaveBlock1Ptr->roamer)->species = SPECIES_ZIGZAGOON;
 		break;
 	}
 
-	if (createRoamer > 1)
-	{
-		CreateMon(&gEnemyParty[0], (&gSaveBlock1Ptr->roamer)->species, 50, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
-		(&gSaveBlock1Ptr->roamer)->level = 50;
-	}
-	else
+	if ((&gSaveBlock1Ptr->roamer)->species == SPECIES_LATIAS || (&gSaveBlock1Ptr->roamer)->species == SPECIES_LATIOS)
 	{
 		CreateMon(&gEnemyParty[0], (&gSaveBlock1Ptr->roamer)->species, 40, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
 		(&gSaveBlock1Ptr->roamer)->level = 40;
+	}
+	else if ((&gSaveBlock1Ptr->roamer)->species == SPECIES_LUGIA || (&gSaveBlock1Ptr->roamer)->species == SPECIES_HO_OH)
+	{
+		CreateMon(&gEnemyParty[0], (&gSaveBlock1Ptr->roamer)->species, 70, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
+		(&gSaveBlock1Ptr->roamer)->level = 70;
+	}
+	else
+	{
+		CreateMon(&gEnemyParty[0], (&gSaveBlock1Ptr->roamer)->species, 50, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
+		(&gSaveBlock1Ptr->roamer)->level = 50;
 	}
     (&gSaveBlock1Ptr->roamer)->status = 0;
     (&gSaveBlock1Ptr->roamer)->active = TRUE;
@@ -135,7 +175,7 @@ static void CreateInitialRoamerMon(bool16 createRoamer)
     (&gSaveBlock1Ptr->roamer)->smart = GetMonData(&gEnemyParty[0], MON_DATA_SMART);
     (&gSaveBlock1Ptr->roamer)->tough = GetMonData(&gEnemyParty[0], MON_DATA_TOUGH);
     sRoamerLocation[MAP_GRP] = 0;
-	if (createRoamer > 3)
+	if ((&gSaveBlock1Ptr->roamer)->species == SPECIES_RAIKOU || (&gSaveBlock1Ptr->roamer)->species == SPECIES_ENTEI || (&gSaveBlock1Ptr->roamer)->species == SPECIES_SUICUNE)
 		sRoamerLocation[MAP_NUM] = sLandRoamerLocations[Random() % (ARRAY_COUNT(sLandRoamerLocations) - 1)][0];
 	else
 		sRoamerLocation[MAP_NUM] = sRoamerLocations[Random() % (ARRAY_COUNT(sRoamerLocations) - 1)][0];
@@ -152,12 +192,17 @@ void InitRoamer(void)
 		VarSet(VAR_ROAMER_POKEMON, 1);
 		CreateInitialRoamerMon(1);
 	}
-	else
+	else if (gSpecialVar_0x8004 == 1)
 	{
 		FlagSet(FLAG_ROAMER_QUEST);
 		VarSet(VAR_ROAMER_POKEMON, 0);
 		CreateInitialRoamerMon(0);
 	}
+	else if (gSpecialVar_0x8004 == 2)
+	{
+		CreateInitialRoamerMon(7);
+	}
+		
 }
 
 void UpdateLocationHistoryForRoamer(void)
@@ -184,7 +229,7 @@ void RoamerMoveToOtherLocationSet(void)
 
     while (1)
     {
-		if (VarGet(VAR_ROAMER_POKEMON) > 3)
+		if (roamer->species == SPECIES_RAIKOU || roamer->species == SPECIES_ENTEI || roamer->species == SPECIES_SUICUNE)
 			mapNum = sLandRoamerLocations[Random() % (ARRAY_COUNT(sLandRoamerLocations) - 1)][0];
 		else
 			
@@ -212,7 +257,7 @@ void RoamerMove(void)
         if (!roamer->active)
             return;
 
-		if (VarGet(VAR_ROAMER_POKEMON) > 3)
+		if (roamer->species == SPECIES_RAIKOU || roamer->species == SPECIES_ENTEI || roamer->species == SPECIES_SUICUNE)
 		{
 			while (locSet < (ARRAY_COUNT(sLandRoamerLocations) - 1))
 			{
@@ -267,6 +312,7 @@ void CreateRoamerMonInstance(void)
 {
     struct Pokemon *mon;
     struct Roamer *roamer;
+	bool8 fatefulEncounter = TRUE;
 
     mon = &gEnemyParty[0];
     ZeroEnemyPartyMons();
@@ -279,6 +325,8 @@ void CreateRoamerMonInstance(void)
     SetMonData(mon, MON_DATA_CUTE, &gSaveBlock1Ptr->roamer.cute);
     SetMonData(mon, MON_DATA_SMART, &gSaveBlock1Ptr->roamer.smart);
     SetMonData(mon, MON_DATA_TOUGH, &gSaveBlock1Ptr->roamer.tough);
+	if (roamer->species == SPECIES_LUGIA || roamer->species == SPECIES_HO_OH)
+		SetMonData(mon, MON_DATA_EVENT_LEGAL, &fatefulEncounter);
 }
 
 bool8 TryStartRoamerEncounter(void)

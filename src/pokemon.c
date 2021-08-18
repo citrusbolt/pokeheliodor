@@ -7821,6 +7821,8 @@ u8 GivePorygon(void)
 
 void RespawnLegendaries(void)
 {
+	struct Roamer *roamer = &gSaveBlock1Ptr->roamer;
+
 	FlagClear(FLAG_DEFEATED_MEW);
 	FlagClear(FLAG_DEFEATED_LATIAS_OR_LATIOS);
 	FlagClear(FLAG_DEFEATED_DEOXYS);
@@ -7844,16 +7846,23 @@ void RespawnLegendaries(void)
 		FlagClear(FLAG_DEFEATED_ZAPDOS);
 	if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MEWTWO), FLAG_GET_CAUGHT))
 		FlagClear(FLAG_DEFEATED_MEWTWO);
+	if (VarGet(VAR_ROAMER_POKEMON) >= 6 && !roamer->active)
+	{
+		gSpecialVar_0x8004 = 2;
+		InitRoamer();
+	}
+	if (VarGet(VAR_ROAMER_POKEMON) >= 6 && FlagGet(FLAG_DEFEATED_ZAPDOS))
+	{
+		FlagClear(FLAG_DEFEATED_ZAPDOS);
+		VarSet(VAR_LEGENDARY_AT_NEW_MAUVILLE, (Random() % 6) + 1);
+	}
 }
 
 void RespawnAllLegendaries(void)
 {
-	struct Roamer *roamer = &gSaveBlock1Ptr->roamer;
-	
 	if (GetGameStat(GAME_STAT_ENTERED_HOF) % 10 == 9)
 	{
 		FlagClear(FLAG_DEFEATED_MEW);
-		FlagClear(FLAG_DEFEATED_LATIAS_OR_LATIOS);
 		FlagClear(FLAG_DEFEATED_DEOXYS);
 		FlagClear(FLAG_DEFEATED_LUGIA);
 		FlagClear(FLAG_DEFEATED_HO_OH);
@@ -7874,15 +7883,12 @@ void RespawnAllLegendaries(void)
 		
 		FlagClear(FLAG_HIDDEN_ITEM_NAVEL_ROCK_TOP_SACRED_ASH);
 		
-		if (VarGet(VAR_ROAMER_POKEMON) == 6 && !roamer->active && FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS))
+		if (FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS))
 		{
 			if (FlagGet(FLAG_ROAMER_QUEST))
 				FlagClear(FLAG_ROAMER_QUEST);
 			else
 				FlagSet(FLAG_ROAMER_QUEST);
-			gSpecialVar_0x8004 = FlagGet(FLAG_ROAMER_QUEST);
-			InitRoamer();
-			FlagClear(FLAG_DEFEATED_ZAPDOS);
 			FlagClear(FLAG_CAUGHT_LATIAS_OR_LATIOS);
 		}
 	}

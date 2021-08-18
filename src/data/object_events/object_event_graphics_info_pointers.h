@@ -244,8 +244,13 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Storyteller;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Giddy;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMauvilleOldMan1;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMauvilleOldMan2;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Articuno;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zapdos;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Moltres;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Mewtwo;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Raikou;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Entei;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Suicune;
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldBrendan;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldMay;
@@ -492,8 +497,13 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_LINK_RS_MAY] =              &gObjectEventGraphicsInfo_RubySapphireMay,
     [OBJ_EVENT_GFX_HOOH] =                     &gObjectEventGraphicsInfo_HoOh,
     [OBJ_EVENT_GFX_LUGIA] =                    &gObjectEventGraphicsInfo_Lugia,
+    [OBJ_EVENT_GFX_ARTICUNO] =                 &gObjectEventGraphicsInfo_Articuno,
     [OBJ_EVENT_GFX_ZAPDOS] =                   &gObjectEventGraphicsInfo_Zapdos,
+    [OBJ_EVENT_GFX_MOLTRES] =                  &gObjectEventGraphicsInfo_Moltres,
     [OBJ_EVENT_GFX_MEWTWO] =                   &gObjectEventGraphicsInfo_Mewtwo,
+    [OBJ_EVENT_GFX_RAIKOU] =                   &gObjectEventGraphicsInfo_Raikou,
+    [OBJ_EVENT_GFX_ENTEI] =                    &gObjectEventGraphicsInfo_Entei,
+    [OBJ_EVENT_GFX_SUICUNE] =                  &gObjectEventGraphicsInfo_Suicune,
     [OBJ_EVENT_GFX_LINK_E_BRENDAN] =           &gObjectEventGraphicsInfo_EmeraldBrendan,
     [OBJ_EVENT_GFX_LINK_E_MAY] =               &gObjectEventGraphicsInfo_EmeraldMay,
     [OBJ_EVENT_GFX_LINK_GOLD] =                &gObjectEventGraphicsInfo_Gold,

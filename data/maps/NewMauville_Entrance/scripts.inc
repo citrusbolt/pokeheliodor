@@ -35,9 +35,9 @@ NewMauville_Entrance_OnTransition:
 	setflag FLAG_LANDMARK_NEW_MAUVILLE
 	special ResumeRoamerQuest
 	compare VAR_RESULT, 1
-	goto_if_eq NewMauville_Entrance_EventScript_ShowZapdos
+	goto_if_eq NewMauville_Entrance_EventScript_ShowLegendary
 	compare VAR_RESULT, 2
-	goto_if_eq NewMauville_Entrance_EventScript_ShowZapdos
+	goto_if_eq NewMauville_Entrance_EventScript_ShowLegendary
 	setflag FLAG_HIDE_ZAPDOS
 	removeobject LOCALID_ZAPDOS
 	end
@@ -66,8 +66,87 @@ NewMauville_Entrance_EventScript_Door::
 	releaseall
 	end
 
-NewMauville_Entrance_EventScript_ShowZapdos::
+NewMauville_Entrance_EventScript_ShowLegendary::
+	compare VAR_LEGENDARY_AT_NEW_MAUVILLE, 0
+	goto_if_ne NewMauville_Entrance_EventScript_ShowWhichLegendary
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_ZAPDOS
 	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_Entrance_EventScript_ShowWhichLegendary::
+	switch VAR_LEGENDARY_AT_NEW_MAUVILLE
+	case 1, NewMauville_Entrance_EventScript_ShowArticuno
+	case 2, NewMauville_Entrance_EventScript_ShowZapdos
+	case 3, NewMauville_Entrance_EventScript_ShowMoltres
+	case 4, NewMauville_Entrance_EventScript_ShowRaikou
+	case 5, NewMauville_Entrance_EventScript_ShowEntei
+	case 6, NewMauville_Entrance_EventScript_ShowSuicune
+	end
+
+NewMauville_Entrance_EventScript_ShowArticuno::
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_ARTICUNO
+	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_Entrance_EventScript_ShowZapdos::
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_ZAPDOS
+	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_Entrance_EventScript_ShowMoltres::
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MOLTRES
+	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_Entrance_EventScript_ShowRaikou::
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RAIKOU
+	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_Entrance_EventScript_ShowEntei::
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_ENTEI
+	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_Entrance_EventScript_ShowSuicune::
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_SUICUNE
+	clearflag FLAG_HIDE_ZAPDOS
+	end
+
+NewMauville_Entrance_EventScript_Legendary::
+	switch VAR_LEGENDARY_AT_NEW_MAUVILLE
+	case 0, NewMauville_Entrance_EventScript_Zapdos
+	case 1, NewMauville_Entrance_EventScript_Articuno
+	case 2, NewMauville_Entrance_EventScript_Zapdos
+	case 3, NewMauville_Entrance_EventScript_Moltres
+	case 4, NewMauville_Entrance_EventScript_Raikou
+	case 5, NewMauville_Entrance_EventScript_Entei
+	case 6, NewMauville_Entrance_EventScript_Suicune
+	end
+
+NewMauville_Entrance_EventScript_Articuno::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_ARTICUNO, 2
+	message NewMauville_Text_Gyaoo
+	waitmessage
+	waitmoncry
+	delay 10
+	setwildbattle SPECIES_ARTICUNO, 50, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq NewMauville_Entrance_EventScript_DefeatedZapdos
+	compare VAR_RESULT, B_OUTCOME_RAN
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromArticuno
+	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromArticuno
+	setflag FLAG_DEFEATED_ZAPDOS
+	release
 	end
 
 NewMauville_Entrance_EventScript_Zapdos::
@@ -95,13 +174,138 @@ NewMauville_Entrance_EventScript_Zapdos::
 	release
 	end
 
+NewMauville_Entrance_EventScript_Moltres::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_MOLTRES, 2
+	message NewMauville_Text_Gyaoo
+	waitmessage
+	waitmoncry
+	delay 10
+	setwildbattle SPECIES_MOLTRES, 50, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq NewMauville_Entrance_EventScript_DefeatedZapdos
+	compare VAR_RESULT, B_OUTCOME_RAN
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromMoltres
+	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromMoltres
+	setflag FLAG_DEFEATED_ZAPDOS
+	release
+	end
+
+NewMauville_Entrance_EventScript_Raikou::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_RAIKOU, 2
+	message NewMauville_Text_Gyaoo
+	waitmessage
+	waitmoncry
+	delay 10
+	setwildbattle SPECIES_RAIKOU, 50, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq NewMauville_Entrance_EventScript_DefeatedZapdos
+	compare VAR_RESULT, B_OUTCOME_RAN
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromRaikou
+	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromRaikou
+	setflag FLAG_DEFEATED_ZAPDOS
+	release
+	end
+
+NewMauville_Entrance_EventScript_Entei::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_ENTEI, 2
+	message NewMauville_Text_Gyaoo
+	waitmessage
+	waitmoncry
+	delay 10
+	setwildbattle SPECIES_ENTEI, 50, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq NewMauville_Entrance_EventScript_DefeatedZapdos
+	compare VAR_RESULT, B_OUTCOME_RAN
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromEntei
+	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromEntei
+	setflag FLAG_DEFEATED_ZAPDOS
+	release
+	end
+
+NewMauville_Entrance_EventScript_Suicune::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_SUICUNE, 2
+	message NewMauville_Text_Gyaoo
+	waitmessage
+	waitmoncry
+	delay 10
+	setwildbattle SPECIES_SUICUNE, 50, ITEM_NONE
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	specialvar VAR_RESULT, GetBattleOutcome
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq NewMauville_Entrance_EventScript_DefeatedZapdos
+	compare VAR_RESULT, B_OUTCOME_RAN
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromSuicune
+	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
+	goto_if_eq NewMauville_Entrance_EventScript_RanFromSuicune
+	setflag FLAG_DEFEATED_ZAPDOS
+	release
+	end
+
 NewMauville_Entrance_EventScript_DefeatedZapdos::
 	setflag FLAG_DEFEATED_ZAPDOS
 	goto Common_EventScript_RemoveStaticPokemon
 	end
 
+NewMauville_Entrance_EventScript_RanFromArticuno::
+	setvar VAR_0x8004, SPECIES_ARTICUNO
+	goto Common_EventScript_LegendaryFlewAway
+	end
+
 NewMauville_Entrance_EventScript_RanFromZapdos::
 	setvar VAR_0x8004, SPECIES_ZAPDOS
+	goto Common_EventScript_LegendaryFlewAway
+	end
+
+NewMauville_Entrance_EventScript_RanFromMoltres::
+	setvar VAR_0x8004, SPECIES_MOLTRES
+	goto Common_EventScript_LegendaryFlewAway
+	end
+
+NewMauville_Entrance_EventScript_RanFromRaikou::
+	setvar VAR_0x8004, SPECIES_RAIKOU
+	goto Common_EventScript_LegendaryFlewAway
+	end
+
+NewMauville_Entrance_EventScript_RanFromEntei::
+	setvar VAR_0x8004, SPECIES_ENTEI
+	goto Common_EventScript_LegendaryFlewAway
+	end
+
+NewMauville_Entrance_EventScript_RanFromSuicune::
+	setvar VAR_0x8004, SPECIES_SUICUNE
 	goto Common_EventScript_LegendaryFlewAway
 	end
 

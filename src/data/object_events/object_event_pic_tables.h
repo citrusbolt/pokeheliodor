@@ -2173,6 +2173,18 @@ static const struct SpriteFrameImage sPicTable_RubySapphireMay[] = {
     overworld_frame(gObjectEventPic_RubySapphireMay, 2, 4, 8),
 };
 
+const struct SpriteFrameImage sPicTable_Articuno[] = {
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+    obj_frame_tiles(gObjectEventPic_Articuno),
+};
+
 const struct SpriteFrameImage sPicTable_Zapdos[] = {
     obj_frame_tiles(gObjectEventPic_Zapdos),
     obj_frame_tiles(gObjectEventPic_Zapdos),
@@ -2185,6 +2197,18 @@ const struct SpriteFrameImage sPicTable_Zapdos[] = {
     obj_frame_tiles(gObjectEventPic_Zapdos),
 };
 
+const struct SpriteFrameImage sPicTable_Moltres[] = {
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+    obj_frame_tiles(gObjectEventPic_Moltres),
+};
+
 const struct SpriteFrameImage sPicTable_Mewtwo[] = {
     obj_frame_tiles(gObjectEventPic_Mewtwo),
     obj_frame_tiles(gObjectEventPic_Mewtwo),
@@ -2195,6 +2219,42 @@ const struct SpriteFrameImage sPicTable_Mewtwo[] = {
     obj_frame_tiles(gObjectEventPic_Mewtwo),
     obj_frame_tiles(gObjectEventPic_Mewtwo),
     obj_frame_tiles(gObjectEventPic_Mewtwo),
+};
+
+const struct SpriteFrameImage sPicTable_Raikou[] = {
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+    obj_frame_tiles(gObjectEventPic_Raikou),
+};
+
+const struct SpriteFrameImage sPicTable_Entei[] = {
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+    obj_frame_tiles(gObjectEventPic_Entei),
+};
+
+const struct SpriteFrameImage sPicTable_Suicune[] = {
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
+    obj_frame_tiles(gObjectEventPic_Suicune),
 };
 
 static const struct SpriteFrameImage sPicTable_Gold[] = {

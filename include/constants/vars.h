@@ -173,7 +173,7 @@
 #define VAR_RUSTURF_TUNNEL_STATE             0x409A
 #define VAR_SAVE_VER                         0x409B
 #define VAR_ELITE_4_STATE                    0x409C
-#define VAR_UNUSED_0x409D                    0x409D // Unused Var
+#define VAR_LEGENDARY_AT_NEW_MAUVILLE        0x409D
 #define VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE    0x409E
 #define VAR_MOSSDEEP_SPACE_CENTER_STATE      0x409F
 #define VAR_SLATEPORT_HARBOR_STATE           0x40A0

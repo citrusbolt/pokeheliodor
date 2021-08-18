@@ -240,14 +240,19 @@
 #define OBJ_EVENT_GFX_LINK_RS_MAY                236
 #define OBJ_EVENT_GFX_LUGIA                      237
 #define OBJ_EVENT_GFX_HOOH                       238
-#define OBJ_EVENT_GFX_ZAPDOS                     239
-#define OBJ_EVENT_GFX_MEWTWO                     240
-#define OBJ_EVENT_GFX_LINK_E_BRENDAN             241
-#define OBJ_EVENT_GFX_LINK_E_MAY                 242
-#define OBJ_EVENT_GFX_LINK_GOLD                  243
-#define OBJ_EVENT_GFX_LINK_KRIS                  244
+#define OBJ_EVENT_GFX_ARTICUNO                   239
+#define OBJ_EVENT_GFX_ZAPDOS                     240
+#define OBJ_EVENT_GFX_MOLTRES                    241
+#define OBJ_EVENT_GFX_MEWTWO                     242
+#define OBJ_EVENT_GFX_RAIKOU                     243
+#define OBJ_EVENT_GFX_ENTEI                      244
+#define OBJ_EVENT_GFX_SUICUNE                    245
+#define OBJ_EVENT_GFX_LINK_E_BRENDAN             246
+#define OBJ_EVENT_GFX_LINK_E_MAY                 247
+#define OBJ_EVENT_GFX_LINK_GOLD                  248
+#define OBJ_EVENT_GFX_LINK_KRIS                  249
 
-#define NUM_OBJ_EVENT_GFX                        245
+#define NUM_OBJ_EVENT_GFX                        250
 
 
 // These are dynamic object gfx ids.
