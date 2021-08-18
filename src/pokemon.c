@@ -8012,7 +8012,7 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
 	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
 	
-	if (versionModifier == DEV_SOLITAIRI && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
+	if (versionModifier == DEV_SOLITAIRI_2 && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
 		return REGION_JOHTO;
 	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
 		return REGION_JOHTO;
