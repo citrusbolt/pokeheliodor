@@ -73,7 +73,7 @@
 #define FLAG_UNOWN_SETTLED   0x3D
 #define FLAG_USED_EREADER    0x3E
 #define FLAG_DISPLAY_DOT_CODE 0x3F
-#define FLAG_UNUSED_0x040    0x40 // Unused Flag
+#define FLAG_BLENDER_UPGRADED 0x40
 #define FLAG_UNUSED_0x041    0x41 // Unused Flag
 #define FLAG_UNUSED_0x042    0x42 // Unused Flag
 #define FLAG_UNUSED_0x043    0x43 // Unused Flag

@@ -258,6 +258,7 @@ static const u8 sUnusedText_LinkPartnerNotFound[] = _("Link partner(s) not found
 static const u8 sText_BerryBlenderStart[] = _("Starting up the BERRY BLENDER.\pPlease select a BERRY from your BAG\nto put in the BERRY BLENDER.\p");
 static const u8 sText_NewParagraph[] = _("\p");
 static const u8 sText_WasMade[] = _(" was made!");
+static const u8 sText_WereMade[] = _("s were made!");
 static const u8 sText_Mister[] = _("MISTER");
 static const u8 sText_Laddie[] = _("LADDIE");
 static const u8 sText_Lassie[] = _("LASSIE");
@@ -3599,7 +3600,10 @@ static void PrintMadePokeblockString(struct Pokeblock *pokeblock, u8 *dst)
 
     dst[0] = EOS;
     StringCopy(dst, gPokeblockNames[pokeblock->color]);
-    StringAppend(dst, sText_WasMade);
+	if (FlagGet(FLAG_BLENDER_UPGRADED))
+		StringAppend(dst, sText_WereMade);
+	else
+		StringAppend(dst, sText_WasMade);
     StringAppend(dst, sText_NewLine);
 
     flavorLvl = GetHighestPokeblocksFlavorLevel(pokeblock);

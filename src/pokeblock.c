@@ -1371,6 +1371,9 @@ bool32 AddPokeblock(const struct Pokeblock *pokeblock)
     else
     {
         gSaveBlock1Ptr->pokeblocks[slot] = *pokeblock;
+		slot = GetFirstFreePokeblockSlot();
+		if (FlagGet(FLAG_BLENDER_UPGRADED) && slot != -1)
+			gSaveBlock1Ptr->pokeblocks[slot] = *pokeblock;
         return TRUE;
     }
 }
