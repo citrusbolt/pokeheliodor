@@ -1340,7 +1340,7 @@ bool8 PartyHasMonWithSurf(void)
                 break;
             if (MonKnowsMove(&gPlayerParty[i], MOVE_SURF))
                 return TRUE;
-			if (CanMonLearnTMHM(&gPlayerParty[i], 53))
+			if (CanMonLearnTMHM(&gPlayerParty[i], 52))
 				return TRUE;
         }
     }
