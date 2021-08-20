@@ -11,9 +11,9 @@
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 
-#define TINT_MORNING Q_8_8(0.7), Q_8_8(0.7), Q_8_8(0.9)
+#define TINT_MORNING Q_8_8(0.73), Q_8_8(0.73), Q_8_8(1.0)
 #define TINT_DAY Q_8_8(1.0), Q_8_8(1.0), Q_8_8(1.0)
-#define TINT_NIGHT Q_8_8(0.6), Q_8_8(0.6), Q_8_8(0.92)
+#define TINT_NIGHT Q_8_8(0.52), Q_8_8(0.52), Q_8_8(0.78)
 
 EWRAM_DATA u16 gPlttBufferPreDN[PLTT_BUFFER_SIZE] = {0};
 EWRAM_DATA struct PaletteOverride *gPaletteOverrides[4] = {NULL};
@@ -38,23 +38,23 @@ static const u16 sTimeOfDayTints[][3] = {
     [1] =   {TINT_NIGHT},
     [2] =   {TINT_NIGHT},
     [3] =   {TINT_NIGHT},
-    [4] =   {Q_8_8(0.6), Q_8_8(0.65), Q_8_8(1.0)},
+    [4] =   {Q_8_8(0.56), Q_8_8(0.56), Q_8_8(0.87)},
     [5] =   {TINT_MORNING},
     [6] =   {TINT_MORNING},
     [7] =   {TINT_MORNING},
-    [8] =   {Q_8_8(0.9), Q_8_8(0.85), Q_8_8(1.0)},
-    [9] =   {Q_8_8(1.0), Q_8_8(0.9), Q_8_8(1.0)},
-    [10] =  {TINT_DAY},
-    [11] =  {TINT_DAY},
+    [8] =   {Q_8_8(0.88), Q_8_8(0.88), Q_8_8(0.97)},
+    [9] =   {Q_8_8(0.88), Q_8_8(0.88), Q_8_8(0.97)},
+    [10] =  {Q_8_8(0.88), Q_8_8(0.88), Q_8_8(0.97)},
+    [11] =  {Q_8_8(0.88), Q_8_8(0.88), Q_8_8(0.97)},
     [12] =  {TINT_DAY},
     [13] =  {TINT_DAY},
     [14] =  {TINT_DAY},
-    [15] =  {TINT_DAY},
-    [16] =  {TINT_DAY},
-    [17] =  {Q_8_8(1.0), Q_8_8(0.98), Q_8_8(0.9)},
-    [18] =  {Q_8_8(0.9), Q_8_8(0.7), Q_8_8(0.67)},
-    [19] =  {Q_8_8(0.75), Q_8_8(0.66), Q_8_8(0.77)},
-    [20] =  {Q_8_8(0.7), Q_8_8(0.63), Q_8_8(0.82)},
+    [15] =  {Q_8_8(1.0), Q_8_8(1.0), Q_8_8(0.91)},
+    [16] =  {Q_8_8(0.92), Q_8_8(0.85), Q_8_8(0.81)},
+    [17] =  {Q_8_8(0.78), Q_8_8(0.73), Q_8_8(0.53)},
+    [18] =  {Q_8_8(0.74), Q_8_8(0.52), Q_8_8(0.49)},
+    [19] =  {Q_8_8(0.56), Q_8_8(0.56), Q_8_8(0.68)},
+    [20] =  {TINT_NIGHT},
     [21] =  {TINT_NIGHT},
     [22] =  {TINT_NIGHT},
     [23] =  {TINT_NIGHT},
