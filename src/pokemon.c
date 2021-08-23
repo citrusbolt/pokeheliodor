@@ -2421,7 +2421,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				personality = Random32();
+				do
+				{
+					WaitForVBlank();
+					personality = Random32();
+				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
@@ -2466,7 +2471,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 			lId = gcnRng >> 16;
 			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
             shinyValue = 0x0000 ^ 0x7991 ^ hId ^ lId;
-        } while (shinyValue < SHINY_ODDS); //Ensure this isn't shiny
+        } while (shinyValue < SHINY_ODDS || !(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES))); //Ensure this isn't shiny
 		personality = (hId << 16) | (lId); //CXD: RNG method used in Colosseum and XD: Gales of Darkness, seeded by RTC
 		speciesName[0] = 0x5E; //セ
 		speciesName[1] = 0x7A; //レ
@@ -2496,9 +2501,13 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				WaitForVBlank();
-				SeedRng(gRngValue >> 16);
-				personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
+				do
+				{
+					WaitForVBlank();
+					SeedRng(gRngValue >> 16);
+					personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
+				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+
 				shinyValue = 0x0000 ^ 0x4E4B ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
@@ -2532,8 +2541,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				WaitForVBlank();
-				personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
+				do
+				{
+					WaitForVBlank();
+					personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
+				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
@@ -2570,7 +2583,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				personality = Random32();
+				do
+				{
+					WaitForVBlank();
+					personality = Random32();
+				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
@@ -2607,7 +2625,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				personality = Random32();
+				do
+				{
+					WaitForVBlank();
+					personality = Random32();
+				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
