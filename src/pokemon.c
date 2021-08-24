@@ -2421,11 +2421,19 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				do
+				if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE)
+				{
+					do
+					{
+						WaitForVBlank();
+						personality = Random32();
+					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
+				}
+				else
 				{
 					WaitForVBlank();
 					personality = Random32();
-				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+				}
 
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
@@ -2455,24 +2463,49 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	}
 	else if (species == SPECIES_CELEBI) //Replicate Ageto Celebi from JAP Colosseum Bonus Disc
 	{
-		do
-        {
-			WaitForVBlank();
-			gcnRng = RtcGetSecondCount();
-			for (i = 0; i < Random32() >> 16; i++)
+		if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE)
+		{
+			do
+			{
+				WaitForVBlank();
+				gcnRng = RtcGetSecondCount();
+				for (i = 0; i < Random32() >> 16; i++)
+					gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				iv1 = gcnRng >> 16;
 				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
-			iv1 = gcnRng >> 16;
-			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
-			iv2 = gcnRng >> 16;
-			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
-			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
-			hId = gcnRng >> 16;
-			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
-			lId = gcnRng >> 16;
-			gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
-            shinyValue = 0x0000 ^ 0x7991 ^ hId ^ lId;
-        } while (shinyValue < SHINY_ODDS || !(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES))); //Ensure this isn't shiny
-		personality = (hId << 16) | (lId); //CXD: RNG method used in Colosseum and XD: Gales of Darkness, seeded by RTC
+				iv2 = gcnRng >> 16;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				hId = gcnRng >> 16;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				lId = gcnRng >> 16;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				shinyValue = 0x0000 ^ 0x7991 ^ hId ^ lId;
+				personality = (hId << 16) | (lId); //CXD: RNG method used in Colosseum and XD: Gales of Darkness, seeded by RTC
+			} while (shinyValue < SHINY_ODDS || personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
+		}
+		else
+		{
+			do
+			{
+				WaitForVBlank();
+				gcnRng = RtcGetSecondCount();
+				for (i = 0; i < Random32() >> 16; i++)
+					gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				iv1 = gcnRng >> 16;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				iv2 = gcnRng >> 16;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				hId = gcnRng >> 16;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				lId = gcnRng >> 16;
+				gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
+				shinyValue = 0x0000 ^ 0x7991 ^ hId ^ lId;
+				personality = (hId << 16) | (lId); //CXD: RNG method used in Colosseum and XD: Gales of Darkness, seeded by RTC
+			} while (shinyValue < SHINY_ODDS);
+		}
+
 		speciesName[0] = 0x5E; //セ
 		speciesName[1] = 0x7A; //レ
 		speciesName[2] = 0x97; //ビ
@@ -2501,12 +2534,21 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				do
+				if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE)
+				{
+					do
+					{
+						WaitForVBlank();
+						SeedRng(gRngValue >> 16);
+						personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
+					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
+				}
+				else
 				{
 					WaitForVBlank();
 					SeedRng(gRngValue >> 16);
 					personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
-				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+				}
 
 				shinyValue = 0x0000 ^ 0x4E4B ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
@@ -2541,11 +2583,19 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				do
+				if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE)
+				{
+					do
+					{
+						WaitForVBlank();
+						personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
+					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
+				}
+				else
 				{
 					WaitForVBlank();
 					personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
-				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
+				}
 
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
@@ -2583,12 +2633,20 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				do
+				if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE)
+				{
+					do
+					{
+						WaitForVBlank();
+						personality = Random32();
+					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
+				}
+				else
 				{
 					WaitForVBlank();
 					personality = Random32();
-				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
-
+				}
+				
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
@@ -2625,12 +2683,20 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				do
+				if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE)
+				{
+					do
+					{
+						WaitForVBlank();
+						personality = Random32();
+					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
+				}
+				else
 				{
 					WaitForVBlank();
 					personality = Random32();
-				} while (!(!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE && (personality % NUM_NATURES == GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES)));
-
+				}
+				
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
