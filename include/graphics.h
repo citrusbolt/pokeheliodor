@@ -5125,7 +5125,6 @@ extern const u32 gItemIconPalette_CatchingCharm[];
 extern const u32 gItemIcon_ExpCharm[];
 extern const u32 gItemIconPalette_ExpCharm[];
 
-
 // Poke Ball Summary Icons
 extern const u32 gBallIcon_Poke[];
 extern const u32 gBallIconPalette_Poke[];
@@ -5151,5 +5150,21 @@ extern const u32 gBallIcon_Luxury[];
 extern const u32 gBallIconPalette_Luxury[];
 extern const u32 gBallIcon_Premier[];
 extern const u32 gBallIconPalette_Premier[];
+
+// e-Card Berries
+extern const u32 gBerryPic_Pumkin[];
+extern const u32 gBerryPalette_Pumkin[];
+extern const u32 gBerryPic_Drash[];
+extern const u32 gBerryPalette_Drash[];
+extern const u32 gBerryPic_Eggant[];
+extern const u32 gBerryPalette_Eggant[];
+extern const u32 gBerryPic_Strib[];
+extern const u32 gBerryPalette_Strib[];
+extern const u32 gBerryPic_Chilan[];
+extern const u32 gBerryPalette_Chilan[];
+extern const u32 gBerryPic_Nutpea[];
+extern const u32 gBerryPalette_Nutpea[];
+extern const u32 gBerryPic_Mochi[];
+extern const u32 gBerryPalette_Mochi[];
 
 #endif //GUARD_GRAPHICS_H

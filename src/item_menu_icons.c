@@ -10,6 +10,7 @@
 #include "sprite.h"
 #include "window.h"
 #include "constants/items.h"
+#include "string_util.h"
 
 struct CompressedTilesPal
 {
@@ -572,20 +573,62 @@ static void sub_80D5018(void *mem0, void *mem1)
     }
 }
 
+static const u8 sPumkin[] = _("PUMKIN");
+static const u8 sDrash[] = _("DRASH");
+static const u8 sEggant[] = _("EGGANT");
+static const u8 sStrib[] = _("STRIB");
+static const u8 sChilan[] = _("CHILAN");
+static const u8 sNutpea[] = _("NUTPEA");
+static const u8 sMochi[] = _("MOCHI");
+
 static void LoadBerryGfx(u8 berryId)
 {
     struct CompressedSpritePalette pal;
 
-    if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid())
-    {
-        // unknown empty if statement
-    }
-
-    pal.data = sBerryPicTable[berryId].pal;
-    pal.tag = TAG_BERRY_PIC_PAL;
-    LoadCompressedSpritePalette(&pal);
-    LZDecompressWram(sBerryPicTable[berryId].tiles, &gDecompressionBuffer[0x1000]);
-    sub_80D5018(&gDecompressionBuffer[0x1000], &gDecompressionBuffer[0]);
+	if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sPumkin))
+	{
+		pal.data = gBerryPalette_Pumkin;
+		LZDecompressWram(gBerryPic_Pumkin, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sDrash))
+	{
+		pal.data = gBerryPalette_Drash;
+		LZDecompressWram(gBerryPic_Drash, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sEggant))
+	{
+		pal.data = gBerryPalette_Eggant;
+		LZDecompressWram(gBerryPic_Eggant, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sStrib))
+	{
+		pal.data = gBerryPalette_Strib;
+		LZDecompressWram(gBerryPic_Strib, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sChilan))
+	{
+		pal.data = gBerryPalette_Chilan;
+		LZDecompressWram(gBerryPic_Chilan, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sNutpea))
+	{
+		pal.data = gBerryPalette_Nutpea;
+		LZDecompressWram(gBerryPic_Nutpea, &gDecompressionBuffer[0x1000]);
+	}
+	//else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sMochi))
+	//{
+	//	pal.data = gBerryPalette_Mochi;
+	//	LZDecompressWram(gBerryPic_Mochi, &gDecompressionBuffer[0x1000]);
+	///}
+	else
+	{
+		pal.data = sBerryPicTable[berryId].pal;
+		LZDecompressWram(sBerryPicTable[berryId].tiles, &gDecompressionBuffer[0x1000]);
+	}
+	
+	pal.tag = TAG_BERRY_PIC_PAL;
+	LoadCompressedSpritePalette(&pal);
+	sub_80D5018(&gDecompressionBuffer[0x1000], &gDecompressionBuffer[0]);
 }
 
 u8 CreateBerryTagSprite(u8 id, s16 x, s16 y)
