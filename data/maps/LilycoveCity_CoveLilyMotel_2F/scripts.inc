@@ -311,8 +311,8 @@ LilycoveCity_CoveLilyMotel_2F_Text_EnigmaTransform:
 	.string "There we go!\n"
 	.string "It's scanned in.\l"
 	.string "The screen says,\p"
-	.string "“The {STR_VAR_1} BERRY transformed into\n"
-	.string "one MOCHI BERRY.”$"
+	.string "“The {STR_VAR_1} BERRY transformed\n"
+	.string "into one MOCHI BERRY.”$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_EnigmaHave:
 	.string "There we go!\n"
