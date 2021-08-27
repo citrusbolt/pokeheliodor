@@ -5108,7 +5108,7 @@ void UpdateTrainerCardStickers(void)
 {
 	gSpecialVar_Result = FALSE;
 	
-	switch (gSpecialVar_0x8004)
+	switch (gSpecialVar_0x8005)
 	{
 		case 0:
 			StringCopy(gStringVar1, gText_CardTerminal_StickerHOFName);

@@ -43,7 +43,7 @@ EventScript_CardTerminal_Sticker:
 	setvar VAR_0x8004, SCROLL_MULTI_CARD_TERMINAL_STICKER
 	special ShowScrollableMultichoice
 	waitstate
-	copyvar VAR_0x8004, VAR_RESULT
+	copyvar VAR_0x8005, VAR_RESULT
 	compare VAR_RESULT, 6
 	goto_if_eq EventScript_CardTerminal_Menu
 	compare VAR_RESULT, MULTI_B_PRESSED
