@@ -339,6 +339,7 @@ extern u32 gFiller_03003080;
 extern struct LinkPlayer gLocalLinkPlayer;
 
 bool32 Link_AnyPartnersPlayingRubyOrSapphire(void);
+bool32 Link_AllPartnersPlayingDXOrHeliodor(void);
 bool32 LinkDummy_Return2(void);
 void SetLocalLinkPlayerId(u8);
 u8 GetSavedPlayerCount(void);

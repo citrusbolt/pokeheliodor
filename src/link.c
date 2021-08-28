@@ -809,6 +809,20 @@ bool32 Link_AnyPartnersPlayingFRLG_JP(void)
     return FALSE;
 }
 
+bool32 Link_AllPartnersPlayingDXOrHeliodor(void)
+{
+	int i;
+	u8 nPlayers;
+	
+	nPlayers = GetLinkPlayerCount();
+	for (i = 0; i < nPlayers; i++)
+	{
+		if (!(gLinkPlayers[i].versionModifier == DEV_SOLITAIRI || gLinkPlayers[i].versionModifier == DEV_SHINY_DRAGON_HUNTER))
+			return FALSE;
+	}
+	return TRUE;
+}
+
 void OpenLinkTimed(void)
 {
     sPlayerDataExchangeStatus = EXCHANGE_NOT_STARTED;

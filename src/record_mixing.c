@@ -73,10 +73,28 @@ struct PlayerRecordsEmerald
     /* 0x1434 */ u8 field_1434[0x10];
 }; // 0x1444
 
+struct PlayerRecordsDXHeliodor
+{
+    /* 0x0000 */ struct SecretBase secretBases[SECRET_BASES_COUNT];
+    /* 0x0c80 */ TVShow tvShows[TV_SHOWS_COUNT];
+    /* 0x1004 */ PokeNews pokeNews[POKE_NEWS_COUNT];
+    /* 0x1044 */ OldMan oldMan;
+    /* 0x1084 */ struct DewfordTrend dewfordTrends[SAVED_TRENDS_COUNT];
+    /* 0x10ac */ struct RecordMixingDaycareMail daycareMail;
+    /* 0x1124 */ struct EmeraldBattleTowerRecord battleTowerRecord;
+    /* 0x1210 */ u16 giftItem;
+    /* 0x1214 */ LilycoveLady lilycoveLady;
+    /* 0x1254 */ struct Apprentice apprentices[2];
+    /* 0x12dc */ struct PlayerHallRecords hallRecords;
+    /* 0x1434 */ struct EnigmaBerry enigmaBerry;
+	/* 0x1468 */ struct EnigmaBerryDesc enigmaBerryDesc;
+}; // 0x1530
+
 union PlayerRecords
 {
     struct PlayerRecordsRS ruby;
     struct PlayerRecordsEmerald emerald;
+	struct PlayerRecordsDXHeliodor dxHeliodor;
 };
 
 // Static RAM declarations
@@ -95,6 +113,8 @@ static void *sBattleTowerSave_Duplicate;
 static u32 sRecordStructSize;
 static u8 gUnknown_03001160;
 static struct PlayerHallRecords *gUnknown_03001168[3];
+static struct EnigmaBerry *sEnigmaBerrySave;
+static struct EnigmaBerryDesc *sEnigmaBerryDescSave;
 
 static EWRAM_DATA struct RecordMixingDaycareMail sDaycareMail = {0};
 static EWRAM_DATA union PlayerRecords *sReceivedRecords = NULL;
@@ -125,6 +145,8 @@ static void GetRecordMixingDaycareMail(struct RecordMixingDaycareMail *dst);
 static void SanitizeDaycareMailForRuby(struct RecordMixingDaycareMail *src);
 static void SanitizeEmeraldBattleTowerRecord(struct EmeraldBattleTowerRecord *arg0);
 static void SanitizeRubyBattleTowerRecord(struct RSBattleTowerRecord *src);
+static void ReceiveEnigmaBerry(struct EnigmaBerry *enigmaBerry, u8 which);
+static void ReceiveEnigmaBerryDesc(struct EnigmaBerryDesc *enigmaBerryDesc, u8 which);
 
 // .rodata
 
@@ -185,6 +207,8 @@ static void SetSrcLookupPointers(void)
     sLilycoveLadySave = &gSaveBlock1Ptr->lilycoveLady;
     sApprenticesSave = gSaveBlock2Ptr->apprentices;
     sBattleTowerSave_Duplicate = &gSaveBlock2Ptr->frontier.towerPlayer;
+	sEnigmaBerrySave = &gSaveBlock1Ptr->enigmaBerry;
+	sEnigmaBerryDescSave = &gSaveBlock1Ptr->enigmaBerryDesc;
 }
 
 static void PrepareUnknownExchangePacket(struct PlayerRecordsRS *dest)
@@ -234,6 +258,29 @@ static void PrepareExchangePacket(void)
         else
             PrepareExchangePacketForRubySapphire(&sSentRecord->ruby);
     }
+	else if (Link_AllPartnersPlayingDXOrHeliodor())
+	{
+		memcpy(sSentRecord->dxHeliodor.secretBases, sSecretBasesSave, sizeof(sSentRecord->dxHeliodor.secretBases));
+		memcpy(sSentRecord->dxHeliodor.tvShows, sTvShowsSave, sizeof(sSentRecord->dxHeliodor.tvShows));
+		memcpy(sSentRecord->dxHeliodor.pokeNews, sPokeNewsSave, sizeof(sSentRecord->dxHeliodor.pokeNews));
+		memcpy(&sSentRecord->dxHeliodor.oldMan, sOldManSave, sizeof(sSentRecord->dxHeliodor.oldMan));
+		memcpy(&sSentRecord->dxHeliodor.lilycoveLady, sLilycoveLadySave, sizeof(sSentRecord->dxHeliodor.lilycoveLady));
+		memcpy(sSentRecord->dxHeliodor.dewfordTrends, sDewfordTrendsSave, sizeof(sSentRecord->dxHeliodor.dewfordTrends));
+		GetRecordMixingDaycareMail(&sSentRecord->dxHeliodor.daycareMail);
+		memcpy(&sSentRecord->dxHeliodor.battleTowerRecord, sBattleTowerSave, sizeof(sSentRecord->dxHeliodor.battleTowerRecord));
+		SanitizeEmeraldBattleTowerRecord(&sSentRecord->dxHeliodor.battleTowerRecord);
+		
+		if (GetMultiplayerId() == 0)
+			sSentRecord->dxHeliodor.giftItem = GetRecordMixingGift();
+		
+		GetSavedApprentices(sSentRecord->dxHeliodor.apprentices, sApprenticesSave);
+		GetPlayerHallRecords(&sSentRecord->dxHeliodor.hallRecords);
+        if (GetMultiplayerId() == 0)
+		{
+			memcpy(&sSentRecord->dxHeliodor.enigmaBerry, sEnigmaBerrySave, sizeof(sSentRecord->dxHeliodor.enigmaBerry));
+			memcpy(&sSentRecord->dxHeliodor.enigmaBerryDesc, sEnigmaBerryDescSave, sizeof(sSentRecord->dxHeliodor.enigmaBerryDesc));
+		}
+	}
     else
     {
         memcpy(sSentRecord->emerald.secretBases, sSecretBasesSave, sizeof(sSentRecord->emerald.secretBases));
@@ -269,6 +316,24 @@ static void ReceiveExchangePacket(u32 which)
         ReceiveDewfordTrendData(sReceivedRecords->ruby.dewfordTrends, sizeof(struct PlayerRecordsRS), which);
         ReceiveGiftItem(&sReceivedRecords->ruby.giftItem, which);
     }
+	else if (Link_AllPartnersPlayingDXOrHeliodor())
+	{
+		// FireRed DX/LeafGreen DX/Heliodor
+		sub_80E7B2C((void *)sReceivedRecords->dxHeliodor.tvShows);
+		ReceiveSecretBasesData(sReceivedRecords->dxHeliodor.secretBases, sizeof(struct PlayerRecordsDXHeliodor), which);
+		ReceiveTvShowsData(sReceivedRecords->dxHeliodor.tvShows, sizeof(struct PlayerRecordsDXHeliodor), which);
+		ReceivePokeNewsData(sReceivedRecords->dxHeliodor.pokeNews, sizeof(struct PlayerRecordsDXHeliodor), which);
+		ReceiveOldManData(&sReceivedRecords->dxHeliodor.oldMan, sizeof(struct PlayerRecordsDXHeliodor), which);
+		ReceiveDewfordTrendData(sReceivedRecords->dxHeliodor.dewfordTrends, sizeof(struct PlayerRecordsDXHeliodor), which);
+		ReceiveDaycareMailData(&sReceivedRecords->dxHeliodor.daycareMail, sizeof(struct PlayerRecordsDXHeliodor), which, sReceivedRecords->dxHeliodor.tvShows);
+		ReceiveBattleTowerData(&sReceivedRecords->dxHeliodor.battleTowerRecord, sizeof(struct PlayerRecordsDXHeliodor), which);
+		ReceiveGiftItem(&sReceivedRecords->dxHeliodor.giftItem, which);
+		ReceiveLilycoveLadyData(&sReceivedRecords->dxHeliodor.lilycoveLady, sizeof(struct PlayerRecordsDXHeliodor), which);
+		ReceiveApprenticeData(sReceivedRecords->dxHeliodor.apprentices, sizeof(struct PlayerRecordsDXHeliodor), (u8) which);
+		ReceiveRankingHallRecords(&sReceivedRecords->dxHeliodor.hallRecords, sizeof(struct PlayerRecordsDXHeliodor), (u8) which);
+		//ReceiveEnigmaBerry(&sReceivedRecords->dxHeliodor.enigmaBerry, which);
+		//ReceiveEnigmaBerryDesc(&sReceivedRecords->dxHeliodor.enigmaBerryDesc, which);
+	}
     else
     {
         // Emerald
@@ -460,6 +525,15 @@ static void Task_MixingRecordsRecv(u8 taskId)
                 StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].data[5]);
                 sRecordStructSize = sizeof(struct PlayerRecordsRS);
             }
+			else if (Link_AllPartnersPlayingDXOrHeliodor())
+			{
+				StorePtrInTaskData(sSentRecord, (u16 *)&task->data[2]);
+				subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
+				task->data[10] = subTaskId;
+				gTasks[subTaskId].data[0] = taskId;
+				StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].data[5]);
+				sRecordStructSize = sizeof(struct PlayerRecordsDXHeliodor);
+			}
             else
             {
                 StorePtrInTaskData(sSentRecord, (u16 *)&task->data[2]);
@@ -918,7 +992,6 @@ static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *src, size_t r
     SeedRng(oldSeed);
 }
 
-
 static void ReceiveGiftItem(u16 *item, u8 which)
 {
     if (which != 0 && *item != ITEM_NONE && GetPocketByItemId(*item) == POCKET_KEY_ITEMS)
@@ -1347,3 +1420,14 @@ static void SanitizeEmeraldBattleTowerRecord(struct EmeraldBattleTowerRecord *ds
 
     CalcEmeraldBattleTowerChecksum(dst);
 }
+
+static void ReceiveEnigmaBerry(struct EnigmaBerry *enigmaBerry, u8 which)
+{
+    // TODO
+}
+
+static void ReceiveEnigmaBerryDesc(struct EnigmaBerryDesc *enigmaBerryDesc, u8 which)
+{
+    // TODO
+}
+
