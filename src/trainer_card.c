@@ -130,6 +130,9 @@ static void PrintIdOnCard(void);
 static void PrintMoneyOnCard(void);
 static void PrintPokedexOnCard(void);
 static void PrintProfilePhraseOnCard(void);
+static void PrintBarcodeOnCard(void);
+static const u8 *ConvertDigitToBarcodeSymbol(u8 digit);
+static const u8 *ConvertLetterToBarcodeSymbol(u8 letter);
 static bool8 PrintAllOnCardBack(void);
 static void PrintPokemonIconsOnCard(void);
 static void PrintStickersOnCard(void);
@@ -830,7 +833,7 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 
 	trainerCard->hasPokedex = FlagGet(FLAG_SYS_POKEDEX_GET);
 	trainerCard->caughtAllHoenn = HasAllHoennMons();
-	trainerCard->hasAllPaintings = (CountPlayerMuseumPaintings() >= CONTEST_CATEGORIES_COUNT);
+	//trainerCard->hasAllPaintings = (CountPlayerMuseumPaintings() >= CONTEST_CATEGORIES_COUNT);
 
 	hofDebut = GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME);
 	if (!GetGameStat(GAME_STAT_ENTERED_HOF))
@@ -867,7 +870,8 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	StringCopy(trainerCard->playerName, gSaveBlock2Ptr->playerName);
 
 	trainerCard->version = GAME_VERSION;
-	trainerCard->hasAllFrontierSymbols = HasAllFrontierSymbols();
+	trainerCard->secretId = (gSaveBlock2Ptr->playerTrainerId[3] << 8) | gSaveBlock2Ptr->playerTrainerId[2];
+	//trainerCard->hasAllFrontierSymbols = HasAllFrontierSymbols();
 	trainerCard->berryCrushPoints = GetCappedGameStat(GAME_STAT_PLAYED_BERRY_CRUSH, 0xFFFF);
 	trainerCard->unionRoomNum = GetCappedGameStat(GAME_STAT_NUM_UNION_ROOM_BATTLES, 0xFFFF);
 	trainerCard->berriesPicked = gSaveBlock2Ptr->berryPick.berriesPicked;
@@ -1090,6 +1094,10 @@ static bool8 PrintAllOnCardFront(void)
     case 5:
         PrintProfilePhraseOnCard();
         break;
+	case 6:
+		if (sData-> cardLayout == CARD_LAYOUT_HELIODOR)
+			PrintBarcodeOnCard();
+		break;
     default:
         sData->printState = 0;
         return TRUE;
@@ -1221,9 +1229,9 @@ static void PrintIdOnCard(void)
     }
     else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
     {
-		y = 9;
-        font = 1;
-        x = GetStringCenterAlignXOffset(font, buffer, 80) + 132;
+		y = 12;
+        font = 0;
+        x = GetStringCenterAlignXOffset(font, buffer, 80) + 133;
     }
 	if (sData->cardLayout == CARD_LAYOUT_HELIODOR && (sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
 		AddTextPrinterParameterized3(1, font, x, y, sTrainerCard5StarIDColors, TEXT_SPEED_FF, buffer);
@@ -1534,6 +1542,187 @@ static void PrintProfilePhraseOnCard(void)
 			AddTextPrinterParameterized3(1, font, GetStringWidth(font, sData->easyChatProfile[2], 0) + space + x, y2, sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[3]);
 		}
     }
+}
+
+static const u8 sText_BarcodeStart[] = _("{JP_START}");
+static const u8 sText_BarcodeEnd[] = _("{JP_END}");
+static const u8 sText_Barcode0[] = _("{JP_0}");
+static const u8 sText_Barcode1[] = _("{JP_1}");
+static const u8 sText_Barcode2[] = _("{JP_2}");
+static const u8 sText_Barcode3[] = _("{JP_3}");
+static const u8 sText_Barcode4[] = _("{JP_4}");
+static const u8 sText_Barcode5[] = _("{JP_5}");
+static const u8 sText_Barcode6[] = _("{JP_6}");
+static const u8 sText_Barcode7[] = _("{JP_7}");
+static const u8 sText_Barcode8[] = _("{JP_8}");
+static const u8 sText_Barcode9[] = _("{JP_9}");
+static const u8 sText_BarcodeDash[] = _("{JP_DASH}");
+static const u8 sText_BarcodeCC1[] = _("{JP_CC1}");
+static const u8 sText_BarcodeCC2[] = _("{JP_CC2}");
+static const u8 sText_BarcodeCC3[] = _("{JP_CC3}");
+
+static const u8 sText_BarcodeA[] = _("{JP_CC1}{JP_0}");
+static const u8 sText_BarcodeB[] = _("{JP_CC1}{JP_1}");
+static const u8 sText_BarcodeC[] = _("{JP_CC1}{JP_2}");
+static const u8 sText_BarcodeD[] = _("{JP_CC1}{JP_3}");
+static const u8 sText_BarcodeE[] = _("{JP_CC1}{JP_4}");
+static const u8 sText_BarcodeF[] = _("{JP_CC1}{JP_5}");
+static const u8 sText_BarcodeG[] = _("{JP_CC1}{JP_6}");
+static const u8 sText_BarcodeH[] = _("{JP_CC1}{JP_7}");
+static const u8 sText_BarcodeI[] = _("{JP_CC1}{JP_8}");
+static const u8 sText_BarcodeJ[] = _("{JP_CC1}{JP_9}");
+static const u8 sText_BarcodeK[] = _("{JP_CC2}{JP_0}");
+static const u8 sText_BarcodeL[] = _("{JP_CC2}{JP_1}");
+static const u8 sText_BarcodeM[] = _("{JP_CC2}{JP_2}");
+static const u8 sText_BarcodeN[] = _("{JP_CC2}{JP_3}");
+static const u8 sText_BarcodeO[] = _("{JP_CC2}{JP_4}");
+static const u8 sText_BarcodeP[] = _("{JP_CC2}{JP_5}");
+static const u8 sText_BarcodeQ[] = _("{JP_CC2}{JP_6}");
+static const u8 sText_BarcodeR[] = _("{JP_CC2}{JP_7}");
+static const u8 sText_BarcodeS[] = _("{JP_CC2}{JP_8}");
+static const u8 sText_BarcodeT[] = _("{JP_CC2}{JP_9}");
+static const u8 sText_BarcodeU[] = _("{JP_CC3}{JP_0}");
+static const u8 sText_BarcodeV[] = _("{JP_CC3}{JP_1}");
+static const u8 sText_BarcodeW[] = _("{JP_CC3}{JP_2}");
+static const u8 sText_BarcodeX[] = _("{JP_CC3}{JP_3}");
+static const u8 sText_BarcodeY[] = _("{JP_CC3}{JP_4}");
+static const u8 sText_BarcodeZ[] = _("{JP_CC3}{JP_5}");
+
+static void PrintBarcodeOnCard(void)
+{
+	u8 buffer[32];
+	u8* barcode;
+	u32 i;
+
+	barcode = StringCopy(buffer, sText_BarcodeStart);
+
+	for (i = 10000; i > 0; i /= 10)
+		StringAppend(barcode, ConvertDigitToBarcodeSymbol((sData->trainerCard.secretId / i) % 10));
+	for (i = 10000; i > 0; i /= 10)
+		StringAppend(barcode, ConvertDigitToBarcodeSymbol((sData->trainerCard.trainerId / i) % 10));
+	for (i = 0; i < 7; i++)
+	{
+		sData->trainerCard.playerName[i] = sData->trainerCard.playerName[i];	// Need to figure out why it crashes without doing something like this
+		StringAppend(barcode, ConvertLetterToBarcodeSymbol(sData->trainerCard.playerName[i]));
+	}
+
+	StringAppend(barcode, sText_BarcodeEnd);
+
+	AddTextPrinterParameterized3(1, 0, 93, 2, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
+}
+
+static const u8 *ConvertDigitToBarcodeSymbol(u8 digit)
+{
+	switch (digit % 10)
+	{
+		case 0:
+			return sText_Barcode0;
+		case 1:
+			return sText_Barcode1;
+		case 2:
+			return sText_Barcode2;
+		case 3:
+			return sText_Barcode3;
+		case 4:
+			return sText_Barcode4;
+		case 5:
+			return sText_Barcode5;
+		case 6:
+			return sText_Barcode6;
+		case 7:
+			return sText_Barcode7;
+		case 8:
+			return sText_Barcode8;
+		case 9:
+			return sText_Barcode9;
+	}
+}
+
+static const u8 *ConvertLetterToBarcodeSymbol(u8 letter)
+{
+	switch (letter)
+	{
+		case 0xBB:
+		case 0xD5:
+			return sText_BarcodeA;
+		case 0xBC:
+		case 0xD6:
+			return sText_BarcodeB;
+		case 0xBD:
+		case 0xD7:
+			return sText_BarcodeC;
+		case 0xBE:
+		case 0xD8:
+			return sText_BarcodeD;
+		case 0xBF:
+		case 0xD9:
+			return sText_BarcodeE;
+		case 0xC0:
+		case 0xDA:
+			return sText_BarcodeF;
+		case 0xC1:
+		case 0xDB:
+			return sText_BarcodeG;
+		case 0xC2:
+		case 0xDC:
+			return sText_BarcodeH;
+		case 0xC3:
+		case 0xDD:
+			return sText_BarcodeI;
+		case 0xC4:
+		case 0xDE:
+			return sText_BarcodeJ;
+		case 0xC5:
+		case 0xDF:
+			return sText_BarcodeK;
+		case 0xC6:
+		case 0xE0:
+			return sText_BarcodeL;
+		case 0xC7:
+		case 0xE1:
+			return sText_BarcodeM;
+		case 0xC8:
+		case 0xE2:
+			return sText_BarcodeN;
+		case 0xC9:
+		case 0xE3:
+			return sText_BarcodeO;
+		case 0xCA:
+		case 0xE4:
+			return sText_BarcodeP;
+		case 0xCB:
+		case 0xE5:
+			return sText_BarcodeQ;
+		case 0xCC:
+		case 0xE6:
+			return sText_BarcodeR;
+		case 0xCD:
+		case 0xE7:
+			return sText_BarcodeS;
+		case 0xCE:
+		case 0xE8:
+			return sText_BarcodeT;
+		case 0xCF:
+		case 0xE9:
+			return sText_BarcodeU;
+		case 0xD0:
+		case 0xEA:
+			return sText_BarcodeV;
+		case 0xD1:
+		case 0xEB:
+			return sText_BarcodeW;
+		case 0xD2:
+		case 0xEC:
+			return sText_BarcodeX;
+		case 0xD3:
+		case 0xED:
+			return sText_BarcodeY;
+		case 0xD4:
+		case 0xEE:
+			return sText_BarcodeZ;
+		default:
+			return sText_BarcodeDash;
+	}
 }
 
 static void BufferNameForCardBack(void)

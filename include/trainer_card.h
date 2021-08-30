@@ -52,7 +52,7 @@ struct TrainerCard
     /*0x01*/ u8 stars;
     /*0x02*/ bool8 hasPokedex;
     /*0x03*/ bool8 caughtAllHoenn; // Free for use
-    /*0x04*/ bool8 hasAllPaintings; //Free for use
+    /*0x04*/ u8 outfit; // Officially hasAllPaintings
 	/*0x05*/ u8 extraStars;
     /*0x06*/ u16 hofDebutHours;
     /*0x08*/ u16 hofDebutMinutes;
@@ -74,7 +74,7 @@ struct TrainerCard
     /*0x30*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     /*0x38*/ u8 version;
 	/*0x39*/ u8 cardLayout;
-    /*0x3A*/ bool16 hasAllFrontierSymbols; // Free for use
+    /*0x3A*/ u16 secretId; // Officially hasAllFrontierSymbols
     /*0x3C*/ u32 berryCrushPoints;
     /*0x40*/ u32 unionRoomNum;
     /*0x44*/ u32 berriesPicked; // Free for use
