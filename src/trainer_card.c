@@ -600,15 +600,19 @@ static bool8 LoadCardGfx(void)
         {
             if (sData->cardLayout == CARD_LAYOUT_RS || sData->cardLayout == CARD_LAYOUT_EMERALD)
                 LZ77UnCompWram(gHoennTrainerCardFront_Tilemap, sData->frontTilemap);
-            else if (sData->cardLayout == CARD_LAYOUT_FRLG || sData->cardLayout == CARD_LAYOUT_HELIODOR)
+            else if (sData->cardLayout == CARD_LAYOUT_FRLG)
                 LZ77UnCompWram(gKantoTrainerCardFront_Tilemap, sData->frontTilemap);
+            else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
+                LZ77UnCompWram(gHeliodorTrainerCardFront_Tilemap, sData->frontTilemap);
         }
         else
         {
             if (sData->cardLayout == CARD_LAYOUT_RS || sData->cardLayout == CARD_LAYOUT_EMERALD)
                 LZ77UnCompWram(gHoennTrainerCardFrontLink_Tilemap, sData->frontTilemap);
-            else if (sData->cardLayout == CARD_LAYOUT_FRLG || sData->cardLayout == CARD_LAYOUT_HELIODOR)
+            else if (sData->cardLayout == CARD_LAYOUT_FRLG)
                 LZ77UnCompWram(gKantoTrainerCardFrontLink_Tilemap, sData->frontTilemap);
+            else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
+                LZ77UnCompWram(gHeliodorTrainerCardFrontLink_Tilemap, sData->frontTilemap);
         }
         break;
     case 3:
@@ -625,8 +629,10 @@ static bool8 LoadCardGfx(void)
     case 4:
         if (sData->cardLayout == CARD_LAYOUT_RS || sData->cardLayout == CARD_LAYOUT_EMERALD)
             LZ77UnCompWram(gHoennTrainerCard_Gfx, sData->cardTiles);
-        else if (sData->cardLayout == CARD_LAYOUT_FRLG || sData->cardLayout == CARD_LAYOUT_HELIODOR)
+        else if (sData->cardLayout == CARD_LAYOUT_FRLG)
             LZ77UnCompWram(gKantoTrainerCard_Gfx, sData->cardTiles);
+        else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
+            LZ77UnCompWram(gHeliodorTrainerCard_Gfx, sData->cardTiles);
         break;
     case 5:
         if (sData->cardLayout == CARD_LAYOUT_FRLG || sData->cardLayout == CARD_LAYOUT_HELIODOR)

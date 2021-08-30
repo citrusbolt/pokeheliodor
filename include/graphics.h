@@ -4965,6 +4965,9 @@ extern const u32 gKantoTrainerCardFront_Tilemap[];
 extern const u32 gHoennTrainerCardFrontLink_Tilemap[];
 extern const u32 gKantoTrainerCardFrontLink_Tilemap[];
 extern const u32 gHoennTrainerCardBg_Tilemap[];
+extern const u32 gHeliodorTrainerCard_Gfx[];
+extern const u32 gHeliodorTrainerCardFront_Tilemap[];
+extern const u32 gHeliodorTrainerCardFrontLink_Tilemap[];
 extern const u32 gHeliodorTrainerCardBack_Tilemap[];
 extern const u32 gHeliodorDotCodeTrainerCardBack_Tilemap[];
 
