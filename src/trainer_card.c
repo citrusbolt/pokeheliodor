@@ -1229,9 +1229,9 @@ static void PrintIdOnCard(void)
     }
     else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
     {
-		y = 12;
-        font = 0;
-        x = GetStringCenterAlignXOffset(font, buffer, 80) + 133;
+		y = 9;
+        font = 1;
+        x = GetStringCenterAlignXOffset(font, buffer, 80) + 130;
     }
 	if (sData->cardLayout == CARD_LAYOUT_HELIODOR && (sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
 		AddTextPrinterParameterized3(1, font, x, y, sTrainerCard5StarIDColors, TEXT_SPEED_FF, buffer);
@@ -1544,53 +1544,53 @@ static void PrintProfilePhraseOnCard(void)
     }
 }
 
-static const u8 sText_BarcodeStart[] = _("{JP_START}");
-static const u8 sText_BarcodeEnd[] = _("{JP_END}");
-static const u8 sText_Barcode0[] = _("{JP_0}");
-static const u8 sText_Barcode1[] = _("{JP_1}");
-static const u8 sText_Barcode2[] = _("{JP_2}");
-static const u8 sText_Barcode3[] = _("{JP_3}");
-static const u8 sText_Barcode4[] = _("{JP_4}");
-static const u8 sText_Barcode5[] = _("{JP_5}");
-static const u8 sText_Barcode6[] = _("{JP_6}");
-static const u8 sText_Barcode7[] = _("{JP_7}");
-static const u8 sText_Barcode8[] = _("{JP_8}");
-static const u8 sText_Barcode9[] = _("{JP_9}");
-static const u8 sText_BarcodeDash[] = _("{JP_DASH}");
-static const u8 sText_BarcodeCC1[] = _("{JP_CC1}");
-static const u8 sText_BarcodeCC2[] = _("{JP_CC2}");
-static const u8 sText_BarcodeCC3[] = _("{JP_CC3}");
+static const u8 sText_BarcodeStart[] = _("{JPV_START}\n");
+static const u8 sText_BarcodeEnd[] = _("{JPV_END}\n");
+static const u8 sText_Barcode0[] = _("{JPV_0}\n");
+static const u8 sText_Barcode1[] = _("{JPV_1}\n");
+static const u8 sText_Barcode2[] = _("{JPV_2}\n");
+static const u8 sText_Barcode3[] = _("{JPV_3}\n");
+static const u8 sText_Barcode4[] = _("{JPV_4}\n");
+static const u8 sText_Barcode5[] = _("{JPV_5}\n");
+static const u8 sText_Barcode6[] = _("{JPV_6}\n");
+static const u8 sText_Barcode7[] = _("{JPV_7}\n");
+static const u8 sText_Barcode8[] = _("{JPV_8}\n");
+static const u8 sText_Barcode9[] = _("{JPV_9}\n");
+static const u8 sText_BarcodeDash[] = _("{JPV_DASH}\n");
+static const u8 sText_BarcodeCC1[] = _("{JPV_CC1}\n");
+static const u8 sText_BarcodeCC2[] = _("{JPV_CC2}\n");
+static const u8 sText_BarcodeCC3[] = _("{JPV_CC3}\n");
 
-static const u8 sText_BarcodeA[] = _("{JP_CC1}{JP_0}");
-static const u8 sText_BarcodeB[] = _("{JP_CC1}{JP_1}");
-static const u8 sText_BarcodeC[] = _("{JP_CC1}{JP_2}");
-static const u8 sText_BarcodeD[] = _("{JP_CC1}{JP_3}");
-static const u8 sText_BarcodeE[] = _("{JP_CC1}{JP_4}");
-static const u8 sText_BarcodeF[] = _("{JP_CC1}{JP_5}");
-static const u8 sText_BarcodeG[] = _("{JP_CC1}{JP_6}");
-static const u8 sText_BarcodeH[] = _("{JP_CC1}{JP_7}");
-static const u8 sText_BarcodeI[] = _("{JP_CC1}{JP_8}");
-static const u8 sText_BarcodeJ[] = _("{JP_CC1}{JP_9}");
-static const u8 sText_BarcodeK[] = _("{JP_CC2}{JP_0}");
-static const u8 sText_BarcodeL[] = _("{JP_CC2}{JP_1}");
-static const u8 sText_BarcodeM[] = _("{JP_CC2}{JP_2}");
-static const u8 sText_BarcodeN[] = _("{JP_CC2}{JP_3}");
-static const u8 sText_BarcodeO[] = _("{JP_CC2}{JP_4}");
-static const u8 sText_BarcodeP[] = _("{JP_CC2}{JP_5}");
-static const u8 sText_BarcodeQ[] = _("{JP_CC2}{JP_6}");
-static const u8 sText_BarcodeR[] = _("{JP_CC2}{JP_7}");
-static const u8 sText_BarcodeS[] = _("{JP_CC2}{JP_8}");
-static const u8 sText_BarcodeT[] = _("{JP_CC2}{JP_9}");
-static const u8 sText_BarcodeU[] = _("{JP_CC3}{JP_0}");
-static const u8 sText_BarcodeV[] = _("{JP_CC3}{JP_1}");
-static const u8 sText_BarcodeW[] = _("{JP_CC3}{JP_2}");
-static const u8 sText_BarcodeX[] = _("{JP_CC3}{JP_3}");
-static const u8 sText_BarcodeY[] = _("{JP_CC3}{JP_4}");
-static const u8 sText_BarcodeZ[] = _("{JP_CC3}{JP_5}");
+static const u8 sText_BarcodeA[] = _("{JPV_CC1}\n{JPV_0}\n");
+static const u8 sText_BarcodeB[] = _("{JPV_CC1}\n{JPV_1}\n");
+static const u8 sText_BarcodeC[] = _("{JPV_CC1}\n{JPV_2}\n");
+static const u8 sText_BarcodeD[] = _("{JPV_CC1}\n{JPV_3}\n");
+static const u8 sText_BarcodeE[] = _("{JPV_CC1}\n{JPV_4}\n");
+static const u8 sText_BarcodeF[] = _("{JPV_CC1}\n{JPV_5}\n");
+static const u8 sText_BarcodeG[] = _("{JPV_CC1}\n{JPV_6}\n");
+static const u8 sText_BarcodeH[] = _("{JPV_CC1}\n{JPV_7}\n");
+static const u8 sText_BarcodeI[] = _("{JPV_CC1}\n{JPV_8}\n");
+static const u8 sText_BarcodeJ[] = _("{JPV_CC1}\n{JPV_9}\n");
+static const u8 sText_BarcodeK[] = _("{JPV_CC2}\n{JPV_0}\n");
+static const u8 sText_BarcodeL[] = _("{JPV_CC2}\n{JPV_1}\n");
+static const u8 sText_BarcodeM[] = _("{JPV_CC2}\n{JPV_2}\n");
+static const u8 sText_BarcodeN[] = _("{JPV_CC2}\n{JPV_3}\n");
+static const u8 sText_BarcodeO[] = _("{JPV_CC2}\n{JPV_4}\n");
+static const u8 sText_BarcodeP[] = _("{JPV_CC2}\n{JPV_5}\n");
+static const u8 sText_BarcodeQ[] = _("{JPV_CC2}\n{JPV_6}\n");
+static const u8 sText_BarcodeR[] = _("{JPV_CC2}\n{JPV_7}\n");
+static const u8 sText_BarcodeS[] = _("{JPV_CC2}\n{JPV_8}\n");
+static const u8 sText_BarcodeT[] = _("{JPV_CC2}\n{JPV_9}\n");
+static const u8 sText_BarcodeU[] = _("{JPV_CC3}\n{JPV_0}\n");
+static const u8 sText_BarcodeV[] = _("{JPV_CC3}\n{JPV_1}\n");
+static const u8 sText_BarcodeW[] = _("{JPV_CC3}\n{JPV_2}\n");
+static const u8 sText_BarcodeX[] = _("{JPV_CC3}\n{JPV_3}\n");
+static const u8 sText_BarcodeY[] = _("{JPV_CC3}\n{JPV_4}\n");
+static const u8 sText_BarcodeZ[] = _("{JPV_CC3}\n{JPV_5}\n");
 
 static void PrintBarcodeOnCard(void)
 {
-	u8 buffer[32];
+	u8 buffer[64];
 	u8* barcode;
 	u32 i;
 
@@ -1608,7 +1608,10 @@ static void PrintBarcodeOnCard(void)
 
 	StringAppend(barcode, sText_BarcodeEnd);
 
-	AddTextPrinterParameterized3(1, 0, 93, 2, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
+	if ((sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
+		AddTextPrinterParameterized4(1, 0, 1, 2, 0, -4, sTrainerCard5StarNameColors, TEXT_SPEED_FF, buffer);
+	else
+		AddTextPrinterParameterized4(1, 0, 1, 2, 0, -4, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
 }
 
 static const u8 *ConvertDigitToBarcodeSymbol(u8 digit)
