@@ -34,4 +34,8 @@ porymap.project.cfg
 *.a
 .fuse_hidden*
 *.sna
+<<<<<<< HEAD
 poryscript
+=======
+*.png
+>>>>>>> 07c18b49dcd474d7980ce018155a67d7d906cfb6
