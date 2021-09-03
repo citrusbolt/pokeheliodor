@@ -622,7 +622,7 @@ u16 BagGetItemIdByPocketPosition(u8 pocketId, u16 pocketPos)
 {
 	u8 i = 1;
 	u16 newKeyItems[5];
-	s32 extraItem = pocketPos - (gBagMenu->filler4[pocketId - 1] - 2);
+	s32 extraItem = pocketPos - (gBagMenu->trueNumItemStacks[pocketId - 1] - 2);
 	
 	newKeyItems[0] = ITEM_POWER_PAD;
 	
