@@ -1406,7 +1406,7 @@ static void PrintTimeOnCard(void)
 
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
-		x = 120;
+		x = 124;
 		totalWidth = width + 34;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
@@ -1431,7 +1431,7 @@ static void PrintTimeOnCard(void)
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
 		AddTextPrinterParameterized3(1, font, x, y, sTrainerCardRSContentColors, TEXT_SPEED_FF, gStringVar4);
-		x += 22;
+		x += 18;
 		AddTextPrinterParameterized3(1, font, x, y, sTimeColonRSTextColors[sData->timeColonInvisible], TEXT_SPEED_FF, gText_RSCardColon);
 		x += width;
 		ConvertIntToDecimalStringN(gStringVar4, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
@@ -2849,8 +2849,8 @@ static void CreateTrainerCardTrainerPic(void)
     {
         CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->trainerPair][sData->trainerCard.gender]),
                     TRUE,
-                    sTrainerPicOffset[sData->trainerPair][sData->trainerCard.gender][0],
-                    sTrainerPicOffset[sData->trainerPair][sData->trainerCard.gender][1],
+                    sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][0],
+                    sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][1],
                     8,
                     2);
     }
