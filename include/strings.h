@@ -3319,6 +3319,18 @@ extern const u8 gText_Back[];
 extern const u8 gText_SummaryShiny[];
 extern const u8 gText_SummaryPokerus[];
 extern const u8 gText_FatefulTriangle[];
-
+extern const u8 gText_SummaryDexNo[];
+extern const u8 gText_SummarySpecies[];
+extern const u8 gText_SummaryType[];
+extern const u8 gText_SummaryOTName[];
+extern const u8 gText_SummaryOTID[];
+extern const u8 gText_SummaryExpPoints[];
+extern const u8 gText_SummaryToNextLevel[];
+extern const u8 gText_SummaryAttack[];
+extern const u8 gText_SummaryDefense[];
+extern const u8 gText_SummarySpecialAttack[];
+extern const u8 gText_SummarySpecialDefense[];
+extern const u8 gText_SummarySpeed[];
+extern const u8 gText_SummaryAbility[];
 	
 #endif // GUARD_STRINGS_H
