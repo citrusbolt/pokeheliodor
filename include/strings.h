@@ -3332,5 +3332,6 @@ extern const u8 gText_SummarySpecialAttack[];
 extern const u8 gText_SummarySpecialDefense[];
 extern const u8 gText_SummarySpeed[];
 extern const u8 gText_SummaryAbility[];
+extern const u8 gText_SummaryPP[];
 	
 #endif // GUARD_STRINGS_H
