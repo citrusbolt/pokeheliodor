@@ -26,11 +26,17 @@ gTilesetPalOverrides_Petalburg::
 	.byte 0             @ padding
 	.4byte gTilesetPalOverride_Petalburg06
 
+	.byte 10            @ palette index
+	.byte HOUR_NIGHT    @ start hour (inclusive)
+	.byte HOUR_MORNING  @ end hour (exclusive)
+	.byte 0             @ padding
+	.4byte gTilesetPalOverride_Petalburg10
+
 	.byte 11            @ palette index
 	.byte HOUR_NIGHT    @ start hour (inclusive)
 	.byte HOUR_MORNING  @ end hour (exclusive)
 	.byte 0             @ padding
-	.4byte gTilesetPalOverride_Petalburg08
+	.4byte gTilesetPalOverride_Petalburg11
 
 	.byte 0xFF
 	.byte 0
