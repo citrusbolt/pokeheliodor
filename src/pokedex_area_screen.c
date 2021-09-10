@@ -465,14 +465,46 @@ static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 
 	if (IsNationalPokedexEnabled())
 	{
-		if (MonListHasMon(info->landMonsNatInfo, species, 12))
-			return TRUE;
-		if (MonListHasMon(info->waterMonsNatInfo, species, 5))
-			return TRUE;
-		if (MonListHasMon(info->fishingMonsNatInfo, species, 12))
-			return TRUE;
-		if (MonListHasMon(info->rockSmashMonsNatInfo, species, 5))
-			return TRUE;
+		if (info->landMonsNatInfo != NULL)
+		{
+			if (MonListHasMon(info->landMonsNatInfo, species, 12))
+				return TRUE;
+		}
+		else
+		{
+			if (MonListHasMon(info->landMonsInfo, species, 12))
+				return TRUE;
+		}
+		if (info->waterMonsNatInfo != NULL)
+		{
+			if (MonListHasMon(info->waterMonsNatInfo, species, 12))
+				return TRUE;
+		}
+		else
+		{
+			if (MonListHasMon(info->waterMonsInfo, species, 12))
+				return TRUE;
+		}
+		if (info->fishingMonsNatInfo != NULL)
+		{
+			if (MonListHasMon(info->fishingMonsNatInfo, species, 12))
+				return TRUE;
+		}
+		else
+		{
+			if (MonListHasMon(info->fishingMonsInfo, species, 12))
+				return TRUE;
+		}
+		if (info->rockSmashMonsNatInfo != NULL)
+		{
+			if (MonListHasMon(info->rockSmashMonsNatInfo, species, 12))
+				return TRUE;
+		}
+		else
+		{
+			if (MonListHasMon(info->rockSmashMonsInfo, species, 12))
+				return TRUE;
+		}
 	}
 	else
 	{

@@ -824,7 +824,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                     return TRUE;
                 }
 				
-				 if (IsNationalPokedexEnabled() && TryGenerateWildMon(gWildMonHeaders[headerId].landMonsNatInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+				if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].landMonsNatInfo != NULL && TryGenerateWildMon(gWildMonHeaders[headerId].landMonsNatInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
 					if (IsMonShiny(&gEnemyParty[0]))
 						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
@@ -867,7 +867,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             }
             else // try a regular surfing encounter
             {
-				 if (IsNationalPokedexEnabled() && TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatInfo, WILD_AREA_WATER, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+				if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].waterMonsNatInfo != NULL && TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatInfo, WILD_AREA_WATER, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
 					if (IsMonShiny(&gEnemyParty[0]))
 						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
@@ -898,7 +898,7 @@ void RockSmashWildEncounter(void)
     if (headerId != 0xFFFF)
     {
         const struct WildPokemonInfo *wildPokemonInfo;
-		if (IsNationalPokedexEnabled())
+		if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].rockSmashMonsNatInfo != NULL)
 			wildPokemonInfo = gWildMonHeaders[headerId].rockSmashMonsNatInfo;
 		else
 			wildPokemonInfo = gWildMonHeaders[headerId].rockSmashMonsInfo;
@@ -971,7 +971,7 @@ bool8 SweetScentWildEncounter(void)
 
             if (DoMassOutbreakEncounterTest() == TRUE)
                 SetUpMassOutbreakEncounter(0);
-			else if (IsNationalPokedexEnabled())
+			else if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].landMonsNatInfo != NULL)
                 TryGenerateWildMon(gWildMonHeaders[headerId].landMonsNatInfo, WILD_AREA_LAND, 0);
             else
                 TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, 0);
@@ -994,7 +994,7 @@ bool8 SweetScentWildEncounter(void)
                 return TRUE;
             }
 
-			if (IsNationalPokedexEnabled())
+			if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].landMonsNatInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatInfo, WILD_AREA_WATER, 0);
 			else
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsInfo, WILD_AREA_WATER, 0);
@@ -1031,7 +1031,7 @@ void FishingWildEncounter(u8 rod)
     }
     else
     {
-		if (IsNationalPokedexEnabled())
+		if (IsNationalPokedexEnabled() && gWildMonHeaders[GetCurrentMapWildMonHeaderId()].fishingMonsNatInfo != NULL)
 			species = GenerateFishingWildMon(gWildMonHeaders[GetCurrentMapWildMonHeaderId()].fishingMonsNatInfo, rod);
 		else
 			species = GenerateFishingWildMon(gWildMonHeaders[GetCurrentMapWildMonHeaderId()].fishingMonsInfo, rod);
@@ -1059,14 +1059,20 @@ u16 GetLocalWildMon(bool8 *isWaterMon)
     headerId = GetCurrentMapWildMonHeaderId();
     if (headerId == 0xFFFF)
         return SPECIES_NONE;
-	if (IsNationalPokedexEnabled())
+	if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].landMonsNatInfo != NULL)
 	{
 		landMonsInfo = gWildMonHeaders[headerId].landMonsNatInfo;
-		waterMonsInfo = gWildMonHeaders[headerId].waterMonsNatInfo;
 	}
 	else
 	{	
 		landMonsInfo = gWildMonHeaders[headerId].landMonsInfo;
+	}
+	if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].waterMonsNatInfo != NULL)
+	{
+		waterMonsInfo = gWildMonHeaders[headerId].waterMonsNatInfo;
+	}
+	else
+	{
 		waterMonsInfo = gWildMonHeaders[headerId].waterMonsInfo;
 	}
     // Neither
@@ -1104,7 +1110,7 @@ u16 GetLocalWaterMon(void)
     if (headerId != 0xFFFF)
     {
         const struct WildPokemonInfo *waterMonsInfo;
-		if (IsNationalPokedexEnabled())
+		if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].waterMonsNatInfo != NULL)
 			gWildMonHeaders[headerId].waterMonsNatInfo;
 		else
 			gWildMonHeaders[headerId].waterMonsInfo;
