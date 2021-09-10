@@ -3171,6 +3171,7 @@ extern const u8 gText_CurrentTimePMOff[];
 extern const u8 gText_ClockOption[];
 extern const u8 gText_ShinyStar[];
 extern const u8 gText_ShinySquare[];
+extern const u8 gText_FatefulTriangle[];
 extern const u8 gText_ShinyStarMale[];
 extern const u8 gText_ShinyStarFemale[];
 extern const u8 gText_PowerPadNoService[];
@@ -3316,9 +3317,5 @@ extern const u8 gText_CardTerminal_StickerShinyName[];
 extern const u8 gText_CardTerminal_StickerBerryName[];
 extern const u8 gText_CardTerminal_StickerCatchName[];
 extern const u8 gText_Back[];
-extern const u8 gText_SummaryShiny[];
-extern const u8 gText_SummaryPokerus[];
-extern const u8 gText_FatefulTriangle[];
-
 	
 #endif // GUARD_STRINGS_H
