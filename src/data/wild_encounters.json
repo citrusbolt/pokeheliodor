@@ -177,6 +177,42 @@
             "good_rod": [2, 3, 4],
             "super_rod": [5, 6, 7, 8, 9]
           }
+        },
+        {
+          "type": "puddle_mons",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_night",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_nat",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_nat_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_nat_night",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
         }
       ],
       "encounters": [

@@ -881,7 +881,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 					wildPokemonInfo = gWildMonHeaders[headerId].waterMonsNightInfo;
 			}
 
-			if (DoWildEncounterRateTest(gWildMonHeaders[headerId].waterMonsInfo->encounterRate, FALSE))
+			if (DoWildEncounterRateTest(wildPokemonInfo->encounterRate, FALSE))
 			{
 				if (TryStartRoamerEncounter() == TRUE)
 				{
@@ -893,6 +893,44 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 					return TRUE;
 				}
                 else if (TryGenerateWildMon(wildPokemonInfo, WILD_AREA_WATER, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+                {
+					if (IsMonShiny(&gEnemyParty[0]))
+						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+                    BattleSetup_StartWildBattle();
+                    return TRUE;
+                }
+            }
+        }
+		else if (MetatileBehavior_IsPuddle(currMetaTileBehavior) == TRUE)
+        {
+            if (gWildMonHeaders[headerId].puddleMonsInfo == NULL)
+                return FALSE;
+            else if (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
+                return FALSE;
+
+			wildPokemonInfo = gWildMonHeaders[headerId].puddleMonsInfo;
+
+			if (IsNationalPokedexEnabled())
+			{
+				if (GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsNatMorningInfo != NULL)
+					wildPokemonInfo = gWildMonHeaders[headerId].puddleMonsNatMorningInfo;
+				else if (GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNatNightInfo != NULL)
+					wildPokemonInfo = gWildMonHeaders[headerId].puddleMonsNatNightInfo;
+				else if (gWildMonHeaders[headerId].puddleMonsNatInfo != NULL)
+					wildPokemonInfo = gWildMonHeaders[headerId].puddleMonsNatInfo;
+			}
+
+			if (wildPokemonInfo == gWildMonHeaders[headerId].puddleMonsInfo)
+			{
+				if (GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsMorningInfo != NULL)
+					wildPokemonInfo = gWildMonHeaders[headerId].puddleMonsMorningInfo;
+				if (GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNightInfo != NULL)
+					wildPokemonInfo = gWildMonHeaders[headerId].puddleMonsNightInfo;
+			}
+
+			if (DoWildEncounterRateTest(wildPokemonInfo->encounterRate, FALSE))
+			{
+				if (TryGenerateWildMon(wildPokemonInfo, WILD_AREA_WATER, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
                 {
 					if (IsMonShiny(&gEnemyParty[0]))
 						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
@@ -1025,18 +1063,40 @@ bool8 SweetScentWildEncounter(void)
                 return TRUE;
             }
 
-			if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].landMonsNatMorningInfo != NULL)
+			if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].waterMonsNatMorningInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatMorningInfo, WILD_AREA_WATER, 0);
-			else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].landMonsNatNightInfo != NULL)
+			else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].waterMonsNatNightInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatNightInfo, WILD_AREA_WATER, 0);
-			else if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].landMonsNatInfo != NULL)
+			else if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].waterMonsNatInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatInfo, WILD_AREA_WATER, 0);
-			else if (GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].landMonsMorningInfo != NULL)
+			else if (GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].waterMonsMorningInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsMorningInfo, WILD_AREA_WATER, 0);
-			else if (GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].landMonsNightInfo != NULL)
+			else if (GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].waterMonsNightInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNightInfo, WILD_AREA_WATER, 0);
 			else
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsInfo, WILD_AREA_WATER, 0);
+			if (IsMonShiny(&gEnemyParty[0]))
+				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+            BattleSetup_StartWildBattle();
+            return TRUE;
+        }
+        else if (MetatileBehavior_IsPuddle(MapGridGetMetatileBehaviorAt(x, y)) == TRUE)
+        {
+            if (gWildMonHeaders[headerId].puddleMonsInfo == NULL)
+                return FALSE;
+
+			if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsNatMorningInfo != NULL)
+				TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatMorningInfo, WILD_AREA_WATER, 0);
+			else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNatNightInfo != NULL)
+				TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatNightInfo, WILD_AREA_WATER, 0);
+			else if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].puddleMonsNatInfo != NULL)
+				TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatInfo, WILD_AREA_WATER, 0);
+			else if (GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsMorningInfo != NULL)
+				TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsMorningInfo, WILD_AREA_WATER, 0);
+			else if (GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNightInfo != NULL)
+				TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNightInfo, WILD_AREA_WATER, 0);
+			else
+				TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsInfo, WILD_AREA_WATER, 0);
 			if (IsMonShiny(&gEnemyParty[0]))
 				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
             BattleSetup_StartWildBattle();

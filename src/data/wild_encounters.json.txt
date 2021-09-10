@@ -244,6 +244,66 @@ const struct WildPokemon {{ encounter.base_label }}_FishingMonsNatMorning[] =
 
 const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsNatMorningInfo = { {{encounter.fishing_mons_nat_morning.encounter_rate}}, {{ encounter.base_label }}_FishingMonsNatMorning };
 {% endif %}
+{% if existsIn(encounter, "puddle_mons") %}
+const struct WildPokemon {{ encounter.base_label }}_PuddleMons[] =
+{
+## for wild_mon in encounter.puddle_mons.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsInfo = { {{encounter.puddle_mons.encounter_rate}}, {{ encounter.base_label }}_PuddleMons };
+{% endif %}
+{% if existsIn(encounter, "puddle_mons_morning") %}
+const struct WildPokemon {{ encounter.base_label }}_PuddleMonsMorning[] =
+{
+## for wild_mon in encounter.puddle_mons_morning.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsMorningInfo = { {{encounter.puddle_mons_morning.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsMorning };
+{% endif %}
+{% if existsIn(encounter, "puddle_mons_night") %}
+const struct WildPokemon {{ encounter.base_label }}_PuddleMonsNight[] =
+{
+## for wild_mon in encounter.puddle_mons_night.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsNightInfo = { {{encounter.puddle_mons_night.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsNight };
+{% endif %}
+{% if existsIn(encounter, "puddle_mons_nat") %}
+const struct WildPokemon {{ encounter.base_label }}_PuddleMonsNat[] =
+{
+## for wild_mon in encounter.puddle_mons_nat.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsNatInfo = { {{encounter.puddle_mons_nat.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsNat };
+{% endif %}
+{% if existsIn(encounter, "puddle_mons_nat_morning") %}
+const struct WildPokemon {{ encounter.base_label }}_PuddleMonsNatMorning[] =
+{
+## for wild_mon in encounter.puddle_mons_nat_morning.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsNatMorningInfo = { {{encounter.puddle_mons_nat_morning.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsNatMorning };
+{% endif %}
+{% if existsIn(encounter, "puddle_mons_nat_night") %}
+const struct WildPokemon {{ encounter.base_label }}_puddleMonsNatNight[] =
+{
+## for wild_mon in encounter.puddle_mons_nat_night.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsNatNightInfo = { {{encounter.puddle_mons_nat_night.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsNatNight };
+{% endif %}
 ## endfor
 
 const struct WildPokemonHeader {{ wild_encounter_group.label }}[] =
@@ -276,6 +336,12 @@ const struct WildPokemonHeader {{ wild_encounter_group.label }}[] =
         .fishingMonsNatInfo = {% if existsIn(encounter, "fishing_mons_nat") %}&{{ encounter.base_label }}_FishingMonsNatInfo{% else %}NULL{% endif %},
         .fishingMonsNatMorningInfo = {% if existsIn(encounter, "fishing_mons_nat_morning") %}&{{ encounter.base_label }}_FishingMonsNatMorningInfo{% else %}NULL{% endif %},
         .fishingMonsNatNightInfo = {% if existsIn(encounter, "fishing_mons_nat_night") %}&{{ encounter.base_label }}_FishingMonsNatNightInfo{% else %}NULL{% endif %},
+        .puddleMonsInfo = {% if existsIn(encounter, "puddle_mons") %}&{{ encounter.base_label }}_PuddleMonsInfo{% else %}NULL{% endif %},
+        .puddleMonsMorningInfo = {% if existsIn(encounter, "puddle_mons_morning") %}&{{ encounter.base_label }}_PuddleMonsMorningInfo{% else %}NULL{% endif %},
+        .puddleMonsNightInfo = {% if existsIn(encounter, "puddle_mons_night") %}&{{ encounter.base_label }}_PuddleMonsNightInfo{% else %}NULL{% endif %},
+        .puddleMonsNatInfo = {% if existsIn(encounter, "puddle_mons_nat") %}&{{ encounter.base_label }}_PuddleMonsNatInfo{% else %}NULL{% endif %},
+        .puddleMonsNatMorningInfo = {% if existsIn(encounter, "puddle_mons_nat_morning") %}&{{ encounter.base_label }}_PuddleMonsNatMorningInfo{% else %}NULL{% endif %},
+        .puddleMonsNatNightInfo = {% if existsIn(encounter, "puddle_mons_nat_night") %}&{{ encounter.base_label }}_PuddleMonsNatNightInfo{% else %}NULL{% endif %},
     },
 ## endfor
     {
@@ -305,6 +371,12 @@ const struct WildPokemonHeader {{ wild_encounter_group.label }}[] =
         .fishingMonsNatInfo = NULL,
         .fishingMonsNatMorningInfo = NULL,
         .fishingMonsNatNightInfo = NULL,
+        .puddleMonsInfo = NULL,
+        .puddleMonsMorningInfo = NULL,
+        .puddleMonsNightInfo = NULL,
+        .puddleMonsNatInfo = NULL,
+        .puddleMonsNatMorningInfo = NULL,
+        .puddleMonsNatNightInfo = NULL,
     },
 };
 ## endfor
