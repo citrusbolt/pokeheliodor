@@ -613,7 +613,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 2,
-        .width = 11,
+        .width = 14,
         .height = 18,
         .paletteNum = 6,
         .baseBlock = 418,
@@ -4711,7 +4711,7 @@ static void PrintMoveDetails(u16 move)
 					ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
 			}
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 67, 48, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 48, 0, 0);
 
 			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Accuracy2, 8, 64, 0, 1);
 
@@ -4722,9 +4722,9 @@ static void PrintMoveDetails(u16 move)
 			else
 				ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 67, 64, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 64, 0, 0);
 
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveDescriptionPointers[move - 1], 8, 80, 0, 0);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveFourLineDescriptionPointers[move - 1], 4, 80, 0, 0);
         }
         else
         {
