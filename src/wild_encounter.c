@@ -28,6 +28,8 @@
 #include "power.h"
 #include "constants/power.h"
 #include "mgba.h"
+#include "constants/metatile_behaviors.h"
+#include "fldeff.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -985,6 +987,135 @@ void RockSmashWildEncounter(void)
     {
         gSpecialVar_Result = FALSE;
     }
+}
+
+static const u16 sCommonHeadbuttEncounters[][3] = {
+	{SPECIES_WURMPLE, 2, 10},
+	{SPECIES_SEEDOT, 2, 10},
+};
+
+static const u16 sUncommonHeadbuttEncounters[][3] = {
+	{SPECIES_CATERPIE, 2, 10},
+	{SPECIES_WEEDLE, 2, 10},
+};
+
+static const u16 sRareHeadbuttEncounters[][3] = {
+	{SPECIES_PINECO, 2, 10},
+	{SPECIES_HERACROSS, 2, 10},
+};
+
+void HeadbuttWildEncounter(void)
+{
+	u64 inhabitedX, inhabitedY;
+	u16 treeX, treeY, species;
+	u8 quadrant, slot, min, max, range, level;
+	u16 headerId = GetCurrentMapWildMonHeaderId();
+	u16 trainerId = (gSaveBlock2Ptr->playerTrainerId[1] << 8) | gSaveBlock2Ptr->playerTrainerId[0];
+	u16 secretId = (gSaveBlock2Ptr->playerTrainerId[3] << 8) | gSaveBlock2Ptr->playerTrainerId[2];
+
+	GetXYCoordsOneStepInFrontOfPlayer(&treeX, &treeY);
+	quadrant = MapGridGetMetatileBehaviorAt(treeX, treeY);
+
+	switch (quadrant)
+	{
+		case MB_TREE2:
+			treeX--; 
+			break;
+		case MB_TREE3:
+			treeY--;
+			break;
+		case MB_TREE4:
+			treeX--;
+			treeY--;
+			break;
+	}
+
+	treeX = treeX % 64;
+	treeY = treeY % 64;
+	inhabitedX = trainerId * (headerId + 5) * 0x100343FDu + 0x10269EC3u;
+	inhabitedY = secretId * (headerId + 5) * 0x100343FDu + 0x10269EC3u;
+
+	if (headerId != 0xFFFF && (Random() % 4))
+	{
+		if (((inhabitedX >> treeX) & 3) == 3 && ((inhabitedY >> treeY) & 3) == 3)
+		{
+			slot = Random() % ARRAY_COUNT(sRareHeadbuttEncounters);
+			species = sRareHeadbuttEncounters[slot][0];
+			if (sCommonHeadbuttEncounters[slot][2] >= sRareHeadbuttEncounters[slot][1])
+			{
+				min = sRareHeadbuttEncounters[slot][1];
+				max = sRareHeadbuttEncounters[slot][2];
+			}
+			else
+			{
+				min = sRareHeadbuttEncounters[slot][2];
+				max = sRareHeadbuttEncounters[slot][1];
+			}
+			
+			range = max - min + 1;
+			level = Random() % range;
+			CreateWildMon(species, level);
+			if (IsMonShiny(&gEnemyParty[0]))
+				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+			BattleSetup_StartWildBattle();
+			gSpecialVar_Result = TRUE;
+		}
+		else if (((inhabitedX >> treeX) & 3) == 2 || ((inhabitedY >> treeY) & 3) == 2)
+		{
+			slot = Random() % ARRAY_COUNT(sUncommonHeadbuttEncounters);
+			species = sUncommonHeadbuttEncounters[slot][0];
+			if (sUncommonHeadbuttEncounters[slot][2] >= sUncommonHeadbuttEncounters[slot][1])
+			{
+				min = sUncommonHeadbuttEncounters[slot][1];
+				max = sUncommonHeadbuttEncounters[slot][2];
+			}
+			else
+			{
+				min = sUncommonHeadbuttEncounters[slot][2];
+				max = sUncommonHeadbuttEncounters[slot][1];
+			}
+			
+			range = max - min + 1;
+			level = Random() % range;
+			CreateWildMon(species, level);
+			if (IsMonShiny(&gEnemyParty[0]))
+				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+			BattleSetup_StartWildBattle();
+			gSpecialVar_Result = TRUE;
+		}
+		else if (((inhabitedX >> treeX) & 3) == 1 || ((inhabitedY >> treeY) & 3) == 1)
+		{
+			slot = Random() % ARRAY_COUNT(sCommonHeadbuttEncounters);
+			species = sCommonHeadbuttEncounters[slot][0];
+			if (sCommonHeadbuttEncounters[slot][2] >= sCommonHeadbuttEncounters[slot][1])
+			{
+				min = sCommonHeadbuttEncounters[slot][1];
+				max = sCommonHeadbuttEncounters[slot][2];
+			}
+			else
+			{
+				min = sCommonHeadbuttEncounters[slot][2];
+				max = sCommonHeadbuttEncounters[slot][1];
+			}
+			
+			range = max - min + 1;
+			level = Random() % range;
+			CreateWildMon(species, level);
+			if (IsMonShiny(&gEnemyParty[0]))
+				IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+			BattleSetup_StartWildBattle();
+			gSpecialVar_Result = TRUE;
+		}
+		else
+		{
+			gSpecialVar_Result = FALSE;
+		}
+	}
+	else
+	{
+		gSpecialVar_Result = FALSE;
+	}
+		
 }
 
 bool8 SweetScentWildEncounter(void)
