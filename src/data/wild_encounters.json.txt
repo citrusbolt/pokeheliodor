@@ -74,6 +74,16 @@ const struct WildPokemon {{ encounter.base_label }}_LandMonsNatMorning[] =
 
 const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsNatMorningInfo = { {{encounter.land_mons_nat_morning.encounter_rate}}, {{ encounter.base_label }}_LandMonsNatMorning };
 {% endif %}
+{% if existsIn(encounter, "land_mons_nat_night") %}
+const struct WildPokemon {{ encounter.base_label }}_LandMonsNatNight[] =
+{
+## for wild_mon in encounter.land_mons_nat_night.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsNatNightInfo = { {{encounter.land_mons_nat_night.encounter_rate}}, {{ encounter.base_label }}_LandMonsNatNight };
+{% endif %}
 {% if existsIn(encounter, "water_mons") %}
 const struct WildPokemon {{ encounter.base_label }}_WaterMons[] =
 {
@@ -243,6 +253,16 @@ const struct WildPokemon {{ encounter.base_label }}_FishingMonsNatMorning[] =
 };
 
 const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsNatMorningInfo = { {{encounter.fishing_mons_nat_morning.encounter_rate}}, {{ encounter.base_label }}_FishingMonsNatMorning };
+{% endif %}
+{% if existsIn(encounter, "fishing_mons_nat_night") %}
+const struct WildPokemon {{ encounter.base_label }}_FishingMonsNatNight[] =
+{
+## for wild_mon in encounter.fishing_mons_nat_morning.mons
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+## endfor
+};
+
+const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsNatNightInfo = { {{encounter.fishing_mons_nat_night.encounter_rate}}, {{ encounter.base_label }}_FishingMonsNatNight };
 {% endif %}
 {% if existsIn(encounter, "puddle_mons") %}
 const struct WildPokemon {{ encounter.base_label }}_PuddleMons[] =
