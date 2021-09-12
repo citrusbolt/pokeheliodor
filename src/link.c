@@ -1903,6 +1903,10 @@ void ConvertLinkPlayerName(struct LinkPlayer *player)
 	//		mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
 	//		break;
 	//}
+	
+	if ((((player->version & 0xC000) | ((player->version & 0x3F00) >> 8)) & 0xFF) == VERSION_HEARTGOLD)
+		player->versionModifier = DEV_SOLITAIRI_2;
+	
     player->progressFlagsCopy = player->progressFlags; // ? Perhaps relocating for a longer name field
     ConvertInternationalString(player->name, player->language);
 }
