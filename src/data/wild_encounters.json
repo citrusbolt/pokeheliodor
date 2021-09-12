@@ -6410,6 +6410,66 @@
                 "species": "SPECIES_FEEBAS"
               }
             ]
+          },
+          "puddle_mons": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
+              }
+            ]
+          },
+          "puddle_mons_nat": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_POLIWAG"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
+              }
+            ]
           }
         },
         {
@@ -6682,6 +6742,66 @@
                 "min_level": 40,
                 "max_level": 45,
                 "species": "SPECIES_QWILFISH"
+              }
+            ]
+          },
+          "puddle_mons": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
+              }
+            ]
+          },
+          "puddle_mons_nat": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_POLIWAG"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
               }
             ]
           }

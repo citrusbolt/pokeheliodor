@@ -475,6 +475,7 @@ static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 			if (MonListHasMon(info->landMonsInfo, species, 12) || MonListHasMon(info->landMonsMorningInfo, species, 12) || MonListHasMon(info->landMonsNightInfo, species, 12))
 				return TRUE;
 		}
+
 		if (info->waterMonsNatInfo != NULL)
 		{
 			if (MonListHasMon(info->waterMonsNatInfo, species, 5) || MonListHasMon(info->waterMonsNatMorningInfo, species, 5) || MonListHasMon(info->waterMonsNatNightInfo, species, 5))
@@ -485,6 +486,7 @@ static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 			if (MonListHasMon(info->waterMonsInfo, species, 5) || MonListHasMon(info->waterMonsMorningInfo, species, 5) || MonListHasMon(info->waterMonsNightInfo, species, 5))
 				return TRUE;
 		}
+
 		if (info->fishingMonsNatInfo != NULL)
 		{
 			if (MonListHasMon(info->fishingMonsNatInfo, species, 12) || MonListHasMon(info->fishingMonsNatMorningInfo, species, 12) || MonListHasMon(info->fishingMonsNatNightInfo, species, 12))
@@ -495,6 +497,7 @@ static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 			if (MonListHasMon(info->fishingMonsInfo, species, 12) || MonListHasMon(info->fishingMonsMorningInfo, species, 12) || MonListHasMon(info->fishingMonsNightInfo, species, 12))
 				return TRUE;
 		}
+
 		if (info->rockSmashMonsNatInfo != NULL)
 		{
 			if (MonListHasMon(info->rockSmashMonsNatInfo, species, 5) || MonListHasMon(info->rockSmashMonsNatMorningInfo, species, 5) || MonListHasMon(info->rockSmashMonsNatNightInfo, species, 5))
@@ -503,6 +506,17 @@ static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 		else
 		{
 			if (MonListHasMon(info->rockSmashMonsInfo, species, 5) || MonListHasMon(info->rockSmashMonsMorningInfo, species, 5) || MonListHasMon(info->rockSmashMonsNightInfo, species, 5))
+				return TRUE;
+		}
+
+		if (info->puddleMonsNatInfo != NULL)
+		{
+			if (MonListHasMon(info->puddleMonsNatInfo, species, 5) || MonListHasMon(info->puddleMonsNatMorningInfo, species, 5) || MonListHasMon(info->puddleMonsNatNightInfo, species, 5))
+				return TRUE;
+		}
+		else
+		{
+			if (MonListHasMon(info->puddleMonsInfo, species, 5) || MonListHasMon(info->puddleMonsMorningInfo, species, 5) || MonListHasMon(info->puddleMonsNightInfo, species, 5))
 				return TRUE;
 		}
 	}
@@ -515,6 +529,8 @@ static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 		if (MonListHasMon(info->fishingMonsInfo, species, 12) || MonListHasMon(info->fishingMonsMorningInfo, species, 12) || MonListHasMon(info->fishingMonsNightInfo, species, 12))
 			return TRUE;
 		if (MonListHasMon(info->rockSmashMonsInfo, species, 5) || MonListHasMon(info->rockSmashMonsMorningInfo, species, 5) || MonListHasMon(info->rockSmashMonsNightInfo, species, 5))
+			return TRUE;
+		if (MonListHasMon(info->puddleMonsInfo, species, 5) || MonListHasMon(info->puddleMonsMorningInfo, species, 5) || MonListHasMon(info->puddleMonsNightInfo, species, 5))
 			return TRUE;
 	}
 	
