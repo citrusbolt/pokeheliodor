@@ -31,6 +31,7 @@
 #include "constants/metatile_behaviors.h"
 #include "fldeff.h"
 #include "constants/battle.h"
+#include "battle.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -847,9 +848,23 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 				}
 				else if (TryGenerateWildMon(wildPokemonInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
 				{
-					if (IsMonShiny(&gEnemyParty[0]))
-						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
-					BattleSetup_StartWildBattle();
+					if (!GetSafariZoneFlag() &&  GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS && Random() % 10 == 0)
+					{
+						struct Pokemon mon1 = gEnemyParty[0];
+						if (IsMonShiny(&gEnemyParty[0]))
+							IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+						TryGenerateWildMon(wildPokemonInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE);
+						if (IsMonShiny(&gEnemyParty[0]))
+							IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+						gEnemyParty[1] = mon1;
+						BattleSetup_StartWildDoubleBattle();
+					}
+					else
+					{
+						if (IsMonShiny(&gEnemyParty[0]))
+							IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+						BattleSetup_StartWildBattle();
+					}
 					return TRUE;
 				}
 			}

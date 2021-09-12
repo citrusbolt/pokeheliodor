@@ -65,29 +65,30 @@
 #define CMP_NO_COMMON_BITS      5
 
 // Cmd_various
-#define VARIOUS_CANCEL_MULTI_TURN_MOVES         0
-#define VARIOUS_SET_MAGIC_COAT_TARGET           1
-#define VARIOUS_IS_RUNNING_IMPOSSIBLE           2
-#define VARIOUS_GET_MOVE_TARGET                 3
-#define VARIOUS_GET_BATTLER_FAINTED             4
-#define VARIOUS_RESET_INTIMIDATE_TRACE_BITS     5
-#define VARIOUS_UPDATE_CHOICE_MOVE_ON_LVL_UP    6
-#define VARIOUS_PALACE_FLAVOR_TEXT              8
-#define VARIOUS_ARENA_JUDGMENT_WINDOW           9
-#define VARIOUS_ARENA_OPPONENT_MON_LOST         10
-#define VARIOUS_ARENA_PLAYER_MON_LOST           11
-#define VARIOUS_ARENA_BOTH_MONS_LOST            12
-#define VARIOUS_EMIT_YESNOBOX                   13
-#define VARIOUS_ARENA_JUDGMENT_STRING           16
-#define VARIOUS_ARENA_WAIT_STRING               17
-#define VARIOUS_WAIT_CRY                        18
-#define VARIOUS_RETURN_OPPONENT_MON1            19
-#define VARIOUS_RETURN_OPPONENT_MON2            20
-#define VARIOUS_VOLUME_DOWN                     21
-#define VARIOUS_VOLUME_UP                       22
-#define VARIOUS_SET_ALREADY_STATUS_MOVE_ATTEMPT 23
-#define VARIOUS_SET_TELEPORT_OUTCOME            25
-#define VARIOUS_PLAY_TRAINER_DEFEATED_MUSIC     26
+#define VARIOUS_JUMP_IF_ROAR_FAILS              0
+#define VARIOUS_CANCEL_MULTI_TURN_MOVES         1
+#define VARIOUS_SET_MAGIC_COAT_TARGET           2
+#define VARIOUS_IS_RUNNING_IMPOSSIBLE           3
+#define VARIOUS_GET_MOVE_TARGET                 4
+#define VARIOUS_GET_BATTLER_FAINTED             5
+#define VARIOUS_RESET_INTIMIDATE_TRACE_BITS     6
+#define VARIOUS_UPDATE_CHOICE_MOVE_ON_LVL_UP    7
+#define VARIOUS_PALACE_FLAVOR_TEXT              9
+#define VARIOUS_ARENA_JUDGMENT_WINDOW           10
+#define VARIOUS_ARENA_OPPONENT_MON_LOST         11
+#define VARIOUS_ARENA_PLAYER_MON_LOST           12
+#define VARIOUS_ARENA_BOTH_MONS_LOST            13
+#define VARIOUS_EMIT_YESNOBOX                   14
+#define VARIOUS_ARENA_JUDGMENT_STRING           17
+#define VARIOUS_ARENA_WAIT_STRING               18
+#define VARIOUS_WAIT_CRY                        19
+#define VARIOUS_RETURN_OPPONENT_MON1            20
+#define VARIOUS_RETURN_OPPONENT_MON2            21
+#define VARIOUS_VOLUME_DOWN                     22
+#define VARIOUS_VOLUME_UP                       23
+#define VARIOUS_SET_ALREADY_STATUS_MOVE_ATTEMPT 24
+#define VARIOUS_SET_TELEPORT_OUTCOME            26
+#define VARIOUS_PLAY_TRAINER_DEFEATED_MUSIC     27
 
 // Cmd_manipulatedmg
 #define DMG_CHANGE_SIGN            0

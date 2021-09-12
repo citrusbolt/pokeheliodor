@@ -7354,7 +7354,6 @@ void SetWildMonHeldItem(void)
 			}
 		}
 
-		
         if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
         {
             s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
@@ -7390,6 +7389,48 @@ void SetWildMonHeldItem(void)
                     SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
             }
         }
+		
+		if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
+		{
+			rnd = Random() % 100;
+			species = GetMonData(&gEnemyParty[1], MON_DATA_SPECIES, 0);
+
+			if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
+			{
+				s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
+				if (alteringCaveId != 0)
+				{
+					if (rnd < var2)
+						return;
+					SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
+				}
+				else
+				{
+					if (rnd < var1)
+						return;
+					if (rnd < var2)
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+					else
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
+				}
+			}
+			else
+			{
+				if (gBaseStats[species].item1 == gBaseStats[species].item2 && gBaseStats[species].item1 != 0)
+				{
+					SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+				}
+				else
+				{
+					if (rnd < var1)
+						return;
+					if (rnd < var2)
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+					else
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
+				}
+			}
+		}
     }
 }
 
@@ -8132,7 +8173,7 @@ bool8 IsSpeciesInParty(void)
 
 bool8 DoesCaughtMonHaveItem(void)
 {
-	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, 0);
+	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_HELD_ITEM, 0);
 	if(item != ITEM_NONE && CheckBagHasSpace(item, 1))
 	{
 		CopyItemNameHandlePlural(item, gStringVar1, 1);
@@ -8146,10 +8187,10 @@ bool8 DoesCaughtMonHaveItem(void)
 
 void PutCaughtMonItemInBag(void)
 {
-	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, 0);
+	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_HELD_ITEM, 0);
 	AddBagItem(item, 1);
 	item = ITEM_NONE;
-	SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, &item);
+	SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_HELD_ITEM, &item);
 }
 
 bool8 DoesGiftMonHaveItem(void)
