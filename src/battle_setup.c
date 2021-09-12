@@ -1916,3 +1916,17 @@ u16 CountBattledRematchTeams(u16 trainerId)
 
     return i;
 }
+
+void BattleSetup_StartWildDoubleBattle(void)
+{
+    ScriptContext2_Enable();
+    FreezeObjectEvents();
+    sub_808BCF4();
+    gMain.savedCallback = CB2_EndWildBattle;
+	gBattleTypeFlags = BATTLE_TYPE_DOUBLE;
+    CreateBattleStartTask(GetWildBattleTransition(), 0);
+    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
+    IncrementGameStat(GAME_STAT_WILD_BATTLES);
+    IncrementDailyWildBattles();
+    TryUpdateGymLeaderRematchFromWild();
+}

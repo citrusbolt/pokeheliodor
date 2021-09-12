@@ -1364,7 +1364,12 @@
 	.macro playtrainerdefeatbgm battler:req
 	various \battler, VARIOUS_PLAY_TRAINER_DEFEATED_MUSIC
 	.endm
-	
+
+	.macro jumpifroarfails ptr:req
+	various BS_ATTACKER, VARIOUS_JUMP_IF_ROAR_FAILS
+	.4byte \ptr
+	.endm
+
 @ helpful macros
 	.macro setstatchanger stat:req, stages:req, down:req
 	setbyte sSTATCHANGER \stat | \stages << 4 | \down << 7

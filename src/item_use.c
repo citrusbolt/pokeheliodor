@@ -47,6 +47,7 @@
 #include "international_string_util.h"
 #include "field_specials.h"
 #include "constants/field_specials.h"
+#include "battle_anim.h"
 
 static void SetUpItemUseCallback(u8 taskId);
 static void FieldCB_UseItemOnField(void);
@@ -967,7 +968,17 @@ void ItemUseOutOfBattle_EvolutionStone(u8 taskId)
 
 void ItemUseInBattle_PokeBall(u8 taskId)
 {
-    if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
+	if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+		&& IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)))
+	{
+		DisplayItemMessage(taskId, 1, gText_ImpossibleToAim, CloseItemMessage);
+	}
+	else if (gBattlerInMenuId == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
+			&& IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+	{
+		DisplayItemMessage(taskId, 1, gText_CantThrowBall, CloseItemMessage);
+	}
+	else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
         if (!InBattlePyramid())

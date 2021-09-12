@@ -11,7 +11,31 @@
           ]
         },
         {
+          "type": "land_mons_morning",
+          "encounter_rates": [
+            20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
+          ]
+        },
+        {
+          "type": "land_mons_night",
+          "encounter_rates": [
+            20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
+          ]
+        },
+        {
           "type": "land_mons_nat",
+          "encounter_rates": [
+            20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
+          ]
+        },
+        {
+          "type": "land_mons_nat_morning",
+          "encounter_rates": [
+            20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
+          ]
+        },
+        {
+          "type": "land_mons_nat_night",
           "encounter_rates": [
             20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
           ]
@@ -23,7 +47,31 @@
           ]
         },
         {
+          "type": "water_mons_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "water_mons_night",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
           "type": "water_mons_nat",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "water_mons_nat_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "water_mons_nat_night",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
@@ -35,13 +83,59 @@
           ]
         },
         {
+          "type": "rock_smash_mons_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "rock_smash_mons_night",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
           "type": "rock_smash_mons_nat",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
+          "type": "rock_smash_mons_nat_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "rock_smash_mons_nat_night",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
           "type": "fishing_mons",
+          "encounter_rates": [
+            70, 30, 60, 20, 20, 40, 40, 15, 4, 1
+          ],
+          "groups": {
+            "old_rod": [0, 1],
+            "good_rod": [2, 3, 4],
+            "super_rod": [5, 6, 7, 8, 9]
+          }
+        },
+        {
+          "type": "fishing_mons_morning",
+          "encounter_rates": [
+            70, 30, 60, 20, 20, 40, 40, 15, 4, 1
+          ],
+          "groups": {
+            "old_rod": [0, 1],
+            "good_rod": [2, 3, 4],
+            "super_rod": [5, 6, 7, 8, 9]
+          }
+        },
+        {
+          "type": "fishing_mons_night",
           "encounter_rates": [
             70, 30, 60, 20, 20, 40, 40, 15, 4, 1
           ],
@@ -61,6 +155,64 @@
             "good_rod": [2, 3, 4],
             "super_rod": [5, 6, 7, 8, 9]
           }
+        },
+        {
+          "type": "fishing_mons_nat_morning",
+          "encounter_rates": [
+            70, 30, 60, 20, 20, 40, 40, 15, 4, 1
+          ],
+          "groups": {
+            "old_rod": [0, 1],
+            "good_rod": [2, 3, 4],
+            "super_rod": [5, 6, 7, 8, 9]
+          }
+        },
+        {
+          "type": "fishing_mons_nat_night",
+          "encounter_rates": [
+            70, 30, 60, 20, 20, 40, 40, 15, 4, 1
+          ],
+          "groups": {
+            "old_rod": [0, 1],
+            "good_rod": [2, 3, 4],
+            "super_rod": [5, 6, 7, 8, 9]
+          }
+        },
+        {
+          "type": "puddle_mons",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_night",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_nat",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_nat_morning",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
+        },
+        {
+          "type": "puddle_mons_nat_night",
+          "encounter_rates": [
+            60, 30, 5, 4, 1
+          ]
         }
       ],
       "encounters": [
@@ -1904,7 +2056,7 @@
             "encounter_rate": 20,
             "mons": [
               {
-                "min_level": 16,
+                "min_level": 6,
                 "max_level": 15,
                 "species": "SPECIES_EKANS"
               },
@@ -6258,6 +6410,66 @@
                 "species": "SPECIES_FEEBAS"
               }
             ]
+          },
+          "puddle_mons": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
+              }
+            ]
+          },
+          "puddle_mons_nat": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_POLIWAG"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
+              }
+            ]
           }
         },
         {
@@ -6530,6 +6742,66 @@
                 "min_level": 40,
                 "max_level": 45,
                 "species": "SPECIES_QWILFISH"
+              }
+            ]
+          },
+          "puddle_mons": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
+              }
+            ]
+          },
+          "puddle_mons_nat": {
+            "encounter_rate": 15,
+            "mons": [
+              {
+                "min_level": 35,
+                "max_level": 40,
+                "species": "SPECIES_QUAGSIRE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_POLIWAG"
+              },
+              {
+                "min_level": 20,
+                "max_level": 40,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 15,
+                "max_level": 30,
+                "species": "SPECIES_WOOPER"
+              },
+              {
+                "min_level": 5,
+                "max_level": 10,
+                "species": "SPECIES_WOOPER"
               }
             ]
           }

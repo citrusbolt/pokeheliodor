@@ -301,3 +301,61 @@ EventScript_FailSweetScent::
 
 Text_FailSweetScent:
 	.string "Looks like there's nothing here…$"
+
+EventScript_Headbutt::
+	lockall
+	@specialvar VAR_RESULT, IsTreeInhabited
+	@compare VAR_RESULT, FALSE
+	@goto_if_eq EventScript_EndHeadbutt
+	checkpartymove MOVE_HEADBUTT
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq EventScript_CantHeadbutt
+	setfieldeffectargument 0, VAR_RESULT
+	bufferpartymonnick 0, VAR_RESULT
+	buffermovename 1, MOVE_HEADBUTT
+	msgbox Text_WantToHeadbutt, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq EventScript_CancelHeadbutt
+	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
+	closemessage
+	dofieldeffect FLDEFF_USE_HEADBUTT
+	waitstate
+	goto EventScript_HeadbuttTree
+	end
+
+EventScript_UseHeadbutt::
+	lockall
+	dofieldeffect FLDEFF_USE_HEADBUTT
+	waitstate
+	goto EventScript_HeadbuttTree
+	end
+
+EventScript_HeadbuttTree::
+	special HeadbuttWildEncounter
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_EndHeadbutt
+	waitstate
+	releaseall
+	end
+
+EventScript_EndHeadbutt::
+	releaseall
+	end
+
+EventScript_CantHeadbutt::
+	msgbox Text_CantHeadbutt, MSGBOX_DEFAULT
+	releaseall
+	end
+
+EventScript_CancelHeadbutt::
+	closemessage
+	releaseall
+	end
+
+Text_WantToHeadbutt:
+	.string "It's a moderately sized tree.\n"
+	.string "Would you like to use HEADBUTT?$"
+
+Text_CantHeadbutt:
+	.string "There's a large, formidable tree.\n"
+	.string "It looks like it can be headbutted!$"

@@ -401,6 +401,18 @@ void HandleAction_UseItem(void)
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }
 
+bool8 IsBattlerAlive(u8 battlerId)
+{
+	if (gBattleMons[battlerId].hp == 0)
+		return FALSE;
+	else if (battlerId >= gBattlersCount)
+		return FALSE;
+	else if (gAbsentBattlerFlags & gBitTable[battlerId])
+		return FALSE;
+	else
+		return TRUE;
+}
+
 bool8 TryRunFromBattle(u8 battler)
 {
     bool8 effect = FALSE;
@@ -448,26 +460,27 @@ bool8 TryRunFromBattle(u8 battler)
     }
     else
     {
-        if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
-        {
-            if (InBattlePyramid())
-            {
-                pyramidMultiplier = GetPyramidRunMultiplier();
-                speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
-                if (speedVar > (Random() & 0xFF))
-                    effect++;
-            }
-            else if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed)
-            {
-                speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
-                if (speedVar > (Random() & 0xFF))
-                    effect++;
-            }
-            else // same speed or faster
-            {
-                effect++;
-            }
-        }
+		u8 opponent = BATTLE_OPPOSITE(battler);
+
+		if (!IsBattlerAlive(opponent))
+			opponent |= BIT_FLANK;
+		if (InBattlePyramid())
+		{
+			pyramidMultiplier = GetPyramidRunMultiplier();
+			speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[opponent].speed) + (gBattleStruct->runTries * 30);
+			if (speedVar > (Random() & 0xFF))
+				effect++;
+		}
+		else if (gBattleMons[battler].speed < gBattleMons[opponent].speed)
+		{
+			speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[opponent].speed) + (gBattleStruct->runTries * 30);
+			if (speedVar > (Random() & 0xFF))
+				effect++;
+		}
+		else // same speed or faster
+		{
+			effect++;
+		}
 
         gBattleStruct->runTries++;
     }

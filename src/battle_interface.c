@@ -2659,7 +2659,8 @@ bool32 CanThrowLastUsedBall(void)
     return (!(IsPlayerPartyAndPokemonStorageFull()
 	 || InBattlePyramid()
      || (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-     || !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1)));
+     || !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1)
+	 || (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)));
 }
 
 void TryAddLastUsedBallItemSprites(void)

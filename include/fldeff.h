@@ -50,4 +50,8 @@ u8 CreateFieldMoveTask(void);
 bool8 SetUpFieldMove_RockSmash(void);
 bool8 FldEff_UseRockSmash(void);
 
+// headbutt
+bool8 SetUpFieldMove_Headbutt(void);
+bool8 FldEff_UseHeadbutt(void);
+
 #endif // GUARD_FLDEFF_H
