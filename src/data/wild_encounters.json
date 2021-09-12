@@ -2056,7 +2056,7 @@
             "encounter_rate": 20,
             "mons": [
               {
-                "min_level": 16,
+                "min_level": 6,
                 "max_level": 15,
                 "species": "SPECIES_EKANS"
               },
