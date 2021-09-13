@@ -1483,7 +1483,7 @@ void HeadbuttWildEncounter(void)
 	{
 		u32 status = STATUS1_SLEEP;
 		range = max - min + 1;
-		level = Random() % range;
+		level = Random() % range + min;
 		CreateWildMon(species, level);
 		if (IsMonShiny(&gEnemyParty[0]))
 			IncrementGameStat(GAME_STAT_SHINIES_FOUND);
