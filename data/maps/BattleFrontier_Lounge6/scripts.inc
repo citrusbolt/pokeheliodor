@@ -72,7 +72,7 @@ BattleFrontier_Lounge6_EventScript_TradeNotReady::
 	end
 
 BattleFrontier_Lounge6_Text_WouldYouLikeToTrade:
-	.string "My POKéMON is a {STR_VAR_2}.\n"
+	.string "My Pokémon is a {STR_VAR_2}.\n"
 	.string "Do you know it?\l"
 	.string "It's quite cute and rather nice.\p"
 	.string "This little one, I could trade with\n"
@@ -99,19 +99,19 @@ BattleFrontier_Lounge6_Text_WellThatsFineToo:
 
 BattleFrontier_Lounge6_Text_TreeckoSoMuchCuterThanImagined:
 	.string "Giggle!\n"
-	.string "A TREECKO is so much cuter than I had\l"
+	.string "A Treecko is so much cuter than I had\l"
 	.string "imagined. I'm delighted!$"
 
 BattleFrontier_Lounge6_Text_TorchicSoMuchCuterThanImagined:
 	.string "Giggle!\n"
-	.string "A TORCHIC is so much cuter than I had\l"
+	.string "A Torchic is so much cuter than I had\l"
 	.string "imagined. I'm delighted!$"
 
 BattleFrontier_Lounge6_Text_MudkipSoMuchCuterThanImagined:
 	.string "Giggle!\n"
-	.string "A MUDKIP is so much cuter than I had\l"
+	.string "A Mudkip is so much cuter than I had\l"
 	.string "imagined. I'm delighted!$"
 
 BattleFrontier_Lounge6_Text_NotReady:
-	.string "I like collecting rare POKéMON!\n"
+	.string "I like collecting rare Pokémon!\n"
 	.string "What about you?$"

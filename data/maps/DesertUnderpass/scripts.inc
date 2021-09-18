@@ -58,9 +58,9 @@ DesetUnderpass_EventScript_HideBothHoennFossils::
 
 @ Unused
 DesertUnderpass_Text_FoundRootFossil::
-	.string "{PLAYER} found the ROOT FOSSIL.$"
+	.string "{PLAYER} found the Root Fossil.$"
 
 @ Unused
 DesertUnderpass_Text_FoundClawFossil::
-	.string "{PLAYER} found the CLAW FOSSIL.$"
+	.string "{PLAYER} found the Claw Fossil.$"
 

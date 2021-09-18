@@ -102,7 +102,7 @@ BattleFrontier_Lounge4_EventScript_EVsNotMaxed::
 
 BattleFrontier_Lounge4_Text_WonderIfInterviewsAiring:
 	.string "I wonder if they'll be airing interviews\n"
-	.string "with tough TRAINERS today?$"
+	.string "with tough Trainers today?$"
 
 BattleFrontier_Lounge4_Text_IfIOpenedRestaurantHere:
 	.string "If I opened a restaurant here,\n"
@@ -111,11 +111,11 @@ BattleFrontier_Lounge4_Text_IfIOpenedRestaurantHere:
 BattleFrontier_Lounge4_Text_OfferToResetEVs:
 	.string "Sometimes it's good to start anew\n"
 	.string "and go down a fresh path.\p"
-	.string "If you want a POKéMON to\n"
+	.string "If you want a Pokémon to\n"
 	.string "forget the training it has received,\l"
 	.string "I can help.\p"
 	.string "Give me 100 BP, and I'll prepare\n"
-	.string "a POKéMON so that it can put\l"
+	.string "a Pokémon so that it can put\l"
 	.string "a lot more effort into training.$"
 
 BattleFrontier_Lounge4_Text_DontHaveEnoughPoints:
@@ -135,41 +135,41 @@ BattleFrontier_Lounge4_Text_EVsErased:
 	.string "receive new training!$"
 
 BattleFrontier_Lounge4_Text_MonIsUntrained:
-	.string "This POKéMON hasn't received\n"
+	.string "This Pokémon hasn't received\n"
 	.string "any training!$"
 
 BattleFrontier_Lounge4_Text_LetsReadEVs:
-	.string "Show me a POKéMON and I will\n"
+	.string "Show me a Pokémon and I will\n"
 	.string "judge its training.$"
 
 BattleFrontier_Lounge4_Text_CancelMonRead:
 	.string "Feel free to return any time\n"
-	.string "to show me a trained POKéMON.$"
+	.string "to show me a trained Pokémon.$"
 
 BattleFrontier_Lounge4_Text_EggIsUntrained:
-	.string "A POKéMON EGG can not\n"
+	.string "A Pokémon Egg can not\n"
 	.string "receive any training!$"
 
 BattleFrontier_Lounge4_Text_ReciteEVs1:
 	.string "I'd rate its HP\n"
 	.string "training as {STR_VAR_1}.\p"
-	.string "I'd rate its ATTACK\n"
+	.string "I'd rate its Attack\n"
 	.string "training as {STR_VAR_2}.\p"
-	.string "I'd rate its DEFENSE\n"
+	.string "I'd rate its Defense\n"
 	.string "training as {STR_VAR_3}.$"
 
 BattleFrontier_Lounge4_Text_ReciteEVs2:
-	.string "I'd rate its SPECIAL ATTACK\n"
+	.string "I'd rate its Special Attack\n"
 	.string "training as {STR_VAR_1}.\p"
-	.string "I'd rate its SPECIAL DEFENSE\n"
+	.string "I'd rate its Special Defense\n"
 	.string "training as {STR_VAR_2}.\p"
-	.string "I'd rate its SPEED\n"
+	.string "I'd rate its Speed\n"
 	.string "training as {STR_VAR_3}.$"
 
 BattleFrontier_Lounge4_Text_EVsNotMaxed:
-	.string "This POKéMON needs more training\n"
+	.string "This Pokémon needs more training\n"
 	.string "in order to reach its full potential.$"
 
 BattleFrontier_Lounge4_Text_EVsMaxed:
-	.string "This POKéMON has put a lot\n"
+	.string "This Pokémon has put a lot\n"
 	.string "of effort into its training!$"

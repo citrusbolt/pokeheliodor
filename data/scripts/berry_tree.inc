@@ -1,13 +1,13 @@
 BerryTreeScript::
 	special ObjectEventInteractionGetBerryTreeData
 	switch VAR_0x8004
-	case BERRY_STAGE_SPARKLING, BerryTree_EventScript_Sparkling
-	case BERRY_STAGE_NO_BERRY, BerryTree_EventScript_CheckSoil
-	case BERRY_STAGE_PLANTED, BerryTree_EventScript_CheckBerryStage1
-	case BERRY_STAGE_SPROUTED, BerryTree_EventScript_CheckBerryStage2
-	case BERRY_STAGE_TALLER, BerryTree_EventScript_CheckBerryStage3
-	case BERRY_STAGE_FLOWERING, BerryTree_EventScript_CheckBerryStage4
-	case BERRY_STAGE_BERRIES, BerryTree_EventScript_CheckBerryFullyGrown
+	case Berry_STAGE_SPARKLING, BerryTree_EventScript_Sparkling
+	case Berry_STAGE_NO_Berry, BerryTree_EventScript_CheckSoil
+	case Berry_STAGE_PLANTED, BerryTree_EventScript_CheckBerryStage1
+	case Berry_STAGE_SPROUTED, BerryTree_EventScript_CheckBerryStage2
+	case Berry_STAGE_TALLER, BerryTree_EventScript_CheckBerryStage3
+	case Berry_STAGE_FLOWERING, BerryTree_EventScript_CheckBerryStage4
+	case Berry_STAGE_Berries, BerryTree_EventScript_CheckBerryFullyGrown
 	end
 
 BerryTree_EventScript_Sparkling::
@@ -122,7 +122,7 @@ BerryTree_EventScript_PickBerry::
 	special IncrementDailyPickedBerries
 	special ObjectEventInteractionRemoveBerryTree
 	message BerryTree_Text_PickedTheBerry
-	playfanfare MUS_OBTAIN_BERRY
+	playfanfare MUS_OBTAIN_Berry
 	waitmessage
 	waitfanfare
 	waitbuttonpress
@@ -186,7 +186,7 @@ BerryTree_EventScript_WaterBerry::
 
 BerryTree_EventScript_PlantBerry::
 	special ObjectEventInteractionPlantBerryTree
-	incrementgamestat GAME_STAT_PLANTED_BERRIES
+	incrementgamestat GAME_STAT_PLANTED_Berries
 	special IncrementDailyPlantedBerries
 	special ObjectEventInteractionGetBerryCountString
 	message BerryTree_Text_PlantedOneBerry
@@ -199,7 +199,7 @@ BerryTree_Text_ItsSoftLoamySoil:
 
 BerryTree_Text_WantToPlant:
 	.string "It's soft, loamy soil.\n"
-	.string "Want to plant a BERRY?$"
+	.string "Want to plant a Berry?$"
 
 BerryTree_Text_PlantedOneBerry:
 	.string "{PLAYER} planted one {STR_VAR_1} in\n"
@@ -237,12 +237,12 @@ BerryTree_Text_PickedTheBerry:
 
 BerryTree_Text_PutAwayBerry:
 	.string "{PLAYER} put away the {STR_VAR_1}\n"
-	.string "in the BAG's BERRIES POCKET.\p"
+	.string "in the Bag's Berries Pocket.\p"
 	.string "The soil returned to its soft and\n"
 	.string "loamy state.$"
 
 BerryTree_Text_BerryPocketFull:
-	.string "The BAG's BERRIES POCKET is full.\p"
+	.string "The Bag's Berries Pocket is full.\p"
 	.string "The {STR_VAR_1} couldn't be taken.$"
 
 BerryTree_Text_BerryLeftUnpicked:
@@ -251,7 +251,7 @@ BerryTree_Text_BerryLeftUnpicked:
 
 BerryTree_Text_WantToWater:
 	.string "Want to water the {STR_VAR_1} with the\n"
-	.string "WAILMER PAIL?$"
+	.string "Wailmer Pail?$"
 
 BerryTree_Text_WateredTheBerry:
 	.string "{PLAYER} watered the {STR_VAR_1}.$"

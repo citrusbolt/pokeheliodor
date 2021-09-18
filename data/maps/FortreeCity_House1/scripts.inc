@@ -125,19 +125,19 @@ FortreeCity_House1_Text_YouWontTradeMe:
 	.string "Even after I bared my heart to you?$"
 
 FortreeCity_House1_Text_GoingToMakeGolduckStrong:
-	.string "I'm going to make GOLDUCK super\n"
+	.string "I'm going to make Golduck super\n"
 	.string "strong from this moment on!\p"
-	.string "I hope you do the same with LICKITUNG!$"
+	.string "I hope you do the same with Lickitung!$"
 
 FortreeCity_House1_Text_TradingMemoriesWithOthers:
-	.string "Trading POKéMON with others…\p"
+	.string "Trading Pokémon with others…\p"
 	.string "It's as if you're trading your own\n"
 	.string "memories with other people.$"
 
 FortreeCity_House1_Text_Zigzagoon:
-	.string "ZIGZAGOON: Gumomoh?$"
+	.string "Zigzagoon: Gumomoh?$"
 
 FortreeCity_House1_Text_GoingToMakeSlowbroStrong:
-	.string "I'm going to make SLOWBRO super\n"
+	.string "I'm going to make Slowbro super\n"
 	.string "strong from this moment on!\p"
-	.string "I hope you do the same with LICKITUNG!$"
+	.string "I hope you do the same with Lickitung!$"

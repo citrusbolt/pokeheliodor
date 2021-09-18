@@ -58,7 +58,7 @@ EventScript_PowerPurchase_Text_ConfirmPurchase:
 
 EventScript_PowerPurchase_Text_DontHaveEnoughPoints:
 	.string "You do not have enough\n"
-	.string "POWER POINTS.$"
+	.string "Power Points.$"
 
 EventScript_PowerPurchase_Text_Processing:
 	.string "Processing...$"
@@ -67,27 +67,27 @@ EventScript_PowerPurchase_Text_PowerActivated:
 	.string "H-{STR_VAR_1} {LV}{STR_VAR_2} activated!$"
 
 EventScript_PowerPurchase_Text_HatchDesc1::
-	.string "Helps EGGS hatch a little faster.\n"
+	.string "Helps Eggs hatch a little faster.\n"
 	.string "The effect lasts 10 minutes.$"
 
 EventScript_PowerPurchase_Text_HatchDesc2::
-	.string "Helps EGGS hatch faster.\n"
+	.string "Helps Eggs hatch faster.\n"
 	.string "The effect lasts 20 minutes.$"
 
 EventScript_PowerPurchase_Text_HatchDesc3::
-	.string "Helps EGGS hatch much faster.\n"
+	.string "Helps Eggs hatch much faster.\n"
 	.string "The effect lasts 60 minutes.$"
 
 EventScript_PowerPurchase_Text_BargainDesc1::
-	.string "{PKMN} MARTS mark everything down 10%.\n"
+	.string "{PKMN} Marts mark everything down 10%.\n"
 	.string "The effect lasts 10 minutes.$"
 
 EventScript_PowerPurchase_Text_BargainDesc2::
-	.string "{PKMN} MARTS mark everything down 25%.\n"
+	.string "{PKMN} Marts mark everything down 25%.\n"
 	.string "The effect lasts 20 minutes.$"
 
 EventScript_PowerPurchase_Text_BargainDesc3::
-	.string "{PKMN} MARTS mark everything down 50%.\n"
+	.string "{PKMN} Marts mark everything down 50%.\n"
 	.string "The effect lasts 60 minutes.$"
 
 EventScript_PowerPurchase_Text_PrizeDesc1::
@@ -103,15 +103,15 @@ EventScript_PowerPurchase_Text_PrizeDesc3::
 	.string "a lot. The effect lasts 60 minutes.$"
 
 EventScript_PowerPurchase_Text_ExpDesc1::
-	.string "Increases the EXP. points from battles\n"
+	.string "Increases the Exp. points from battles\n"
 	.string "a little. The effect lasts 10 minutes.$"
 
 EventScript_PowerPurchase_Text_ExpDesc2::
-	.string "Increases the EXP. points from battles.\n"
+	.string "Increases the Exp. points from battles.\n"
 	.string "The effect lasts 20 minutes.$"
 
 EventScript_PowerPurchase_Text_ExpDesc3::
-	.string "Increases the EXP. points from battles\n"
+	.string "Increases the Exp. points from battles\n"
 	.string "a lot. The effect lasts 60 minutes.$"
 
 EventScript_PowerPurchase_Text_CaptureDesc1::
