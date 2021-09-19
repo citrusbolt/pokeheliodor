@@ -4410,6 +4410,16 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_KANTO_BIRTH_ISLAND_EXTERIOR",
+      "name": "_Kanto_BirthIsland_Exterior_Layout",
+      "width": 30,
+      "height": 30,
+      "primary_tileset": "gTileset_GeneralKanto",
+      "secondary_tileset": "gTileset_SeviiIslands67",
+      "border_filepath": "data/layouts/_Kanto_BirthIsland_Exterior/border.bin",
+      "blockdata_filepath": "data/layouts/_Kanto_BirthIsland_Exterior/map.bin"
     }
   ]
 }

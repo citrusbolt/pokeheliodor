@@ -557,3 +557,19 @@ gMetatiles_UnionRoom::
 	.align 1
 gMetatileAttributes_UnionRoom::
 	.incbin "data/tilesets/secondary/union_room/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_GeneralKanto::
+	.incbin "data/tilesets/primary/general_kanto/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_GeneralKanto::
+	.incbin "data/tilesets/primary/general_kanto/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_SeviiIslands67::
+	.incbin "data/tilesets/secondary/sevii_islands_67/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_SeviiIslands67::
+	.incbin "data/tilesets/secondary/sevii_islands_67/metatile_attributes.bin"

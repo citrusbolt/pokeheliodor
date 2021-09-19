@@ -1745,3 +1745,26 @@ gTilesetPalOverride_Petalburg06::
 .align 2
 gTilesetPalOverride_Petalburg08::
 	.incbin "data/tilesets/secondary/petalburg/palettes/08_over.gbapal"
+
+	.align 2
+gTilesetTiles_SeviiIslands67::
+	.incbin "data/tilesets/secondary/sevii_islands_67/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_SeviiIslands67::
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/12.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/13.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/14.gbapal"
+	.incbin "data/tilesets/secondary/sevii_islands_67/palettes/15.gbapal"

@@ -729,3 +729,13 @@ $(INTERFACEGFXDIR)/region_map_affine.8bpp: %.8bpp: %.png
 
 $(MISCGFXDIR)/birch_help.4bpp: $(MISCGFXDIR)/birch_bag.4bpp $(MISCGFXDIR)/birch_grass.4bpp
 	@cat $^ >$@
+
+### Kanto Tilesets ###
+
+
+$(TILESETGFXDIR)/primary/general_kanto/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 640
+
+
+$(TILESETGFXDIR)/secondary/sevii_islands_67/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 374

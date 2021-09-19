@@ -1561,3 +1561,27 @@ static const u8 sUnused2[]       = {0x02};
 static const u8 sEmpty5[0x3242]  = {0};
 static const u8 sUnused3[]       = {0x40};
 static const u8 sEmpty6[0x13]    = {0};
+
+
+const u16 gTilesetPalettes_GeneralKanto[][16] =
+{
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/12.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/13.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/14.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_kanto/palettes/15.gbapal"),
+};
+
+const u32 gTilesetTiles_GeneralKanto[] = INCBIN_U32("data/tilesets/primary/general_kanto/tiles.4bpp.lz");
+

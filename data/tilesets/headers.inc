@@ -907,3 +907,27 @@ gTileset_UnionRoom::
 	.4byte gMetatileAttributes_UnionRoom
 	.4byte NULL @ animation callback
 	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_GeneralKanto::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_GeneralKanto
+	.4byte gTilesetPalettes_GeneralKanto
+	.4byte gMetatiles_GeneralKanto
+	.4byte gMetatileAttributes_GeneralKanto
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_SeviiIslands67::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_SeviiIslands67
+	.4byte gTilesetPalettes_SeviiIslands67
+	.4byte gMetatiles_SeviiIslands67
+	.4byte gMetatileAttributes_SeviiIslands67
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
