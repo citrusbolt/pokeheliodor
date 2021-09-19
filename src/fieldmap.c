@@ -65,6 +65,143 @@ static bool8 IsCoordInIncomingConnectingMap(int coord, int srcMax, int destMax, 
 
 #define MapGridGetTileAt(x, y) (AreCoordsWithinMapGridBounds(x, y) ? gBackupMapLayout.map[x + gBackupMapLayout.width * y] : MapGridGetBorderTileAt(x, y))
 
+static const u32 sKantoMetatileAttrMasks[METATILE_ATTRIBUTE_COUNT] = {
+    [METATILE_ATTRIBUTE_BEHAVIOR]       = 0x000001ff,
+    [METATILE_ATTRIBUTE_TERRAIN]        = 0x00003e00,
+    [METATILE_ATTRIBUTE_2]              = 0x0003c000,
+    [METATILE_ATTRIBUTE_3]              = 0x00fc0000,
+    [METATILE_ATTRIBUTE_ENCOUNTER_TYPE] = 0x07000000,
+    [METATILE_ATTRIBUTE_5]              = 0x18000000,
+    [METATILE_ATTRIBUTE_LAYER_TYPE]     = 0x60000000,
+    [METATILE_ATTRIBUTE_7]              = 0x80000000
+};
+
+static const u8 sKantoMetatileAttrShifts[METATILE_ATTRIBUTE_COUNT] = {
+    [METATILE_ATTRIBUTE_BEHAVIOR]       = 0,
+    [METATILE_ATTRIBUTE_TERRAIN]        = 9,
+    [METATILE_ATTRIBUTE_2]              = 14,
+    [METATILE_ATTRIBUTE_3]              = 18,
+    [METATILE_ATTRIBUTE_ENCOUNTER_TYPE] = 24,
+    [METATILE_ATTRIBUTE_5]              = 27,
+    [METATILE_ATTRIBUTE_LAYER_TYPE]     = 29,
+    [METATILE_ATTRIBUTE_7]              = 31
+};
+
+static const u8 sMetatileBehaviorConversion[] = {
+	[MB_KANTO_NORMAL]                      	= MB_NORMAL,
+	[MB_KANTO_01]                          	= MB_NORMAL,
+	[MB_KANTO_TALL_GRASS]                  	= MB_TALL_GRASS,
+	[MB_KANTO_CAVE]                        	= MB_NORMAL,
+	[MB_KANTO_RUNNING_DISALLOWED]          	= MB_NO_RUNNING,
+	[MB_KANTO_0B]                          	= MB_NORMAL,
+	[MB_KANTO_0C]                          	= MB_NORMAL,
+	[MB_KANTO_POND_WATER]                  	= MB_POND_WATER,
+	[MB_KANTO_SEMI_DEEP_WATER]             	= MB_SEMI_DEEP_WATER,
+	[MB_KANTO_DEEP_WATER]                  	= MB_DEEP_WATER,
+	[MB_KANTO_WATERFALL]                   	= MB_WATERFALL,
+	[MB_KANTO_OCEAN_WATER]                 	= MB_OCEAN_WATER,
+	[MB_KANTO_PUDDLE]                      	= MB_PUDDLE,
+	[MB_KANTO_SHALLOW_WATER]               	= MB_SHALLOW_WATER,
+	[MB_KANTO_UNDERWATER_BLOCKED_ABOVE]    	= MB_NO_SURFACING,
+	[MB_KANTO_1A]                          	= MB_NORMAL,
+	[MB_KANTO_1B]                          	= MB_NORMAL,
+	[MB_KANTO_STRENGTH_BUTTON]             	= MB_NORMAL,
+	[MB_KANTO_SAND]                        	= MB_SAND,
+	[MB_KANTO_SEAWEED]                     	= MB_SEAWEED,
+	[MB_KANTO_ICE]                         	= MB_ICE,
+	[MB_KANTO_THIN_ICE]                    	= MB_THIN_ICE,
+	[MB_KANTO_CRACKED_ICE]                 	= MB_CRACKED_ICE,
+	[MB_KANTO_HOT_SPRINGS]                 	= MB_HOT_SPRINGS,
+	[MB_KANTO_ROCK_STAIRS]                 	= MB_NORMAL,
+	[MB_KANTO_SAND_CAVE]                   	= MB_NORMAL,
+	[MB_KANTO_IMPASSABLE_EAST]             	= MB_IMPASSABLE_EAST,
+	[MB_KANTO_IMPASSABLE_WEST]             	= MB_IMPASSABLE_WEST,
+	[MB_KANTO_IMPASSABLE_NORTH]            	= MB_IMPASSABLE_NORTH,
+	[MB_KANTO_IMPASSABLE_SOUTH]            	= MB_IMPASSABLE_SOUTH,
+	[MB_KANTO_IMPASSABLE_NORTHEAST]        	= MB_IMPASSABLE_NORTHEAST,
+	[MB_KANTO_IMPASSABLE_NORTHWEST]        	= MB_IMPASSABLE_NORTHWEST,
+	[MB_KANTO_IMPASSABLE_SOUTHEAST]        	= MB_IMPASSABLE_SOUTHEAST,
+	[MB_KANTO_IMPASSABLE_SOUTHWEST]        	= MB_IMPASSABLE_SOUTHWEST,
+	[MB_KANTO_JUMP_EAST]                   	= MB_JUMP_EAST,
+	[MB_KANTO_JUMP_WEST]                   	= MB_JUMP_WEST,
+	[MB_KANTO_JUMP_NORTH]                  	= MB_JUMP_NORTH,
+	[MB_KANTO_JUMP_SOUTH]                  	= MB_JUMP_SOUTH,
+	[MB_KANTO_JUMP_SOUTHEAST]              	= MB_JUMP_SOUTHEAST,
+	[MB_KANTO_JUMP_SOUTHWEST]              	= MB_JUMP_SOUTHWEST,
+	[MB_KANTO_WALK_EAST]                   	= MB_WALK_EAST,
+	[MB_KANTO_WALK_WEST]                   	= MB_WALK_WEST,
+	[MB_KANTO_WALK_NORTH]                  	= MB_WALK_NORTH,
+	[MB_KANTO_WALK_SOUTH]                  	= MB_WALK_SOUTH,
+	[MB_KANTO_SLIDE_EAST]                  	= MB_SLIDE_EAST,
+	[MB_KANTO_SLIDE_WEST]                  	= MB_SLIDE_WEST,
+	[MB_KANTO_SLIDE_NORTH]                 	= MB_SLIDE_NORTH,
+	[MB_KANTO_SLIDE_SOUTH]                 	= MB_SLIDE_SOUTH,
+	[MB_KANTO_UNKNOWN_MOVEMENT_48]         	= MB_NORMAL,
+	[MB_KANTO_EASTWARD_CURRENT]            	= MB_EASTWARD_CURRENT,
+	[MB_KANTO_WESTWARD_CURRENT]            	= MB_WESTWARD_CURRENT,
+	[MB_KANTO_NORTHWARD_CURRENT]           	= MB_NORTHWARD_CURRENT,
+	[MB_KANTO_SOUTHWARD_CURRENT]           	= MB_NORMAL,
+	[MB_KANTO_SPIN_RIGHT]                  	= MB_NORMAL,
+	[MB_KANTO_SPIN_LEFT]                   	= MB_NORMAL,
+	[MB_KANTO_SPIN_UP]                     	= MB_NORMAL,
+	[MB_KANTO_SPIN_DOWN]                   	= MB_NORMAL,
+	[MB_KANTO_STOP_SPINNING]               	= MB_NORMAL,
+	[MB_KANTO_CAVE_DOOR]                   	= MB_NON_ANIMATED_DOOR,
+	[MB_KANTO_LADDER]                      	= MB_LADDER,
+	[MB_KANTO_EAST_ARROW_WARP]             	= MB_EAST_ARROW_WARP,
+	[MB_KANTO_WEST_ARROW_WARP]             	= MB_WEST_ARROW_WARP,
+	[MB_KANTO_NORTH_ARROW_WARP]            	= MB_NORTH_ARROW_WARP,
+	[MB_KANTO_SOUTH_ARROW_WARP]            	= MB_SOUTH_ARROW_WARP,
+	[MB_KANTO_FALL_WARP]                   	= MB_NORMAL,
+	[MB_KANTO_REGULAR_WARP]                	= MB_NORMAL,
+	[MB_KANTO_LAVARIDGE_1F_WARP]           	= MB_LAVARIDGE_GYM_1F_WARP,
+	[MB_KANTO_WARP_DOOR]                   	= MB_NORMAL,
+	[MB_KANTO_UP_ESCALATOR]                	= MB_UP_ESCALATOR,
+	[MB_KANTO_DOWN_ESCALATOR]              	= MB_DOWN_ESCALATOR,
+	[MB_KANTO_UP_RIGHT_STAIR_WARP]         	= MB_NORMAL,
+	[MB_KANTO_UP_LEFT_STAIR_WARP]          	= MB_NORMAL,
+	[MB_KANTO_DOWN_RIGHT_STAIR_WARP]       	= MB_NORMAL,
+	[MB_KANTO_DOWN_LEFT_STAIR_WARP]        	= MB_NORMAL,
+	[MB_KANTO_UNION_ROOM_WARP]             	= MB_NORMAL,
+	[MB_KANTO_COUNTER]                     	= MB_COUNTER,
+	[MB_KANTO_BOOKSHELF]                   	= MB_BOOKSHELF,
+	[MB_KANTO_POKEMART_SHELF]              	= MB_NORMAL,
+	[MB_KANTO_PC]                          	= MB_PC,
+	[MB_KANTO_SIGNPOST]                    	= MB_NORMAL,
+	[MB_KANTO_REGION_MAP]                  	= MB_REGION_MAP,
+	[MB_KANTO_TELEVISION]                  	= MB_TELEVISION,
+	[MB_KANTO_POKEMON_CENTER_SIGN]         	= MB_NORMAL,
+	[MB_KANTO_POKEMART_SIGN]               	= MB_NORMAL,
+	[MB_KANTO_CABINET]                     	= MB_NORMAL,
+	[MB_KANTO_KITCHEN]                     	= MB_NORMAL,
+	[MB_KANTO_DRESSER]                     	= MB_NORMAL,
+	[MB_KANTO_SNACKS]                      	= MB_NORMAL,
+	[MB_KANTO_8D]                          	= MB_NORMAL,
+	[MB_KANTO_BATTLE_RECORDS]              	= MB_NORMAL,
+	[MB_KANTO_QUESTIONNAIRE]               	= MB_QUESTIONNAIRE,
+	[MB_KANTO_FOOD]                        	= MB_NORMAL,
+	[MB_KANTO_INDIGO_PLATEAU_MARK_DPAD]    	= MB_NORMAL,
+	[MB_KANTO_INDIGO_PLATEAU_MARK_2_DPAD]  	= MB_NORMAL,
+	[MB_KANTO_BLUEPRINTS]                  	= MB_NORMAL,
+	[MB_KANTO_PAINTING]                    	= MB_NORMAL,
+	[MB_KANTO_POWER_PLANT_MACHINE]         	= MB_NORMAL,
+	[MB_KANTO_TELEPHONE]                   	= MB_NORMAL,
+	[MB_KANTO_COMPUTER]                    	= MB_NORMAL,
+	[MB_KANTO_ADVERTISING_POSTER]          	= MB_NORMAL,
+	[MB_KANTO_FOOD_SMELLS_TASTY]           	= MB_NORMAL,
+	[MB_KANTO_TRASH_BIN]                   	= MB_TRASH_CAN,
+	[MB_KANTO_CUP]                         	= MB_NORMAL,
+	[MB_KANTO_PORTHOLE]                    	= MB_NORMAL,
+	[MB_KANTO_BLINKING_LIGHTS]             	= MB_NORMAL,
+	[MB_KANTO_NEATLY_LINED_UP_TOOLS]       	= MB_NORMAL,
+	[MB_KANTO_IMPRESSIVE_MACHINE]          	= MB_NORMAL,
+	[MB_KANTO_VIDEO_GAME]                  	= MB_NORMAL,
+	[MB_KANTO_BURGLARY]                    	= MB_NORMAL,
+	[MB_KANTO_TRAINER_TOWER_MONITOR]       	= MB_NORMAL,
+	[MB_KANTO_CYCLING_ROAD_PULL_DOWN]      	= MB_NORMAL,
+	[MB_KANTO_CYCLING_ROAD_PULL_DOWN_GRASS]	= MB_NORMAL
+};
+
 struct MapHeader const *const GetMapHeaderFromConnection(struct MapConnection *connection)
 {
     return Overworld_GetMapHeaderByGroupAndId(connection->mapGroup, connection->mapNum);
@@ -377,13 +514,19 @@ u32 MapGridGetMetatileIdAt(int x, int y)
 u32 MapGridGetMetatileBehaviorAt(int x, int y)
 {
     u16 metatile = MapGridGetMetatileIdAt(x, y);
-    return GetBehaviorByMetatileId(metatile) & METATILE_BEHAVIOR_MASK;
+	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
+		return sMetatileBehaviorConversion[GetBehaviorByMetatileId(metatile) & sKantoMetatileAttrMasks[METATILE_ATTRIBUTE_BEHAVIOR] >> sKantoMetatileAttrShifts[METATILE_ATTRIBUTE_BEHAVIOR]];
+	else
+		return GetBehaviorByMetatileId(metatile) & METATILE_BEHAVIOR_MASK;
 }
 
 u8 MapGridGetMetatileLayerTypeAt(int x, int y)
 {
     u16 metatile = MapGridGetMetatileIdAt(x, y);
-    return (GetBehaviorByMetatileId(metatile) & METATILE_ELEVATION_MASK) >> METATILE_ELEVATION_SHIFT;
+	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
+		return (GetBehaviorByMetatileId(metatile) & sKantoMetatileAttrMasks[METATILE_ATTRIBUTE_LAYER_TYPE]) >> sKantoMetatileAttrShifts[METATILE_ATTRIBUTE_LAYER_TYPE];
+	else
+		return (GetBehaviorByMetatileId(metatile) & METATILE_ELEVATION_MASK) >> METATILE_ELEVATION_SHIFT;
 }
 
 void MapGridSetMetatileIdAt(int x, int y, u16 metatile)
@@ -408,21 +551,42 @@ void MapGridSetMetatileEntryAt(int x, int y, u16 metatile)
 
 u16 GetBehaviorByMetatileId(u16 metatile)
 {
-    u16 *attributes;
-    if (metatile < NUM_METATILES_IN_PRIMARY)
-    {
-        attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-        return attributes[metatile];
-    }
-    else if (metatile < NUM_METATILES_TOTAL)
-    {
-        attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-        return attributes[metatile - NUM_METATILES_IN_PRIMARY];
-    }
-    else
-    {
-        return MB_INVALID;
-    }
+	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
+	{
+		u32 *attributes;
+		if (metatile < NUM_METATILES_IN_PRIMARY_KANTO)
+		{
+			attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
+			return attributes[metatile];
+		}
+		else if (metatile < NUM_METATILES_TOTAL)
+		{
+			attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
+			return attributes[metatile - NUM_METATILES_IN_PRIMARY_KANTO];
+		}
+		else
+		{
+			return MB_INVALID;
+		}
+	}
+	else
+	{
+		u16 *attributes;
+		if (metatile < NUM_METATILES_IN_PRIMARY)
+		{
+			attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
+			return attributes[metatile];
+		}
+		else if (metatile < NUM_METATILES_TOTAL)
+		{
+			attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
+			return attributes[metatile - NUM_METATILES_IN_PRIMARY];
+		}
+		else
+		{
+			return MB_INVALID;
+		}
+	}
 }
 
 void SaveMapView(void)
