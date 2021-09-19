@@ -11,6 +11,7 @@
 #include "rotating_gate.h"
 #include "sprite.h"
 #include "text.h"
+#include "constants/region_map_sections.h"
 
 EWRAM_DATA bool8 gUnusedBikeCameraAheadPanback = FALSE;
 
@@ -234,13 +235,26 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
 
     if (metatileId > NUM_METATILES_TOTAL)
         metatileId = 0;
-    if (metatileId < NUM_METATILES_IN_PRIMARY)
-        metatiles = mapLayout->primaryTileset->metatiles;
-    else
-    {
-        metatiles = mapLayout->secondaryTileset->metatiles;
-        metatileId -= NUM_METATILES_IN_PRIMARY;
-    }
+    if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
+	{
+		if (metatileId < NUM_METATILES_IN_PRIMARY_KANTO)
+			metatiles = mapLayout->primaryTileset->metatiles;
+		else
+		{
+			metatiles = mapLayout->secondaryTileset->metatiles;
+			metatileId -= NUM_METATILES_IN_PRIMARY_KANTO;
+		}
+	}
+	else
+	{
+		if (metatileId < NUM_METATILES_IN_PRIMARY)
+			metatiles = mapLayout->primaryTileset->metatiles;
+		else
+		{
+			metatiles = mapLayout->secondaryTileset->metatiles;
+			metatileId -= NUM_METATILES_IN_PRIMARY;
+		}
+	}
     DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * 8, offset);
 }
 
