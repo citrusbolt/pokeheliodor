@@ -923,7 +923,7 @@ gTileset_GeneralKanto::
 	.align 2
 gTileset_SeviiIslands67::
 	.byte TRUE @ is compressed
-	.byte FALSE @ is secondary tileset
+	.byte TRUE @ is secondary tileset
 	.2byte 0 @ padding
 	.4byte gTilesetTiles_SeviiIslands67
 	.4byte gTilesetPalettes_SeviiIslands67
