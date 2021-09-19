@@ -23,5 +23,5 @@ Route119_House_Text_RumorAboutCaveOfOrigin:
 	.string "something like that really happen?$"
 
 Route119_House_Text_Wingull:
-	.string "Wingull: Pihyoh!$"
+	.string "WINGULL: Pihyoh!$"
 

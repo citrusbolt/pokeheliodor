@@ -33,12 +33,12 @@ LilycoveCity_EventScript_SetWailmerMetatiles::
 	setmetatile 78, 17, METATILE_Lilycove_Wailmer3, 1
 	return
 
-LilycoveCity_EventScript_BerryGentleman::
+LilycoveCity_EventScript_BERRYGentleman::
 	lock
 	faceplayer
 	dotimebasedevents
 	goto_if_set FLAG_DAILY_LILYCOVE_RECEIVED_BERRY, LilycoveCity_EventScript_ReceivedBerry
-	msgbox LilycoveCity_Text_BerrySuitsYou, MSGBOX_DEFAULT
+	msgbox LilycoveCity_Text_BERRYSuitsYou, MSGBOX_DEFAULT
 	random 10
 	addvar VAR_RESULT, FIRST_BERRY_INDEX
 	giveitem VAR_RESULT
@@ -583,7 +583,7 @@ LilycoveCity_Text_IfWorldBecomesOurs:
 	.string "place for Pokémon, too.$"
 
 LilycoveCity_Text_WailmerLeapOutOfWater:
-	.string "There! Wailmer!\n"
+	.string "There! WAILMER!\n"
 	.string "Leap out of the water now!$"
 
 LilycoveCity_Text_GetLostMessingUpTraining:
@@ -618,7 +618,7 @@ LilycoveCity_Text_ImFromKanto:
 
 LilycoveCity_Text_TeamAquaBeenTrainingWailmer:
 	.string "Team Aqua's been training their\n"
-	.string "Wailmer in the cove.\p"
+	.string "WAILMER in the cove.\p"
 	.string "We Sailors can't get our boats out\n"
 	.string "to sea with them in the way!$"
 
@@ -626,7 +626,7 @@ LilycoveCity_Text_SomeonePuntedTeamAquaOut:
 	.string "Ahoy, did you know?\p"
 	.string "Someone punted Team Aqua out of\n"
 	.string "the way for us!\p"
-	.string "That got the Wailmer out of the cove,\n"
+	.string "That got the WAILMER out of the cove,\n"
 	.string "so we can get our boats out again.$"
 
 LilycoveCity_Text_SomeoneStoleMyPokemon:

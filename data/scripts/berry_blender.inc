@@ -242,7 +242,7 @@ BerryBlender_Text_DontHaveAnyBerriesNoneToSpare:
 	.string "But, I don't have any to spare today.\n"
 	.string "Sorry about that.$"
 
-BerryBlender_EventScript_BerryBlender1::
+BerryBlender_EventScript_BERRYBlender1::
 	lockall
 	goto_if_unset FLAG_HIDE_LILYCOVE_CONTEST_HALL_BLEND_MASTER, BerryBlender_EventScript_BlendMasterPresent
 	setvar NUM_OPPONENTS, 1
@@ -262,7 +262,7 @@ BerryBlender_EventScript_DeclineBlender1:
 BerryBlender_EventScript_Blender1NoBerries:
 	msgbox BerryBlender_Text_DontHaveAnyBerries, MSGBOX_DEFAULT
 	dotimebasedevents
-	goto_if_set FLAG_DAILY_CONTEST_LOBBY_RECEIVED_Berry, BerryBlender_EventScript_Blender1NoSpareBerries
+	goto_if_set FLAG_DAILY_CONTEST_LOBBY_RECEIVED_BERRY, BerryBlender_EventScript_Blender1NoSpareBerries
 	goto BerryBlender_EventScript_Blender1GiveSpareBerry
 	end
 
@@ -273,8 +273,8 @@ BerryBlender_EventScript_Blender1NoSpareBerries:
 
 BerryBlender_EventScript_Blender1GiveSpareBerry:
 	msgbox BerryBlender_Text_CanHaveOneOfMyBerries, MSGBOX_DEFAULT
-	giveitem ITEM_PECHA_Berry
-	setflag FLAG_DAILY_CONTEST_LOBBY_RECEIVED_Berry
+	giveitem ITEM_PECHA_BERRY
+	setflag FLAG_DAILY_CONTEST_LOBBY_RECEIVED_BERRY
 	goto BerryBlender_EventScript_UseBerryBlender1
 	end
 
@@ -296,7 +296,7 @@ BerryBlender_EventScript_ExplainBlending1:
 	end
 
 BerryBlender_EventScript_TryUseBerryBlender1:
-	checkitem ITEM_POKEBLOCK_Case, 1
+	checkitem ITEM_POKEBLOCK_CASE, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_Blender1NoCase
 	specialvar VAR_RESULT, GetFirstFreePokeblockSlot
@@ -327,7 +327,7 @@ BerryBlender_EventScript_Blender1NoCase:
 	releaseall
 	end
 
-BerryBlender_EventScript_BerryBlender2::
+BerryBlender_EventScript_BERRYBlender2::
 	lockall
 	setvar NUM_OPPONENTS, 2
 	applymovement LOCALID_TWIN, Common_Movement_FaceOriginalDirection
@@ -370,7 +370,7 @@ BerryBlender_EventScript_TryUseBerryBlender2:
 	specialvar VAR_RESULT, PlayerHasBerries
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_Blender2NoBerries
-	checkitem ITEM_POKEBLOCK_Case, 1
+	checkitem ITEM_POKEBLOCK_CASE, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_Blender2NoCase
 	msgbox BerryBlender_Text_Okay, MSGBOX_DEFAULT
@@ -391,7 +391,7 @@ BerryBlender_EventScript_Blender2NoCase:
 	releaseall
 	end
 
-BerryBlender_EventScript_BerryBlender3::
+BerryBlender_EventScript_BERRYBlender3::
 	lockall
 	setvar VAR_0x8008, LOCALID_POKEFAN_F
 	setvar NUM_OPPONENTS, 3
@@ -436,7 +436,7 @@ BerryBlender_EventScript_TryUseBlender3:
 	specialvar VAR_RESULT, PlayerHasBerries
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_Blender3NoBerries
-	checkitem ITEM_POKEBLOCK_Case, 1
+	checkitem ITEM_POKEBLOCK_CASE, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_Blender3NoCase
 	msgbox BerryBlender_Text_OhDear, MSGBOX_DEFAULT
@@ -473,7 +473,7 @@ BerryBlender_EventScript_BlendMasterNoBerries:
 	end
 
 BerryBlender_EventScript_TryBlendWithBlendMaster:
-	checkitem ITEM_POKEBLOCK_Case, 1
+	checkitem ITEM_POKEBLOCK_CASE, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_BlendMasterNoCase
 	specialvar VAR_RESULT, PlayerHasBerries
@@ -542,14 +542,14 @@ BerryBlender_EventScript_ExpertMPlayerHasBerries:
 	end
 
 BerryBlender_EventScript_ExpertMNoBerries:
-	checkitem ITEM_POKEBLOCK_Case, 1
+	checkitem ITEM_POKEBLOCK_CASE, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_ExpertMNoSpareBerries
 	specialvar VAR_RESULT, GetFirstFreePokeblockSlot
 	compare VAR_RESULT, 65535
 	goto_if_eq BerryBlender_EventScript_ExpertMNoSpareBerries
 	dotimebasedevents
-	goto_if_set FLAG_DAILY_CONTEST_LOBBY_RECEIVED_Berry, BerryBlender_EventScript_ExpertMNoSpareBerries
+	goto_if_set FLAG_DAILY_CONTEST_LOBBY_RECEIVED_BERRY, BerryBlender_EventScript_ExpertMNoSpareBerries
 	goto BerryBlender_EventScript_ExpertMGiveBerry
 	end
 
@@ -560,8 +560,8 @@ BerryBlender_EventScript_ExpertMNoSpareBerries:
 
 BerryBlender_EventScript_ExpertMGiveBerry:
 	msgbox BerryBlender_Text_DontHaveAnyBerriesHaveOne, MSGBOX_DEFAULT
-	giveitem ITEM_PECHA_Berry
-	setflag FLAG_DAILY_CONTEST_LOBBY_RECEIVED_Berry
+	giveitem ITEM_PECHA_BERRY
+	setflag FLAG_DAILY_CONTEST_LOBBY_RECEIVED_BERRY
 	msgbox BerryBlender_Text_UseItToMakePokeblocksTogether, MSGBOX_DEFAULT
 	release
 	end
@@ -570,12 +570,12 @@ BerryBlender_Movement_BlendLeaderWalkInPlace:
 	walk_in_place_fastest_right
 	step_end
 
-BerryBlender_EventScript_BerryBlenderLink::
+BerryBlender_EventScript_BERRYBlenderLink::
 	lockall
 	specialvar VAR_RESULT, PlayerHasBerries
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_LinkBlenderNoBerries
-	checkitem ITEM_POKEBLOCK_Case, 1
+	checkitem ITEM_POKEBLOCK_CASE, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq BerryBlender_EventScript_LinkBlenderNoCase
 	specialvar VAR_RESULT, GetFirstFreePokeblockSlot
@@ -704,7 +704,7 @@ BerryBlender_EventScript_LinkPlayersArrived:
 	end
 
 BerryBlender_EventScript_StartDecideLinkLeader:
-	setvar VAR_0x8004, LINK_GROUP_Berry_Blender
+	setvar VAR_0x8004, LINK_GROUP_BERRY_BLENDER
 	goto BerryBlender_EventScript_DecideLinkLeader
 	end
 

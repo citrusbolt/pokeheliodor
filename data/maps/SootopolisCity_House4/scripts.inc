@@ -35,5 +35,5 @@ SootopolisCity_House4_Text_StrollUnderwaterWithPokemon:
 	.string "stroll with my Pokémon.$"
 
 SootopolisCity_House4_Text_Azumarill:
-	.string "Azumarill: Marurii.$"
+	.string "AZUMARILL: Marurii.$"
 

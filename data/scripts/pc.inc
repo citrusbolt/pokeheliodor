@@ -133,7 +133,7 @@ EventScript_CouponExchange_LiechiBerry::
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 150
-	setvar VAR_0x8009, ITEM_LIECHI_Berry
+	setvar VAR_0x8009, ITEM_LIECHI_BERRY
 	goto EventScript_CouponExchange_TryPurchaseItem
 	end
 
@@ -142,7 +142,7 @@ EventScript_CouponExchange_GanlonBerry::
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 150
-	setvar VAR_0x8009, ITEM_GANLON_Berry
+	setvar VAR_0x8009, ITEM_GANLON_BERRY
 	goto EventScript_CouponExchange_TryPurchaseItem
 	end
 
@@ -151,7 +151,7 @@ EventScript_CouponExchange_SalacBerry::
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 150
-	setvar VAR_0x8009, ITEM_SALAC_Berry
+	setvar VAR_0x8009, ITEM_SALAC_BERRY
 	goto EventScript_CouponExchange_TryPurchaseItem
 	end
 
@@ -160,7 +160,7 @@ EventScript_CouponExchange_PetayaBerry::
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 150
-	setvar VAR_0x8009, ITEM_PETAYA_Berry
+	setvar VAR_0x8009, ITEM_PETAYA_BERRY
 	goto EventScript_CouponExchange_TryPurchaseItem
 	end
 
@@ -169,7 +169,7 @@ EventScript_CouponExchange_ApicotBerry::
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 150
-	setvar VAR_0x8009, ITEM_APICOT_Berry
+	setvar VAR_0x8009, ITEM_APICOT_BERRY
 	goto EventScript_CouponExchange_TryPurchaseItem
 	end
 
@@ -178,7 +178,7 @@ EventScript_CouponExchange_LansatBerry::
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 150
-	setvar VAR_0x8009, ITEM_LANSAT_Berry
+	setvar VAR_0x8009, ITEM_LANSAT_BERRY
 	goto EventScript_CouponExchange_TryPurchaseItem
 	end
 
@@ -187,7 +187,7 @@ EventScript_CouponExchange_StarfBerry::
 	compare VAR_RESULT, NO
 	goto_if_eq EventScript_CouponExchange
 	setvar VAR_0x8008, 150
-	setvar VAR_0x8009, ITEM_STARF_Berry
+	setvar VAR_0x8009, ITEM_STARF_BERRY
 	goto EventScript_CouponExchange_TryPurchaseItem
 	end
 
@@ -395,15 +395,15 @@ EventScript_CouponExchange_Text_ConfirmStarfBerry:
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmRegirockDoll:
-	.string "You've chosen the Regirock Doll.\n"
+	.string "You've chosen the REGIROCK Doll.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmRegiceDoll:
-	.string "You've chosen the Regice Doll.\n"
+	.string "You've chosen the REGICE Doll.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmRegisteelDoll:
-	.string "You've chosen the Registeel Doll.\n"
+	.string "You've chosen the REGISTEEL Doll.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmMasterBall:

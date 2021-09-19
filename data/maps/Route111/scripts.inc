@@ -835,5 +835,5 @@ Route111_Text_DeclineUnown:
 	.string "Let me know.$"
 
 Route111_Text_PlayerReceivedUnown:
-	.string "{PLAYER} received Unown!$"
+	.string "{PLAYER} received UNOWN!$"
 

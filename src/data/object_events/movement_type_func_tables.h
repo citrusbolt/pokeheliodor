@@ -62,12 +62,12 @@ u8 (*const gMovementTypeFuncs_FaceDirection[])(struct ObjectEvent *, struct Spri
     MovementType_FaceDirection_Step2,
 };
 
-u8 (*const gMovementTypeFuncs_BerryTreeGrowth[])(struct ObjectEvent *, struct Sprite *) = {
-    MovementType_BerryTreeGrowth_Normal,
-    MovementType_BerryTreeGrowth_Move,
-    MovementType_BerryTreeGrowth_SparkleStart,
-    MovementType_BerryTreeGrowth_Sparkle,
-    MovementType_BerryTreeGrowth_SparkleEnd,
+u8 (*const gMovementTypeFuncs_BERRYTreeGrowth[])(struct ObjectEvent *, struct Sprite *) = {
+    MovementType_BERRYTreeGrowth_Normal,
+    MovementType_BERRYTreeGrowth_Move,
+    MovementType_BERRYTreeGrowth_SparkleStart,
+    MovementType_BERRYTreeGrowth_Sparkle,
+    MovementType_BERRYTreeGrowth_SparkleEnd,
 };
 
 u8 (*const gMovementTypeFuncs_FaceDownAndUp[])(struct ObjectEvent *, struct Sprite *) = {

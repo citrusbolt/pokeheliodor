@@ -100,5 +100,5 @@ VerdanturfTown_FriendshipRatersHouse_Text_DetestsYou:
 	.string "Doesn't that make you uncomfortable?$"
 
 VerdanturfTown_FriendshipRatersHouse_Text_Pikachu:
-	.string "Pikachu: Pika pika!$"
+	.string "PIKACHU: Pika pika!$"
 

@@ -491,7 +491,7 @@ MossdeepCity_SpaceCenter_2F_Text_MaxieUseFuelToEruptVolcano:
 	.string "curious, you deserve an explanation.\p"
 	.string "We're going to jettison the entire\n"
 	.string "load into Mt. Chimney!\p"
-	.string "With Groudon gone, we have no need\n"
+	.string "With GROUDON gone, we have no need\n"
 	.string "for that slag heap of a mountain!\p"
 	.string "So we'll use the fuel's power to make\n"
 	.string "the volcano erupt!\p"
@@ -517,7 +517,7 @@ MossdeepCity_SpaceCenter_Text_TabithaDefeat:
 MossdeepCity_SpaceCenter_2F_Text_MaxieWeFailedIsAquaAlsoMisguided:
 	.string "Maxie: We failed to make the volcano\n"
 	.string "erupt…\p"
-	.string "We failed to control Groudon after\n"
+	.string "We failed to control GROUDON after\n"
 	.string "we had awoken it…\p"
 	.string "Is our goal to expand the land\n"
 	.string "misguided?\p"

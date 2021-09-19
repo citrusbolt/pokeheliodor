@@ -99,16 +99,16 @@ Route120_EventScript_SetRainyWeather::
 	setweather WEATHER_RAIN
 	return
 
-Route120_EventScript_BerryBeauty::
+Route120_EventScript_BERRYBeauty::
 	lock
 	faceplayer
 	dotimebasedevents
 	goto_if_set FLAG_DAILY_ROUTE_120_RECEIVED_BERRY, Route120_EventScript_ReceivedBerry
 	msgbox Route120_Text_BerriesExpressionOfLoveIsntIt, MSGBOX_YESNO
 	compare VAR_RESULT, YES
-	call_if_eq Route120_EventScript_BerryLove
+	call_if_eq Route120_EventScript_BERRYLove
 	compare VAR_RESULT, NO
-	call_if_eq Route120_EventScript_BerryNotLove
+	call_if_eq Route120_EventScript_BERRYNotLove
 	specialvar VAR_RESULT, GetPlayerTrainerIdOnesDigit
 	switch VAR_RESULT
 	case 0, Route120_EventScript_GiveFigyBerry
@@ -153,7 +153,7 @@ Route120_EventScript_GiveBerry::
 	compare VAR_RESULT, FALSE
 	goto_if_eq Common_EventScript_ShowBagIsFull
 	setflag FLAG_DAILY_ROUTE_120_RECEIVED_BERRY
-	msgbox Route120_Text_BerryIsRareRaiseItWithCare, MSGBOX_DEFAULT
+	msgbox Route120_Text_BERRYIsRareRaiseItWithCare, MSGBOX_DEFAULT
 	release
 	end
 
@@ -162,11 +162,11 @@ Route120_EventScript_ReceivedBerry::
 	release
 	end
 
-Route120_EventScript_BerryLove::
+Route120_EventScript_BERRYLove::
 	msgbox Route120_Text_YesYouUnderstand, MSGBOX_DEFAULT
 	return
 
-Route120_EventScript_BerryNotLove::
+Route120_EventScript_BERRYNotLove::
 	msgbox Route120_Text_MakeYourOwnImpressions, MSGBOX_DEFAULT
 	return
 

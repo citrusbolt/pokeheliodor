@@ -335,11 +335,11 @@ MossdeepCity_Text_WhatToDoWithWeirdRock:
 
 MossdeepCity_Text_WailmerWatching:
 	.string "Around Mossdeep, you can see wild\n"
-	.string "Wailmer.\p"
+	.string "WAILMER.\p"
 	.string "It's called, uh…\n"
 	.string "What was it now…\p"
 	.string "Wai, Wai, Wai…\p"
-	.string "Wailmer watching!$"
+	.string "WAILMER watching!$"
 
 MossdeepCity_Text_SpaceCenterReceivedLetter:
 	.string "The island's Space Center has been\n"

@@ -110,8 +110,8 @@ const u32 gItemIconPalette_RedFlute[] = INCBIN_U32("graphics/items/icon_palettes
 const u32 gItemIconPalette_BlackFlute[] = INCBIN_U32("graphics/items/icon_palettes/black_flute.gbapal.lz");
 const u32 gItemIconPalette_WhiteFlute[] = INCBIN_U32("graphics/items/icon_palettes/white_flute.gbapal.lz");
 
-const u32 gItemIcon_BerryJuice[] = INCBIN_U32("graphics/items/icons/berry_juice.4bpp.lz");
-const u32 gItemIconPalette_BerryJuice[] = INCBIN_U32("graphics/items/icon_palettes/berry_juice.gbapal.lz");
+const u32 gItemIcon_BERRYJuice[] = INCBIN_U32("graphics/items/icons/berry_juice.4bpp.lz");
+const u32 gItemIconPalette_BERRYJuice[] = INCBIN_U32("graphics/items/icon_palettes/berry_juice.gbapal.lz");
 
 const u32 gItemIcon_SacredAsh[] = INCBIN_U32("graphics/items/icons/sacred_ash.4bpp.lz");
 const u32 gItemIconPalette_SacredAsh[] = INCBIN_U32("graphics/items/icon_palettes/sacred_ash.gbapal.lz");
@@ -701,8 +701,8 @@ const u32 gItemIconPalette_FameChecker[] = INCBIN_U32("graphics/items/icon_palet
 const u32 gItemIcon_TMCase[] = INCBIN_U32("graphics/items/icons/tm_case.4bpp.lz");
 const u32 gItemIconPalette_TMCase[] = INCBIN_U32("graphics/items/icon_palettes/tm_case.gbapal.lz");
 
-const u32 gItemIcon_BerryPouch[] = INCBIN_U32("graphics/items/icons/berry_pouch.4bpp.lz");
-const u32 gItemIconPalette_BerryPouch[] = INCBIN_U32("graphics/items/icon_palettes/berry_pouch.gbapal.lz");
+const u32 gItemIcon_BERRYPouch[] = INCBIN_U32("graphics/items/icons/berry_pouch.4bpp.lz");
+const u32 gItemIconPalette_BERRYPouch[] = INCBIN_U32("graphics/items/icon_palettes/berry_pouch.gbapal.lz");
 
 const u32 gItemIcon_TeachyTV[] = INCBIN_U32("graphics/items/icons/teachy_tv.4bpp.lz");
 const u32 gItemIconPalette_TeachyTV[] = INCBIN_U32("graphics/items/icon_palettes/teachy_tv.gbapal.lz");

@@ -137,14 +137,14 @@ PacifidlogTown_House2_Text_GetGoodTMInXDays:
 	.string "your Pokémon.$"
 
 PacifidlogTown_House2_Text_Rurii:
-	.string "Azurill: Rurii.$"
+	.string "AZURILL: Rurii.$"
 
 PacifidlogTown_House2_Text_VeryFriendlyWithTrainer:
 	.string "It appears to be very friendly with the\n"
 	.string "Trainer.$"
 
 PacifidlogTown_House2_Text_Rururi:
-	.string "Azurill: Rururi!$"
+	.string "AZURILL: Rururi!$"
 
 PacifidlogTown_House2_Text_DoesntLikeTrainerVeryMuch:
 	.string "It doesn't appear to like the Trainer\n"

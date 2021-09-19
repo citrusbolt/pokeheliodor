@@ -1007,7 +1007,7 @@ void ClearLinkRfuCallback(void)
     Rfu.callback = NULL;
 }
 
-static void Rfu_BerryBlenderSendHeldKeys(void)
+static void Rfu_BERRYBlenderSendHeldKeys(void)
 {
     RfuPrepareSendBuffer(RFUCMD_BLENDER_SEND_KEYS);
     if (GetMultiplayerId() == 0)
@@ -1018,7 +1018,7 @@ static void Rfu_BerryBlenderSendHeldKeys(void)
 void Rfu_SetBerryBlenderLinkCallback(void)
 {
     if (Rfu.callback == NULL)
-        Rfu.callback = Rfu_BerryBlenderSendHeldKeys;
+        Rfu.callback = Rfu_BERRYBlenderSendHeldKeys;
 }
 
 static void RfuHandleReceiveCommand(u8 unused)

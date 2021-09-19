@@ -744,7 +744,7 @@ SlateportCity_EventScript_Man3::
 	msgbox SlateportCity_Text_WonderIfLighthouseStartlesPokemon, MSGBOX_NPC
 	end
 
-SlateportCity_EventScript_BerryPowderClerk::
+SlateportCity_EventScript_BERRYPowderClerk::
 	lock
 	faceplayer
 	goto_if_set FLAG_RECEIVED_POWDER_JAR, SlateportCity_EventScript_ReceivedPowderJar
@@ -958,7 +958,7 @@ SlateportCity_Movement_ScottExitAfterBattleTent:
 	walk_right
 	step_end
 
-SlateportCity_EventScript_BerryCrushRankingsSign::
+SlateportCity_EventScript_BERRYCrushRankingsSign::
 	lockall
 	special ShowBerryCrushRankings
 	waitstate

@@ -647,55 +647,55 @@ BattleFrontier_ExchangeServiceCorner_Text_ConfirmKissCushion:
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmSmoochumDoll:
-	.string "You've chosen the Smoochum Doll.\n"
+	.string "You've chosen the SMOOCHUM Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmTogepiDoll:
-	.string "You've chosen the Togepi Doll.\n"
+	.string "You've chosen the TOGEPI Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmMeowthDoll:
-	.string "You've chosen the Meowth Doll.\n"
+	.string "You've chosen the MEOWTH Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmClefairyDoll:
-	.string "You've chosen the Clefairy Doll.\n"
+	.string "You've chosen the CLEFAIRY Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmDittoDoll:
-	.string "You've chosen the Ditto Doll.\n"
+	.string "You've chosen the DITTO Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmCyndaquilDoll:
-	.string "You've chosen the Cyndaquil Doll.\n"
+	.string "You've chosen the CYNDAQUIL Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmChikoritaDoll:
-	.string "You've chosen the Chikorita Doll.\n"
+	.string "You've chosen the CHIKORITA Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmTotodileDoll:
-	.string "You've chosen the Totodile Doll.\n"
+	.string "You've chosen the TOTODILE Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmLaprasDoll:
-	.string "You've chosen the Lapras Doll.\n"
+	.string "You've chosen the LAPRAS Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmSnorlaxDoll:
-	.string "You've chosen the Snorlax Doll.\n"
+	.string "You've chosen the SNORLAX Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmVenusaurDoll:
-	.string "You've chosen the Venusaur Doll.\n"
+	.string "You've chosen the VENUSAUR Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmCharizardDoll:
-	.string "You've chosen the Charizard Doll.\n"
+	.string "You've chosen the CHARIZARD Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmBlastoiseDoll:
-	.string "You've chosen the Blastoise Doll.\n"
+	.string "You've chosen the BLASTOISE Doll.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmFireStone: @ 825FB9B
@@ -847,7 +847,7 @@ BattleFrontier_ExchangeServiceCorner_Text_GoGetYourOwnDoll:
 	.string "I don't like you staring at my plush\n"
 	.string "doll like that.\p"
 	.string "If you want it, go get one yourself!\n"
-	.string "Isn't that right, Smoochum?$"
+	.string "Isn't that right, SMOOCHUM?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_MoreBattlePointsForRecord:
 	.string "Did you know?\p"
@@ -856,42 +856,42 @@ BattleFrontier_ExchangeServiceCorner_Text_MoreBattlePointsForRecord:
 	.string "giving you more and more Battle Points.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_KissPosterDesc::
-	.string "A large poster with a Smoochum print.$"
+	.string "A large poster with a SMOOCHUM print.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_KissCushionDesc::
-	.string "A Smoochum cushion.\n"
+	.string "A SMOOCHUM cushion.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_SmoochumDollDesc::
-	.string "A Smoochum Doll.\n"
+	.string "A SMOOCHUM Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_TogepiDollDesc::
-	.string "A Togepi Doll.\n"
+	.string "A TOGEPI Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_MeowthDollDesc::
-	.string "A Meowth Doll.\n"
+	.string "A MEOWTH Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ClefairyDollDesc::
-	.string "A Clefairy Doll.\n"
+	.string "A CLEFAIRY Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_DittoDollDesc::
-	.string "A Ditto Doll.\n"
+	.string "A DITTO Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_CyndaquilDollDesc::
-	.string "A Cyndaquil Doll.\n"
+	.string "A CYNDAQUIL Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ChikoritaDollDesc::
-	.string "A Chikorita Doll.\n"
+	.string "A CHIKORITA Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_TotodileDollDesc::
-	.string "A Totodile Doll.\n"
+	.string "A TOTODILE Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_LargeDollDesc::
@@ -935,7 +935,7 @@ BattleFrontier_ExchangeServiceCorner_Text_UpGradeDesc::
 
 BattleFrontier_ExchangeServiceCorner_Text_DeepSeaScaleDesc::
 	.string "A hold item that raises the SP. Atk\n"
-	.string "of Clamperl.$"
+	.string "of CLAMPERL.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_DeepSeaToothDesc::
 	.string "A hold item that raises the SP. Def\n"
@@ -981,11 +981,11 @@ BattleFrontier_ExchangeServiceCorner_Text_StickDesc::
 	.string "critical-hit ratio.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ThickClubDesc::
-	.string "A hold item that raises Cubone\n"
-	.string "or Marowak's attack.$"
+	.string "A hold item that raises CUBONE\n"
+	.string "or MAROWAK's attack.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_LuckyPunchDesc::
-	.string "A hold item that raises Chansey's\n"
+	.string "A hold item that raises CHANSEY's\n"
 	.string "critical-hit rate.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_LaxIncenseDesc::

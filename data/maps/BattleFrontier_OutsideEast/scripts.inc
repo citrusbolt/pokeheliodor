@@ -310,7 +310,7 @@ BattleFrontier_OutsideEast_Text_BelieveInYouBuddy:
 	.string "tasty treats you like if you win!$"
 
 BattleFrontier_OutsideEast_Text_ZigzagoonLooksVacant:
-	.string "Zigzagoon looks vacant…$"
+	.string "ZIGZAGOON looks vacant…$"
 
 BattleFrontier_OutsideEast_Text_PeopleCallMeBusybody:
 	.string "People call me a busybody,\n"

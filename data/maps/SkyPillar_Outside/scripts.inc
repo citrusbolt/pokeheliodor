@@ -166,7 +166,7 @@ SkyPillar_Outside_Text_GotToGoBackForSootopolis:
 	.string "The weather distortion is spreading\n"
 	.string "even here…\p"
 	.string "{PLAYER}{KUN}.\p"
-	.string "Rayquaza should be farther up\n"
+	.string "RAYQUAZA should be farther up\n"
 	.string "from here.\p"
 	.string "I'm worried about Sootopolis.\n"
 	.string "I've got to go back.\p"

@@ -267,7 +267,7 @@ RustboroCity_PokemonSchool_Text_TradingRightNow:
 	.string "right now.$"
 
 RustboroCity_PokemonSchool_Text_AlwaysWantedSeedot:
-	.string "I always wanted a Seedot, and\n"
+	.string "I always wanted a SEEDOT, and\n"
 	.string "I'm finally getting one!$"
 
 RustboroCity_PokemonSchool_Text_PokemontCantUseManMadeItems:

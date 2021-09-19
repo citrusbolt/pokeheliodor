@@ -395,7 +395,7 @@ LilycoveCity_ContestHall_Text_IfMonPullsSmartMoveNext:
 
 LilycoveCity_ContestHall_Text_DontAppreciateCuteLeechLife:
 	.string "Oh, dear, no!\p"
-	.string "My darling Zubat's Leech Life is so\n"
+	.string "My darling ZUBAT's Leech Life is so\n"
 	.string "cute I kept using it over and over!\p"
 	.string "But these mean people don't appreciate\n"
 	.string "it at all!$"
@@ -486,7 +486,7 @@ LilycoveCity_ContestHall_Text_SuchCharmingCuteAppeals:
 	.string "adorable Water Sport appeal!$"
 
 LilycoveCity_ContestHall_Text_MyAzurillWasDistracted:
-	.string "Oh, no… My sweet Azurill was\n"
+	.string "Oh, no… My sweet AZURILL was\n"
 	.string "distracted by another Pokémon.$"
 
 LilycoveCity_ContestHall_Text_NeverWonBattleButContest:

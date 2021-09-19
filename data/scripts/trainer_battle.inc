@@ -120,15 +120,15 @@ EventScript_DoTrainerBattle::
 	trainerbattlebegin
 	@ Below battle mode check only needed in FRLG
 	specialvar VAR_RESULT, GetTrainerBattleMode
-	compare VAR_RESULT, Trainer_BATTLE_SINGLE
+	compare VAR_RESULT, TRAINER_BATTLE_SINGLE
 	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, Trainer_BATTLE_CONTINUE_SCRIPT
+	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT
 	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, Trainer_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
+	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
 	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, Trainer_BATTLE_CONTINUE_SCRIPT_DOUBLE
+	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE
 	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, Trainer_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC
+	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC
 	goto_if_eq EventScript_EndTrainerBattle
 EventScript_EndTrainerBattle::
 	gotobeatenscript

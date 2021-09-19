@@ -994,21 +994,21 @@ LittlerootTown_ProfessorBirchsLab_Text_CanHaveAnyOneOfRarePokemon:
 
 LittlerootTown_ProfessorBirchsLab_Text_YoullTakeCyndaquil:
 	.string "Prof. Birch: The Fire Pokémon\n"
-	.string "Cyndaquil caught your eye!\p"
+	.string "CYNDAQUIL caught your eye!\p"
 	.string "You're as sharp as ever!\p"
-	.string "So the Cyndaquil is your choice?$"
+	.string "So the CYNDAQUIL is your choice?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_YoullTakeTotodile:
 	.string "Prof. Birch: The Water Pokémon\n"
-	.string "Totodile is your choice!\p"
+	.string "TOTODILE is your choice!\p"
 	.string "You know how to pick a good one.\p"
-	.string "So, you'll take the Totodile?$"
+	.string "So, you'll take the TOTODILE?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_YoullTakeChikorita:
 	.string "Prof. Birch: The Grass Pokémon\n"
-	.string "Chikorita is your choice!\p"
+	.string "CHIKORITA is your choice!\p"
 	.string "You sure know what you're doing.\p"
-	.string "So, you'll take the Chikorita?$"
+	.string "So, you'll take the CHIKORITA?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_TakeYourTimeAllInvaluable:
 	.string "Prof. Birch: Take your time before\n"

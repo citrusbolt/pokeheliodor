@@ -111,7 +111,7 @@ LilycoveCity_LilycoveMuseum_1F_EventScript_GrassPokemonPainting::
 	msgbox LilycoveCity_LilycoveMuseum_1F_Text_PaintingOfGrassPokemon, MSGBOX_SIGN
 	end
 
-LilycoveCity_LilycoveMuseum_1F_EventScript_BerryPainting::
+LilycoveCity_LilycoveMuseum_1F_EventScript_BERRYPainting::
 	msgbox LilycoveCity_LilycoveMuseum_1F_Text_PaintingOfBerries, MSGBOX_SIGN
 	end
 

@@ -558,7 +558,7 @@ LilycoveCity_ContestLobby_EventScript_Blender3Girl::
 	msgbox BerryBlender_Text_WhatKindOfPokeblockWillIGet, MSGBOX_NPC
 	end
 
-LilycoveCity_ContestLobby_EventScript_BerryBlenderSpeedRecords::
+LilycoveCity_ContestLobby_EventScript_BERRYBlenderSpeedRecords::
 	lockall
 	special ShowBerryBlenderRecordWindow
 	waitbuttonpress

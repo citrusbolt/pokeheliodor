@@ -64,7 +64,7 @@ Route120_Text_MakeYourOwnImpressions:
 	.string "own impressions, I guess…\p"
 	.string "You can have this.$"
 
-Route120_Text_BerryIsRareRaiseItWithCare:
+Route120_Text_BERRYIsRareRaiseItWithCare:
 	.string "I think that Berry is rare.\n"
 	.string "I hope you raise it with loving care.$"
 
@@ -72,7 +72,7 @@ Route120_Text_IllGetMoreBerriesFromBerryMaster:
 	.string "I'll get more Berries from\n"
 	.string "the Berry Master.$"
 
-LilycoveCity_Text_BerrySuitsYou:
+LilycoveCity_Text_BERRYSuitsYou:
 	.string "When it gets right down to it…\p"
 	.string "The same way suits suit me perfectly,\n"
 	.string "a crisp breeze suits the sea.\p"

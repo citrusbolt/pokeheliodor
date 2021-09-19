@@ -361,7 +361,7 @@ Route119_WeatherInstitute_2F_Text_NoRoomForPokemon:
 	.string "for this Pokémon.$"
 
 Route119_WeatherInstitute_2F_Text_PlayerReceivedCastform:
-	.string "{PLAYER} received Castform!$"
+	.string "{PLAYER} received CASTFORM!$"
 
 Route119_WeatherInstitute_2F_Text_PokemonChangesWithWeather:
 	.string "That Pokémon changes shape according\n"

@@ -81,7 +81,7 @@ PacifidlogTown_House3_Text_NotDesperateOrAnything:
 PacifidlogTown_House3_Text_ReallyWantedToGetAbra:
 	.string "I know I could go looking for one\n"
 	.string "on my own, but…\p"
-	.string "But I really wanted to get a Abra\n"
+	.string "But I really wanted to get a ABRA\n"
 	.string "that another Trainer caught…$"
 
 PacifidlogTown_House3_Text_IsThatAPokedex:

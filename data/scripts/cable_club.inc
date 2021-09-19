@@ -62,7 +62,7 @@ CableClub_OnWarp:
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_TRADE_CENTER, CableClub_EventScript_CheckTurnAttendant
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_RECORD_CORNER, CableClub_EventScript_CheckTurnAttendant
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_UNION_ROOM, CableClub_EventScript_CheckTurnAttendant
-	map_script_2 VAR_CABLE_CLUB_STATE, USING_Berry_CRUSH, CableClub_EventScript_CheckTurnAttendant
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_BERRY_CRUSH, CableClub_EventScript_CheckTurnAttendant
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_MINIGAME, CableClub_EventScript_CheckTurnAttendant
 	.2byte 0
 
@@ -86,7 +86,7 @@ CableClub_OnLoad:
 	goto_if_eq CableClub_EventScript_OnLoadFromRecordCorner
 	compare VAR_CABLE_CLUB_STATE, USING_UNION_ROOM
 	goto_if_eq CableClub_EventScript_OnLoadFromUnionRoom
-	compare VAR_CABLE_CLUB_STATE, USING_Berry_CRUSH
+	compare VAR_CABLE_CLUB_STATE, USING_BERRY_CRUSH
 	goto_if_eq CableClub_EventScript_OnLoadFromBerryCrush
 	compare VAR_CABLE_CLUB_STATE, USING_MINIGAME
 	goto_if_eq CableClub_EventScript_OnLoadFromGameCorner
@@ -124,7 +124,7 @@ CableClub_OnFrame:
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_TRADE_CENTER, CableClub_EventScript_ExitTradeCenter
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_RECORD_CORNER, CableClub_EventScript_ExitRecordCorner
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_UNION_ROOM, CableClub_EventScript_ExitUnionRoom
-	map_script_2 VAR_CABLE_CLUB_STATE, USING_Berry_CRUSH, CableClub_EventScript_ExitLinkRoom
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_BERRY_CRUSH, CableClub_EventScript_ExitLinkRoom
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_MINIGAME, CableClub_EventScript_ExitMinigameRoom
 	.2byte 0
 
@@ -1115,7 +1115,7 @@ CableClub_EventScript_DirectCornerSelectAllServices::
 
 CableClub_EventScript_DirectCornerNoBerry::
 	goto_if_set FLAG_VISITED_MAUVILLE_CITY, CableClub_EventScript_DirectCornerHasRecordMix
-	multichoice 0, 0, MULTI_WIRELESS_NO_RECORD_Berry, FALSE
+	multichoice 0, 0, MULTI_WIRELESS_NO_RECORD_BERRY, FALSE
 	switch VAR_RESULT
 	case 0, CableClub_EventScript_WirelessTrade
 	case 1, CableClub_EventScript_WirelessBattleSelect
@@ -1124,7 +1124,7 @@ CableClub_EventScript_DirectCornerNoBerry::
 	end
 
 CableClub_EventScript_DirectCornerHasRecordMix::
-	multichoice 0, 0, MULTI_WIRELESS_NO_Berry, FALSE
+	multichoice 0, 0, MULTI_WIRELESS_NO_BERRY, FALSE
 	switch VAR_RESULT
 	case 0, CableClub_EventScript_WirelessTrade
 	case 1, CableClub_EventScript_WirelessBattleSelect
@@ -1200,7 +1200,7 @@ CableClub_EventScript_WirelessBerryCrush::
 	special HasAtLeastOneBerry
 	compare VAR_RESULT, FALSE
 	goto_if_eq CableClub_EventScript_NeedBerryForBerryCrush
-	setvar VAR_0x8004, LINK_GROUP_Berry_CRUSH
+	setvar VAR_0x8004, LINK_GROUP_BERRY_CRUSH
 	goto CableClub_EventScript_SaveAndChooseLinkLeader
 	end
 
@@ -1218,7 +1218,7 @@ CableClub_EventScript_SaveAndChooseLinkLeader::
 	case LINK_GROUP_SINGLE_BATTLE, CableClub_EventScript_ChooseLinkLeaderFrom2
 	case LINK_GROUP_DOUBLE_BATTLE, CableClub_EventScript_ChooseLinkLeaderFrom2
 	case LINK_GROUP_MULTI_BATTLE, CableClub_EventScript_ChooseLinkLeaderFrom4
-	case LINK_GROUP_Berry_CRUSH, CableClub_EventScript_ChooseLinkLeader
+	case LINK_GROUP_BERRY_CRUSH, CableClub_EventScript_ChooseLinkLeader
 	case LINK_GROUP_RECORD_CORNER, CableClub_EventScript_ChooseLinkLeader
 	end
 
@@ -1490,7 +1490,7 @@ MossdeepCity_GameCorner_1F_EventScript_PlayDodrioBerryPicking::
 	call Common_EventScript_SaveGame
 	compare VAR_RESULT, 0
 	goto_if_eq MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
-	setvar VAR_0x8004, LINK_GROUP_Berry_PICKING
+	setvar VAR_0x8004, LINK_GROUP_BERRY_PICKING
 	goto MossdeepCity_GameCorner_1F_EventScript_ChooseLinkLeader
 	end
 

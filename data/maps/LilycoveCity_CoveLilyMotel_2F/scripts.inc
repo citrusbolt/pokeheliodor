@@ -255,7 +255,7 @@ LilycoveCity_CoveLilyMotel_2F_Text_CompleteHoenn:
 	.string "special Pokémon with you!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_GiveJirachi:
-	.string "{PLAYER} received Jirachi!$"
+	.string "{PLAYER} received JIRACHI!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_GiveOldSeaMap:
 	.string "Wow! You've registered all the\n"
@@ -275,7 +275,7 @@ LilycoveCity_CoveLilyMotel_2F_Text_CompleteJohto:
 	.string "special Pokémon with you!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_GiveCelebi:
-	.string "{PLAYER} received Celebi!$"
+	.string "{PLAYER} received CELEBI!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_WaitForMew:
 	.string "I'm looking for someone who has\n"

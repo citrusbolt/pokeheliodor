@@ -2954,7 +2954,7 @@ static void Task_ShowDodrioBerryPickingRecords(u8 taskId)
     {
     case 0:
         window = sWindowTemplates_Records;
-        width = GetStringWidth(1, gText_BerryPickingRecords, 0);
+        width = GetStringWidth(1, gText_BERRYPickingRecords, 0);
         for (i = 0; i < ARRAY_COUNT(sRecordsTexts); i++)
         {
             widthCurr = GetStringWidth(1, sRecordsTexts[i], 0) + 50;
@@ -3008,7 +3008,7 @@ static void PrintRecordsText(u8 windowId, s32 width)
     LoadUserWindowBorderGfx_(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(windowId, 1, gText_BerryPickingRecords, GetStringCenterAlignXOffset(1, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 1, gText_BERRYPickingRecords, GetStringCenterAlignXOffset(1, gText_BERRYPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
     for (i = 0; i < NUM_RECORD_TYPES; i++)
     {
         ConvertIntToDecimalStringN(gStringVar1, recordNums[i], STR_CONV_MODE_LEFT_ALIGN, sRecordNumMaxDigits[i]);
@@ -3021,7 +3021,7 @@ static void PrintRecordsText(u8 windowId, s32 width)
 }
 
 // Debug functions?
-static const u16 sDebug_BerryResults[MAX_RFU_PLAYERS][4] =
+static const u16 sDebug_BERRYResults[MAX_RFU_PLAYERS][4] =
 {
     {
         [BERRY_BLUE]   = MAX_BERRIES,
@@ -3084,7 +3084,7 @@ static void Debug_SetPlayerNamesAndResults(void)
     for (i = 0; i < NUM_BERRY_TYPES; i++)
     {
         for (playerId = 0; playerId < sGame->numPlayers; playerId++)
-            sGame->berryResults[playerId][i] = sDebug_BerryResults[playerId][i];
+            sGame->berryResults[playerId][i] = sDebug_BERRYResults[playerId][i];
     }
 }
 
@@ -3638,7 +3638,7 @@ static const struct OamData sOamData_16x16_Priority0 =
     .affineParam = 0
 };
 
-static const struct OamData sOamData_Berry =
+static const struct OamData sOamData_BERRY =
 {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
@@ -3737,74 +3737,74 @@ static const union AnimCmd *const sAnims_StatusBar[] =
     [STATUS_RED]    = sAnims_StatusBar_Red
 };
 
-static const union AnimCmd sAnim_Berry_Blue[] =
+static const union AnimCmd sAnim_BERRY_Blue[] =
 {
     ANIMCMD_FRAME(0, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Green[] =
+static const union AnimCmd sAnim_BERRY_Green[] =
 {
     ANIMCMD_FRAME(4, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Gold[] =
+static const union AnimCmd sAnim_BERRY_Gold[] =
 {
     ANIMCMD_FRAME(8, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_BlueSquished[] =
+static const union AnimCmd sAnim_BERRY_BlueSquished[] =
 {
     ANIMCMD_FRAME(12, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_GreenSquished[] =
+static const union AnimCmd sAnim_BERRY_GreenSquished[] =
 {
     ANIMCMD_FRAME(16, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_GoldSquished[] =
+static const union AnimCmd sAnim_BERRY_GoldSquished[] =
 {
     ANIMCMD_FRAME(20, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Eaten[] =
+static const union AnimCmd sAnim_BERRY_Eaten[] =
 {
     ANIMCMD_FRAME(24, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Empty1[] =
+static const union AnimCmd sAnim_BERRY_Empty1[] =
 {
     ANIMCMD_FRAME(28, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Empty2[] =
+static const union AnimCmd sAnim_BERRY_Empty2[] =
 {
     ANIMCMD_FRAME(32, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd *const sAnims_Berry[] =
+static const union AnimCmd *const sAnims_BERRY[] =
 {
-    [BERRY_BLUE]  = sAnim_Berry_Blue,
-    [BERRY_GREEN] = sAnim_Berry_Green,
-    [BERRY_GOLD]  = sAnim_Berry_Gold,
+    [BERRY_BLUE]  = sAnim_BERRY_Blue,
+    [BERRY_GREEN] = sAnim_BERRY_Green,
+    [BERRY_GOLD]  = sAnim_BERRY_Gold,
 
-    [BERRY_BLUE + BERRY_MISSED]  = sAnim_Berry_BlueSquished,
-    [BERRY_GREEN + BERRY_MISSED] = sAnim_Berry_GreenSquished,
-    [BERRY_GOLD + BERRY_MISSED]  = sAnim_Berry_GoldSquished,
+    [BERRY_BLUE + BERRY_MISSED]  = sAnim_BERRY_BlueSquished,
+    [BERRY_GREEN + BERRY_MISSED] = sAnim_BERRY_GreenSquished,
+    [BERRY_GOLD + BERRY_MISSED]  = sAnim_BERRY_GoldSquished,
 
-    [ANIM_EATEN]  = sAnim_Berry_Eaten,
+    [ANIM_EATEN]  = sAnim_BERRY_Eaten,
 
-    sAnim_Berry_Empty1,
-    sAnim_Berry_Empty2
+    sAnim_BERRY_Empty1,
+    sAnim_BERRY_Empty2
 };
 
 static const union AnimCmd sAnim_Cloud[] =
@@ -4171,8 +4171,8 @@ static void CreateBerrySprites(void)
     {
         .tileTag = GFXTAG_BERRIES,
         .paletteTag = PALTAG_BERRIES,
-        .oam = &sOamData_Berry,
-        .anims = sAnims_Berry,
+        .oam = &sOamData_BERRY,
+        .anims = sAnims_BERRY,
         .images = NULL,
         .affineAnims = gDummySpriteAffineAnimTable,
         .callback = SpriteCallbackDummy,
@@ -4182,7 +4182,7 @@ static void CreateBerrySprites(void)
         .tileTag = GFXTAG_BERRIES,
         .paletteTag = PALTAG_BERRIES,
         .oam = &sOamData_16x16_Priority0,
-        .anims = sAnims_Berry,
+        .anims = sAnims_BERRY,
         .images = NULL,
         .affineAnims = gDummySpriteAffineAnimTable,
         .callback = SpriteCallbackDummy,
@@ -4770,9 +4770,9 @@ static void ShowResults(void)
     case 2:
         FillWindowPixelBuffer(sGfx->windowIds[0], PIXEL_FILL(1));
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
-        strWidth = GetStringWidth(1, gText_BerryPickingResults, -1);
+        strWidth = GetStringWidth(1, gText_BERRYPickingResults, -1);
         x = (224 - strWidth) / 2;
-        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_BerryPickingResults, x, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_BERRYPickingResults, x, 1, -1, NULL);
         AddTextPrinterParameterized(sGfx->windowIds[1], 1, gText_10P30P50P50P, 68, 17, -1, NULL);
         for (i = 0; i < numPlayers; i++)
         {

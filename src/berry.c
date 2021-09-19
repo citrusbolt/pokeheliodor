@@ -890,7 +890,7 @@ const struct Berry gBerries[] =
     },
 };
 
-const struct BerryCrushBerryData gBerryCrush_BerryData[] = {
+const struct BerryCrushBerryData gBerryCrush_BERRYData[] = {
     [ITEM_CHERI_BERRY - FIRST_BERRY_INDEX]  = {.difficulty =  50, .powder =  20},
     [ITEM_CHESTO_BERRY - FIRST_BERRY_INDEX] = {.difficulty =  50, .powder =  20},
     [ITEM_PECHA_BERRY - FIRST_BERRY_INDEX]  = {.difficulty =  50, .powder =  20},

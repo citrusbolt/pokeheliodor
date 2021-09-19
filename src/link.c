@@ -1009,7 +1009,7 @@ static void LinkCB_BlockSendEnd(void)
     gLinkCallback = NULL;
 }
 
-static void LinkCB_BerryBlenderSendHeldKeys(void)
+static void LinkCB_BERRYBlenderSendHeldKeys(void)
 {
     GetMultiplayerId();
     BuildSendCmd(LINKCMD_BLENDER_SEND_KEYS);
@@ -1022,7 +1022,7 @@ void SetBerryBlenderLinkCallback(void)
     if (gWirelessCommType)
         Rfu_SetBerryBlenderLinkCallback();
     else
-        gLinkCallback = LinkCB_BerryBlenderSendHeldKeys;
+        gLinkCallback = LinkCB_BERRYBlenderSendHeldKeys;
 }
 
 // Unused

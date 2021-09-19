@@ -96,7 +96,7 @@ void CopyItemName(u16 itemId, u8 *dst)
 			if (dst[i] >= 0xBB && dst[i] <= 0xD4)
 				dst[i] += 26;
 		}
-        StringAppend(dst, gText_Berry2);
+        StringAppend(dst, gText_BERRY2);
     }
     else
     {
@@ -128,7 +128,7 @@ void GetBerryCountString(u8 *dst, const u8 *berryName, u32 quantity)
     u8 *txtPtr;
 
     if (quantity < 2)
-        berryString = gText_Berry;
+        berryString = gText_BERRY;
     else
         berryString = gText_Berries;
 

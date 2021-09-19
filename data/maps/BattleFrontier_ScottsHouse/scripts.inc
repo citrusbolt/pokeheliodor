@@ -36,7 +36,7 @@ BattleFrontier_ScottsHouse_EventScript_CheckSilverSymbols::
 	msgbox BattleFrontier_ScottsHouse_Text_YouveCollectedAllSilverSymbols, MSGBOX_DEFAULT
 	giveitem ITEM_LANSAT_BERRY
 	compare VAR_RESULT, FALSE
-	goto_if_eq BattleFrontier_ScottsHouse_EventScript_BerryPocketFull
+	goto_if_eq BattleFrontier_ScottsHouse_EventScript_BERRYPocketFull
 	setflag FLAG_COLLECTED_ALL_SILVER_SYMBOLS
 	setflag FLAG_TEMP_4
 	release
@@ -53,14 +53,14 @@ BattleFrontier_ScottsHouse_EventScript_CheckGoldSymbols::
 	msgbox BattleFrontier_ScottsHouse_Text_YouveCollectedAllGoldSymbols, MSGBOX_DEFAULT
 	giveitem ITEM_STARF_BERRY
 	compare VAR_RESULT, FALSE
-	goto_if_eq BattleFrontier_ScottsHouse_EventScript_BerryPocketFull
+	goto_if_eq BattleFrontier_ScottsHouse_EventScript_BERRYPocketFull
 	setflag FLAG_COLLECTED_ALL_GOLD_SYMBOLS
 	setflag FLAG_TEMP_4
 	release
 	end
 
-BattleFrontier_ScottsHouse_EventScript_BerryPocketFull::
-	msgbox BattleFrontier_ScottsHouse_Text_BerryPocketStuffed, MSGBOX_DEFAULT
+BattleFrontier_ScottsHouse_EventScript_BERRYPocketFull::
+	msgbox BattleFrontier_ScottsHouse_Text_BERRYPocketStuffed, MSGBOX_DEFAULT
 	release
 	end
 
@@ -338,7 +338,7 @@ BattleFrontier_ScottsHouse_Text_SoGladIBroughtYouHere:
 	.string "I'm so glad I had the foresight to\n"
 	.string "bring you here!$"
 
-BattleFrontier_ScottsHouse_Text_BerryPocketStuffed:
+BattleFrontier_ScottsHouse_Text_BERRYPocketStuffed:
 	.string "Your Berry Pocket seems to\n"
 	.string "be stuffed.$"
 

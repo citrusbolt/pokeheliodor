@@ -40,8 +40,8 @@ Route123_EventScript_RouteSignMtPyre::
 	msgbox Route123_Text_RouteSignMtPyre, MSGBOX_SIGN
 	end
 
-Route123_EventScript_BerryMastersHouseSign::
-	msgbox Route123_Text_BerryMastersHouse, MSGBOX_SIGN
+Route123_EventScript_BERRYMastersHouseSign::
+	msgbox Route123_Text_BERRYMastersHouse, MSGBOX_SIGN
 	end
 
 Route123_EventScript_Wendy::
@@ -198,6 +198,6 @@ Route123_Text_RouteSignMtPyre:
 	.string "{UP_ARROW} Mt. Pyre\n"
 	.string "“Forbidden to the faint of heart.”$"
 
-Route123_Text_BerryMastersHouse:
+Route123_Text_BERRYMastersHouse:
 	.string "Berry Master'S HOUSE$"
 

@@ -99,17 +99,17 @@ BattleFrontier_Lounge6_Text_WellThatsFineToo:
 
 BattleFrontier_Lounge6_Text_TreeckoSoMuchCuterThanImagined:
 	.string "Giggle!\n"
-	.string "A Treecko is so much cuter than I had\l"
+	.string "A TREECKO is so much cuter than I had\l"
 	.string "imagined. I'm delighted!$"
 
 BattleFrontier_Lounge6_Text_TorchicSoMuchCuterThanImagined:
 	.string "Giggle!\n"
-	.string "A Torchic is so much cuter than I had\l"
+	.string "A TORCHIC is so much cuter than I had\l"
 	.string "imagined. I'm delighted!$"
 
 BattleFrontier_Lounge6_Text_MudkipSoMuchCuterThanImagined:
 	.string "Giggle!\n"
-	.string "A Mudkip is so much cuter than I had\l"
+	.string "A MUDKIP is so much cuter than I had\l"
 	.string "imagined. I'm delighted!$"
 
 BattleFrontier_Lounge6_Text_NotReady:

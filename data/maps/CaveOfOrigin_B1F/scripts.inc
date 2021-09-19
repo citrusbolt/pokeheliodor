@@ -136,23 +136,23 @@ CaveOfOrigin_B1F_Text_WallaceStory:
 	.string "with the Gym's operation.\p"
 	.string "… … … … … …\n"
 	.string "… … … … … …\p"
-	.string "Groudon and Kyogre, the two Pokémon\n"
+	.string "GROUDON and KYOGRE, the two Pokémon\n"
 	.string "wreaking havoc here, are considered\l"
 	.string "to be super-ancient Pokémon.\p"
 	.string "But there aren't just two super-\n"
 	.string "ancient Pokémon.\p"
 	.string "There is one more somewhere.\p"
 	.string "Somewhere, there is a super-\n"
-	.string "ancient Pokémon named Rayquaza.\p"
-	.string "It's said that it was Rayquaza that\n"
+	.string "ancient Pokémon named RAYQUAZA.\p"
+	.string "It's said that it was RAYQUAZA that\n"
 	.string "becalmed the two combatants in\l"
 	.string "the distant past.\p"
 	.string "But even I have no clue as to\n"
-	.string "Rayquaza's whereabouts…$"
+	.string "RAYQUAZA's whereabouts…$"
 
 CaveOfOrigin_B1F_Text_WhereIsRayquaza:
 	.string "Wallace: {PLAYER}{KUN}, do you perhaps\n"
-	.string "know where Rayquaza is now?\p"
+	.string "know where RAYQUAZA is now?\p"
 	.string "If you do, please tell me.$"
 
 CaveOfOrigin_B1F_Text_ButWereInCaveOfOrigin:
@@ -160,7 +160,7 @@ CaveOfOrigin_B1F_Text_ButWereInCaveOfOrigin:
 	.string "But that's right here!\n"
 	.string "I need you to do better than that!\p"
 	.string "Please, I need you to think about\n"
-	.string "where Rayquaza might be right now.$"
+	.string "where RAYQUAZA might be right now.$"
 
 CaveOfOrigin_B1F_Text_OldLadyDidntMentionThat:
 	.string "Wallace: Mt. Pyre?\p"
