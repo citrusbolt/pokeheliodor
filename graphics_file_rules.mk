@@ -733,9 +733,203 @@ $(MISCGFXDIR)/birch_help.4bpp: $(MISCGFXDIR)/birch_bag.4bpp $(MISCGFXDIR)/birch_
 ### Kanto Tilesets ###
 
 
-$(TILESETGFXDIR)/primary/general_kanto/tiles.4bpp: %.4bpp: %.png
+$(TILESETGFXDIR)/primary/frlg_general/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 640
 
+$(TILESETGFXDIR)/primary/frlg_building/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 640
 
-$(TILESETGFXDIR)/secondary/sevii_islands_67/tiles.4bpp: %.4bpp: %.png
+$(TILESETGFXDIR)/secondary/frlg_pallet_town/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 76
+
+$(TILESETGFXDIR)/secondary/frlg_lavender_town/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 256
+
+$(TILESETGFXDIR)/secondary/frlg_cinnabar_island/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 128
+
+$(TILESETGFXDIR)/secondary/frlg_kanto_pokemon_center/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 376
+
+$(TILESETGFXDIR)/secondary/frlg_kanto_cable_club/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 632
+
+$(TILESETGFXDIR)/secondary/frlg_fuchsia_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 92
+
+$(TILESETGFXDIR)/secondary/frlg_pewter_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 207
+
+$(TILESETGFXDIR)/secondary/frlg_saffron_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 82
+
+$(TILESETGFXDIR)/secondary/frlg_viridian_forest/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 101
+
+$(TILESETGFXDIR)/secondary/frlg_seafoam_islands/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 318
+
+$(TILESETGFXDIR)/secondary/frlg_generic_building_2/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 152
+
+$(TILESETGFXDIR)/secondary/frlg_underground_path/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 50
+
+$(TILESETGFXDIR)/secondary/frlg_restaurant_hotel/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 76
+
+$(TILESETGFXDIR)/secondary/frlg_burgled_house/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 172
+
+$(TILESETGFXDIR)/secondary/frlg_berry_forest/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 101
+
+$(TILESETGFXDIR)/secondary/frlg_sevii_islands_45/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 374
+
+$(TILESETGFXDIR)/secondary/frlg_pokemon_league/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 340
+
+$(TILESETGFXDIR)/secondary/frlg_viridian_city/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 112
+
+$(TILESETGFXDIR)/secondary/frlg_vermilion_city/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 140
+
+$(TILESETGFXDIR)/secondary/frlg_indigo_plateau/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 247
+
+$(TILESETGFXDIR)/secondary/frlg_kanto_cave/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 256
+
+$(TILESETGFXDIR)/secondary/frlg_kanto_bike_shop/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 60
+
+$(TILESETGFXDIR)/secondary/frlg_viridian_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 90
+
+$(TILESETGFXDIR)/secondary/frlg_cerulean_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 119
+
+$(TILESETGFXDIR)/secondary/frlg_cinnabar_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 146
+
+$(TILESETGFXDIR)/secondary/frlg_unused_gatehouse_1/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 144
+
+$(TILESETGFXDIR)/secondary/frlg_unused_gatehouse_2/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 144
+
+$(TILESETGFXDIR)/secondary/frlg_power_plant/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 80
+
+$(TILESETGFXDIR)/secondary/frlg_pokemon_tower/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 128
+
+$(TILESETGFXDIR)/secondary/frlg_school/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 50
+
+$(TILESETGFXDIR)/secondary/frlg_dummy_3/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 2
+
+$(TILESETGFXDIR)/secondary/frlg_kanto_navel_rock/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 282
+
+$(TILESETGFXDIR)/secondary/frlg_sevii_islands_67/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 374
+
+$(TILESETGFXDIR)/secondary/frlg_hall_of_fame/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 208
+
+$(TILESETGFXDIR)/secondary/frlg_pewter_city/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 280
+
+$(TILESETGFXDIR)/secondary/frlg_celadon_city/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 244
+
+$(TILESETGFXDIR)/secondary/frlg_saffron_city/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 262
+
+$(TILESETGFXDIR)/secondary/frlg_dummy_1/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 2
+
+$(TILESETGFXDIR)/secondary/frlg_generic_building_1/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 63
+
+$(TILESETGFXDIR)/secondary/frlg_hoenn_building/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 383
+
+$(TILESETGFXDIR)/secondary/frlg_vermilion_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 247
+
+$(TILESETGFXDIR)/secondary/frlg_ss_anne/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 245
+
+$(TILESETGFXDIR)/secondary/frlg_rock_tunnel/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 256
+
+$(TILESETGFXDIR)/secondary/frlg_cerulean_cave/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 246
+
+$(TILESETGFXDIR)/secondary/frlg_sea_cottage/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 68
+
+$(TILESETGFXDIR)/secondary/frlg_safari_zone_building/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 90
+
+$(TILESETGFXDIR)/secondary/frlg_fan_club_daycare/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 85
+
+$(TILESETGFXDIR)/secondary/frlg_dummy_4/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 2
+
+$(TILESETGFXDIR)/secondary/frlg_tanoby_ruins/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 74
+
+$(TILESETGFXDIR)/secondary/frlg_trainer_tower/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 343
+
+$(TILESETGFXDIR)/secondary/frlg_cerulean_city/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 158
+
+$(TILESETGFXDIR)/secondary/frlg_fuchsia_city/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 191
+
+$(TILESETGFXDIR)/secondary/frlg_mart/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 36
+
+$(TILESETGFXDIR)/secondary/frlg_museum/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 137
+
+$(TILESETGFXDIR)/secondary/frlg_kanto_lab/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 102
+
+$(TILESETGFXDIR)/secondary/frlg_game_corner/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 171
+
+$(TILESETGFXDIR)/secondary/frlg_celadon_gym/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 103
+
+$(TILESETGFXDIR)/secondary/frlg_dummy_2/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 2
+
+$(TILESETGFXDIR)/secondary/frlg_digletts_cave/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 248
+
+$(TILESETGFXDIR)/secondary/frlg_department_store/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 201
+
+$(TILESETGFXDIR)/secondary/frlg_pokemon_mansion/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 350
+
+$(TILESETGFXDIR)/secondary/frlg_condominiums/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 384
+
+$(TILESETGFXDIR)/secondary/frlg_mt_ember/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 288
+
+$(TILESETGFXDIR)/secondary/frlg_sevii_islands_123/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 374
+
+$(TILESETGFXDIR)/secondary/frlg_kanto_island_harbor/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 165

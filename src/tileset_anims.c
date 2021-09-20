@@ -1186,3 +1186,245 @@ static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16 timer)
             sSecondaryTilesetAnimCallback = NULL;
     }
 }
+
+// palette: general 00
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame0[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/0.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame1[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/1.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame2[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/2.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame3[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/3.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame4[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/4.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_General_Flower[] = {
+    sTilesetAnims_FRLG_General_Flower_Frame0,
+    sTilesetAnims_FRLG_General_Flower_Frame1,
+    sTilesetAnims_FRLG_General_Flower_Frame2,
+    sTilesetAnims_FRLG_General_Flower_Frame3,
+    sTilesetAnims_FRLG_General_Flower_Frame4
+};
+
+// palette: general 04
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame0[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/0.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame1[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/1.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame2[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/2.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame3[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/3.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame4[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/4.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame5[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/5.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame6[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/6.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame7[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/7.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge[] = {
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame0,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame1,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame2,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame3,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame4,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame5,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame6,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame7
+};
+
+// palette: general 04
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame0[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/0.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame1[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/1.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame2[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/2.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame3[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/3.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame4[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/4.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame5[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/5.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame6[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/6.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame7[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/7.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_General_SandWatersEdge[] = {
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame0,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame1,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame2,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame3,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame4,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame5,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame6,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame7
+};
+
+// palette: general 00
+static const u16 sTilesetAnims_FRLG_CeladonCity_Fountain_Frame0[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_city/anim/fountain/0.4bpp");
+static const u16 sTilesetAnims_FRLG_CeladonCity_Fountain_Frame1[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_city/anim/fountain/1.4bpp");
+static const u16 sTilesetAnims_FRLG_CeladonCity_Fountain_Frame2[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_city/anim/fountain/2.4bpp");
+static const u16 sTilesetAnims_FRLG_CeladonCity_Fountain_Frame3[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_city/anim/fountain/3.4bpp");
+static const u16 sTilesetAnims_FRLG_CeladonCity_Fountain_Frame4[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_city/anim/fountain/4.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_CeladonCity_Fountain[] = {
+    sTilesetAnims_FRLG_CeladonCity_Fountain_Frame0,
+    sTilesetAnims_FRLG_CeladonCity_Fountain_Frame1,
+    sTilesetAnims_FRLG_CeladonCity_Fountain_Frame2,
+    sTilesetAnims_FRLG_CeladonCity_Fountain_Frame3,
+    sTilesetAnims_FRLG_CeladonCity_Fountain_Frame4
+};
+
+static const u16 sTilesetAnims_FRLG_SilphCo_Fountain_Frame0[] = INCBIN_U16("data/tilesets/secondary/frlg_silph_co/anim/fountain/0.4bpp");
+static const u16 sTilesetAnims_FRLG_SilphCo_Fountain_Frame1[] = INCBIN_U16("data/tilesets/secondary/frlg_silph_co/anim/fountain/1.4bpp");
+static const u16 sTilesetAnims_FRLG_SilphCo_Fountain_Frame2[] = INCBIN_U16("data/tilesets/secondary/frlg_silph_co/anim/fountain/2.4bpp");
+static const u16 sTilesetAnims_FRLG_SilphCo_Fountain_Frame3[] = INCBIN_U16("data/tilesets/secondary/frlg_silph_co/anim/fountain/3.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_SilphCo_Fountain[] = {
+    sTilesetAnims_FRLG_SilphCo_Fountain_Frame0,
+    sTilesetAnims_FRLG_SilphCo_Fountain_Frame1,
+    sTilesetAnims_FRLG_SilphCo_Fountain_Frame2,
+    sTilesetAnims_FRLG_SilphCo_Fountain_Frame3
+};
+
+static const u16 sTilesetAnims_FRLG_MtEmber_Steam_Frame0[] = INCBIN_U16("data/tilesets/secondary/frlg_mt_ember/anim/steam/0.4bpp");
+static const u16 sTilesetAnims_FRLG_MtEmber_Steam_Frame1[] = INCBIN_U16("data/tilesets/secondary/frlg_mt_ember/anim/steam/1.4bpp");
+static const u16 sTilesetAnims_FRLG_MtEmber_Steam_Frame2[] = INCBIN_U16("data/tilesets/secondary/frlg_mt_ember/anim/steam/2.4bpp");
+static const u16 sTilesetAnims_FRLG_MtEmber_Steam_Frame3[] = INCBIN_U16("data/tilesets/secondary/frlg_mt_ember/anim/steam/3.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_MtEmber_Steam[] = {
+    sTilesetAnims_FRLG_MtEmber_Steam_Frame0,
+    sTilesetAnims_FRLG_MtEmber_Steam_Frame1,
+    sTilesetAnims_FRLG_MtEmber_Steam_Frame2,
+    sTilesetAnims_FRLG_MtEmber_Steam_Frame3
+};
+
+static const u16 sTilesetAnims_FRLG_VermilionGym_MotorizedDoor_Frame0[] = INCBIN_U16("data/tilesets/secondary/frlg_vermilion_gym/anim/motorizeddoor/0.4bpp");
+static const u16 sTilesetAnims_FRLG_VermilionGym_MotorizedDoor_Frame1[] = INCBIN_U16("data/tilesets/secondary/frlg_vermilion_gym/anim/motorizeddoor/1.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_VermilionGym_MotorizedDoor[] = {
+    sTilesetAnims_FRLG_VermilionGym_MotorizedDoor_Frame0,
+    sTilesetAnims_FRLG_VermilionGym_MotorizedDoor_Frame1
+};
+
+static const u16 sTilesetAnims_FRLG_CeladonGym_Flowers_Frame0[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_gym/anim/flowers/0.4bpp");
+static const u16 sTilesetAnims_FRLG_CeladonGym_Flowers_Frame1[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_gym/anim/flowers/1.4bpp");
+static const u16 sTilesetAnims_FRLG_CeladonGym_Flowers_Frame2[] = INCBIN_U16("data/tilesets/secondary/frlg_celadon_gym/anim/flowers/2.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_CeladonGym_Flowers[] = {
+    sTilesetAnims_FRLG_CeladonGym_Flowers_Frame0,
+    sTilesetAnims_FRLG_CeladonGym_Flowers_Frame1,
+    sTilesetAnims_FRLG_CeladonGym_Flowers_Frame2,
+    sTilesetAnims_FRLG_CeladonGym_Flowers_Frame1
+};
+
+static void QueueAnimTiles_FRLG_General_Flower(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_General_Flower[timer % NELEMS(sTilesetAnims_FRLG_General_Flower)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(508)), 4 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_FRLG_General_Water_Current_LandWatersEdge(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge[timer % NELEMS(sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(416)), 48 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_FRLG_General_SandWatersEdge(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_General_SandWatersEdge[timer % NELEMS(sTilesetAnims_FRLG_General_SandWatersEdge)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(464)), 18 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FRLG_General(u16 timer)
+{
+    if (timer % 8 == 0)
+        QueueAnimTiles_FRLG_General_SandWatersEdge(timer >> 3);
+    if (timer % 16 == 1)
+        QueueAnimTiles_FRLG_General_Water_Current_LandWatersEdge(timer >> 4);
+    if (timer % 16 == 2)
+        QueueAnimTiles_FRLG_General_Flower(timer >> 4);
+}
+
+void InitTilesetAnim_FRLG_General(void)
+{
+    sPrimaryTilesetAnimCounter = 0;
+    sPrimaryTilesetAnimCounterMax = 640;
+    sPrimaryTilesetAnimCallback = TilesetAnim_FRLG_General;
+}
+
+static void QueueAnimTiles_FRLG_CeladonCity_Fountain(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_CeladonCity_Fountain[timer % NELEMS(sTilesetAnims_FRLG_CeladonCity_Fountain)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(744)), 8 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FRLG_CeladonCity(u16 timer)
+{
+    if (timer % 12 == 0)
+        QueueAnimTiles_FRLG_CeladonCity_Fountain(timer / 12);
+}
+
+void InitTilesetAnim_FRLG_CeladonCity(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 120;
+    sSecondaryTilesetAnimCallback = TilesetAnim_FRLG_CeladonCity;
+}
+
+static void QueueAnimTiles_FRLG_SilphCo_Fountain(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_SilphCo_Fountain[timer % NELEMS(sTilesetAnims_FRLG_SilphCo_Fountain)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(976)), 8 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FRLG_SilphCo(u16 timer)
+{
+    if (timer % 10 == 0)
+        QueueAnimTiles_FRLG_SilphCo_Fountain(timer / 10);
+}
+
+void InitTilesetAnim_FRLG_SilphCo(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 160;
+    sSecondaryTilesetAnimCallback = TilesetAnim_FRLG_SilphCo;
+}
+
+static void QueueAnimTiles_FRLG_MtEmber_Steam(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_MtEmber_Steam[timer % NELEMS(sTilesetAnims_FRLG_MtEmber_Steam)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(896)), 8 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FRLG_MtEmber(u16 timer)
+{
+    if (timer % 16 == 0)
+        QueueAnimTiles_FRLG_MtEmber_Steam(timer >> 4);
+}
+
+void InitTilesetAnim_FRLG_MtEmber(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 256;
+    sSecondaryTilesetAnimCallback = TilesetAnim_FRLG_MtEmber;
+}
+
+static void QueueAnimTiles_FRLG_VermilionGym_MotorizedDoor(u16 timer)
+{
+    u16 i = timer % NELEMS(sTilesetAnims_FRLG_VermilionGym_MotorizedDoor);
+
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_VermilionGym_MotorizedDoor[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(880)), 7 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FRLG_VermilionGym(u16 timer)
+{
+    if (timer % 2 == 0)
+        QueueAnimTiles_FRLG_VermilionGym_MotorizedDoor(timer >> 1);
+}
+
+void InitTilesetAnim_FRLG_VermilionGym(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 240;
+    sSecondaryTilesetAnimCallback = TilesetAnim_FRLG_VermilionGym;
+}
+
+static void QueueAnimTiles_FRLG_CeladonGym_Flowers(u16 timer)
+{
+    u16 i = timer % NELEMS(sTilesetAnims_FRLG_CeladonGym_Flowers);
+    
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_CeladonGym_Flowers[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(739)), 4 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FRLG_CeladonGym(u16 timer)
+{
+    if (timer % 16 == 0)
+        QueueAnimTiles_FRLG_CeladonGym_Flowers(timer >> 4);
+}
+
+void InitTilesetAnim_FRLG_CeladonGym(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 256;
+    sSecondaryTilesetAnimCallback = TilesetAnim_FRLG_CeladonGym;
+}
+

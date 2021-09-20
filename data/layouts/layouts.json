@@ -4416,8 +4416,8 @@
       "name": "_Kanto_BirthIsland_Exterior_Layout",
       "width": 30,
       "height": 30,
-      "primary_tileset": "gTileset_GeneralKanto",
-      "secondary_tileset": "gTileset_SeviiIslands67",
+      "primary_tileset": "gTileset_FRLG_General",
+      "secondary_tileset": "gTileset_FRLG_SeviiIslands67",
       "border_filepath": "data/layouts/_Kanto_BirthIsland_Exterior/border.bin",
       "blockdata_filepath": "data/layouts/_Kanto_BirthIsland_Exterior/map.bin"
     }
