@@ -1,0 +1,60 @@
+{
+  "id": "MAP_KANTO_ROUTE23",
+  "name": "_Kanto_Route23",
+  "layout": "LAYOUT_KANTO_ROUTE23",
+  "music": "MUS_RG_VICTORY_ROAD",
+  "region_map_section": "MAPSEC_ROUTE_23",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_INDIGO_PLATEAU_EXTERIOR",
+      "offset": 0,
+      "direction": "up"
+    },
+    {
+      "map": "MAP_KANTO_ROUTE22",
+      "offset": 0,
+      "direction": "down"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 5,
+      "y": 28,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_VICTORY_ROAD_1F",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 18,
+      "y": 28,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_VICTORY_ROAD_2F",
+      "dest_warp_id": 6
+    },
+    {
+      "x": 8,
+      "y": 153,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE22_NORTH_ENTRANCE",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 9,
+      "y": 154,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_ROUTE22_NORTH_ENTRANCE",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

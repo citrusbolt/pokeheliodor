@@ -1,0 +1,48 @@
+{
+  "id": "MAP_KANTO_THREE_ISLAND_PORT",
+  "name": "_Kanto_ThreeIsland_Port",
+  "layout": "LAYOUT_KANTO_THREE_ISLAND_PORT",
+  "music": "MUS_RG_ROUTE3",
+  "region_map_section": "MAPSEC_THREE_ISLE_PORT",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_THREE_ISLAND",
+      "offset": 0,
+      "direction": "up"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 16,
+      "y": 4,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_THREE_ISLAND_DUNSPARCE_TUNNEL",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 38,
+      "y": 5,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_THREE_ISLAND_DUNSPARCE_TUNNEL",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 12,
+      "y": 13,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_THREE_ISLAND_HARBOR",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

@@ -1,0 +1,28 @@
+{
+  "id": "MAP_KANTO_ONE_ISLAND_KINDLE_ROAD_EMBER_SPA",
+  "name": "_Kanto_OneIsland_KindleRoad_EmberSpa",
+  "layout": "LAYOUT_KANTO_ONE_ISLAND_KINDLE_ROAD_EMBER_SPA",
+  "music": "MUS_RG_FUCHSIA",
+  "region_map_section": "MAPSEC_EMBER_SPA",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 13,
+      "y": 36,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ONE_ISLAND_KINDLE_ROAD",
+      "dest_warp_id": 2
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

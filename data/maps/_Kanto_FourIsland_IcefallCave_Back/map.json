@@ -1,0 +1,28 @@
+{
+  "id": "MAP_KANTO_FOUR_ISLAND_ICEFALL_CAVE_BACK",
+  "name": "_Kanto_FourIsland_IcefallCave_Back",
+  "layout": "LAYOUT_KANTO_FOUR_ISLAND_ICEFALL_CAVE_BACK",
+  "music": "MUS_RG_SEVII_CAVE",
+  "region_map_section": "MAPSEC_ICEFALL_CAVE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 12,
+      "y": 23,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_FOUR_ISLAND_ICEFALL_CAVE_1F",
+      "dest_warp_id": 5
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

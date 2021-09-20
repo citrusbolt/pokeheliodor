@@ -1,0 +1,42 @@
+{
+  "id": "MAP_KANTO_LAVENDER_TOWN_MART",
+  "name": "_Kanto_LavenderTown_Mart",
+  "layout": "LAYOUT_KANTO_MART",
+  "music": "MUS_RG_POKE_CENTER",
+  "region_map_section": "MAPSEC_LAVENDER_TOWN",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_LAVENDER_TOWN",
+      "dest_warp_id": 5
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_LAVENDER_TOWN",
+      "dest_warp_id": 5
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_LAVENDER_TOWN",
+      "dest_warp_id": 5
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

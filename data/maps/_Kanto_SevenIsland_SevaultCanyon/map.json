@@ -1,0 +1,46 @@
+{
+  "id": "MAP_KANTO_SEVEN_ISLAND_SEVAULT_CANYON",
+  "name": "_Kanto_SevenIsland_SevaultCanyon",
+  "layout": "LAYOUT_KANTO_SEVEN_ISLAND_SEVAULT_CANYON",
+  "music": "MUS_RG_SEVII_ROUTE",
+  "region_map_section": "MAPSEC_SEVAULT_CANYON",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS",
+      "offset": -48,
+      "direction": "down"
+    },
+    {
+      "map": "MAP_KANTO_SEVEN_ISLAND_SEVAULT_CANYON_ENTRANCE",
+      "offset": -20,
+      "direction": "left"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 7,
+      "y": 17,
+      "elevation": 5,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_SEVAULT_CANYON_TANOBY_KEY",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 14,
+      "y": 61,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_SEVAULT_CANYON_HOUSE",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

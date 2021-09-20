@@ -1,0 +1,28 @@
+{
+  "id": "MAP_KANTO_SAFFRON_CITY_COPYCATS_HOUSE_2F",
+  "name": "_Kanto_SaffronCity_CopycatsHouse_2F",
+  "layout": "LAYOUT_KANTO_SAFFRON_CITY_COPYCATS_HOUSE_2F",
+  "music": "MUS_RG_PEWTER",
+  "region_map_section": "MAPSEC_SAFFRON_CITY",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 10,
+      "y": 2,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SAFFRON_CITY_COPYCATS_HOUSE_1F",
+      "dest_warp_id": 3
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

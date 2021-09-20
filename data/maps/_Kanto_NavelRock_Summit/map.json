@@ -1,0 +1,28 @@
+{
+  "id": "MAP_KANTO_NAVEL_ROCK_SUMMIT",
+  "name": "_Kanto_NavelRock_Summit",
+  "layout": "LAYOUT_KANTO_NAVEL_ROCK_SUMMIT",
+  "music": "MUS_RG_SEVII_CAVE",
+  "region_map_section": "MAPSEC_NAVEL_ROCK",
+  "requires_flash": false,
+  "weather": "WEATHER_SHADE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 10,
+      "y": 18,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_NAVEL_ROCK_SUMMIT_PATH_5F",
+      "dest_warp_id": 1
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}
