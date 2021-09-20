@@ -4420,6 +4420,16 @@
       "secondary_tileset": "gTileset_FRLG_SeviiIslands67",
       "border_filepath": "data/layouts/_Kanto_BirthIsland_Exterior/border.bin",
       "blockdata_filepath": "data/layouts/_Kanto_BirthIsland_Exterior/map.bin"
+    },
+    {
+      "id": "LAYOUT_KANTO_VERMILION_CITY",
+      "name": "_Kanto_VermilionCity_Layout",
+      "width": 48,
+      "height": 40,
+      "primary_tileset": "gTileset_FRLG_General",
+      "secondary_tileset": "gTileset_FRLG_VermilionCity",
+      "border_filepath": "data/layouts/_Kanto_VermilionCity/border.bin",
+      "blockdata_filepath": "data/layouts/_Kanto_VermilionCity/map.bin"
     }
   ]
 }
