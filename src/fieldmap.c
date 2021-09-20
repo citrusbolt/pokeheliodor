@@ -511,11 +511,30 @@ u32 MapGridGetMetatileIdAt(int x, int y)
     return block & METATILE_ID_MASK;
 }
 
+static u32 GetFRLGAttributesByMetatileId(u16 metatile)
+{
+	u32 *attributes;
+	if (metatile < NUM_METATILES_IN_PRIMARY_KANTO)
+	{
+		attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
+		return attributes[metatile];
+	}
+	else if (metatile < NUM_METATILES_TOTAL)
+	{
+		attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
+		return attributes[metatile - NUM_METATILES_IN_PRIMARY_KANTO];
+	}
+	else
+	{
+		return MB_INVALID;
+	}
+}
+
 u32 MapGridGetMetatileBehaviorAt(int x, int y)
 {
     u16 metatile = MapGridGetMetatileIdAt(x, y);
 	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
-		return sMetatileBehaviorConversion[GetBehaviorByMetatileId(metatile) & sKantoMetatileAttrMasks[METATILE_ATTRIBUTE_BEHAVIOR] >> sKantoMetatileAttrShifts[METATILE_ATTRIBUTE_BEHAVIOR]];
+		return sMetatileBehaviorConversion[GetFRLGAttributesByMetatileId(metatile) & sKantoMetatileAttrMasks[METATILE_ATTRIBUTE_BEHAVIOR] >> sKantoMetatileAttrShifts[METATILE_ATTRIBUTE_BEHAVIOR]];
 	else
 		return GetBehaviorByMetatileId(metatile) & METATILE_BEHAVIOR_MASK;
 }
@@ -524,7 +543,7 @@ u8 MapGridGetMetatileLayerTypeAt(int x, int y)
 {
     u16 metatile = MapGridGetMetatileIdAt(x, y);
 	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
-		return (GetBehaviorByMetatileId(metatile) & sKantoMetatileAttrMasks[METATILE_ATTRIBUTE_LAYER_TYPE]) >> sKantoMetatileAttrShifts[METATILE_ATTRIBUTE_LAYER_TYPE];
+		return (GetFRLGAttributesByMetatileId(metatile) & sKantoMetatileAttrMasks[METATILE_ATTRIBUTE_LAYER_TYPE]) >> sKantoMetatileAttrShifts[METATILE_ATTRIBUTE_LAYER_TYPE];
 	else
 		return (GetBehaviorByMetatileId(metatile) & METATILE_ELEVATION_MASK) >> METATILE_ELEVATION_SHIFT;
 }
@@ -551,41 +570,20 @@ void MapGridSetMetatileEntryAt(int x, int y, u16 metatile)
 
 u16 GetBehaviorByMetatileId(u16 metatile)
 {
-	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
+	u16 *attributes;
+	if (metatile < NUM_METATILES_IN_PRIMARY)
 	{
-		u32 *attributes;
-		if (metatile < NUM_METATILES_IN_PRIMARY_KANTO)
-		{
-			attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-			return attributes[metatile];
-		}
-		else if (metatile < NUM_METATILES_TOTAL)
-		{
-			attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-			return attributes[metatile - NUM_METATILES_IN_PRIMARY_KANTO];
-		}
-		else
-		{
-			return MB_INVALID;
-		}
+		attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
+		return attributes[metatile];
+	}
+	else if (metatile < NUM_METATILES_TOTAL)
+	{
+		attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
+		return attributes[metatile - NUM_METATILES_IN_PRIMARY];
 	}
 	else
 	{
-		u16 *attributes;
-		if (metatile < NUM_METATILES_IN_PRIMARY)
-		{
-			attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-			return attributes[metatile];
-		}
-		else if (metatile < NUM_METATILES_TOTAL)
-		{
-			attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-			return attributes[metatile - NUM_METATILES_IN_PRIMARY];
-		}
-		else
-		{
-			return MB_INVALID;
-		}
+		return MB_INVALID;
 	}
 }
 
