@@ -1331,15 +1331,9 @@ void PutNewBattleTowerRecord(struct EmeraldBattleTowerRecord *newRecordEm)
         {
             for (k = 0; k < PLAYER_NAME_LENGTH; k++)
             {
-                #ifdef BUGFIX
                 if (gSaveBlock2Ptr->frontier.towerRecords[i].name[k] != newRecord->name[k])
                     break;
                 if (newRecord->name[k] == EOS)
-                #else
-                if (gSaveBlock2Ptr->frontier.towerRecords[i].name[j] != newRecord->name[j])
-                    break;
-                if (newRecord->name[j] == EOS)
-                #endif  
                 {
                     k = PLAYER_NAME_LENGTH;
                     break;
@@ -2760,11 +2754,7 @@ static void AwardBattleTowerRibbons(void)
 {
     s32 i;
     u32 partyIndex;
-#ifdef BUGFIX
     struct RibbonCounter ribbons[MAX_FRONTIER_PARTY_SIZE];
-#else
-    struct RibbonCounter ribbons[3]; // BUG: 4 Pokemon can receive ribbons in a double battle mode.
-#endif
     u8 ribbonType = 0;
     u8 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u8 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -2969,11 +2959,7 @@ static void FillPartnerParty(u16 trainerId)
                       sStevenMons[i].level,
                       sStevenMons[i].fixedIV,
                       TRUE, 
-                      #ifdef BUGFIX
                       j,
-                      #else
-                      i, // BUG: personality was stored in the 'j' variable. As a result, Steven's pokemon do not have the intended natures.
-                      #endif
                       OT_ID_PRESET, STEVEN_OTID);
             for (j = 0; j < PARTY_SIZE; j++)
                 SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_HP_EV + j, &sStevenMons[i].evs[j]);
@@ -3079,12 +3065,7 @@ bool32 RubyBattleTowerRecordToEmerald(struct RSBattleTowerRecord *src, struct Em
     {
         dst->lvlMode = src->lvlMode;
         dst->winStreak = src->winStreak;
-        // UB: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
-        #ifdef UBFIX
         for (i = 0; i < ARRAY_COUNT(sRubyFacilityClassToEmerald); i++)
-        #else
-        for (i = 0; i < FACILITY_CLASSES_COUNT; i++)
-        #endif
         {
             if (sRubyFacilityClassToEmerald[i][0] == src->facilityClass)
                 break;
@@ -3132,12 +3113,7 @@ bool32 EmeraldBattleTowerRecordToRuby(struct EmeraldBattleTowerRecord *src, stru
     {
         dst->lvlMode = src->lvlMode;
         dst->winStreak = src->winStreak;
-        // UB: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
-        #ifdef UBFIX
         for (i = 0; i < ARRAY_COUNT(sRubyFacilityClassToEmerald); i++)
-        #else
-        for (i = 0; i < FACILITY_CLASSES_COUNT; i++)
-        #endif
         {
             if (sRubyFacilityClassToEmerald[i][1] == src->facilityClass)
                 break;

@@ -1915,11 +1915,7 @@ static u16 GetFrontierStreakInfo(u16 facilityId, u32 *topicTextId)
         }
         *topicTextId = GEN_TOPIC_B_DOME - 1;
         break;
-    #ifdef BUGFIX
     case FRONTIER_FACILITY_PIKE:
-    #else
-    case FRONTIER_FACILITY_FACTORY:
-    #endif
         for (i = 0; i < 2; i++)
         {
             if (streak < gSaveBlock2Ptr->frontier.pikeRecordStreaks[i])
@@ -1949,11 +1945,7 @@ static u16 GetFrontierStreakInfo(u16 facilityId, u32 *topicTextId)
         }
         *topicTextId = GEN_TOPIC_STREAK_RECORD - 1;
         break;
-    #ifdef BUGFIX
     case FRONTIER_FACILITY_FACTORY:
-    #else
-    case FRONTIER_FACILITY_PIKE:
-    #endif
         for (i = 0; i < 2; i++)
         {
             for (j = 0; j < 2; j++)

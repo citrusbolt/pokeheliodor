@@ -579,9 +579,6 @@ void FreeRibbonsSummaryScreen2(void)
     RemoveWindow(structPtr->ribbonCountWindowId);
     RemoveWindow(structPtr->nameWindowId);
     RemoveWindow(structPtr->listIdxWindowId);
-#ifndef BUGFIX
-    RemoveWindow(structPtr->unusedWindowId); // Removing window, but window id is never set
-#endif
     DestroyRibbonsMonFrontPic(structPtr);
     FreeSpriteTilesByTag(GFXTAG_RIBBON_ICONS_BIG);
     FreeSpritePaletteByTag(PALTAG_RIBBON_ICONS_1);

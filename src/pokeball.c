@@ -1136,11 +1136,7 @@ static void SpriteCB_TradePokeball(struct Sprite *sprite)
         AnimateBallOpenParticlesForPokeball(sprite->x, sprite->y - 5, sprite->oam.priority, r6);
         sprite->data[1] = LaunchBallFadeMonTaskForPokeball(1, r8, r5);
         sprite->callback = SpriteCB_TradePokeballSendOff;
-#ifdef BUGFIX
-        // FIX: If this is used on a sprite that has previously had an affine animation, it will not
-        // play the shrink anim properly due to being paused. Works together with the fix to `sub_817F77C`.
         gSprites[monSpriteId].affineAnimPaused = FALSE;
-#endif // BUGFIX
         StartSpriteAffineAnim(&gSprites[monSpriteId], BATTLER_AFFINE_RETURN);
         AnimateSprite(&gSprites[monSpriteId]);
         gSprites[monSpriteId].data[1] = 0;
