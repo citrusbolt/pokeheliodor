@@ -1,0 +1,26 @@
+{
+  "id": "MAP_KANTO_FIVE_ISLAND_MEMORIAL_PILLAR",
+  "name": "_Kanto_FiveIsland_MemorialPillar",
+  "layout": "LAYOUT_KANTO_FIVE_ISLAND_MEMORIAL_PILLAR",
+  "music": "MUS_RG_SEVII_ROUTE",
+  "region_map_section": "MAPSEC_MEMORIAL_PILLAR",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_FIVE_ISLAND_MEADOW",
+      "offset": -20,
+      "direction": "left"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [],
+  "coord_events": [],
+  "bg_events": []
+}

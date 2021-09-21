@@ -1,0 +1,42 @@
+{
+  "id": "MAP_KANTO_THREE_ISLAND_BERRY_FOREST",
+  "name": "_Kanto_ThreeIsland_BerryForest",
+  "layout": "LAYOUT_KANTO_THREE_ISLAND_BERRY_FOREST",
+  "music": "MUS_RG_VIRIDIAN_FOREST",
+  "region_map_section": "MAPSEC_BERRY_FOREST",
+  "requires_flash": false,
+  "weather": "WEATHER_SHADE",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 43,
+      "y": 41,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_THREE_ISLAND_BOND_BRIDGE",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 42,
+      "y": 41,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_THREE_ISLAND_BOND_BRIDGE",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 44,
+      "y": 41,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_THREE_ISLAND_BOND_BRIDGE",
+      "dest_warp_id": 1
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

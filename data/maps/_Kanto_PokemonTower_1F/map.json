@@ -1,0 +1,49 @@
+{
+  "id": "MAP_KANTO_POKEMON_TOWER_1F",
+  "name": "_Kanto_PokemonTower_1F",
+  "layout": "LAYOUT_KANTO_POKEMON_TOWER_1F",
+  "music": "MUS_RG_POKE_TOWER",
+  "region_map_section": "MAPSEC_POKEMON_TOWER",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": true,
+  "allow_running": false,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 10,
+      "y": 19,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_LAVENDER_TOWN",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 11,
+      "y": 18,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_LAVENDER_TOWN",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 12,
+      "y": 19,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_LAVENDER_TOWN",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 18,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_POKEMON_TOWER_2F",
+      "dest_warp_id": 1
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

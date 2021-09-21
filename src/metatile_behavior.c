@@ -54,10 +54,10 @@ static const u8 sTileBitAttributes[] =
     [MB_LAVARIDGE_GYM_B1F_WARP] = TILE_ATTRIBUTES(TRUE, FALSE, FALSE),
     [MB_SEAWEED_NO_SURFACING] = TILE_ATTRIBUTES(TRUE, TRUE, TRUE),
     [MB_REFLECTION_UNDER_BRIDGE] = TILE_ATTRIBUTES(TRUE, FALSE, FALSE),
-    [MB_UNUSED_2C] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_2D] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_2E] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_2F] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_UP_RIGHT_STAIR_WARP] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_UP_LEFT_STAIR_WARP] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_DOWN_RIGHT_STAIR_WARP] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_DOWN_LEFT_STAIR_WARP] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_IMPASSABLE_EAST] = TILE_ATTRIBUTES(TRUE, FALSE, FALSE),
     [MB_IMPASSABLE_WEST] = TILE_ATTRIBUTES(TRUE, FALSE, FALSE),
     [MB_IMPASSABLE_NORTH] = TILE_ATTRIBUTES(TRUE, FALSE, FALSE),
@@ -1520,3 +1520,42 @@ bool8 MetatileBehavior_IsTree(u8 metatileBehavior)
         return FALSE;
 }
 
+bool8 MetatileBehavior_IsDirectionalUpRightStairWarp(u8 metatileBehavior)
+{
+    if(metatileBehavior == MB_UP_RIGHT_STAIR_WARP)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 MetatileBehavior_IsDirectionalUpLeftStairWarp(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_UP_LEFT_STAIR_WARP)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 MetatileBehavior_IsDirectionalDownRightStairWarp(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_DOWN_RIGHT_STAIR_WARP)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 MetatileBehavior_IsDirectionalDownLeftStairWarp(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_DOWN_LEFT_STAIR_WARP)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 MetatileBehavior_IsDirectionalStairWarp(u8 metatileBehavior)
+{
+    if (metatileBehavior >= MB_UP_RIGHT_STAIR_WARP && metatileBehavior <= MB_DOWN_LEFT_STAIR_WARP)
+        return TRUE;
+    else
+        return FALSE;
+}

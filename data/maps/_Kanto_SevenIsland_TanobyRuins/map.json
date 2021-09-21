@@ -1,0 +1,76 @@
+{
+  "id": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS",
+  "name": "_Kanto_SevenIsland_TanobyRuins",
+  "layout": "LAYOUT_KANTO_SEVEN_ISLAND_TANOBY_RUINS",
+  "music": "MUS_RG_SEVII_ROUTE",
+  "region_map_section": "MAPSEC_TANOBY_RUINS",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_SEVEN_ISLAND_SEVAULT_CANYON",
+      "offset": 48,
+      "direction": "up"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 120,
+      "y": 10,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 103,
+      "y": 10,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS_LIPTOO_CHAMBER",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 88,
+      "y": 8,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS_WEEPTH_CHAMBER",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 44,
+      "y": 11,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 32,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS_SCUFIB_CHAMBER",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 12,
+      "y": 15,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS_RIXY_CHAMBER",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_TANOBY_RUINS_VIAPOIS_CHAMBER",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

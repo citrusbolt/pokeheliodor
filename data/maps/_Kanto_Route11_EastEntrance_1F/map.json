@@ -1,0 +1,56 @@
+{
+  "id": "MAP_KANTO_ROUTE11_EAST_ENTRANCE_1F",
+  "name": "_Kanto_Route11_EastEntrance_1F",
+  "layout": "LAYOUT_KANTO_ENTRANCE_1F",
+  "music": "MUS_RG_VERMILLION",
+  "region_map_section": "MAPSEC_ROUTE_11",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 1,
+      "y": 6,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE11",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE11",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE11",
+      "dest_warp_id": 2
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE11",
+      "dest_warp_id": 2
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE11_EAST_ENTRANCE_2F",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

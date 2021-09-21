@@ -1,0 +1,53 @@
+{
+  "id": "MAP_KANTO_ROUTE6",
+  "name": "_Kanto_Route6",
+  "layout": "LAYOUT_KANTO_ROUTE6",
+  "music": "MUS_RG_ROUTE3",
+  "region_map_section": "MAPSEC_ROUTE_6",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_SAFFRON_CITY_CONNECTION",
+      "offset": 0,
+      "direction": "up"
+    },
+    {
+      "map": "MAP_KANTO_VERMILION_CITY",
+      "offset": -12,
+      "direction": "down"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 19,
+      "y": 13,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_UNDERGROUND_PATH_SOUTH_ENTRANCE",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE6_NORTH_ENTRANCE",
+      "dest_warp_id": 2
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE6_NORTH_ENTRANCE",
+      "dest_warp_id": 2
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

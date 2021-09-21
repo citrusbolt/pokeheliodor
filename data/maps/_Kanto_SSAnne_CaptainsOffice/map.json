@@ -1,0 +1,28 @@
+{
+  "id": "MAP_KANTO_SSANNE_CAPTAINS_OFFICE",
+  "name": "_Kanto_SSAnne_CaptainsOffice",
+  "layout": "LAYOUT_KANTO_SSANNE_CAPTAINS_OFFICE",
+  "music": "MUS_RG_SS_ANNE",
+  "region_map_section": "MAPSEC_S_S_ANNE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SSANNE_2F_CORRIDOR",
+      "dest_warp_id": 2
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}
