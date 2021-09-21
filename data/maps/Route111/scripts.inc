@@ -427,12 +427,12 @@ Route111_EventScript_Hiker::
 	compare VAR_MIRAGE_TOWER_STATE, 2
 	goto_if_eq Route111_EventScript_HikerMirageTowerDisintegrated
 	goto_if_set FLAG_MIRAGE_TOWER_VISIBLE, Route111_EventScript_HikerMirageTowerVisible
-	goto_if_unset FLAG_RECEIVED_UNOWN, Route111_EventScript_GiveUnown
 	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
 	release
 	end
 
 Route111_EventScript_HikerMirageTowerGone::
+	goto_if_unset FLAG_RECEIVED_UNOWN, Route111_EventScript_GiveUnown
 	msgbox Route111_Text_MirageTowerHasntBeenSeenSince, MSGBOX_DEFAULT
 	release
 	end
@@ -649,7 +649,7 @@ Route111_EventScript_ReceivedUnownFanfare::
 	return
 
 Route111_EventScript_GiveUnownNotYet::
-	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
+	msgbox Route111_Text_MirageTowerHasntBeenSeenSince, MSGBOX_DEFAULT
 	release
 	end
 
