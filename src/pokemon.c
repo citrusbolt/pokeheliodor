@@ -7889,7 +7889,7 @@ u8 GivePorygon(void)
     int sentToPc;
     struct Pokemon mon;
 	u32 personality;
-	u8 ivs[5];
+	u8 ivs[6];
 	u8 otName[PLAYER_NAME_LENGTH + 1];
 	u8 otGender;
 	u32 otId;
