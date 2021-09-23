@@ -130,6 +130,7 @@ enum
     SPRITE_ARR_ID_ITEM,
     SPRITE_ARR_ID_MON_ICON,
     SPRITE_ARR_ID_STATUS,
+    SPRITE_ARR_ID_ORIGIN,
     SPRITE_ARR_ID_TYPE, // 2 for mon types, 5 for move types(4 moves and 1 to learn)
     SPRITE_ARR_ID_MOVE_SELECTOR1 = SPRITE_ARR_ID_TYPE + 7,
     SPRITE_ARR_ID_MOVE_SELECTOR2 = SPRITE_ARR_ID_MOVE_SELECTOR1 + MOVE_SELECTOR_SPRITES_COUNT,
@@ -348,6 +349,7 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon);
 static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon);
 static void CreateCaughtBallSprite(struct Pokemon *mon);
 static void CreateHeldItemSprite(struct Pokemon *mon);
+static void CreateOriginMarkSprite(struct Pokemon *mon);
 static void CreateSetStatusSprite(void);
 static void CreateMoveSelectorSprites(u8 idArrayStart);
 static void SpriteCb_MoveSelector(struct Sprite *sprite);
@@ -1157,6 +1159,46 @@ static const struct SpriteTemplate sSpriteTemplate_StatusCondition =
 };
 static const u16 sSummaryMarkingsPalette[] = INCBIN_U16("graphics/interface/summary_markings.gbapal");
 
+static const union AnimCmd sSpriteAnim_OriginMark[] =
+{
+    ANIMCMD_FRAME(0, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sSpriteAnimTable_OriginMark[] =
+{
+    sSpriteAnim_OriginMark
+};
+
+static const struct OamData sOamData_OriginMark =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = 0,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(16x16),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(16x16),
+    .tileNum = 0,
+    .priority = 1,
+    .paletteNum = 2,
+    .affineParam = 0
+};
+
+static const struct SpriteTemplate sOriginMarkSpriteTemplate =
+{
+    .tileTag = 5505,
+    .paletteTag = 5505,
+    .oam = &sOamData_OriginMark,
+    .anims = sSpriteAnimTable_OriginMark,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+
 // code
 void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void))
 {
@@ -1334,32 +1376,36 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 21:
+        CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
+        gMain.state++;
+        break;
+    case 22:
         LoadMonIconPalettes();
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 50, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
         break;
-    case 22:
+    case 23:
         CreateSetStatusSprite();
         gMain.state++;
         break;
-    case 23:
+    case 24:
         SetTypeIcons();
         gMain.state++;
         break;
-    case 24:
+    case 25:
         if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
             CreateTask(Task_HandleInput, 0);
         else
             CreateTask(Task_SetHandleReplaceMoveInput, 0);
         gMain.state++;
         break;
-    case 25:
+    case 26:
         BlendPalettes(PALETTES_ALL, 16, 0);
         gMain.state++;
         break;
-    case 26:
+    case 27:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         gPaletteFade.bufferTransferDisabled = 0;
         gMain.state++;
@@ -1732,32 +1778,38 @@ static void Task_ChangeSummaryMon(u8 taskId)
         DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]]);
         break;
     case 4:
+        DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]]);
+        break;
+    case 5:
         CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
         sMonSummaryScreen->switchCounter = 0;
         break;
-    case 5:
+    case 6:
         if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) == FALSE)
             return;
         break;
-    case 6:
+    case 7:
         RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 7:
+    case 8:
         CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 8:
+    case 9:
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
-	case 9:
+    case 10:
+        CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
+        break;
+	case 11:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 50, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
-    case 10:
+    case 12:
         DrawPokerusCuredSymbol(&sMonSummaryScreen->currentMon);
         data[1] = 0;
         break;
-    case 11:
+    case 13:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &data[1]);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] == SPRITE_NONE)
             return;
@@ -1765,17 +1817,17 @@ static void Task_ChangeSummaryMon(u8 taskId)
         TryDrawExperienceProgressBar();
         data[1] = 0;
         break;
-    case 12:
+    case 14:
         SetTypeIcons();
         break;
-    case 13:
+    case 15:
         PrintMonInfo();
         break;
-    case 14:
+    case 16:
         PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
         LimitEggSummaryPageDisplay();
         break;
-    case 15:
+    case 17:
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
@@ -1876,6 +1928,9 @@ static void ChangePage(u8 taskId, s8 delta)
         SetTaskFuncWithFollowupFunc(taskId, PssScrollLeft, gTasks[taskId].func);
     PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
     HidePageSpecificSprites();
+	
+	if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+		SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
 }
 
 static void PssScrollRight(u8 taskId) // Scroll right
@@ -3222,6 +3277,113 @@ static void SetTypeSpritePosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
     SetSpriteInvisibility(spriteArrayId, FALSE);
 }
 
+static const u32 sOriginMark_Ruby[] = INCBIN_U32("graphics/interface/origin_marks/ruby.4bpp.lz");
+static const u32 sOriginMarkPalette_Ruby[] = INCBIN_U32("graphics/interface/origin_marks/ruby.gbapal.lz");
+static const u32 sOriginMark_Sapphire[] = INCBIN_U32("graphics/interface/origin_marks/sapphire.4bpp.lz");
+static const u32 sOriginMarkPalette_Sapphire[] = INCBIN_U32("graphics/interface/origin_marks/sapphire.gbapal.lz");
+static const u32 sOriginMark_FireRed[] = INCBIN_U32("graphics/interface/origin_marks/firered.4bpp.lz");
+static const u32 sOriginMarkPalette_FireRed[] = INCBIN_U32("graphics/interface/origin_marks/firered.gbapal.lz");
+static const u32 sOriginMark_LeafGreen[] = INCBIN_U32("graphics/interface/origin_marks/leafgreen.4bpp.lz");
+static const u32 sOriginMarkPalette_LeafGreen[] = INCBIN_U32("graphics/interface/origin_marks/leafgreen.gbapal.lz");
+static const u32 sOriginMark_Emerald[] = INCBIN_U32("graphics/interface/origin_marks/heliodor.4bpp.lz");
+static const u32 sOriginMarkPalette_Emerald[] = INCBIN_U32("graphics/interface/origin_marks/emerald.gbapal.lz");
+static const u32 sOriginMark_Colosseum[] = INCBIN_U32("graphics/interface/origin_marks/colosseum.4bpp.lz");
+static const u32 sOriginMarkPalette_Colosseum[] = INCBIN_U32("graphics/interface/origin_marks/colosseum.gbapal.lz");
+static const u32 sOriginMark_XD[] = INCBIN_U32("graphics/interface/origin_marks/xd.4bpp.lz");
+static const u32 sOriginMarkPalette_XD[] = INCBIN_U32("graphics/interface/origin_marks/xd.gbapal.lz");
+static const u32 sOriginMark_Heliodor[] = INCBIN_U32("graphics/interface/origin_marks/heliodor.4bpp.lz");
+static const u32 sOriginMarkPalette_Heliodor[] = INCBIN_U32("graphics/interface/origin_marks/heliodor.gbapal.lz");
+static const u32 sOriginMark_CrystalDust[] = INCBIN_U32("graphics/interface/origin_marks/crystaldust.4bpp.lz");
+static const u32 sOriginMarkPalette_CrystalDust[] = INCBIN_U32("graphics/interface/origin_marks/crystaldust.gbapal.lz");
+
+static const u32 *const sOriginMarkTable[][2] =
+{
+	{sOriginMark_Ruby, sOriginMarkPalette_Ruby},
+	{sOriginMark_Sapphire, sOriginMarkPalette_Sapphire},
+	{sOriginMark_FireRed, sOriginMarkPalette_FireRed},
+	{sOriginMark_LeafGreen, sOriginMarkPalette_LeafGreen},
+	{sOriginMark_Emerald, sOriginMarkPalette_Emerald},
+	{sOriginMark_Colosseum, sOriginMarkPalette_Colosseum},
+	{sOriginMark_XD, sOriginMarkPalette_XD},
+	{sOriginMark_Heliodor, sOriginMarkPalette_Heliodor},
+	{sOriginMark_CrystalDust, sOriginMarkPalette_CrystalDust},
+};
+
+static void CreateOriginMarkSprite(struct Pokemon *mon)
+{
+	struct SpriteSheet spriteSheet;
+	struct CompressedSpritePalette spritePalette;
+	struct SpriteTemplate *spriteTemplate;
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+	
+	FreeSpriteTilesByTag(5505);
+	FreeSpritePaletteByTag(5505);
+	
+	if (sum->metGame == VERSION_RUBY)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->metGame == VERSION_SAPPHIRE)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->metGame == VERSION_FIRERED)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->metGame == VERSION_LEAFGREEN)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->metGame == VERSION_EMERALD)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->metGame == VERSION_GAMECUBE && sum->fatefulEncounter)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->metGame == VERSION_GAMECUBE)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->versionModifier == DEV_SOLITAIRI)
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	if (sum->metGame == VERSION_HEARTGOLD || (sum->metGame == VERSION_FIRERED && sum->versionModifier == DEV_SOLITAIRI_2))
+	{
+		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	
+	CpuCopy16(gItemIconDecompressionBuffer, gItemIcon4x4Buffer, 0x100);
+	spriteSheet.data = gItemIcon4x4Buffer;
+	spriteSheet.size = 0x100;
+	spriteSheet.tag = 5505;
+	LoadSpriteSheet(&spriteSheet);
+	spritePalette.tag = 5505;
+	LoadCompressedSpritePalette(&spritePalette);
+	spriteTemplate = Alloc(sizeof(*spriteTemplate));
+	CpuCopy16(&sOriginMarkSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
+	spriteTemplate->tileTag = 5505;
+	spriteTemplate->paletteTag = 5505;
+	
+	sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] = CreateSprite(spriteTemplate, 0, 0, 0);
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].callback = SpriteCallbackDummy;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].oam.priority = 0;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].x = 104;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].y = 120;
+}
+
 static void PrintInfoPage(void)
 {
 	u8 x, i;
@@ -4056,7 +4218,7 @@ static bool8 DidMonComeFromCD(void)
     if (sum->metGame == VERSION_HEARTGOLD)	//CrystalDust uses HeartGold's game ID
         return TRUE;
 	if (sum->metGame == VERSION_FIRERED && sum->versionModifier == DEV_SOLITAIRI_2)	//Solitairi fork of CrystalDust
-		return FALSE;
+		return TRUE;
     return FALSE;
 }
 
@@ -4961,7 +5123,7 @@ static void HidePageSpecificSprites(void)
     // Keeps Pok�mon, caught ball and status sprites visible.
     u8 i;
 
-    for (i = SPRITE_ARR_ID_TYPE; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
+    for (i = SPRITE_ARR_ID_ORIGIN; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
     {
         if (sMonSummaryScreen->spriteIds[i] != SPRITE_NONE)
             SetSpriteInvisibility(i, TRUE);
