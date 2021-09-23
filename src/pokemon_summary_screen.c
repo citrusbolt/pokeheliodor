@@ -55,6 +55,7 @@ enum {
     PSS_PAGE_MEMO,
     PSS_PAGE_SKILLS,
     PSS_PAGE_BATTLE_MOVES,
+    PSS_PAGE_CONDITION,
     PSS_PAGE_CONTEST_MOVES,
     PSS_PAGE_COUNT,
 };
@@ -181,6 +182,12 @@ static EWRAM_DATA struct PokemonSummaryScreenData
         u32 OTID; // 0x48
 		bool8 fatefulEncounter;
 		u8 versionModifier;
+		u8 sheen;
+		u8 cool;
+		u8 beauty;
+		u8 cute;
+		u8 smart;
+		u8 tough;
     } summary;
     u16 bgTilemapBuffers[PSS_PAGE_COUNT][2][0x400];
     u8 mode;
@@ -292,6 +299,7 @@ static void PrintEggMemo(void);
 static void Task_PrintSkillsPage(u8 taskId);
 static void PrintHeldItemName(void);
 static void PrintSkillsPage(void);
+static void PrintConditionPage(void);
 static void PrintRibbonCount(void);
 static void BufferLeftColumnStats(void);
 static void PrintLeftColumnStats(void);
@@ -790,6 +798,7 @@ static void (*const sTextPrinterFunctions[])(void) =
     [PSS_PAGE_MEMO] = PrintMemoPage,
     [PSS_PAGE_SKILLS] = PrintSkillsPage,
     [PSS_PAGE_BATTLE_MOVES] = PrintBattleMoves,
+    [PSS_PAGE_CONDITION] = PrintConditionPage,
     [PSS_PAGE_CONTEST_MOVES] = PrintContestMoves
 };
 
@@ -1513,6 +1522,14 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->metGame = GetMonData(mon, MON_DATA_MET_GAME);
         sum->friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
 		sum->versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER);
+        break;
+    case 4:
+        sum->sheen = GetMonData(mon, MON_DATA_SHEEN);
+        sum->cool = GetMonData(mon, MON_DATA_COOL);
+        sum->beauty = GetMonData(mon, MON_DATA_BEAUTY);
+        sum->cute = GetMonData(mon, MON_DATA_CUTE);
+        sum->smart = GetMonData(mon, MON_DATA_SMART);
+        sum->tough = GetMonData(mon, MON_DATA_TOUGH);
         break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
@@ -4279,6 +4296,68 @@ static void PrintSkillsPage(void)
    //BufferRightColumnStats();
    //PrintRightColumnStats();
    //PrintExpPointsNextLevel();
+}
+
+static void PrintConditionPage(void)
+{
+	u8 x, i;
+	s64 numSheenBarTicks;
+    u16 *dst;
+	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+	struct PokeSummary *summary = &sMonSummaryScreen->summary;
+
+	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_HP, PIXEL_FILL(0));
+	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_SMALL, PIXEL_FILL(0));
+
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_HP, gText_SummarySheen, 12, 0, 0, 1);
+	ConvertIntToDecimalStringN(gStringVar1, summary->sheen, STR_CONV_MODE_LEFT_ALIGN, 3);
+	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_HP, gStringVar1, x, 0, 0, 0);
+
+	numSheenBarTicks = summary->sheen * 64 / 255;
+	if (numSheenBarTicks == 0 && summary->sheen != 0)
+		numSheenBarTicks = 1;
+
+    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x95];
+    for (i = 0; i < 8; i++)
+    {
+        if (numSheenBarTicks > 7)
+            dst[i] = 0x206A;
+        else
+            dst[i] = 0x2062 + (numSheenBarTicks % 8);
+        numSheenBarTicks -= 8;
+        if (numSheenBarTicks < 0)
+            numSheenBarTicks = 0;
+    }
+
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryCool, 12, 0, 0, 1);
+	ConvertIntToDecimalStringN(gStringVar1, summary->cool, STR_CONV_MODE_LEFT_ALIGN, 3);
+	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 0, 0, 0);
+	
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryBeauty, 12, 16, 0, 1);
+	ConvertIntToDecimalStringN(gStringVar1, summary->beauty, STR_CONV_MODE_LEFT_ALIGN, 3);
+	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 16, 0, 0);
+	
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryCute, 12, 32, 0, 1);
+	ConvertIntToDecimalStringN(gStringVar1, summary->cute, STR_CONV_MODE_LEFT_ALIGN, 3);
+	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 32, 0, 0);
+	
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySmart, 12, 48, 0, 1);
+	ConvertIntToDecimalStringN(gStringVar1, summary->smart, STR_CONV_MODE_LEFT_ALIGN, 3);
+	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 48, 0, 0);
+	
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryTough, 12, 64, 0, 1);
+	ConvertIntToDecimalStringN(gStringVar1, summary->tough, STR_CONV_MODE_LEFT_ALIGN, 3);
+	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 64, 0, 0);
+
+    ScheduleBgCopyTilemapToVram(0);
+    PutWindowTilemap(PSS_LABEL_PANE_RIGHT_HP);
+    PutWindowTilemap(PSS_LABEL_PANE_RIGHT_SMALL);
 }
 
 static void Task_PrintSkillsPage(u8 taskId)

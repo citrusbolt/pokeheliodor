@@ -3335,5 +3335,11 @@ extern const u8 gText_SummaryAbility[];
 extern const u8 gText_SummaryPP[];
 extern const u8 gText_SummaryNatureUp[];
 extern const u8 gText_SummaryNatureDown[];
+extern const u8 gText_SummarySheen[];
+extern const u8 gText_SummaryCool[];
+extern const u8 gText_SummaryBeauty[];
+extern const u8 gText_SummaryCute[];
+extern const u8 gText_SummarySmart[];
+extern const u8 gText_SummaryTough[];
 	
 #endif // GUARD_STRINGS_H
