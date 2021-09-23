@@ -2110,6 +2110,10 @@ static void CloseMoveSelectMode(u8 taskId)
         HandlePowerAccTilemap(0, 3);
         HandleAppealJamTilemap(0, 3, 0);
     }
+	if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
+		PrintBattleMoves();
+	else
+		PrintContestMoves();
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
@@ -4823,8 +4827,8 @@ static void PrintNewMoveDetailsOrCancelText(void)
 {
 	u32 pp, x;
 
-    if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
-	{
+    //if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
+	//{
 		if (sMonSummaryScreen->newMove != MOVE_NONE)
 		{
 			pp = gBattleMoves[sMonSummaryScreen->newMove].pp;
@@ -4841,7 +4845,7 @@ static void PrintNewMoveDetailsOrCancelText(void)
 		{
 			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_Cancel, 64, 116, 0, 1);
 		}
-	}
+	//}
 }
 
 static void AddAndFillMoveNamesWindow(void)
