@@ -620,9 +620,9 @@ static const struct WindowTemplate sSummaryTemplate[] =
     [PSS_LABEL_PANE_LEFT_MOVE] = {
         .bg = 0,
         .tilemapLeft = 0,
-        .tilemapTop = 2,
+        .tilemapTop = 4,
         .width = 14,
-        .height = 18,
+        .height = 16,
         .paletteNum = 6,
         .baseBlock = 418,
     },
@@ -4749,16 +4749,15 @@ static void PrintMoveDetails(u16 move)
     FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
 
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, FALSE);
+	SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 41, 45, SPRITE_ARR_ID_TYPE);
 
 	if (gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2)
 	{
-		SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 41, 45, SPRITE_ARR_ID_TYPE);
 		SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 75, 45, SPRITE_ARR_ID_TYPE + 1);
 		SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
 	}
 	else
 	{
-		SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 58, 45, SPRITE_ARR_ID_TYPE);
 		SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
 	}
 
@@ -4766,7 +4765,7 @@ static void PrintMoveDetails(u16 move)
     {
 		if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
         {
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Power, 8, 48, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Power, 8, 32, 0, 1);
 
 			if (move == MOVE_HIDDEN_POWER)
 			{
@@ -4789,9 +4788,9 @@ static void PrintMoveDetails(u16 move)
 					ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
 			}
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 48, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 32, 0, 0);
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Accuracy2, 8, 64, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Accuracy2, 8, 48, 0, 1);
 
 			if (gBattleMoves[move].accuracy == 0)
 			{
@@ -4800,17 +4799,17 @@ static void PrintMoveDetails(u16 move)
 			else
 				ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 64, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 48, 0, 0);
 
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveFourLineDescriptionPointers[move - 1], 4, 80, 0, 0);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveFourLineDescriptionPointers[move - 1], 4, 64, 0, 0);
         }
         else
         {
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, 48, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, 32, 0, 1);
 			
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Jam, 8, 64, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Jam, 8, 48, 0, 1);
 			
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gContestEffectDescriptionPointers[gContestMoves[move].effect], 8, 80, 0, 0);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gContestEffectDescriptionPointers[gContestMoves[move].effect], 8, 64, 0, 0);
         }
 
         PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
