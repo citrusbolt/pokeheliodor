@@ -1321,7 +1321,7 @@ static bool8 LoadGraphics(void)
         break;
     case 21:
         LoadMonIconPalettes();
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 44, 28, 1, sMonSummaryScreen->summary.pid, TRUE);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 50, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
@@ -1722,7 +1722,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
 	case 9:
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 44, 28, 1, sMonSummaryScreen->summary.pid, TRUE);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 50, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
@@ -4748,13 +4748,13 @@ static void PrintMoveDetails(u16 move)
 
 	if (gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2)
 	{
-		SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 11, 45, SPRITE_ARR_ID_TYPE);
-		SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 45, 45, SPRITE_ARR_ID_TYPE + 1);
+		SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 41, 45, SPRITE_ARR_ID_TYPE);
+		SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 75, 45, SPRITE_ARR_ID_TYPE + 1);
 		SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
 	}
 	else
 	{
-		SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 28, 45, SPRITE_ARR_ID_TYPE);
+		SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 58, 45, SPRITE_ARR_ID_TYPE);
 		SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
 	}
 
