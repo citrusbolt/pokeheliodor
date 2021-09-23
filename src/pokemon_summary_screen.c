@@ -4158,7 +4158,7 @@ static void PrintSkillsPage(void)
 	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_HP, PIXEL_FILL(0));
 	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_SMALL, PIXEL_FILL(0));
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_HP, gText_HP3, 8, 0, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_HP, gText_HP3, 12, 0, 0, 1);
 	ConvertIntToDecimalStringN(gStringVar1, summary->currentHP, STR_CONV_MODE_LEFT_ALIGN, 3);
 	StringAppend(gStringVar1, gText_Slash);
 	ConvertIntToDecimalStringN(gStringVar2, summary->maxHP, STR_CONV_MODE_LEFT_ALIGN, 3);
