@@ -49,6 +49,7 @@
 #include "mgba.h"
 #include "item_icon.h"
 #include "pokemon_icon.h"
+#include "constants/flags.h"
 
 enum {
     PSS_PAGE_INFO,
@@ -188,6 +189,18 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		u8 cute;
 		u8 smart;
 		u8 tough;
+		u8 hpIV;
+		u8 atkIV;
+		u8 defIV;
+		u8 spatkIV;
+		u8 spdefIV;
+		u8 speedIV;
+		u8 hpEV;
+		u8 atkEV;
+		u8 defEV;
+		u8 spatkEV;
+		u8 spdefEV;
+		u8 speedEV;
     } summary;
     u16 bgTilemapBuffers[PSS_PAGE_COUNT][2][0x400];
     u8 mode;
@@ -203,7 +216,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 secondMoveIndex;
     bool8 lockMovesFlag; // This is used to prevent the player from changing position of moves in a battle or when trading.
     u8 bgDisplayOrder; // Determines the order page backgrounds are loaded while scrolling between them
-    u8 filler40CA;
+    u8 currStatIndex;
     u8 windowIds[8];
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
     bool8 unk40EF;
@@ -1179,6 +1192,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     }
 
     sMonSummaryScreen->currPageIndex = sMonSummaryScreen->minPageIndex;
+	sMonSummaryScreen->currStatIndex = 0;
     SummaryScreen_SetAnimDelayTaskId(TASK_NONE);
 
     if (gMonSpritesGfxPtr == NULL)
@@ -1531,6 +1545,22 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->smart = GetMonData(mon, MON_DATA_SMART);
         sum->tough = GetMonData(mon, MON_DATA_TOUGH);
         break;
+    case 5:
+		sum->hpIV = GetMonData(mon, MON_DATA_HP_IV);
+		sum->atkIV = GetMonData(mon, MON_DATA_ATK_IV);
+		sum->defIV = GetMonData(mon, MON_DATA_DEF_IV);
+		sum->spatkIV = GetMonData(mon, MON_DATA_SPATK_IV);
+		sum->spdefIV = GetMonData(mon, MON_DATA_SPDEF_IV);
+		sum->speedIV = GetMonData(mon, MON_DATA_SPEED_IV);
+        break;
+    case 6:
+		sum->hpEV = GetMonData(mon, MON_DATA_HP_EV);
+		sum->atkEV = GetMonData(mon, MON_DATA_ATK_EV);
+		sum->defEV = GetMonData(mon, MON_DATA_DEF_EV);
+		sum->spatkEV = GetMonData(mon, MON_DATA_SPATK_EV);
+		sum->spdefEV = GetMonData(mon, MON_DATA_SPDEF_EV);
+		sum->speedEV = GetMonData(mon, MON_DATA_SPEED_EV);
+        break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
 		sum->fatefulEncounter = GetMonData(mon, MON_DATA_EVENT_LEGAL);
@@ -1616,20 +1646,17 @@ static void Task_HandleInput(u8 taskId)
         }
         else if (JOY_NEW(A_BUTTON))
         {
-            if (sMonSummaryScreen->currPageIndex != PSS_PAGE_SKILLS)
-            {
-                if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
-                {
-                    PlaySE(SE_SELECT);
-                    SwitchToMoveSelection(taskId);
-                }
-                else
-                {
-                    StopPokemonAnimations();
-                    PlaySE(SE_SELECT);
-                    BeginCloseSummaryScreen(taskId);
-                }
-            }
+			if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
+			{
+				PlaySE(SE_SELECT);
+				SwitchToMoveSelection(taskId);
+			}
+			else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS && FlagGet(FLAG_SYS_GAME_CLEAR))
+			{
+				PlaySE(SE_SELECT);
+				sMonSummaryScreen->currStatIndex = (sMonSummaryScreen->currStatIndex + 1) % 3;
+				PrintSkillsPage();
+			}
         }
         else if (JOY_NEW(B_BUTTON))
         {
@@ -4163,11 +4190,22 @@ static void PrintSkillsPage(void)
 	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_SMALL, PIXEL_FILL(0));
 
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_HP, gText_HP3, 12, 0, 0, 1);
-	ConvertIntToDecimalStringN(gStringVar1, summary->currentHP, STR_CONV_MODE_LEFT_ALIGN, 3);
-	StringAppend(gStringVar1, gText_Slash);
-	ConvertIntToDecimalStringN(gStringVar2, summary->maxHP, STR_CONV_MODE_LEFT_ALIGN, 3);
-	StringAppend(gStringVar1, gStringVar2);
-	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
+	if (sMonSummaryScreen->currStatIndex == 0)
+	{
+		ConvertIntToDecimalStringN(gStringVar1, summary->currentHP, STR_CONV_MODE_LEFT_ALIGN, 3);
+		StringAppend(gStringVar1, gText_Slash);
+		ConvertIntToDecimalStringN(gStringVar2, summary->maxHP, STR_CONV_MODE_LEFT_ALIGN, 3);
+		StringAppend(gStringVar1, gStringVar2);
+	}
+	else if (sMonSummaryScreen->currStatIndex == 1)
+	{
+		ConvertIntToDecimalStringN(gStringVar1, summary->hpIV, STR_CONV_MODE_LEFT_ALIGN, 2);
+	}
+	else
+	{
+		ConvertIntToDecimalStringN(gStringVar1, summary->hpEV, STR_CONV_MODE_LEFT_ALIGN, 3);
+	}
+		x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_HP, gStringVar1, x, 0, 0, 0);
 
 	numHPBarTicks = summary->currentHP * 64 / summary->maxHP;
@@ -4191,45 +4229,70 @@ static void PrintSkillsPage(void)
 	else if (natureMod[STAT_ATK - 1] < 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 0, 0, 3);
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryAttack, 12, 0, 0, 1);
-	ConvertIntToDecimalStringN(gStringVar1, summary->atk, STR_CONV_MODE_LEFT_ALIGN, 3);
+	if (sMonSummaryScreen->currStatIndex == 0)
+		ConvertIntToDecimalStringN(gStringVar1, summary->atk, STR_CONV_MODE_LEFT_ALIGN, 3);
+	else if (sMonSummaryScreen->currStatIndex == 1)
+		ConvertIntToDecimalStringN(gStringVar1, summary->atkIV, STR_CONV_MODE_LEFT_ALIGN, 2);
+	else
+		ConvertIntToDecimalStringN(gStringVar1, summary->atkEV, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 0, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 0, 0, 0);
 	
 	if (natureMod[STAT_DEF - 1] > 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 16, 0, 2);
 	else if (natureMod[STAT_DEF - 1] < 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 16, 0, 3);
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryDefense, 12, 16, 0, 1);
-	ConvertIntToDecimalStringN(gStringVar1, summary->def, STR_CONV_MODE_LEFT_ALIGN, 3);
+	if (sMonSummaryScreen->currStatIndex == 0)
+		ConvertIntToDecimalStringN(gStringVar1, summary->def, STR_CONV_MODE_LEFT_ALIGN, 3);
+	else if (sMonSummaryScreen->currStatIndex == 1)
+		ConvertIntToDecimalStringN(gStringVar1, summary->defIV, STR_CONV_MODE_LEFT_ALIGN, 2);
+	else
+		ConvertIntToDecimalStringN(gStringVar1, summary->defEV, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 16, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 16, 0, 0);
 	
 	if (natureMod[STAT_SPATK - 1] > 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 32, 0, 2);
 	else if (natureMod[STAT_SPATK - 1] < 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 32, 0, 3);
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialAttack, 12, 32, 0, 1);
-	ConvertIntToDecimalStringN(gStringVar1, summary->spatk, STR_CONV_MODE_LEFT_ALIGN, 3);
+	if (sMonSummaryScreen->currStatIndex == 0)
+		ConvertIntToDecimalStringN(gStringVar1, summary->spatk, STR_CONV_MODE_LEFT_ALIGN, 3);
+	else if (sMonSummaryScreen->currStatIndex == 1)
+		ConvertIntToDecimalStringN(gStringVar1, summary->spatkIV, STR_CONV_MODE_LEFT_ALIGN, 2);
+	else
+		ConvertIntToDecimalStringN(gStringVar1, summary->spatkEV, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 32, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 32, 0, 0);
 	
 	if (natureMod[STAT_SPDEF - 1] > 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 48, 0, 2);
 	else if (natureMod[STAT_SPDEF - 1] < 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 48, 0, 3);
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialDefense, 12, 48, 0, 1);
-	ConvertIntToDecimalStringN(gStringVar1, summary->spdef, STR_CONV_MODE_LEFT_ALIGN, 3);
+	if (sMonSummaryScreen->currStatIndex == 0)
+		ConvertIntToDecimalStringN(gStringVar1, summary->spdef, STR_CONV_MODE_LEFT_ALIGN, 3);
+	else if (sMonSummaryScreen->currStatIndex == 1)
+		ConvertIntToDecimalStringN(gStringVar1, summary->spdefIV, STR_CONV_MODE_LEFT_ALIGN, 2);
+	else
+		ConvertIntToDecimalStringN(gStringVar1, summary->spdefEV, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 48, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 48, 0, 0);
 	
 	if (natureMod[STAT_SPEED - 1] > 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 64, 0, 2);
 	else if (natureMod[STAT_SPEED - 1] < 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 64, 0, 3);
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpeed, 12, 64, 0, 1);
-	ConvertIntToDecimalStringN(gStringVar1, summary->speed, STR_CONV_MODE_LEFT_ALIGN, 3);
+	if (sMonSummaryScreen->currStatIndex == 0)
+		ConvertIntToDecimalStringN(gStringVar1, summary->speed, STR_CONV_MODE_LEFT_ALIGN, 3);
+	else if (sMonSummaryScreen->currStatIndex == 1)
+		ConvertIntToDecimalStringN(gStringVar1, summary->speedIV, STR_CONV_MODE_LEFT_ALIGN, 2);
+	else
+		ConvertIntToDecimalStringN(gStringVar1, summary->speedEV, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 64, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 64, 0, 0);
 
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryAbility, 8, 88, 0, 1);
 	StringCopy(gStringVar1, gAbilityNames[GetAbilityBySpecies(sMonSummaryScreen->summary.species, summary->abilityNum)]);
