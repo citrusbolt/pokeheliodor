@@ -2051,3 +2051,5 @@ const u8 gText_SummarySpecialDefense[] = _("Sp. Def");
 const u8 gText_SummarySpeed[] = _("Speed");
 const u8 gText_SummaryAbility[] = _("Ability");
 const u8 gText_SummaryPP[] = _("PP");
+const u8 gText_SummaryNatureUp[] = _("{SUM_UP}");
+const u8 gText_SummaryNatureDown[] = _("{SUM_DOWN}");

@@ -4165,52 +4165,47 @@ static void PrintSkillsPage(void)
             numHPBarTicks = 0;
     }
 
-	if (natureMod[STAT_ATK - 1] == 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryAttack, 8, 0, 0, 1);
-	else if (natureMod[STAT_ATK - 1] > 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryAttack, 8, 0, 0, 2);
-	else
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryAttack, 8, 0, 0, 3);
+	if (natureMod[STAT_ATK - 1] > 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 0, 0, 2);
+	else if (natureMod[STAT_ATK - 1] < 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 0, 0, 3);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryAttack, 12, 0, 0, 1);
 	ConvertIntToDecimalStringN(gStringVar1, summary->atk, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 0, 0, 0);
 	
-	if (natureMod[STAT_DEF - 1] == 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryDefense, 8, 16, 0, 1);
-	else if (natureMod[STAT_DEF - 1] > 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryDefense, 8, 16, 0, 2);
-	else
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryDefense, 8, 16, 0, 3);
+	if (natureMod[STAT_DEF - 1] > 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 16, 0, 2);
+	else if (natureMod[STAT_DEF - 1] < 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 16, 0, 3);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryDefense, 12, 16, 0, 1);
 	ConvertIntToDecimalStringN(gStringVar1, summary->def, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 16, 0, 0);
 	
-	if (natureMod[STAT_SPATK - 1] == 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialAttack, 8, 32, 0, 1);
-	else if (natureMod[STAT_SPATK - 1] > 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialAttack, 8, 32, 0, 2);
-	else
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialAttack, 8, 32, 0, 3);
+	if (natureMod[STAT_SPATK - 1] > 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 32, 0, 2);
+	else if (natureMod[STAT_SPATK - 1] < 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 32, 0, 3);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialAttack, 12, 32, 0, 1);
 	ConvertIntToDecimalStringN(gStringVar1, summary->spatk, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 32, 0, 0);
 	
-	if (natureMod[STAT_SPDEF - 1] == 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialDefense, 8, 48, 0, 1);
-	else if (natureMod[STAT_SPDEF - 1] > 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialDefense, 8, 48, 0, 2);
-	else
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialDefense, 8, 48, 0, 3);
+	if (natureMod[STAT_SPDEF - 1] > 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 48, 0, 2);
+	else if (natureMod[STAT_SPDEF - 1] < 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 48, 0, 3);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpecialDefense, 12, 48, 0, 1);
 	ConvertIntToDecimalStringN(gStringVar1, summary->spdef, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 48, 0, 0);
 	
-	if (natureMod[STAT_SPEED - 1] == 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpeed, 8, 64, 0, 1);
-	else if (natureMod[STAT_SPEED - 1] > 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpeed, 8, 64, 0, 2);
-	else
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpeed, 8, 64, 0, 3);
+	if (natureMod[STAT_SPEED - 1] > 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 64, 0, 2);
+	else if (natureMod[STAT_SPEED - 1] < 0)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureDown, 0, 64, 0, 3);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummarySpeed, 12, 64, 0, 1);
 	ConvertIntToDecimalStringN(gStringVar1, summary->speed, STR_CONV_MODE_LEFT_ALIGN, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gStringVar1, x, 64, 0, 0);
