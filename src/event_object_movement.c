@@ -189,7 +189,7 @@ static void (*const sMovementTypeCallbacks[])(struct Sprite *) =
     [MOVEMENT_TYPE_FACE_LEFT] = MovementType_FaceDirection,
     [MOVEMENT_TYPE_FACE_RIGHT] = MovementType_FaceDirection,
     [MOVEMENT_TYPE_PLAYER] = MovementType_Player,
-    [MOVEMENT_TYPE_BERRY_TREE_GROWTH] = MovementType_BerryTreeGrowth,
+    [MOVEMENT_TYPE_BERRY_TREE_GROWTH] = MovementType_BERRYTreeGrowth,
     [MOVEMENT_TYPE_FACE_DOWN_AND_UP] = MovementType_FaceDownAndUp,
     [MOVEMENT_TYPE_FACE_LEFT_AND_RIGHT] = MovementType_FaceLeftAndRight,
     [MOVEMENT_TYPE_FACE_UP_AND_LEFT] = MovementType_FaceUpAndLeft,
@@ -3065,8 +3065,8 @@ bool8 MovementType_FaceDirection_Step2(struct ObjectEvent *objectEvent, struct S
     return FALSE;
 }
 
-static bool8 ObjectEventCB2_BerryTree(struct ObjectEvent *objectEvent, struct Sprite *sprite);
-extern bool8 (*const gMovementTypeFuncs_BerryTreeGrowth[])(struct ObjectEvent *objectEvent, struct Sprite *sprite);
+static bool8 ObjectEventCB2_BERRYTree(struct ObjectEvent *objectEvent, struct Sprite *sprite);
+extern bool8 (*const gMovementTypeFuncs_BERRYTreeGrowth[])(struct ObjectEvent *objectEvent, struct Sprite *sprite);
 
 enum {
     BERRYTREEFUNC_NORMAL,
@@ -3083,7 +3083,7 @@ enum {
 #define BERRY_FLAG_SPARKLING   (1 << 1)
 #define BERRY_FLAG_JUST_PICKED (1 << 2)
 
-void MovementType_BerryTreeGrowth(struct Sprite *sprite)
+void MovementType_BERRYTreeGrowth(struct Sprite *sprite)
 {
     struct ObjectEvent *objectEvent;
 
@@ -3093,15 +3093,15 @@ void MovementType_BerryTreeGrowth(struct Sprite *sprite)
         SetBerryTreeGraphics(objectEvent, sprite);
         sprite->sBerryTreeFlags |= BERRY_FLAG_SET_GFX;
     }
-    UpdateObjectEventCurrentMovement(objectEvent, sprite, ObjectEventCB2_BerryTree);
+    UpdateObjectEventCurrentMovement(objectEvent, sprite, ObjectEventCB2_BERRYTree);
 }
-static bool8 ObjectEventCB2_BerryTree(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+static bool8 ObjectEventCB2_BERRYTree(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    return gMovementTypeFuncs_BerryTreeGrowth[sprite->sTypeFuncId](objectEvent, sprite);
+    return gMovementTypeFuncs_BERRYTreeGrowth[sprite->sTypeFuncId](objectEvent, sprite);
 }
 
 // BERRYTREEFUNC_NORMAL
-bool8 MovementType_BerryTreeGrowth_Normal(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+bool8 MovementType_BERRYTreeGrowth_Normal(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     u8 berryStage;
     ClearObjectEventMovement(objectEvent, sprite);
@@ -3136,7 +3136,7 @@ bool8 MovementType_BerryTreeGrowth_Normal(struct ObjectEvent *objectEvent, struc
 }
 
 // BERRYTREEFUNC_MOVE
-bool8 MovementType_BerryTreeGrowth_Move(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+bool8 MovementType_BERRYTreeGrowth_Move(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     if (ObjectEventExecSingleMovementAction(objectEvent, sprite))
     {
@@ -3147,7 +3147,7 @@ bool8 MovementType_BerryTreeGrowth_Move(struct ObjectEvent *objectEvent, struct 
 }
 
 // BERRYTREEFUNC_SPARKLE_START
-bool8 MovementType_BerryTreeGrowth_SparkleStart(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+bool8 MovementType_BERRYTreeGrowth_SparkleStart(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     objectEvent->singleMovementActive = TRUE;
     sprite->sTypeFuncId = BERRYTREEFUNC_SPARKLE;
@@ -3162,7 +3162,7 @@ bool8 MovementType_BerryTreeGrowth_SparkleStart(struct ObjectEvent *objectEvent,
 }
 
 // BERRYTREEFUNC_SPARKLE
-bool8 MovementType_BerryTreeGrowth_Sparkle(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+bool8 MovementType_BERRYTreeGrowth_Sparkle(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     sprite->sTimer++;
     objectEvent->invisible = (sprite->sTimer & 2) >> 1;
@@ -3178,7 +3178,7 @@ bool8 MovementType_BerryTreeGrowth_Sparkle(struct ObjectEvent *objectEvent, stru
 }
 
 // BERRYTREEFUNC_SPARKLE_END
-bool8 MovementType_BerryTreeGrowth_SparkleEnd(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+bool8 MovementType_BERRYTreeGrowth_SparkleEnd(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     sprite->sTimer++;
     objectEvent->invisible = (sprite->sTimer & 2) >> 1;

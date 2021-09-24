@@ -1810,8 +1810,8 @@ static void Task_ShowRankings(u8 taskId)
         break;
     case 1:
         // Print header text
-        xPos = 96 - GetStringWidth(1, gText_BerryCrush2, -1) / 2u;
-        AddTextPrinterParameterized3(tWindowId, 1, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush2);
+        xPos = 96 - GetStringWidth(1, gText_BERRYCrush2, -1) / 2u;
+        AddTextPrinterParameterized3(tWindowId, 1, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BERRYCrush2);
         xPos = 96 - GetStringWidth(1, gText_PressingSpeedRankings, -1) / 2u;
         AddTextPrinterParameterized3(tWindowId, 1, xPos, 17, sTextColorTable[COLORID_BLUE], 0, gText_PressingSpeedRankings);
         
@@ -2390,8 +2390,8 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
             game->players[i].berryId = gBlockRecvBuffer[i][0];
             if (game->players[i].berryId > LAST_BERRY_INDEX + 1)
                 game->players[i].berryId = 0;
-            game->targetAPresses += gBerryCrush_BerryData[game->players[i].berryId].difficulty;
-            game->powder += gBerryCrush_BerryData[game->players[i].berryId].powder;
+            game->targetAPresses += gBerryCrush_BERRYData[game->players[i].berryId].difficulty;
+            game->powder += gBerryCrush_BERRYData[game->players[i].berryId].powder;
         }
         game->cmdTimer = 0;
         ResetBlockReceivedFlags();

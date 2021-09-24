@@ -2090,7 +2090,7 @@ static void BufferBerryCrushPoints(void)
 static void PrintBerryCrushStringOnCard(u8 slot)
 {
 	if (sData->cardLayout == CARD_LAYOUT_HELIODOR || sData->trainerCard.berryCrushPoints)
-		PrintStatOnBackOfCard(slot, gText_BerryCrush, sData->textBerryCrushPts, sTrainerCardStatColors);
+		PrintStatOnBackOfCard(slot, gText_BERRYCrush, sData->textBerryCrushPts, sTrainerCardStatColors);
 }
 
 static void BufferBattlePoints(void)

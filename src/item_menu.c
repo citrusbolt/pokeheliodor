@@ -372,7 +372,7 @@ static const u8 sContextMenuItems_Cancel[] = {
     ACTION_CANCEL
 };
 
-static const u8 sContextMenuItems_BerryBlenderCrush[] = {
+static const u8 sContextMenuItems_BERRYBlenderCrush[] = {
     ACTION_CONFIRM,     ACTION_CHECK_TAG,
     ACTION_DUMMY,       ACTION_CANCEL
 };
@@ -1699,8 +1699,8 @@ static void OpenContextMenu(u8 taskId)
         }
         break;
     case ITEMMENULOCATION_BERRY_BLENDER_CRUSH:
-        gBagMenu->contextMenuItemsPtr = sContextMenuItems_BerryBlenderCrush;
-        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BerryBlenderCrush);
+        gBagMenu->contextMenuItemsPtr = sContextMenuItems_BERRYBlenderCrush;
+        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BERRYBlenderCrush);
         break;
     case ITEMMENULOCATION_APPRENTICE:
         if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
@@ -1958,7 +1958,7 @@ static void ItemMenu_UseOutOfBattle(u8 taskId)
             if (gBagPosition.pocket != BERRIES_POCKET)
                 ItemId_GetFieldFunc(gSpecialVar_ItemId)(taskId);
             else
-                ItemUseOutOfBattle_Berry(taskId);
+                ItemUseOutOfBattle_BERRY(taskId);
         }
     }
 }

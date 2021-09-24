@@ -150,21 +150,21 @@ Route113_Text_FunWalkingThroughAsh:
 	.string "really neat!$"
 
 Route113_Text_RouteSign111:
-	.string "ROUTE 113\n"
-	.string "{RIGHT_ARROW} ROUTE 111$"
+	.string "Route 113\n"
+	.string "{RIGHT_ARROW} Route 111$"
 
 Route113_Text_RouteSignFallarbor:
-	.string "ROUTE 113\n"
-	.string "{LEFT_ARROW} FALLARBOR TOWN$"
+	.string "Route 113\n"
+	.string "{LEFT_ARROW} Fallarbor TOWN$"
 
 Route113_Text_TrainerTipsRegisterKeyItems:
-	.string "TRAINER TIPS\p"
-	.string "You may register three of the KEY ITEMS\n"
-	.string "in your BAG as SELECT, L, or R.\p"
-	.string "Simply press SELECT, L, or R to use\n"
+	.string "Trainer Tips\p"
+	.string "You may register three of the Key Items\n"
+	.string "in your Bag as Select, L, or R.\p"
+	.string "Simply press Select, L, or R to use\n"
 	.string "the registered item conveniently.$"
 
 Route113_Text_GlassWorkshopSign:
-	.string "GLASS WORKSHOP\n"
+	.string "Glass Workshop\n"
 	.string "“Turning Volcanic Ash into Glass Items”$"
 

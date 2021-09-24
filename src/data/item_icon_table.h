@@ -46,7 +46,7 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_RED_FLUTE] = {gItemIcon_Flute, gItemIconPalette_RedFlute},
     [ITEM_BLACK_FLUTE] = {gItemIcon_Flute, gItemIconPalette_BlackFlute},
     [ITEM_WHITE_FLUTE] = {gItemIcon_Flute, gItemIconPalette_WhiteFlute},
-    [ITEM_BERRY_JUICE] = {gItemIcon_BerryJuice, gItemIconPalette_BerryJuice},
+    [ITEM_BERRY_JUICE] = {gItemIcon_BERRYJuice, gItemIconPalette_BERRYJuice},
     [ITEM_SACRED_ASH] = {gItemIcon_SacredAsh, gItemIconPalette_SacredAsh},
     // Collectibles
     [ITEM_SHOAL_SALT] = {gItemIcon_Powder, gItemIconPalette_ShoalSalt},
@@ -388,7 +388,7 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_VS_SEEKER] = {gItemIcon_VSSeeker, gItemIconPalette_VSSeeker},
     [ITEM_FAME_CHECKER] = {gItemIcon_FameChecker, gItemIconPalette_FameChecker},
     [ITEM_TM_CASE] = {gItemIcon_TMCase, gItemIconPalette_TMCase},
-    [ITEM_BERRY_POUCH] = {gItemIcon_BerryPouch, gItemIconPalette_BerryPouch},
+    [ITEM_BERRY_POUCH] = {gItemIcon_BERRYPouch, gItemIconPalette_BERRYPouch},
     [ITEM_TEACHY_TV] = {gItemIcon_TeachyTV, gItemIconPalette_TeachyTV},
     [ITEM_TRI_PASS] = {gItemIcon_TriPass, gItemIconPalette_TriPass},
     [ITEM_RAINBOW_PASS] = {gItemIcon_RainbowPass, gItemIconPalette_RainbowPass},

@@ -36,12 +36,12 @@ static const u8 sFlavorBitter[] = _("Likes {COLOR LIGHT_RED}{SHADOW GREEN}bitter
 static const u8 sFlavorSour[] = _("Likes {COLOR LIGHT_RED}{SHADOW GREEN}sour{COLOR WHITE}{SHADOW DARK_GRAY} food.");
 static const u8 sFlavorNeutral[] = _("Happily eats anything.");
 
-static const u8 sRegionName_Unknown[] = _("DISTANT LAND");
-static const u8 sRegionName_Kanto[] = _("KANTO");
-static const u8 sRegionName_Johto[] = _("JOHTO");
-static const u8 sRegionName_Hoenn[] = _("HOENN");
-static const u8 sRegionName_Orre[] = _("ORRE");
-static const u8 sRegionName_Sinnoh[] = _("SINNOH");
+static const u8 sRegionName_Unknown[] = _("a distant land");
+static const u8 sRegionName_Kanto[] = _("Kanto");
+static const u8 sRegionName_Johto[] = _("Johto");
+static const u8 sRegionName_Hoenn[] = _("Hoenn");
+static const u8 sRegionName_Orre[] = _("Orre");
+static const u8 sRegionName_Sinnoh[] = _("Sinnoh");
 
 const u8 *const gRegionNames[] =
 {

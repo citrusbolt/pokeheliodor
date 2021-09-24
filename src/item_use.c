@@ -64,7 +64,7 @@ static void Task_OpenRegisteredPokeblockCase(u8 taskId);
 static void ItemUseOnFieldCB_Bike(u8 taskId);
 static void ItemUseOnFieldCB_Rod(u8);
 static void ItemUseOnFieldCB_Itemfinder(u8);
-static void ItemUseOnFieldCB_Berry(u8 taskId);
+static void ItemUseOnFieldCB_BERRY(u8 taskId);
 static void ItemUseOnFieldCB_WailmerPailBerry(u8 taskId);
 static void ItemUseOnFieldCB_WailmerPailSudowoodo(u8 taskId);
 static bool8 TryToWaterSudowoodo(void);
@@ -700,11 +700,11 @@ u16 GetAshCount(void)
 	return *ashGatherCount;
 }
 
-void ItemUseOutOfBattle_Berry(u8 taskId)
+void ItemUseOutOfBattle_BERRY(u8 taskId)
 {
     if (IsPlayerFacingEmptyBerryTreePatch() == TRUE)
     {
-        sItemUseOnFieldCB = ItemUseOnFieldCB_Berry;
+        sItemUseOnFieldCB = ItemUseOnFieldCB_BERRY;
         gFieldCallback = FieldCB_UseItemOnField;
         gBagMenu->newScreenCallback = CB2_ReturnToField;
         Task_FadeAndCloseBagMenu(taskId);
@@ -715,7 +715,7 @@ void ItemUseOutOfBattle_Berry(u8 taskId)
     }
 }
 
-static void ItemUseOnFieldCB_Berry(u8 taskId)
+static void ItemUseOnFieldCB_BERRY(u8 taskId)
 {
     RemoveBagItem(gSpecialVar_ItemId, 1);
     ScriptContext2_Enable();

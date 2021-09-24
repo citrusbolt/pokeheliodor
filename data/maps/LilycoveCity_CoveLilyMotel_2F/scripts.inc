@@ -183,9 +183,9 @@ LilycoveCity_CoveLilyMotel_2F_EventScript_ReceivedCelebi::
 	end
 
 LilycoveCity_CoveLilyMotel_2F_Text_ShowMeCompletedDex:
-	.string "I'm the GAME DESIGNER.\p"
+	.string "I'm the Game Designer.\p"
 	.string "Oh, is that right?\n"
-	.string "You're working on a POKéDEX?\p"
+	.string "You're working on a PokéDEX?\p"
 	.string "It's tough trying to complete it,\n"
 	.string "but don't give up.\p"
 	.string "If you do complete it, please come\n"
@@ -194,28 +194,28 @@ LilycoveCity_CoveLilyMotel_2F_Text_ShowMeCompletedDex:
 LilycoveCity_CoveLilyMotel_2F_Text_FilledPokedexGiveYouThis:
 	.string "Wow! That's awesome!\n"
 	.string "Yep, it's totally awesome!\p"
-	.string "This POKéDEX is completely filled!\n"
-	.string "You really must love POKéMON!\p"
+	.string "This PokéDEX is completely filled!\n"
+	.string "You really must love Pokémon!\p"
 	.string "I'm so impressed!\p"
 	.string "Let me give you something in\n"
 	.string "recognition of your feat!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_ImTheProgrammer:
 	.string "Me? You're talking to me?\n"
-	.string "I'm the PROGRAMMER.\p"
-	.string "I wonder what the SLOTS are\n"
+	.string "I'm the Programmer.\p"
+	.string "I wonder what the Slots are\n"
 	.string "like here.$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_ImTheGraphicArtist:
-	.string "I'm the GRAPHIC ARTIST! Aren't the\n"
-	.string "POKéMON of HOENN interesting?$"
+	.string "I'm the Graphic Artist! Aren't the\n"
+	.string "Pokémon of Hoenn interesting?$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_GirlsAreCute:
-	.string "The girl TUBERS, they're cute, hey?\n"
-	.string "To battle against a cute TUBER…\p"
+	.string "The girl Tubers, they're cute, hey?\n"
+	.string "To battle against a cute Tuber…\p"
 	.string "Whoop, it's so awesome!\p"
-	.string "And the TWINS! Aren't they cute?\n"
-	.string "A 2-on-2 battle with TWINS…\p"
+	.string "And the Twins! Aren't they cute?\n"
+	.string "A 2-on-2 battle with Twins…\p"
 	.string "Whoop, it's unbearably fun!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_SeaBreezeTicklesHeart:
@@ -226,73 +226,73 @@ LilycoveCity_CoveLilyMotel_2F_Text_NeverLeaveWithoutGameBoy:
 	.string "You never know when and where\n"
 	.string "people will challenge you.\p"
 	.string "That's why I never leave home without\n"
-	.string "my GAME BOY ADVANCE.$"
+	.string "my Game Boy Advance.$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_SnoozingPreferBattles:
-	.string "SCOTT: … … … … …\n"
+	.string "Scott: … … … … …\n"
 	.string "… … … … … Zzz…\p"
 	.string "… … … … … Huh?!\n"
 	.string "Oh, sorry, sorry! I was snoozing!\p"
-	.string "I came to check out this POKéMON\n"
-	.string "CONTEST thing.\p"
+	.string "I came to check out this Pokémon\n"
+	.string "Contest thing.\p"
 	.string "I have to admit, it does look quite\n"
 	.string "entertaining, but…\p"
 	.string "Consider me a purist--I prefer\n"
-	.string "battles and tough TRAINERS.\p"
+	.string "battles and tough Trainers.\p"
 	.string "But that's just me.\p"
 	.string "{PLAYER}{KUN}, I hope you'll enjoy everything\n"
-	.string "like the GYMS, CONTESTS, BATTLE TENT,\l"
+	.string "like the Gyms, Contests, Battle Tent,\l"
 	.string "the whole works!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_ContestsDoTakeStrategy:
-	.string "SCOTT: I think it does take strategy\n"
-	.string "to win a CONTEST.\p"
-	.string "Devising CONTEST strategies is one way\n"
-	.string "of becoming a better TRAINER, I'd say.$"
+	.string "Scott: I think it does take strategy\n"
+	.string "to win a Contest.\p"
+	.string "Devising Contest strategies is one way\n"
+	.string "of becoming a better Trainer, I'd say.$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_CompleteHoenn:
 	.string "I'd also like to entrust this\n"
-	.string "special POKéMON with you!$"
+	.string "special Pokémon with you!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_GiveJirachi:
 	.string "{PLAYER} received JIRACHI!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_GiveOldSeaMap:
 	.string "Wow! You've registered all the\n"
-	.string "POKéMON originally from the\l"
-	.string "KANTO region in your POKéDEX!\p"
+	.string "Pokémon originally from the\l"
+	.string "Kanto region in your PokéDEX!\p"
 	.string "I'd like you to have this\n"
 	.string "special map.\p"
 	.string "Present this map to the staff\n"
 	.string "of the S.S. Tidal at the\l"
-	.string "LILYCOVE CITY port.$"
+	.string "Lilycove City port.$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_CompleteJohto:
 	.string "Wow! You've registered all the\n"
-	.string "POKéMON originally from the\l"
-	.string "JOHTO region in your POKéDEX!\p"
+	.string "Pokémon originally from the\l"
+	.string "Johto region in your PokéDEX!\p"
 	.string "I'd like to entrust this\n"
-	.string "special POKéMON with you!$"
+	.string "special Pokémon with you!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_GiveCelebi:
 	.string "{PLAYER} received CELEBI!$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_WaitForMew:
 	.string "I'm looking for someone who has\n"
-	.string "found all the POKéMON first\l"
-	.string "discovered in the KANTO region.\p"
+	.string "found all the Pokémon first\l"
+	.string "discovered in the Kanto region.\p"
 	.string "Could that be you?$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_WaitForCelebi:
 	.string "I'm looking for someone who has\n"
-	.string "found all the POKéMON first\l"
-	.string "discovered in the JOHTO region.\p"
+	.string "found all the Pokémon first\l"
+	.string "discovered in the Johto region.\p"
 	.string "Could that be you?$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_EReader:
 	.string "The e-Reader is awesome!\p"
 	.string "If you don't have one, I can\n"
-	.string "scan this MOCHI BERRY card for you.$"
+	.string "scan this Mochi Berry card for you.$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_ScanCard:
 	.string "There we go!\n"
@@ -303,20 +303,20 @@ LilycoveCity_CoveLilyMotel_2F_Text_EnigmaDad:
 	.string "There we go!\n"
 	.string "It's scanned in.\l"
 	.string "The screen says,\p"
-	.string "“Obtained a MOCHI BERRY!\n"
-	.string "Dad has it at PETALBURG GYM.”\p"
+	.string "“Obtained a Mochi Berry!\n"
+	.string "Dad has it at Petalburg Gym.”\p"
 	.string "That's weird...$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_EnigmaTransform:
 	.string "There we go!\n"
 	.string "It's scanned in.\l"
 	.string "The screen says,\p"
-	.string "“The {STR_VAR_1} BERRY transformed\n"
-	.string "into one MOCHI BERRY.”$"
+	.string "“The {STR_VAR_1} Berry transformed\n"
+	.string "into one Mochi Berry.”$"
 
 LilycoveCity_CoveLilyMotel_2F_Text_EnigmaHave:
 	.string "There we go!\n"
 	.string "It's scanned in.\l"
 	.string "The screen says,\p"
-	.string "“The MOCHI BERRY has already been\n"
+	.string "“The Mochi Berry has already been\n"
 	.string "obtained.”$"

@@ -60,42 +60,42 @@ RustboroCity_PokemonCenter_1F_EventScript_Girl::
 	end
 
 RustboroCity_PokemonCenter_1F_Text_PokemonHavePersonalities:
-	.string "My POKéMON has a NAIVE nature, and my\n"
-	.string "friend's has a JOLLY nature.\p"
-	.string "It's fascinating how POKéMON have\n"
+	.string "My Pokémon has a Naive nature, and my\n"
+	.string "friend's has a Jolly nature.\p"
+	.string "It's fascinating how Pokémon have\n"
 	.string "personalities!$"
 
 RustboroCity_PokemonCenter_1F_Text_MaleAndFemalePokemon:
 	.string "Just like people, there are male and\n"
-	.string "female POKéMON.\p"
+	.string "female Pokémon.\p"
 	.string "But no one seems to have any idea how\n"
 	.string "they're different.$"
 
 RustboroCity_PokemonCenter_1F_Text_HMCutNextDoor:
 	.string "The man next door gave me an HM!\p"
-	.string "I used it to teach my POKéMON how to\n"
-	.string "CUT down skinny trees.$"
+	.string "I used it to teach my Pokémon how to\n"
+	.string "Cut down skinny trees.$"
 
 RustboroCity_PokemonCenter_1F_Text_HaveEggWillYouTakeIt:
 	.string "You look like a strong\n"
-	.string "POKéMON TRAINER!\p"
+	.string "Pokémon Trainer!\p"
 	.string "I obtained this mysterious\n"
-	.string "EGG in my travels, but I'm not much\l"
-	.string "of a TRAINER myself.\p"
-	.string "Will you take this EGG to raise?$"
+	.string "Egg in my travels, but I'm not much\l"
+	.string "of a Trainer myself.\p"
+	.string "Will you take this Egg to raise?$"
 
 RustboroCity_PokemonCenter_1F_Text_HopeYoullWalkPlentyWithEgg:
 	.string "Good! I hope you'll walk plenty with\n"
-	.string "this here EGG!$"
+	.string "this here Egg!$"
 
 RustboroCity_PokemonCenter_1F_Text_ReceivedTheEgg:
-	.string "{PLAYER} received the EGG.$"
+	.string "{PLAYER} received the Egg.$"
 
 RustboroCity_PokemonCenter_1F_Text_NoRoomForThisEgg:
-	.string "Oh? You've too many POKéMON.\n"
-	.string "There's no room for this EGG…$"
+	.string "Oh? You've too many Pokémon.\n"
+	.string "There's no room for this Egg…$"
 
 RustboroCity_PokemonCenter_1F_Text_AsYouWishThen:
 	.string "As you wish, then…\p"
 	.string "If you have a change of heart about\n"
-	.string "hatching this EGG, I will be here.$"
+	.string "hatching this Egg, I will be here.$"

@@ -254,7 +254,7 @@ static const struct OamData sBerryPicRotatingOamData =
     .affineParam = 0
 };
 
-static const union AnimCmd sAnim_BerryPic[] =
+static const union AnimCmd sAnim_BERRYPic[] =
 {
     ANIMCMD_FRAME(0, 0),
     ANIMCMD_END
@@ -262,7 +262,7 @@ static const union AnimCmd sAnim_BerryPic[] =
 
 static const union AnimCmd *const sBerryPicSpriteAnimTable[] =
 {
-    sAnim_BerryPic
+    sAnim_BERRYPic
 };
 
 static const struct SpriteFrameImage sBerryPicSpriteImageTable[] =
@@ -281,7 +281,7 @@ static const struct SpriteTemplate gBerryPicSpriteTemplate =
     .callback = SpriteCallbackDummy,
 };
 
-static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation1[] =
+static const union AffineAnimCmd sSpriteAffineAnim_BERRYPicRotation1[] =
 {
     AFFINEANIMCMD_FRAME(-1, -1, 253, 96),
     AFFINEANIMCMD_FRAME(0, 0, 0, 16),
@@ -292,7 +292,7 @@ static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation1[] =
     AFFINEANIMCMD_JUMP(0)
 };
 
-static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation2[] =
+static const union AffineAnimCmd sSpriteAffineAnim_BERRYPicRotation2[] =
 {
     AFFINEANIMCMD_FRAME(-1, -1, 3, 96),
     AFFINEANIMCMD_FRAME(0, 0, 0, 16),
@@ -305,8 +305,8 @@ static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation2[] =
 
 static const union AffineAnimCmd *const sBerryPicRotatingAnimCmds[] =
 {
-    sSpriteAffineAnim_BerryPicRotation1,
-    sSpriteAffineAnim_BerryPicRotation2
+    sSpriteAffineAnim_BERRYPicRotation1,
+    sSpriteAffineAnim_BERRYPicRotation2
 };
 
 static const struct SpriteTemplate gBerryPicRotatingSpriteTemplate =
@@ -394,7 +394,7 @@ static const struct OamData sBerryCheckCircleOamData =
     .affineParam = 0
 };
 
-static const union AnimCmd sSpriteAnim_BerryCheckCircle[] =
+static const union AnimCmd sSpriteAnim_BERRYCheckCircle[] =
 {
     ANIMCMD_FRAME(0, 0),
     ANIMCMD_END
@@ -402,7 +402,7 @@ static const union AnimCmd sSpriteAnim_BerryCheckCircle[] =
 
 static const union AnimCmd *const sBerryCheckCircleSpriteAnimTable[] =
 {
-    sSpriteAnim_BerryCheckCircle
+    sSpriteAnim_BERRYCheckCircle
 };
 
 static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =

@@ -795,7 +795,7 @@
       "y": 7,
       "elevation": 3,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "Route123_EventScript_BerryMastersHouseSign"
+      "script": "Route123_EventScript_BERRYMastersHouseSign"
     },
     {
       "type": "secret_base",
