@@ -55,6 +55,8 @@ EWRAM_DATA static u8 sWildEncountersDisabled = 0;
 EWRAM_DATA static u32 sFeebasRngValue = 0;
 EWRAM_DATA u8 gChainStreak = 0;
 EWRAM_DATA u16 gLastEncounteredSpecies = 0;
+EWRAM_DATA static u8 sPreviousEncounterZoneDirection = DIR_NORTH;
+EWRAM_DATA static u8 sEncounterZoneDirectionReversals = 0;
 
 #include "data/wild_encounters.h"
 
@@ -679,8 +681,8 @@ static bool8 DoWildEncounterRateDiceRoll(u16 encounterRate)
 static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
 {
     encounterRate *= 16;
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
-        encounterRate = encounterRate * 80 / 100;
+    //if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+    //    encounterRate = encounterRate * 80 / 100;
     ApplyFluteEncounterRateMod(&encounterRate);
     ApplyCleanseTagEncounterRateMod(&encounterRate);
     if (!ignoreAbility && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
@@ -740,7 +742,42 @@ static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
 
 static bool8 DoGlobalWildEncounterDiceRoll(void)
 {
-    if (Random() % 100 >= 60)
+	u8 encounterRate = 20;
+	
+	if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_DASH))
+		encounterRate = 40;
+	else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+		encounterRate = 70;
+
+	if ((GetPlayerFacingDirection() == DIR_NORTH && sPreviousEncounterZoneDirection == DIR_SOUTH) || (GetPlayerFacingDirection() == DIR_SOUTH && sPreviousEncounterZoneDirection == DIR_NORTH) || (GetPlayerFacingDirection() == DIR_EAST && sPreviousEncounterZoneDirection == DIR_WEST) || (GetPlayerFacingDirection() == DIR_WEST && sPreviousEncounterZoneDirection == DIR_EAST))
+	{
+		if (sEncounterZoneDirectionReversals < 3)
+			sEncounterZoneDirectionReversals++;
+	}
+	else
+	{
+		sEncounterZoneDirectionReversals = 0;
+	}
+
+	sPreviousEncounterZoneDirection = GetPlayerFacingDirection();
+
+	switch (sEncounterZoneDirectionReversals)
+	{
+		case 1:
+			encounterRate += 30;
+			break;
+		case 2:
+			encounterRate += 40;
+			break;
+		case 3:
+			encounterRate += 60;
+			break;
+	}
+	
+	if (encounterRate > 100)
+		encounterRate = 100;
+
+    if (Random() % 100 >= encounterRate)
         return FALSE;
     else
         return TRUE;
@@ -805,7 +842,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
         {
             if (gWildMonHeaders[headerId].landMonsInfo == NULL)
                 return FALSE;
-            else if (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
+            else if (!DoGlobalWildEncounterDiceRoll())
                 return FALSE;
 
 			wildPokemonInfo = gWildMonHeaders[headerId].landMonsInfo;
