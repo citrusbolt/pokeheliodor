@@ -3285,7 +3285,7 @@ static const u32 sOriginMark_FireRed[] = INCBIN_U32("graphics/interface/origin_m
 static const u32 sOriginMarkPalette_FireRed[] = INCBIN_U32("graphics/interface/origin_marks/firered.gbapal.lz");
 static const u32 sOriginMark_LeafGreen[] = INCBIN_U32("graphics/interface/origin_marks/leafgreen.4bpp.lz");
 static const u32 sOriginMarkPalette_LeafGreen[] = INCBIN_U32("graphics/interface/origin_marks/leafgreen.gbapal.lz");
-static const u32 sOriginMark_Emerald[] = INCBIN_U32("graphics/interface/origin_marks/heliodor.4bpp.lz");
+static const u32 sOriginMark_Emerald[] = INCBIN_U32("graphics/interface/origin_marks/emerald.4bpp.lz");
 static const u32 sOriginMarkPalette_Emerald[] = INCBIN_U32("graphics/interface/origin_marks/emerald.gbapal.lz");
 static const u32 sOriginMark_Colosseum[] = INCBIN_U32("graphics/interface/origin_marks/colosseum.4bpp.lz");
 static const u32 sOriginMarkPalette_Colosseum[] = INCBIN_U32("graphics/interface/origin_marks/colosseum.gbapal.lz");
@@ -3319,50 +3319,50 @@ static void CreateOriginMarkSprite(struct Pokemon *mon)
 	FreeSpriteTilesByTag(5505);
 	FreeSpritePaletteByTag(5505);
 	
-	if (sum->metGame == VERSION_RUBY)
+	if (sum->versionModifier == DEV_SOLITAIRI)
+	{
+		LZDecompressWram(sOriginMarkTable[7][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[7][1];
+	}
+	else if (sum->metGame == VERSION_HEARTGOLD || (sum->metGame == VERSION_FIRERED && sum->versionModifier == DEV_SOLITAIRI_2))
 	{
 		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
 		spritePalette.data = sOriginMarkTable[8][1];
+	}
+	else if (sum->metGame == VERSION_RUBY)
+	{
+		LZDecompressWram(sOriginMarkTable[0][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[0][1];
 	}
 	else if (sum->metGame == VERSION_SAPPHIRE)
 	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
+		LZDecompressWram(sOriginMarkTable[1][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[1][1];
 	}
 	else if (sum->metGame == VERSION_FIRERED)
 	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
+		LZDecompressWram(sOriginMarkTable[2][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[2][1];
 	}
 	else if (sum->metGame == VERSION_LEAFGREEN)
 	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
+		LZDecompressWram(sOriginMarkTable[3][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[3][1];
 	}
 	else if (sum->metGame == VERSION_EMERALD)
 	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
+		LZDecompressWram(sOriginMarkTable[4][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[4][1];
 	}
 	else if (sum->metGame == VERSION_GAMECUBE && sum->fatefulEncounter)
 	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
+		LZDecompressWram(sOriginMarkTable[6][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[6][1];
 	}
 	else if (sum->metGame == VERSION_GAMECUBE)
 	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
-	}
-	else if (sum->versionModifier == DEV_SOLITAIRI)
-	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
-	}
-	if (sum->metGame == VERSION_HEARTGOLD || (sum->metGame == VERSION_FIRERED && sum->versionModifier == DEV_SOLITAIRI_2))
-	{
-		LZDecompressWram(sOriginMarkTable[8][0], gItemIconDecompressionBuffer);
-		spritePalette.data = sOriginMarkTable[8][1];
+		LZDecompressWram(sOriginMarkTable[5][0], gItemIconDecompressionBuffer);
+		spritePalette.data = sOriginMarkTable[5][1];
 	}
 	
 	CpuCopy16(gItemIconDecompressionBuffer, gItemIcon4x4Buffer, 0x100);
