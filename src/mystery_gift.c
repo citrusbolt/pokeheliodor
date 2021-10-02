@@ -654,11 +654,11 @@ static u32 MysteryGift_HandleThreeOptionMenu(u8 * unused0, u16 * unused1, u8 whi
         windowTemplate.tilemapLeft = 0;
     }
     response = DoMysteryGiftListMenu(&windowTemplate, &listMenuTemplate, 1, 0x00A, 0xE0);
-    if (response != -1)
-    {
-        ClearWindowTilemap(2);
-        CopyWindowToVram(2, 1);
-    }
+    //if (response != -1)
+    //{
+    //    ClearWindowTilemap(2);
+    //    CopyWindowToVram(2, 1);
+    //}
     return response;
 }
 
@@ -1204,14 +1204,28 @@ void task00_mystery_gift(u8 taskId)
         switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->curPromptWindowId, TRUE))
         {
         case 0:
-            ClearTextWindow();
-            data->state = 5;
-            data->source = 0;
+			ClearTextWindow();
+			if (IsWirelessAdapterConnected())
+			{
+				data->state = 5;
+				data->source = 0;
+			}
+			else
+			{
+				data->state = 38;
+			}
             break;
         case 1:
-            ClearTextWindow();
-            data->state = 5;
-            data->source = 1;
+			ClearTextWindow();
+			if (IsWirelessAdapterConnected())
+			{
+				data->state = 5;
+				data->source = 1;
+			}
+			else
+			{
+				data->state = 38;
+			}
             break;
         case -2u:
             ClearTextWindow();
@@ -1680,6 +1694,13 @@ void task00_mystery_gift(u8 taskId)
         DestroyTask(taskId);
         SetMainCallback2(MainCB_FreeAllBuffersAndReturnToInitTitleScreen);
         break;
+    case  38:
+		if (MG_PrintTextOnWindow1AndWaitButton(&data->textState, gText_WirelessNotConnected))
+		{
+			data->state = 1;
+			PrintMysteryGiftOrEReaderTopMenu(0, 0);
+		}
+		break;
     }
 }
 
