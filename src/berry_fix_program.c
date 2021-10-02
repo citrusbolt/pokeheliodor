@@ -29,7 +29,7 @@ static void BerryFix_HideScene(void);
 
 static const u8 sText_BERRYProgramUpdate[] = _("Berry Program Update");
 static const u8 sText_RubySapphire[] = _("Ruby/Sapphire");
-static const u8 sText_Emerald[] = _("Emerald");
+static const u8 sText_Emerald[] = _("Heliodor");
 static const u8 sText_BERRYProgramWillBeUpdatedPressA[] = _("The Berry Program on your POKéMON\n"
                                                             "Ruby/Sapphire Game Pak will be updated.\n"
                                                             "{COLOR RED}{SHADOW LIGHT_RED}Press the A Button.");
