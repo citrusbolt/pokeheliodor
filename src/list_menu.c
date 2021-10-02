@@ -1161,10 +1161,15 @@ void Task_ScrollIndicatorArrowPairOnMainMenu(u8 taskId)
     s16 *data = gTasks[taskId].data;
     struct ScrollIndicatorPair *scrollData = (void*) data;
 
-    if (tIsScrolled)
+    if (tIsScrolled == 2)
     {
         gSprites[scrollData->topSpriteId].invisible = FALSE;
         gSprites[scrollData->bottomSpriteId].invisible = TRUE;
+    }
+    else if (tIsScrolled == 1)
+    {
+        gSprites[scrollData->topSpriteId].invisible = FALSE;
+        gSprites[scrollData->bottomSpriteId].invisible = FALSE;
     }
     else
     {

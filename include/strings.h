@@ -3321,5 +3321,6 @@ extern const u8 gText_SummaryPokerus[];
 extern const u8 gText_FatefulTriangle[];
 extern const u8 gText_ImpossibleToAim[];
 extern const u8 gText_CantThrowBall[];
+extern const u8 gText_MainMenuGameCube[];
 	
 #endif // GUARD_STRINGS_H

@@ -4,6 +4,7 @@
 // Exported type declarations
 
 // Exported RAM declarations
+extern struct GcmbStruct gMultibootProgramStruct;
 
 // Exported ROM declarations
 void CB2_InitCopyrightScreenAfterBootup(void);

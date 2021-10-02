@@ -20,10 +20,15 @@
 #include "decompress.h"
 #include "constants/rgb.h"
 #include "event_data.h"
+#include "libgcnmultiboot.h"
+#include "multiboot_pokemon_colosseum.h"
+#include "intro.h"
+#include "mgba.h"
 
 // this file's functions
 static void CB2_MysteryEventMenu(void);
 static void PrintMysteryMenuText(u8 windowId, const u8 *text, u8 x, u8 y, s32 speed);
+static void CB2_MultibootMenu(void);
 
 // EWRAM vars
 static EWRAM_DATA u8 sUnknown_0203BCF8 = 0; // set but unused
@@ -109,6 +114,39 @@ void CB2_InitMysteryEventMenu(void)
         UpdatePaletteFade();
         FillPalette(0, 0, 2);
         SetMainCallback2(CB2_MysteryEventMenu);
+    }
+}
+
+void CB2_InitMultibootMenu(void)
+{
+    ResetSpriteData();
+    FreeAllSpritePalettes();
+    ResetTasks();
+    SetVBlankCallback(VBlankCB);
+    ResetBgsAndClearDma3BusyFlags(0);
+    InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
+    if (InitWindows(sWindowTemplates))
+    {
+        s32 i;
+
+        DeactivateAllTextPrinters();
+        for (i = 0; i < 2; i++)
+            FillWindowPixelBuffer(i, PIXEL_FILL(0));
+
+        FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 0x1E, 0x14);
+        LoadUserWindowBorderGfx(0, 1u, 0xD0u);
+        Menu_LoadStdPalAt(0xE0);
+        SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON);
+        SetGpuReg(REG_OFFSET_BLDCNT, 0);
+        CreateTask(Task_DestroySelf, 0);
+        StopMapMusic();
+        RunTasks();
+        AnimateSprites();
+        BuildOamBuffer();
+        RunTextPrinters();
+        UpdatePaletteFade();
+        FillPalette(0, 0, 2);
+        SetMainCallback2(CB2_MultibootMenu);
     }
 }
 
@@ -299,6 +337,90 @@ static void CB2_MysteryEventMenu(void)
         GetEventLoadMessage(gStringVar4, 1);
         PrintMysteryMenuText(0, gStringVar4, 1, 2, 1);
         gMain.state = 13;
+    }
+
+    RunTasks();
+    AnimateSprites();
+    BuildOamBuffer();
+    RunTextPrinters();
+    UpdatePaletteFade();
+}
+
+#define COLOSSEUM_GAME_CODE 0x65366347
+
+static void SerialCB_MultibootScreen(void)
+{
+    GameCubeMultiBoot_HandleSerialInterrupt(&gMultibootProgramStruct);
+}
+
+static void CB2_MultibootMenu(void)
+{
+	switch (gMain.state)
+    {
+    case 0:
+        DrawStdFrameWithCustomTileAndPalette(0, 1, 1, 0xD);
+        PutWindowTilemap(0);
+        CopyWindowToVram(0, 3);
+        ShowBg(0);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
+        gMain.state++;
+        break;
+    case 1:
+        if (!gPaletteFade.active)
+        {
+            PrintMysteryMenuText(0, gText_LinkStandby2, 1, 2, 1);
+            gMain.state++;
+        }
+        break;
+    case 2:
+        if (!IsTextPrinterActive(0))
+        {
+            gMain.state++;
+			SetSerialCallback(SerialCB_MultibootScreen);
+			GameCubeMultiBoot_Init(&gMultibootProgramStruct);
+		}
+    default:
+		if (JOY_NEW(B_BUTTON))
+		{
+			PlaySE(SE_SELECT);
+			gMain.state = 162;
+		}
+        UpdatePaletteFade();
+        gMain.state++;
+        GameCubeMultiBoot_Main(&gMultibootProgramStruct);
+        break;
+    case 142:
+        GameCubeMultiBoot_Main(&gMultibootProgramStruct);
+        if (gMultibootProgramStruct.gcmb_field_2 != 1)
+            gMain.state++;
+        break;
+    case 161:
+        if (gMultibootProgramStruct.gcmb_field_2 != 0)
+        {
+            if (gMultibootProgramStruct.gcmb_field_2 == 2)
+            {
+                // check the multiboot ROM header game code to see if we already did this
+                if (*(u32 *)(EWRAM_START + 0xAC) == COLOSSEUM_GAME_CODE)
+                {
+                    CpuCopy16(&gMultiBootProgram_PokemonColosseum_Start, (void *)EWRAM_START, sizeof(gMultiBootProgram_PokemonColosseum_Start));
+                    *(u32 *)(EWRAM_START + 0xAC) = COLOSSEUM_GAME_CODE;
+                }
+                GameCubeMultiBoot_ExecuteProgram(&gMultibootProgramStruct);
+            }
+        }
+        else
+        {
+            gMain.state = 2;
+        }
+		break;
+    case 162:
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+        gMain.state++;
+        break;
+    case 163:
+        if (!gPaletteFade.active)
+            DoSoftReset();
+        break;
     }
 
     RunTasks();

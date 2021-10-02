@@ -2039,3 +2039,4 @@ const u8 gText_SummaryPokerus[] = _("{SUM_IMMUNE}");
 const u8 gText_FatefulTriangle[] = _("{SUM_FATEFUL}");
 const u8 gText_ImpossibleToAim[] = _("It's no good! It's impossible to aim\nwhen there are two POKéMON!{PAUSE_UNTIL_PRESS}");
 const u8 gText_CantThrowBall[] = _("You can only throw a BALL\nat the start of your turn.{PAUSE_UNTIL_PRESS}");
+const u8 gText_MainMenuGameCube[] = _("CONNECT TO GAMECUBE");
