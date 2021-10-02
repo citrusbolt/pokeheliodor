@@ -37,6 +37,8 @@
 #include "window.h"
 #include "mystery_gift.h"
 #include "field_specials.h"
+#include "region_map.h"
+#include "mgba.h"
 
 /*
  * Main menu state machine
@@ -242,6 +244,7 @@ static void Task_NewGameBirchSpeech_FadePlayerToWhite(u8);
 static void Task_NewGameBirchSpeech_Cleanup(u8);
 static void SpriteCB_Null();
 static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8);
+static void MainMenu_FormatSavegameLocation(void);
 static void MainMenu_FormatSavegamePlayer(void);
 static void MainMenu_FormatSavegamePokedex(void);
 static void MainMenu_FormatSavegameTime(void);
@@ -2238,10 +2241,17 @@ static void CreateMainMenuErrorWindow(const u8* str)
 
 static void MainMenu_FormatSavegameText(void)
 {
+    MainMenu_FormatSavegameLocation();
     MainMenu_FormatSavegamePlayer();
     MainMenu_FormatSavegamePokedex();
     MainMenu_FormatSavegameTime();
     MainMenu_FormatSavegameBadges();
+}
+
+static void MainMenu_FormatSavegameLocation(void)
+{
+	GetMapNameGeneric(gStringVar4, GetCurrentRegionMapSectionId());
+    AddTextPrinterParameterized3(2, 1, GetStringRightAlignXOffset(1, gStringVar4, 0xD0), 1, sTextColor_MenuInfo, -1, gStringVar4);
 }
 
 static void MainMenu_FormatSavegamePlayer(void)
