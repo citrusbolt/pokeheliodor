@@ -1050,7 +1050,8 @@ struct SaveBlock1
 	           u32 trainerCardStat3:4;
 	           u32 trainerCardStat4:4;
 	           u32 filler:12;
-    /*0x367C*/ u8 field_3598[0xA9];
+    /*0x367C*/ u16 rubySapphireSecretId;
+    /*0x367E*/ u8 field_3598[0xA7];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;

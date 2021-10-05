@@ -38,6 +38,7 @@
 #include "mystery_gift.h"
 #include "field_specials.h"
 #include "region_map.h"
+#include "new_game.h"
 #include "mgba.h"
 
 /*
@@ -2432,6 +2433,11 @@ static void PatchSave(void)
 		if (FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND))
 			SetEonTicketAsRecordMixingGift();
 		VarSet(VAR_SAVE_VER, 2);
+	}
+	if (VarGet(VAR_SAVE_VER) == 2)
+	{
+		IssueRSSID();
+		VarSet(VAR_SAVE_VER, 3);
 	}
 }
 

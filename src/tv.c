@@ -3343,7 +3343,13 @@ void BufferMonNickname(void)
 
 void IsMonOTIDNotPlayers(void)
 {
-    if (GetPlayerIDAsU32() == GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_OT_ID, NULL))
+	u32 otId = GetPlayerIDAsU32();
+	u8 originGame = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_MET_GAME, NULL);
+
+	if (originGame == VERSION_RUBY || originGame == VERSION_SAPPHIRE)
+		otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+
+    if (otId == GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_OT_ID, NULL))
         gSpecialVar_Result = FALSE;
     else
         gSpecialVar_Result = TRUE;
