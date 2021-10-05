@@ -1928,18 +1928,18 @@ void GiveEventEgg(void)
 		rolls += SHINY_CHARM_REROLLS;
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
 		rolls *= 2;
-	
+
+	gDisableVBlankRNGAdvance = TRUE;
+
 	do
 	{
 		if (gSpecialVar_0x8004 < 25)
 		{
-			WaitForVBlank();
 			personality = Random32();					//ABDE - "Method 2"
 			Random();
 		}
 		else
 		{
-			WaitForVBlank();
 			personality = Random() << 16 | Random();	//BACD_U - "Reverse Method 1"
 		}
 		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
@@ -1947,7 +1947,9 @@ void GiveEventEgg(void)
 			break;
 		i++;
 	} while (i < rolls);
-	
+
+	gDisableVBlankRNGAdvance = FALSE;
+
 	iv1 = Random();
 	iv2 = Random();
 	

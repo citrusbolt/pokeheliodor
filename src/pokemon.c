@@ -2411,6 +2411,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	
 	metLocation = GetCurrentRegionMapSectionId();
 
+	gDisableVBlankRNGAdvance = TRUE;
+
 	if (species == SPECIES_MEW)  //Pretend to be Japanese release, as Old Sea Map wasn't released internationally.  Note that if encountered anywhere other than Faraway Island, Mew will not be fully legal
 	{
 		if (hasFixedPersonality)
@@ -2425,13 +2427,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random32();
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random32();
 				}
 
@@ -2467,7 +2467,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				WaitForVBlank();
 				gcnRng = RtcGetSecondCount();
 				for (i = 0; i < Random32() >> 16; i++)
 					gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
@@ -2488,7 +2487,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				WaitForVBlank();
 				gcnRng = RtcGetSecondCount();
 				for (i = 0; i < Random32() >> 16; i++)
 					gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
@@ -2538,14 +2536,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						SeedRng(gRngValue >> 16);
 						personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					SeedRng(gRngValue >> 16);
 					personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
 				}
@@ -2587,13 +2583,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
 				}
 
@@ -2637,13 +2631,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random32();
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random32();
 				}
 				
@@ -2687,13 +2679,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random32();
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random32();
 				}
 				
@@ -2776,6 +2766,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 			}
 		}
 	}
+
+	gDisableVBlankRNGAdvance = FALSE;
 
 	versionModifier = VERSION_MODIFIER;
 
