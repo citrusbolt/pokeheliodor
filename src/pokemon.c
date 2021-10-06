@@ -7250,7 +7250,7 @@ bool8 IsTradedMon(struct Pokemon *mon)
     otId = GetMonData(mon, MON_DATA_OT_ID, 0);
 	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
 	if (originGame == VERSION_RUBY || originGame == VERSION_SAPPHIRE)
-		return IsOtherTrainerRS(otId, otName);
+		return IsOtherTrainerRS(otId, otName) || IsOtherTrainer(otId, otName);
 	else
 		return IsOtherTrainer(otId, otName);
 }

@@ -3349,7 +3349,7 @@ void IsMonOTIDNotPlayers(void)
 	if (originGame == VERSION_RUBY || originGame == VERSION_SAPPHIRE)
 		otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
 
-    if (otId == GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_OT_ID, NULL))
+    if (otId == GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_OT_ID, NULL) || GetPlayerIDAsU32() == GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_OT_ID, NULL))
         gSpecialVar_Result = FALSE;
     else
         gSpecialVar_Result = TRUE;
