@@ -315,7 +315,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_BATTLE_USE]        = {gMenuText_Use,      ItemMenu_UseInBattle},
     [ACTION_CHECK]             = {gMenuText_Check,    ItemMenu_UseOutOfBattle},
     [ACTION_WALK]              = {gMenuText_Walk,     ItemMenu_UseOutOfBattle},
-    [ACTION_DESELECT]          = {gMenuText_Deselect, ItemMenu_Register},
+    [ACTION_DESELECT]          = {gMenuText_Deselect, ItemMenu_Deselect},
     [ACTION_CHECK_TAG]         = {gMenuText_CheckTag, ItemMenu_CheckTag},
     [ACTION_CONFIRM]           = {gMenuText_Confirm,  Task_FadeAndCloseBagMenu},
     [ACTION_SHOW]              = {gMenuText_Show,     ItemMenu_Show},
@@ -1769,20 +1769,32 @@ static void OpenContextMenu(u8 taskId)
                 break;
             case KEYITEMS_POCKET:
                 gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_KeyItemsPocket);
-                memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_KeyItemsPocket, sizeof(sContextMenuItems_KeyItemsPocket));
-                if (gSaveBlock1Ptr->registeredItemSelect == gSpecialVar_ItemId)
-					gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
-				else if (gSaveBlock1Ptr->registeredItemL == gSpecialVar_ItemId)
-					gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
-				else if (gSaveBlock1Ptr->registeredItemR == gSpecialVar_ItemId)
-					gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
-                if (gSpecialVar_ItemId == ITEM_MACH_BIKE || gSpecialVar_ItemId == ITEM_ACRO_BIKE)
-                {
-					if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
-						gBagMenu->contextMenuItemsBuffer[0] = ACTION_WALK;
-					gBagMenu->contextMenuItemsBuffer[2] = ACTION_RECONFIGURE;
-                }
+                if (sRegisterSubMenu == FALSE)
+				{
+					gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_KeyItemsPocket);
+					memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_KeyItemsPocket, sizeof(sContextMenuItems_KeyItemsPocket));
+
+					if (gSaveBlock1Ptr->registeredItemSelect == gSpecialVar_ItemId)
+						gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
+					else if (gSaveBlock1Ptr->registeredItemL == gSpecialVar_ItemId)
+						gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
+					else if (gSaveBlock1Ptr->registeredItemR == gSpecialVar_ItemId)
+						gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
+
+					if (gSpecialVar_ItemId == ITEM_MACH_BIKE || gSpecialVar_ItemId == ITEM_ACRO_BIKE)
+					{
+						if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+							gBagMenu->contextMenuItemsBuffer[0] = ACTION_WALK;
+						gBagMenu->contextMenuItemsBuffer[2] = ACTION_RECONFIGURE;
+					}
+				}
+				else
+				{
+					gBagMenu->contextMenuNumItems = NELEMS(sContextMenu_RegisterKeyItem);
+					memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenu_RegisterKeyItem, sizeof(sContextMenu_RegisterKeyItem));
+					sRegisterSubMenu = FALSE;
+				}
+                
                 break;
             case BALLS_POCKET:
                 gBagMenu->contextMenuItemsPtr = sContextMenuItems_BallsPocket;
