@@ -1044,14 +1044,15 @@ struct SaveBlock1
     /*0x3662*/ u16 registeredItemR;
 	/*0x3664*/ u8 trainerCardLayout;
 	/*0x3665*/ u8 trainerCardStickers[6];
-	/*0x366B*/ u32 trainerCardStat0:4;
+	/*0x366B*/ u8 missedPadding;
+	/*0x366C*/ u32 trainerCardStat0:4;
 	           u32 trainerCardStat1:4;
 	           u32 trainerCardStat2:4;
 	           u32 trainerCardStat3:4;
 	           u32 trainerCardStat4:4;
 	           u32 filler:12;
-    /*0x367C*/ u16 rubySapphireSecretId;
-    /*0x367E*/ u8 field_3598[0xA7];
+    /*0x3670*/ u16 rubySapphireSecretId;
+    /*0x3672*/ u8 field_3598[0xA6];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
@@ -1062,7 +1063,7 @@ struct SaveBlock1
     /*0x3D5A*/ u8 filler3D5A[0xA];
     /*0x3D64*/ struct SaveTrainerHill trainerHill;
     /*0x3D70*/ struct WaldaPhrase waldaPhrase;
-    // sizeof: 0x3D8C
+    // sizeof: 0x3D88
 };
 
 extern struct SaveBlock1* gSaveBlock1Ptr;

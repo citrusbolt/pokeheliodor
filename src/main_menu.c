@@ -656,7 +656,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_DARKEN | BLDCNT_TGT1_BG0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 7);
-
+mgba_printf(MGBA_LOG_INFO, "%x", sizeof(struct SaveBlock1));
         //if (IsWirelessAdapterConnected())
         //    tWirelessAdapterConnected = TRUE;
         switch (gSaveFileStatus)
