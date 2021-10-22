@@ -1749,3 +1749,7 @@ gTilesetPalOverride_Petalburg10::
 .align 2
 gTilesetPalOverride_Petalburg11::
 	.incbin "data/tilesets/secondary/petalburg/palettes/11_over.gbapal"
+
+.align 2
+gTilesetPalOverride_Mauville07::
+	.incbin "data/tilesets/secondary/mauville/palettes/07_over.gbapal"

@@ -68,7 +68,7 @@ gTileset_Mauville::
 	.4byte gMetatiles_Mauville
 	.4byte gMetatileAttributes_Mauville
 	.4byte InitTilesetAnim_Mauville
-	.4byte NULL @ palette overrides
+	.4byte gTilesetPalOverrides_Mauville
 
 	.align 2
 gTileset_Lavaridge::
