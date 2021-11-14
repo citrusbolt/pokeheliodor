@@ -47,9 +47,10 @@
 #define VERSION_LETS_GO_EEVEE   	43
 #define VERSION_SWORD           	44
 #define VERSION_SHIELD          	45
+//46 is currently unused, but reserved for HOME
+#define VERSION_LEGENDS_ARCEUS		47
 #define VERSION_BRILLIANT_DIAMOND	48
 #define VERSION_SHINING_PEARL		49
-#define VERSION_LEGENDS_ARCEUS		50 //Maybe 46?
 
 //Version ID modifiers used for identifying unofficial games.
 //The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
