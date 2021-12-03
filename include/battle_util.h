@@ -92,5 +92,6 @@ u8 GetMoveTarget(u16 move, u8 setTarget);
 u8 IsMonDisobedient(void);
 void HandleAction_ThrowBall(void);
 bool8 IsBattlerAlive(u8 battlerId);
+bool8 FriendshipStatusRecover(void);
 
 #endif // GUARD_BATTLE_UTIL_H

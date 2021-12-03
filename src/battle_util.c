@@ -1416,6 +1416,7 @@ enum
 {
     ENDTURN_INGRAIN,
     ENDTURN_ABILITIES,
+    ENDTURN_FRIENDSHIP_RECOVER,
     ENDTURN_ITEMS1,
     ENDTURN_LEECH_SEED,
     ENDTURN_POISON,
@@ -1468,6 +1469,11 @@ u8 DoBattlerEndTurnEffects(void)
                 break;
             case ENDTURN_ABILITIES:  // end turn abilities
                 if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, gActiveBattler, 0, 0, 0))
+                    effect++;
+                gBattleStruct->turnEffectsTracker++;
+                break;
+            case ENDTURN_FRIENDSHIP_RECOVER:  // end status condition removal
+                if (FriendshipStatusRecover())
                     effect++;
                 gBattleStruct->turnEffectsTracker++;
                 break;
@@ -4126,4 +4132,40 @@ void HandleAction_ThrowBall(void)
     RemoveBagItem(gLastUsedItem, 1);
     gBattlescriptCurrInstr = BattleScript_BallThrow;
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
+}
+bool8 FriendshipStatusRecover(void)
+{
+	bool8 recover = FALSE;
+	struct Pokemon *mon;
+
+	if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER)
+		mon = &gPlayerParty[gBattlerPartyIndexes[gBattlerAttacker]];
+	else
+		mon = &gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker]];
+
+	if (GetMonData(mon, MON_DATA_FRIENDSHIP) >= 220 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	{
+		if (gBattleMons[gActiveBattler].status1 & STATUS1_ANY && Random() % 100 < 20)
+		{
+			if (gBattleMons[gActiveBattler].status1 & (STATUS1_POISON | STATUS1_TOXIC_POISON))
+				StringCopy(gBattleTextBuff1, gStatusConditionString_PoisonJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_SLEEP)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_SleepJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_PARALYSIS)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_ParalysisJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_BURN)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_BurnJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_FREEZE)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_IceJpn);
+			gBattleMons[gActiveBattler].status1 = 0;
+			gBattleMons[gActiveBattler].status2 &= ~(STATUS2_NIGHTMARE);
+			gBattleScripting.battler = gActiveBattler;
+			BattleScriptPushCursorAndCallback(BattleScript_FriendshipRecover);
+			BtlController_EmitSetMonData(0, REQUEST_STATUS_BATTLE, 0, 4, &gBattleMons[gActiveBattler].status1);
+			MarkBattlerForControllerExec(gActiveBattler);
+			recover = TRUE;
+		}
+	}
+
+	return recover;
 }
