@@ -61,6 +61,8 @@ extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
 extern const u8* const gBattleScriptsForMoveEffects[];
 
+extern struct Evolution gEvolutionTable[][EVOS_PER_MON];
+
 #define DEFENDER_IS_PROTECTED ((gProtectStructs[gBattlerTarget].protected) && (gBattleMoves[gCurrentMove].flags & FLAG_PROTECT_AFFECTED))
 
 // this file's functions
@@ -3287,9 +3289,9 @@ static void Cmd_jumpiftype(void)
 
 static void Cmd_getexp(void)
 {
-    u16 item;
+    u16 item, species;
     s32 i; // also used as stringId
-    u8 holdEffect;
+    u8 holdEffect, level;
     s32 sentIn;
 	s32 viaSentIn;
     s32 viaExpShare = 0;
@@ -3414,6 +3416,27 @@ static void Cmd_getexp(void)
 						gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
 					if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_FRIENDSHIP) >= 220)
 						gBattleMoveDamage = (gBattleMoveDamage * 120) / 100;
+					
+					species = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPECIES);
+					level = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL);
+					
+					for (i = 0; i < EVOS_PER_MON; i++)
+					{
+						if (gEvolutionTable[species][i].method == EVO_LEVEL ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_ATK_GT_DEF ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_ATK_EQ_DEF ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_ATK_LT_DEF ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_SILCOON ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_CASCOON ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_NINJASK)
+						{
+							if (gEvolutionTable[species][i].param <= level)
+							{
+								gBattleMoveDamage = gBattleMoveDamage * 120 / 100;
+								break;
+							}
+						}
+					}
 					
 					if (gPowerType == POWER_EXP && gPowerTime > 0)
 					{
