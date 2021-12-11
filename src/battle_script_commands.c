@@ -3403,11 +3403,11 @@ static void Cmd_getexp(void)
                 {
                     if (gBattleStruct->sentInPokes & 1)
                         gBattleMoveDamage = *exp;
-                    else
+                    else if (viaExpShare)
+                        gBattleMoveDamage = gExpShareExp;
+					else
                         gBattleMoveDamage = 0;
 
-                    if (viaExpShare)
-                        gBattleMoveDamage += gExpShareExp;
                     if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
                     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
