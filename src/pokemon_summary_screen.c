@@ -2044,7 +2044,7 @@ static void PssScrollLeftEnd(u8 taskId) // display left
 
 static void TryDrawExperienceProgressBar(void)
 {
-    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS)
         DrawExperienceProgressBar(&sMonSummaryScreen->currentMon);
 }
 
