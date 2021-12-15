@@ -4731,7 +4731,7 @@ static void PrintMoveDetails(u16 move)
 
 			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 84, POWER_AND_ACCURACY_Y_2, 0, 0);
 
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveFourLineDescriptionPointers[move - 1], 4, 64, 0, 0);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveFourLineDescriptionPointers[move - 1], 2, 64, 0, 0);
         }
         else
         {
@@ -5222,7 +5222,7 @@ static void CreateMoveSelectorSprites(u8 idArrayStart)
 
         for (i = 0; i < MOVE_SELECTOR_SPRITES_COUNT; i++)
         {
-            spriteIds[i] = CreateSprite(&sMoveSelectorSpriteTemplate, i * 32 + 126, 30, subpriority);
+            spriteIds[i] = CreateSprite(&sMoveSelectorSpriteTemplate, i * 32 + 128, 31, subpriority);
             StartSpriteAnim(&gSprites[spriteIds[i]], i);
 
             gSprites[spriteIds[i]].callback = SpriteCb_MoveSelector;
