@@ -1069,7 +1069,7 @@ static bool8 LoadGraphics(void)
         break;
     case 22:
         LoadMonIconPalettes();
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 50, 1, sMonSummaryScreen->summary.pid, TRUE);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
@@ -1496,7 +1496,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
         break;
 	case 11:
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 50, 1, sMonSummaryScreen->summary.pid, TRUE);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
@@ -4551,14 +4551,14 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 				break;
 		}
 		x = GetStringCenterAlignXOffset(1, gStringVar1, 32) + 113;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryPP, 80, moveIndex * 29 + 11, 0, 0);
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, moveIndex * 29 + 11, 0, color);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryPP, 80, moveIndex * 29 + 13, 0, 0);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, moveIndex * 29 + 13, 0, color);
 	}
 	else
 	{
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_OneDash, 64, moveIndex * 29, 0, 1);
 		x = GetStringCenterAlignXOffset(1, gText_TwoDashes, 32) + 113;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_TwoDashes, x, moveIndex * 29 + 11, 0, 0);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_TwoDashes, x, moveIndex * 29 + 13, 0, 0);
 	}
 }
 
