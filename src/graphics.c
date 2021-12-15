@@ -1564,6 +1564,9 @@ static const u8 sEmpty6[0x13]    = {0};
 
 const u32 gSummaryScreenTiles[] = INCBIN_U32("graphics/summary_screen/tiles.4bpp.lz");
 const u32 gSummaryScreenPalette[] = INCBIN_U32("graphics/summary_screen/palette.gbapal.lz");
-const u32 gSummaryScreenPage1Tilemap[] = INCBIN_U32("graphics/summary_screen/page_1.bin.lz");
-const u32 gSummaryScreenPage2Tilemap[] = INCBIN_U32("graphics/summary_screen/page_2.bin.lz");
+const u32 gSummaryScreenPageInfoTilemap[] = INCBIN_U32("graphics/summary_screen/page_info.bin.lz");
+const u32 gSummaryScreenPageMemoTilemap[] = INCBIN_U32("graphics/summary_screen/page_memo.bin.lz");
+const u32 gSummaryScreenPageSkillsTilemap[] = INCBIN_U32("graphics/summary_screen/page_skills.bin.lz");
+const u32 gSummaryScreenPageMovesTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves.bin.lz");
+const u16 gSummaryScreenPageMovesSelectedTilemap[] = INCBIN_U16("graphics/summary_screen/page_moves_selected.bin");
 const u32 gSummaryScreenBackgroundTilemap[] = INCBIN_U32("graphics/summary_screen/background.bin.lz");

@@ -5172,8 +5172,11 @@ extern const u32 gBerryPalette_Mochi[];
 
 extern const u32 gSummaryScreenTiles[];
 extern const u32 gSummaryScreenPalette[];
-extern const u32 gSummaryScreenPage1Tilemap[];
-extern const u32 gSummaryScreenPage2Tilemap[];
+extern const u32 gSummaryScreenPageInfoTilemap[];
+extern const u32 gSummaryScreenPageMemoTilemap[];
+extern const u32 gSummaryScreenPageSkillsTilemap[];
+extern const u32 gSummaryScreenPageMovesTilemap[];
+extern const u16 gSummaryScreenPageMovesSelectedTilemap[];
 extern const u32 gSummaryScreenBackgroundTilemap[];
 
 #endif //GUARD_GRAPHICS_H
