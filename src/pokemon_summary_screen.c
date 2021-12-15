@@ -380,7 +380,7 @@ static const struct TilemapCtrl sStatusTilemapCtrl2 =
 };
 static const struct TilemapCtrl sBattleMoveTilemapCtrl =
 {
-    gSummaryScreenPageMovesSelectedTilemap, 0, 14, 16, 0, 36
+    gSummaryScreenPageMovesSelectedTilemap, 0, 15, 16, 0, 36
 };
 static const struct TilemapCtrl sContestMoveTilemapCtrl =
 {
@@ -3121,18 +3121,18 @@ static void PrintInfoPage(void)
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 80, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryExpPoints, 8, 112, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryExpPoints, 8, 100, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 	ConvertIntToDecimalStringN(gStringVar1, summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 7);
     x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 112, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 100, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryToNextLevel, 8, 128, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryToNextLevel, 8, 116, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     if (summary->level < MAX_LEVEL)
 		ConvertIntToDecimalStringN(gStringVar1, gExperienceTables[gBaseStats[summary->species].growthRate][summary->level + 1] - summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 6);
 	else
 		ConvertIntToDecimalStringN(gStringVar1, 0, STR_CONV_MODE_RIGHT_ALIGN, 6);
     x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 128, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 116, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
     if (summary->level < MAX_LEVEL)
     {
@@ -4663,6 +4663,9 @@ static void PrintContestMoveDescription(u8 moveSlot)
     //}
 }
 
+#define POWER_AND_ACCURACY_Y    33
+#define POWER_AND_ACCURACY_Y_2  POWER_AND_ACCURACY_Y + 16
+
 static void PrintMoveDetails(u16 move)
 {
 	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
@@ -4692,7 +4695,7 @@ static void PrintMoveDetails(u16 move)
     {
 		if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
         {
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Power, 8, 32, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Power, 8, POWER_AND_ACCURACY_Y, 0, 1);
 
 			if (move == MOVE_HIDDEN_POWER)
 			{
@@ -4715,9 +4718,9 @@ static void PrintMoveDetails(u16 move)
 					ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
 			}
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 32, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 84, POWER_AND_ACCURACY_Y, 0, 0);
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Accuracy2, 8, 48, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Accuracy2, 8, POWER_AND_ACCURACY_Y_2, 0, 1);
 
 			if (gBattleMoves[move].accuracy == 0)
 			{
@@ -4726,13 +4729,13 @@ static void PrintMoveDetails(u16 move)
 			else
 				ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 90, 48, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 84, POWER_AND_ACCURACY_Y_2, 0, 0);
 
             PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveFourLineDescriptionPointers[move - 1], 4, 64, 0, 0);
         }
         else
         {
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, 32, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, 31, 0, 1);
 			
 			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Jam, 8, 48, 0, 1);
 			
