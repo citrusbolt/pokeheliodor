@@ -593,7 +593,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 5,
         .height = 2,
-        .paletteNum = 7,
+        .paletteNum = 2,
         .baseBlock = 387,
     },
     [PSS_LABEL_WINDOW_PORTRAIT_NICKNAME] = {
@@ -620,7 +620,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 0,
         .width = 10,
         .height = 4,
-        .paletteNum = 6,
+        .paletteNum = 2,
         .baseBlock = 1,
     },
     [PSS_LABEL_PANE_LEFT_BOTTOM] = {
@@ -629,7 +629,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 16,
         .width = 8,
         .height = 5,
-        .paletteNum = 6,
+        .paletteNum = 2,
         .baseBlock = 44,
     },
     [PSS_LABEL_PANE_LEFT_MOVE] = {
@@ -647,7 +647,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 19,
         .height = 18,
-        .paletteNum = 6,
+        .paletteNum = 2,
         .baseBlock = 76,
     },
     [PSS_LABEL_PANE_RIGHT_HP] = {
@@ -678,7 +678,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .tilemapTop = 4,
         .width = 11,
         .height = 2,
-        .paletteNum = 6,
+        .paletteNum = 2,
         .baseBlock = 451,
     },
     [PSS_DATA_WINDOW_INFO_ID] = {
@@ -687,7 +687,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .tilemapTop = 4,
         .width = 7,
         .height = 2,
-        .paletteNum = 6,
+        .paletteNum = 2,
         .baseBlock = 473,
     },
     [PSS_DATA_WINDOW_INFO_ABILITY] = {
@@ -696,7 +696,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .tilemapTop = 9,
         .width = 18,
         .height = 4,
-        .paletteNum = 6,
+        .paletteNum = 2,
         .baseBlock = 487,
     },
     [PSS_DATA_WINDOW_INFO_MEMO] = {
@@ -705,7 +705,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .tilemapTop = 14,
         .width = 18,
         .height = 6,
-        .paletteNum = 6,
+        .paletteNum = 2,
         .baseBlock = 559,
     },
 };
@@ -787,15 +787,27 @@ static const struct WindowTemplate sPageMovesTemplate[] = // This is used for bo
         .baseBlock = 601,
     },
 };
+
+enum
+{
+    PSS_COLOR_BLACK_GRAY_SHADOW,
+    PSS_COLOR_WHITE_BLACK_SHADOW,
+    PSS_COLOR_MALE_GENDER_SYMBOL,
+    PSS_COLOR_FEMALE_GENDER_SYMBOL,
+    PSS_COLOR_SHINY_STARS,
+    PSS_COLOR_POKERUS_CURED,
+    PSS_COLOR_FAITHFUL_TRIANGLE
+};
+
 static const u8 sTextColors[][3] =
 {
-    {0, 1, 2},
-    {0, 3, 4},
-    {0, 5, 6},
-    {0, 7, 8},
-    {0, 9, 10},
-    {0, 11, 12},
-    {0, 13, 14},
+    [PSS_COLOR_BLACK_GRAY_SHADOW]       = {0, 7, 8},
+    [PSS_COLOR_WHITE_BLACK_SHADOW]      = {0, 1, 2},
+    [PSS_COLOR_MALE_GENDER_SYMBOL]      = {0, 3, 4},
+    [PSS_COLOR_FEMALE_GENDER_SYMBOL]    = {0, 5, 6},
+    [PSS_COLOR_SHINY_STARS]             = {0, 5, 5},
+    [PSS_COLOR_POKERUS_CURED]           = {0, 9, 9},
+    [PSS_COLOR_FAITHFUL_TRIANGLE]       = {0, 10, 10},
     {0, 10, 9},
     {13, 15, 14},
     {0, 6, 5},
@@ -1637,7 +1649,7 @@ static void SetDefaultTilemaps(void)
     //    PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATUS);
 
     LimitEggSummaryPageDisplay();
-    DrawPokerusCuredSymbol(&sMonSummaryScreen->currentMon);
+    //DrawPokerusCuredSymbol(&sMonSummaryScreen->currentMon);
 }
 
 static void FreeSummaryScreen(void)
@@ -1806,7 +1818,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
     case 12:
-        DrawPokerusCuredSymbol(&sMonSummaryScreen->currentMon);
+        //DrawPokerusCuredSymbol(&sMonSummaryScreen->currentMon);
         data[1] = 0;
         break;
     case 13:
@@ -2922,19 +2934,19 @@ static void PrintNotEggInfo(void)
         switch (GetMonGender(mon))
         {
         case MON_MALE:
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_MaleSymbol, 71, 19, 0, 3);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_MaleSymbol, 71, 19, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
             break;
         case MON_FEMALE:
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_FemaleSymbol, 71, 19, 0, 4);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_FemaleSymbol, 71, 19, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
             break;
         }
     }
 	if (IsMonShiny(mon))
-		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_SummaryShiny, 62, 18, 0, 7);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_SummaryShiny, 62, 18, 0, PSS_COLOR_SHINY_STARS);
 	if (summary->fatefulEncounter)
-		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_FatefulTriangle, 52, 18, 0, 9);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_FatefulTriangle, 52, 18, 0, PSS_COLOR_FAITHFUL_TRIANGLE);
 	if (!CheckPartyPokerus(mon, 0) && CheckPartyHasHadPokerus(mon, 0))
-		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_SummaryPokerus, 43, 18, 0, 3);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_SummaryPokerus, 43, 18, 0, PSS_COLOR_POKERUS_CURED);
 	
 	if (sMonSummaryScreen->summary.item == ITEM_NONE)
         StringCopy(gStringVar1, gText_None);
@@ -2942,8 +2954,8 @@ static void PrintNotEggInfo(void)
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
 
 	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
-	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[1], 0, gText_HeldItem);
-	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[0], 0, gStringVar1);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gText_HeldItem);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
     //PrintTextOnWindow(PSS_LABEL_PANE_LEFT_BOTTOM, gText_HeldItem, 28, 2, 0, 1);
     //PrintTextOnWindow(PSS_LABEL_PANE_LEFT_BOTTOM, gStringVar1, 24, 18, 0, 0);
 
@@ -3395,46 +3407,46 @@ static void PrintInfoPage(void)
 
 	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryDexNo, 8, 16, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryDexNo, 8, 16, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 	if (dexNum == 0xFFFF)
 		StringCopy(gStringVar1, gText_ThreeMarks);
 	else
 		ConvertIntToDecimalStringN(gStringVar1, dexNum, STR_CONV_MODE_LEADING_ZEROS, 3);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 16, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummarySpecies, 8, 32, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummarySpecies, 8, 32, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 	StringCopy(gStringVar1, gSpeciesNames[summary->species2]);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 32, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 32, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryType, 8, 48, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryType, 8, 48, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryOTName, 8, 64, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryOTName, 8, 64, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 	StringCopy(gStringVar1, summary->OTName);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-	if (summary->OTGender == 0)
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 64, 0, 5);
+	if (summary->OTGender == MALE)
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 64, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
 	else
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 64, 0, 6);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 64, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryOTID, 8, 80, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryOTID, 8, 80, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 	ConvertIntToDecimalStringN(gStringVar1, (u16)summary->OTID, STR_CONV_MODE_LEADING_ZEROS, 5);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 80, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 80, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryExpPoints, 8, 112, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryExpPoints, 8, 112, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 	ConvertIntToDecimalStringN(gStringVar1, summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 7);
     x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 112, 0, 0);
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 112, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryToNextLevel, 8, 128, 0, 1);
+	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryToNextLevel, 8, 128, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     if (summary->level < MAX_LEVEL)
 		ConvertIntToDecimalStringN(gStringVar1, gExperienceTables[gBaseStats[summary->species].growthRate][summary->level + 1] - summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 6);
 	else
 		ConvertIntToDecimalStringN(gStringVar1, 0, STR_CONV_MODE_RIGHT_ALIGN, 6);
     x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 128, 0, 0);
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 128, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
     if (summary->level < MAX_LEVEL)
     {
