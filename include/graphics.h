@@ -5170,4 +5170,10 @@ extern const u32 gBerryPalette_Nutpea[];
 extern const u32 gBerryPic_Mochi[];
 extern const u32 gBerryPalette_Mochi[];
 
+extern const u32 gSummaryScreenTiles[];
+extern const u32 gSummaryScreenPalette[];
+extern const u32 gSummaryScreenPage1Tilemap[];
+extern const u32 gSummaryScreenPage2Tilemap[];
+extern const u32 gSummaryScreenBackgroundTilemap[];
+
 #endif //GUARD_GRAPHICS_H

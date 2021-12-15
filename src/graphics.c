@@ -1561,3 +1561,9 @@ static const u8 sUnused2[]       = {0x02};
 static const u8 sEmpty5[0x3242]  = {0};
 static const u8 sUnused3[]       = {0x40};
 static const u8 sEmpty6[0x13]    = {0};
+
+const u32 gSummaryScreenTiles[] = INCBIN_U32("graphics/summary_screen/tiles.4bpp.lz");
+const u32 gSummaryScreenPalette[] = INCBIN_U32("graphics/summary_screen/palette.gbapal.lz");
+const u32 gSummaryScreenPage1Tilemap[] = INCBIN_U32("graphics/summary_screen/page_1.bin.lz");
+const u32 gSummaryScreenPage2Tilemap[] = INCBIN_U32("graphics/summary_screen/page_2.bin.lz");
+const u32 gSummaryScreenBackgroundTilemap[] = INCBIN_U32("graphics/summary_screen/background.bin.lz");
