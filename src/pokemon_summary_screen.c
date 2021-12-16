@@ -1111,8 +1111,8 @@ static void InitBGs(void)
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
     SetBgTilemapBuffer(1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_MEMO][0]);
-    SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1]);
-    SetBgTilemapBuffer(3, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0]);
+    SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0]);
+    SetBgTilemapBuffer(3, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1]);
     ResetAllBgsCoordinates();
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
@@ -1137,8 +1137,8 @@ static bool8 DecompressGraphics(void)
     case 1:
         if (FreeTempTileDataBuffersIfPossible() != 1)
         {
-            LZDecompressWram(gSummaryScreenBackgroundTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0]);
-            LZDecompressWram(gSummaryScreenPageInfoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1]);
+            LZDecompressWram(gSummaryScreenBackgroundTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1]);
+            LZDecompressWram(gSummaryScreenPageInfoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0]);
             sMonSummaryScreen->switchCounter++;
         }
         break;
@@ -1476,35 +1476,38 @@ static void Task_ChangeSummaryMon(u8 taskId)
         DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]]);
         break;
     case 5:
+        DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
+        break;
+    case 6:
         CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
         sMonSummaryScreen->switchCounter = 0;
         break;
-    case 6:
+    case 7:
         if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) == FALSE)
             return;
         break;
-    case 7:
+    case 8:
         RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 8:
+    case 9:
         CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 9:
+    case 10:
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 10:
+    case 11:
         CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
         break;
-	case 11:
+	case 12:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
-    case 12:
+    case 13:
         //DrawPokerusCuredSymbol(&sMonSummaryScreen->currentMon);
         data[1] = 0;
         break;
-    case 13:
+    case 14:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &data[1]);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] == SPRITE_NONE)
             return;
@@ -1512,17 +1515,17 @@ static void Task_ChangeSummaryMon(u8 taskId)
         TryDrawExperienceProgressBar();
         data[1] = 0;
         break;
-    case 14:
+    case 15:
         SetTypeIcons();
         break;
-    case 15:
+    case 16:
         PrintMonInfo();
         break;
-    case 16:
+    case 17:
         PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
         LimitEggSummaryPageDisplay();
         break;
-    case 17:
+    case 18:
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
@@ -1681,6 +1684,9 @@ static void PssScrollLeft(u8 taskId) // Scroll left
         else
             data[1] = 1;
         ChangeBgX(data[1], 0x10000, 0);
+        SetBgTilemapBuffer(data[1], sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex][0]);
+        ShowBg(1);
+        ShowBg(2);
     }
     ChangeBgX(data[1], 0x2000, 2);
     data[0] += 32;
@@ -3151,17 +3157,17 @@ static void PrintInfoPage(void)
         numExpProgressBarTicks = 0;
     }
 
-    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x1F5];
-    for (i = 0; i < 8; i++)
-    {
-        if (numExpProgressBarTicks > 7)
-            dst[i] = 0x206A;
-        else
-            dst[i] = 0x2062 + (numExpProgressBarTicks % 8);
-        numExpProgressBarTicks -= 8;
-        if (numExpProgressBarTicks < 0)
-            numExpProgressBarTicks = 0;
-    }
+    //dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x1F5];
+    //for (i = 0; i < 8; i++)
+    //{
+    //    if (numExpProgressBarTicks > 7)
+    //        dst[i] = 0x206A;
+    //    else
+    //        dst[i] = 0x2062 + (numExpProgressBarTicks % 8);
+    //    numExpProgressBarTicks -= 8;
+    //    if (numExpProgressBarTicks < 0)
+    //        numExpProgressBarTicks = 0;
+    //}
 
     if (GetBgTilemapBuffer(3) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0])
         ScheduleBgCopyTilemapToVram(3);
@@ -4075,16 +4081,16 @@ static void PrintSkillsPage(void)
 		numHPBarTicks = 1;
 
     dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x95];
-    for (i = 0; i < 8; i++)
-    {
-        if (numHPBarTicks > 7)
-            dst[i] = 0x206A;
-        else
-            dst[i] = 0x2062 + (numHPBarTicks % 8);
-        numHPBarTicks -= 8;
-        if (numHPBarTicks < 0)
-            numHPBarTicks = 0;
-    }
+    //for (i = 0; i < 8; i++)
+    //{
+    //    if (numHPBarTicks > 7)
+    //        dst[i] = 0x206A;
+    //    else
+    //        dst[i] = 0x2062 + (numHPBarTicks % 8);
+    //    numHPBarTicks -= 8;
+    //    if (numHPBarTicks < 0)
+    //        numHPBarTicks = 0;
+    //}
 
 	if (natureMod[STAT_ATK - 1] > 0)
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryNatureUp, 0, 0, 0, COLOR_STAT_ARROWS);
