@@ -4255,16 +4255,16 @@ static void PrintConditionPage(void)
 		numSheenBarTicks = 1;
 
     dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x95];
-    for (i = 0; i < 8; i++)
-    {
-        if (numSheenBarTicks > 7)
-            dst[i] = 0x206A;
-        else
-            dst[i] = 0x2062 + (numSheenBarTicks % 8);
-        numSheenBarTicks -= 8;
-        if (numSheenBarTicks < 0)
-            numSheenBarTicks = 0;
-    }
+    //for (i = 0; i < 8; i++)
+    //{
+    //    if (numSheenBarTicks > 7)
+    //        dst[i] = 0x206A;
+    //    else
+    //        dst[i] = 0x2062 + (numSheenBarTicks % 8);
+    //    numSheenBarTicks -= 8;
+    //    if (numSheenBarTicks < 0)
+    //        numSheenBarTicks = 0;
+    //}
 
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_SMALL, gText_SummaryCool, 12, 0, 0, 1);
 	ConvertIntToDecimalStringN(gStringVar1, summary->cool, STR_CONV_MODE_LEFT_ALIGN, 3);
