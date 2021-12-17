@@ -1627,8 +1627,8 @@ static void ChangePage(u8 taskId, s8 delta)
     PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
     HidePageSpecificSprites();
 	
-	if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
-		SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
+	//if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+	//	SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
 }
 
 static void PssScrollRight(u8 taskId) // Scroll right
@@ -3086,6 +3086,7 @@ static void CreateOriginMarkSprite(struct Pokemon *mon)
 	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].oam.priority = 0;
 	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].x = 104;
 	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].y = 120;
+	SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, TRUE);
 }
 
 static void PrintInfoPage(void)
