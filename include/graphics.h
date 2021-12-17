@@ -5177,6 +5177,7 @@ extern const u32 gSummaryScreenPageMemoTilemap[];
 extern const u32 gSummaryScreenPageSkillsTilemap[];
 extern const u32 gSummaryScreenPageMovesTilemap[];
 extern const u16 gSummaryScreenPageMovesSelectedTilemap[];
+extern const u32 gSummaryScreenPageMoveDetailsTilemap[];
 extern const u32 gSummaryScreenBackgroundTilemap[];
 
 #endif //GUARD_GRAPHICS_H

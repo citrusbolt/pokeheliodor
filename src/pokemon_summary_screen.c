@@ -158,7 +158,8 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		u8 spdefEV;
 		u8 speedEV;
     } summary;
-    u16 bgTilemapBuffers[PSS_PAGE_COUNT][2][0x400];
+    u16 bgTilemapBuffers[PSS_PAGE_COUNT + 1][0x400];
+    u16 moveDetailTilemapBuffer[0x800];
     u8 mode;
     bool8 isBoxMon;
     u8 curMonIndex;
@@ -343,7 +344,7 @@ static const struct BgTemplate sBgTemplates[] =
         .bg = 2,
         .charBaseIndex = 2,
         .mapBaseIndex = 25,
-        .screenSize = 1,
+        .screenSize = 0,
         .paletteMode = 0,
         .priority = 2,
         .baseTile = 0,
@@ -352,7 +353,7 @@ static const struct BgTemplate sBgTemplates[] =
         .bg = 3,
         .charBaseIndex = 2,
         .mapBaseIndex = 29,
-        .screenSize = 1,
+        .screenSize = 0,
         .paletteMode = 0,
         .priority = 3,
         .baseTile = 0,
@@ -1030,7 +1031,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 14:
-        SetDefaultTilemaps();
+        //SetDefaultTilemaps();
         gMain.state++;
         break;
     case 15:
@@ -1110,10 +1111,11 @@ static void InitBGs(void)
 {
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
-    SetBgTilemapBuffer(1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_MEMO][0]);
-    SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0]);
-    SetBgTilemapBuffer(3, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1]);
+    SetBgTilemapBuffer(1, sMonSummaryScreen->moveDetailTilemapBuffer);
+    SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO]);
+    SetBgTilemapBuffer(3, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_COUNT]);
     ResetAllBgsCoordinates();
+    ChangeBgX(1, 0x10000, 0);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
     ScheduleBgCopyTilemapToVram(3);
@@ -1137,57 +1139,61 @@ static bool8 DecompressGraphics(void)
     case 1:
         if (FreeTempTileDataBuffersIfPossible() != 1)
         {
-            LZDecompressWram(gSummaryScreenBackgroundTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1]);
-            LZDecompressWram(gSummaryScreenPageInfoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0]);
+            LZDecompressWram(gSummaryScreenBackgroundTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_COUNT]);
+            LZDecompressWram(gSummaryScreenPageInfoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO]);
             sMonSummaryScreen->switchCounter++;
         }
         break;
     case 2:
-        LZDecompressWram(gSummaryScreenPageMemoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_MEMO][1]);
+        LZDecompressWram(gSummaryScreenPageMemoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_MEMO]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 3:
-        LZDecompressWram(gSummaryScreenPageSkillsTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_SKILLS][1]);
+        LZDecompressWram(gSummaryScreenPageSkillsTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_SKILLS]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 4:
-        LZDecompressWram(gSummaryScreenPageMovesTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][1]);
+        LZDecompressWram(gSummaryScreenPageMovesTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 5:
-        LZDecompressWram(gSummaryScreenPageMemoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONDITION][1]);
+        LZDecompressWram(gSummaryScreenPageSkillsTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONDITION]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 6:
-        LZDecompressWram(gSummaryScreenPageMemoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][1]);
+        LZDecompressWram(gSummaryScreenPageMovesTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 7:
+        LZDecompressWram(gSummaryScreenPageMoveDetailsTilemap, sMonSummaryScreen->moveDetailTilemapBuffer);
+        sMonSummaryScreen->switchCounter++;
+        break;
+    case 8:
         LoadCompressedPalette(gSummaryScreenPalette, 0, 0x100);
         LoadPalette(&gUnknown_08D85620, 0x81, 0x1E);
         sMonSummaryScreen->switchCounter++;
         break;
-    case 8:
+    case 9:
         LoadCompressedSpriteSheet(&sSpriteSheet_MoveTypes);
         sMonSummaryScreen->switchCounter++;
         break;
-    case 9:
+    case 10:
         LoadCompressedSpriteSheet(&sMoveSelectorSpriteSheet);
         sMonSummaryScreen->switchCounter++;
         break;
-    case 10:
+    case 11:
         LoadCompressedSpriteSheet(&sStatusIconsSpriteSheet);
         sMonSummaryScreen->switchCounter++;
         break;
-    case 11:
+    case 12:
         LoadCompressedSpritePalette(&sStatusIconsSpritePalette);
         sMonSummaryScreen->switchCounter++;
         break;
-    case 12:
+    case 13:
         LoadCompressedSpritePalette(&sMoveSelectorSpritePal);
         sMonSummaryScreen->switchCounter++;
         break;
-    case 13:
+    case 14:
         LoadCompressedPalette(gMoveTypes_Pal, 0x1D0, 0x60);
         sMonSummaryScreen->switchCounter = 0;
         return TRUE;
@@ -1321,10 +1327,10 @@ static void SetDefaultTilemaps(void)
     else
     {
         DrawContestMoveHearts(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
-        TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], 3, FALSE);
-        TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], 1, FALSE);
-        SetBgTilemapBuffer(1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0]);
-        SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0]);
+        TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES], 3, FALSE);
+        TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES], 1, FALSE);
+        SetBgTilemapBuffer(1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES]);
+        SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES]);
         ChangeBgX(2, 0x10000, 1);
     }
 
@@ -1636,26 +1642,27 @@ static void PssScrollRight(u8 taskId) // Scroll right
     s16 *data = gTasks[taskId].data;
     if (data[0] == 0)
     {
-        if (sMonSummaryScreen->bgDisplayOrder == 0)
-        {
-            data[1] = 1;
-            SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
-            SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
-            ScheduleBgCopyTilemapToVram(1);
-        }
-        else
-        {
-            data[1] = 2;
-            SetBgAttribute(2, BG_ATTR_PRIORITY, 1);
-            SetBgAttribute(1, BG_ATTR_PRIORITY, 2);
-            ScheduleBgCopyTilemapToVram(2);
-        }
-        ChangeBgX(data[1], 0, 0);
-        SetBgTilemapBuffer(data[1], sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex][0]);
-        ShowBg(1);
+        //if (sMonSummaryScreen->bgDisplayOrder == 0)
+        //{
+        //    data[1] = 1;
+        //    SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
+        //    SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
+        //    ScheduleBgCopyTilemapToVram(1);
+        //}
+        //else
+        //{
+        //    data[1] = 2;
+        //    SetBgAttribute(2, BG_ATTR_PRIORITY, 1);
+        //    SetBgAttribute(1, BG_ATTR_PRIORITY, 2);
+        //    ScheduleBgCopyTilemapToVram(2);
+        //}
+        //ChangeBgX(data[1], 0, 0);
+        SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex]);
+        ScheduleBgCopyTilemapToVram(2);
+        //ShowBg(1);
         ShowBg(2);
     }
-    ChangeBgX(data[1], 0x2000, 1);
+    //ChangeBgX(data[1], 0x2000, 1);
     data[0] += 32;
     if (data[0] > 0xFF)
         gTasks[taskId].func = PssScrollRightEnd;
@@ -1683,12 +1690,13 @@ static void PssScrollLeft(u8 taskId) // Scroll left
             data[1] = 2;
         else
             data[1] = 1;
-        ChangeBgX(data[1], 0x10000, 0);
-        SetBgTilemapBuffer(data[1], sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex][0]);
-        ShowBg(1);
+        //ChangeBgX(data[1], 0x10000, 0);
+        SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex]);
+        ScheduleBgCopyTilemapToVram(2);
+        //ShowBg(1);
         ShowBg(2);
     }
-    ChangeBgX(data[1], 0x2000, 2);
+    //ChangeBgX(data[1], 0x2000, 2);
     data[0] += 32;
     if (data[0] > 0xFF)
         gTasks[taskId].func = PssScrollLeftEnd;
@@ -1697,24 +1705,24 @@ static void PssScrollLeft(u8 taskId) // Scroll left
 static void PssScrollLeftEnd(u8 taskId) // display left
 {
     s16 *data = gTasks[taskId].data;
-    if (sMonSummaryScreen->bgDisplayOrder == 0)
-    {
-        SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
-        SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
-        ScheduleBgCopyTilemapToVram(2);
-    }
-    else
-    {
-        SetBgAttribute(2, BG_ATTR_PRIORITY, 1);
-        SetBgAttribute(1, BG_ATTR_PRIORITY, 2);
-        ScheduleBgCopyTilemapToVram(1);
-    }
-    if (sMonSummaryScreen->currPageIndex > 1)
-    {
-        SetBgTilemapBuffer(data[1], sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex - 1][0]);
-        ChangeBgX(data[1], 0x10000, 0);
-    }
-    ShowBg(1);
+    //if (sMonSummaryScreen->bgDisplayOrder == 0)
+    //{
+    //    SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
+    //    SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
+    //    ScheduleBgCopyTilemapToVram(2);
+    //}
+    //else
+    //{
+    //    SetBgAttribute(2, BG_ATTR_PRIORITY, 1);
+    //    SetBgAttribute(1, BG_ATTR_PRIORITY, 2);
+    //    ScheduleBgCopyTilemapToVram(1);
+    //}
+    //if (sMonSummaryScreen->currPageIndex > 1)
+    //{
+    //    SetBgTilemapBuffer(data[1], sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex - 1]);
+    //    ChangeBgX(data[1], 0x10000, 0);
+    //}
+    //ShowBg(1);
     ShowBg(2);
     sMonSummaryScreen->bgDisplayOrder ^= 1;
     data[1] = 0;
@@ -1735,6 +1743,7 @@ static void TryDrawExperienceProgressBar(void)
 static void SwitchToMoveSelection(u8 taskId)
 {
     u16 move;
+	u32 i;
 
     sMonSummaryScreen->firstMoveIndex = 0;
     move = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
@@ -1745,8 +1754,12 @@ static void SwitchToMoveSelection(u8 taskId)
         //ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
         //PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_SWITCH);
     }
-    TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], 3, FALSE);
-    TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], 1, FALSE);
+    //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES], 3, FALSE);
+    //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES], 1, FALSE);
+	
+	for (i = 0; i < 0x800; i++)
+		ChangeBgX(1, 0x20, 2);
+	
     PrintMoveDetails(move);
     PrintNewMoveDetailsOrCancelText();
     SetNewMoveTypeIcon();
@@ -1869,6 +1882,8 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
 
 static void CloseMoveSelectMode(u8 taskId)
 {
+	u32 i;
+	
     DestroyMoveSelectorSprites(SPRITE_ARR_ID_MOVE_SELECTOR1);
     //ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_SWITCH);
     //PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
@@ -1883,8 +1898,12 @@ static void CloseMoveSelectMode(u8 taskId)
 	SetSpriteInvisibility(SPRITE_ARR_ID_TYPE, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
-    TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], 3, TRUE);
-    TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], 1, TRUE);
+    //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES], 3, TRUE);
+    //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES], 1, TRUE);
+	
+	for (i = 0; i < 0x800; i++)
+		ChangeBgX(1, 0x20, 1);
+	
     AddAndFillMoveNamesWindow(); // This function seems to have no effect.
     if (sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
     {
@@ -2298,7 +2317,7 @@ static void HandlePowerAccTilemap(u16 a, s16 b)
         b = sBattleMoveTilemapCtrl.field_6;
     if (b == 0 || b == sBattleMoveTilemapCtrl.field_6)
     {
-        ChangeTilemap(&sBattleMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], b, TRUE);
+        ChangeTilemap(&sBattleMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES], b, TRUE);
     }
     else
     {
@@ -2323,7 +2342,7 @@ static void Task_ShowPowerAccWindow(u8 taskId)
         data[1] = sBattleMoveTilemapCtrl.field_6;
     }
     // Next line loads the BG of the move selected
-    ChangeTilemap(&sBattleMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], data[1], TRUE);
+    ChangeTilemap(&sBattleMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES], data[1], TRUE);
     if (data[1] <= 0 || data[1] >= sBattleMoveTilemapCtrl.field_6)
     {
         if (data[0] < 0)
@@ -2351,7 +2370,7 @@ static void HandleAppealJamTilemap(u16 a, s16 b, u16 move)
 
     if (b == 0 || b == sContestMoveTilemapCtrl.field_6)
     {
-        ChangeTilemap(&sContestMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], b, TRUE);
+        ChangeTilemap(&sContestMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES], b, TRUE);
     }
     else
     {
@@ -2376,7 +2395,7 @@ static void Task_ShowAppealJamWindow(u8 taskId)
     {
         data[1] = sContestMoveTilemapCtrl.field_6;
     }
-    ChangeTilemap(&sContestMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], data[1], TRUE);
+    ChangeTilemap(&sContestMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES], data[1], TRUE);
     if (data[1] <= 0 || data[1] >= sContestMoveTilemapCtrl.field_6)
     {
         if (data[0] < 0)
@@ -2406,8 +2425,8 @@ static void HandleStatusTilemap(u16 a, s16 b)
         b = sStatusTilemapCtrl1.field_6;
     if (b == 0 || b == sStatusTilemapCtrl1.field_6)
     {
-        ChangeTilemap(&sStatusTilemapCtrl1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0], b, FALSE);
-        ChangeTilemap(&sStatusTilemapCtrl2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0], b, FALSE);
+        ChangeTilemap(&sStatusTilemapCtrl1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO], b, FALSE);
+        ChangeTilemap(&sStatusTilemapCtrl2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO], b, FALSE);
     }
     else
     {
@@ -2425,8 +2444,8 @@ static void Task_ShowStatusWindow(u8 taskId)
         data[1] = 0;
     else if (data[1] > sStatusTilemapCtrl1.field_6)
         data[1] = sStatusTilemapCtrl1.field_6;
-    ChangeTilemap(&sStatusTilemapCtrl1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0], data[1], FALSE);
-    ChangeTilemap(&sStatusTilemapCtrl2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0], data[1], FALSE);
+    ChangeTilemap(&sStatusTilemapCtrl1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO], data[1], FALSE);
+    ChangeTilemap(&sStatusTilemapCtrl2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO], data[1], FALSE);
     ScheduleBgCopyTilemapToVram(3);
     if (data[1] <= 0 || data[1] >= sStatusTilemapCtrl1.field_6)
     {
@@ -2470,13 +2489,13 @@ static void DrawPokerusCuredSymbol(struct Pokemon *mon) // This checks if the mo
 {
     if (!CheckPartyPokerus(mon, 0) && CheckPartyHasHadPokerus(mon, 0)) // If yes it draws the cured symbol
     {
-        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x223] = 0x2C;
-        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1][0x223] = 0x2C;
+        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x223] = 0x2C;
+        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x223] = 0x2C;
     }
     else
     {
-        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x223] = 0x81A;
-        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1][0x223] = 0x81A;
+        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x223] = 0x81A;
+        sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x223] = 0x81A;
     }
     ScheduleBgCopyTilemapToVram(3);
 }
@@ -2514,19 +2533,19 @@ static void DrawExperienceProgressBar(struct Pokemon *unused)
         numExpProgressBarTicks = 0;
     }
 
-    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][1][0x255];
-    for (i = 0; i < 8; i++)
-    {
-        if (numExpProgressBarTicks > 7)
-            dst[i] = 0x206A;
-        else
-            dst[i] = 0x2062 + (numExpProgressBarTicks % 8);
-        numExpProgressBarTicks -= 8;
-        if (numExpProgressBarTicks < 0)
-            numExpProgressBarTicks = 0;
-    }
+    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x255];
+    //for (i = 0; i < 8; i++)
+    //{
+    //    if (numExpProgressBarTicks > 7)
+    //        dst[i] = 0x206A;
+    //    else
+    //        dst[i] = 0x2062 + (numExpProgressBarTicks % 8);
+    //    numExpProgressBarTicks -= 8;
+    //    if (numExpProgressBarTicks < 0)
+    //        numExpProgressBarTicks = 0;
+    //}
 
-    if (GetBgTilemapBuffer(1) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0])
+    if (GetBgTilemapBuffer(1) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO])
         ScheduleBgCopyTilemapToVram(1);
     else
         ScheduleBgCopyTilemapToVram(2);
@@ -2534,7 +2553,7 @@ static void DrawExperienceProgressBar(struct Pokemon *unused)
 
 static void DrawContestMoveHearts(u16 move)
 {
-    u16 *tilemap = sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][1];
+    u16 *tilemap = sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES];
     u8 i;
 
     if (move != MOVE_NONE)
@@ -2569,10 +2588,10 @@ static void DrawContestMoveHearts(u16 move)
 
 static void LimitEggSummaryPageDisplay(void) // If the pokemon is an egg, limit the number of pages displayed to 1
 {
-    if (sMonSummaryScreen->summary.isEgg)
-        ChangeBgX(3, 0x10000, 0);
-    else
-        ChangeBgX(3, 0, 0);
+    //if (sMonSummaryScreen->summary.isEgg)
+    //    ChangeBgX(3, 0x10000, 0);
+    //else
+    //    ChangeBgX(3, 0, 0);
 }
 
 static void ResetWindows(void)
@@ -3158,7 +3177,7 @@ static void PrintInfoPage(void)
         numExpProgressBarTicks = 0;
     }
 
-    //dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x1F5];
+    //dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x1F5];
     //for (i = 0; i < 8; i++)
     //{
     //    if (numExpProgressBarTicks > 7)
@@ -3170,7 +3189,7 @@ static void PrintInfoPage(void)
     //        numExpProgressBarTicks = 0;
     //}
 
-    if (GetBgTilemapBuffer(3) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0])
+    if (GetBgTilemapBuffer(3) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO])
         ScheduleBgCopyTilemapToVram(3);
     else
         ScheduleBgCopyTilemapToVram(2);
@@ -4081,7 +4100,7 @@ static void PrintSkillsPage(void)
 	if (numHPBarTicks == 0 && summary->currentHP != 0)
 		numHPBarTicks = 1;
 
-    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x95];
+    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x95];
     //for (i = 0; i < 8; i++)
     //{
     //    if (numHPBarTicks > 7)
@@ -4214,7 +4233,7 @@ static void PrintSkillsPage(void)
     //x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
     //PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 116, 0, 0);
 	//
-    //if (GetBgTilemapBuffer(3) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0])
+    //if (GetBgTilemapBuffer(3) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO])
     //    ScheduleBgCopyTilemapToVram(3);
     //else
     //    ScheduleBgCopyTilemapToVram(2);
@@ -4254,7 +4273,7 @@ static void PrintConditionPage(void)
 	if (numSheenBarTicks == 0 && summary->sheen != 0)
 		numSheenBarTicks = 1;
 
-    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0][0x95];
+    dst = &sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0x95];
     //for (i = 0; i < 8; i++)
     //{
     //    if (numSheenBarTicks > 7)
