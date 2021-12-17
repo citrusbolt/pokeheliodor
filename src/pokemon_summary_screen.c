@@ -1476,7 +1476,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]]);
         break;
     case 5:
-        DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
+        FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
         break;
     case 6:
         CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
