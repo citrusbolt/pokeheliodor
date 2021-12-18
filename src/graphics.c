@@ -1571,3 +1571,7 @@ const u32 gSummaryScreenPageMovesTilemap[] = INCBIN_U32("graphics/summary_screen
 const u16 gSummaryScreenPageMovesSelectedTilemap[] = INCBIN_U16("graphics/summary_screen/page_moves_selected.bin");
 const u32 gSummaryScreenPageMoveDetailsTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_selected.bin.lz");
 const u32 gSummaryScreenBackgroundTilemap[] = INCBIN_U32("graphics/summary_screen/background.bin.lz");
+const u32 gSummaryExpBar_Tiles[] = INCBIN_U32("graphics/summary_screen/exp_bar.4bpp.lz");
+const u32 gSummaryHealthBar_Tiles[] = INCBIN_U32("graphics/summary_screen/hp_bar.4bpp.lz");
+const u16 gExpBarHealthBarGreenPal[] = INCBIN_U16("graphics/summary_screen/hp-exp_bar.gbapal");
+
