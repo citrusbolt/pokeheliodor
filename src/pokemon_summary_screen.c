@@ -1924,8 +1924,10 @@ static void SwitchToMoveSelection(u8 taskId)
     //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES], 3, FALSE);
     //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES], 1, FALSE);
 	
-	for (i = 0; i < 0x800; i++)
-		ChangeBgX(1, 0x20, 2);
+	//for (i = 0; i < 0x800; i++)
+	//	ChangeBgX(1, 0x20, 2);
+
+	ChangeBgX(1, 0, 0);
 	
     PrintMoveDetails(move);
     PrintNewMoveDetailsOrCancelText();
@@ -2068,8 +2070,10 @@ static void CloseMoveSelectMode(u8 taskId)
     //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES], 3, TRUE);
     //TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES], 1, TRUE);
 	
-	for (i = 0; i < 0x800; i++)
-		ChangeBgX(1, 0x20, 1);
+	//for (i = 0; i < 0x800; i++)
+	//	ChangeBgX(1, 0x20, 1);
+
+	ChangeBgX(1, 0x10000, 0);
 	
     AddAndFillMoveNamesWindow(); // This function seems to have no effect.
     if (sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
