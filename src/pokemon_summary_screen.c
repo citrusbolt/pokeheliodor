@@ -1233,9 +1233,17 @@ static bool8 LoadGraphics(void)
         break;
     case 27:
         if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
+		{
             CreateTask(Task_HandleInput, 0);
+		}
         else
+		{
+			ScheduleBgCopyTilemapToVram(1);
+			ScheduleBgCopyTilemapToVram(2);
+			PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
+			ChangeBgX(1, 0, 0);
             CreateTask(Task_SetHandleReplaceMoveInput, 0);
+		}
         gMain.state++;
         break;
     case 28:
