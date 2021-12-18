@@ -1592,7 +1592,7 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
     {
         if (sMonSummaryScreen->isBoxMon == TRUE)
         {
-            if (sMonSummaryScreen->currPageIndex != PSS_PAGE_INFO)
+            if (sMonSummaryScreen->currPageIndex != PSS_PAGE_MEMO)
             {
                 if (delta == 1)
                     delta = 0;
