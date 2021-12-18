@@ -283,8 +283,8 @@ static bool8 DidMonComeFromDPPt(void);
 static bool8 IsInGamePartnerMon(void);
 static void PrintEggOTName(void);
 static void PrintEggOTID(void);
-static void PrintEggState(void);
-static void PrintEggMemo(void);
+static void BufferEggState(void);
+static void BufferEggMemo(void);
 static void Task_PrintSkillsPage(u8 taskId);
 static void PrintHeldItemName(void);
 static void PrintSkillsPage(void);
@@ -1051,6 +1051,11 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     case SUMMARY_MODE_BOX:
         sMonSummaryScreen->minPageIndex = 0;
         sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
+		if (sMonSummaryScreen->summary.isEgg)
+		{
+			sMonSummaryScreen->minPageIndex = PSS_PAGE_MEMO;
+			sMonSummaryScreen->maxPageIndex = PSS_PAGE_MEMO;
+		}
         break;
     case SUMMARY_MODE_LOCK_MOVES:
         sMonSummaryScreen->minPageIndex = 0;
@@ -1161,7 +1166,14 @@ static bool8 LoadGraphics(void)
             gMain.state++;
         break;
     case 11:
-        PrintMonInfo();
+		if (sMonSummaryScreen->summary.isEgg)
+		{
+			sMonSummaryScreen->currPageIndex = PSS_PAGE_MEMO;
+			SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex]);
+			ScheduleBgCopyTilemapToVram(2);
+		}
+		
+		PrintMonInfo();
         gMain.state++;
         break;
     case 12:
@@ -1713,7 +1725,7 @@ static s8 AdvanceMonIndex(s8 delta)
 {
     struct Pokemon *mon = sMonSummaryScreen->monList.mons;
 
-    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_MEMO)
     {
         if (delta == -1 && sMonSummaryScreen->curMonIndex == 0)
             return -1;
@@ -2936,7 +2948,19 @@ static void PrintNotEggInfo(void)
 
 static void PrintEggInfo(void)
 {
+	u8 x;
+	
     GetMonNickname(&sMonSummaryScreen->currentMon, gStringVar1);
+    PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 20, 2, 0, 1);
+	if (sMonSummaryScreen->summary.item == ITEM_NONE)
+        StringCopy(gStringVar1, gText_None);
+    else
+        CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
+	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gText_HeldItem);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
+    PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
+    PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
     //PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME, gStringVar1, 0, 1, 0, 1);
     //PutWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME);
     //ClearWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER);
@@ -3393,7 +3417,10 @@ static void PrintMemoPage(void)
 {
 	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
 
-	BufferMonTrainerMemo();
+	if (sMonSummaryScreen->summary.isEgg)
+		BufferEggMemo();
+	else
+		BufferMonTrainerMemo();
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar4, 8, 16, 0, 0);
 
     ScheduleBgCopyTilemapToVram(0);
@@ -4152,7 +4179,7 @@ static void PrintEggOTID(void)
     //PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ID), gStringVar1, x, 1, 0, 1);
 }
 
-static void PrintEggState(void)
+static void BufferEggState(void)
 {
     const u8 *text;
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
@@ -4168,13 +4195,16 @@ static void PrintEggState(void)
     else
         text = gText_EggWillTakeALongTime;
 
+	DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, text);
     //PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), text, 0, 1, 0, 0);
 }
 
-static void PrintEggMemo(void)
+static void BufferEggMemo(void)
 {
 	const u8 *text;
 	struct PokeSummary *sum = &sMonSummaryScreen->summary;
+
+	BufferEggState();
 
 	if (sMonSummaryScreen->summary.sanity != 1)
 	{
@@ -4231,6 +4261,7 @@ static void PrintEggMemo(void)
 		text = gText_BadEggDesc;
 	}
 
+    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
 	//PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), text, 0, 1, 0, 0);
 }
 
