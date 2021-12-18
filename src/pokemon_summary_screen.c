@@ -4556,35 +4556,39 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 	if (summary->moves[moveIndex] != MOVE_NONE)
 	{
 		pp = CalculatePPWithBonus(summary->moves[moveIndex], summary->ppBonuses, moveIndex);
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gMoveNames[summary->moves[moveIndex]], 64, moveIndex * 29, 0, 1);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gMoveNames[summary->moves[moveIndex]], 64, moveIndex * 29, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 		ConvertIntToDecimalStringN(gStringVar1, summary->pp[moveIndex], STR_CONV_MODE_LEFT_ALIGN, 2);
 		ConvertIntToDecimalStringN(gStringVar2, pp, STR_CONV_MODE_LEFT_ALIGN, 2);
 		StringAppend(gStringVar1, gText_Slash);
 		StringAppend(gStringVar1, gStringVar2);
 		switch (GetCurrentPpToMaxPpState(summary->pp[moveIndex], pp))
 		{
+            // TODO: Atm we have enough text palette space to add yellow/orange
+            // colors for the PP Moves, but I rather wait until we finish everything
+            // else in case we need them for something more important.
+            // Atm is always color black, but red once there are no PP left.
 			case 0:
-				color = 10;
+				color = PSS_COLOR_WHITE_BLACK_SHADOW;
 				break;
 			case 1:
-				color = 4;
+				color = PSS_COLOR_WHITE_BLACK_SHADOW;
 				break;
-			case 2:
-				color = 2;
+			case 2: // No PP left
+				color = PSS_COLOR_FEMALE_GENDER_SYMBOL;
 				break;
 			case 3:
-				color = 0;
+				color = PSS_COLOR_WHITE_BLACK_SHADOW;
 				break;
 		}
 		x = GetStringCenterAlignXOffset(1, gStringVar1, 32) + 113;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryPP, 80, moveIndex * 29 + 13, 0, 0);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryPP, 80, moveIndex * 29 + 13, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, moveIndex * 29 + 13, 0, color);
 	}
 	else
 	{
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_OneDash, 64, moveIndex * 29, 0, 1);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_OneDash, 64, moveIndex * 29, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 		x = GetStringCenterAlignXOffset(1, gText_TwoDashes, 32) + 113;
-		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_TwoDashes, x, moveIndex * 29 + 13, 0, 0);
+		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_TwoDashes, x, moveIndex * 29 + 13, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 	}
 }
 
