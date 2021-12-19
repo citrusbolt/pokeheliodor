@@ -408,7 +408,7 @@ static const struct TilemapCtrl sStatusTilemapCtrl2 =
 };
 static const struct TilemapCtrl sBattleMoveTilemapCtrl =
 {
-    gSummaryScreenPageMovesSelectedTilemap, 0, 15, 16, 0, 36
+    //gSummaryScreenPageMovesSelectedTilemap, 0, 15, 16, 0, 36
 };
 static const struct TilemapCtrl sContestMoveTilemapCtrl =
 {
@@ -1326,11 +1326,11 @@ static bool8 DecompressGraphics(void)
         sMonSummaryScreen->switchCounter++;
         break;
     case 5:
-        LZDecompressWram(gSummaryScreenPageSkillsTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONDITION]);
+        LZDecompressWram(gSummaryScreenPageConditionTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONDITION]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 6:
-        LZDecompressWram(gSummaryScreenPageMovesTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES]);
+        LZDecompressWram(gSummaryScreenPageContestMovesTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 7:

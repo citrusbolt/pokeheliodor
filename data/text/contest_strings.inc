@@ -13,13 +13,13 @@ gText_UsedRepeatedlyWithoutBoringJudge::
 	.string "Can be repeatedly used\nwithout boring the JUDGE.$"
 
 gText_AvoidStartledByOthersOnce::
-	.string "Can avoid being startled\nby others once.$"
+	.string "Can avoid being\nstartled by others once.$"
 
 gText_AvoidStartledByOthers::
-	.string "Can avoid being startled\nby others.$"
+	.string "Can avoid being\nstartled by others.$"
 
 gText_AvoidStartledByOthersLittle::
-	.string "Can avoid being startled\nby others a little.$"
+	.string "Can avoid being\nstartled by others a little.$"
 
 gText_UserLessLikelyStartled::
 	.string "After this move, the user is\nless likely to be startled.$"
@@ -37,7 +37,7 @@ gText_StartleAllAppealed::
 	.string "Startles all POKéMON that\nhave done their appeals.$"
 
 gText_BadlyStartleFrontMon::
-	.string "Badly startles the\nPOKéMON in front.$"
+	.string "Badly startles the\nPokémon in front.$"
 
 gText_BadlyStartleAppealed::
 	.string "Badly startles those that\nhave made appeals.$"
@@ -88,10 +88,10 @@ gText_BadlyStartleMonsGoodCondition::
 	.string "Badly startles POKéMON in\ngood condition.$"
 
 gText_AppealGreatIfPerformedFirst::
-	.string "The appeal works great if\nperformed first.$"
+	.string "The appeal works\ngreat if\nperformed first.$"
 
 gText_AppealGreatIfPerformedLast::
-	.string "The appeal works great if\nperformed last.$"
+	.string "The appeal works\ngreat if\nperformed last.$"
 
 gText_AppealAsGoodAsThoseBeforeIt::
 	.string "Makes the appeal as good\nas those before it.$"
