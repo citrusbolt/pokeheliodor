@@ -78,7 +78,7 @@ enum {
 #define PSS_LABEL_WINDOW_END                        (PSS_LABEL_PANE_RIGHT_SMALL + 1)
 
 #define MOVE_SELECTOR_SPRITES_COUNT 4
-#define HP_BAR_SPRITES_COUNT 11
+#define HP_BAR_SPRITES_COUNT 9
 #define EXP_BAR_SPRITES_COUNT 11
 // for the spriteIds field in PokemonSummaryScreenData
 enum
@@ -189,8 +189,8 @@ ALIGNED(4) static EWRAM_DATA u8 sAnimDelayTaskId = 0;
 
 static EWRAM_DATA struct HealthBar
 {
-    struct Sprite * sprites[11];
-    u16 spritePositions[11];
+    struct Sprite * sprites[10];
+    u16 spritePositions[10];
     u16 tileTag;
     u16 palTag;
 } *sHealthBar = NULL;
@@ -547,12 +547,12 @@ static const u8 sStatsLeftColumnLayout[] = _("{DYNAMIC 0}/{DYNAMIC 1}\n{DYNAMIC 
 static const u8 sStatsRightColumnLayout[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
 static const u8 sMovesPPLayout[] = _("{PP}{DYNAMIC 0}/{DYNAMIC 1}");
 
-#define TAG_MOVE_SELECTOR 30000
-#define TAG_MON_STATUS 30001
-#define TAG_MOVE_TYPES 30002
-#define TAG_MON_MARKINGS 30003
-#define TAG_HEALTH_BAR 30004
-#define TAG_EXP_BAR 30005
+#define TAG_MOVE_SELECTOR   30000
+#define TAG_MON_STATUS      30001
+#define TAG_MOVE_TYPES      30002
+#define TAG_MON_MARKINGS    30003
+#define TAG_HEALTH_BAR      0x78
+#define TAG_EXP_BAR         0x82
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -1222,19 +1222,20 @@ static bool8 LoadGraphics(void)
         CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
     case 22:
-        CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
-        gMain.state++;
-    case 23:
-        CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
-        gMain.state++;
-        break;
-    case 24:
         LoadMonIconPalettes();
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
         break;
+    case 23:
+        CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
+        gMain.state++;
+        break;
+    case 24:
+
+        CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
+        gMain.state++;
     case 25:
         CreateSetStatusSprite();
         gMain.state++;
@@ -1674,28 +1675,28 @@ static void Task_ChangeSummaryMon(u8 taskId)
     case 11:
         CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 12:
-        ConfigureHealthBarSprites();
-        break;
-    case 13:
-        ConfigureExpBarSprites();
-        break;
-	case 14:
+	case 12:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
-    case 15:
+    case 13:
         //DrawPokerusCuredSymbol(&sMonSummaryScreen->currentMon);
         data[1] = 0;
         break;
-    case 16:
+    case 14:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &data[1]);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] == SPRITE_NONE)
             return;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 1;
         TryDrawExperienceProgressBar();
         data[1] = 0;
+        break;
+    case 15:
+        ConfigureHealthBarSprites();
+        break;
+    case 16:
+        ConfigureExpBarSprites();
         break;
     case 17:
         SetTypeIcons();
