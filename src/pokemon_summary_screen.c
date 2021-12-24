@@ -794,7 +794,7 @@ static const struct CompressedSpritePalette sMoveSelectorSpritePal =
 static const struct SpriteTemplate sMoveSelectorSpriteTemplate =
 {
     .tileTag = TAG_MOVE_SELECTOR,
-    .paletteTag = TAG_MOVE_SELECTOR,
+    .paletteTag = TAG_MON_STATUS,
     .oam = &sOamData_MoveSelector,
     .anims = sSpriteAnimTable_MoveSelector,
     .images = NULL,
@@ -1219,10 +1219,10 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 21:
-        CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
+        //CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
     case 22:
-        LoadMonIconPalettes();
+        LoadMonIconPalettesNoTrash();
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
@@ -1359,7 +1359,7 @@ static bool8 DecompressGraphics(void)
         sMonSummaryScreen->switchCounter++;
         break;
     case 13:
-        LoadCompressedSpritePalette(&sMoveSelectorSpritePal);
+        //LoadCompressedSpritePalette(&sMoveSelectorSpritePal);
         sMonSummaryScreen->switchCounter++;
         break;
     case 14:
@@ -1650,7 +1650,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]]);
         break;
     case 4:
-        DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]]);
+        //DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]]);
         break;
     case 5:
         FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
@@ -1673,7 +1673,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
     case 11:
-        CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
+        //CreateOriginMarkSprite(&sMonSummaryScreen->currentMon);
         break;
 	case 12:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
