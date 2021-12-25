@@ -10100,7 +10100,7 @@ static void Cmd_handleballthrow(void)
             case ITEM_NEST_BALL:
                 if (gBattleMons[gBattlerTarget].level < 40)
                 {
-                    ballMultiplier = 40 - gBattleMons[gBattlerTarget].level;
+                    ballMultiplier = 41 - gBattleMons[gBattlerTarget].level;
                     if (ballMultiplier <= 9)
                         ballMultiplier = 10;
                 }
@@ -10116,7 +10116,7 @@ static void Cmd_handleballthrow(void)
                     ballMultiplier = 10;
                 break;
             case ITEM_TIMER_BALL:
-                ballMultiplier = gBattleResults.battleTurnCounter + 10;
+                ballMultiplier = gBattleResults.battleTurnCounter * 3 + 10;
                 if (ballMultiplier > 40)
                     ballMultiplier = 40;
                 break;
@@ -10153,7 +10153,7 @@ static void Cmd_handleballthrow(void)
             / (3 * gBattleMons[gBattlerTarget].maxHP);
 
         if (gBattleMons[gBattlerTarget].status1 & (STATUS1_SLEEP | STATUS1_FREEZE))
-            odds *= 2;
+            odds = (odds * 25) / 10;
         if (gBattleMons[gBattlerTarget].status1 & (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON))
             odds = (odds * 15) / 10;
 
