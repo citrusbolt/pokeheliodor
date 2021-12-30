@@ -62,6 +62,8 @@ enum {
     PSS_PAGE_COUNT,
 };
 
+#define PSS_PAGE_BG (PSS_PAGE_BATTLE_MOVES + 1)
+
 // Screen titles (upper left)
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TITLE         0
 
@@ -161,7 +163,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		u8 spdefEV;
 		u8 speedEV;
     } summary;
-    u16 bgTilemapBuffers[PSS_PAGE_COUNT + 1][0x400];
+    u16 bgTilemapBuffers[PSS_PAGE_BG + 1][0x400];
     u16 moveDetailTilemapBuffer[0x800];
     u8 mode;
     bool8 isBoxMon;
@@ -1049,8 +1051,8 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     {
     case SUMMARY_MODE_NORMAL:
     case SUMMARY_MODE_BOX:
-        sMonSummaryScreen->minPageIndex = 0;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
+        sMonSummaryScreen->minPageIndex = PSS_PAGE_INFO;
+        sMonSummaryScreen->maxPageIndex = PSS_PAGE_BATTLE_MOVES;
 		if (sMonSummaryScreen->summary.isEgg)
 		{
 			sMonSummaryScreen->minPageIndex = PSS_PAGE_MEMO;
@@ -1058,13 +1060,13 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
 		}
         break;
     case SUMMARY_MODE_LOCK_MOVES:
-        sMonSummaryScreen->minPageIndex = 0;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
+        sMonSummaryScreen->minPageIndex = PSS_PAGE_INFO;
+        sMonSummaryScreen->maxPageIndex = PSS_PAGE_BATTLE_MOVES;
         sMonSummaryScreen->lockMovesFlag = TRUE;
         break;
     case SUMMARY_MODE_SELECT_MOVE:
         sMonSummaryScreen->minPageIndex = PSS_PAGE_BATTLE_MOVES;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
+        sMonSummaryScreen->maxPageIndex = PSS_PAGE_BATTLE_MOVES;
         sMonSummaryScreen->lockMonFlag = TRUE;
         break;
     }
@@ -1282,7 +1284,7 @@ static void InitBGs(void)
     InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
     SetBgTilemapBuffer(1, sMonSummaryScreen->moveDetailTilemapBuffer);
     SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO]);
-    SetBgTilemapBuffer(3, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_COUNT]);
+    SetBgTilemapBuffer(3, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BG]);
     ResetAllBgsCoordinates();
     ChangeBgX(1, 0x10000, 0);
     ScheduleBgCopyTilemapToVram(1);
@@ -1308,7 +1310,7 @@ static bool8 DecompressGraphics(void)
     case 1:
         if (FreeTempTileDataBuffersIfPossible() != 1)
         {
-            LZDecompressWram(gSummaryScreenBackgroundTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_COUNT]);
+            LZDecompressWram(gSummaryScreenBackgroundTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BG]);
             LZDecompressWram(gSummaryScreenPageInfoTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO]);
             sMonSummaryScreen->switchCounter++;
         }
@@ -1326,11 +1328,11 @@ static bool8 DecompressGraphics(void)
         sMonSummaryScreen->switchCounter++;
         break;
     case 5:
-        LZDecompressWram(gSummaryScreenPageConditionTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONDITION]);
+        //LZDecompressWram(gSummaryScreenPageConditionTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONDITION]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 6:
-        LZDecompressWram(gSummaryScreenPageContestMovesTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES]);
+        //LZDecompressWram(gSummaryScreenPageContestMovesTilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 7:
@@ -1927,8 +1929,8 @@ static void SwitchToMoveSelection(u8 taskId)
 
     sMonSummaryScreen->firstMoveIndex = 0;
     move = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
-    HandlePowerAccTilemap(9, -3);
-    HandleAppealJamTilemap(9, -3, move);
+    //HandlePowerAccTilemap(9, -3);
+    //HandleAppealJamTilemap(9, -3, move);
     if (!sMonSummaryScreen->lockMovesFlag)
     {
         //ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
