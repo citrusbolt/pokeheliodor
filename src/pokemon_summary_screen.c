@@ -2041,7 +2041,7 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
         if (move != 0)
             break;
     }
-    DrawContestMoveHearts(move);
+    //DrawContestMoveHearts(move);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
     PrintMoveDetails(move);
@@ -2052,8 +2052,8 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
         //if (!gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_STATUS]].invisible)
         //    ClearWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATUS);
         ScheduleBgCopyTilemapToVram(0);
-        HandlePowerAccTilemap(9, -3);
-        HandleAppealJamTilemap(9, -3, move);
+        //HandlePowerAccTilemap(9, -3);
+        //HandleAppealJamTilemap(9, -3, move);
     }
     if (*moveIndexPtr != MAX_MON_MOVES
         && newMoveIndex == MAX_MON_MOVES
@@ -2062,8 +2062,8 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
         //ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
         //ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
         ScheduleBgCopyTilemapToVram(0);
-        HandlePowerAccTilemap(0, 3);
-        HandleAppealJamTilemap(0, 3, 0);
+        //HandlePowerAccTilemap(0, 3);
+        //HandleAppealJamTilemap(0, 3, 0);
     }
 
     *moveIndexPtr = newMoveIndex;
