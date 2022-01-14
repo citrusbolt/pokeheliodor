@@ -1507,10 +1507,11 @@ void ResetPokedex(void)
     gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
     gSaveBlock2Ptr->pokedex.order = 0;
     gSaveBlock2Ptr->pokedex.nationalMagic = 0;
-    gSaveBlock2Ptr->pokedex.unknown2 = 0;
+    gSaveBlock2Ptr->pokedex.unused1 = 0;
     gSaveBlock2Ptr->pokedex.unownPersonality = 0;
     gSaveBlock2Ptr->pokedex.spindaPersonality = 0;
-    gSaveBlock2Ptr->pokedex.unknown3 = 0;
+    gSaveBlock2Ptr->pokedex.unownForms = 0;
+    gSaveBlock2Ptr->pokedex.unused2 = 0;
     DisableNationalPokedex();
     for (i = 0; i < DEX_FLAGS_NO; i++)
     {

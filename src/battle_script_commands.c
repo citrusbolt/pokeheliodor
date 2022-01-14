@@ -10253,6 +10253,8 @@ static void Cmd_trysetcaughtmondexflags(void)
 
     if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
     {
+		if (species == SPECIES_UNOWN)
+			gSaveBlock2Ptr->pokedex.unownForms |= 1 << GET_UNOWN_LETTER(personality);
         gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
     }
     else
