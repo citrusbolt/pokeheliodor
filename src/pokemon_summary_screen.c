@@ -1744,9 +1744,9 @@ static s8 AdvanceMonIndex(s8 delta)
     if (sMonSummaryScreen->currPageIndex == PSS_PAGE_MEMO)
     {
         if (delta == -1 && sMonSummaryScreen->curMonIndex == 0)
-            return -1;
+            return sMonSummaryScreen->maxMonIndex;
         else if (delta == 1 && sMonSummaryScreen->curMonIndex >= sMonSummaryScreen->maxMonIndex)
-            return -1;
+            return 0;
         else
             return sMonSummaryScreen->curMonIndex + delta;
     }
@@ -1757,8 +1757,10 @@ static s8 AdvanceMonIndex(s8 delta)
         do
         {
             index += delta;
-            if (index < 0 || index > sMonSummaryScreen->maxMonIndex)
-                return -1;
+			if (index < 0)
+				index = sMonSummaryScreen->maxMonIndex;
+			else if (index > sMonSummaryScreen->maxMonIndex)
+				index = 0;
         } while (GetMonData(&mon[index], MON_DATA_IS_EGG));
         return index;
     }
