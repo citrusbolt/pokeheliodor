@@ -1264,11 +1264,15 @@ static bool8 LoadGraphics(void)
 		}
         else
 		{
+			SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex]);
 			ScheduleBgCopyTilemapToVram(1);
 			ScheduleBgCopyTilemapToVram(2);
+			ShowBg(2);
+			DoScheduledBgTilemapCopiesToVram();
+			PrintInfoBar(sMonSummaryScreen->currPageIndex, TRUE);
 			PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
 			ChangeBgX(1, 0, 0);
-            CreateTask(Task_SetHandleReplaceMoveInput, 0);
+			CreateTask(Task_SetHandleReplaceMoveInput, 0);
 		}
         gMain.state++;
         break;
