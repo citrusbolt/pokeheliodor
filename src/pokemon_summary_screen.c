@@ -76,8 +76,9 @@ enum {
 #define PSS_LABEL_PANE_RIGHT                        (PSS_LABEL_PANE_LEFT_MOVE + 1)
 #define PSS_LABEL_PANE_RIGHT_HP                     (PSS_LABEL_PANE_RIGHT + 1)
 #define PSS_LABEL_PANE_RIGHT_SMALL                  (PSS_LABEL_PANE_RIGHT_HP + 1)
+#define PSS_LABEL_PANE_TITLE                        (PSS_LABEL_PANE_RIGHT_SMALL + 1)
 
-#define PSS_LABEL_WINDOW_END                        (PSS_LABEL_PANE_RIGHT_SMALL + 1)
+#define PSS_LABEL_WINDOW_END                        (PSS_LABEL_PANE_TITLE + 1)
 
 #define MOVE_SELECTOR_SPRITES_COUNT 4
 #define HP_BAR_SPRITES_COUNT 9
@@ -179,7 +180,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     bool8 lockMovesFlag; // This is used to prevent the player from changing position of moves in a battle or when trading.
     u8 bgDisplayOrder; // Determines the order page backgrounds are loaded while scrolling between them
     u8 currStatIndex;
-    u8 windowIds[8];
+    u8 windowIds[PSS_LABEL_WINDOW_END - 1];
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
     bool8 unk40EF;
     s16 switchCounter; // Used for various switch statement cases that decompress/load graphics or pokemon data
@@ -343,6 +344,7 @@ static void CreateExpBarSprites(u16 tileTag, u16 palTag);
 static void ConfigureExpBarSprites(void);
 static void DestroyExpBarSprites(void);
 static void SetExpBarSprites(void);
+static void PrintInfoBar(u8 pageIndex, bool8 detailsShown);
 
 // const rom data
 #include "data/text/move_descriptions.h"
@@ -490,6 +492,15 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .height = 15,
         .paletteNum = 2,
         .baseBlock = 152,
+    },
+    [PSS_LABEL_PANE_TITLE] = {
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 0,
+        .width = 19,
+        .height = 2,
+        .paletteNum = 2,
+        .baseBlock = 644,
     },
     [PSS_LABEL_WINDOW_END] = DUMMY_WIN_TEMPLATE
 };
@@ -1957,6 +1968,7 @@ static void SwitchToMoveSelection(u8 taskId)
     PrintMoveDetails(move);
     PrintNewMoveDetailsOrCancelText();
     SetNewMoveTypeIcon();
+	PrintInfoBar(sMonSummaryScreen->currPageIndex, TRUE);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
@@ -2112,6 +2124,7 @@ static void CloseMoveSelectMode(u8 taskId)
 		PrintBattleMoves();
 	else
 		PrintContestMoves();
+	PrintInfoBar(sMonSummaryScreen->currPageIndex, FALSE);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
@@ -3190,6 +3203,7 @@ static void PrintPageSpecificText(u8 pageIndex)
         if (sMonSummaryScreen->windowIds[i] != WINDOW_NONE)
             FillWindowPixelBuffer(sMonSummaryScreen->windowIds[i], PIXEL_FILL(0));
     }
+	PrintInfoBar(pageIndex, FALSE);
     sTextPrinterFunctions[pageIndex]();
 }
 
@@ -5838,4 +5852,51 @@ static void SetExpBarSprites(void)
 
     for (i = 0; i < EXP_BAR_SPRITES_COUNT; i++)
         sExpBar->sprites[i]->invisible = sMonSummaryScreen->currPageIndex != PSS_PAGE_INFO;
+}
+
+
+static void PrintInfoBar(u8 pageIndex, bool8 detailsShown)
+{
+	u8 x;
+
+	FillWindowPixelBuffer(PSS_LABEL_PANE_TITLE, PIXEL_FILL(0));
+
+	switch (pageIndex)
+	{
+		case PSS_PAGE_INFO:
+			StringCopy(gStringVar1, gText_SummaryTitleInfo);
+			StringCopy(gStringVar2, gText_SummaryTitlePage);
+			break;
+		case PSS_PAGE_MEMO:
+			StringCopy(gStringVar1, gText_SummaryTitleMemo);
+			StringCopy(gStringVar2, gText_SummaryTitlePage);
+			break;
+		case PSS_PAGE_SKILLS:
+			StringCopy(gStringVar1, gText_SummaryTitleSkills);
+			StringCopy(gStringVar2, gText_SummaryTitlePage);
+			break;
+		case PSS_PAGE_BATTLE_MOVES:
+			StringCopy(gStringVar1, gText_SummaryTitleBattleMoves);
+			if (detailsShown)
+				StringCopy(gStringVar2, gText_SummaryTitlePickSwitch);
+			else
+				StringCopy(gStringVar2, gText_SummaryTitlePageDetail);
+			break;
+		case PSS_PAGE_CONDITION:
+			StringCopy(gStringVar1, gText_SummaryTitleCondition);
+			StringCopy(gStringVar2, gText_SummaryTitlePage);
+			break;
+		case PSS_PAGE_CONTEST_MOVES:
+			StringCopy(gStringVar1, gText_SummaryTitleContestMoves);
+			if (detailsShown)
+				StringCopy(gStringVar2, gText_SummaryTitlePickSwitch);
+			else
+				StringCopy(gStringVar2, gText_SummaryTitlePageDetail);
+			break;
+	}
+
+	PrintTextOnWindow(PSS_LABEL_PANE_TITLE, gStringVar1, 0, 0, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+	x = GetStringRightAlignXOffset(0, gStringVar2, 150);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_TITLE, 0, x, 0, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gStringVar2);
+	PutWindowTilemap(PSS_LABEL_PANE_TITLE);
 }

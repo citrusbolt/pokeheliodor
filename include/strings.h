@@ -3341,5 +3341,15 @@ extern const u8 gText_SummaryBeauty[];
 extern const u8 gText_SummaryCute[];
 extern const u8 gText_SummarySmart[];
 extern const u8 gText_SummaryTough[];
+extern const u8 gText_SummaryTitleInfo[];
+extern const u8 gText_SummaryTitleMemo[];
+extern const u8 gText_SummaryTitleSkills[];
+extern const u8 gText_SummaryTitleBattleMoves[];
+extern const u8 gText_SummaryTitleCondition[];
+extern const u8 gText_SummaryTitleContestMoves[];
+extern const u8 gText_SummaryTitleRibbons[];
+extern const u8 gText_SummaryTitlePage[];
+extern const u8 gText_SummaryTitlePageDetail[];
+extern const u8 gText_SummaryTitlePickSwitch[];
 	
 #endif // GUARD_STRINGS_H
