@@ -81,7 +81,7 @@ enum {
 #define PSS_LABEL_WINDOW_END                        (PSS_LABEL_PANE_TITLE + 1)
 
 #define MOVE_SELECTOR_SPRITES_COUNT 4
-#define HP_BAR_SPRITES_COUNT 9
+#define HP_BAR_SPRITES_COUNT 11
 #define EXP_BAR_SPRITES_COUNT 11
 // for the spriteIds field in PokemonSummaryScreenData
 enum
