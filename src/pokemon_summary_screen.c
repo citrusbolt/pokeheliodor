@@ -2119,8 +2119,8 @@ static void CloseMoveSelectMode(u8 taskId)
     {
         //ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
         //ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
-        HandlePowerAccTilemap(0, 3);
-        HandleAppealJamTilemap(0, 3, 0);
+        //HandlePowerAccTilemap(0, 3);
+        //HandleAppealJamTilemap(0, 3, 0);
     }
 	if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
 		PrintBattleMoves();
@@ -2199,7 +2199,7 @@ static void ExitMovePositionSwitchMode(u8 taskId, bool8 swapMoves)
 
     move = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
     PrintMoveDetails(move);
-    DrawContestMoveHearts(move);
+    //DrawContestMoveHearts(move);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_HandleInput_MoveSelect;
