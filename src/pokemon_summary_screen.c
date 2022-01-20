@@ -1790,8 +1790,10 @@ static s8 AdvanceMultiBattleMonIndex(s8 delta)
         const s8 *order = sMultiBattleOrder;
 
         arrId += delta;
-        if (arrId < 0 || arrId >= PARTY_SIZE)
-            return -1;
+        if (arrId < 0)
+            arrId = PARTY_SIZE;
+		else if (arrId >= PARTY_SIZE)
+			arrId = 0;
         index = order[arrId];
         if (IsValidToViewInMulti(&mons[index]) == TRUE)
             return index;
