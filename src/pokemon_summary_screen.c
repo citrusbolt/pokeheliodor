@@ -62,6 +62,13 @@ enum {
     PSS_PAGE_COUNT,
 };
 
+enum {
+    PP_FEW,
+    PP_SOME,
+    PP_NO_PP,
+    PP_MANY
+};
+
 #define PSS_PAGE_BG (PSS_PAGE_BATTLE_MOVES + 1)
 
 // Screen titles (upper left)
@@ -81,8 +88,8 @@ enum {
 #define PSS_LABEL_WINDOW_END                        (PSS_LABEL_PANE_TITLE + 1)
 
 #define MOVE_SELECTOR_SPRITES_COUNT 4
-#define HP_BAR_SPRITES_COUNT 11
-#define EXP_BAR_SPRITES_COUNT 11
+#define HP_BAR_SPRITES_COUNT        11
+#define EXP_BAR_SPRITES_COUNT       11
 // for the spriteIds field in PokemonSummaryScreenData
 enum
 {
@@ -513,7 +520,15 @@ enum
     PSS_COLOR_FEMALE_GENDER_SYMBOL,
     PSS_COLOR_SHINY_STARS,
     PSS_COLOR_POKERUS_CURED,
-    PSS_COLOR_FAITHFUL_TRIANGLE
+    PSS_COLOR_FAITHFUL_TRIANGLE,
+    PP_UNK_1,
+    PP_UNK_2,
+    PP_UNK_3,
+    PP_UNK_4,
+    PP_UNK_5,
+    PP_UNK_6,
+    PSS_COLOR_ORANGE,
+    PSS_COLOR_LIGHT_RED
 };
 
 static const u8 sTextColors[][3] =
@@ -525,12 +540,18 @@ static const u8 sTextColors[][3] =
     [PSS_COLOR_SHINY_STARS]             = {0, 5, 5},
     [PSS_COLOR_POKERUS_CURED]           = {0, 9, 9},
     [PSS_COLOR_FAITHFUL_TRIANGLE]       = {0, 10, 10},
-    {0, 10, 9},
-    {13, 15, 14},
-    {0, 6, 5},
-    {0, 6, 2},
-    {0, 5, 6},
-    {0, 7, 8}
+    /* Probably left from Pokémon Polar,
+    check if they are actually needed so
+    we can remove them if unused */
+    [PP_UNK_1]                          = {0, 10, 9},
+    [PP_UNK_2]                          = {13, 15, 14},
+    [PP_UNK_3]                          = {0, 6, 5},
+    [PP_UNK_4]                          = {0, 6, 2},
+    [PP_UNK_5]                          = {0, 5, 6},
+    [PP_UNK_6]                          = {0, 7, 8},
+    // Used for PP text
+    [PSS_COLOR_ORANGE]                  = {0, 11, 12},
+    [PSS_COLOR_LIGHT_RED]               = {0, 13, 14}
 };
 
 static const u8 sSummaryAButtonBitmap[] = INCBIN_U8("graphics/interface/summary_a_button.4bpp");
@@ -4798,21 +4819,17 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 		StringAppend(gStringVar1, gStringVar2);
 		switch (GetCurrentPpToMaxPpState(summary->pp[moveIndex], pp))
 		{
-            // TODO: Atm we have enough text palette space to add yellow/orange
-            // colors for the PP Moves, but I rather wait until we finish everything
-            // else in case we need them for something more important.
-            // Atm is always color black, but red once there are no PP left.
-			case 0:
-				color = PSS_COLOR_WHITE_BLACK_SHADOW;
+			case PP_FEW:
+				color = PSS_COLOR_LIGHT_RED;
 				break;
-			case 1:
-				color = PSS_COLOR_WHITE_BLACK_SHADOW;
+			case PP_SOME:
+				color = PSS_COLOR_ORANGE;
 				break;
-			case 2: // No PP left
+			case PP_NO_PP:
 				color = PSS_COLOR_FEMALE_GENDER_SYMBOL;
 				break;
-			case 3:
-				color = PSS_COLOR_WHITE_BLACK_SHADOW;
+			case PP_MANY:
+				color = PSS_COLOR_BLACK_GRAY_SHADOW;
 				break;
 		}
 		x = GetStringCenterAlignXOffset(1, gStringVar1, 32) + 113;
