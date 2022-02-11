@@ -229,6 +229,7 @@ static s8 AdvanceMonIndex(s8 delta);
 static s8 AdvanceMultiBattleMonIndex(s8 delta);
 static bool8 IsValidToViewInMulti(struct Pokemon* mon);
 static void ChangePage(u8 taskId, s8 a);
+static void ChangePageTask(u8 taskId);
 static void PssScrollRight(u8 taskId);
 static void PssScrollRightEnd(u8 taskId);
 static void PssScrollLeft(u8 taskId);
@@ -1845,6 +1846,8 @@ static void ChangePage(u8 taskId, s8 delta)
 
     PlaySE(SE_SELECT);
     //ClearPageWindowTilemaps(sMonSummaryScreen->currPageIndex);
+	ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
+	ScheduleBgCopyTilemapToVram(0);
     sMonSummaryScreen->currPageIndex += delta;
     data[0] = 0;
     //if (delta == 1)
@@ -1852,21 +1855,57 @@ static void ChangePage(u8 taskId, s8 delta)
     //else
     //    SetTaskFuncWithFollowupFunc(taskId, PssScrollLeft, gTasks[taskId].func);
 
-	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
-        SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex]);
-        ScheduleBgCopyTilemapToVram(2);
-        ShowBg(2);
-		DoScheduledBgTilemapCopiesToVram();
+    SetTaskFuncWithFollowupFunc(taskId, ChangePageTask, gTasks[taskId].func);
 
-    HidePageSpecificSprites();
-    SetHealthBarSprites();
-    SetExpBarSprites();
-    PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
 
-    SetTypeIcons();
+   //HidePageSpecificSprites();
+   //SetHealthBarSprites();
+   //SetExpBarSprites();
+	//FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
+	////BuildOamBuffer();
+   //    SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex]);
+   //    ScheduleBgCopyTilemapToVram(2);
+   //    ShowBg(2);
+	//	DoScheduledBgTilemapCopiesToVram();
+   //PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
+   //
+   //SetTypeIcons();
 
 	//if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
 	//	SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
+}
+
+static void ChangePageTask(u8 taskId)
+{
+	s16 *data = gTasks[taskId].data;
+
+	switch (data[0])
+	{
+		case 0:
+			HidePageSpecificSprites();
+			data[0]++;
+			break;
+		case 1:
+			SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex]);
+			ScheduleBgCopyTilemapToVram(2);
+			ShowBg(2);
+			data[0]++;
+			break;
+		case 2:
+			SetHealthBarSprites();
+			SetExpBarSprites();
+			SetTypeIcons();
+			data[0]++;
+			break;
+		case 3:
+			PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
+			data[0]++;
+			break;
+		case 4:
+			data[0] = 0;
+			SwitchTaskToFollowupFunc(taskId);
+			break;
+	}
 }
 
 static void PssScrollRight(u8 taskId) // Scroll right
@@ -3227,11 +3266,11 @@ static void RemoveWindowByIndex(u8 windowIndex)
 static void PrintPageSpecificText(u8 pageIndex)
 {
     u16 i;
-    for (i = 0; i < ARRAY_COUNT(sMonSummaryScreen->windowIds); i++)
-    {
-        if (sMonSummaryScreen->windowIds[i] != WINDOW_NONE)
-            FillWindowPixelBuffer(sMonSummaryScreen->windowIds[i], PIXEL_FILL(0));
-    }
+    //for (i = 0; i < ARRAY_COUNT(sMonSummaryScreen->windowIds); i++)
+    //{
+    //    if (sMonSummaryScreen->windowIds[i] != WINDOW_NONE)
+    //        FillWindowPixelBuffer(sMonSummaryScreen->windowIds[i], PIXEL_FILL(0));
+    //}
 	PrintInfoBar(pageIndex, FALSE);
     sTextPrinterFunctions[pageIndex]();
 }
@@ -3440,10 +3479,10 @@ static void PrintInfoPage(void)
     //        numExpProgressBarTicks = 0;
     //}
 
-    if (GetBgTilemapBuffer(3) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO])
-        ScheduleBgCopyTilemapToVram(3);
-    else
-        ScheduleBgCopyTilemapToVram(2);
+    //if (GetBgTilemapBuffer(3) == sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO])
+    //    ScheduleBgCopyTilemapToVram(3);
+    //else
+    //    ScheduleBgCopyTilemapToVram(2);
 
     ScheduleBgCopyTilemapToVram(0);
     PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
@@ -5115,6 +5154,11 @@ static void HidePageSpecificSprites(void)
         if (sMonSummaryScreen->spriteIds[i] != SPRITE_NONE)
             SetSpriteInvisibility(i, TRUE);
     }
+
+    for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
+        sHealthBar->sprites[i]->invisible = TRUE;
+	for (i = 0; i < EXP_BAR_SPRITES_COUNT; i++)
+        sExpBar->sprites[i]->invisible = TRUE;
 }
 
 static void SetTypeIcons(void)
@@ -5640,6 +5684,7 @@ static void CreateHealthBarSprites(u16 tileTag, u16 palTag)
         spriteId = CreateSprite(&template, sHealthBar->spritePositions[i], 38, 0);
         sHealthBar->sprites[i] = &gSprites[spriteId];
         sHealthBar->sprites[i]->oam.priority = 1;
+		sHealthBar->sprites[i]->invisible = TRUE;
         sHealthBar->tileTag = tileTag;
         sHealthBar->palTag = palTag;
         StartSpriteAnim(sHealthBar->sprites[i], 8);
@@ -5741,9 +5786,11 @@ static void DestroyHealthBarSprites(void)
 static void SetHealthBarSprites(void)
 {
     u8 i;
-
-    for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
-        sHealthBar->sprites[i]->invisible = sMonSummaryScreen->currPageIndex != PSS_PAGE_SKILLS;
+	if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS)
+	{
+		for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
+			sHealthBar->sprites[i]->invisible = FALSE;
+	}
 }
 
 static void CreateExpBarSprites(u16 tileTag, u16 palTag)
@@ -5785,6 +5832,7 @@ static void CreateExpBarSprites(u16 tileTag, u16 palTag)
         spriteId = CreateSprite(&template, sExpBar->spritePositions[i], 153, 0);
         sExpBar->sprites[i] = &gSprites[spriteId];
         sExpBar->sprites[i]->oam.priority = 1;
+		sExpBar->sprites[i]->invisible = TRUE;
         sExpBar->tileTag = tileTag;
         sExpBar->palTag = palTag;
     }
@@ -5875,8 +5923,11 @@ static void SetExpBarSprites(void)
 {
     u8 i;
 
-    for (i = 0; i < EXP_BAR_SPRITES_COUNT; i++)
-        sExpBar->sprites[i]->invisible = sMonSummaryScreen->currPageIndex != PSS_PAGE_INFO;
+	if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+	{
+		for (i = 0; i < EXP_BAR_SPRITES_COUNT; i++)
+			sExpBar->sprites[i]->invisible = FALSE;
+	}
 }
 
 
