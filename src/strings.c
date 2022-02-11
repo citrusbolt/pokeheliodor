@@ -1855,9 +1855,9 @@ const u8 gText_Berries[] = _("Berries");
 
 const u8 gText_ThrowInPremierBalls[] = _("I'll throw in some Premier Balls, too.{PAUSE_UNTIL_PRESS}");
 const u8 gText_AshQty[] = _("Ash Quantity:\n{STR_VAR_1}{PAUSE_UNTIL_PRESS}");
-const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 4}'s old friend from {DYNAMIC 5}.\n{DYNAMIC 6}\n{DYNAMIC 7}");
-const u8 gText_ReceivedFrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\nreceived from {DYNAMIC 4} in {DYNAMIC 5}.\n{DYNAMIC 6}\n{DYNAMIC 7}");
-const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature, given to {DYNAMIC 4}\nby his dad in {DYNAMIC 5}.\n{DYNAMIC 6}\n{DYNAMIC 7}");
+const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n\n{DYNAMIC 4}'s old friend\nfrom {DYNAMIC 5}.\n\n{DYNAMIC 6}\n{DYNAMIC 7}");
+const u8 gText_ReceivedFrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n\nreceived from {DYNAMIC 4}\nin {DYNAMIC 5}.\n\n{DYNAMIC 6}\n{DYNAMIC 7}");
+const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n\ngiven to {DYNAMIC 4} by his da\nin {DYNAMIC 5}.\n\n{DYNAMIC 6}\n{DYNAMIC 7}");
 const u8 gText_HelixFossil[] = _("Helix Fossil");
 const u8 gText_DomeFossil[] = _("Dome Fossil");
 const u8 gText_OldAmber[] = _("Old Amber");
