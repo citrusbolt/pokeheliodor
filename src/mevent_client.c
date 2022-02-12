@@ -220,6 +220,7 @@ static u32 mainseq_4(struct mevent_client * svr)
         break;
     case 18:
         memcpy(&gSaveBlock2Ptr->frontier.ereaderTrainer, svr->recvBuffer, 0xbc);
+		ConvertEReaderTrainerClassToFacilityClass();
         ValidateEReaderTrainer();
         break;
     case 21:

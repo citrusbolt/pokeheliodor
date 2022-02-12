@@ -3512,3 +3512,17 @@ void TrySetLinkBattleTowerEnemyPartyLevel(void)
         }
     }
 }
+
+void ConvertEReaderTrainerClassToFacilityClass(void)
+{
+	u32 i;
+
+	for (i = 0; i < ARRAY_COUNT(sRubyFacilityClassToEmerald); i++)
+	{
+		if (sRubyFacilityClassToEmerald[i][0] == gSaveBlock2Ptr->frontier.ereaderTrainer.facilityClass)
+			break;
+	}
+
+	gSaveBlock2Ptr->frontier.ereaderTrainer.facilityClass = sRubyFacilityClassToEmerald[i][1];
+	SetEReaderTrainerChecksum(&gSaveBlock2Ptr->frontier.ereaderTrainer);
+}
