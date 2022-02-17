@@ -57,8 +57,9 @@ enum {
     PSS_PAGE_MEMO,
     PSS_PAGE_SKILLS,
     PSS_PAGE_BATTLE_MOVES,
-    PSS_PAGE_CONDITION,
+    //PSS_PAGE_CONDITION,		moved temporarily
     PSS_PAGE_CONTEST_MOVES,
+    PSS_PAGE_CONDITION,
     PSS_PAGE_COUNT,
 };
 
@@ -1073,8 +1074,9 @@ static const u32 * const sPageTilemaps[] =
 	gSummaryScreenPageMemoTilemap,
 	gSummaryScreenPageSkillsTilemap,
 	gSummaryScreenPageMovesTilemap,
-	gSummaryScreenPageConditionTilemap,
-	gSummaryScreenPageContestMovesTilemap
+	//gSummaryScreenPageConditionTilemap,
+	gSummaryScreenPageContestMovesTilemap,
+	gSummaryScreenPageConditionTilemap
 };
 
 // code
@@ -1097,7 +1099,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     case SUMMARY_MODE_NORMAL:
     case SUMMARY_MODE_BOX:
         sMonSummaryScreen->minPageIndex = PSS_PAGE_INFO;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_BATTLE_MOVES;
+        sMonSummaryScreen->maxPageIndex = PSS_PAGE_CONTEST_MOVES;
 		if (sMonSummaryScreen->summary.isEgg)
 		{
 			sMonSummaryScreen->minPageIndex = PSS_PAGE_MEMO;
@@ -5081,9 +5083,13 @@ static void PrintMoveDetails(u16 move)
         }
         else
         {
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, 31, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, POWER_AND_ACCURACY_Y, 0, 1);
+			ConvertIntToDecimalStringN(gStringVar1, gContestEffects[gContestMoves[move].effect].appeal / 10, STR_CONV_MODE_RIGHT_ALIGN, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 88, POWER_AND_ACCURACY_Y, 0, 0);
 
-			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Jam, 8, 48, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Jam, 8, POWER_AND_ACCURACY_Y_2, 0, 1);
+			ConvertIntToDecimalStringN(gStringVar1, gContestEffects[gContestMoves[move].effect].jam / 10, STR_CONV_MODE_RIGHT_ALIGN, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 88, POWER_AND_ACCURACY_Y_2, 0, 0);
 
             PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gContestEffectDescriptionPointers[gContestMoves[move].effect], 8, 64, 0, 0);
         }
