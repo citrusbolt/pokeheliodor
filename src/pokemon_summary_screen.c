@@ -4549,12 +4549,20 @@ static void CreateMoveSelectorSprites(u8 idArrayStart)
 
 static void SpriteCb_MoveSelector(struct Sprite *sprite)
 {
-    sprite->invisible = FALSE;
+	sprite->invisible = FALSE;
 
-    if (sprite->data[0] == SPRITE_ARR_ID_MOVE_SELECTOR1)
-        sprite->y2 = sMonSummaryScreen->firstMoveIndex * 29;
-    else
-        sprite->y2 = sMonSummaryScreen->secondMoveIndex * 29;
+	if (sprite->data[0] == SPRITE_ARR_ID_MOVE_SELECTOR1)
+	{
+		sprite->y2 = sMonSummaryScreen->firstMoveIndex * 29;
+		if (sMonSummaryScreen->firstMoveIndex > 0)
+			sprite->y2--;
+	}
+	else
+	{
+		sprite->y2 = sMonSummaryScreen->secondMoveIndex * 29;
+		if (sMonSummaryScreen->secondMoveIndex > 0)
+			sprite->y2--;
+	}
 }
 
 static void DestroyMoveSelectorSprites(u8 firstArrayId)
