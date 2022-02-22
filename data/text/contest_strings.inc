@@ -156,7 +156,7 @@ gText_FourLine_GreatAppealButNoMoreToEnd::
 	.string "Makes a great\nappeal, but\nallows no\nmore to the end.$"
 
 gText_FourLine_UsedRepeatedlyWithoutBoringJudge::
-	.string "Can be repeatedly\nused without\nboring the JUDGE.$"
+	.string "Can be repeatedly\nused without\nboring the Judge.$"
 
 gText_FourLine_AvoidStartledByOthersOnce::
 	.string "Can avoid being\nstartled\nby others once.$"
@@ -171,67 +171,67 @@ gText_FourLine_UserLessLikelyStartled::
 	.string "After this move,\nthe user is less\nlikely to\nbe startled.$"
 
 gText_FourLine_SlightlyStartleFrontMon::
-	.string "Slightly startles\nthe POKéMON\nin front.$"
+	.string "Slightly startles\nthe Pokémon\nin front.$"
 
 gText_FourLine_SlightlyStartleAppealed::
 	.string "Slightly startles\nthose that have\nmade appeals.$"
 
 gText_FourLine_StartleAppealedBeforeUser::
-	.string "Startles the\nPOKéMON that\nappealed before\nthe user.$"
+	.string "Startles the\nPokémon that\nappealed before\nthe user.$"
 
 gText_FourLine_StartleAllAppealed::
-	.string "Startles all\nPOKéMON that\nhave done\ntheir appeals.$"
+	.string "Startles all\nPokémon that\nhave done\ntheir appeals.$"
 
 gText_FourLine_BadlyStartleFrontMon::
-	.string "Badly startles\nthe POKéMON\nin front.$"
+	.string "Badly startles\nthe Pokémon\nin front.$"
 
 gText_FourLine_BadlyStartleAppealed::
 	.string "Badly startles\nthose that\nhave made appeals.$"
 
 gText_FourLine_StartleAppealedBeforeUser2::
-	.string "Startles the\nPOKéMON that\nappealed before\nthe user.$"
+	.string "Startles the\nPokémon that\nappealed before\nthe user.$"
 
 gText_FourLine_StartleAllAppealed2::
-	.string "Startles all\nPOKéMON that\nhave done\ntheir appeals.$"
+	.string "Startles all\nPokémon that\nhave done\ntheir appeals.$"
 
 gText_FourLine_ShiftJudgesAttentionFromOthers::
-	.string "Shifts the\nJUDGE's attention\nfrom others.$"
+	.string "Shifts the\nJudge's attention\nfrom others.$"
 
 gText_FourLine_StartleMonHasJudgesAttention::
-	.string "Startles the\nPOKéMON that\nhas the\nJUDGE's attention.$"
+	.string "Startles the\nPokémon that\nhas the\nJudge's attention.$"
 
 gText_FourLine_JamOthersMissesTurn::
 	.string "Jams the others,\nand misses one\nturn of appeals.$"
 
 gText_FourLine_StartleMonsMadeSameTypeAppeal::
-	.string "Startles POKéMON\nthat made a\nsame-type appeal.$"
+	.string "Startles Pokémon\nthat made a\nsame-type appeal.$"
 
 gText_FourLine_BadlyStartleCoolAppeals::
-	.string "Badly startles\nPOKéMON\nthat made\nCOOL appeals.$"
+	.string "Badly startles\nPokémon\nthat made\nCool appeals.$"
 
 gText_FourLine_BadlyStartleBeautyAppeals::
-	.string "Badly startles\nPOKéMON\nthat made\nBEAUTY appeals.$"
+	.string "Badly startles\nPokémon\nthat made\nBeauty appeals.$"
 
 gText_FourLine_BadlyStartleCuteAppeals::
-	.string "Badly startles\nPOKéMON\nthat made\nCUTE appeals.$"
+	.string "Badly startles\nPokémon\nthat made\nCute appeals.$"
 
 gText_FourLine_BadlyStartleSmartAppeals::
-	.string "Badly startles\nPOKéMON\nthat made\nSMART appeals.$"
+	.string "Badly startles\nPokémon\nthat made\nSmart appeals.$"
 
 gText_FourLine_BadlyStartleToughAppeals::
-	.string "Badly startles\nPOKéMON\nthat made\nTOUGH appeals.$"
+	.string "Badly startles\nPokémon\nthat made\nTough appeals.$"
 
 gText_FourLine_MakeMonAfterUserNervous::
-	.string "Makes one\nPOKéMON after\nthe user nervous.$"
+	.string "Makes one\nPokémon after\nthe user nervous.$"
 
 gText_FourLine_MakeAllMonsAfterUserNervous::
-	.string "Makes all\nPOKéMON after\nthe user nervous.$"
+	.string "Makes all\nPokémon after\nthe user nervous.$"
 
 gText_FourLine_WorsenConditionOfThoseMadeAppeals::
 	.string "Worsens the\ncondition of\nthose that\nmade appeals.$"
 
 gText_FourLine_BadlyStartleMonsGoodCondition::
-	.string "Badly startles\nPOKéMON in\ngood condition.$"
+	.string "Badly startles\nPokémon in\ngood condition.$"
 
 gText_FourLine_AppealGreatIfPerformedFirst::
 	.string "The appeal works\ngreat if\nperformed first.$"
@@ -279,10 +279,10 @@ gText_FourLine_ScrambleOrderOfNextAppeals::
 	.string "Scrambles the\norder of\nappeals on\nthe next turn.$"
 
 gText_FourLine_AppealExcitesAudienceInAnyContest::
-	.string "An appeal that\nexcites the\naudience in\nany CONTEST.$"
+	.string "An appeal that\nexcites the\naudience in\nany Contest.$"
 
 gText_FourLine_BadlyStartlesMonsGoodAppeals::
-	.string "Badly startles\nall POKéMON\nthat made\ngood appeals.$"
+	.string "Badly startles\nall Pokémon\nthat made\ngood appeals.$"
 
 gText_FourLine_AppealBestMoreCrowdExcited::
 	.string "The appeal\nworks best the\nmore the crowd\nis excited.$"
