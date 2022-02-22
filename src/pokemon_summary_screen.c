@@ -2015,7 +2015,8 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 			PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
 			SetSpriteInvisibility(SPRITE_ARR_ID_MON, FALSE);
-			SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, FALSE);
+			if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
+				SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, FALSE);
 			CreateSetStatusSprite();
 			sMonSummaryScreen->markingsSprite->x = 57;
 			sMonSummaryScreen->markingsSprite->y = 132;
