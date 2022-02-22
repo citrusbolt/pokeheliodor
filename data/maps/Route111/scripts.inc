@@ -739,11 +739,11 @@ Route111_Text_WinstrateFamilyDestroyedMe:
 
 Route111_Text_RouteSignMauville:
 	.string "Route 111\n"
-	.string "{DOWN_ARROW} Mauville CITY$"
+	.string "{DOWN_ARROW} Mauville City$"
 
 Route111_Text_WinstrateHouseSign:
 	.string "“Our family's hearts beat as one!”\n"
-	.string "The Winstrate'S HOUSE$"
+	.string "The Winstrate's House$"
 
 Route111_Text_RouteSign112:
 	.string "Route 111\n"

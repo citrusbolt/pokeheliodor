@@ -155,7 +155,7 @@ Route113_Text_RouteSign111:
 
 Route113_Text_RouteSignFallarbor:
 	.string "Route 113\n"
-	.string "{LEFT_ARROW} Fallarbor TOWN$"
+	.string "{LEFT_ARROW} Fallarbor Town$"
 
 Route113_Text_TrainerTipsRegisterKeyItems:
 	.string "Trainer Tips\p"

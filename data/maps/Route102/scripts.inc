@@ -104,8 +104,8 @@ Route102_Text_CatchWholeBunchOfPokemon:
 
 Route102_Text_RouteSignOldale:
 	.string "Route 102\n"
-	.string "{RIGHT_ARROW} Oldale TOWN$"
+	.string "{RIGHT_ARROW} Oldale Town$"
 
 Route102_Text_RouteSignPetalburg:
 	.string "Route 102\n"
-	.string "{LEFT_ARROW} Petalburg CITY$"
+	.string "{LEFT_ARROW} Petalburg City$"

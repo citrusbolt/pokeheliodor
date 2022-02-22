@@ -944,7 +944,7 @@ Route110_Text_AcroBikesDoNotQualify:
 
 Route110_Text_SlateportCitySign:
 	.string "Route 110\n"
-	.string "{DOWN_ARROW} Slateport CITY$"
+	.string "{DOWN_ARROW} Slateport City$"
 
 Route110_Text_CyclingRoadSign:
 	.string "Seaside Cycling ROAD$"
@@ -965,7 +965,7 @@ Route110_Text_SeasideParkingSign:
 
 Route110_Text_MauvilleCitySign:
 	.string "Route 110\n"
-	.string "{UP_ARROW} Mauville CITY$"
+	.string "{UP_ARROW} Mauville City$"
 
 Route110_Text_TrainerTipsPrlzSleep:
 	.string "Trainer Tips\p"
