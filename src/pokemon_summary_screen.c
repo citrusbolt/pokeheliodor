@@ -185,6 +185,8 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 currPageIndex;
     u8 minPageIndex;
     u8 maxPageIndex;
+    u8 trueMinPageIndex;
+    u8 trueMaxPageIndex;
     bool8 lockMonFlag; // This is used to prevent the player from changing pokemon in the move deleter select, etc, but it is not needed because the input is handled differently there
     u16 newMove;
     u8 firstMoveIndex;
@@ -1075,26 +1077,23 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     {
     case SUMMARY_MODE_NORMAL:
     case SUMMARY_MODE_BOX:
-        sMonSummaryScreen->minPageIndex = PSS_PAGE_INFO;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_CONTEST_MOVES;
-		if (sMonSummaryScreen->summary.isEgg)
-		{
-			sMonSummaryScreen->minPageIndex = PSS_PAGE_MEMO;
-			sMonSummaryScreen->maxPageIndex = PSS_PAGE_MEMO;
-		}
+        sMonSummaryScreen->trueMinPageIndex = PSS_PAGE_INFO;
+        sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_CONTEST_MOVES;
         break;
     case SUMMARY_MODE_LOCK_MOVES:
-        sMonSummaryScreen->minPageIndex = PSS_PAGE_INFO;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_BATTLE_MOVES;
+        sMonSummaryScreen->trueMinPageIndex = PSS_PAGE_INFO;
+        sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_BATTLE_MOVES;
         sMonSummaryScreen->lockMovesFlag = TRUE;
         break;
     case SUMMARY_MODE_SELECT_MOVE:
-        sMonSummaryScreen->minPageIndex = PSS_PAGE_BATTLE_MOVES;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_BATTLE_MOVES;
+        sMonSummaryScreen->trueMinPageIndex = PSS_PAGE_BATTLE_MOVES;
+        sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_BATTLE_MOVES;
         sMonSummaryScreen->lockMonFlag = TRUE;
         break;
     }
 
+	sMonSummaryScreen->minPageIndex = sMonSummaryScreen->trueMinPageIndex;
+	sMonSummaryScreen->maxPageIndex = sMonSummaryScreen->trueMaxPageIndex;
     sMonSummaryScreen->currPageIndex = sMonSummaryScreen->minPageIndex;
 	sMonSummaryScreen->currStatIndex = 0;
     SummaryScreen_SetAnimDelayTaskId(TASK_NONE);
@@ -1188,13 +1187,13 @@ static bool8 LoadGraphics(void)
             gMain.state++;
         break;
     case 10:
-		if (sMonSummaryScreen->summary.isEgg)
-		{
-			sMonSummaryScreen->currPageIndex = PSS_PAGE_MEMO;
-			LZDecompressWram(sPageTilemaps[PSS_PAGE_MEMO], sMonSummaryScreen->bgTilemapBufferPage);
-			SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBufferPage);
-			ScheduleBgCopyTilemapToVram(2);
-		}
+		//if (sMonSummaryScreen->summary.isEgg)
+		//{
+		//	sMonSummaryScreen->currPageIndex = PSS_PAGE_MEMO;
+		//	LZDecompressWram(sPageTilemaps[PSS_PAGE_MEMO], sMonSummaryScreen->bgTilemapBufferPage);
+		//	SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBufferPage);
+		//	ScheduleBgCopyTilemapToVram(2);
+		//}
 		PrintMonInfo();
         gMain.state++;
         break;
@@ -1268,7 +1267,7 @@ static bool8 LoadGraphics(void)
     case 24:
         if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
 		{
-			LZDecompressWram(sPageTilemaps[sMonSummaryScreen->minPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
+			LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
 			SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBufferPage);
 			ScheduleBgCopyTilemapToVram(2);
             CreateTask(Task_HandleInput, 0);
@@ -1484,6 +1483,17 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
 		sum->fatefulEncounter = GetMonData(mon, MON_DATA_EVENT_LEGAL);
+		if (sum->isEgg)
+		{
+			sMonSummaryScreen->minPageIndex = PSS_PAGE_MEMO;
+			sMonSummaryScreen->maxPageIndex = PSS_PAGE_MEMO;
+			sMonSummaryScreen->currPageIndex = PSS_PAGE_MEMO;
+		}
+		else
+		{
+			sMonSummaryScreen->minPageIndex = sMonSummaryScreen->trueMinPageIndex;
+			sMonSummaryScreen->maxPageIndex = sMonSummaryScreen->trueMaxPageIndex;
+		}
         return TRUE;
     }
     sMonSummaryScreen->switchCounter++;
@@ -1600,6 +1610,9 @@ static void ChangeStatTask(u8 taskId)
 static void ChangeSummaryPokemon(u8 taskId, s8 delta)
 {
     s8 monId;
+
+	if (sMonSummaryScreen->maxMonIndex == 0)
+		return;
 
     if (!sMonSummaryScreen->lockMonFlag)
     {
@@ -1803,7 +1816,9 @@ static void ChangePage(u8 taskId, s8 delta)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     s16 *data = gTasks[taskId].data;
 
-    if (summary->isEgg)
+mgba_printf(MGBA_LOG_INFO, "%d %d", sMonSummaryScreen->minPageIndex, sMonSummaryScreen->maxPageIndex);
+
+    if (sMonSummaryScreen->minPageIndex == sMonSummaryScreen->maxPageIndex)
         return;
     else if (delta == -1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->minPageIndex)
 		sMonSummaryScreen->currPageIndex = sMonSummaryScreen->maxPageIndex;
