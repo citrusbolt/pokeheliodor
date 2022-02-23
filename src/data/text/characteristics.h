@@ -29,11 +29,11 @@ static const u8 sCharacteristic27[] = _("Quick to flee.");
 static const u8 sCharacteristic28[] = _("Very finicky.");
 static const u8 sCharacteristic29[] = _("Somewhat stubborn.");
 
-static const u8 sFlavorSpicy[] = _("Likes {COLOR LIGHT_RED}{SHADOW GREEN}spicy{COLOR WHITE}{SHADOW DARK_GRAY} food.");
-static const u8 sFlavorDry[] = _("Likes {COLOR LIGHT_RED}{SHADOW GREEN}dry{COLOR WHITE}{SHADOW DARK_GRAY} food.");
-static const u8 sFlavorSweet[] = _("Likes {COLOR LIGHT_RED}{SHADOW GREEN}sweet{COLOR WHITE}{SHADOW DARK_GRAY} food.");
-static const u8 sFlavorBitter[] = _("Likes {COLOR LIGHT_RED}{SHADOW GREEN}bitter{COLOR WHITE}{SHADOW DARK_GRAY} food.");
-static const u8 sFlavorSour[] = _("Likes {COLOR LIGHT_RED}{SHADOW GREEN}sour{COLOR WHITE}{SHADOW DARK_GRAY} food.");
+static const u8 sFlavorSpicy[] = _("Likes {COLOR 5}{SHADOW 6}spicy{COLOR 7}{SHADOW 8} food.");
+static const u8 sFlavorDry[] = _("Likes {COLOR 5}{SHADOW 6}dry{COLOR 7}{SHADOW 8} food.");
+static const u8 sFlavorSweet[] = _("Likes {COLOR 5}{SHADOW 6}sweet{COLOR 7}{SHADOW 8} food.");
+static const u8 sFlavorBitter[] = _("Likes {COLOR 5}{SHADOW 6}bitter{COLOR 7}{SHADOW 8} food.");
+static const u8 sFlavorSour[] = _("Likes {COLOR 5}{SHADOW 6}sour{COLOR 7}{SHADOW 8} food.");
 static const u8 sFlavorNeutral[] = _("Happily eats anything.");
 
 static const u8 sRegionName_Unknown[] = _("a distant land");

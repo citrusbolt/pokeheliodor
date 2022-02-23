@@ -142,5 +142,5 @@ Route112_Text_MtChimneySign:
 
 Route112_Text_RouteSignLavaridge:
 	.string "Route 112\n"
-	.string "{LEFT_ARROW} Lavaridge TOWN$"
+	.string "{LEFT_ARROW} Lavaridge Town$"
 

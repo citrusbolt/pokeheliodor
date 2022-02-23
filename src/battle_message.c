@@ -436,6 +436,7 @@ static const u8 sText_SpAtk2[] = _("SP. ATK");
 static const u8 sText_SpDef2[] = _("SP. DEF");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
+static const u8 sText_PkmnRecoveredXProblem[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} recovered\nfrom its {B_BUFF1} problem!");
 
 static const u8 sText_GoPkmnTitle[] = _("Go! {B_PLAYER_MON1_NAME} the {STR_VAR_1}!");
 static const u8 sText_GoPkmn2Title[] = _("Go! {B_BUFF1} the {STR_VAR_2}!");
@@ -1064,6 +1065,7 @@ const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_PLAYERPAIDPRIZEMONEY - 12] = sText_PlayerPaidPrizeMoney,
     [STRINGID_TAKEITEMCAPTURED - 12] = sText_TakeItemCaptured,
     [STRINGID_ITEMTAKEN - 12] = sText_ItemTaken,
+    [STRINGID_PKMNRECOVEREDPROBLEM - 12] = sText_PkmnRecoveredXProblem,
 };
 
 const u16 gMissStringIds[] =

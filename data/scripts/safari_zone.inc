@@ -164,7 +164,7 @@ Route121_SafariZoneEntrance_Text_YouNeedPokeblockCase:
 	.string "fruitful if you use {POKEBLOCK}s.\p"
 	.string "Please come back with a {POKEBLOCK} Case.\p"
 	.string "You may obtain a {POKEBLOCK} Case from\n"
-	.string "the LILYCOVE Contest Hall.$"
+	.string "the Lilycove Contest Hall.$"
 
 SafariZone_South_Text_StillHaveTimeExit:
 	.string "You still have time left. Would you like\n"
@@ -225,13 +225,13 @@ SafariZone_South_Text_Youngster:
 	.string "without me noticing.$"
 
 Route121_SafariZoneEntrance_Text_TrainerTip:
-	.string "SAFARI Zone Trainer Tip!\p"
+	.string "Safari Zone Trainer Tip!\p"
 	.string "Throw {POKEBLOCK}s at wild Pokémon to make\n"
 	.string "them less likely to flee.$"
 
 SafariZone_Southwest_Text_RestHouseSign:
 	.string "“Relieve your tired feet.”\n"
-	.string "Rest HOUSE$"
+	.string "Rest House$"
 
 SafariZone_RestHouse_Text_Youngster:
 	.string "I don't have any {POKEBLOCK}s, but I caught\n"

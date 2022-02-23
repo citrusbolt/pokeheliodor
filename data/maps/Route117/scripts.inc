@@ -202,11 +202,11 @@ Route117_Text_AirIsTastyHere:
 
 Route117_Text_RouteSignVerdanturf:
 	.string "Route 117\n"
-	.string "{LEFT_ARROW} Verdanturf TOWN$"
+	.string "{LEFT_ARROW} Verdanturf Town$"
 
 Route117_Text_RouteSignMauville:
 	.string "Route 117\n"
-	.string "{RIGHT_ARROW} Mauville CITY$"
+	.string "{RIGHT_ARROW} Mauville City$"
 
 Route117_Text_DayCareSign:
 	.string "Pokémon Day Care\n"

@@ -311,7 +311,7 @@ EverGrandeCity_ChampionsRoom_Text_BirchArriveRatePokedex:
 	.string "But to think you've actually become\n"
 	.string "the Champion!\p"
 	.string "Ah, yes!\p"
-	.string "What became of your PokéDEX?\n"
+	.string "What became of your Pokédex?\n"
 	.string "Here, let me see.$"
 
 EverGrandeCity_ChampionsRoom_Text_BirchCongratulations:

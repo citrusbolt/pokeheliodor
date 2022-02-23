@@ -9581,22 +9581,33 @@ s16 AdvanceStorageMonIndex(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex
 
     if (mode == 0 || mode == 1)
         direction = 1;
+	i = (s8)currIndex + direction;
 
     if (mode == 1 || mode == 3)
     {
-        for (i = (s8)currIndex + direction; i >= 0 && i <= maxIndex; i += direction)
+        while (TRUE)
         {
+			if (i < 0)
+				i = maxIndex;
+			else if (i > maxIndex)
+				i = 0;
             if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE)
                 return i;
+			i += direction;
         }
     }
     else
     {
-        for (i = (s8)currIndex + direction; i >= 0 && i <= maxIndex; i += direction)
+        while (TRUE)
         {
+			if (i < 0)
+				i = maxIndex;
+			else if (i > maxIndex)
+				i = 0;
             if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE
                 && !GetBoxMonData(&boxMons[i], MON_DATA_IS_EGG))
                 return i;
+			i += direction;
         }
     }
 

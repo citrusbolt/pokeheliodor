@@ -191,8 +191,14 @@ static void StorePokemonInDaycare(struct Pokemon *mon, struct DaycareMon *daycar
 
 static void StorePokemonInEmptyDaycareSlot(struct Pokemon *mon, struct DayCare *daycare)
 {
-    s8 slotId = Daycare_FindEmptySpot(daycare);
-    StorePokemonInDaycare(mon, &daycare->mons[slotId]);
+	if (Daycare_FindEmptySpot(daycare) == 1)
+	{
+		daycare->mons[1].mon = daycare->mons[0].mon;
+        daycare->mons[1].mail = daycare->mons[0].mail;
+        daycare->mons[1].steps = daycare->mons[0].steps;
+	}
+
+    StorePokemonInDaycare(mon, &daycare->mons[0]);
 }
 
 void StoreSelectedPokemonInDaycare(void)

@@ -809,6 +809,8 @@ static u8 CountPlayerTrainerExtraStars(void)
         stars++;
     if (gSaveBlock1Ptr->externalEventData.totalEarnedPokeCoupons >= 30000)
         stars++;
+	if (gSaveBlock2Ptr->pokedex.unownForms == 0x0FFFFFFF)
+		stars++;
 
     return stars;
 }

@@ -300,5 +300,5 @@ Route101_Text_WildPokemonInTallGrass:
 
 Route101_Text_RouteSign:
 	.string "Route 101\n"
-	.string "{UP_ARROW} Oldale TOWN$"
+	.string "{UP_ARROW} Oldale Town$"
 

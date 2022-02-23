@@ -465,7 +465,7 @@ Route116_Text_NotWhatImLookingFor:
 
 Route116_Text_RouteSignRustboro:
 	.string "Route 116\n"
-	.string "{LEFT_ARROW} Rustboro CITY$"
+	.string "{LEFT_ARROW} Rustboro City$"
 
 Route116_Text_RusturfTunnelSign:
 	.string "Rusturf Tunnel\n"
@@ -474,7 +474,7 @@ Route116_Text_RusturfTunnelSign:
 	.string "canceled.”$"
 
 Route116_Text_TunnelersRestHouse:
-	.string "Tunneler'S Rest HOUSE$"
+	.string "Tunneler'S Rest House$"
 
 Route116_Text_TrainerTipsBToStopEvolution:
 	.string "Trainer Tips\p"

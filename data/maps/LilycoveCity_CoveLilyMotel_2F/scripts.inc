@@ -185,7 +185,7 @@ LilycoveCity_CoveLilyMotel_2F_EventScript_ReceivedCelebi::
 LilycoveCity_CoveLilyMotel_2F_Text_ShowMeCompletedDex:
 	.string "I'm the Game Designer.\p"
 	.string "Oh, is that right?\n"
-	.string "You're working on a PokéDEX?\p"
+	.string "You're working on a Pokédex?\p"
 	.string "It's tough trying to complete it,\n"
 	.string "but don't give up.\p"
 	.string "If you do complete it, please come\n"
@@ -194,7 +194,7 @@ LilycoveCity_CoveLilyMotel_2F_Text_ShowMeCompletedDex:
 LilycoveCity_CoveLilyMotel_2F_Text_FilledPokedexGiveYouThis:
 	.string "Wow! That's awesome!\n"
 	.string "Yep, it's totally awesome!\p"
-	.string "This PokéDEX is completely filled!\n"
+	.string "This Pokédex is completely filled!\n"
 	.string "You really must love Pokémon!\p"
 	.string "I'm so impressed!\p"
 	.string "Let me give you something in\n"
@@ -260,7 +260,7 @@ LilycoveCity_CoveLilyMotel_2F_Text_GiveJirachi:
 LilycoveCity_CoveLilyMotel_2F_Text_GiveOldSeaMap:
 	.string "Wow! You've registered all the\n"
 	.string "Pokémon originally from the\l"
-	.string "Kanto region in your PokéDEX!\p"
+	.string "Kanto region in your Pokédex!\p"
 	.string "I'd like you to have this\n"
 	.string "special map.\p"
 	.string "Present this map to the staff\n"
@@ -270,7 +270,7 @@ LilycoveCity_CoveLilyMotel_2F_Text_GiveOldSeaMap:
 LilycoveCity_CoveLilyMotel_2F_Text_CompleteJohto:
 	.string "Wow! You've registered all the\n"
 	.string "Pokémon originally from the\l"
-	.string "Johto region in your PokéDEX!\p"
+	.string "Johto region in your Pokédex!\p"
 	.string "I'd like to entrust this\n"
 	.string "special Pokémon with you!$"
 

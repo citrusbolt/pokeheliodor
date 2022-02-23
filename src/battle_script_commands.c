@@ -61,6 +61,8 @@ extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
 extern const u8* const gBattleScriptsForMoveEffects[];
 
+extern struct Evolution gEvolutionTable[][EVOS_PER_MON];
+
 #define DEFENDER_IS_PROTECTED ((gProtectStructs[gBattlerTarget].protected) && (gBattleMoves[gCurrentMove].flags & FLAG_PROTECT_AFFECTED))
 
 // this file's functions
@@ -1182,6 +1184,9 @@ static void Cmd_accuracycheck(void)
         if (holdEffect == HOLD_EFFECT_EVASION_UP)
             calc = (calc * (100 - param)) / 100;
 
+		if (gBattleMons[gBattlerTarget].friendship >= 255 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+			calc = (calc * 90) / 100;
+
         // final calculation
         if ((Random() % 100 + 1) > calc)
         {
@@ -1284,10 +1289,15 @@ static void Cmd_critcalc(void)
     if (critChance >= ARRAY_COUNT(sCriticalHitChance))
         critChance = ARRAY_COUNT(sCriticalHitChance) - 1;
 
+	critChance = sCriticalHitChance[critChance];
+
+	if (gBattleMons[gBattlerAttacker].friendship >= 255 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+		critChance /= 2;
+
     if ((gBattleMons[gBattlerTarget].ability != ABILITY_BATTLE_ARMOR && gBattleMons[gBattlerTarget].ability != ABILITY_SHELL_ARMOR)
      && !(gStatuses3[gBattlerAttacker] & STATUS3_CANT_SCORE_A_CRIT)
      && !(gBattleTypeFlags & (BATTLE_TYPE_WALLY_TUTORIAL | BATTLE_TYPE_FIRST_BATTLE))
-     && !(Random() % sCriticalHitChance[critChance]))
+     && !(Random() % critChance))
         gCritMultiplier = 2;
     else
         gCritMultiplier = 1;
@@ -1701,6 +1711,31 @@ static void Cmd_adjustnormaldamage(void)
             gLastUsedItem = gBattleMons[gBattlerTarget].item;
         }
     }
+	else if (gBattleMons[gBattlerTarget].friendship >= 180 && gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER))
+	{
+		bool8 friendEndured = FALSE;
+		if (gBattleMons[gBattlerTarget].friendship >= 255)
+		{
+			if (Random() % 100 < 25)
+				friendEndured = TRUE;
+		}
+		else if (gBattleMons[gBattlerTarget].friendship >= 220)
+		{
+			if (Random() % 100 < 15)
+				friendEndured = TRUE;
+		}
+		else
+		{
+			if (Random() % 100 < 10)
+				friendEndured = TRUE;
+		}
+
+		if (friendEndured)
+		{
+			gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
+			gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;
+		}
+	}
     gBattlescriptCurrInstr++;
 }
 
@@ -1743,6 +1778,31 @@ static void Cmd_adjustnormaldamage2(void) // The same as adjustnormaldamage exce
             gLastUsedItem = gBattleMons[gBattlerTarget].item;
         }
     }
+	else if (gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	{
+		bool8 friendEndured = FALSE;
+		if (gBattleMons[gBattlerTarget].friendship >= 255)
+		{
+			if (Random() % 100 < 25)
+				friendEndured = TRUE;
+		}
+		else if (gBattleMons[gBattlerTarget].friendship >= 220)
+		{
+			if (Random() % 100 < 15)
+				friendEndured = TRUE;
+		}
+		else
+		{
+			if (Random() % 100 < 10)
+				friendEndured = TRUE;
+		}
+
+		if (friendEndured)
+		{
+			gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
+			gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;
+		}
+	}
     gBattlescriptCurrInstr++;
 }
 
@@ -3229,9 +3289,9 @@ static void Cmd_jumpiftype(void)
 
 static void Cmd_getexp(void)
 {
-    u16 item;
+    u16 item, species;
     s32 i; // also used as stringId
-    u8 holdEffect;
+    u8 holdEffect, level;
     s32 sentIn;
 	s32 viaSentIn;
     s32 viaExpShare = 0;
@@ -3328,6 +3388,7 @@ static void Cmd_getexp(void)
                 *(&gBattleStruct->sentInPokes) >>= 1;
                 gBattleScripting.getexpState = 5;
                 gBattleMoveDamage = 0; // used for exp
+                MonGainEVs(&gPlayerParty[gBattleStruct->expGetterMonId], gBattleMons[gBattlerFainted].species);
             }
             else
             {
@@ -3343,17 +3404,40 @@ static void Cmd_getexp(void)
                 {
                     if (gBattleStruct->sentInPokes & 1)
                         gBattleMoveDamage = *exp;
-                    else
+                    else if (viaExpShare)
+                        gBattleMoveDamage = gExpShareExp;
+					else
                         gBattleMoveDamage = 0;
 
-                    if (viaExpShare)
-                        gBattleMoveDamage += gExpShareExp;
                     if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
                     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
 					if (FlagGet(FLAG_SYS_GAME_CLEAR))
 						gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+					if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_FRIENDSHIP) >= 220)
+						gBattleMoveDamage = (gBattleMoveDamage * 120) / 100;
+					
+					species = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPECIES);
+					level = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL);
+					
+					for (i = 0; i < EVOS_PER_MON; i++)
+					{
+						if (gEvolutionTable[species][i].method == EVO_LEVEL ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_ATK_GT_DEF ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_ATK_EQ_DEF ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_ATK_LT_DEF ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_SILCOON ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_CASCOON ||
+							gEvolutionTable[species][i].method == EVO_LEVEL_NINJASK)
+						{
+							if (gEvolutionTable[species][i].param <= level)
+							{
+								gBattleMoveDamage = gBattleMoveDamage * 120 / 100;
+								break;
+							}
+						}
+					}
 					
 					if (gPowerType == POWER_EXP && gPowerTime > 0)
 					{
@@ -5923,6 +6007,31 @@ static void Cmd_adjustsetdamage(void) // The same as adjustnormaldamage, except 
             gLastUsedItem = gBattleMons[gBattlerTarget].item;
         }
     }
+	else if (gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	{
+		bool8 friendEndured = FALSE;
+		if (gBattleMons[gBattlerTarget].friendship >= 255)
+		{
+			if (Random() % 100 < 25)
+				friendEndured = TRUE;
+		}
+		else if (gBattleMons[gBattlerTarget].friendship >= 220)
+		{
+			if (Random() % 100 < 15)
+				friendEndured = TRUE;
+		}
+		else
+		{
+			if (Random() % 100 < 10)
+				friendEndured = TRUE;
+		}
+
+		if (friendEndured)
+		{
+			gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
+			gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;
+		}
+	}
     gBattlescriptCurrInstr++;
 }
 
@@ -7550,6 +7659,36 @@ static void Cmd_tryKO(void)
                 gMoveResultFlags |= MOVE_RESULT_FOE_HUNG_ON;
                 gLastUsedItem = gBattleMons[gBattlerTarget].item;
             }
+			else if (gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+			{
+				bool8 friendEndured = FALSE;
+				if (gBattleMons[gBattlerTarget].friendship >= 255)
+				{
+					if (Random() % 100 < 25)
+						friendEndured = TRUE;
+				}
+				else if (gBattleMons[gBattlerTarget].friendship >= 220)
+				{
+					if (Random() % 100 < 15)
+						friendEndured = TRUE;
+				}
+				else
+				{
+					if (Random() % 100 < 10)
+						friendEndured = TRUE;
+				}
+
+				if (friendEndured)
+				{
+					gBattleMoveDamage = gBattleMons[gBattlerTarget].hp - 1;
+					gMoveResultFlags |= MOVE_RESULT_FOE_ENDURED;
+				}
+				else
+				{
+					gBattleMoveDamage = gBattleMons[gBattlerTarget].hp;
+					gMoveResultFlags |= MOVE_RESULT_ONE_HIT_KO;
+				}
+			}
             else
             {
                 gBattleMoveDamage = gBattleMons[gBattlerTarget].hp;
@@ -9961,7 +10100,7 @@ static void Cmd_handleballthrow(void)
             case ITEM_NEST_BALL:
                 if (gBattleMons[gBattlerTarget].level < 40)
                 {
-                    ballMultiplier = 40 - gBattleMons[gBattlerTarget].level;
+                    ballMultiplier = 41 - gBattleMons[gBattlerTarget].level;
                     if (ballMultiplier <= 9)
                         ballMultiplier = 10;
                 }
@@ -9977,7 +10116,7 @@ static void Cmd_handleballthrow(void)
                     ballMultiplier = 10;
                 break;
             case ITEM_TIMER_BALL:
-                ballMultiplier = gBattleResults.battleTurnCounter + 10;
+                ballMultiplier = gBattleResults.battleTurnCounter * 3 + 10;
                 if (ballMultiplier > 40)
                     ballMultiplier = 40;
                 break;
@@ -10014,7 +10153,7 @@ static void Cmd_handleballthrow(void)
             / (3 * gBattleMons[gBattlerTarget].maxHP);
 
         if (gBattleMons[gBattlerTarget].status1 & (STATUS1_SLEEP | STATUS1_FREEZE))
-            odds *= 2;
+            odds = (odds * 25) / 10;
         if (gBattleMons[gBattlerTarget].status1 & (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON))
             odds = (odds * 15) / 10;
 
@@ -10114,6 +10253,8 @@ static void Cmd_trysetcaughtmondexflags(void)
 
     if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
     {
+		if (species == SPECIES_UNOWN)
+			gSaveBlock2Ptr->pokedex.unownForms |= 1 << GET_UNOWN_LETTER(personality);
         gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
     }
     else
