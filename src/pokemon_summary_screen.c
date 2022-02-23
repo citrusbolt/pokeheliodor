@@ -483,9 +483,9 @@ static const struct WindowTemplate sSummaryTemplate[] =
     [PSS_LABEL_PANE_RIGHT_BOTTOM] = {
         .bg = 0,
         .tilemapLeft = 11,
-        .tilemapTop = 16,
+        .tilemapTop = 15,
         .width = 19,
-        .height = 4,
+        .height = 6,
         .paletteNum = 2,
         .baseBlock = 684,
     },
@@ -1280,6 +1280,8 @@ static bool8 LoadGraphics(void)
 			ScheduleBgCopyTilemapToVram(2);
 			DoScheduledBgTilemapCopiesToVram();
 			PrintInfoBar(sMonSummaryScreen->currPageIndex, TRUE);
+			PrintNewMoveDetailsOrCancelText();
+			PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
 			PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
 			ChangeBgX(1, 0, 0);
 			CreateTask(Task_SetHandleReplaceMoveInput, 0);
@@ -2590,6 +2592,11 @@ static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 line
     AddTextPrinterParameterized4(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
 }
 
+static void PrintTextOnWindowSigned(u8 windowId, const u8 *string, u8 x, s8 y, u8 lineSpacing, u8 colorId)
+{
+    AddTextPrinterParameterized4Signed(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
+}
+
 static void PrintMonInfo(void)
 {
 	FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_TOP, PIXEL_FILL(0));
@@ -3860,6 +3867,7 @@ static void PrintBattleMoves(void)
 	if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
 	{
 		PrintNewMoveDetailsOrCancelText();
+		PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
 		if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES)
 			PrintMoveDetails(sMonSummaryScreen->newMove);
 		else
@@ -3947,12 +3955,25 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 		x = GetStringCenterAlignXOffset(1, gStringVar1, 32) + 113;
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_SummaryPP, 80, moveIndex * 29 + 13, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, moveIndex * 29 + 13, 0, color);
+
+		if (moveIndex == 3)
+		{
+			FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_BOTTOM, PIXEL_FILL(0));
+			PrintTextOnWindowSigned(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_SummaryPP, 80, -4, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+			PrintTextOnWindowSigned(PSS_LABEL_PANE_RIGHT_BOTTOM, gStringVar1, x, -4, 0, color);
+		}
 	}
 	else
 	{
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_OneDash, 64, moveIndex * 29, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
 		x = GetStringCenterAlignXOffset(1, gText_TwoDashes, 32) + 113;
 		PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_TwoDashes, x, moveIndex * 29 + 13, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+
+		if (moveIndex == 3)
+		{
+			FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_BOTTOM, PIXEL_FILL(0));
+			PrintTextOnWindowSigned(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_TwoDashes, x, -4, 0, color);
+		}
 	}
 }
 
@@ -3970,6 +3991,7 @@ static void PrintContestMoves(void)
 	if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
 	{
 		PrintNewMoveDetailsOrCancelText();
+		PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
 		if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES)
 			PrintMoveDetails(sMonSummaryScreen->newMove);
 		else
@@ -4118,18 +4140,18 @@ static void PrintNewMoveDetailsOrCancelText(void)
 		if (sMonSummaryScreen->newMove != MOVE_NONE)
 		{
 			pp = gBattleMoves[sMonSummaryScreen->newMove].pp;
-			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gMoveNames[sMonSummaryScreen->newMove], 64, 116, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gMoveNames[sMonSummaryScreen->newMove], 64, 12, 0, 1);
 			ConvertIntToDecimalStringN(gStringVar1, pp, STR_CONV_MODE_LEFT_ALIGN, 2);
 			ConvertIntToDecimalStringN(gStringVar2, pp, STR_CONV_MODE_LEFT_ALIGN, 2);
 			StringAppend(gStringVar1, gText_Slash);
 			StringAppend(gStringVar1, gStringVar2);
 			x = GetStringCenterAlignXOffset(1, gStringVar1, 32) + 113;
-			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_SummaryPP, 80, 13, 0, 0);
-			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gStringVar1, x, 13, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_SummaryPP, 80, 25, 0, 0);
+			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gStringVar1, x, 25, 0, 0);
 		}
 		else
 		{
-			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_Cancel, 64, 4, 0, 1);
+			PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_Cancel, 64, 12, 0, 1);
 		}
 	//}
 }
