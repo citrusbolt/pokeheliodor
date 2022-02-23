@@ -494,9 +494,10 @@ u8 GetLastTextColor(u8 colorType)
     }
 }
 
-inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u32 *glyphPixels, s32 width, s32 height)
+inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s64 i, u32 *glyphPixels, s32 width, s32 height)
 {
-    u32 xAdd, yAdd, pixelData, bits, toOrr, dummyX;
+    u32 xAdd, pixelData, bits, toOrr, dummyX, dummyY;
+	s64 yAdd;
     u8 *dst;
 
     xAdd = j + width;
@@ -509,7 +510,15 @@ inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u3
         {
             if ((toOrr = pixelData & 0xF))
             {
-                dst = windowTiles + ((j / 8) * 32) + ((j % 8) / 2) + ((i / 8) * widthOffset) + ((i % 8) * 4);
+				//if (i < 0)
+				//{
+				//	dummyY = i * -1;
+				//	dst = windowTiles + ((j / 8) * 32) + ((j % 8) / 2) + ((dummyY / 8) * widthOffset) - ((dummyY % 8) * 4);
+				//}
+				if (i >= 0)
+				{
+					dst = windowTiles + ((j / 8) * 32) + ((j % 8) / 2) + ((i / 8) * widthOffset) + ((i % 8) * 4);
+				}
                 bits = ((j & 1) * 4);
                 *dst = (toOrr << bits) | (*dst & (0xF0 >> bits));
             }
@@ -523,8 +532,8 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
     struct Window *window;
     struct WindowTemplate *template;
     u32 *glyphPixels;
-    u32 currX, currY, widthOffset;
-    s32 glyphWidth, glyphHeight;
+    u32 currX, widthOffset;
+    s64 currY, glyphWidth, glyphHeight;
     u8 *windowTiles;
 
     window = &gWindows[textPrinter->printerTemplate.windowId];
@@ -536,8 +545,12 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
     if ((glyphHeight = (template->height * 8) - textPrinter->printerTemplate.currentY) > gCurGlyph.height)
         glyphHeight = gCurGlyph.height;
 
+
     currX = textPrinter->printerTemplate.currentX;
-    currY = textPrinter->printerTemplate.currentY;
+	if (textPrinter->printerTemplate.unk)
+		currY = textPrinter->printerTemplate.currentY - (textPrinter->printerTemplate.y * 2);
+	else
+		currY = textPrinter->printerTemplate.currentY;
     glyphPixels = gCurGlyph.gfxBufferTop;
     windowTiles = window->tileData;
     widthOffset = template->width * 32;

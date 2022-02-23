@@ -3351,8 +3351,13 @@ extern const u8 gText_SummaryTitleBattleMoves[];
 extern const u8 gText_SummaryTitleCondition[];
 extern const u8 gText_SummaryTitleContestMoves[];
 extern const u8 gText_SummaryTitleRibbons[];
+extern const u8 gText_SummaryTitleIVs[];
+extern const u8 gText_SummaryTitleEVs[];
 extern const u8 gText_SummaryTitlePage[];
 extern const u8 gText_SummaryTitlePageDetail[];
 extern const u8 gText_SummaryTitlePickSwitch[];
+extern const u8 gText_SummaryTitlePageIVs[];
+extern const u8 gText_SummaryTitlePageEVs[];
+extern const u8 gText_SummaryTitlePageStats[];
 	
 #endif // GUARD_STRINGS_H
