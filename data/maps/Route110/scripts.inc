@@ -1007,7 +1007,7 @@ Route110_Text_HeardYouInstallMatchCall:
 	.string "Well, then, I should register you in\n"
 	.string "my PokéNAV as well.\p"
 	.string "That way, even when we're apart,\n"
-	.string "I can rate your PokéDEX anytime.\p"
+	.string "I can rate your Pokédex anytime.\p"
 	.string "… … … … … …$"
 
 Route110_Text_RegisteredBirchInPokenav:
