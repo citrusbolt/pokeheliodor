@@ -1576,6 +1576,7 @@ const u32 gSummaryScreenPageSkillsTilemap[] = INCBIN_U32("graphics/summary_scree
 // 4 - Battle Moves
 const u32 gSummaryScreenPageMovesTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves.bin.lz");
 const u32 gSummaryScreenPageMoveDetailsTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_selected.bin.lz");
+const u32 gSummaryScreenPageNewMoveTilemap[] = INCBIN_U32("graphics/summary_screen/page_new_move.bin.lz");
 // 5 - Contest Moves
 const u32 gSummaryScreenPageContestMovesTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_contest.bin.lz");
 const u32 gSummaryScreenPageContestMoveDetailsTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_contest_selected.bin.lz");
