@@ -1248,18 +1248,18 @@ SlateportCity_Text_BattleTentSign:
 	.string "“Find it! The ultimate Pokémon!”$"
 
 SlateportCity_Text_SternsShipyardWantedSign:
-	.string "Stern'S Shipyard\p"
+	.string "Stern's Shipyard\p"
 	.string "“Wanted: A sailor capable of sailing\n"
 	.string "in all currents.”$"
 
 SlateportCity_Text_SternsShipyardNearsCompletion:
-	.string "Stern'S Shipyard\p"
+	.string "Stern's Shipyard\p"
 	.string "“The ferry S.S. Tidal nears\n"
 	.string "completion for serving the ports of\l"
 	.string "Slateport and Lilycove.”$"
 
 SlateportCity_Text_SternsShipyardFerryComplete:
-	.string "Stern'S Shipyard\p"
+	.string "Stern's Shipyard\p"
 	.string "“Boarding of the Slateport-Lilycove\n"
 	.string "ferry S.S. Tidal is handled at the\l"
 	.string "Harbor.”$"
