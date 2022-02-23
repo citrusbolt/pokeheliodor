@@ -534,8 +534,8 @@ SlateportCity_Harbor_Text_WouldYouTradeScanner:
 	.string "help us on our explorations.\p"
 	.string "{PLAYER}{KUN}, would you trade your\n"
 	.string "Scanner for something?\p"
-	.string "Like, say, a Deepseatooth or\n"
-	.string "a Deepseascale that I have?$"
+	.string "Like, say, a DeepSeaTooth or\n"
+	.string "a DeepSeaScale that I have?$"
 
 SlateportCity_Harbor_Text_IfYouWantToTradeLetMeKnow:
 	.string "Capt. Stern: Are you certain?\n"
@@ -545,11 +545,11 @@ SlateportCity_Harbor_Text_IfYouWantToTradeLetMeKnow:
 
 SlateportCity_Harbor_Text_TradeForDeepSeaTooth:
 	.string "Capt. Stern: So you'll trade it for\n"
-	.string "my Deepseatooth?$"
+	.string "my DeepSeaTooth?$"
 
 SlateportCity_Harbor_Text_TradeForDeepSeaScale:
 	.string "Capt. Stern: So you'll trade it for\n"
-	.string "my Deepseascale?$"
+	.string "my DeepSeaScale?$"
 
 SlateportCity_Harbor_Text_WhichOneDoYouWant:
 	.string "Capt. Stern: Which one do you want?$"

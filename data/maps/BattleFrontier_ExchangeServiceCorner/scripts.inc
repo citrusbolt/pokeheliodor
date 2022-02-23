@@ -735,11 +735,11 @@ BattleFrontier_ExchangeServiceCorner_Text_ConfirmUpGrade:
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmDeepSeaScale:
-	.string "You've chosen the Deepseascale.\n"
+	.string "You've chosen the DeepSeaScale.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmDeepSeaTooth:
-	.string "You've chosen the Deepseatooth.\n"
+	.string "You've chosen the DeepSeaTooth.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmBrightpowder:
