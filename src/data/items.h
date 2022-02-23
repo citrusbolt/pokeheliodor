@@ -804,7 +804,7 @@ const struct Item gItems[] =
 
     [ITEM_HP_UP] =
     {
-        .name = _("Hp Up"),
+        .name = _("HP Up"),
         .itemId = ITEM_HP_UP,
         .price = 9800,
         .description = sHPUpDesc,
@@ -870,7 +870,7 @@ const struct Item gItems[] =
 
     [ITEM_PP_UP] =
     {
-        .name = _("Pp Up"),
+        .name = _("PP Up"),
         .itemId = ITEM_PP_UP,
         .price = 9800,
         .description = sPPUpDesc,
@@ -892,7 +892,7 @@ const struct Item gItems[] =
 
     [ITEM_PP_MAX] =
     {
-        .name = _("Pp Max"),
+        .name = _("PP Max"),
         .itemId = ITEM_PP_MAX,
         .price = 9800,
         .description = sPPMaxDesc,
@@ -1273,7 +1273,7 @@ const struct Item gItems[] =
 
     [ITEM_TINY_MUSHROOM] =
     {
-        .name = _("Tinymushroom"),
+        .name = _("TinyMushroom"),
         .itemId = ITEM_TINY_MUSHROOM,
         .price = 500,
         .description = sTinyMushroomDesc,
@@ -2296,7 +2296,7 @@ const struct Item gItems[] =
 
     [ITEM_SILVER_POWDER] =
     {
-        .name = _("Silverpowder"),
+        .name = _("SilverPowder"),
         .itemId = ITEM_SILVER_POWDER,
         .price = 100,
         .holdEffect = HOLD_EFFECT_BUG_POWER,
@@ -2521,7 +2521,7 @@ const struct Item gItems[] =
 
     [ITEM_BLACK_GLASSES] =
     {
-        .name = _("Blackglasses"),
+        .name = _("BlackGlasses"),
         .itemId = ITEM_BLACK_GLASSES,
         .price = 100,
         .holdEffect = HOLD_EFFECT_DARK_POWER,
@@ -2599,7 +2599,7 @@ const struct Item gItems[] =
 
     [ITEM_NEVER_MELT_ICE] =
     {
-        .name = _("Nevermeltice"),
+        .name = _("NeverMeltIce"),
         .itemId = ITEM_NEVER_MELT_ICE,
         .price = 100,
         .holdEffect = HOLD_EFFECT_ICE_POWER,
@@ -2625,7 +2625,7 @@ const struct Item gItems[] =
 
     [ITEM_TWISTED_SPOON] =
     {
-        .name = _("Twistedspoon"),
+        .name = _("TwistedSpoon"),
         .itemId = ITEM_TWISTED_SPOON,
         .price = 100,
         .holdEffect = HOLD_EFFECT_PSYCHIC_POWER,
@@ -2677,7 +2677,7 @@ const struct Item gItems[] =
 
     [ITEM_UP_GRADE] =
     {
-        .name = _("Up-grade"),
+        .name = _("Up-Grade"),
         .itemId = ITEM_UP_GRADE,
         .price = 2100,
         .holdEffect = HOLD_EFFECT_UP_GRADE,
@@ -3394,7 +3394,7 @@ const struct Item gItems[] =
 
     [ITEM_GO_GOGGLES] =
     {
-        .name = _("Go-goggles"),
+        .name = _("Go-Goggles"),
         .itemId = ITEM_GO_GOGGLES,
         .price = 0,
         .description = sGoGogglesDesc,
@@ -4344,7 +4344,7 @@ const struct Item gItems[] =
 
     [ITEM_VS_SEEKER] =
     {
-        .name = _("Vs Seeker"),
+        .name = _("VS Seeker"),
         .itemId = ITEM_VS_SEEKER,
         .price = 0,
         .description = sVSSeekerDesc,
@@ -4396,7 +4396,7 @@ const struct Item gItems[] =
 
     [ITEM_TEACHY_TV] =
     {
-        .name = _("Teachy Tv"),
+        .name = _("Teachy TV"),
         .itemId = ITEM_TEACHY_TV,
         .price = 0,
         .description = sTeachyTVDesc,
@@ -4409,7 +4409,7 @@ const struct Item gItems[] =
 
     [ITEM_TRI_PASS] =
     {
-        .name = _("Tri-pass"),
+        .name = _("Tri-Pass"),
         .itemId = ITEM_TRI_PASS,
         .price = 0,
         .description = sTriPassDesc,
@@ -4448,7 +4448,7 @@ const struct Item gItems[] =
 
     [ITEM_MYSTIC_TICKET] =
     {
-        .name = _("Mysticticket"),
+        .name = _("MysticTicket"),
         .itemId = ITEM_MYSTIC_TICKET,
         .price = 0,
         .description = sMysticTicketDesc,
@@ -4461,7 +4461,7 @@ const struct Item gItems[] =
 
     [ITEM_AURORA_TICKET] =
     {
-        .name = _("Auroraticket"),
+        .name = _("AuroraTicket"),
         .itemId = ITEM_AURORA_TICKET,
         .price = 0,
         .description = sAuroraTicketDesc,
