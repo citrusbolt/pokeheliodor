@@ -227,6 +227,7 @@ static void CopyMonToSummaryStruct(struct Pokemon* a);
 static bool8 ExtractMonDataToSummaryStruct(struct Pokemon* a);
 static void CloseSummaryScreen(u8 taskId);
 static void Task_HandleInput(u8 taskId);
+static void ChangeStatTask(u8 taskId);
 static void ChangeSummaryPokemon(u8 taskId, s8 a);
 static void Task_ChangeSummaryMon(u8 taskId);
 static s8 AdvanceMonIndex(s8 delta);
@@ -1521,6 +1522,10 @@ static void CloseSummaryScreen(u8 taskId)
 
 static void Task_HandleInput(u8 taskId)
 {
+	s16 *data = gTasks[taskId].data;
+
+	data[0] = 0;
+
     if (MenuHelpers_CallLinkSomething() != TRUE && !gPaletteFade.active)
     {
         if (JOY_NEW(DPAD_UP))
@@ -1549,8 +1554,12 @@ static void Task_HandleInput(u8 taskId)
 			else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS && FlagGet(FLAG_SYS_GAME_CLEAR))
 			{
 				PlaySE(SE_SELECT);
-				sMonSummaryScreen->currStatIndex = (sMonSummaryScreen->currStatIndex + 1) % 3;
-				PrintSkillsPage();
+				SetTaskFuncWithFollowupFunc(taskId, ChangeStatTask, gTasks[taskId].func);
+				//sMonSummaryScreen->currStatIndex = (sMonSummaryScreen->currStatIndex + 1) % 3;
+				//ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
+				//ScheduleBgCopyTilemapToVram(0);
+				//PrintInfoBar(PSS_PAGE_SKILLS, FALSE);
+				//PrintSkillsPage();
 			}
         }
         else if (JOY_NEW(B_BUTTON))
@@ -1560,6 +1569,30 @@ static void Task_HandleInput(u8 taskId)
             BeginCloseSummaryScreen(taskId);
         }
     }
+}
+
+static void ChangeStatTask(u8 taskId)
+{
+	s16 *data = gTasks[taskId].data;
+
+	switch (data[0])
+	{
+		case 0:
+			sMonSummaryScreen->currStatIndex = (sMonSummaryScreen->currStatIndex + 1) % 3;
+			ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
+			ScheduleBgCopyTilemapToVram(0);
+			data[0]++;
+			break;
+		case 1:
+			PrintInfoBar(PSS_PAGE_SKILLS, FALSE);
+			PrintSkillsPage();
+			data[0]++;
+			break;
+		case 2:
+			data[0] = 0;
+			SwitchTaskToFollowupFunc(taskId);
+			break;
+	}
 }
 
 static void ChangeSummaryPokemon(u8 taskId, s8 delta)
@@ -4932,8 +4965,21 @@ static void PrintInfoBar(u8 pageIndex, bool8 detailsShown)
 			StringCopy(gStringVar2, gText_SummaryTitlePage);
 			break;
 		case PSS_PAGE_SKILLS:
-			StringCopy(gStringVar1, gText_SummaryTitleSkills);
-			StringCopy(gStringVar2, gText_SummaryTitlePage);
+			if (sMonSummaryScreen->currStatIndex == 0)
+			{
+				StringCopy(gStringVar1, gText_SummaryTitleSkills);
+				StringCopy(gStringVar2, gText_SummaryTitlePageIVs);
+			}
+			else if (sMonSummaryScreen->currStatIndex == 1)
+			{
+				StringCopy(gStringVar1, gText_SummaryTitleIVs);
+				StringCopy(gStringVar2, gText_SummaryTitlePageEVs);
+			}
+			else
+			{
+				StringCopy(gStringVar1, gText_SummaryTitleEVs);
+				StringCopy(gStringVar2, gText_SummaryTitlePageStats);
+			}
 			break;
 		case PSS_PAGE_BATTLE_MOVES:
 			StringCopy(gStringVar1, gText_SummaryTitleBattleMoves);
