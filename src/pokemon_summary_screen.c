@@ -356,34 +356,8 @@ static const struct BgTemplate sBgTemplates[] =
     },
 };
 
-struct TilemapCtrl
-{
-    const u16 *gfx;
-    u16 field_4;
-    u8 field_6;
-    u8 field_7;
-    u8 field_8;
-    u8 field_9;
-};
-
-static const u16 sStatusTilemap[] = INCBIN_U16("graphics/interface/status_tilemap.bin");
-static const struct TilemapCtrl sStatusTilemapCtrl1 =
-{
-    sStatusTilemap, 1, 10, 2, 0, 18
-};
-static const struct TilemapCtrl sStatusTilemapCtrl2 =
-{
-    sStatusTilemap, 1, 10, 2, 0, 50
-};
-static const struct TilemapCtrl sBattleMoveTilemapCtrl =
-{
-    //gSummaryScreenPageMovesSelectedTilemap, 0, 15, 16, 0, 36
-};
-static const struct TilemapCtrl sContestMoveTilemapCtrl =
-{
-    gSummaryScreenAppealJam_Tilemap, 0, 10, 7, 0, 45
-};
 static const s8 sMultiBattleOrder[] = {0, 2, 3, 1, 4, 5};
+
 static const struct WindowTemplate sSummaryTemplate[] =
 {
     [PSS_LABEL_PANE_LEFT_TOP] = {
@@ -517,10 +491,7 @@ static void (*const sTextPrinterFunctions[])(void) =
 };
 
 static const u8 sMemoNatureTextColor[] = _("{COLOR 5}{SHADOW 6}");
-static const u8 sMemoMiscTextColor[] = _("{COLOR 7}{SHADOW 8}"); // This is also affected by palettes, apparently
-static const u8 sStatsLeftColumnLayout[] = _("{DYNAMIC 0}/{DYNAMIC 1}\n{DYNAMIC 2}\n{DYNAMIC 3}");
-static const u8 sStatsRightColumnLayout[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
-static const u8 sMovesPPLayout[] = _("{PP}{DYNAMIC 0}/{DYNAMIC 1}");
+static const u8 sMemoMiscTextColor[] = _("{COLOR 7}{SHADOW 8}");
 
 #define TAG_MOVE_SELECTOR   30000
 #define TAG_MON_STATUS      30001
@@ -851,46 +822,6 @@ static const struct SpriteTemplate sSpriteTemplate_StatusCondition =
     .callback = SpriteCallbackDummy
 };
 static const u16 sSummaryMarkingsPalette[] = INCBIN_U16("graphics/interface/summary_markings.gbapal");
-
-static const union AnimCmd sSpriteAnim_OriginMark[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd *const sSpriteAnimTable_OriginMark[] =
-{
-    sSpriteAnim_OriginMark
-};
-
-static const struct OamData sOamData_OriginMark =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(16x16),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(16x16),
-    .tileNum = 0,
-    .priority = 1,
-    .paletteNum = 2,
-    .affineParam = 0
-};
-
-static const struct SpriteTemplate sOriginMarkSpriteTemplate =
-{
-    .tileTag = 5505,
-    .paletteTag = 5505,
-    .oam = &sOamData_OriginMark,
-    .anims = sSpriteAnimTable_OriginMark,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
-};
-
 
 static const struct OamData sOamData_ExpHealthBars = {
     .y = 0,
