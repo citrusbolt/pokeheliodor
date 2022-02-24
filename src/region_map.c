@@ -1605,36 +1605,479 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
     return str;
 }
 
-u8 *GetMapNameExtended(u8 *dest, u16 regionMapId, u16 padLength)
+u8 *GetMapNameHoennKanto(u8 *dest, u16 regionMapId)
 {
-    u8 *str;
-    u16 i;
+	if ((regionMapId < MAPSEC_NONE && gRegionMapEntries[regionMapId].name != 0) || regionMapId == MAPSEC_BATTLE_TOWER)
+	{
+		StringCopy(dest, gRegionMapEntries[regionMapId].name);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
+}
 
-    if (regionMapId == MAPSEC_SECRET_BASE)
-    {
-        str = GetSecretBaseMapName(dest);
-    }
-    else if (regionMapId < MAPSEC_END && gRegionMapEntries[regionMapId].name != 0)
-    {
-        str = StringCopy(dest, gRegionMapEntries[regionMapId].name);
-    }
-    else
-    {
-        if (padLength == 0)
-        {
-            padLength = 18;
-        }
-        return StringFill(dest, CHAR_SPACE, padLength);
-    }
-    if (padLength != 0)
-    {
-        for (i = str - dest; i < padLength; i++)
-        {
-            *str++ = CHAR_SPACE;
-        }
-        *str = EOS;
-    }
-    return str;
+u8 *GetMapNameJohto(u8 *dest, u16 regionMapId)
+{
+	if (regionMapId < MAPSEC_NONE && gJohtoMapNamePointers[regionMapId] != 0)
+	{
+		StringCopy(dest, gJohtoMapNamePointers[regionMapId]);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
+}
+
+u8 *GetMapNameSinnoh(u8 *dest, u16 regionMapId)
+{
+	if (regionMapId < MAPSEC_NONE && gSinnohMapNamePointers[regionMapId] != 0)
+	{
+		StringCopy(dest, gSinnohMapNamePointers[regionMapId]);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
+}
+
+u8 *GetMapNameOrre(u8 *dest, u16 regionMapId, bool8 isXD)
+{
+	if (!isXD)
+	{
+		switch (regionMapId)
+		{
+		case 1:
+		case 2:
+		case 200:
+			regionMapId = MAPSEC_OUTSKIRT_STAND;
+			break;
+		case 3:
+		case 4:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 119:
+		case 128:
+		case 202:
+			regionMapId = MAPSEC_PHENAC_CITY;
+			break;
+		case 5:
+		case 6:
+		case 204:
+			regionMapId = MAPSEC_MAYORS_HOUSE;
+			break;
+		case 11:
+		case 12:
+		case 203:
+			regionMapId = MAPSEC_PRE_GYM;
+			break;
+		case 13:
+		case 14:
+			regionMapId = MAPSEC_PHENAC_STADIUM;
+			break;
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		case 205:
+			regionMapId = MAPSEC_PYRITE_TOWN;
+			break;
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 207:
+			regionMapId = MAPSEC_PYRITE_BLDG;
+			break;
+		case 29:
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+		case 206:
+			regionMapId = MAPSEC_PYRITE_CAVE;
+			break;
+		case 30:
+			regionMapId = MAPSEC_MIRORS_HIDEOUT;
+			break;
+		case 35:
+		case 120:
+		case 142:
+			regionMapId = MAPSEC_PYRITE_COLOSSEUM;
+			break;
+		case 36:
+		case 39:
+		case 40:
+		case 41:
+		case 42:
+		case 43:
+		case 44:
+		case 45:
+		case 46:
+		case 208:
+		case 209:
+			regionMapId = MAPSEC_AGATE_VILLAGE;
+			break;
+		case 37:
+		case 38:
+		case 210:
+			regionMapId = MAPSEC_RELIC_CAVE;
+			break;
+		case 47:
+		case 48:
+		case 49:
+		case 50:
+		case 51:
+		case 52:
+		case 53:
+		case 54:
+		case 55:
+		case 62:
+		case 122:
+		case 127:
+		case 211:
+		case 212:
+			regionMapId = MAPSEC_THE_UNDER;
+			break;
+		case 57:
+		case 58:
+		case 59:
+		case 60:
+		case 61:
+		case 138:
+		case 139:
+		case 213:
+			regionMapId = MAPSEC_THE_UNDER_SUBWAY;
+			break;
+		case 63:
+		case 121:
+			regionMapId = MAPSEC_UNDER_COLOSSEUM;
+			break;
+		case 64:
+		case 125:
+			regionMapId = MAPSEC_DEEP_COLOSSEUM;
+			break;
+		case 65:
+		case 214:
+			regionMapId = MAPSEC_FRONT_OF_LAB;
+			break;
+		case 66:
+		case 67:
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+		case 72:
+		case 73:
+		case 140:
+		case 141:
+		case 215:
+			regionMapId = MAPSEC_LABORATORY;
+			break;
+		case 74:
+		case 75:
+		case 76:
+		case 77:
+		case 78:
+		case 79:
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		case 84:
+		case 85:
+		case 86:
+		case 87:
+		case 88:
+		case 89:
+		case 90:
+		case 91:
+		case 92:
+		case 93:
+		case 94:
+		case 216:
+		case 217:
+		case 218:
+		case 219:
+		case 220:
+			regionMapId = MAPSEC_MT_BATTLE;
+			break;
+		case 95:
+		case 228:
+			regionMapId = MAPSEC_MTBTL_COLOSSEUM;
+			break;
+		case 102:
+		case 115:
+		case 116:
+		case 117:
+		case 123:
+		case 124:
+		case 223:
+		case 224:
+			regionMapId = MAPSEC_REALGAM_TOWER;
+			break;
+		case 103:
+		case 104:
+		case 105:
+		case 106:
+		case 107:
+		case 108:
+		case 109:
+		case 110:
+		case 111:
+		case 112:
+		case 113:
+		case 221:
+			regionMapId = MAPSEC_REALGAMTWR_DOME;
+			break;
+		case 114:
+		case 222:
+			regionMapId = MAPSEC_REALGAMTWR_LOBBY;
+			break;
+		case 118:
+		case 227:
+			regionMapId = MAPSEC_TOWER_COLOSSEUM;
+			break;
+		case 126:
+			regionMapId = MAPSEC_ORRE_COLOSSEUM;
+			break;
+		case 129:
+		case 130:
+		case 131:
+		case 132:
+		case 133:
+		case 134:
+		case 135:
+		case 136:
+		case 137:
+		case 201:
+			regionMapId = MAPSEC_SNAGEM_HIDEOUT;
+			break;
+		case 225:
+		case 226:
+			regionMapId = MAPSEC_REALGAM_TOWER_2F;
+			break;
+		default:
+			regionMapId = MAPSEC_DISTANT_LAND;
+		}
+	}
+	else
+	{
+		switch (regionMapId)
+		{
+		case 1:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+			regionMapId = MAPSEC_CIPHER_LAB;
+			break;
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 23:
+		case 24:
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		case 30:
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+			regionMapId = MAPSEC_MT_BATTLE;
+			break;
+		case 35:
+		case 36:
+		case 37:
+		case 38:
+		case 39:
+		case 40:
+		case 41:
+		case 42:
+		case 43:
+		case 44:
+			regionMapId = MAPSEC_S_S_LIBRA;
+			break;
+		case 45:
+		case 46:
+		case 49:
+		case 50:
+		case 51:
+		case 57:
+		case 58:
+		case 59:
+		case 60:
+		case 61:
+			regionMapId = MAPSEC_REALGAM_TOWER;
+			break;
+		case 64:
+		case 65:
+		case 66:
+		case 67:
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+			regionMapId = MAPSEC_CIPHER_KEY_LAIR;
+			break;
+		case 72:
+		case 73:
+		case 74:
+		case 75:
+		case 76:
+		case 77:
+		case 78:
+		case 79:
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		case 84:
+		case 85:
+		case 86:
+		case 87:
+		case 88:
+		case 89:
+			regionMapId = MAPSEC_CITADARK_ISLE;
+			break;
+		case 90:
+			regionMapId = MAPSEC_ROCK;
+			break;
+		case 91:
+			regionMapId = MAPSEC_OASIS;
+			break;
+		case 92:
+			regionMapId = MAPSEC_CAVE;
+			break;
+		case 93:
+		case 94:
+		case 95:
+		case 96:
+		case 97:
+		case 98:
+		case 99:
+		case 100:
+		case 101:
+		case 102:
+		case 103:
+		case 104:
+		case 105:
+		case 106:
+		case 107:
+		case 181:
+			regionMapId = MAPSEC_PHENAC_CITY;
+			break;
+		case 108:
+		case 109:
+		case 110:
+		case 111:
+		case 112:
+		case 113:
+		case 115:
+		case 116:
+		case 117:
+		case 118:
+		case 119:
+		case 120:
+		case 121:
+		case 122:
+		case 123:
+			regionMapId = MAPSEC_PYRITE_TOWN;
+			break;
+		case 125:
+		case 126:
+		case 127:
+		case 128:
+		case 129:
+		case 130:
+		case 131:
+		case 132:
+		case 133:
+		case 134:
+		case 135:
+			regionMapId = MAPSEC_AGATE_VILLAGE;
+			break;
+		case 138:
+		case 139:
+		case 140:
+		case 141:
+		case 142:
+		case 143:
+			regionMapId = MAPSEC_POKEMON_HQ_LAB;
+			break;
+		case 144:
+		case 145:
+		case 146:
+		case 147:
+		case 148:
+		case 149:
+		case 150:
+		case 151:
+		case 152:
+		case 153:
+		case 154:
+		case 155:
+		case 156:
+		case 157:
+		case 158:
+		case 159:
+		case 160:
+		case 161:
+		case 162:
+			regionMapId = MAPSEC_GATEON_PORT;
+			break;
+		case 163:
+		case 164:
+			regionMapId = MAPSEC_OUTSKIRT_STAND;
+			break;
+		case 165:
+		case 166:
+		case 167:
+		case 168:
+			regionMapId = MAPSEC_SNAGEM_HIDEOUT;
+			break;
+		case 169:
+		case 170:
+		case 171:
+		case 172:
+		case 173:
+			regionMapId = MAPSEC_KAMINKOS_HOUSE;
+			break;
+		case 174:
+			regionMapId = MAPSEC_ORRE_COLOSSEUM;
+			break;
+		default:
+			regionMapId = MAPSEC_DISTANT_LAND;
+		}
+	}
+
+	if (regionMapId < ORRE_MAPSEC_END && gOrreMapNamePointers[regionMapId] != 0)
+	{
+		StringCopy(dest, gOrreMapNamePointers[regionMapId]);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
 }
 
 // TODO: probably needs a better name
@@ -1647,10 +2090,7 @@ u8 *GetMapNameGeneric(u8 *dest, u16 mapSecId)
     case MAPSEC_SECRET_BASE:
         return StringCopy(dest, gText_SecretBase);
     default:
-		if (mapSecId > METLOC_FATEFUL_ENCOUNTER)
-			return GetMapNameExtended(dest, mapSecId, 0);
-		else
-			return GetMapName(dest, mapSecId, 0);
+		return GetMapName(dest, mapSecId, 0);
     }
 }
 
