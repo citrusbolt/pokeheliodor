@@ -1271,7 +1271,7 @@ SlateportCity_Text_PokemonFanClubSign:
 SlateportCity_Text_OceanicMuseumSign:
 	.string "“The endless sea sustains\n"
 	.string "all life.”\p"
-	.string "Oceanic MUSEUM$"
+	.string "Oceanic Museum$"
 
 SlateportCity_Text_CitySign:
 	.string "Slateport City\p"
@@ -1295,7 +1295,7 @@ SlateportCity_Text_HarborSign:
 	.string "the ferry S.S. Tidal.”$"
 
 SlateportCity_Text_NameRatersHouseSign:
-	.string "Name Rater'S House\n"
+	.string "Name Rater's House\n"
 	.string "“Pokémon nicknames rated.”$"
 
 SlateportCity_Text_ExplainBerries:

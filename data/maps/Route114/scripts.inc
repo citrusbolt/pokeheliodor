@@ -200,10 +200,10 @@ Route114_Text_Poochyena:
 
 Route114_Text_MeteorFallsSign:
 	.string "Meteor Falls\n"
-	.string "Rustboro City Through HERE$"
+	.string "Rustboro City Through Here$"
 
 Route114_Text_FossilManiacsHouseSign:
-	.string "Fossil Maniac'S House\n"
+	.string "Fossil Maniac's House\n"
 	.string "“Fossils gratefully accepted!”$"
 
 Route114_Text_LanettesHouse:

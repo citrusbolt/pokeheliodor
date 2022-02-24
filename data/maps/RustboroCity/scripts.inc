@@ -1081,13 +1081,13 @@ RustboroCity_Text_GymLeaderIsntEasyWithFire:
 	.string "well against Rock-type Pokémon…$"
 
 RustboroCity_Text_MrBrineyWalksInTheTunnel:
-	.string "The old sailor MR. Briney lives in\n"
+	.string "The old sailor Mr. Briney lives in\n"
 	.string "a cottage by the sea.\p"
 	.string "He goes for walks in the tunnel every\n"
 	.string "so often.$"
 
 RustboroCity_Text_MrBrineyLovesPeeko:
-	.string "The old sailor MR. Briney lives in\n"
+	.string "The old sailor Mr. Briney lives in\n"
 	.string "a cottage by the sea.\p"
 	.string "He said he was going shopping in\n"
 	.string "Slateport for his pet, Peeko.\p"
@@ -1171,7 +1171,7 @@ RustboroCity_Text_RegisteredMay:
 
 RustboroCity_Text_MayPassedBrineyWantToBattle:
 	.string "May: Oh, by the way, I passed\n"
-	.string "MR. Briney in Petalburg Woods.\p"
+	.string "Mr. Briney in Petalburg Woods.\p"
 	.string "I guess he's on his way home to his\n"
 	.string "cottage by the sea.\p"
 	.string "How's your Pokédex coming along,\n"
@@ -1198,10 +1198,10 @@ RustboroCity_Text_MayDefeat:
 	.string "You're better than I expected!$"
 
 RustboroCity_Text_MayMrBrineyHint:
-	.string "May: Oh, by the way, MR. Briney, who\n"
+	.string "May: Oh, by the way, Mr. Briney, who\n"
 	.string "I just passed…\p"
 	.string "{PLAYER}{KUN}, you just moved here so you\n"
-	.string "might not know this, but MR. Briney\l"
+	.string "might not know this, but Mr. Briney\l"
 	.string "was once a revered seafarer.$"
 
 RustboroCity_Text_BrendanHiLetsRegister:
@@ -1218,7 +1218,7 @@ RustboroCity_Text_RegisteredBrendan:
 
 RustboroCity_Text_BrendanPassedBrineyWantToBattle:
 	.string "Brendan: By the way, {PLAYER}, I walked\n"
-	.string "by MR. Briney in Petalburg Woods.\p"
+	.string "by Mr. Briney in Petalburg Woods.\p"
 	.string "I bet he was on his way home to his\n"
 	.string "cottage by the sea.\p"
 	.string "{PLAYER}, how's your Pokédex?\n"
@@ -1245,10 +1245,10 @@ RustboroCity_Text_BrendanDefeat:
 
 RustboroCity_Text_BrendanMrBrineyHint:
 	.string "Brendan: By the way, you know\n"
-	.string "MR. Briney? The guy I just passed?\p"
+	.string "Mr. Briney? The guy I just passed?\p"
 	.string "I bet you didn't know this, since you\n"
 	.string "just moved here, {PLAYER}, but\l"
-	.string "MR. Briney was once a great sailor.$"
+	.string "Mr. Briney was once a great sailor.$"
 
 RustboroCity_Text_TunnelNearingCompletion:
 	.string "“Timesaving tunnel nearing\n"

@@ -177,7 +177,7 @@ LilycoveCity_DepartmentStore_1F_Text_FloorNamesSign:
 	.string "3F: Battle Collection\p"
 	.string "4F: TM Corner\p"
 	.string "5F: Poké Doll Floor\p"
-	.string "Rooftop: Rooftop PLAZA$"
+	.string "Rooftop: Rooftop Plaza$"
 
 @ Unused
 LilycoveCity_DepartmentStore_1F_Text_WirelessCommIsFun:

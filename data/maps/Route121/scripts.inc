@@ -191,5 +191,5 @@ Route121_Text_MtPyrePierSign:
 
 Route121_Text_SafariZoneSign:
 	.string "“Filled with rare Pokémon!”\n"
-	.string "Safari ZONE$"
+	.string "Safari Zone$"
 

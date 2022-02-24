@@ -988,7 +988,7 @@ BattleFrontier_BattleDomeBattleRoom_Text_RefereeDecisionPleaseWait:
 	.string "What an unbelievable finish!\n"
 	.string "We have a double knockout!\p"
 	.string "In this event, the Battle Tournament\n"
-	.string "rules call for a Referee'S decision.\p"
+	.string "rules call for a Referee's decision.\p"
 	.string "Please wait while the judging\n"
 	.string "is under way.$"
 

@@ -321,7 +321,7 @@ SSTidalCorridor_Text_HorizonSpreadsBeyondPorthole:
 	.string "the porthole.$"
 
 SSTidalCorridor_Text_BrineyWelcomeAboard:
-	.string "MR. Briney: Welcome aboard, {PLAYER}{KUN}!\p"
+	.string "Mr. Briney: Welcome aboard, {PLAYER}{KUN}!\p"
 	.string "They made me honorary captain of\n"
 	.string "the S.S. Tidal!\p"
 	.string "You can call me Captain Briney now!\p"

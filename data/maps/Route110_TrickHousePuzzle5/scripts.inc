@@ -1021,7 +1021,7 @@ Route110_TrickHousePuzzle5_Text_WaitForNextChallenge:
 Route110_TrickHousePuzzle5_Text_Mechadoll2Intro:
 	.string "Clickety-Clack…\n"
 	.string "Mechadoll 2 AM I!\p"
-	.string "Mechadoll 1'S Quiz Difficulty Level\n"
+	.string "Mechadoll 1's Quiz Difficulty Level\n"
 	.string "IS Set Too Low.$"
 
 Route110_TrickHousePuzzle5_Text_Mechadoll2Quiz1:
@@ -1082,7 +1082,7 @@ Route110_TrickHousePuzzle5_Text_Mechadoll4Quiz3:
 Route110_TrickHousePuzzle5_Text_Mechadoll5Intro:
 	.string "Clickety-Clack…\n"
 	.string "Mechadoll 5 AM I!\p"
-	.string "The Master'S Best And Proudest\n"
+	.string "The Master's Best And Proudest\n"
 	.string "Achievement AM I.$"
 
 Route110_TrickHousePuzzle5_Text_Mechadoll5Quiz1:

@@ -470,7 +470,7 @@ RusturfTunnel_Text_PeekoGladToSeeYouSafe:
 
 RusturfTunnel_Text_ThankYouLetsGoHomePeeko:
 	.string "Peeko owes her life to you!\p"
-	.string "They call me MR. Briney.\n"
+	.string "They call me Mr. Briney.\n"
 	.string "And, you are?\p"
 	.string "… … … … … … … …\n"
 	.string "… … … … … … … …\p"

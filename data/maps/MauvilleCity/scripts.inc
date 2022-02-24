@@ -633,7 +633,7 @@ MauvilleCity_Text_AllSortsOfPeopleComeThrough:
 	.string "people coming through.$"
 
 MauvilleCity_Text_RydelVeryGenerous:
-	.string "Have you been to Rydel'S Cycles yet?\p"
+	.string "Have you been to Rydel's Cycles yet?\p"
 	.string "Rydel, the owner, is a very generous\n"
 	.string "man.$"
 
@@ -653,11 +653,11 @@ MauvilleCity_Text_GymSign:
 MauvilleCity_Text_BikeShopSign:
 	.string "“Ride in gravel and shake up your\n"
 	.string "soul!”\l"
-	.string "Rydel'S CYCLES$"
+	.string "Rydel's Cycles$"
 
 MauvilleCity_Text_GameCornerSign:
 	.string "“The play spot for all!”\n"
-	.string "Mauville Game CORNER$"
+	.string "Mauville Game Corner$"
 
 MauvilleCity_Text_ExplainTV:
 	.string "Hi, do you check out TV at all?\p"
