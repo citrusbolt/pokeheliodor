@@ -1816,8 +1816,6 @@ static void ChangePage(u8 taskId, s8 delta)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     s16 *data = gTasks[taskId].data;
 
-mgba_printf(MGBA_LOG_INFO, "%d %d", sMonSummaryScreen->minPageIndex, sMonSummaryScreen->maxPageIndex);
-
     if (sMonSummaryScreen->minPageIndex == sMonSummaryScreen->maxPageIndex)
         return;
     else if (delta == -1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->minPageIndex)
