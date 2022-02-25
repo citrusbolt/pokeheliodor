@@ -102,7 +102,7 @@ Route104_MrBrineysHouse_EventScript_Peeko::
 	end
 
 Route104_MrBrineysHouse_Text_WaitUpPeeko:
-	.string "MR. Briney: Hold on, lass!\n"
+	.string "Mr. Briney: Hold on, lass!\n"
 	.string "Wait up, Peeko!$"
 
 Route104_MrBrineysHouse_Text_ItsYouLetsSailToDewford:
@@ -121,18 +121,18 @@ Route104_MrBrineysHouse_Text_ItsYouLetsSailToDewford:
 	.string "We'll set sail for Dewford.$"
 
 Route104_MrBrineysHouse_Text_SetSailForDewford:
-	.string "MR. Briney: Dewford it is, then!\p"
+	.string "Mr. Briney: Dewford it is, then!\p"
 	.string "Anchors aweigh!\n"
 	.string "Peeko, we're setting sail, my darling!$"
 
 Route104_MrBrineysHouse_Text_DeclineDeliverySail:
-	.string "MR. Briney: Is that so?\n"
+	.string "Mr. Briney: Is that so?\n"
 	.string "Your deliveries can wait?\p"
 	.string "You just go on and tell me whenever\n"
 	.string "you want to set sail!$"
 
 Route104_MrBrineysHouse_Text_NeedToMakeDeliveriesSailToDewford:
-	.string "MR. Briney: Ahoy!\n"
+	.string "Mr. Briney: Ahoy!\n"
 	.string "I know exactly what you want to say!\p"
 	.string "You're to deliver a Letter to Dewford\n"
 	.string "and a package to Slateport.\p"
@@ -141,7 +141,7 @@ Route104_MrBrineysHouse_Text_NeedToMakeDeliveriesSailToDewford:
 	.string "First, we'll set sail for Dewford.$"
 
 Route104_MrBrineysHouse_Text_NeedToDeliverPackageSailToDewford:
-	.string "MR. Briney: Ahoy!\n"
+	.string "Mr. Briney: Ahoy!\n"
 	.string "I know exactly what you want to say!\p"
 	.string "You're to deliver a package to\n"
 	.string "Capt. Stern in Slateport.\p"
@@ -150,12 +150,12 @@ Route104_MrBrineysHouse_Text_NeedToDeliverPackageSailToDewford:
 	.string "First, we'll set sail for Dewford.$"
 
 Route104_MrBrineysHouse_Text_WhereAreWeBound:
-	.string "MR. Briney: Ahoy!\n"
+	.string "Mr. Briney: Ahoy!\n"
 	.string "For you, I'll go out to sea anytime!\p"
 	.string "Now, my friend, where are we bound?$"
 
 Route104_MrBrineysHouse_Text_TellMeWheneverYouWantToSail:
-	.string "MR. Briney: Is that so?\n"
+	.string "Mr. Briney: Is that so?\n"
 	.string "Well, Peeko owes her life to you.\p"
 	.string "You just go on and tell me whenever\n"
 	.string "you want to set sail!$"

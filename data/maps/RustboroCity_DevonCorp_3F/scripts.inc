@@ -200,7 +200,7 @@ RustboroCity_DevonCorp_3F_EventScript_RareRocksDisplay::
 	end
 
 RustboroCity_DevonCorp_3F_Text_MrStoneIHaveFavor:
-	.string "I'm MR. Stone, the President of\n"
+	.string "I'm Mr. Stone, the President of\n"
 	.string "the Devon Corporation.\p"
 	.string "I'd just got word about you!\p"
 	.string "You saved our staff not just once,\n"
@@ -215,7 +215,7 @@ RustboroCity_DevonCorp_3F_Text_MrStoneIHaveFavor:
 	.string "Letter to Steven in Dewford.$"
 
 RustboroCity_DevonCorp_3F_Text_MrStoneWantYouToHaveThis:
-	.string "MR. Stone: Now, you should know that\n"
+	.string "Mr. Stone: Now, you should know that\n"
 	.string "I am a great President.\p"
 	.string "So, I'd never be so cheap as to ask\n"
 	.string "a favor for nothing in return.\p"
@@ -225,7 +225,7 @@ RustboroCity_DevonCorp_3F_Text_ReceivedPokenav:
 	.string "{PLAYER} received a PokéNAV.$"
 
 RustboroCity_DevonCorp_3F_Text_MrStoneExplainPokenavRestUp:
-	.string "MR. Stone: That device…\p"
+	.string "Mr. Stone: That device…\p"
 	.string "It's a Pokémon Navigator, or PokéNAV\n"
 	.string "for short.\p"
 	.string "It's an indispensable tool for any\n"
@@ -240,20 +240,20 @@ RustboroCity_DevonCorp_3F_Text_MrStoneExplainPokenavRestUp:
 	.string "up before you go on your way.$"
 
 RustboroCity_DevonCorp_3F_Text_MrStoneGoWithCautionAndCare:
-	.string "MR. Stone: Well, then, {PLAYER}{KUN},\n"
+	.string "Mr. Stone: Well, then, {PLAYER}{KUN},\n"
 	.string "go with caution and care!$"
 
 RustboroCity_DevonCorp_3F_Text_CountingOnYou:
-	.string "MR. Stone: I'm counting on you!$"
+	.string "Mr. Stone: I'm counting on you!$"
 
 RustboroCity_DevonCorp_3F_Text_ThankYouForDeliveringLetter:
-	.string "MR. Stone: You delivered my Letter?\n"
+	.string "Mr. Stone: You delivered my Letter?\n"
 	.string "Thank you kindly!\p"
 	.string "This is my way of thanking you.\n"
 	.string "It should help you, a Trainer.$"
 
 RustboroCity_DevonCorp_3F_Text_ExplainExpShare:
-	.string "MR. Stone: A Pokémon holding that\n"
+	.string "Mr. Stone: A Pokémon holding that\n"
 	.string "Exp. Share will cause some of the\l"
 	.string "Exp Points earned battle to be\l"
 	.string "shared with the whole party.\p"
@@ -263,7 +263,7 @@ RustboroCity_DevonCorp_3F_Text_ExplainExpShare:
 	.string "for raising weak Pokémon.$"
 
 RustboroCity_DevonCorp_3F_Text_NotFamiliarWithTrends:
-	.string "MR. Stone: Since my youth, I've immersed\n"
+	.string "Mr. Stone: Since my youth, I've immersed\n"
 	.string "myself in work.\p"
 	.string "Consequently, I'm not familiar with\n"
 	.string "trends and that sort of thing.\p"

@@ -1020,7 +1020,7 @@ Route104_EventScript_Darian::
 
 Route104_Text_BrineyLivesInSeasideCottage:
 	.string "That seaside cottage is where\n"
-	.string "MR. Briney lives.\p"
+	.string "Mr. Briney lives.\p"
 	.string "He was once a mighty sailor who never\n"
 	.string "feared the sea, however stormy.$"
 
@@ -1077,7 +1077,7 @@ Route104_Text_FlowerShopSellingSaplings:
 	.string "shopping. Where should I put them?$"
 
 Route104_Text_MrBrineysCottage:
-	.string "MR. Briney'S COTTAGE$"
+	.string "Mr. Briney's Cottage$"
 
 Route104_Text_RouteSignPetalburg:
 	.string "Route 1O4\n"
@@ -1088,7 +1088,7 @@ Route104_Text_RouteSignRustboro:
 	.string "{UP_ARROW} Rustboro City$"
 
 Route104_Text_PrettyPetalFlowShop:
-	.string "Pretty Petal Flower SHOP$"
+	.string "Pretty Petal Flower Shop$"
 
 Route104_Text_TrainerTipsDoubleBattles:
 	.string "Trainer Tips\p"
@@ -1143,7 +1143,7 @@ Route104_Text_MayPostBattle:
 	.string "May: I can tell you've gotten pretty\n"
 	.string "good with the way you handle Pokémon.\p"
 	.string "But instead of only making them\n"
-	.string "battle, you should be like MR. Briney.\p"
+	.string "battle, you should be like Mr. Briney.\p"
 	.string "It's important to become friends with\n"
 	.string "Pokémon, too.$"
 
@@ -1188,5 +1188,5 @@ Route104_Text_BrendanPostBattle:
 	.string "at handling Pokémon.\p"
 	.string "But, you know, you shouldn't just be\n"
 	.string "making Pokémon battle.\p"
-	.string "Like MR. Briney, it's important to\n"
+	.string "Like Mr. Briney, it's important to\n"
 	.string "become friends with your Pokémon.$"

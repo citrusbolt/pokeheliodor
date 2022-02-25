@@ -367,11 +367,11 @@ LavaridgeTown_Gym_1F_Text_FlanneryPostBattle:
 	.string "the Gym Leader of Petalburg.$"
 
 LavaridgeTown_Gym_1F_Text_GymStatue:
-	.string "Lavaridge Town Pokémon GYM$"
+	.string "Lavaridge Town Pokémon Gym$"
 
 LavaridgeTown_Gym_1F_Text_GymStatueCertified:
 	.string "Lavaridge Town Pokémon Gym\p"
-	.string "Flannery'S Certified Trainers:\n"
+	.string "Flannery's Certified Trainers:\n"
 	.string "{PLAYER}$"
 
 LavaridgeTown_Gym_1F_Text_FlanneryPreRematch:

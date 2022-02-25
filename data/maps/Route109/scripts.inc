@@ -481,39 +481,39 @@ Route109_EventScript_Elijah::
 	end
 
 DewfordTown_Text_BrineyLandedInSlateportDeliverGoods:
-	.string "MR. Briney: Ahoy!\n"
+	.string "Mr. Briney: Ahoy!\n"
 	.string "We've made land in Slateport!\p"
 	.string "I suppose you're going to visit Capt.\n"
 	.string "Stern and deliver the Devon Goods?$"
 
 Route109_Text_BrineySailToDewfordQuestion:
-	.string "MR. Briney: I thought you're supposed\n"
+	.string "Mr. Briney: I thought you're supposed\n"
 	.string "to deliver the Devon Goods.\p"
 	.string "Would you like to sail back to\n"
 	.string "Dewford, then?$"
 
 Route109_Text_BrineyDewfordItIs:
-	.string "MR. Briney: Dewford it is, then!\p"
+	.string "Mr. Briney: Dewford it is, then!\p"
 	.string "Anchors aweigh!\n"
 	.string "Peeko, we're setting sail, my darling!$"
 
 Route109_Text_BrineyDeliverDevonGoods:
-	.string "MR. Briney: Then you go on and deliver\n"
+	.string "Mr. Briney: Then you go on and deliver\n"
 	.string "the Devon Goods. I'll be waiting.$"
 
 DewfordTown_Text_BrineyLandedInSlateport:
-	.string "MR. Briney: Ahoy! We've made land in\n"
+	.string "Mr. Briney: Ahoy! We've made land in\n"
 	.string "Slateport!\p"
 	.string "You just go on and tell me whenever\n"
 	.string "you want to set sail again!$"
 
 Route109_Text_BrineyWhereAreWeBound:
-	.string "MR. Briney: Ahoy!\n"
+	.string "Mr. Briney: Ahoy!\n"
 	.string "For you, I'll go out to sea anytime!\p"
 	.string "Now, my friend, where are we bound?$"
 
 Route109_Text_BrineyTellMeWhenYouNeedToSail:
-	.string "MR. Briney: You just tell me whenever\n"
+	.string "Mr. Briney: You just tell me whenever\n"
 	.string "you need to set sail again!$"
 
 Route109_Text_ChillAtMyPapasSpot:

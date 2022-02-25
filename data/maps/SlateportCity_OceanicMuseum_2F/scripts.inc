@@ -282,7 +282,7 @@ SlateportCity_OceanicMuseum_2F_Text_ThankYouForTheParts:
 	.string "Yes? If you're looking for Stern,\n"
 	.string "that would be me.\p"
 	.string "Ah! Those must be the parts I ordered\n"
-	.string "from MR. Stone of Devon.\p"
+	.string "from Mr. Stone of Devon.\p"
 	.string "Thank you! That's great!\n"
 	.string "We can prepare for our expedition now.$"
 
@@ -427,7 +427,7 @@ SlateportCity_OceanicMuseum_2F_Text_SurfaceSeawaterDisplay:
 SlateportCity_OceanicMuseum_2F_Text_SSTidalReplica:
 	.string "“THE Ferry S.S. Tidal\p"
 	.string "“A scale replica of the ship under\n"
-	.string "construction at Stern'S Shipyard.”$"
+	.string "construction at Stern's Shipyard.”$"
 
 SlateportCity_OceanicMuseum_2F_Text_SubmarineReplica:
 	.string "“SUBMARINE Explorer 1\p"

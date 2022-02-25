@@ -622,7 +622,7 @@ Route119_Text_RouteSignFortree:
 	.string "{RIGHT_ARROW} Fortree City$"
 
 Route119_Text_WeatherInstitute:
-	.string "Weather INSTITUTE$"
+	.string "Weather Institute$"
 
 Route119_Text_TrainerTipsDecoration:
 	.string "Trainer Tips\p"
