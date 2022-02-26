@@ -52,6 +52,9 @@
 #include "constants/flags.h"
 #include "battle_interface.h"
 
+// Config options
+#define CONFIG_CAN_FORGET_HM_MOVES    TRUE
+
 enum {
     PSS_PAGE_INFO,
     PSS_PAGE_MEMO,
@@ -104,6 +107,9 @@ enum
 #define TILE_EMPTY_HEART  109
 #define TILE_FILLED_APPEAL_HEART 108
 #define TILE_FILLED_JAM_HEART    4
+
+#define POWER_AND_ACCURACY_Y    33
+#define POWER_AND_ACCURACY_Y_2  POWER_AND_ACCURACY_Y + 16
 
 static EWRAM_DATA struct PokemonSummaryScreenData
 {
@@ -241,9 +247,9 @@ static void SwapMonMoves(struct Pokemon *mon, u8 moveIndex1, u8 moveIndex2);
 static void SwapBoxMonMoves(struct BoxPokemon *mon, u8 moveIndex1, u8 moveIndex2);
 static void Task_SetHandleReplaceMoveInput(u8 taskId);
 static void Task_HandleReplaceMoveInput(u8 taskId);
+static void Task_ConfirmHMCantForget(u8 taskId);
 static bool8 CanReplaceMove(void);
 static void ShowCantForgetHMsWindow(u8 taskId);
-static void Task_HandleInputCantForgetHMsMoves(u8 taskId);
 static void ResetWindows(void);
 static void PrintMonInfo(void);
 static void PrintNotEggInfo(void);
@@ -2133,6 +2139,7 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
                 {
                     PlaySE(SE_FAILURE);
                     ShowCantForgetHMsWindow(taskId);
+					gTasks[taskId].func = Task_ConfirmHMCantForget;
                 }
             }
             else if (JOY_NEW(B_BUTTON))
@@ -2147,76 +2154,58 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
     }
 }
 
+static void Task_ConfirmHMCantForget(u8 taskId)
+{
+	s16* data = gTasks[taskId].data;
+
+	if (MenuHelpers_CallLinkSomething() != TRUE && gPaletteFade.active != TRUE && JOY_NEW(A_BUTTON))
+	{
+		data[0] = 4;
+		ChangeSelectedMove(data, 0, &sMonSummaryScreen->firstMoveIndex);
+		gTasks[taskId].func = Task_HandleReplaceMoveInput;
+	}
+}
+
 static bool8 CanReplaceMove(void)
 {
-    //if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
-    //    || sMonSummaryScreen->newMove == MOVE_NONE
-    //    || IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]) != TRUE)
-        return TRUE;
-    //else
-    //    return FALSE;
+	if (CONFIG_CAN_FORGET_HM_MOVES)
+		return TRUE;
+	else if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
+		|| sMonSummaryScreen->newMove == MOVE_NONE
+		|| IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]) != TRUE)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
+{
+    AddTextPrinterParameterized4(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
+}
+
+static void PrintTextOnWindowSigned(u8 windowId, const u8 *string, u8 x, s8 y, u8 lineSpacing, u8 colorId)
+{
+    AddTextPrinterParameterized4Signed(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
 }
 
 static void ShowCantForgetHMsWindow(u8 taskId)
 {
-    //ScheduleBgCopyTilemapToVram(0);
-    //PrintHMMovesCantBeForgotten();
-    //gTasks[taskId].func = Task_HandleInputCantForgetHMsMoves;
-}
+	if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
+	{
+		FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Power, 8, POWER_AND_ACCURACY_Y, 0, 1);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Accuracy2, 8, POWER_AND_ACCURACY_Y_2, 0, 1);
+	}
+	else
+	{
+		FillBgTilemapBufferRect(1, TILE_EMPTY_HEART, 9, 8, 4, 4, 3);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Appeal, 8, POWER_AND_ACCURACY_Y, 0, 1);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Jam, 8, POWER_AND_ACCURACY_Y_2, 0, 1);
+		CopyBgTilemapBufferToVram(1);
+	}
 
-// This redraws the power/accuracy window when the player scrolls out of the "HM Moves can't be forgotten" message
-static void Task_HandleInputCantForgetHMsMoves(u8 taskId)
-{
-    //s16* data = gTasks[taskId].data;
-    //u16 move;
-    //if (FuncIsActiveTask(Task_ShowPowerAccWindow) != 1)
-    //{
-    //    if (JOY_NEW(DPAD_UP))
-    //    {
-    //        data[1] = 1;
-    //        data[0] = 4;
-    //        ChangeSelectedMove(&data[0], -1, &sMonSummaryScreen->firstMoveIndex);
-    //        data[1] = 0;
-    //        gTasks[taskId].func = Task_HandleReplaceMoveInput;
-    //    }
-    //    else if (JOY_NEW(DPAD_DOWN))
-    //    {
-    //        data[1] = 1;
-    //        data[0] = 4;
-    //        ChangeSelectedMove(&data[0], 1, &sMonSummaryScreen->firstMoveIndex);
-    //        data[1] = 0;
-    //        gTasks[taskId].func = Task_HandleReplaceMoveInput;
-    //    }
-    //    else if (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED)
-    //    {
-    //        if (sMonSummaryScreen->currPageIndex != PSS_PAGE_BATTLE_MOVES)
-    //        {
-    //            move = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
-    //            gTasks[taskId].func = Task_HandleReplaceMoveInput;
-    //            ChangePage(taskId, -1);
-    //            HandlePowerAccTilemap(9, -2);
-    //            HandleAppealJamTilemap(9, -2, move);
-    //        }
-    //    }
-    //    else if (JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED)
-    //    {
-    //        if (sMonSummaryScreen->currPageIndex != PSS_PAGE_CONTEST_MOVES)
-    //        {
-    //            move = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
-    //            gTasks[taskId].func = Task_HandleReplaceMoveInput;
-    //            ChangePage(taskId, 1);
-    //            HandlePowerAccTilemap(9, -2);
-    //            HandleAppealJamTilemap(9, -2, move);
-    //        }
-    //    }
-    //    else if (JOY_NEW(A_BUTTON | B_BUTTON))
-    //    {
-    //        move = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
-    //        PrintMoveDetails(move);
-    //        ScheduleBgCopyTilemapToVram(0);
-    //        gTasks[taskId].func = Task_HandleReplaceMoveInput;
-    //    }
-    //}
+	PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_HMMovesCantBeForgotten2, 2, 64, 0, 0);
+	PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
 }
 
 u8 GetMoveSlotToReplace(void)
@@ -2236,16 +2225,6 @@ static void ResetWindows(void)
         sMonSummaryScreen->windowIds[i] = WINDOW_NONE;
 }
 
-static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
-{
-    AddTextPrinterParameterized4(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
-}
-
-static void PrintTextOnWindowSigned(u8 windowId, const u8 *string, u8 x, s8 y, u8 lineSpacing, u8 colorId)
-{
-    AddTextPrinterParameterized4Signed(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
-}
-
 static void PrintMonInfo(void)
 {
 	FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_TOP, PIXEL_FILL(0));
@@ -2255,6 +2234,8 @@ static void PrintMonInfo(void)
         PrintNotEggInfo();
     else
         PrintEggInfo();
+    PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
+    PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -2298,8 +2279,6 @@ static void PrintNotEggInfo(void)
 	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gText_HeldItem);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
-    PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
-    PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 }
 
 static void PrintEggInfo(void)
@@ -2315,8 +2294,6 @@ static void PrintEggInfo(void)
 	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gText_HeldItem);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
-    PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
-    PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 }
 
 static void PutPageWindowTilemaps(u8 page)
@@ -2738,13 +2715,7 @@ static void BufferEggMemo(void)
 	{
 		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
-			u8 boxOT[17];
-			boxOT[0] = 0xBB; //A
-			boxOT[1] = 0xD4; //Z
-			boxOT[2] = 0xCF; //U
-			boxOT[3] = 0xCD; //S
-			boxOT[4] = 0xBB; //A
-			boxOT[5] = 0xFF;
+			u8 boxOT[17] = _("AZUSA");
 			if (!StringCompareWithoutExtCtrlCodes(boxOT, sum->OTName) && sum->OTID == 0)
 				text = gText_EggFromBrigette;
 			else
@@ -2763,7 +2734,7 @@ static void BufferEggMemo(void)
 			else
 				text = gText_EggFromTraveler;
 		}
-		else if (sum->metLocation == (MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START) && DidMonComeFromCD())
+		else if (sum->metLocation == MAPSEC_GOLDENROD_CITY && DidMonComeFromCD())
 			text = gText_EggFromPokecomCenter;
 		else if (DidMonComeFromFRLG())
 			text = gText_EggFromKanto;
@@ -3047,9 +3018,6 @@ static void PrintContestMoves(void)
     ScheduleBgCopyTilemapToVram(0);
     PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
 }
-
-#define POWER_AND_ACCURACY_Y    33
-#define POWER_AND_ACCURACY_Y_2  POWER_AND_ACCURACY_Y + 16
 
 static void PrintMoveDetails(u16 move)
 {
