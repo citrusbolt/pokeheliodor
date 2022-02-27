@@ -57,6 +57,7 @@
 #define CONFIG_CAN_FORGET_HM_MOVES                      TRUE
 #define CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP    TRUE
 #define CONFIG_PHYSICAL_SPECIAL_SPLIT                   FALSE
+#define CONFIG_EXPANDED_MET_LOCATIONS                   TRUE
 
 enum {
     PSS_PAGE_INFO,
@@ -287,7 +288,6 @@ static void PrintContestMoves(void);
 static void PrintMoveDetails(u16 a);
 static void PrintNewMoveDetailsOrCancelText(void);
 static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2);
-static void PrintHMMovesCantBeForgotten(void);
 static void ResetSpriteIds(void);
 static void SetSpriteInvisibility(u8 spriteArrayId, bool8 invisible);
 static void HidePageSpecificSprites(void);
@@ -322,11 +322,17 @@ static void ConfigureExpBarSprites(void);
 static void DestroyExpBarSprites(void);
 static void SetExpBarSprites(void);
 static void PrintInfoBar(u8 pageIndex, bool8 detailsShown);
+static u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon);
+static u8 *GetMapNameHoennKanto(u8 *dest, u16 mapSecId);
+static u8 *GetMapNameJohto(u8 *dest, u16 mapSecId);
+static u8 *GetMapNameSinnoh(u8 *dest, u16 mapSecId);
+static u8 *GetMapNameOrre(u8 *dest, u16 mapSecId, bool8 isXD);
 
 // const rom data
 #include "data/text/move_descriptions.h"
 #include "data/text/nature_names.h"
 #include "data/text/characteristics.h"
+#include "data/text/met_locations.h"
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -2704,19 +2710,20 @@ static void BufferMonTrainerMemo(void)
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-		DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gRegionNames[WhatRegionWasMonCaughtIn(mon)]);
+		#if CONFIG_EXPANDED_MET_LOCATIONS
+		DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gRegionStringPointers[WhatRegionWasMonCaughtIn(mon)]);
 
 		if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_SAPPHIRE)
 		{
-			GetMapNameHoennKanto(metLocationString, MAPSEC_AQUA_HIDEOUT);
+			GetMapNameGeneric(metLocationString, MAPSEC_AQUA_HIDEOUT);
 		}
 		else if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && sum->metGame == VERSION_RUBY)
 		{
-			GetMapNameHoennKanto(metLocationString, MAPSEC_MAGMA_HIDEOUT);
+			GetMapNameGeneric(metLocationString, MAPSEC_MAGMA_HIDEOUT);
 		}
 		else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER && (sum->metGame == VERSION_SAPPHIRE || sum->metGame == VERSION_RUBY))
 		{
-			GetMapNameHoennKanto(metLocationString, MAPSEC_BATTLE_TOWER);
+			StringCopy(metLocationString, gMapName_BattleTower);
 		}
 		else if (sum->metLocation == MAPSEC_ROUTE_130 && DidMonComeFromRSE() && (sum->species == SPECIES_WYNAUT || sum->species == SPECIES_WOBBUFFET) && sum->metLevel > 0)
 		{
@@ -2749,40 +2756,68 @@ static void BufferMonTrainerMemo(void)
             {
 				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
 				if (sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON)
-                    text = gText_OldFriend; //Colosseum starter
+                    text = gText_TrainerMemo_OldFriend; //Colosseum starter
                  else
-                    text = gText_ReceivedFrom; //Duking's Plusle
+                    text = gText_TrainerMemo_ReceivedFrom; //Duking's Plusle
 			}
 			else if (sum->fatefulEncounter && sum->metLocation == 0 && (sum->species == SPECIES_EEVEE || sum->species == SPECIES_VAPOREON || sum->species == SPECIES_JOLTEON || sum->species == SPECIES_FLAREON || sum->species == SPECIES_ESPEON || sum->species == SPECIES_UMBREON))
 			{
 				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-				text = gText_ObtainedFromDad; //XD starter
+				text = gText_TrainerMemo_ObtainedFromDad; //XD starter
 			}
 			else
 			{
 				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-				text = gText_XNatureMetAtYZ;
+				text = gText_TrainerMemo_Standard;
 			}
 		}
 		else if (sum->metLevel == 0)
 		{
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-			text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
+			text = gText_TrainerMemo_Hatched;
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-            text = gText_XNatureFatefulEncounter;
+            text = gText_TrainerMemo_Fateful;
         }
         else if (sum->metLocation != METLOC_IN_GAME_TRADE)
         {
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+            text = gText_TrainerMemo_Standard;
         }
         else
         {
-            text = gText_XNatureObtainedInTrade;
+            text = gText_TrainerMemo_Trade;
         }
+		#else
+		DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, sRegionString_Unknown);
+		GetMapNameHandleAquaHideout(metLocationString, sum->metLocation);
+
+		if (!DidMonComeFromGBAGames())
+			StringCopy(metLocationString, sMapName_DistantLand);
+
+		if (sum->metLevel == 0)
+		{
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+			text = gText_TrainerMemo_Hatched;
+        }
+        else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
+        {
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+            text = gText_TrainerMemo_Fateful;
+        }
+        else if (sum->metLocation != METLOC_IN_GAME_TRADE)
+        {
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+            text = gText_TrainerMemo_Standard;
+        }
+        else
+        {
+            text = gText_TrainerMemo_Trade;
+        }
+		#endif
+			
 
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
         Free(metLevelString);
@@ -2888,7 +2923,7 @@ static bool8 DoesMonOTMatchOwner(void)
 static bool8 DidMonComeFromGBAGames(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame > 0 && sum->metGame <= VERSION_LEAFGREEN)
+    if (sum->metGame >= VERSION_SAPPHIRE && sum->metGame <= VERSION_LEAFGREEN)
         return TRUE;
     return FALSE;
 }
@@ -2896,7 +2931,7 @@ static bool8 DidMonComeFromGBAGames(void)
 static bool8 DidMonComeFromRSE(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame > 0 && sum->metGame <= VERSION_EMERALD)
+    if (sum->metGame >= VERSION_SAPPHIRE && sum->metGame <= VERSION_EMERALD)
         return TRUE;
     return FALSE;
 }
@@ -2961,42 +2996,79 @@ static void BufferEggMemo(void)
 	const u8 *text;
 	struct PokeSummary *sum = &sMonSummaryScreen->summary;
 
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoNatureTextColor);
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sMemoMiscTextColor);
 	BufferEggState();
 
+	#if CONFIG_EXPANDED_MET_LOCATIONS
 	if (sMonSummaryScreen->summary.sanity != 1)
 	{
 		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
 			u8 boxOT[17] = _("AZUSA");
 			if (!StringCompareWithoutExtCtrlCodes(boxOT, sum->OTName) && sum->OTID == 0)
-				text = gText_EggFromBrigette;
+				text = gText_TrainerMemo_EggFromBrigette;
 			else
-				text = gText_PeculiarEggNicePlace;
+				text = gText_TrainerMemo_EggFateful;
 		}
 		else if (sum->metLocation == METLOC_SPECIAL_EGG)
 		{
 			if (sum->species == SPECIES_TYROGUE)
-				text = gText_EggFromPokecomCenter;
+				text = gText_TrainerMemo_EggFromPokecomCenter;
 			else if (sum->species == SPECIES_BULBASAUR || sum->species == SPECIES_CHARMANDER || sum->species == SPECIES_SQUIRTLE || sum->species == SPECIES_CHIKORITA || sum->species == SPECIES_CYNDAQUIL || sum->species == SPECIES_TOTODILE || sum->species == SPECIES_TREECKO || sum->species == SPECIES_TORCHIC || sum->species == SPECIES_MUDKIP)
-				text = gText_EggFromTraveler;
+				text = gText_TrainerMemo_EggFromTraveler;
 			else if (DidMonComeFromRSE())
-				text = gText_EggFromHotSprings;
+				text = gText_TrainerMemo_EggFromHotSprings;
 			else if (DidMonComeFromCD())
-				text = gText_EggFromElm;
+				text = gText_TrainerMemo_EggFromElm;
 			else
-				text = gText_EggFromTraveler;
+				text = gText_TrainerMemo_EggFromTraveler;
 		}
 		else if (sum->metLocation == MAPSEC_GOLDENROD_CITY && DidMonComeFromCD())
-			text = gText_EggFromPokecomCenter;
+		{
+			text = gText_TrainerMemo_EggFromPokecomCenter;
+		}
 		else if (DidMonComeFromFRLG())
-			text = gText_EggFromKanto;
+		{
+			text = gText_TrainerMemo_EggFromKanto;
+		}
 		else if (DidMonComeFromCD())
-			text= gText_EggFromJohto;
+		{
+			text= gText_TrainerMemo_EggFromJohto;
+		}
 		else
-			text = gText_OddEggFoundByCouple;
+		{
+			text = gText_TrainerMemo_EggFromDayCare;
+		}
 	}
 	else
-		text = gText_BadEggDesc;
+	{
+		text = gText_TrainerMemo_BadEgg;
+	}
+	#else
+	if (sMonSummaryScreen->summary.sanity != 1)
+	{
+		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
+		{
+			text = gText_TrainerMemo_EggFateful;
+		}
+		else if (sum->metLocation == METLOC_SPECIAL_EGG)
+		{
+			if (DidMonComeFromRSE())
+				text = gText_TrainerMemo_EggFromHotSprings;
+			else
+				text = gText_TrainerMemo_EggFromTraveler;
+		}
+		else
+		{
+			text = gText_TrainerMemo_EggFromDayCare;
+		}
+	}
+	else
+	{
+		text = gText_TrainerMemo_BadEgg;
+	}
+	#endif
 
     DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
 }
@@ -3403,13 +3475,6 @@ static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2)
 
 	for (i = 0; i < MAX_MON_MOVES; i++)
 		PrintMoveNameAndPP(i);
-}
-
-static void PrintHMMovesCantBeForgotten(void)
-{
-    //u8 windowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_DESCRIPTION);
-    //FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
-    //PrintTextOnWindow(windowId, gText_HMMovesCantBeForgotten2, 6, 1, 0, 0);
 }
 
 static void ResetSpriteIds(void)
@@ -4243,4 +4308,505 @@ static void PrintInfoBar(u8 pageIndex, bool8 detailsShown)
 	x = GetStringRightAlignXOffset(0, gStringVar2, 150);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_TITLE, 0, x, 0, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gStringVar2);
 	PutWindowTilemap(PSS_LABEL_PANE_TITLE);
+}
+
+u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
+{
+	u8 originGame, versionModifier, metLocation;
+	
+	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
+	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
+	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
+	
+	if (versionModifier == DEV_SOLITAIRI_2 && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
+		return REGION_JOHTO;
+	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
+		return REGION_JOHTO;
+	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
+		return REGION_SINNOH;
+	else if (originGame == VERSION_GAMECUBE)
+		return REGION_ORRE;
+	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == MAPSEC_BIRTH_ISLAND || metLocation == MAPSEC_NAVEL_ROCK)
+		return REGION_KANTO;
+	else if (metLocation == MAPSEC_FARAWAY_ISLAND || metLocation == METLOC_FATEFUL_ENCOUNTER || metLocation == METLOC_IN_GAME_TRADE)
+		return REGION_UNKNOWN;
+	else if (originGame == 0 || originGame == 6 || originGame == 9 || originGame == 13 || originGame == 14)
+		return REGION_UNKNOWN;
+	else
+		return REGION_HOENN;
+}
+
+static u8 *GetMapNameHoennKanto(u8 *dest, u16 regionMapId)
+{
+	if (regionMapId < MAPSEC_NONE && gRegionMapEntries[regionMapId].name != 0)
+	{
+		StringCopy(dest, gRegionMapEntries[regionMapId].name);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
+}
+
+static u8 *GetMapNameJohto(u8 *dest, u16 regionMapId)
+{
+	if (regionMapId < MAPSEC_NONE && gJohtoMapNamePointers[regionMapId] != 0)
+	{
+		StringCopy(dest, gJohtoMapNamePointers[regionMapId]);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
+}
+
+static u8 *GetMapNameSinnoh(u8 *dest, u16 regionMapId)
+{
+	if (regionMapId < MAPSEC_NONE && gSinnohMapNamePointers[regionMapId] != 0)
+	{
+		StringCopy(dest, gSinnohMapNamePointers[regionMapId]);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
+}
+
+static u8 *GetMapNameOrre(u8 *dest, u16 regionMapId, bool8 isXD)
+{
+	if (!isXD)
+	{
+		switch (regionMapId)
+		{
+		case 1:
+		case 2:
+		case 200:
+			regionMapId = MAPSEC_OUTSKIRT_STAND;
+			break;
+		case 3:
+		case 4:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 119:
+		case 128:
+		case 202:
+			regionMapId = MAPSEC_PHENAC_CITY;
+			break;
+		case 5:
+		case 6:
+		case 204:
+			regionMapId = MAPSEC_MAYORS_HOUSE;
+			break;
+		case 11:
+		case 12:
+		case 203:
+			regionMapId = MAPSEC_PRE_GYM;
+			break;
+		case 13:
+		case 14:
+			regionMapId = MAPSEC_PHENAC_STADIUM;
+			break;
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		case 205:
+			regionMapId = MAPSEC_PYRITE_TOWN;
+			break;
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 207:
+			regionMapId = MAPSEC_PYRITE_BLDG;
+			break;
+		case 29:
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+		case 206:
+			regionMapId = MAPSEC_PYRITE_CAVE;
+			break;
+		case 30:
+			regionMapId = MAPSEC_MIRORS_HIDEOUT;
+			break;
+		case 35:
+		case 120:
+		case 142:
+			regionMapId = MAPSEC_PYRITE_COLOSSEUM;
+			break;
+		case 36:
+		case 39:
+		case 40:
+		case 41:
+		case 42:
+		case 43:
+		case 44:
+		case 45:
+		case 46:
+		case 208:
+		case 209:
+			regionMapId = MAPSEC_AGATE_VILLAGE;
+			break;
+		case 37:
+		case 38:
+		case 210:
+			regionMapId = MAPSEC_RELIC_CAVE;
+			break;
+		case 47:
+		case 48:
+		case 49:
+		case 50:
+		case 51:
+		case 52:
+		case 53:
+		case 54:
+		case 55:
+		case 62:
+		case 122:
+		case 127:
+		case 211:
+		case 212:
+			regionMapId = MAPSEC_THE_UNDER;
+			break;
+		case 57:
+		case 58:
+		case 59:
+		case 60:
+		case 61:
+		case 138:
+		case 139:
+		case 213:
+			regionMapId = MAPSEC_THE_UNDER_SUBWAY;
+			break;
+		case 63:
+		case 121:
+			regionMapId = MAPSEC_UNDER_COLOSSEUM;
+			break;
+		case 64:
+		case 125:
+			regionMapId = MAPSEC_DEEP_COLOSSEUM;
+			break;
+		case 65:
+		case 214:
+			regionMapId = MAPSEC_FRONT_OF_LAB;
+			break;
+		case 66:
+		case 67:
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+		case 72:
+		case 73:
+		case 140:
+		case 141:
+		case 215:
+			regionMapId = MAPSEC_LABORATORY;
+			break;
+		case 74:
+		case 75:
+		case 76:
+		case 77:
+		case 78:
+		case 79:
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		case 84:
+		case 85:
+		case 86:
+		case 87:
+		case 88:
+		case 89:
+		case 90:
+		case 91:
+		case 92:
+		case 93:
+		case 94:
+		case 216:
+		case 217:
+		case 218:
+		case 219:
+		case 220:
+			regionMapId = MAPSEC_MT_BATTLE;
+			break;
+		case 95:
+		case 228:
+			regionMapId = MAPSEC_MTBTL_COLOSSEUM;
+			break;
+		case 102:
+		case 115:
+		case 116:
+		case 117:
+		case 123:
+		case 124:
+		case 223:
+		case 224:
+			regionMapId = MAPSEC_REALGAM_TOWER;
+			break;
+		case 103:
+		case 104:
+		case 105:
+		case 106:
+		case 107:
+		case 108:
+		case 109:
+		case 110:
+		case 111:
+		case 112:
+		case 113:
+		case 221:
+			regionMapId = MAPSEC_REALGAMTWR_DOME;
+			break;
+		case 114:
+		case 222:
+			regionMapId = MAPSEC_REALGAMTWR_LOBBY;
+			break;
+		case 118:
+		case 227:
+			regionMapId = MAPSEC_TOWER_COLOSSEUM;
+			break;
+		case 126:
+			regionMapId = MAPSEC_ORRE_COLOSSEUM;
+			break;
+		case 129:
+		case 130:
+		case 131:
+		case 132:
+		case 133:
+		case 134:
+		case 135:
+		case 136:
+		case 137:
+		case 201:
+			regionMapId = MAPSEC_SNAGEM_HIDEOUT;
+			break;
+		case 225:
+		case 226:
+			regionMapId = MAPSEC_REALGAM_TOWER_2F;
+			break;
+		default:
+			regionMapId = MAPSEC_DISTANT_LAND;
+		}
+	}
+	else
+	{
+		switch (regionMapId)
+		{
+		case 1:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+			regionMapId = MAPSEC_CIPHER_LAB;
+			break;
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 23:
+		case 24:
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		case 30:
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+			regionMapId = MAPSEC_MT_BATTLE;
+			break;
+		case 35:
+		case 36:
+		case 37:
+		case 38:
+		case 39:
+		case 40:
+		case 41:
+		case 42:
+		case 43:
+		case 44:
+			regionMapId = MAPSEC_S_S_LIBRA;
+			break;
+		case 45:
+		case 46:
+		case 49:
+		case 50:
+		case 51:
+		case 57:
+		case 58:
+		case 59:
+		case 60:
+		case 61:
+			regionMapId = MAPSEC_REALGAM_TOWER;
+			break;
+		case 64:
+		case 65:
+		case 66:
+		case 67:
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+			regionMapId = MAPSEC_CIPHER_KEY_LAIR;
+			break;
+		case 72:
+		case 73:
+		case 74:
+		case 75:
+		case 76:
+		case 77:
+		case 78:
+		case 79:
+		case 80:
+		case 81:
+		case 82:
+		case 83:
+		case 84:
+		case 85:
+		case 86:
+		case 87:
+		case 88:
+		case 89:
+			regionMapId = MAPSEC_CITADARK_ISLE;
+			break;
+		case 90:
+			regionMapId = MAPSEC_ROCK;
+			break;
+		case 91:
+			regionMapId = MAPSEC_OASIS;
+			break;
+		case 92:
+			regionMapId = MAPSEC_CAVE;
+			break;
+		case 93:
+		case 94:
+		case 95:
+		case 96:
+		case 97:
+		case 98:
+		case 99:
+		case 100:
+		case 101:
+		case 102:
+		case 103:
+		case 104:
+		case 105:
+		case 106:
+		case 107:
+		case 181:
+			regionMapId = MAPSEC_PHENAC_CITY;
+			break;
+		case 108:
+		case 109:
+		case 110:
+		case 111:
+		case 112:
+		case 113:
+		case 115:
+		case 116:
+		case 117:
+		case 118:
+		case 119:
+		case 120:
+		case 121:
+		case 122:
+		case 123:
+			regionMapId = MAPSEC_PYRITE_TOWN;
+			break;
+		case 125:
+		case 126:
+		case 127:
+		case 128:
+		case 129:
+		case 130:
+		case 131:
+		case 132:
+		case 133:
+		case 134:
+		case 135:
+			regionMapId = MAPSEC_AGATE_VILLAGE;
+			break;
+		case 138:
+		case 139:
+		case 140:
+		case 141:
+		case 142:
+		case 143:
+			regionMapId = MAPSEC_POKEMON_HQ_LAB;
+			break;
+		case 144:
+		case 145:
+		case 146:
+		case 147:
+		case 148:
+		case 149:
+		case 150:
+		case 151:
+		case 152:
+		case 153:
+		case 154:
+		case 155:
+		case 156:
+		case 157:
+		case 158:
+		case 159:
+		case 160:
+		case 161:
+		case 162:
+			regionMapId = MAPSEC_GATEON_PORT;
+			break;
+		case 163:
+		case 164:
+			regionMapId = MAPSEC_OUTSKIRT_STAND;
+			break;
+		case 165:
+		case 166:
+		case 167:
+		case 168:
+			regionMapId = MAPSEC_SNAGEM_HIDEOUT;
+			break;
+		case 169:
+		case 170:
+		case 171:
+		case 172:
+		case 173:
+			regionMapId = MAPSEC_KAMINKOS_HOUSE;
+			break;
+		case 174:
+			regionMapId = MAPSEC_ORRE_COLOSSEUM;
+			break;
+		default:
+			regionMapId = MAPSEC_DISTANT_LAND;
+		}
+	}
+
+	if (regionMapId < ORRE_MAPSEC_END && gOrreMapNamePointers[regionMapId] != 0)
+	{
+		StringCopy(dest, gOrreMapNamePointers[regionMapId]);
+	}
+	else
+	{
+		StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
+	}
 }

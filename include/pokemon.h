@@ -442,6 +442,5 @@ void RespawnAllLegendaries(void);
 bool8 IsMewtwoInParty(void);
 bool8 DoesCaughtMonHaveItem(void);
 void PutCaughtMonItemInBag(void);
-u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon);
 
 #endif // GUARD_POKEMON_H
