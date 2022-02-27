@@ -58,6 +58,7 @@
 #define CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP    TRUE
 #define CONFIG_PHYSICAL_SPECIAL_SPLIT                   FALSE
 #define CONFIG_EXPANDED_MET_LOCATIONS                   TRUE
+#define CONFIG_TRUST_OUTSIDERS                          TRUE
 
 enum {
     PSS_PAGE_INFO,
@@ -2768,13 +2769,24 @@ static void BufferMonTrainerMemo(void)
 			else
 			{
 				DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+				#if CONFIG_TRUST_OUTSIDERS
 				text = gText_TrainerMemo_Standard;
+				#else
+				text = gText_TrainerMemo_Untrusted;
+				#endif
 			}
 		}
 		else if (sum->metLevel == 0)
 		{
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-			text = gText_TrainerMemo_Hatched;
+			#if CONFIG_TRUST_OUTSIDERS
+            text = gText_TrainerMemo_Hatched;
+			#else
+			if (DoesMonOTMatchOwner())
+				text = gText_TrainerMemo_Hatched;
+			else
+				text = gText_TrainerMemo_HatchedUntrusted;
+			#endif
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
@@ -2784,7 +2796,14 @@ static void BufferMonTrainerMemo(void)
         else if (sum->metLocation != METLOC_IN_GAME_TRADE)
         {
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+			#if CONFIG_TRUST_OUTSIDERS
             text = gText_TrainerMemo_Standard;
+			#else
+			if (DoesMonOTMatchOwner())
+				text = gText_TrainerMemo_Standard;
+			else
+				text = gText_TrainerMemo_Untrusted;
+			#endif
         }
         else
         {
@@ -2800,7 +2819,14 @@ static void BufferMonTrainerMemo(void)
 		if (sum->metLevel == 0)
 		{
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-			text = gText_TrainerMemo_Hatched;
+			#if CONFIG_TRUST_OUTSIDERS
+            text = gText_TrainerMemo_Hatched;
+			#else
+			if (DoesMonOTMatchOwner())
+				text = gText_TrainerMemo_Hatched;
+			else
+				text = gText_TrainerMemo_HatchedUntrusted;
+			#endif
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
@@ -2810,7 +2836,14 @@ static void BufferMonTrainerMemo(void)
         else if (sum->metLocation != METLOC_IN_GAME_TRADE)
         {
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+			#if CONFIG_TRUST_OUTSIDERS
             text = gText_TrainerMemo_Standard;
+			#else
+			if (DoesMonOTMatchOwner())
+				text = gText_TrainerMemo_Standard;
+			else
+				text = gText_TrainerMemo_Untrusted;
+			#endif
         }
         else
         {
@@ -3011,6 +3044,12 @@ static void BufferEggMemo(void)
 			else
 				text = gText_TrainerMemo_EggFateful;
 		}
+		#if CONFIG_TRUST_OUTSIDERS == FALSE
+		else if (!DoesMonOTMatchOwner())
+		{
+			text = gText_TrainerMemo_EggTraded;
+		}
+		#endif
 		else if (sum->metLocation == METLOC_SPECIAL_EGG)
 		{
 			if (sum->species == SPECIES_TYROGUE)
@@ -3052,6 +3091,12 @@ static void BufferEggMemo(void)
 		{
 			text = gText_TrainerMemo_EggFateful;
 		}
+		#if CONFIG_TRUST_OUTSIDERS == FALSE
+		else if (!DoesMonOTMatchOwner())
+		{
+			text = gText_TrainerMemo_EggTraded;
+		}
+		#endif
 		else if (sum->metLocation == METLOC_SPECIAL_EGG)
 		{
 			if (DidMonComeFromRSE())
