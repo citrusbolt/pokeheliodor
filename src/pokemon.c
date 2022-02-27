@@ -8156,32 +8156,6 @@ bool8 IsMewtwoInParty(void)
 	return FALSE;
 }
 
-u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
-{
-	u8 originGame, versionModifier, metLocation;
-	
-	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
-	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
-	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
-	
-	if (versionModifier == DEV_SOLITAIRI_2 && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
-		return REGION_SINNOH;
-	else if (originGame == VERSION_GAMECUBE)
-		return REGION_ORRE;
-	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == MAPSEC_BIRTH_ISLAND || metLocation == MAPSEC_NAVEL_ROCK)
-		return REGION_KANTO;
-	else if (metLocation == MAPSEC_FARAWAY_ISLAND || metLocation == METLOC_FATEFUL_ENCOUNTER || metLocation == METLOC_IN_GAME_TRADE)
-		return REGION_UNKNOWN;
-	else if (originGame == 0 || originGame == 6 || originGame == 9 || originGame == 13 || originGame == 14)
-		return REGION_UNKNOWN;
-	else
-		return REGION_HOENN;
-}
-
 bool8 IsSpeciesInParty(void)
 {
 	u8 i;
