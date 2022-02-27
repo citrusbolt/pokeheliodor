@@ -56,7 +56,8 @@
 // Config options
 #define CONFIG_CAN_FORGET_HM_MOVES                      TRUE
 #define CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP    TRUE
-#define CONFIG_PHYSICAL_SPECIAL_SPLIT                   FALSE
+#define CONFIG_PHYSICAL_SPECIAL_SPLIT                   FALSE	// Takes precendence over CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
+#define CONFIG_SHOW_ICONS_FOR_OLD_SPLIT                 FALSE
 #define CONFIG_EXPANDED_MET_LOCATIONS                   TRUE
 #define CONFIG_TRUST_OUTSIDERS                          TRUE
 
@@ -967,7 +968,7 @@ static const u32 * const sPageTilemaps[] =
 	gSummaryScreenPageConditionTilemap
 };
 
-#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+#if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
 static const u16 sSplitIcons_Pal[] = INCBIN_U16("graphics/summary_screen/split_icons.gbapal");
 static const u32 sSplitIcons_Gfx[] = INCBIN_U32("graphics/summary_screen/split_icons.4bpp.lz");
 
@@ -1353,7 +1354,7 @@ static bool8 DecompressGraphics(void)
         break;
     case 9:
         LoadCompressedPalette(gMoveTypes_Pal, 0x1D0, 0x60);
-	#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+	#if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
 		sMonSummaryScreen->switchCounter++;
 		break;
 	case 10:
@@ -1976,7 +1977,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 		case 0:
 			ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
 			ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
-			#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+			#if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
 			DestroySplitIcon();
 			#endif
 			ScheduleBgCopyTilemapToVram(0);
@@ -2071,7 +2072,7 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
 
     if (*moveIndexPtr != MAX_MON_MOVES && newMoveIndex == MAX_MON_MOVES && sMonSummaryScreen->newMove == MOVE_NONE)
 	{
-		#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+		#if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
 		DestroySplitIcon();
 		#endif
 		ScheduleBgCopyTilemapToVram(0);
@@ -2107,7 +2108,7 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			SetSpriteInvisibility(SPRITE_ARR_ID_TYPE, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
-			#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+			#if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
 			DestroySplitIcon();
 			#endif
 			data[0]++;
@@ -2358,7 +2359,7 @@ static void Task_SwitchPageInReplaceMove(u8 taskId)
 		case 0:
 			ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
 			ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
-			#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+			#if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
 			DestroySplitIcon();
 			#endif
 			ScheduleBgCopyTilemapToVram(0);
@@ -2459,7 +2460,7 @@ static void ShowCantForgetHMsWindow(u8 taskId)
 		CopyBgTilemapBufferToVram(1);
 	}
 
-	#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+	#if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
 	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SPLIT]].invisible = TRUE;
 	#endif
 
@@ -3364,6 +3365,32 @@ static void PrintContestMoves(void)
     PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
 }
 
+static u8 GetBattleMoveCategory(u16 move)
+{
+	if (gBattleMoves[move].power == 0)
+	{
+		return 2;
+	}
+	else
+	{
+		switch (gBattleMoves[move].type)
+		{
+			case TYPE_NORMAL:
+			case TYPE_FIGHTING:
+			case TYPE_FLYING:
+			case TYPE_GROUND:
+			case TYPE_ROCK:
+			case TYPE_BUG:
+			case TYPE_GHOST:
+			case TYPE_POISON:
+			case TYPE_STEEL:
+				return 0;
+			default:
+				return 1;
+		}
+	}
+}
+
 static void PrintMoveDetails(u16 move)
 {
 	u32 heartRow1, heartRow2;
@@ -3434,6 +3461,8 @@ static void PrintMoveDetails(u16 move)
 
 			#if CONFIG_PHYSICAL_SPECIAL_SPLIT
 			ShowSplitIcon(GetBattleMoveSplit(move));
+			#elif CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
+			ShowSplitIcon(GetBattleMoveCategory(move));
 			#endif
         }
         else
