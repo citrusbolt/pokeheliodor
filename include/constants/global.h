@@ -51,6 +51,8 @@
 #define VERSION_LEGENDS_ARCEUS		47
 #define VERSION_BRILLIANT_DIAMOND	48
 #define VERSION_SHINING_PEARL		49
+#define VERSION_SCARLET				50 //Speculative
+#define VERSION_VIOLET				51 //Speculative
 
 //Version ID modifiers used for identifying unofficial games.
 //The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
