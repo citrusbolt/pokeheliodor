@@ -45,7 +45,7 @@ Route110_TrickHousePuzzle6_EventScript_Sebastian::
 Route110_TrickHousePuzzle6_Text_WroteSecretCodeLockOpened:
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
-	.string "“TRICK Master is my life.”\n"
+	.string "“Trick Master is my life.”\n"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 

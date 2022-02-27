@@ -319,7 +319,7 @@ Route110_TrickHousePuzzle3_EventScript_Alan::
 Route110_TrickHousePuzzle3_Text_WroteSecretCodeLockOpened:
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
-	.string "“TRICK Master is coveted.”\n"
+	.string "“Trick Master is coveted.”\n"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 

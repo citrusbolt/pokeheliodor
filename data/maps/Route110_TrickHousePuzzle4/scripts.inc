@@ -31,7 +31,7 @@ Route110_TrickHousePuzzle4_EventScript_Paula::
 Route110_TrickHousePuzzle4_Text_WroteSecretCodeLockOpened:
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
-	.string "“TRICK Master is cool.”\n"
+	.string "“Trick Master is cool.”\n"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 

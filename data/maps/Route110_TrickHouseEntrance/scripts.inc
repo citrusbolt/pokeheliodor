@@ -827,7 +827,7 @@ Route110_TrickHouseEntrance_Text_GoInHoleBehindScroll:
 Route110_TrickHouseEntrance_Text_LeavingOnJourneyNote:
 	.string "There is a note affixed to the scroll…\p"
 	.string "“I am leaving on a journey.\n"
-	.string "Don't look for me. Trick MASTER”$"
+	.string "Don't look for me. Trick Master”$"
 
 Route110_TrickHouseEntrance_Text_NextTimeUseThisTrick:
 	.string "For the next time, I'll use this trick,\n"

@@ -320,7 +320,7 @@ Route110_TrickHousePuzzle7_EventScript_Everett::
 Route110_TrickHousePuzzle7_EventScript_WroteSecretCodeLockOpened::
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
-	.string "“TRICK Master is huggable.”\n"
+	.string "“Trick Master is huggable.”\n"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 
