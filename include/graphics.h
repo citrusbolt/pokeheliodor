@@ -5128,7 +5128,7 @@ extern const u32 gItemIconPalette_CatchingCharm[];
 extern const u32 gItemIcon_ExpCharm[];
 extern const u32 gItemIconPalette_ExpCharm[];
 
-// Poke Ball Summary Icons
+// Poké Ball Summary Icons
 extern const u32 gBallIcon_Poke[];
 extern const u32 gBallIconPalette_Poke[];
 extern const u32 gBallIcon_Safari[];
@@ -5153,6 +5153,32 @@ extern const u32 gBallIcon_Luxury[];
 extern const u32 gBallIconPalette_Luxury[];
 extern const u32 gBallIcon_Premier[];
 extern const u32 gBallIconPalette_Premier[];
+extern const u32 gBallIcon_Dusk[];
+extern const u32 gBallIconPalette_Dusk[];
+extern const u32 gBallIcon_Heal[];
+extern const u32 gBallIconPalette_Heal[];
+extern const u32 gBallIcon_Quick[];
+extern const u32 gBallIconPalette_Quick[];
+extern const u32 gBallIcon_Cherish[];
+extern const u32 gBallIconPalette_Cherish[];
+extern const u32 gBallIcon_Fast[];
+extern const u32 gBallIconPalette_Fast[];
+extern const u32 gBallIcon_Level[];
+extern const u32 gBallIconPalette_Level[];
+extern const u32 gBallIcon_Lure[];
+extern const u32 gBallIconPalette_Lure[];
+extern const u32 gBallIcon_Heavy[];
+extern const u32 gBallIconPalette_Heavy[];
+extern const u32 gBallIcon_Love[];
+extern const u32 gBallIconPalette_Love[];
+extern const u32 gBallIcon_Friend[];
+extern const u32 gBallIconPalette_Friend[];
+extern const u32 gBallIcon_Moon[];
+extern const u32 gBallIconPalette_Moon[];
+extern const u32 gBallIcon_Sport[];
+extern const u32 gBallIconPalette_Sport[];
+extern const u32 gBallIcon_Dream[];
+extern const u32 gBallIconPalette_Dream[];
 
 // e-Card Berries
 extern const u32 gBerryPic_Pumkin[];
