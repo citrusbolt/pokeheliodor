@@ -2851,7 +2851,6 @@ static void BufferMonTrainerMemo(void)
             text = gText_TrainerMemo_Trade;
         }
 		#endif
-			
 
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
         Free(metLevelString);
