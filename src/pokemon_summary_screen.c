@@ -60,6 +60,7 @@
 #define CONFIG_SHOW_ICONS_FOR_OLD_SPLIT                 FALSE
 #define CONFIG_EXPANDED_MET_LOCATIONS                   TRUE
 #define CONFIG_TRUST_OUTSIDERS                          TRUE
+#define CONFIG_SHOW_HIDDEN_POWER_STATS                  TRUE
 
 enum {
     PSS_PAGE_INFO,
@@ -3422,7 +3423,7 @@ static void PrintMoveDetails(u16 move)
         {
 			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_Power, 8, POWER_AND_ACCURACY_Y, 0, 1);
 
-			if (move == MOVE_HIDDEN_POWER)
+			if (move == MOVE_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
 			{
 				u8 powerBits = ((GetMonData(mon, MON_DATA_HP_IV) & 2) >> 1)
 						| ((GetMonData(mon, MON_DATA_ATK_IV) & 2) << 0)
@@ -3647,7 +3648,7 @@ static void SetMoveTypeIcons(void)
     {
         if (summary->moves[i] != MOVE_NONE)
 		{
-			if (summary->moves[i] == MOVE_HIDDEN_POWER)
+			if (summary->moves[i] == MOVE_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
 			{
 				u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
 					| ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
@@ -3700,7 +3701,7 @@ static void SetNewMoveTypeIcon(void)
 	{
         if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
 		{
-			if (sMonSummaryScreen->newMove == MOVE_HIDDEN_POWER)
+			if (sMonSummaryScreen->newMove == MOVE_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
 			{
 				u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
 					| ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
