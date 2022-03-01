@@ -1937,7 +1937,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 					sMonSummaryScreen->currPageIndex = PSS_PAGE_CONTEST_MOVES;
 				else
 					sMonSummaryScreen->currPageIndex = PSS_PAGE_BATTLE_MOVES;
-		
+
 				LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
 				PlaySE(SE_SELECT);
 				data[0] = 0;
@@ -2533,7 +2533,7 @@ static void PrintNotEggInfo(void)
 		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_SummaryPokerus, 43, 18, 0, PSS_COLOR_POKERUS_CURED);
 
 	if (sMonSummaryScreen->summary.item == ITEM_NONE)
-        StringCopy(gStringVar1, gText_None);
+        StringCopy(gStringVar1, gText_SummaryScreenNone);
     else
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
 
@@ -2549,7 +2549,7 @@ static void PrintEggInfo(void)
     GetMonNickname(&sMonSummaryScreen->currentMon, gStringVar1);
     PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 20, 2, 0, 1);
 	if (sMonSummaryScreen->summary.item == ITEM_NONE)
-        StringCopy(gStringVar1, gText_None);
+        StringCopy(gStringVar1, gText_SummaryScreenNone);
     else
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
 	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
@@ -4387,11 +4387,11 @@ static void PrintInfoBar(u8 pageIndex, bool8 detailsShown)
 u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 {
 	u8 originGame, versionModifier, metLocation;
-	
+
 	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
 	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
 	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
-	
+
 	if (versionModifier == DEV_SOLITAIRI_2 && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
 		return REGION_JOHTO;
 	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)

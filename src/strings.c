@@ -2059,6 +2059,25 @@ const u8 gText_SummaryBeauty[] = _("Beauty");
 const u8 gText_SummaryCute[] = _("Cute");
 const u8 gText_SummarySmart[] = _("Smart");
 const u8 gText_SummaryTough[] = _("Tough");
+
+#if (CONFIG_SUMMARY_DECAP == TRUE)
+const u8 gText_SummaryTitleInfo[] = _("Pokémon Info");
+const u8 gText_SummaryTitleMemo[] = _("Trainer Memo");
+const u8 gText_SummaryTitleSkills[] = _("Pokémon Stats");
+const u8 gText_SummaryTitleBattleMoves[] = _("Battle Moves");
+const u8 gText_SummaryTitleCondition[] = _("Condition");
+const u8 gText_SummaryTitleContestMoves[] = _("Contest Moves");
+const u8 gText_SummaryTitleRibbons[] = _("Ribbons");
+const u8 gText_SummaryTitleIVs[] = _("Pokémon IVs");
+const u8 gText_SummaryTitleEVs[] = _("Pokémon EVs");
+const u8 gText_SummaryTitlePage[] = _("{DPAD_LEFTRIGHT}Page");
+const u8 gText_SummaryTitlePageDetail[] = _("{DPAD_LEFTRIGHT}Page {A_BUTTON}Detail");
+const u8 gText_SummaryTitlePickSwitch[] = _("{DPAD_UPDOWN}Pick {A_BUTTON}Switch");
+const u8 gText_SummaryTitlePageIVs[] = _("{DPAD_LEFTRIGHT}Page {A_BUTTON}IVs");
+const u8 gText_SummaryTitlePageEVs[] = _("{DPAD_LEFTRIGHT}Page {A_BUTTON}EVs");
+const u8 gText_SummaryTitlePageStats[] = _("{DPAD_LEFTRIGHT}Page {A_BUTTON}Stats");
+const u8 gText_SummaryScreenNone[] = _("None");
+#elif
 const u8 gText_SummaryTitleInfo[] = _("POKéMON INFO");
 const u8 gText_SummaryTitleMemo[] = _("TRAINER MEMO");
 const u8 gText_SummaryTitleSkills[] = _("POKéMON STATS");
@@ -2074,3 +2093,5 @@ const u8 gText_SummaryTitlePickSwitch[] = _("{DPAD_UPDOWN}PICK {A_BUTTON}SWITCH"
 const u8 gText_SummaryTitlePageIVs[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}IVS");
 const u8 gText_SummaryTitlePageEVs[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}EVS");
 const u8 gText_SummaryTitlePageStats[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}STATS");
+const u8 gText_SummaryScreenNone[] = _("NONE");
+#endif
