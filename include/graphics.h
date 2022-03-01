@@ -5179,6 +5179,8 @@ extern const u32 gBallIcon_Sport[];
 extern const u32 gBallIconPalette_Sport[];
 extern const u32 gBallIcon_Dream[];
 extern const u32 gBallIconPalette_Dream[];
+extern const u32 gBallIcon_Beast[];
+extern const u32 gBallIconPalette_Beast[];
 
 // e-Card Berries
 extern const u32 gBerryPic_Pumkin[];
