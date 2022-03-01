@@ -8551,10 +8551,7 @@ static void MultiMove_GetMonsFromSelection(void)
         for (j = sMultiMove->minColumn; j < columnCount; j++)
         {
             struct BoxPokemon *boxMon = GetBoxedMonPtr(boxId, boxPosition);
-            // UB: possible null dereference
-#ifdef UBFIX
             if (boxMon != NULL)
-#endif
                 sMultiMove->boxMons[monArrayId] = *boxMon;
 
             monArrayId++;
@@ -9489,9 +9486,7 @@ u32 GetBoxMonLevelAt(u8 boxId, u8 boxPosition)
 
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT && GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_HAS_SPECIES))
         lvl = GetLevelFromBoxMonExp(&gPokemonStoragePtr->boxes[boxId][boxPosition]);
-#ifdef BUGFIX
     else
-#endif
         lvl = 0;
 
     return lvl;
@@ -9581,27 +9576,44 @@ static void SetBoxWallpaper(u8 boxId, u8 wallpaperId)
 // For moving to the next Pokémon while viewing the summary screen
 s16 AdvanceStorageMonIndex(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex, u8 mode)
 {
-    s16 i;
+    s16 i, j;
     s16 direction = -1;
 
     if (mode == 0 || mode == 1)
         direction = 1;
+	i = (s8)currIndex + direction;
 
     if (mode == 1 || mode == 3)
     {
-        for (i = (s8)currIndex + direction; i >= 0 && i <= maxIndex; i += direction)
+        while (TRUE)
         {
+			if (i < 0)
+				i = maxIndex;
+			else if (i > maxIndex)
+				i = 0;
             if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE)
                 return i;
+			i += direction;
+			j++;
+			if (j == 29)
+				return -1;
         }
     }
     else
     {
-        for (i = (s8)currIndex + direction; i >= 0 && i <= maxIndex; i += direction)
+        while (TRUE)
         {
+			if (i < 0)
+				i = maxIndex;
+			else if (i > maxIndex)
+				i = 0;
             if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE
                 && !GetBoxMonData(&boxMons[i], MON_DATA_IS_EGG))
                 return i;
+			i += direction;
+			j++;
+			if (j == 29)
+				return -1;
         }
     }
 

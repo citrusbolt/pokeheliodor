@@ -63,20 +63,20 @@ MirageTower_4F_EventScript_CollapseMirageTower::
 	end
 
 MirageTower_4F_Text_TakeRuby:
-	.string "You found the RUBY.\p"
+	.string "You found the Ruby.\p"
 	.string "If this gem is taken, the ground\n"
 	.string "around it will likely crumble away…\p"
-	.string "Take the RUBY anyway?$"
+	.string "Take the Ruby anyway?$"
 
 MirageTower_4F_Text_LeftRubyAlone:
-	.string "{PLAYER} left the RUBY alone.$"
+	.string "{PLAYER} left the Ruby alone.$"
 
 MirageTower_4F_Text_TakeSapphire:
-	.string "You found the SAPPHIRE.\p"
+	.string "You found the Sapphire.\p"
 	.string "If this gem is taken, the ground\n"
 	.string "around it will likely crumble away…\p"
-	.string "Take the SAPPHIRE anyway?$"
+	.string "Take the Sapphire anyway?$"
 
 MirageTower_4F_Text_LeaveSapphireAlone:
-	.string "{PLAYER} left the SAPPHIRE alone.$"
+	.string "{PLAYER} left the Sapphire alone.$"
 

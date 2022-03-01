@@ -27,10 +27,10 @@ static int BerryFix_TrySetScene(int);
 static void BerryFix_SetScene(int);
 static void BerryFix_HideScene(void);
 
-static const u8 sText_BerryProgramUpdate[] = _("Berry Program Update");
+static const u8 sText_BERRYProgramUpdate[] = _("Berry Program Update");
 static const u8 sText_RubySapphire[] = _("Ruby/Sapphire");
-static const u8 sText_Emerald[] = _("Emerald");
-static const u8 sText_BerryProgramWillBeUpdatedPressA[] = _("The Berry Program on your POKéMON\n"
+static const u8 sText_Emerald[] = _("Heliodor");
+static const u8 sText_BERRYProgramWillBeUpdatedPressA[] = _("The Berry Program on your POKéMON\n"
                                                             "Ruby/Sapphire Game Pak will be updated.\n"
                                                             "{COLOR RED}{SHADOW LIGHT_RED}Press the A Button.");
 static const u8 sText_EnsureGBAConnectionMatches[] = _("Please ensure the connection of your\n"
@@ -136,7 +136,7 @@ static const u8 *const sBerryProgramTexts[] = {
     [SCENE_TRANSMITTING]    = sText_TransmittingPleaseWait,
     [SCENE_FOLLOW_INSTRUCT] = sText_PleaseFollowInstructionsOnScreen,
     [SCENE_TRANSMIT_FAILED] = sText_TransmissionFailureTryAgain,
-    [SCENE_BEGIN]           = sText_BerryProgramWillBeUpdatedPressA
+    [SCENE_BEGIN]           = sText_BERRYProgramWillBeUpdatedPressA
 };
 
 static const struct {
@@ -176,8 +176,8 @@ static const struct {
     },
 };
 
-extern const u8 gMultiBootProgram_BerryGlitchFix_Start[0x3BF4];
-extern const u8 gMultiBootProgram_BerryGlitchFix_End[];
+extern const u8 gMultiBootProgram_BERRYGlitchFix_Start[0x3BF4];
+extern const u8 gMultiBootProgram_BERRYGlitchFix_End[];
 
 enum {
     MAINSTATE_INIT,
@@ -227,7 +227,7 @@ static void BerryFix_Main(void)
         case MAINSTATE_INIT_MULTIBOOT:
             if (TryScene(SCENE_TURN_OFF_POWER))
             {
-                sBerryFix->mb.masterp = gMultiBootProgram_BerryGlitchFix_Start;
+                sBerryFix->mb.masterp = gMultiBootProgram_BERRYGlitchFix_Start;
                 sBerryFix->mb.server_type = 0;
                 MultiBootInit(&sBerryFix->mb);
                 sBerryFix->timer = 0;
@@ -243,8 +243,8 @@ static void BerryFix_Main(void)
             else if (++sBerryFix->timer > 180)
             {
                 MultiBootStartMaster(&sBerryFix->mb, 
-                                     gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE, 
-                                     (u32)(gMultiBootProgram_BerryGlitchFix_End - (gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE)), 
+                                     gMultiBootProgram_BERRYGlitchFix_Start + ROM_HEADER_SIZE, 
+                                     (u32)(gMultiBootProgram_BERRYGlitchFix_End - (gMultiBootProgram_BERRYGlitchFix_Start + ROM_HEADER_SIZE)), 
                                      4, 
                                      1);
                 sBerryFix->state = MAINSTATE_TRANSMIT;
@@ -315,9 +315,9 @@ static void BerryFix_GpuSet(void)
     left = (112 - width) / 2;
     AddTextPrinterParameterized3(3, 0, left, 0, sGameTitleTextColors, TEXT_SPEED_FF, sText_RubySapphire);
 
-    width = GetStringWidth(1, sText_BerryProgramUpdate, 0);
+    width = GetStringWidth(1, sText_BERRYProgramUpdate, 0);
     left = (208 - width) / 2;
-    AddTextPrinterParameterized3(0, 1, left, 2, sBerryProgramTextColors, TEXT_SPEED_FF, sText_BerryProgramUpdate);
+    AddTextPrinterParameterized3(0, 1, left, 2, sBerryProgramTextColors, TEXT_SPEED_FF, sText_BERRYProgramUpdate);
 
     CopyWindowToVram(2, 2);
     CopyWindowToVram(3, 2);

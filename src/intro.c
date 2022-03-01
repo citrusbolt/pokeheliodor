@@ -2257,11 +2257,7 @@ static void CreateKyogreBubbleSprites_Fins(void)
                                 sKyogreBubbleData[i + NUM_BUBBLES_IN_SET][1], 
                                 i);
         gSprites[spriteId].invisible = TRUE;
-#ifdef BUGFIX
         gSprites[spriteId].sDelay = sKyogreBubbleData[i + NUM_BUBBLES_IN_SET][2];
-#else        
-        gSprites[spriteId].sDelay = sKyogreBubbleData[i][2]; // Using the wrong set of delays here
-#endif
         gSprites[spriteId].sUnk = 64;
     }
 }

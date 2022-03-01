@@ -180,7 +180,7 @@ void DoBerryTagScreen(void)
     SetMainCallback2(CB2_InitBerryTagScreen);
 }
 
-static void CB2_BerryTagScreen(void)
+static void CB2_BERRYTagScreen(void)
 {
     RunTasks();
     AnimateSprites();
@@ -286,7 +286,7 @@ static bool8 InitBerryTagScreen(void)
         break;
     default: // done
         SetVBlankCallback(VblankCB);
-        SetMainCallback2(CB2_BerryTagScreen);
+        SetMainCallback2(CB2_BERRYTagScreen);
         return TRUE;
     }
 
@@ -383,7 +383,7 @@ static void AddBerryTagTextToBg0(void)
 {
     memcpy(GetBgTilemapBuffer(0), sBerryTag->tilemapBuffers[2], sizeof(sBerryTag->tilemapBuffers[2]));
     FillWindowPixelBuffer(WIN_BERRY_TAG, PIXEL_FILL(15));
-    PrintTextInBerryTagScreen(WIN_BERRY_TAG, gText_BerryTag, GetStringCenterAlignXOffset(1, gText_BerryTag, 0x40), 1, 0, 1);
+    PrintTextInBerryTagScreen(WIN_BERRY_TAG, gText_BERRYTag, GetStringCenterAlignXOffset(1, gText_BERRYTag, 0x40), 1, 0, 1);
     PutWindowTilemap(WIN_BERRY_TAG);
     ScheduleBgCopyTilemapToVram(0);
 }
@@ -399,9 +399,16 @@ static void PrintAllBerryData(void)
 
 static void PrintBerryNumberAndName(void)
 {
+	u32 i;
+
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     ConvertIntToDecimalStringN(gStringVar1, sBerryTag->berryId, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringCopy(gStringVar2, berry->name);
+	for (i = 1; i < ARRAY_COUNT(gStringVar2); i++)
+	{
+		if (gStringVar2[i] >= 0xBB && gStringVar2[i] <= 0xD4)
+			gStringVar2[i] += 26;
+	}
     StringExpandPlaceholders(gStringVar4, gText_NumberVar1Var2);
     PrintTextInBerryTagScreen(WIN_BERRY_NAME, gStringVar4, 0, 1, 0, 0);
 }

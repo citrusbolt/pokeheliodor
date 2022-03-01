@@ -484,7 +484,7 @@ static const struct MenuAction MultichoiceList_LinkServicesNoRecord[] =
 {
     {gText_TradeCenter},
     {gText_Colosseum},
-    {gText_BerryCrush3},
+    {gText_BERRYCrush3},
     {gText_Exit},
 };
 
@@ -493,7 +493,7 @@ static const struct MenuAction MultichoiceList_LinkServicesAll[] =
     {gText_TradeCenter},
     {gText_Colosseum},
     {gText_RecordCorner},
-    {gText_BerryCrush3},
+    {gText_BERRYCrush3},
     {gText_Exit},
 };
 

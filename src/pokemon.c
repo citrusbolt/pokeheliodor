@@ -2411,6 +2411,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	
 	metLocation = GetCurrentRegionMapSectionId();
 
+	gDisableVBlankRNGAdvance = TRUE;
+
 	if (species == SPECIES_MEW)  //Pretend to be Japanese release, as Old Sea Map wasn't released internationally.  Note that if encountered anywhere other than Faraway Island, Mew will not be fully legal
 	{
 		if (hasFixedPersonality)
@@ -2425,13 +2427,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random32();
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random32();
 				}
 
@@ -2467,7 +2467,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				WaitForVBlank();
 				gcnRng = RtcGetSecondCount();
 				for (i = 0; i < Random32() >> 16; i++)
 					gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
@@ -2488,7 +2487,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			do
 			{
-				WaitForVBlank();
 				gcnRng = RtcGetSecondCount();
 				for (i = 0; i < Random32() >> 16; i++)
 					gcnRng = gcnRng * 0x000343FDu + 0x00269EC3u;
@@ -2538,14 +2536,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						SeedRng(gRngValue >> 16);
 						personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					SeedRng(gRngValue >> 16);
 					personality = Random() << 16 | Random(); //BACD_R: RNG method used for WSHMKR Jirachi, seeded by savefile checksum.  GetChecksum() doesn't work if save function hasn't been ran since power-on, so this is effectively generating a random checksum to seed with.
 				}
@@ -2587,13 +2583,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random() << 16 | Random(); //BACD_U: RNG method used for Unown in FRLG
 				}
 
@@ -2637,13 +2631,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random32();
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random32();
 				}
 				
@@ -2687,13 +2679,11 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					do
 					{
-						WaitForVBlank();
 						personality = Random32();
 					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
 				}
 				else
 				{
-					WaitForVBlank();
 					personality = Random32();
 				}
 				
@@ -2722,10 +2712,12 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		if (IsMonSapphireExclusive(species))
 		{
 			version = VERSION_SAPPHIRE;
+			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
 		}
 		else if (IsMonRubyExclusive(species))
 		{
 			version = VERSION_RUBY;
+			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
 		}
 		else if (IsMonRubySapphireExclusive(species))
 		{
@@ -2733,6 +2725,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				version = VERSION_SAPPHIRE;
 			else
 				version = VERSION_RUBY;
+			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
 		}
 		else if (IsMonFireRedExclusive(species))
 		{
@@ -2773,6 +2766,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 			}
 		}
 	}
+
+	gDisableVBlankRNGAdvance = FALSE;
 
 	versionModifier = VERSION_MODIFIER;
 
@@ -5092,6 +5087,9 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 	}
 
+	if (IsMonRubyExclusive(species) || IsMonSapphireExclusive(species) || IsMonRubySapphireExclusive(species))
+		otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+
     SetMonData(mon, MON_DATA_OT_NAME, &otName);
     SetMonData(mon, MON_DATA_OT_GENDER, &otGender);
     SetMonData(mon, MON_DATA_OT_ID, &otId);
@@ -7247,9 +7245,14 @@ bool8 IsTradedMon(struct Pokemon *mon)
 {
     u8 otName[PLAYER_NAME_LENGTH + 1];
     u32 otId;
+	u8 originGame;
     GetMonData(mon, MON_DATA_OT_NAME, otName);
     otId = GetMonData(mon, MON_DATA_OT_ID, 0);
-    return IsOtherTrainer(otId, otName);
+	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
+	if (originGame == VERSION_RUBY || originGame == VERSION_SAPPHIRE)
+		return IsOtherTrainerRS(otId, otName) || IsOtherTrainer(otId, otName);
+	else
+		return IsOtherTrainer(otId, otName);
 }
 
 bool8 IsOtherTrainer(u32 otId, u8 *otName)
@@ -7259,6 +7262,24 @@ bool8 IsOtherTrainer(u32 otId, u8 *otName)
          | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
          | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
          | (gSaveBlock2Ptr->playerTrainerId[3] << 24)))
+    {
+        int i;
+
+        for (i = 0; otName[i] != EOS; i++)
+            if (otName[i] != gSaveBlock2Ptr->playerName[i])
+                return TRUE;
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+bool8 IsOtherTrainerRS(u32 otId, u8 *otName)
+{
+    if (otId ==
+        (gSaveBlock2Ptr->playerTrainerId[0]
+         | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+         | (gSaveBlock1Ptr->rubySapphireSecretId << 16)))
     {
         int i;
 
@@ -7354,7 +7375,6 @@ void SetWildMonHeldItem(void)
 			}
 		}
 
-		
         if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
         {
             s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
@@ -7390,6 +7410,48 @@ void SetWildMonHeldItem(void)
                     SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
             }
         }
+		
+		if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
+		{
+			rnd = Random() % 100;
+			species = GetMonData(&gEnemyParty[1], MON_DATA_SPECIES, 0);
+
+			if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
+			{
+				s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
+				if (alteringCaveId != 0)
+				{
+					if (rnd < var2)
+						return;
+					SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
+				}
+				else
+				{
+					if (rnd < var1)
+						return;
+					if (rnd < var2)
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+					else
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
+				}
+			}
+			else
+			{
+				if (gBaseStats[species].item1 == gBaseStats[species].item2 && gBaseStats[species].item1 != 0)
+				{
+					SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+				}
+				else
+				{
+					if (rnd < var1)
+						return;
+					if (rnd < var2)
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+					else
+						SetMonData(&gEnemyParty[1], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
+				}
+			}
+		}
     }
 }
 
@@ -7628,8 +7690,7 @@ u16 PlayerGenderToFrontTrainerPicId(u8 playerGender)
 
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
 {
-    u8 getFlagCaseId = (caseId == FLAG_SET_SEEN) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
-    if (!GetSetPokedexFlag(nationalNum, getFlagCaseId)) // don't set if it's already set
+    if (!GetSetPokedexFlag(nationalNum, caseId)) // don't set if it's already set
     {
         GetSetPokedexFlag(nationalNum, caseId);
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_UNOWN)
@@ -7637,6 +7698,8 @@ void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_SPINDA)
             gSaveBlock2Ptr->pokedex.spindaPersonality = personality;
     }
+	if (caseId == FLAG_GET_CAUGHT && NationalPokedexNumToSpecies(nationalNum) == SPECIES_UNOWN)
+		gSaveBlock2Ptr->pokedex.unownForms |= 1 << GET_UNOWN_LETTER(personality);
 }
 
 const u8 *GetTrainerClassNameFromId(u16 trainerId)
@@ -7848,7 +7911,7 @@ u8 GivePorygon(void)
     int sentToPc;
     struct Pokemon mon;
 	u32 personality;
-	u8 ivs[5];
+	u8 ivs[6];
 	u8 otName[PLAYER_NAME_LENGTH + 1];
 	u8 otGender;
 	u32 otId;
@@ -8093,32 +8156,6 @@ bool8 IsMewtwoInParty(void)
 	return FALSE;
 }
 
-u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
-{
-	u8 originGame, versionModifier, metLocation;
-	
-	originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
-	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
-	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
-	
-	if (versionModifier == DEV_SOLITAIRI_2 && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
-		return REGION_SINNOH;
-	else if (originGame == VERSION_GAMECUBE)
-		return REGION_ORRE;
-	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == MAPSEC_BIRTH_ISLAND || metLocation == MAPSEC_NAVEL_ROCK)
-		return REGION_KANTO;
-	else if (metLocation == MAPSEC_FARAWAY_ISLAND || metLocation == METLOC_FATEFUL_ENCOUNTER || metLocation == METLOC_IN_GAME_TRADE)
-		return REGION_UNKNOWN;
-	else if (originGame == 0 || originGame == 6 || originGame == 9 || originGame == 13 || originGame == 14)
-		return REGION_UNKNOWN;
-	else
-		return REGION_HOENN;
-}
-
 bool8 IsSpeciesInParty(void)
 {
 	u8 i;
@@ -8132,7 +8169,7 @@ bool8 IsSpeciesInParty(void)
 
 bool8 DoesCaughtMonHaveItem(void)
 {
-	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, 0);
+	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_HELD_ITEM, 0);
 	if(item != ITEM_NONE && CheckBagHasSpace(item, 1))
 	{
 		CopyItemNameHandlePlural(item, gStringVar1, 1);
@@ -8146,10 +8183,10 @@ bool8 DoesCaughtMonHaveItem(void)
 
 void PutCaughtMonItemInBag(void)
 {
-	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, 0);
+	u16 item = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_HELD_ITEM, 0);
 	AddBagItem(item, 1);
 	item = ITEM_NONE;
-	SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, &item);
+	SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_HELD_ITEM, &item);
 }
 
 bool8 DoesGiftMonHaveItem(void)

@@ -451,15 +451,9 @@ void SortSprites(void)
             sSpriteOrder[j] = sSpriteOrder[j - 1];
             sSpriteOrder[j - 1] = temp;
 
-            // UB: If j equals 1, then j-- makes j equal 0.
-            // Then, sSpriteOrder[-1] gets accessed below.
-            // Although this doesn't result in a bug in the ROM,
-            // the behavior is undefined.
             j--;
-#ifdef UBFIX
             if (j == 0)
                 break;
-#endif
 
             sprite1 = &gSprites[sSpriteOrder[j - 1]];
             sprite2 = &gSprites[sSpriteOrder[j]];

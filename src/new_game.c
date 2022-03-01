@@ -45,6 +45,7 @@
 #include "berry_powder.h"
 #include "mevent.h"
 #include "union_room_chat.h"
+#include "mgba.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -85,6 +86,7 @@ static void InitPlayerTrainerId(void)
 {
     u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
+	IssueRSSID();
 }
 
 // L=A isnt set here for some reason.
@@ -222,7 +224,7 @@ void NewGameInitData(void)
 	for (i = 0; i < 6; i++)
 		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
 	
-	VarSet(VAR_SAVE_VER, 2);
+	VarSet(VAR_SAVE_VER, 3);
 }
 
 static void ResetMiniGamesRecords(void)
@@ -231,4 +233,23 @@ static void ResetMiniGamesRecords(void)
     SetBerryPowder(&gSaveBlock2Ptr->berryCrush.berryPowderAmount, 0);
     ResetPokemonJumpRecords();
     CpuFill16(0, &gSaveBlock2Ptr->berryPick, sizeof(struct BerryPickingResults));
+}
+
+void IssueRSSID(void)
+{
+	u16 otid, ntid, sid;
+
+	gDisableVBlankRNGAdvance = TRUE;
+	otid = (gSaveBlock2Ptr->playerTrainerId[1] << 8) | gSaveBlock2Ptr->playerTrainerId[0];
+	sid = Random();
+	ntid = Random();
+
+	while (ntid != otid)
+	{
+		sid = ntid;
+		ntid = Random();
+	}
+
+	gSaveBlock1Ptr->rubySapphireSecretId = sid;
+	gDisableVBlankRNGAdvance = FALSE;
 }

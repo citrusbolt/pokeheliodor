@@ -809,6 +809,8 @@ static u8 CountPlayerTrainerExtraStars(void)
         stars++;
     if (gSaveBlock1Ptr->externalEventData.totalEarnedPokeCoupons >= 30000)
         stars++;
+	if (gSaveBlock2Ptr->pokedex.unownForms == 0x0FFFFFFF)
+		stars++;
 
     return stars;
 }
@@ -832,7 +834,7 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	}
 
 	trainerCard->hasPokedex = FlagGet(FLAG_SYS_POKEDEX_GET);
-	trainerCard->caughtAllHoenn = HasAllHoennMons();
+	//trainerCard->caughtAllHoenn = HasAllHoennMons();
 	//trainerCard->hasAllPaintings = (CountPlayerMuseumPaintings() >= CONTEST_CATEGORIES_COUNT);
 
 	hofDebut = GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME);
@@ -1406,7 +1408,7 @@ static void PrintTimeOnCard(void)
 
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
-		x = 120;
+		x = 124;
 		totalWidth = width + 34;
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_EMERALD)
@@ -1431,7 +1433,7 @@ static void PrintTimeOnCard(void)
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
 		AddTextPrinterParameterized3(1, font, x, y, sTrainerCardRSContentColors, TEXT_SPEED_FF, gStringVar4);
-		x += 22;
+		x += 18;
 		AddTextPrinterParameterized3(1, font, x, y, sTimeColonRSTextColors[sData->timeColonInvisible], TEXT_SPEED_FF, gText_RSCardColon);
 		x += width;
 		ConvertIntToDecimalStringN(gStringVar4, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
@@ -2090,7 +2092,7 @@ static void BufferBerryCrushPoints(void)
 static void PrintBerryCrushStringOnCard(u8 slot)
 {
 	if (sData->cardLayout == CARD_LAYOUT_HELIODOR || sData->trainerCard.berryCrushPoints)
-		PrintStatOnBackOfCard(slot, gText_BerryCrush, sData->textBerryCrushPts, sTrainerCardStatColors);
+		PrintStatOnBackOfCard(slot, gText_BERRYCrush, sData->textBerryCrushPts, sTrainerCardStatColors);
 }
 
 static void BufferBattlePoints(void)
@@ -2800,14 +2802,28 @@ static u8 GetSetCardType(void)
 		
 		if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
 		{
-			sData->cardLayout = CARD_LAYOUT_FRLG;
-			sData->stats[0] = CARD_STAT_HOF_DEBUT;
-			sData->stats[1] = CARD_STAT_LINK_BATTLES;
-			sData->stats[2] = CARD_STAT_TRADES;
-			sData->stats[3] = CARD_STAT_UNION_ROOM;
-			sData->stats[4] = CARD_STAT_BERRY_CRUSH;
-			sData->stats[5] = CARD_STAT_NONE;
-			return TRAINER_FRLG;
+			if (sData->trainerCard.crystalDustVersion == VERSION_HEARTGOLD)
+			{
+				sData->cardLayout = CARD_LAYOUT_FRLG;
+				sData->stats[0] = CARD_STAT_HOF_DEBUT;
+				sData->stats[1] = CARD_STAT_LINK_BATTLES;
+				sData->stats[2] = CARD_STAT_TRADES;
+				sData->stats[3] = CARD_STAT_POKEBLOCKS;
+				sData->stats[4] = CARD_STAT_CONTESTS;
+				sData->stats[5] = CARD_STAT_NONE;
+				return TRAINER_CRYSTALDUST;
+			}
+			else
+			{
+				sData->cardLayout = CARD_LAYOUT_FRLG;
+				sData->stats[0] = CARD_STAT_HOF_DEBUT;
+				sData->stats[1] = CARD_STAT_LINK_BATTLES;
+				sData->stats[2] = CARD_STAT_TRADES;
+				sData->stats[3] = CARD_STAT_UNION_ROOM;
+				sData->stats[4] = CARD_STAT_BERRY_CRUSH;
+				sData->stats[5] = CARD_STAT_NONE;
+				return TRAINER_FRLG;
+			}
 		}
 		else if (sData->trainerCard.version == VERSION_EMERALD)
 		{
@@ -2849,8 +2865,8 @@ static void CreateTrainerCardTrainerPic(void)
     {
         CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->trainerPair][sData->trainerCard.gender]),
                     TRUE,
-                    sTrainerPicOffset[sData->trainerPair][sData->trainerCard.gender][0],
-                    sTrainerPicOffset[sData->trainerPair][sData->trainerCard.gender][1],
+                    sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][0],
+                    sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][1],
                     8,
                     2);
     }

@@ -427,12 +427,12 @@ Route111_EventScript_Hiker::
 	compare VAR_MIRAGE_TOWER_STATE, 2
 	goto_if_eq Route111_EventScript_HikerMirageTowerDisintegrated
 	goto_if_set FLAG_MIRAGE_TOWER_VISIBLE, Route111_EventScript_HikerMirageTowerVisible
-	goto_if_unset FLAG_RECEIVED_UNOWN, Route111_EventScript_GiveUnown
 	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
 	release
 	end
 
 Route111_EventScript_HikerMirageTowerGone::
+	goto_if_unset FLAG_RECEIVED_UNOWN, Route111_EventScript_GiveUnown
 	msgbox Route111_Text_MirageTowerHasntBeenSeenSince, MSGBOX_DEFAULT
 	release
 	end
@@ -649,7 +649,7 @@ Route111_EventScript_ReceivedUnownFanfare::
 	return
 
 Route111_EventScript_GiveUnownNotYet::
-	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
+	msgbox Route111_Text_MirageTowerHasntBeenSeenSince, MSGBOX_DEFAULT
 	release
 	end
 
@@ -667,7 +667,7 @@ Route111_Text_BattleOurFamily:
 	.string "Hello! I take it you're a traveler.\p"
 	.string "How's this? What do you say to taking\n"
 	.string "on our family of four in a series of\l"
-	.string "POKéMON battles?$"
+	.string "Pokémon battles?$"
 
 Route111_Text_IsThatSo:
 	.string "Is that so?\n"
@@ -682,11 +682,11 @@ Route111_Text_VictorDefeat:
 
 Route111_Text_VictorPostBattle:
 	.string "Hey, all!\n"
-	.string "I've found a pretty strong TRAINER!$"
+	.string "I've found a pretty strong Trainer!$"
 
 Route111_Text_VictoriaIntro:
 	.string "Oh, my goodness! Aren't you young?\p"
-	.string "You must be quite the TRAINER to beat\n"
+	.string "You must be quite the Trainer to beat\n"
 	.string "my husband, though.\p"
 	.string "It's my turn to battle now!$"
 
@@ -695,7 +695,7 @@ Route111_Text_VictoriaDefeat:
 	.string "I can't get over how strong you are!$"
 
 Route111_Text_VictoriaPostBattle:
-	.string "There's a strong TRAINER here!\n"
+	.string "There's a strong Trainer here!\n"
 	.string "This one's really strong!$"
 
 Route111_Text_ViviIntro:
@@ -725,52 +725,52 @@ Route111_Text_VickyPostBattle:
 	.string "visit with us awhile.$"
 
 Route111_Text_ToughToKeepWinningUpTheRanks:
-	.string "If you don't raise your POKéMON some\n"
+	.string "If you don't raise your Pokémon some\n"
 	.string "more, it could be tough to keep winning\l"
 	.string "up through the ranks.\p"
-	.string "I've heard the POKéMON LEAGUE's\n"
-	.string "ELITE FOUR are far stronger than\l"
-	.string "any GYM LEADER.$"
+	.string "I've heard the Pokémon League's\n"
+	.string "Elite Four are far stronger than\l"
+	.string "any Gym Leader.$"
 
 Route111_Text_WinstrateFamilyDestroyedMe:
-	.string "I challenged the WINSTRATE family,\n"
+	.string "I challenged the Winstrate family,\n"
 	.string "but four matches in a row is tough\l"
 	.string "going… They destroyed me.$"
 
 Route111_Text_RouteSignMauville:
-	.string "ROUTE 111\n"
-	.string "{DOWN_ARROW} MAUVILLE CITY$"
+	.string "Route 111\n"
+	.string "{DOWN_ARROW} Mauville City$"
 
 Route111_Text_WinstrateHouseSign:
 	.string "“Our family's hearts beat as one!”\n"
-	.string "THE WINSTRATE'S HOUSE$"
+	.string "The Winstrate's House$"
 
 Route111_Text_RouteSign112:
-	.string "ROUTE 111\n"
-	.string "{LEFT_ARROW} ROUTE 112$"
+	.string "Route 111\n"
+	.string "{LEFT_ARROW} Route 112$"
 
 Route111_Text_RouteSign113:
-	.string "ROUTE 111\n"
-	.string "{LEFT_ARROW} ROUTE 113$"
+	.string "Route 111\n"
+	.string "{LEFT_ARROW} Route 113$"
 
 Route111_Text_OldLadysRestStopSign:
-	.string "OLD LADY'S REST STOP\n"
+	.string "Old Lady's Rest Stop\n"
 	.string "“Come in and rest your tired bones.”$"
 
 Route111_Text_TrainerTipsSpAtkSpDef:
-	.string "TRAINER TIPS\p"
-	.string "One of the indicators of a POKéMON's\n"
-	.string "powerfulness is SP. ATK. It stands for\l"
-	.string "“SPECIAL ATTACK.”\p"
-	.string "Likewise, SP. DEF stands for “SPECIAL\n"
-	.string "DEFENSE.”$"
+	.string "Trainer Tips\p"
+	.string "One of the indicators of a Pokémon's\n"
+	.string "powerfulness is SP. Atk. It stands for\l"
+	.string "“SPECIAL Attack.”\p"
+	.string "Likewise, SP. Def stands for “SPECIAL\n"
+	.string "Defense.”$"
 
 Route111_Text_ShouldBeMirageTowerAroundHere:
 	.string "There should be a tower made of sand\n"
 	.string "around here somewhere.\p"
 	.string "But for some reason, it can be seen\n"
 	.string "sometimes, and sometimes not.\p"
-	.string "That's why I call it the MIRAGE TOWER.$"
+	.string "That's why I call it the Mirage Tower.$"
 
 Route111_Text_MirageTowerClearlyVisible:
 	.string "I see it!\n"
@@ -794,37 +794,37 @@ Route111_Text_MirageTowerHasntBeenSeenSince:
 	.string "Since I spoke to you, the tower of sand\n"
 	.string "hasn't been seen.\p"
 	.string "Perhaps it really was\n"
-	.string "the MIRAGE TOWER…$"
+	.string "the Mirage Tower…$"
 
 Route111_Text_SapphireDisappeared:
-	.string "The SAPPHIRE disappeared into\n"
+	.string "The Sapphire disappeared into\n"
 	.string "the sand…$"
 
 Route111_Text_RubyDisappeared:
-	.string "The RUBY disappeared into\n"
+	.string "The Ruby disappeared into\n"
 	.string "the sand…$"
 
 Route111_Text_MauvilleUncleToldMeToTakeRockSmash:
 	.string "Oh, no!\p"
-	.string "My uncle in MAUVILLE told me to take\n"
-	.string "ROCK SMASH with me if I was going to\l"
-	.string "ROUTE 111!\p"
+	.string "My uncle in Mauville told me to take\n"
+	.string "Rock Smash with me if I was going to\l"
+	.string "Route 111!\p"
 	.string "My uncle? He lives across from\n"
-	.string "the bike shop in MAUVILLE.$"
+	.string "the bike shop in Mauville.$"
 
 Route111_Text_TrainerHillSign:
-	.string "{RIGHT_ARROW} TRAINER HILL ENTRANCE\p"
+	.string "{RIGHT_ARROW} Trainer Hill Entrance\p"
 	.string "“Scale the heights, you hot-blooded\n"
-	.string "TRAINERS!”$"
+	.string "Trainers!”$"
 
 Route111_Text_GiveUnown:
-	.string "I found this strange POKéMON\n"
+	.string "I found this strange Pokémon\n"
 	.string "wandering in the desert.\p"
 	.string "Truthfully, I don't really know\n"
 	.string "how to care for it.\p"
 	.string "You look like a strong\n"
 	.string "trainer, though!\p"
-	.string "Can this POKéMON go with you?$"
+	.string "Can this Pokémon go with you?$"
 
 Route111_Text_GaveUnown:
 	.string "I know it will be happy with you!\p"

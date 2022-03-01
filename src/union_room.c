@@ -319,13 +319,7 @@ static void StringExpandPlaceholders_AwaitingCommFromAnother(u8 *dst, u8 caseId)
     case ACTIVITY_CONTEST_CUTE:
     case ACTIVITY_CONTEST_SMART:
     case ACTIVITY_CONTEST_TOUGH:
-        // BUG: argument *dst isn't used, instead it always prints to gStringVar4
-        // not an issue in practice since Gamefreak never used any other arguments here besides gStringVar4
-        #ifndef BUGFIX
-        StringExpandPlaceholders(gStringVar4, sText_AwaitingCommunication);
-        #else
         StringExpandPlaceholders(dst, sText_AwaitingCommunication);
-        #endif
         break;
     }
 }
@@ -480,14 +474,7 @@ static void Task_TryBecomeLinkLeader(u8 taskId)
         }
         break;
     case LL_STATE_MEMBER_LEFT:
-        // BUG: sPlayerActivityGroupSize was meant below, not gPlayerCurrActivity
-        //      This will be false for all but ACTIVITY_BATTLE_DOUBLE and ACTIVITY_DECLINE
-        //      All this changes is which of two texts gets printed
-        #ifdef BUGFIX
         id = (GROUP_MAX(sPlayerActivityGroupSize) == 2) ? 0 : 1;
-        #else
-        id = (GROUP_MAX(gPlayerCurrActivity) == 2) ? 1 : 0;
-        #endif
         if (PrintOnTextbox(&data->textState, sPlayerUnavailableTexts[id]))
         {
             data->playerCount = sub_8013398(data->field_0);
@@ -1329,11 +1316,7 @@ static bool32 IsPartnerActivityAcceptable(u32 activity, u32 linkGroup)
     if (linkGroup == 0xFF)
         return TRUE;
 
-    #ifdef UBFIX
     if (linkGroup < ARRAY_COUNT(sAcceptedActivityIds))
-    #else
-    if (linkGroup <= ARRAY_COUNT(sAcceptedActivityIds))
-    #endif
     {
         const u8 *bytes = sAcceptedActivityIds[linkGroup];
 

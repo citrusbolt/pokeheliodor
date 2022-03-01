@@ -561,27 +561,27 @@ static const union AnimCmd sAnim_MovingWheelieEast[] =
     ANIMCMD_JUMP(0),
 };
 
-static const union AnimCmd sAnim_BerryTreeStage0[] =
+static const union AnimCmd sAnim_BERRYTreeStage0[] =
 {
     ANIMCMD_FRAME(0, 32),
     ANIMCMD_END,
 };
 
-static const union AnimCmd sAnim_BerryTreeStage1[] =
+static const union AnimCmd sAnim_BERRYTreeStage1[] =
 {
     ANIMCMD_FRAME(1, 32),
     ANIMCMD_FRAME(2, 32),
     ANIMCMD_END,
 };
 
-static const union AnimCmd sAnim_BerryTreeStage2[] =
+static const union AnimCmd sAnim_BERRYTreeStage2[] =
 {
     ANIMCMD_FRAME(3, 48),
     ANIMCMD_FRAME(4, 48),
     ANIMCMD_END,
 };
 
-static const union AnimCmd sAnim_BerryTreeStage3[] =
+static const union AnimCmd sAnim_BERRYTreeStage3[] =
 {
     ANIMCMD_FRAME(5, 32),
     ANIMCMD_FRAME(5, 32),
@@ -590,7 +590,7 @@ static const union AnimCmd sAnim_BerryTreeStage3[] =
     ANIMCMD_END,
 };
 
-static const union AnimCmd sAnim_BerryTreeStage4[] =
+static const union AnimCmd sAnim_BERRYTreeStage4[] =
 {
     ANIMCMD_FRAME(7, 48),
     ANIMCMD_FRAME(7, 48),
@@ -1101,12 +1101,12 @@ static const union AnimCmd *const sAnimTable_FieldMove[] = {
     sAnim_FieldMove,
 };
 
-static const union AnimCmd *const sAnimTable_BerryTree[] = {
-    sAnim_BerryTreeStage0,
-    sAnim_BerryTreeStage1,
-    sAnim_BerryTreeStage2,
-    sAnim_BerryTreeStage3,
-    sAnim_BerryTreeStage4,
+static const union AnimCmd *const sAnimTable_BERRYTree[] = {
+    sAnim_BERRYTreeStage0,
+    sAnim_BERRYTreeStage1,
+    sAnim_BERRYTreeStage2,
+    sAnim_BERRYTreeStage3,
+    sAnim_BERRYTreeStage4,
 };
 
 static const union AnimCmd *const sAnimTable_BreakableRock[] = {

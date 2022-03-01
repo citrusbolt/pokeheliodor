@@ -40,6 +40,8 @@ struct Main
     /*0x439*/ u8 anyLinkBattlerHasFrontierPass:1;
 };
 
+extern EWRAM_DATA bool8 gDisableVBlankRNGAdvance;
+
 extern const u8 gGameVersion;
 extern const u8 gGameLanguage;
 extern const u8 RomHeaderGameCode[4];

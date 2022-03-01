@@ -76,11 +76,7 @@
 
 // Used in cases where division by 0 can occur in the retail version.
 // Avoids invalid opcodes on some emulators, and the otherwise UB.
-#ifdef UBFIX
 #define SAFE_DIV(a, b) ((b) ? (a) / (b) : 0)
-#else
-#define SAFE_DIV(a, b) ((a) / (b))
-#endif
 
 // Extracts the upper 16 bits of a 32-bit number
 #define HIHALF(n) (((n) & 0xFFFF0000) >> 16)
@@ -175,10 +171,11 @@ struct Pokedex
     /*0x00*/ u8 order;
     /*0x01*/ u8 mode;
     /*0x02*/ u8 nationalMagic; // must equal 0xDA in order to have National mode
-    /*0x03*/ u8 unknown2;
+    /*0x03*/ u8 unused1;
     /*0x04*/ u32 unownPersonality; // set when you first see Unown
     /*0x08*/ u32 spindaPersonality; // set when you first see Spinda
-    /*0x0C*/ u32 unknown3;
+    /*0x0C*/ u32 unownForms:28;
+			 u32 unused2:4;
     /*0x10*/ u8 owned[DEX_FLAGS_NO];
     /*0x44*/ u8 seen[DEX_FLAGS_NO];
 };
@@ -1048,13 +1045,15 @@ struct SaveBlock1
     /*0x3662*/ u16 registeredItemR;
 	/*0x3664*/ u8 trainerCardLayout;
 	/*0x3665*/ u8 trainerCardStickers[6];
-	/*0x366B*/ u32 trainerCardStat0:4;
+	/*0x366B*/ u8 missedPadding;
+	/*0x366C*/ u32 trainerCardStat0:4;
 	           u32 trainerCardStat1:4;
 	           u32 trainerCardStat2:4;
 	           u32 trainerCardStat3:4;
 	           u32 trainerCardStat4:4;
 	           u32 filler:12;
-    /*0x367C*/ u8 field_3598[0xA9];
+    /*0x3670*/ u16 rubySapphireSecretId;
+    /*0x3672*/ u8 field_3598[0xA6];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
@@ -1065,7 +1064,7 @@ struct SaveBlock1
     /*0x3D5A*/ u8 filler3D5A[0xA];
     /*0x3D64*/ struct SaveTrainerHill trainerHill;
     /*0x3D70*/ struct WaldaPhrase waldaPhrase;
-    // sizeof: 0x3D8C
+    // sizeof: 0x3D88
 };
 
 extern struct SaveBlock1* gSaveBlock1Ptr;

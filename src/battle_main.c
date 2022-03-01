@@ -2029,7 +2029,12 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 personalityValue = 0x88; // Use personality more likely to result in a male Pokémon
 
             for (j = 0; gTrainers[trainerNum].trainerName[j] != EOS; j++)
-                nameHash += gTrainers[trainerNum].trainerName[j];
+			{
+				if (gTrainers[trainerNum].trainerName[j] >= 0xD5 && gTrainers[trainerNum].trainerName[j] <= 0xEE)
+					nameHash += gTrainers[trainerNum].trainerName[j] - 26;
+				else
+					nameHash += gTrainers[trainerNum].trainerName[j];
+			}
 
             switch (gTrainers[trainerNum].partyFlags)
             {
@@ -2679,7 +2684,10 @@ void SpriteCb_WildMon(struct Sprite *sprite)
 {
     sprite->callback = SpriteCb_MoveWildMonToRight;
     StartSpriteAnimIfDifferent(sprite, 0);
-    BeginNormalPaletteFade(0x20000, 0, 10, 10, RGB(8, 8, 8));
+	if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
+		BeginNormalPaletteFade(0x20000 | (0x10000 << BATTLE_PARTNER(sprite->sBattler)), 0, 10, 10, RGB(8, 8, 8));
+	else
+		BeginNormalPaletteFade(0x20000, 0, 10, 10, RGB(8, 8, 8));
 }
 
 static void SpriteCb_MoveWildMonToRight(struct Sprite *sprite)
@@ -2702,7 +2710,10 @@ static void SpriteCb_WildMonShowHealthbox(struct Sprite *sprite)
         SetHealthboxSpriteVisible(gHealthboxSpriteIds[sprite->sBattler]);
         sprite->callback = SpriteCb_WildMonAnimate;
         StartSpriteAnimIfDifferent(sprite, 0);
-        BeginNormalPaletteFade(0x20000, 0, 10, 0, RGB(8, 8, 8));
+	if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
+		BeginNormalPaletteFade(0x20000 | (0x10000 << BATTLE_PARTNER(sprite->sBattler)), 0, 10, 0, RGB(8, 8, 8));
+	else
+		BeginNormalPaletteFade(0x20000, 0, 10, 0, RGB(8, 8, 8));
     }
 }
 
@@ -4012,6 +4023,12 @@ u8 IsRunningFromBattleImpossible(void)
 
     gPotentialItemEffectBattler = gActiveBattler;
 
+	if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))) && GetBattlerPosition(gActiveBattler) == B_POSITION_PLAYER_RIGHT && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+	{
+		gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+		return 1;
+    }
+
     if (holdEffect == HOLD_EFFECT_CAN_ALWAYS_RUN)
         return 0;
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
@@ -4144,6 +4161,12 @@ static void HandleTurnActionSelectionState(void)
                         || gBattleMons[gActiveBattler].status2 & STATUS2_RECHARGE)
                     {
                         gChosenActionByBattler[gActiveBattler] = B_ACTION_USE_MOVE;
+                        gBattleCommunication[gActiveBattler] = STATE_WAIT_ACTION_CONFIRMED_STANDBY;
+                    }
+					else if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))) && position == B_POSITION_PLAYER_RIGHT && (gBattleStruct->throwingPokeBall || gChosenActionByBattler[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)] == B_ACTION_RUN))
+                    {
+                        gBattleStruct->throwingPokeBall = FALSE;
+                        gChosenActionByBattler[gActiveBattler] = B_ACTION_NOTHING_FAINTED; // Not fainted, but it cannot move, because of the throwing ball.
                         gBattleCommunication[gActiveBattler] = STATE_WAIT_ACTION_CONFIRMED_STANDBY;
                     }
                     else
@@ -4394,6 +4417,8 @@ static void HandleTurnActionSelectionState(void)
                     else
                     {
                         gLastUsedItem = (gBattleBufferB[gActiveBattler][1] | (gBattleBufferB[gActiveBattler][2] << 8));
+						if (ItemId_GetPocket(gLastUsedItem) == POCKET_POKE_BALLS)
+							gBattleStruct->throwingPokeBall = TRUE;
                         gBattleCommunication[gActiveBattler]++;
                     }
                     break;

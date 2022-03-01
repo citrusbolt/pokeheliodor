@@ -99,7 +99,7 @@ If you encounter any other issues, especially relating to the three compatibilit
 
 The release patch can be applied to a dump of Pokémon Emerald with a sha1 sum of f3ae088181bf583e55daf962a92bb46f4f1d07b7 using a program such as [***beat***](https://github.com/Screwtapello/beat) or [***Floating IPS***](https://github.com/Alcaro/Flips).
 
-To build this yourself, see [INSTALL.md](INSTALL.md).
+To build this yourself, see [INSTALL.md](docs/INSTALL.md).
 
 
 ## Thanks to

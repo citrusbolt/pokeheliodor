@@ -1283,11 +1283,7 @@ static s32 HideGameDisplay(void)
     case 1:
         if (!IsLinkTaskFinished())
             return 0;
-        // fall through
-        // This will call BeginNormalPaletteFade() twice.
-#ifdef BUGFIX
         break;
-#endif
     case 2:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         UpdatePaletteFade();
@@ -1814,8 +1810,8 @@ static void Task_ShowRankings(u8 taskId)
         break;
     case 1:
         // Print header text
-        xPos = 96 - GetStringWidth(1, gText_BerryCrush2, -1) / 2u;
-        AddTextPrinterParameterized3(tWindowId, 1, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush2);
+        xPos = 96 - GetStringWidth(1, gText_BERRYCrush2, -1) / 2u;
+        AddTextPrinterParameterized3(tWindowId, 1, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BERRYCrush2);
         xPos = 96 - GetStringWidth(1, gText_PressingSpeedRankings, -1) / 2u;
         AddTextPrinterParameterized3(tWindowId, 1, xPos, 17, sTextColorTable[COLORID_BLUE], 0, gText_PressingSpeedRankings);
         
@@ -2394,8 +2390,8 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
             game->players[i].berryId = gBlockRecvBuffer[i][0];
             if (game->players[i].berryId > LAST_BERRY_INDEX + 1)
                 game->players[i].berryId = 0;
-            game->targetAPresses += gBerryCrush_BerryData[game->players[i].berryId].difficulty;
-            game->powder += gBerryCrush_BerryData[game->players[i].berryId].powder;
+            game->targetAPresses += gBerryCrush_BERRYData[game->players[i].berryId].difficulty;
+            game->powder += gBerryCrush_BERRYData[game->players[i].berryId].powder;
         }
         game->cmdTimer = 0;
         ResetBlockReceivedFlags();
@@ -2749,27 +2745,17 @@ static void HandlePlayerInput(struct BerryCrushGame *game)
     // depending on how many A presses there were in that time (including the bonus)
     if (game->timer % 15 == 0)
     {
-        // BUG: The wrong field is used twice below
-        // As a result, only a sparkleAmount of 0, 1, or 4 is attainable
-        #ifdef BUGFIX
-        #define field sparkleAmount
-        #else
-        #define field sparkleCounter
-        #endif
-
         if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][0])
             game->sparkleAmount = 0;
         else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][1])
             game->sparkleAmount = 1;
         else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][2])
-            game->field = 2;
+            game->sparkleAmount = 2;
         else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][3])
-            game->field = 3;
+            game->sparkleAmount = 3;
         else
             game->sparkleAmount = 4;
         game->sparkleCounter = 0;
-
-        #undef field
     }
     else
     {

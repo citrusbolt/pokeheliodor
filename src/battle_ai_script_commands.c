@@ -453,16 +453,7 @@ static u8 ChooseMoveOrAction_Doubles(void)
 {
     s32 i;
     s32 j;
-#ifndef BUGFIX
-    s32 scriptsToRun;
-#else
-    // the value assigned to this is a u32 (aiFlags)
-    // this becomes relevant because aiFlags can have bit 31 set
-    // and scriptsToRun is shifted
-    // this never happens in the vanilla game because bit 31 is
-    // only set when it's the first battle
     u32 scriptsToRun;
-#endif
     s16 bestMovePointsForTarget[MAX_BATTLERS_COUNT];
     s8 mostViableTargetsArray[MAX_BATTLERS_COUNT];
     u8 actionOrMoveIndex[MAX_BATTLERS_COUNT];
@@ -1619,12 +1610,7 @@ static void Cmd_if_status_not_in_party(void)
         u32 status = GetMonData(&party[i], MON_DATA_STATUS);
 
         if (species != SPECIES_NONE && species != SPECIES_EGG && hp != 0 && status == statusToCompareTo)
-        {
             gAIScriptPtr += 10;
-            #ifdef UBFIX
-            return;
-            #endif
-        }
     }
 
     gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 6);
@@ -1768,12 +1754,6 @@ static void Cmd_if_cant_faint(void)
 
     gBattleMoveDamage = gBattleMoveDamage * AI_THINKING_STRUCT->simulatedRNG[AI_THINKING_STRUCT->movesetIndex] / 100;
 
-#ifdef BUGFIX
-    // Moves always do at least 1 damage.
-    if (gBattleMoveDamage == 0)
-        gBattleMoveDamage = 1;
-#endif
-
     if (gBattleMons[gBattlerTarget].hp > gBattleMoveDamage)
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
     else
@@ -1889,13 +1869,8 @@ static void Cmd_if_has_move_with_effect(void)
         for (i = 0; i < MAX_MON_MOVES; i++)
         {
             // BUG: checks sBattler_AI instead of gBattlerTarget.
-            #ifndef BUGFIX
             if (gBattleMons[sBattler_AI].moves[i] != 0 && gBattleMoves[BATTLE_HISTORY->usedMoves[gBattlerTarget].moves[i]].effect == gAIScriptPtr[2])
                 break;
-            #else
-            if (gBattleMons[gBattlerTarget].moves[i] != 0 && gBattleMoves[BATTLE_HISTORY->usedMoves[gBattlerTarget].moves[i]].effect == gAIScriptPtr[2])
-                break;
-            #endif
         }
         if (i == MAX_MON_MOVES)
             gAIScriptPtr += 7;
@@ -2040,14 +2015,7 @@ static void Cmd_if_holds_item(void)
     itemHi = gAIScriptPtr[2];
     itemLo = gAIScriptPtr[3];
 
-#ifdef BUGFIX
-    // This bug doesn't affect the vanilla game because this script command
-    // is only used to check ITEM_PERSIM_BERRY, whose high byte happens to
-    // be 0.
     if (((itemHi << 8) | itemLo) == item)
-#else
-    if ((itemLo | itemHi) == item)
-#endif
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 4);
     else
         gAIScriptPtr += 8;

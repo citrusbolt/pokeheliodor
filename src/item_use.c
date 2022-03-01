@@ -47,6 +47,7 @@
 #include "international_string_util.h"
 #include "field_specials.h"
 #include "constants/field_specials.h"
+#include "battle_anim.h"
 
 static void SetUpItemUseCallback(u8 taskId);
 static void FieldCB_UseItemOnField(void);
@@ -63,7 +64,7 @@ static void Task_OpenRegisteredPokeblockCase(u8 taskId);
 static void ItemUseOnFieldCB_Bike(u8 taskId);
 static void ItemUseOnFieldCB_Rod(u8);
 static void ItemUseOnFieldCB_Itemfinder(u8);
-static void ItemUseOnFieldCB_Berry(u8 taskId);
+static void ItemUseOnFieldCB_BERRY(u8 taskId);
 static void ItemUseOnFieldCB_WailmerPailBerry(u8 taskId);
 static void ItemUseOnFieldCB_WailmerPailSudowoodo(u8 taskId);
 static bool8 TryToWaterSudowoodo(void);
@@ -699,11 +700,11 @@ u16 GetAshCount(void)
 	return *ashGatherCount;
 }
 
-void ItemUseOutOfBattle_Berry(u8 taskId)
+void ItemUseOutOfBattle_BERRY(u8 taskId)
 {
     if (IsPlayerFacingEmptyBerryTreePatch() == TRUE)
     {
-        sItemUseOnFieldCB = ItemUseOnFieldCB_Berry;
+        sItemUseOnFieldCB = ItemUseOnFieldCB_BERRY;
         gFieldCallback = FieldCB_UseItemOnField;
         gBagMenu->newScreenCallback = CB2_ReturnToField;
         Task_FadeAndCloseBagMenu(taskId);
@@ -714,7 +715,7 @@ void ItemUseOutOfBattle_Berry(u8 taskId)
     }
 }
 
-static void ItemUseOnFieldCB_Berry(u8 taskId)
+static void ItemUseOnFieldCB_BERRY(u8 taskId)
 {
     RemoveBagItem(gSpecialVar_ItemId, 1);
     ScriptContext2_Enable();
@@ -967,7 +968,17 @@ void ItemUseOutOfBattle_EvolutionStone(u8 taskId)
 
 void ItemUseInBattle_PokeBall(u8 taskId)
 {
-    if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
+	if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+		&& IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)))
+	{
+		DisplayItemMessage(taskId, 1, gText_ImpossibleToAim, CloseItemMessage);
+	}
+	else if (gBattlerInMenuId == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
+			&& IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+	{
+		DisplayItemMessage(taskId, 1, gText_CantThrowBall, CloseItemMessage);
+	}
+	else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
         if (!InBattlePyramid())

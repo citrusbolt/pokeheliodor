@@ -3444,8 +3444,8 @@ extern const u32 gItemIconPalette_YellowFlute[];
 extern const u32 gItemIconPalette_RedFlute[];
 extern const u32 gItemIconPalette_BlackFlute[];
 extern const u32 gItemIconPalette_WhiteFlute[];
-extern const u32 gItemIcon_BerryJuice[];
-extern const u32 gItemIconPalette_BerryJuice[];
+extern const u32 gItemIcon_BERRYJuice[];
+extern const u32 gItemIconPalette_BERRYJuice[];
 extern const u32 gItemIcon_SacredAsh[];
 extern const u32 gItemIconPalette_SacredAsh[];
 // Collectibles
@@ -3837,8 +3837,8 @@ extern const u32 gItemIcon_FameChecker[];
 extern const u32 gItemIconPalette_FameChecker[];
 extern const u32 gItemIcon_TMCase[];
 extern const u32 gItemIconPalette_TMCase[];
-extern const u32 gItemIcon_BerryPouch[];
-extern const u32 gItemIconPalette_BerryPouch[];
+extern const u32 gItemIcon_BERRYPouch[];
+extern const u32 gItemIconPalette_BERRYPouch[];
 extern const u32 gItemIcon_TeachyTV[];
 extern const u32 gItemIconPalette_TeachyTV[];
 extern const u32 gItemIcon_TriPass[];
@@ -5128,7 +5128,7 @@ extern const u32 gItemIconPalette_CatchingCharm[];
 extern const u32 gItemIcon_ExpCharm[];
 extern const u32 gItemIconPalette_ExpCharm[];
 
-// Poke Ball Summary Icons
+// Poké Ball Summary Icons
 extern const u32 gBallIcon_Poke[];
 extern const u32 gBallIconPalette_Poke[];
 extern const u32 gBallIcon_Safari[];
@@ -5153,6 +5153,32 @@ extern const u32 gBallIcon_Luxury[];
 extern const u32 gBallIconPalette_Luxury[];
 extern const u32 gBallIcon_Premier[];
 extern const u32 gBallIconPalette_Premier[];
+extern const u32 gBallIcon_Dusk[];
+extern const u32 gBallIconPalette_Dusk[];
+extern const u32 gBallIcon_Heal[];
+extern const u32 gBallIconPalette_Heal[];
+extern const u32 gBallIcon_Quick[];
+extern const u32 gBallIconPalette_Quick[];
+extern const u32 gBallIcon_Cherish[];
+extern const u32 gBallIconPalette_Cherish[];
+extern const u32 gBallIcon_Fast[];
+extern const u32 gBallIconPalette_Fast[];
+extern const u32 gBallIcon_Level[];
+extern const u32 gBallIconPalette_Level[];
+extern const u32 gBallIcon_Lure[];
+extern const u32 gBallIconPalette_Lure[];
+extern const u32 gBallIcon_Heavy[];
+extern const u32 gBallIconPalette_Heavy[];
+extern const u32 gBallIcon_Love[];
+extern const u32 gBallIconPalette_Love[];
+extern const u32 gBallIcon_Friend[];
+extern const u32 gBallIconPalette_Friend[];
+extern const u32 gBallIcon_Moon[];
+extern const u32 gBallIconPalette_Moon[];
+extern const u32 gBallIcon_Sport[];
+extern const u32 gBallIconPalette_Sport[];
+extern const u32 gBallIcon_Dream[];
+extern const u32 gBallIconPalette_Dream[];
 
 // e-Card Berries
 extern const u32 gBerryPic_Pumkin[];
@@ -5169,5 +5195,22 @@ extern const u32 gBerryPic_Nutpea[];
 extern const u32 gBerryPalette_Nutpea[];
 extern const u32 gBerryPic_Mochi[];
 extern const u32 gBerryPalette_Mochi[];
+
+extern const u32 gSummaryScreenTiles[];
+extern const u32 gSummaryScreenBackgroundTilemap[];
+extern const u32 gSummaryScreenPalette[];
+extern const u32 gSummaryExpBar_Tiles[];
+extern const u32 gSummaryHealthBar_Tiles[];
+extern const u16 gExpBarHealthBarGreenPal[];
+extern const u32 gSummaryScreenPageInfoTilemap[];
+extern const u32 gSummaryScreenPageMemoTilemap[];
+extern const u32 gSummaryScreenPageSkillsTilemap[];
+extern const u32 gSummaryScreenPageMovesTilemap[];
+extern const u32 gSummaryScreenPageMoveDetailsTilemap[];
+extern const u32 gSummaryScreenPageNewMoveTilemap[];
+extern const u32 gSummaryScreenPageContestMovesTilemap[];
+extern const u32 gSummaryScreenPageContestMoveDetailsTilemap[];
+extern const u32 gSummaryScreenPageContestNewMoveTilemap[];
+extern const u32 gSummaryScreenPageConditionTilemap[];
 
 #endif //GUARD_GRAPHICS_H

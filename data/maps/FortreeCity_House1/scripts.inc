@@ -130,7 +130,7 @@ FortreeCity_House1_Text_GoingToMakeGolduckStrong:
 	.string "I hope you do the same with LICKITUNG!$"
 
 FortreeCity_House1_Text_TradingMemoriesWithOthers:
-	.string "Trading POKéMON with others…\p"
+	.string "Trading Pokémon with others…\p"
 	.string "It's as if you're trading your own\n"
 	.string "memories with other people.$"
 

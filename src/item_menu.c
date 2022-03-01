@@ -315,7 +315,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_BATTLE_USE]        = {gMenuText_Use,      ItemMenu_UseInBattle},
     [ACTION_CHECK]             = {gMenuText_Check,    ItemMenu_UseOutOfBattle},
     [ACTION_WALK]              = {gMenuText_Walk,     ItemMenu_UseOutOfBattle},
-    [ACTION_DESELECT]          = {gMenuText_Deselect, ItemMenu_Register},
+    [ACTION_DESELECT]          = {gMenuText_Deselect, ItemMenu_Deselect},
     [ACTION_CHECK_TAG]         = {gMenuText_CheckTag, ItemMenu_CheckTag},
     [ACTION_CONFIRM]           = {gMenuText_Confirm,  Task_FadeAndCloseBagMenu},
     [ACTION_SHOW]              = {gMenuText_Show,     ItemMenu_Show},
@@ -372,7 +372,7 @@ static const u8 sContextMenuItems_Cancel[] = {
     ACTION_CANCEL
 };
 
-static const u8 sContextMenuItems_BerryBlenderCrush[] = {
+static const u8 sContextMenuItems_BERRYBlenderCrush[] = {
     ACTION_CONFIRM,     ACTION_CHECK_TAG,
     ACTION_DUMMY,       ACTION_CANCEL
 };
@@ -1699,8 +1699,8 @@ static void OpenContextMenu(u8 taskId)
         }
         break;
     case ITEMMENULOCATION_BERRY_BLENDER_CRUSH:
-        gBagMenu->contextMenuItemsPtr = sContextMenuItems_BerryBlenderCrush;
-        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BerryBlenderCrush);
+        gBagMenu->contextMenuItemsPtr = sContextMenuItems_BERRYBlenderCrush;
+        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BERRYBlenderCrush);
         break;
     case ITEMMENULOCATION_APPRENTICE:
         if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
@@ -1743,7 +1743,7 @@ static void OpenContextMenu(u8 taskId)
     case ITEMMENULOCATION_BERRY_TREE:
     case ITEMMENULOCATION_ITEMPC:
     default:
-        if (MenuHelpers_LinkSomething() == TRUE || InUnionRoom() == TRUE)
+        if (MenuHelpers_LinkSomething() == TRUE)
         {
             if (gBagPosition.pocket == KEYITEMS_POCKET || !IsHoldingItemAllowed(gSpecialVar_ItemId))
             {
@@ -1769,20 +1769,32 @@ static void OpenContextMenu(u8 taskId)
                 break;
             case KEYITEMS_POCKET:
                 gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_KeyItemsPocket);
-                memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_KeyItemsPocket, sizeof(sContextMenuItems_KeyItemsPocket));
-                if (gSaveBlock1Ptr->registeredItemSelect == gSpecialVar_ItemId)
-					gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
-				else if (gSaveBlock1Ptr->registeredItemL == gSpecialVar_ItemId)
-					gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
-				else if (gSaveBlock1Ptr->registeredItemR == gSpecialVar_ItemId)
-					gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
-                if (gSpecialVar_ItemId == ITEM_MACH_BIKE || gSpecialVar_ItemId == ITEM_ACRO_BIKE)
-                {
-					if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
-						gBagMenu->contextMenuItemsBuffer[0] = ACTION_WALK;
-					gBagMenu->contextMenuItemsBuffer[2] = ACTION_RECONFIGURE;
-                }
+                if (sRegisterSubMenu == FALSE)
+				{
+					gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_KeyItemsPocket);
+					memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_KeyItemsPocket, sizeof(sContextMenuItems_KeyItemsPocket));
+
+					if (gSaveBlock1Ptr->registeredItemSelect == gSpecialVar_ItemId)
+						gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
+					else if (gSaveBlock1Ptr->registeredItemL == gSpecialVar_ItemId)
+						gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
+					else if (gSaveBlock1Ptr->registeredItemR == gSpecialVar_ItemId)
+						gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
+
+					if (gSpecialVar_ItemId == ITEM_MACH_BIKE || gSpecialVar_ItemId == ITEM_ACRO_BIKE)
+					{
+						if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+							gBagMenu->contextMenuItemsBuffer[0] = ACTION_WALK;
+						gBagMenu->contextMenuItemsBuffer[2] = ACTION_RECONFIGURE;
+					}
+				}
+				else
+				{
+					gBagMenu->contextMenuNumItems = NELEMS(sContextMenu_RegisterKeyItem);
+					memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenu_RegisterKeyItem, sizeof(sContextMenu_RegisterKeyItem));
+					sRegisterSubMenu = FALSE;
+				}
+                
                 break;
             case BALLS_POCKET:
                 gBagMenu->contextMenuItemsPtr = sContextMenuItems_BallsPocket;
@@ -1958,7 +1970,7 @@ static void ItemMenu_UseOutOfBattle(u8 taskId)
             if (gBagPosition.pocket != BERRIES_POCKET)
                 ItemId_GetFieldFunc(gSpecialVar_ItemId)(taskId);
             else
-                ItemUseOutOfBattle_Berry(taskId);
+                ItemUseOutOfBattle_BERRY(taskId);
         }
     }
 }
@@ -3304,7 +3316,7 @@ bool8 UseRegisteredKeyItemOnField(u8 button)
     u8 taskId;
     u16 registeredItem;
 
-    if (InUnionRoom() == TRUE || InBattlePyramid() || InBattlePike() || InMultiPartnerRoom() == TRUE)
+    if (InBattlePyramid() || InBattlePike() || InMultiPartnerRoom() == TRUE)
         return FALSE;
     
     HideMapNamePopUpWindow();

@@ -380,25 +380,25 @@ void HandleAction_UseItem(void)
             }
             break;
         case AI_ITEM_GUARD_SPEC:
-            // It seems probable that at some point there was a special message for
-            // an AI trainer using Guard Spec in a double battle.
-            // There isn't now however, and the assignment to 2 below goes out of
-            // bounds for gMistUsedStringIds and instead prints "{mon} is getting pumped"
-            // from the next table, gFocusEnergyUsedStringIds.
-            // In any case this isn't an issue in the retail version, as no trainers
-            // are ever given any Guard Spec to use.
-#ifndef UBFIX
-            if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-                gBattleCommunication[MULTISTRING_CHOOSER] = 2;
-            else
-#endif
-                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SET_MIST;
+            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SET_MIST;
             break;
         }
 
         gBattlescriptCurrInstr = gBattlescriptsForUsingItem[*(gBattleStruct->AI_itemType + gBattlerAttacker / 2)];
     }
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
+}
+
+bool8 IsBattlerAlive(u8 battlerId)
+{
+	if (gBattleMons[battlerId].hp == 0)
+		return FALSE;
+	else if (battlerId >= gBattlersCount)
+		return FALSE;
+	else if (gAbsentBattlerFlags & gBitTable[battlerId])
+		return FALSE;
+	else
+		return TRUE;
 }
 
 bool8 TryRunFromBattle(u8 battler)
@@ -448,26 +448,27 @@ bool8 TryRunFromBattle(u8 battler)
     }
     else
     {
-        if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
-        {
-            if (InBattlePyramid())
-            {
-                pyramidMultiplier = GetPyramidRunMultiplier();
-                speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
-                if (speedVar > (Random() & 0xFF))
-                    effect++;
-            }
-            else if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed)
-            {
-                speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
-                if (speedVar > (Random() & 0xFF))
-                    effect++;
-            }
-            else // same speed or faster
-            {
-                effect++;
-            }
-        }
+		u8 opponent = BATTLE_OPPOSITE(battler);
+
+		if (!IsBattlerAlive(opponent))
+			opponent |= BIT_FLANK;
+		if (InBattlePyramid())
+		{
+			pyramidMultiplier = GetPyramidRunMultiplier();
+			speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[opponent].speed) + (gBattleStruct->runTries * 30);
+			if (speedVar > (Random() & 0xFF))
+				effect++;
+		}
+		else if (gBattleMons[battler].speed < gBattleMons[opponent].speed)
+		{
+			speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[opponent].speed) + (gBattleStruct->runTries * 30);
+			if (speedVar > (Random() & 0xFF))
+				effect++;
+		}
+		else // same speed or faster
+		{
+			effect++;
+		}
 
         gBattleStruct->runTries++;
     }
@@ -569,12 +570,7 @@ void HandleAction_ThrowPokeblock(void)
         gBattleStruct->safariPkblThrowCounter++;
     if (gBattleStruct->safariEscapeFactor > 1)
     {
-        // BUG: safariEscapeFactor can become 0 below. This causes the pokeblock throw glitch.
-        #ifdef BUGFIX
         if (gBattleStruct->safariEscapeFactor <= sPkblToEscapeFactor[gBattleStruct->safariPkblThrowCounter][gBattleCommunication[MULTISTRING_CHOOSER]])
-        #else
-        if (gBattleStruct->safariEscapeFactor < sPkblToEscapeFactor[gBattleStruct->safariPkblThrowCounter][gBattleCommunication[MULTISTRING_CHOOSER]])
-        #endif
             gBattleStruct->safariEscapeFactor = 1;
         else
             gBattleStruct->safariEscapeFactor -= sPkblToEscapeFactor[gBattleStruct->safariPkblThrowCounter][gBattleCommunication[MULTISTRING_CHOOSER]];
@@ -1420,6 +1416,7 @@ enum
 {
     ENDTURN_INGRAIN,
     ENDTURN_ABILITIES,
+    ENDTURN_FRIENDSHIP_RECOVER,
     ENDTURN_ITEMS1,
     ENDTURN_LEECH_SEED,
     ENDTURN_POISON,
@@ -1472,6 +1469,11 @@ u8 DoBattlerEndTurnEffects(void)
                 break;
             case ENDTURN_ABILITIES:  // end turn abilities
                 if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, gActiveBattler, 0, 0, 0))
+                    effect++;
+                gBattleStruct->turnEffectsTracker++;
+                break;
+            case ENDTURN_FRIENDSHIP_RECOVER:  // end status condition removal
+                if (FriendshipStatusRecover())
                     effect++;
                 gBattleStruct->turnEffectsTracker++;
                 break;
@@ -3337,7 +3339,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
 
                         PREPARE_MOVE_BUFFER(gBattleTextBuff1, move);
 
-                        BattleScriptExecute(BattleScript_BerryPPHealEnd2);
+                        BattleScriptExecute(BattleScript_BERRYPPHealEnd2);
                         BtlController_EmitSetMonData(0, i + REQUEST_PPMOVE1_BATTLE, 0, 1, &changedPP);
                         MarkBattlerForControllerExec(gActiveBattler);
                         effect = ITEM_PP_CHANGE;
@@ -3388,7 +3390,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                         gBattleMoveDamage = gBattleMons[battlerId].maxHP - gBattleMons[battlerId].hp;
                     gBattleMoveDamage *= -1;
                     if (GetFlavorRelationByPersonality(gBattleMons[battlerId].personality, FLAVOR_SPICY) < 0)
-                        BattleScriptExecute(BattleScript_BerryConfuseHealEnd2);
+                        BattleScriptExecute(BattleScript_BERRYConfuseHealEnd2);
                     else
                         BattleScriptExecute(BattleScript_ItemHealHP_RemoveItem);
                     effect = ITEM_HP_CHANGE;
@@ -3406,7 +3408,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                         gBattleMoveDamage = gBattleMons[battlerId].maxHP - gBattleMons[battlerId].hp;
                     gBattleMoveDamage *= -1;
                     if (GetFlavorRelationByPersonality(gBattleMons[battlerId].personality, FLAVOR_DRY) < 0)
-                        BattleScriptExecute(BattleScript_BerryConfuseHealEnd2);
+                        BattleScriptExecute(BattleScript_BERRYConfuseHealEnd2);
                     else
                         BattleScriptExecute(BattleScript_ItemHealHP_RemoveItem);
                     effect = ITEM_HP_CHANGE;
@@ -3424,7 +3426,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                         gBattleMoveDamage = gBattleMons[battlerId].maxHP - gBattleMons[battlerId].hp;
                     gBattleMoveDamage *= -1;
                     if (GetFlavorRelationByPersonality(gBattleMons[battlerId].personality, FLAVOR_SWEET) < 0)
-                        BattleScriptExecute(BattleScript_BerryConfuseHealEnd2);
+                        BattleScriptExecute(BattleScript_BERRYConfuseHealEnd2);
                     else
                         BattleScriptExecute(BattleScript_ItemHealHP_RemoveItem);
                     effect = ITEM_HP_CHANGE;
@@ -3442,7 +3444,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                         gBattleMoveDamage = gBattleMons[battlerId].maxHP - gBattleMons[battlerId].hp;
                     gBattleMoveDamage *= -1;
                     if (GetFlavorRelationByPersonality(gBattleMons[battlerId].personality, FLAVOR_BITTER) < 0)
-                        BattleScriptExecute(BattleScript_BerryConfuseHealEnd2);
+                        BattleScriptExecute(BattleScript_BERRYConfuseHealEnd2);
                     else
                         BattleScriptExecute(BattleScript_ItemHealHP_RemoveItem);
                     effect = ITEM_HP_CHANGE;
@@ -3460,7 +3462,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                         gBattleMoveDamage = gBattleMons[battlerId].maxHP - gBattleMons[battlerId].hp;
                     gBattleMoveDamage *= -1;
                     if (GetFlavorRelationByPersonality(gBattleMons[battlerId].personality, FLAVOR_SOUR) < 0)
-                        BattleScriptExecute(BattleScript_BerryConfuseHealEnd2);
+                        BattleScriptExecute(BattleScript_BERRYConfuseHealEnd2);
                     else
                         BattleScriptExecute(BattleScript_ItemHealHP_RemoveItem);
                     effect = ITEM_HP_CHANGE;
@@ -3478,7 +3480,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     SET_STATCHANGER(STAT_ATK, 1, FALSE);
                     gBattleScripting.animArg1 = 14 + STAT_ATK;
                     gBattleScripting.animArg2 = 0;
-                    BattleScriptExecute(BattleScript_BerryStatRaiseEnd2);
+                    BattleScriptExecute(BattleScript_BERRYStatRaiseEnd2);
                     effect = ITEM_STATS_CHANGE;
                 }
                 break;
@@ -3492,7 +3494,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     SET_STATCHANGER(STAT_DEF, 1, FALSE);
                     gBattleScripting.animArg1 = 14 + STAT_DEF;
                     gBattleScripting.animArg2 = 0;
-                    BattleScriptExecute(BattleScript_BerryStatRaiseEnd2);
+                    BattleScriptExecute(BattleScript_BERRYStatRaiseEnd2);
                     effect = ITEM_STATS_CHANGE;
                 }
                 break;
@@ -3506,7 +3508,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     SET_STATCHANGER(STAT_SPEED, 1, FALSE);
                     gBattleScripting.animArg1 = 14 + STAT_SPEED;
                     gBattleScripting.animArg2 = 0;
-                    BattleScriptExecute(BattleScript_BerryStatRaiseEnd2);
+                    BattleScriptExecute(BattleScript_BERRYStatRaiseEnd2);
                     effect = ITEM_STATS_CHANGE;
                 }
                 break;
@@ -3520,7 +3522,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     SET_STATCHANGER(STAT_SPATK, 1, FALSE);
                     gBattleScripting.animArg1 = 14 + STAT_SPATK;
                     gBattleScripting.animArg2 = 0;
-                    BattleScriptExecute(BattleScript_BerryStatRaiseEnd2);
+                    BattleScriptExecute(BattleScript_BERRYStatRaiseEnd2);
                     effect = ITEM_STATS_CHANGE;
                 }
                 break;
@@ -3534,7 +3536,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     SET_STATCHANGER(STAT_SPDEF, 1, FALSE);
                     gBattleScripting.animArg1 = 14 + STAT_SPDEF;
                     gBattleScripting.animArg2 = 0;
-                    BattleScriptExecute(BattleScript_BerryStatRaiseEnd2);
+                    BattleScriptExecute(BattleScript_BERRYStatRaiseEnd2);
                     effect = ITEM_STATS_CHANGE;
                 }
                 break;
@@ -3543,7 +3545,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     && !(gBattleMons[battlerId].status2 & STATUS2_FOCUS_ENERGY))
                 {
                     gBattleMons[battlerId].status2 |= STATUS2_FOCUS_ENERGY;
-                    BattleScriptExecute(BattleScript_BerryFocusEnergyEnd2);
+                    BattleScriptExecute(BattleScript_BERRYFocusEnergyEnd2);
                     effect = ITEM_EFFECT_OTHER;
                 }
                 break;
@@ -3577,7 +3579,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                         SET_STATCHANGER(i + 1, 2, FALSE);
                         gBattleScripting.animArg1 = 0x21 + i + 6;
                         gBattleScripting.animArg2 = 0;
-                        BattleScriptExecute(BattleScript_BerryStatRaiseEnd2);
+                        BattleScriptExecute(BattleScript_BERRYStatRaiseEnd2);
                         effect = ITEM_STATS_CHANGE;
                     }
                 }
@@ -3586,7 +3588,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 if (gBattleMons[battlerId].status1 & STATUS1_PARALYSIS)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_PARALYSIS);
-                    BattleScriptExecute(BattleScript_BerryCurePrlzEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCurePrlzEnd2);
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3594,7 +3596,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 if (gBattleMons[battlerId].status1 & STATUS1_PSN_ANY)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_PSN_ANY | STATUS1_TOXIC_COUNTER);
-                    BattleScriptExecute(BattleScript_BerryCurePsnEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCurePsnEnd2);
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3602,7 +3604,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 if (gBattleMons[battlerId].status1 & STATUS1_BURN)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_BURN);
-                    BattleScriptExecute(BattleScript_BerryCureBrnEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCureBrnEnd2);
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3610,7 +3612,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 if (gBattleMons[battlerId].status1 & STATUS1_FREEZE)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_FREEZE);
-                    BattleScriptExecute(BattleScript_BerryCureFrzEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCureFrzEnd2);
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3619,7 +3621,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_SLEEP);
                     gBattleMons[battlerId].status2 &= ~(STATUS2_NIGHTMARE);
-                    BattleScriptExecute(BattleScript_BerryCureSlpEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCureSlpEnd2);
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3627,7 +3629,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 if (gBattleMons[battlerId].status2 & STATUS2_CONFUSION)
                 {
                     gBattleMons[battlerId].status2 &= ~(STATUS2_CONFUSION);
-                    BattleScriptExecute(BattleScript_BerryCureConfusionEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCureConfusionEnd2);
                     effect = ITEM_EFFECT_OTHER;
                 }
                 break;
@@ -3672,7 +3674,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_NORMALIZED_STATUS;
                     gBattleMons[battlerId].status1 = 0;
                     gBattleMons[battlerId].status2 &= ~(STATUS2_CONFUSION);
-                    BattleScriptExecute(BattleScript_BerryCureChosenStatusEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCureChosenStatusEnd2);
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3681,7 +3683,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 {
                     gBattleMons[battlerId].status2 &= ~(STATUS2_INFATUATION);
                     StringCopy(gBattleTextBuff1, gStatusConditionString_LoveJpn);
-                    BattleScriptExecute(BattleScript_BerryCureChosenStatusEnd2);
+                    BattleScriptExecute(BattleScript_BERRYCureChosenStatusEnd2);
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_PROBLEM;
                     effect = ITEM_EFFECT_OTHER;
                 }
@@ -3729,7 +3731,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_PARALYSIS);
                     BattleScriptPushCursor();
-                    gBattlescriptCurrInstr = BattleScript_BerryCureParRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCureParRet;
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3738,7 +3740,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_PSN_ANY | STATUS1_TOXIC_COUNTER);
                     BattleScriptPushCursor();
-                    gBattlescriptCurrInstr = BattleScript_BerryCurePsnRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCurePsnRet;
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3747,7 +3749,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_BURN);
                     BattleScriptPushCursor();
-                    gBattlescriptCurrInstr = BattleScript_BerryCureBrnRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCureBrnRet;
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3756,7 +3758,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_FREEZE);
                     BattleScriptPushCursor();
-                    gBattlescriptCurrInstr = BattleScript_BerryCureFrzRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCureFrzRet;
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3766,7 +3768,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     gBattleMons[battlerId].status1 &= ~(STATUS1_SLEEP);
                     gBattleMons[battlerId].status2 &= ~(STATUS2_NIGHTMARE);
                     BattleScriptPushCursor();
-                    gBattlescriptCurrInstr = BattleScript_BerryCureSlpRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCureSlpRet;
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -3775,7 +3777,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 {
                     gBattleMons[battlerId].status2 &= ~(STATUS2_CONFUSION);
                     BattleScriptPushCursor();
-                    gBattlescriptCurrInstr = BattleScript_BerryCureConfusionRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCureConfusionRet;
                     effect = ITEM_EFFECT_OTHER;
                 }
                 break;
@@ -3786,7 +3788,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     StringCopy(gBattleTextBuff1, gStatusConditionString_LoveJpn);
                     BattleScriptPushCursor();
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_PROBLEM;
-                    gBattlescriptCurrInstr = BattleScript_BerryCureChosenStatusRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCureChosenStatusRet;
                     effect = ITEM_EFFECT_OTHER;
                 }
                 break;
@@ -3822,7 +3824,7 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     gBattleMons[battlerId].status2 &= ~(STATUS2_CONFUSION);
                     BattleScriptPushCursor();
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_PROBLEM;
-                    gBattlescriptCurrInstr = BattleScript_BerryCureChosenStatusRet;
+                    gBattlescriptCurrInstr = BattleScript_BERRYCureChosenStatusRet;
                     effect = ITEM_STATUS_CHANGE;
                 }
                 break;
@@ -4130,4 +4132,40 @@ void HandleAction_ThrowBall(void)
     RemoveBagItem(gLastUsedItem, 1);
     gBattlescriptCurrInstr = BattleScript_BallThrow;
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
+}
+bool8 FriendshipStatusRecover(void)
+{
+	bool8 recover = FALSE;
+	struct Pokemon *mon;
+
+	if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER)
+		mon = &gPlayerParty[gBattlerPartyIndexes[gBattlerAttacker]];
+	else
+		mon = &gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker]];
+
+	if (GetMonData(mon, MON_DATA_FRIENDSHIP) >= 220 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	{
+		if (gBattleMons[gActiveBattler].status1 & STATUS1_ANY && Random() % 100 < 20)
+		{
+			if (gBattleMons[gActiveBattler].status1 & (STATUS1_POISON | STATUS1_TOXIC_POISON))
+				StringCopy(gBattleTextBuff1, gStatusConditionString_PoisonJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_SLEEP)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_SleepJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_PARALYSIS)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_ParalysisJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_BURN)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_BurnJpn);
+			if (gBattleMons[gActiveBattler].status1 & STATUS1_FREEZE)
+				StringCopy(gBattleTextBuff1, gStatusConditionString_IceJpn);
+			gBattleMons[gActiveBattler].status1 = 0;
+			gBattleMons[gActiveBattler].status2 &= ~(STATUS2_NIGHTMARE);
+			gBattleScripting.battler = gActiveBattler;
+			BattleScriptPushCursorAndCallback(BattleScript_FriendshipRecover);
+			BtlController_EmitSetMonData(0, REQUEST_STATUS_BATTLE, 0, 4, &gBattleMons[gActiveBattler].status1);
+			MarkBattlerForControllerExec(gActiveBattler);
+			recover = TRUE;
+		}
+	}
+
+	return recover;
 }

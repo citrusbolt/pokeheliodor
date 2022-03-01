@@ -694,6 +694,8 @@ bool8 LinkRfu_GetNameIfCompatible(struct GFtgtGname *buff1, u8 *buff2, u8 idx)
         {
             memcpy(buff1, gRfuLinkStatus->partner[idx].gname, RFU_GAME_NAME_LENGTH);
             memcpy(buff2, gRfuLinkStatus->partner[idx].uname, PLAYER_NAME_LENGTH + 1);
+			if (buff1->unk_00.isCrystalDust)
+				buff1->versionModifier = DEV_SOLITAIRI_2;
         }
         else
         {
@@ -708,6 +710,8 @@ bool8 LinkRfu_GetNameIfCompatible(struct GFtgtGname *buff1, u8 *buff2, u8 idx)
         {
             memcpy(buff1, gRfuLinkStatus->partner[idx].gname, RFU_GAME_NAME_LENGTH);
             memcpy(buff2, gRfuLinkStatus->partner[idx].uname, PLAYER_NAME_LENGTH + 1);
+			if (buff1->unk_00.isCrystalDust)
+				buff1->versionModifier = DEV_SOLITAIRI_2;
         }
         else
         {

@@ -86,10 +86,17 @@ void SetBagItemsPointers(void)
 
 void CopyItemName(u16 itemId, u8 *dst)
 {
+	u32 i;
+
     if (itemId == ITEM_ENIGMA_BERRY)
     {
         StringCopy(dst, GetBerryInfo(ITEM_TO_BERRY(ITEM_ENIGMA_BERRY))->name);
-        StringAppend(dst, gText_Berry2);
+		for (i = 1; i < 6; i++)
+		{
+			if (dst[i] >= 0xBB && dst[i] <= 0xD4)
+				dst[i] += 26;
+		}
+        StringAppend(dst, gText_BERRY2);
     }
     else
     {
@@ -121,7 +128,7 @@ void GetBerryCountString(u8 *dst, const u8 *berryName, u32 quantity)
     u8 *txtPtr;
 
     if (quantity < 2)
-        berryString = gText_Berry;
+        berryString = gText_BERRY;
     else
         berryString = gText_Berries;
 

@@ -146,5 +146,6 @@ bool8 MetatileBehavior_IsLongGrass_Duplicate(u8);
 bool8 MetatileBehavior_IsLongGrassSouthEdge(u8);
 bool8 MetatileBehavior_IsTrainerHillTimer(u8);
 bool8 MetatileBehavior_IsPlayerFacingCardTerminal(u8, u8);
+bool8 MetatileBehavior_IsTree(u8);
 
 #endif // GUARD_METATILE_BEHAVIOR_H

@@ -544,11 +544,8 @@ static const u8 sUnsharedColumns[MAX_RFU_PLAYERS][MAX_RFU_PLAYERS] =
     {4, 6},
     {3, 5, 7},
     {2, 4, 6, 8},
-#ifndef BUGFIX
     {1, 3, 5, 6, 9}, // BUG: Column 6 is shared, 7 is not. As a result, the player in column 7 will have their difficulty influenced by their neighbors
-#else
-    {1, 3, 5, 7, 9},
-#endif
+
 };
 
 // Duplicate and unused gfx. Feel free to remove.
@@ -1966,10 +1963,7 @@ static void HandlePickBerries(void)
                 sGame->inputState[playerIdPicked] = INPUTSTATE_ATE_BERRY;
                 sGame->berryEatenBy[column] = playerIdPicked;
                 sGame->players[playerIdPicked].comm.ateBerry = TRUE;
-#ifdef UBFIX
-                if (playerIdMissed != PLAYER_NONE)
-#endif
-                    sGame->players[playerIdMissed].comm.missedBerry = TRUE; // UB: playerIdMissed can be PLAYER_NONE here, which is out of bounds
+                sGame->players[playerIdMissed].comm.missedBerry = TRUE; // UB: playerIdMissed can be PLAYER_NONE here, which is out of bounds
 
                 sGame->berriesEaten[playerIdPicked]++;
                 IncrementBerryResult(0, column, playerIdPicked);
@@ -2243,9 +2237,6 @@ static bool32 AllPlayersReadyToStart(void)
 
     numPlayers = numPlayers; // Needed to force compiler to keep loop below
 
-#ifdef BUGFIX
-    i = 1; // i isn't reset, loop below never runs. As a result, game can begin before all players ready
-#endif
     for (; i < numPlayers; i++)
     {
         if (sGame->readyToStart[i] == FALSE)
@@ -2954,7 +2945,7 @@ static void Task_ShowDodrioBerryPickingRecords(u8 taskId)
     {
     case 0:
         window = sWindowTemplates_Records;
-        width = GetStringWidth(1, gText_BerryPickingRecords, 0);
+        width = GetStringWidth(1, gText_BERRYPickingRecords, 0);
         for (i = 0; i < ARRAY_COUNT(sRecordsTexts); i++)
         {
             widthCurr = GetStringWidth(1, sRecordsTexts[i], 0) + 50;
@@ -3008,7 +2999,7 @@ static void PrintRecordsText(u8 windowId, s32 width)
     LoadUserWindowBorderGfx_(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(windowId, 1, gText_BerryPickingRecords, GetStringCenterAlignXOffset(1, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 1, gText_BERRYPickingRecords, GetStringCenterAlignXOffset(1, gText_BERRYPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
     for (i = 0; i < NUM_RECORD_TYPES; i++)
     {
         ConvertIntToDecimalStringN(gStringVar1, recordNums[i], STR_CONV_MODE_LEFT_ALIGN, sRecordNumMaxDigits[i]);
@@ -3021,7 +3012,7 @@ static void PrintRecordsText(u8 windowId, s32 width)
 }
 
 // Debug functions?
-static const u16 sDebug_BerryResults[MAX_RFU_PLAYERS][4] =
+static const u16 sDebug_BERRYResults[MAX_RFU_PLAYERS][4] =
 {
     {
         [BERRY_BLUE]   = MAX_BERRIES,
@@ -3084,7 +3075,7 @@ static void Debug_SetPlayerNamesAndResults(void)
     for (i = 0; i < NUM_BERRY_TYPES; i++)
     {
         for (playerId = 0; playerId < sGame->numPlayers; playerId++)
-            sGame->berryResults[playerId][i] = sDebug_BerryResults[playerId][i];
+            sGame->berryResults[playerId][i] = sDebug_BERRYResults[playerId][i];
     }
 }
 
@@ -3638,7 +3629,7 @@ static const struct OamData sOamData_16x16_Priority0 =
     .affineParam = 0
 };
 
-static const struct OamData sOamData_Berry =
+static const struct OamData sOamData_BERRY =
 {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
@@ -3737,74 +3728,74 @@ static const union AnimCmd *const sAnims_StatusBar[] =
     [STATUS_RED]    = sAnims_StatusBar_Red
 };
 
-static const union AnimCmd sAnim_Berry_Blue[] =
+static const union AnimCmd sAnim_BERRY_Blue[] =
 {
     ANIMCMD_FRAME(0, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Green[] =
+static const union AnimCmd sAnim_BERRY_Green[] =
 {
     ANIMCMD_FRAME(4, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Gold[] =
+static const union AnimCmd sAnim_BERRY_Gold[] =
 {
     ANIMCMD_FRAME(8, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_BlueSquished[] =
+static const union AnimCmd sAnim_BERRY_BlueSquished[] =
 {
     ANIMCMD_FRAME(12, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_GreenSquished[] =
+static const union AnimCmd sAnim_BERRY_GreenSquished[] =
 {
     ANIMCMD_FRAME(16, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_GoldSquished[] =
+static const union AnimCmd sAnim_BERRY_GoldSquished[] =
 {
     ANIMCMD_FRAME(20, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Eaten[] =
+static const union AnimCmd sAnim_BERRY_Eaten[] =
 {
     ANIMCMD_FRAME(24, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Empty1[] =
+static const union AnimCmd sAnim_BERRY_Empty1[] =
 {
     ANIMCMD_FRAME(28, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd sAnim_Berry_Empty2[] =
+static const union AnimCmd sAnim_BERRY_Empty2[] =
 {
     ANIMCMD_FRAME(32, 20),
     ANIMCMD_JUMP(0)
 };
 
-static const union AnimCmd *const sAnims_Berry[] =
+static const union AnimCmd *const sAnims_BERRY[] =
 {
-    [BERRY_BLUE]  = sAnim_Berry_Blue,
-    [BERRY_GREEN] = sAnim_Berry_Green,
-    [BERRY_GOLD]  = sAnim_Berry_Gold,
+    [BERRY_BLUE]  = sAnim_BERRY_Blue,
+    [BERRY_GREEN] = sAnim_BERRY_Green,
+    [BERRY_GOLD]  = sAnim_BERRY_Gold,
 
-    [BERRY_BLUE + BERRY_MISSED]  = sAnim_Berry_BlueSquished,
-    [BERRY_GREEN + BERRY_MISSED] = sAnim_Berry_GreenSquished,
-    [BERRY_GOLD + BERRY_MISSED]  = sAnim_Berry_GoldSquished,
+    [BERRY_BLUE + BERRY_MISSED]  = sAnim_BERRY_BlueSquished,
+    [BERRY_GREEN + BERRY_MISSED] = sAnim_BERRY_GreenSquished,
+    [BERRY_GOLD + BERRY_MISSED]  = sAnim_BERRY_GoldSquished,
 
-    [ANIM_EATEN]  = sAnim_Berry_Eaten,
+    [ANIM_EATEN]  = sAnim_BERRY_Eaten,
 
-    sAnim_Berry_Empty1,
-    sAnim_Berry_Empty2
+    sAnim_BERRY_Empty1,
+    sAnim_BERRY_Empty2
 };
 
 static const union AnimCmd sAnim_Cloud[] =
@@ -3961,9 +3952,7 @@ static void FreeDodrioSprites(u8 numPlayers)
         struct Sprite *sprite = &gSprites[*sDodrioSpriteIds[i]];
         if (sprite)
             DestroySpriteAndFreeResources(sprite);
-#ifdef BUGFIX
-        FREE_AND_SET_NULL(sDodrioSpriteIds[i]); // Memory should be freed here but is not.
-#endif
+        FREE_AND_SET_NULL(sDodrioSpriteIds[i]);
     }
 }
 
@@ -4171,8 +4160,8 @@ static void CreateBerrySprites(void)
     {
         .tileTag = GFXTAG_BERRIES,
         .paletteTag = PALTAG_BERRIES,
-        .oam = &sOamData_Berry,
-        .anims = sAnims_Berry,
+        .oam = &sOamData_BERRY,
+        .anims = sAnims_BERRY,
         .images = NULL,
         .affineAnims = gDummySpriteAffineAnimTable,
         .callback = SpriteCallbackDummy,
@@ -4182,7 +4171,7 @@ static void CreateBerrySprites(void)
         .tileTag = GFXTAG_BERRIES,
         .paletteTag = PALTAG_BERRIES,
         .oam = &sOamData_16x16_Priority0,
-        .anims = sAnims_Berry,
+        .anims = sAnims_BERRY,
         .images = NULL,
         .affineAnims = gDummySpriteAffineAnimTable,
         .callback = SpriteCallbackDummy,
@@ -4260,20 +4249,12 @@ static void UnusedSetSpritePos(u8 spriteId)
     gSprites[spriteId].y = 50;
 }
 
-// Gamefreak made a mistake there and goes out of bounds for the data array as it holds 8 elements
-// in turn overwriting sprite's subpriority and subsprites fields.
-#ifdef UBFIX
-    #define sFrozen data[1]
-#else
-    #define sFrozen data[10]
-#endif // UBFIX
-
 static void SpriteCB_Cloud(struct Sprite *sprite)
 {
     u8 i;
     static const u8 moveDelays[] = {30, 20};
 
-    if (sprite->sFrozen != TRUE)
+    if (sprite->data[1] != TRUE)
     {
         for (i = 0; i < NUM_CLOUDS; i++)
         {
@@ -4331,7 +4312,7 @@ static void ResetCloudPos(void)
     for (i = 0; i < NUM_CLOUDS; i++)
     {
         struct Sprite *sprite = &gSprites[*sCloudSpriteIds[i]];
-        sprite->sFrozen = TRUE;
+        sprite->data[1] = TRUE;
         sprite->x = sCloudStartCoords[i][0];
         sprite->y = sCloudStartCoords[i][1];
     }
@@ -4343,7 +4324,7 @@ static void StartCloudMovement(void)
     for (i = 0; i < NUM_CLOUDS; i++)
     {
         struct Sprite *sprite = &gSprites[*sCloudSpriteIds[i]];
-        sprite->sFrozen = FALSE;
+        sprite->data[1] = FALSE;
     }
 }
 
@@ -4365,8 +4346,6 @@ static void SetCloudInvisibility(bool8 invisible)
     for (i = 0; i < NUM_CLOUDS; i++)
         gSprites[*sCloudSpriteIds[i]].invisible = invisible;
 }
-
-#undef sFrozen
 
 static s16 GetDodrioXPos(u8 playerId, u8 numPlayers)
 {
@@ -4770,9 +4749,9 @@ static void ShowResults(void)
     case 2:
         FillWindowPixelBuffer(sGfx->windowIds[0], PIXEL_FILL(1));
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
-        strWidth = GetStringWidth(1, gText_BerryPickingResults, -1);
+        strWidth = GetStringWidth(1, gText_BERRYPickingResults, -1);
         x = (224 - strWidth) / 2;
-        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_BerryPickingResults, x, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_BERRYPickingResults, x, 1, -1, NULL);
         AddTextPrinterParameterized(sGfx->windowIds[1], 1, gText_10P30P50P50P, 68, 17, -1, NULL);
         for (i = 0; i < numPlayers; i++)
         {

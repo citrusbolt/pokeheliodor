@@ -1290,7 +1290,7 @@ void UpdateBubblesFieldEffect(struct Sprite *sprite)
     }
 }
 
-u32 FldEff_BerryTreeGrowthSparkle(void)
+u32 FldEff_BERRYTreeGrowthSparkle(void)
 {
     u8 spriteId;
     struct Sprite *sprite;

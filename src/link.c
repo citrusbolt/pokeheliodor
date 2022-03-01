@@ -1009,7 +1009,7 @@ static void LinkCB_BlockSendEnd(void)
     gLinkCallback = NULL;
 }
 
-static void LinkCB_BerryBlenderSendHeldKeys(void)
+static void LinkCB_BERRYBlenderSendHeldKeys(void)
 {
     GetMultiplayerId();
     BuildSendCmd(LINKCMD_BLENDER_SEND_KEYS);
@@ -1022,7 +1022,7 @@ void SetBerryBlenderLinkCallback(void)
     if (gWirelessCommType)
         Rfu_SetBerryBlenderLinkCallback();
     else
-        gLinkCallback = LinkCB_BerryBlenderSendHeldKeys;
+        gLinkCallback = LinkCB_BERRYBlenderSendHeldKeys;
 }
 
 // Unused
@@ -1349,15 +1349,8 @@ bool8 DoesLinkPlayerCountMatchSaved(void)
 void ClearSavedLinkPlayers(void)
 {
     int i;
-    // The CpuSet loop below is incorrectly writing to NULL
-    // instead of sSavedLinkPlayers.
-    // Additionally it's using the wrong array size.
-#ifdef UBFIX
+
     memset(sSavedLinkPlayers, 0, sizeof(sSavedLinkPlayers));
-#else
-    for (i = 0; i < MAX_LINK_PLAYERS; i++)
-        CpuSet(&sSavedLinkPlayers[i], NULL, sizeof(struct LinkPlayer));
-#endif
 }
 
 void CheckLinkPlayersMatchSaved(void)
@@ -1903,6 +1896,10 @@ void ConvertLinkPlayerName(struct LinkPlayer *player)
 	//		mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
 	//		break;
 	//}
+	
+	if ((((player->version & 0xC000) | ((player->version & 0x3F00) >> 8)) & 0xFF) == VERSION_HEARTGOLD)
+		player->versionModifier = DEV_SOLITAIRI_2;
+	
     player->progressFlagsCopy = player->progressFlags; // ? Perhaps relocating for a longer name field
     ConvertInternationalString(player->name, player->language);
 }

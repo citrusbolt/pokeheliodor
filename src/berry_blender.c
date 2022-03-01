@@ -255,7 +255,7 @@ static const u8 sUnusedText_Space[] = _(" ");
 static const u8 sUnusedText_Terminating[] = _("Terminating.");
 static const u8 sUnusedText_LinkPartnerNotFound[] = _("Link partner(s) not found.\nPlease try again.\p");
 
-static const u8 sText_BerryBlenderStart[] = _("Starting up the BERRY BLENDER.\pPlease select a BERRY from your BAG\nto put in the BERRY BLENDER.\p");
+static const u8 sText_BERRYBlenderStart[] = _("Starting up the BERRY BLENDER.\pPlease select a BERRY from your BAG\nto put in the BERRY BLENDER.\p");
 static const u8 sText_NewParagraph[] = _("\p");
 static const u8 sText_WasMade[] = _(" was made!");
 static const u8 sText_WereMade[] = _("s were made!");
@@ -285,7 +285,7 @@ static const u8 sText_YourPokeblockCaseIsFull[] = _("Your {POKEBLOCK} CASE is fu
 static const u8 sText_HasNoBerriesToPut[] = _(" has no BERRIES to put in\nthe BERRY BLENDER.");
 static const u8 sText_ApostropheSPokeblockCaseIsFull[] = _("'s {POKEBLOCK} CASE is full.\p");
 static const u8 sText_BlendingResults[] = _("RESULTS OF BLENDING");
-static const u8 sText_BerryUsed[] = _("BERRY USED");
+static const u8 sText_BERRYUsed[] = _("BERRY USED");
 static const u8 sText_SpaceBerry[] = _(" BERRY");
 static const u8 sText_Time[] = _("Time:");
 static const u8 sText_Min[] = _(" min. ");
@@ -936,7 +936,7 @@ static void UpdateHitPitch(void)
     m4aMPlayPitchControl(&gMPlayInfo_SE2, 0xFFFF, 2 * (sBerryBlender->speed - MIN_ARROW_SPEED));
 }
 
-static void VBlankCB_BerryBlender(void)
+static void VBlankCB_BERRYBlender(void)
 {
     SetBgPos();
     SetBgAffine(2, sBerryBlender->bgAffineSrc.texX, sBerryBlender->bgAffineSrc.texY,
@@ -1093,7 +1093,7 @@ static void CB2_LoadBerryBlender(void)
                 LoadWirelessStatusIndicatorSpriteGfx();
                 CreateWirelessStatusIndicatorSprite(0, 0);
             }
-            SetVBlankCallback(VBlankCB_BerryBlender);
+            SetVBlankCallback(VBlankCB_BERRYBlender);
             sBerryBlender->mainState++;
         }
         break;
@@ -1108,7 +1108,7 @@ static void CB2_LoadBerryBlender(void)
             sBerryBlender->mainState++;
         break;
     case 4:
-        if (Blender_PrintText(&sBerryBlender->textState, sText_BerryBlenderStart, GetPlayerTextSpeedDelay()))
+        if (Blender_PrintText(&sBerryBlender->textState, sText_BERRYBlenderStart, GetPlayerTextSpeedDelay()))
             sBerryBlender->mainState++;
         break;
     case 5:
@@ -1146,7 +1146,7 @@ static void CB2_LoadBerryBlender(void)
 #define sYDownSpeed    data[7]
 
 // For throwing berries into the machine
-static void SpriteCB_Berry(struct Sprite* sprite)
+static void SpriteCB_BERRY(struct Sprite* sprite)
 {
     sprite->sX += sprite->sXSpeed;
     sprite->sY -= sprite->sYUpSpeed;
@@ -1177,7 +1177,7 @@ static void SetBerrySpriteData(struct Sprite* sprite, s16 x, s16 y, s16 bounceSp
     sprite->sBounces = 0;
     sprite->sXSpeed = xSpeed;
     sprite->sYDownSpeed = ySpeed;
-    sprite->callback = SpriteCB_Berry;
+    sprite->callback = SpriteCB_BERRY;
 }
 
 #undef sTargetY
@@ -1496,7 +1496,7 @@ static void InitBlenderBgs(void)
     FreeAllSpritePalettes();
     ResetTasks();
 
-    SetVBlankCallback(VBlankCB_BerryBlender);
+    SetVBlankCallback(VBlankCB_BERRYBlender);
 
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(1, sBgTemplates, ARRAY_COUNT(sBgTemplates));
@@ -1850,11 +1850,6 @@ static void Task_HandleOpponent1(u8 taskId)
                         gRecvCmds[1][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_BEST;
                     else
                         gRecvCmds[1][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_GOOD;
-
-                    // BUG: Overrwrote above assignment. Opponent 1 can't get Best at low speed
-                    #ifndef BUGFIX
-                    gRecvCmds[1][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_GOOD;
-                    #endif
                 }
                 else if (sBerryBlender->speed < 1500)
                 {
@@ -2133,17 +2128,9 @@ static void UpdateOpponentScores(void)
                     sBerryBlender->scores[i][SCORE_MISS]++;
             }
 
-            // BUG: Should be [i][BLENDER_COMM_SCORE] below, not [BLENDER_COMM_SCORE][i]
-            // As a result the music tempo updates if any player misses, but only if 1 specific player hits
-            #ifdef BUGFIX
             if (gRecvCmds[i][BLENDER_COMM_SCORE] == LINKCMD_BLENDER_SCORE_MISS 
              || gRecvCmds[i][BLENDER_COMM_SCORE] == LINKCMD_BLENDER_SCORE_BEST 
              || gRecvCmds[i][BLENDER_COMM_SCORE] == LINKCMD_BLENDER_SCORE_GOOD)
-            #else
-            if (gRecvCmds[i][BLENDER_COMM_SCORE] == LINKCMD_BLENDER_SCORE_MISS 
-             || gRecvCmds[BLENDER_COMM_SCORE][i] == LINKCMD_BLENDER_SCORE_BEST 
-             || gRecvCmds[BLENDER_COMM_SCORE][i] == LINKCMD_BLENDER_SCORE_GOOD)
-            #endif
             {
                 if (sBerryBlender->speed > 1500)
                     m4aMPlayTempoControl(&gMPlayInfo_BGM, ((sBerryBlender->speed - 750) / 20) + 256);

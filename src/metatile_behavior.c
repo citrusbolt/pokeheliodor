@@ -245,10 +245,10 @@ static const u8 sTileBitAttributes[] =
     [MB_WIRELESS_BOX_RESULTS] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_TRAINER_HILL_TIMER] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_SKY_PILLAR_CLOSED_DOOR] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_EB] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_EC] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_ED] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
-    [MB_UNUSED_EE] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_TREE1] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_TREE2] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_TREE3] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
+    [MB_TREE4] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
     [MB_CARD_TERMINAL] = TILE_ATTRIBUTES(FALSE, FALSE, FALSE),
 };
 
@@ -973,9 +973,7 @@ bool8 MetatileBehavior_IsUnableToEmerge(u8 metatileBehavior)
     // To fix change the metatile behavior of the narrower water door with porymap's tileset editor.
     if (metatileBehavior == MB_NO_SURFACING
      || metatileBehavior == MB_SEAWEED_NO_SURFACING
-     #ifdef BUGFIX
      || metatileBehavior == MB_WATER_DOOR
-     #endif
      )
         return TRUE;
     else
@@ -1501,6 +1499,20 @@ bool8 MetatileBehavior_IsPlayerFacingCardTerminal(u8 metatileBehavior, u8 player
 	if (playerDir != CONNECTION_EAST)
 		return FALSE;
     else if (metatileBehavior == MB_CARD_TERMINAL)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 MetatileBehavior_IsTree(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_TREE1)
+        return TRUE;
+    else if (metatileBehavior == MB_TREE2)
+        return TRUE;
+    else if (metatileBehavior == MB_TREE3)
+        return TRUE;
+    else if (metatileBehavior == MB_TREE4)
         return TRUE;
     else
         return FALSE;
