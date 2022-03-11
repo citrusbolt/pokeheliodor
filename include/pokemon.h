@@ -443,5 +443,6 @@ void RespawnAllLegendaries(void);
 bool8 IsMewtwoInParty(void);
 bool8 DoesCaughtMonHaveItem(void);
 void PutCaughtMonItemInBag(void);
+bool8 CanSpeciesLearnAnyTMHM(u16 species);
 
 #endif // GUARD_POKEMON_H

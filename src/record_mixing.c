@@ -228,6 +228,8 @@ static void PrepareUnknownExchangePacket(struct PlayerRecordsRS *dest)
 
 static void PrepareExchangePacketForRubySapphire(struct PlayerRecordsRS *dest)
 {
+	u32 i;
+
     memcpy(dest->secretBases, sSecretBasesSave, sizeof(dest->secretBases));
     ClearJapaneseSecretBases(dest->secretBases);
     memcpy(dest->tvShows, sTvShowsSave, sizeof(dest->tvShows));
@@ -243,10 +245,21 @@ static void PrepareExchangePacketForRubySapphire(struct PlayerRecordsRS *dest)
 
     if (GetMultiplayerId() == 0)
         dest->giftItem = GetRecordMixingGift();
+
+	for (i = 0; i < TV_SHOWS_COUNT - 1; i++)
+	{
+		if (dest->tvShows[i].massOutbreak.kind == TVSHOW_MASS_OUTBREAK && dest->tvShows[i].massOutbreak.encounterType == 2)
+		{
+			dest->tvShows[i].massOutbreak.kind = TVSHOW_OFF_AIR;
+			dest->tvShows[i].massOutbreak.active = FALSE;
+		}
+	}
 }
 
 static void PrepareExchangePacket(void)
 {
+	u32 i;
+
     SetPlayerSecretBaseParty();
     DeactivateAllNormalTVShows();
     SetSrcLookupPointers();
@@ -298,6 +311,15 @@ static void PrepareExchangePacket(void)
 
         GetSavedApprentices(sSentRecord->emerald.apprentices, sApprenticesSave);
         GetPlayerHallRecords(&sSentRecord->emerald.hallRecords);
+
+		for (i = 0; i < TV_SHOWS_COUNT - 1; i++)
+		{
+			if (sSentRecord->emerald.tvShows[i].massOutbreak.kind == TVSHOW_MASS_OUTBREAK && sSentRecord->emerald.tvShows[i].massOutbreak.encounterType == 2)
+			{
+				sSentRecord->emerald.tvShows[i].massOutbreak.kind = TVSHOW_OFF_AIR;
+				sSentRecord->emerald.tvShows[i].massOutbreak.active = FALSE;
+			}
+		}
     }
 }
 

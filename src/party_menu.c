@@ -254,7 +254,6 @@ static bool16 IsMonAllowedInPokemonJump(struct Pokemon*);
 static bool16 IsMonAllowedInDodrioBerryPicking(struct Pokemon*);
 static void Task_CancelParticipationYesNo(u8);
 static void Task_HandleCancelParticipationYesNoInput(u8);
-static bool8 CanLearnTutorMove(u16, u8);
 static u16 GetTutorMove(u8);
 static bool8 ShouldUseChooseMonText(void);
 static void SetPartyMonFieldSelectionActions(struct Pokemon*, u8);
@@ -1998,7 +1997,7 @@ static u16 GetTutorMove(u8 tutor)
     return gTutorMoves[tutor];
 }
 
-static bool8 CanLearnTutorMove(u16 species, u8 tutor)
+bool8 CanLearnTutorMove(u16 species, u8 tutor)
 {
     if (sTutorLearnsets[species] & ((u64)1 << (u64)tutor))
         return TRUE;
@@ -6395,3 +6394,10 @@ void SelectEggForIncubator(void)
     InitPartyMenu(PARTY_MENU_TYPE_INCUBATOR, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_EGG, Task_HandleChooseMonInput, BufferMonSelection);
 }
 
+bool8 CanSpeciesLearnAnyTutorMove(u16 species)
+{
+	if (sTutorLearnsets[species]  == 0)
+		return FALSE;
+	else
+		return TRUE;
+}

@@ -647,19 +647,26 @@ static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 
 static bool8 SetUpMassOutbreakEncounter(u8 flags)
 {
     u16 i;
+	u8 levelBonus = Random() % 11;
 
-    if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(gSaveBlock1Ptr->outbreakPokemonLevel))
+    if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(gSaveBlock1Ptr->outbreakPokemonLevel + levelBonus))
         return FALSE;
 
-    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel);
+    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel + levelBonus);
+	gChainStreak++;
     for (i = 0; i < 4; i++)
         SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
 
     return TRUE;
 }
 
-static bool8 DoMassOutbreakEncounterTest(void)
+static bool8 DoMassOutbreakEncounterTest(bool8 water)
 {
+	if (water && gSaveBlock1Ptr->outbreakEncounterType == 0)
+		return FALSE;
+	else if (!water && gSaveBlock1Ptr->outbreakEncounterType == 1)
+		return FALSE;
+
     if (gSaveBlock1Ptr->outbreakPokemonSpecies != 0
      && gSaveBlock1Ptr->location.mapNum == gSaveBlock1Ptr->outbreakLocationMapNum
      && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup)
@@ -876,7 +883,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 					BattleSetup_StartRoamerBattle();
 					return TRUE;
 				}
-				else if (DoMassOutbreakEncounterTest() == TRUE && SetUpMassOutbreakEncounter(WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+				else if (DoMassOutbreakEncounterTest(FALSE) == TRUE && SetUpMassOutbreakEncounter(WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
 				{
 					if (IsMonShiny(&gEnemyParty[0]))
 						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
@@ -945,6 +952,13 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 						return FALSE;
 		
 					BattleSetup_StartRoamerBattle();
+					return TRUE;
+				}
+				else if (DoMassOutbreakEncounterTest(TRUE) == TRUE && SetUpMassOutbreakEncounter(WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+				{
+					if (IsMonShiny(&gEnemyParty[0]))
+						IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+					BattleSetup_StartWildBattle();
 					return TRUE;
 				}
                 else if (TryGenerateWildMon(wildPokemonInfo, WILD_AREA_WATER, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
@@ -1574,7 +1588,7 @@ bool8 SweetScentWildEncounter(void)
                 return TRUE;
             }
 
-            if (DoMassOutbreakEncounterTest() == TRUE)
+            if (DoMassOutbreakEncounterTest(FALSE) == TRUE)
                 SetUpMassOutbreakEncounter(0);
 			else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].landMonsNatMorningInfo != NULL)
                 TryGenerateWildMon(gWildMonHeaders[headerId].landMonsNatMorningInfo, WILD_AREA_LAND, 0);
@@ -1607,7 +1621,9 @@ bool8 SweetScentWildEncounter(void)
                 return TRUE;
             }
 
-			if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].waterMonsNatMorningInfo != NULL)
+            if (DoMassOutbreakEncounterTest(TRUE) == TRUE)
+                SetUpMassOutbreakEncounter(0);
+			else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].waterMonsNatMorningInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatMorningInfo, WILD_AREA_WATER, 0);
 			else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].waterMonsNatNightInfo != NULL)
 				TryGenerateWildMon(gWildMonHeaders[headerId].waterMonsNatNightInfo, WILD_AREA_WATER, 0);

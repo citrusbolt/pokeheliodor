@@ -46,6 +46,9 @@
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
 #include "constants/script_menu.h"
+#include "party_menu.h"
+#include "pokemon.h"
+#include "constants/party_menu.h"
 
 #define LAST_TVSHOW_IDX (TV_SHOWS_COUNT - 1)
 
@@ -256,6 +259,417 @@ static const struct {
         .level = 15,
         .location = MAP_NUM(ROUTE116)
     }
+};
+
+static const struct {
+	u16 species;
+	u8 minLevel;
+	u8 encounterType;
+} sSwarmList[] = {
+	{
+		.species = SPECIES_SANDSHREW,
+		.minLevel = 19,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_VULPIX,
+		.minLevel = 25,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_JIGGLYPUFF,
+		.minLevel = 24,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ZUBAT,
+		.minLevel = 5,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ODDISH,
+		.minLevel = 13,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ABRA,
+		.minLevel = 8,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_MACHOP,
+		.minLevel = 15,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_TENTACOOL,
+		.minLevel = 5,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_GEODUDE,
+		.minLevel = 5,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_MAGNEMITE,
+		.minLevel = 22,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_GRIMER,
+		.minLevel = 14,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_VOLTORB,
+		.minLevel = 22,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_KOFFING,
+		.minLevel = 14,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_HORSEA,
+		.minLevel = 25,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_GOLDEEN,
+		.minLevel = 5,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_STARYU,
+		.minLevel = 25,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_MAGIKARP,
+		.minLevel = 5,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_CHINCHOU,
+		.minLevel = 20,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_MARILL,
+		.minLevel = 5,
+		.encounterType = 2,
+	},
+	{
+		.species = SPECIES_SLUGMA,
+		.minLevel = 15,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_CORSOLA,
+		.minLevel = 30,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_SKARMORY,
+		.minLevel = 16,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_POOCHYENA,
+		.minLevel = 2,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ZIGZAGOON,
+		.minLevel = 2,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_WURMPLE,
+		.minLevel = 2,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SEEDOT,
+		.minLevel = 3,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_TAILLOW,
+		.minLevel = 4,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_WINGULL,
+		.minLevel = 2,
+		.encounterType = 2,
+	},
+	{
+		.species = SPECIES_RALTS,
+		.minLevel = 4,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SURSKIT,
+		.minLevel = 3,
+		.encounterType = 2,
+	},
+	{
+		.species = SPECIES_SHROOMISH,
+		.minLevel = 5,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SLAKOTH,
+		.minLevel = 5,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_NINCADA,
+		.minLevel = 6,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_WHISMUR,
+		.minLevel = 5,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_MAKUHITA,
+		.minLevel = 6,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_NOSEPASS,
+		.minLevel = 10,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SKITTY,
+		.minLevel = 7,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ARON,
+		.minLevel = 7,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ELECTRIKE,
+		.minLevel = 12,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_PLUSLE,
+		.minLevel = 13,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_MINUN,
+		.minLevel = 13,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_VOLBEAT,
+		.minLevel = 13,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ILLUMISE,
+		.minLevel = 13,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_GULPIN,
+		.minLevel = 12,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_CARVANHA,
+		.minLevel = 10,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_WAILMER,
+		.minLevel = 10,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_NUMEL,
+		.minLevel = 15,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_TORKOAL,
+		.minLevel = 14,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SPOINK,
+		.minLevel = 20,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SPINDA,
+		.minLevel = 14,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_TRAPINCH,
+		.minLevel = 19,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_CACNEA,
+		.minLevel = 20,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SWABLU,
+		.minLevel = 15,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_BARBOACH,
+		.minLevel = 10,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_CORPHISH,
+		.minLevel = 10,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_BALTOY,
+		.minLevel = 20,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_FEEBAS,
+		.minLevel = 20,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_KECLEON,
+		.minLevel = 25,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SHUPPET,
+		.minLevel = 25,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_DUSKULL,
+		.minLevel = 25,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_TROPIUS,
+		.minLevel = 25,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_CHIMECHO,
+		.minLevel = 28,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_ABSOL,
+		.minLevel = 25,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_WYNAUT,
+		.minLevel = 5,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SNORUNT,
+		.minLevel = 26,
+		.encounterType = 0,
+	},
+	{
+		.species = SPECIES_SPHEAL,
+		.minLevel = 26,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_CLAMPERL,
+		.minLevel = 20,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_RELICANTH,
+		.minLevel = 30,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_LUVDISC,
+		.minLevel = 10,
+		.encounterType = 1,
+	},
+	{
+		.species = SPECIES_BAGON,
+		.minLevel = 25,
+		.encounterType = 0,
+	}
+};
+
+static const u8 sSwarmMaps[] =
+{
+	[MAP_PETALBURG_CITY]		= 1,
+	[MAP_SLATEPORT_CITY]		= 1,
+	[MAP_MAUVILLE_CITY]			= 0xFF,
+	[MAP_RUSTBORO_CITY]			= 0xFF,
+	[MAP_FORTREE_CITY]			= 0xFF,
+	[MAP_LILYCOVE_CITY]			= 1,
+	[MAP_MOSSDEEP_CITY]			= 1,
+	[MAP_SOOTOPOLIS_CITY]		= 1,
+	[MAP_EVER_GRANDE_CITY]		= 1,
+	[MAP_LITTLEROOT_TOWN]		= 0xFF,
+	[MAP_OLDALE_TOWN]			= 0xFF,
+	[MAP_DEWFORD_TOWN]			= 1,
+	[MAP_LAVARIDGE_TOWN]		= 0xFF,
+	[MAP_FALLARBOR_TOWN]		= 0xFF,
+	[MAP_VERDANTURF_TOWN]		= 0xFF,
+	[MAP_PACIFIDLOG_TOWN]		= 1,
+	[MAP_ROUTE101]				= 0,
+	[MAP_ROUTE102]				= 2,
+	[MAP_ROUTE103]				= 2,
+	[MAP_ROUTE104]				= 2,
+	[MAP_ROUTE105]				= 1,
+	[MAP_ROUTE106]				= 1,
+	[MAP_ROUTE107]				= 1,
+	[MAP_ROUTE108]				= 1,
+	[MAP_ROUTE109]				= 1,
+	[MAP_ROUTE110]				= 2,
+	[MAP_ROUTE111]				= 1,
+	[MAP_ROUTE112]				= 0,
+	[MAP_ROUTE113]				= 0,
+	[MAP_ROUTE114]				= 2,
+	[MAP_ROUTE115]				= 2,
+	[MAP_ROUTE116]				= 0,
+	[MAP_ROUTE117]				= 2,
+	[MAP_ROUTE118]				= 2,
+	[MAP_ROUTE119]				= 2,
+	[MAP_ROUTE120]				= 2,
+	[MAP_ROUTE121]				= 2,
+	[MAP_ROUTE122]				= 1,
+	[MAP_ROUTE123]				= 2,
+	[MAP_ROUTE124]				= 1,
+	[MAP_ROUTE125]				= 1,
+	[MAP_ROUTE126]				= 1,
+	[MAP_ROUTE127]				= 1,
+	[MAP_ROUTE128]				= 1,
+	[MAP_ROUTE129]				= 1,
+	[MAP_ROUTE130]				= 1,
+	[MAP_ROUTE131]				= 1,
+	[MAP_ROUTE132]				= 1,
+	[MAP_ROUTE133]				= 1,
+	[MAP_ROUTE134]				= 1
 };
 
 static const u16 sGoldSymbolFlags[] = {
@@ -1599,7 +2013,7 @@ void StartMassOutbreak(void)
     gSaveBlock1Ptr->outbreakLocationMapNum = show->massOutbreak.locationMapNum;
     gSaveBlock1Ptr->outbreakLocationMapGroup = show->massOutbreak.locationMapGroup;
     gSaveBlock1Ptr->outbreakPokemonLevel = show->massOutbreak.level;
-    gSaveBlock1Ptr->outbreakUnk1 = show->massOutbreak.var02;
+    gSaveBlock1Ptr->outbreakEncounterType = show->massOutbreak.encounterType;
     gSaveBlock1Ptr->outbreakUnk2 = show->massOutbreak.var0E;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = show->massOutbreak.moves[0];
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = show->massOutbreak.moves[1];
@@ -1677,9 +2091,11 @@ static void InterviewAfter_Dummy(void)
 
 static void TryStartRandomMassOutbreak(void)
 {
-    u8 i;
+    u8 i, moveId, map;
     u16 outbreakIdx;
     TVShow *show;
+	struct Pokemon mon;
+	bool8 foundMap;
 
     if (FlagGet(FLAG_SYS_GAME_CLEAR))
     {
@@ -1688,25 +2104,63 @@ static void TryStartRandomMassOutbreak(void)
             if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_MASS_OUTBREAK)
                 return;
         }
-        if (!rbernoulli(1, 200))
+        if (Random() % 10 == 0)
         {
             sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
             if (sCurTVShowSlot != -1)
             {
-                outbreakIdx = Random() % ARRAY_COUNT(sPokeOutbreakSpeciesList);
+                outbreakIdx = Random() % ARRAY_COUNT(sSwarmList);
                 show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
                 show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                 show->massOutbreak.active = TRUE;
-                show->massOutbreak.level = sPokeOutbreakSpeciesList[outbreakIdx].level;
-                show->massOutbreak.var02 = 0;
+                show->massOutbreak.level = sSwarmList[outbreakIdx].minLevel;
+                show->massOutbreak.encounterType = sSwarmList[outbreakIdx].encounterType;
                 show->massOutbreak.var03 = 0;
-                show->massOutbreak.species = sPokeOutbreakSpeciesList[outbreakIdx].species;
+                show->massOutbreak.species = sSwarmList[outbreakIdx].species;
                 show->massOutbreak.var0E = 0;
-                show->massOutbreak.moves[0] = sPokeOutbreakSpeciesList[outbreakIdx].moves[0];
-                show->massOutbreak.moves[1] = sPokeOutbreakSpeciesList[outbreakIdx].moves[1];
-                show->massOutbreak.moves[2] = sPokeOutbreakSpeciesList[outbreakIdx].moves[2];
-                show->massOutbreak.moves[3] = sPokeOutbreakSpeciesList[outbreakIdx].moves[3];
-                show->massOutbreak.locationMapNum = sPokeOutbreakSpeciesList[outbreakIdx].location;
+				CreateMon(&mon, sSwarmList[outbreakIdx].species, sSwarmList[outbreakIdx].minLevel, USE_RANDOM_IVS, FALSE, 0, OT_ID_PRESET, 0);
+
+				if (CanSpeciesLearnAnyTMHM(sSwarmList[outbreakIdx].species))
+				{
+					do
+					{
+						moveId = Random() % 64;
+					} while (!CanMonLearnTMHM(&mon, moveId));
+	
+					if (GiveMoveToMon(&mon, ItemIdToBattleMoveId(ITEM_TM01 + moveId)) == MON_HAS_MAX_MOVES)
+						DeleteFirstMoveAndGiveMoveToBoxMon(&mon.box, ItemIdToBattleMoveId(ITEM_TM01 + moveId));
+				}
+
+				if (CanSpeciesLearnAnyTutorMove(sSwarmList[outbreakIdx].species))
+				{
+					do
+					{
+						moveId = Random() % TUTOR_MOVE_COUNT;
+					} while (!CanLearnTutorMove(sSwarmList[outbreakIdx].species, moveId));
+	
+					if (GiveMoveToMon(&mon, gTutorMoves[moveId]) == MON_HAS_MAX_MOVES)
+						DeleteFirstMoveAndGiveMoveToBoxMon(&mon.box, gTutorMoves[moveId]);
+				}
+
+                show->massOutbreak.moves[0] = GetMonData(&mon, MON_DATA_MOVE1);
+                show->massOutbreak.moves[1] = GetMonData(&mon, MON_DATA_MOVE2);
+                show->massOutbreak.moves[2] = GetMonData(&mon, MON_DATA_MOVE3);
+                show->massOutbreak.moves[3] = GetMonData(&mon, MON_DATA_MOVE4);
+
+				do
+				{
+					map = Random() % ARRAY_COUNT(sSwarmMaps);
+					if (sSwarmMaps[map] == 0 && (sSwarmList[outbreakIdx].encounterType == 0 || sSwarmList[outbreakIdx].encounterType == 2))
+						foundMap = TRUE;
+					else if (sSwarmMaps[map] == 1 && (sSwarmList[outbreakIdx].encounterType == 1 || sSwarmList[outbreakIdx].encounterType == 2))
+						foundMap = TRUE;
+					else if (sSwarmMaps[map] == 2)
+						foundMap = TRUE;
+					else
+						foundMap = FALSE;
+				} while (foundMap == FALSE);
+
+                show->massOutbreak.locationMapNum = map;
                 show->massOutbreak.locationMapGroup = 0;
                 show->massOutbreak.var12 = 0;
                 show->massOutbreak.probability = 50;
@@ -1725,7 +2179,7 @@ void EndMassOutbreak(void)
     gSaveBlock1Ptr->outbreakLocationMapNum = 0;
     gSaveBlock1Ptr->outbreakLocationMapGroup = 0;
     gSaveBlock1Ptr->outbreakPokemonLevel = 0;
-    gSaveBlock1Ptr->outbreakUnk1 = 0;
+    gSaveBlock1Ptr->outbreakEncounterType = 0;
     gSaveBlock1Ptr->outbreakUnk2 = 0;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = MOVE_NONE;

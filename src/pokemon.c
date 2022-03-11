@@ -8210,3 +8210,11 @@ void PutGiftMonItemInBag(void)
 	item = ITEM_NONE;
 	SetBoxMonData(GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos), MON_DATA_HELD_ITEM, &item);
 }
+
+bool8 CanSpeciesLearnAnyTMHM(u16 species)
+{
+	if (species == SPECIES_EGG || (gTMHMLearnsets[species][0] == 0 && gTMHMLearnsets[species][1] == 0))
+		return FALSE;
+	else
+		return TRUE;
+}
