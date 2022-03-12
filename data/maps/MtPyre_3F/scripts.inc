@@ -79,7 +79,7 @@ MtPyre_3F_Text_GabriellePostBattle:
 MtPyre_3F_Text_GabrielleRegister:
 	.string "I would like to see your Pokémon\n"
 	.string "when they grow up some more…\p"
-	.string "Please, I need to see your PokéNAV.$"
+	.string "Please, I need to see your PokéNav.$"
 
 MtPyre_3F_Text_GabrielleRematchIntro:
 	.string "Oh, it's you…\p"

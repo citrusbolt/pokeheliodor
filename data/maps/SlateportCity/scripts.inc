@@ -1373,12 +1373,12 @@ SlateportCity_Text_LetsRegisterEachOther:
 	.string "Scott: All right! I think you're going\n"
 	.string "to become a good friend.\p"
 	.string "So, let's register each other in our\n"
-	.string "PokéNAVS.\p"
+	.string "PokéNavs.\p"
 	.string "… … … … … …$"
 
 SlateportCity_Text_RegisteredScott:
 	.string "Registered this Scott person\n"
-	.string "in the PokéNAV.$"
+	.string "in the PokéNav.$"
 
 SlateportCity_Text_KeepEyeOnTrainersBeSeeingYou:
 	.string "Scott: What I'd like to do is tag along\n"
