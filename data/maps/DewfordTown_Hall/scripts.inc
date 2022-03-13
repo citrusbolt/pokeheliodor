@@ -353,11 +353,11 @@ DewfordTown_Hall_Text_TrendsSmile:
 	.string "SMILE” is the title.$"
 
 DewfordTown_Hall_Text_LastTrend:
-	.string "It's titled “THE Last\n"
+	.string "It's titled “The Last\n"
 	.string "{STR_VAR_1}”.$"
 
 DewfordTown_Hall_Text_BirthOfTrend:
-	.string "It's titled “THE Birth OF\n"
+	.string "It's titled “The Birth of\n"
 	.string "{STR_VAR_1}”.$"
 
 DewfordTown_Hall_Text_SawTrendCoolestThing:
