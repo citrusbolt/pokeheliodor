@@ -34,7 +34,7 @@ The highest design priorities are 100% compatibility in terms of:
     * The Game Boy Kid in the Cove Lily Motel has an e-Card to scan, allowing an e-Card berry to be obtained without having access to an e-Reader.
   * The Eon Ticket can be obtained, but the event text is slightly garbled.
     * The Eon Ticket can also be obtained during normal gameplay after defeating the Elite Four for the first time.
-  * e-Card trainers will be saved, but can not actually be found to battle.
+  * Rusby/Sapphire e-Card trainers can be battled in Sootopolis.
 * The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colosseum, Pokémon XD: Gale of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
 * Breeding mechanics have been changed.
   * Both parents can now pass down Nature and moves.
@@ -101,18 +101,28 @@ The release patch can be applied to a dump of Pokémon Emerald with a sha1 sum o
 
 To build this yourself, see [INSTALL.md](docs/INSTALL.md).
 
+## Credits
 
-## Thanks to
+* Alistair: FRLG-styled tilesets
+* AsparagusEduardo: Modified white out penalty
+* Buffel Salt: Give NPCs different Poké Balls based on Class; Stop Berry Trees from dying
+* DizzyEgg: Repel renewal prompt; Double wild encounters
+* ghoulslash: Item sorting in Bag; Additional item registration slots; Poké Ball quick-use function
+* ipatix: Improved audio mixer
+* Jaizu: Partnered to design new Summary Screen; inserting FRLG-styled OW sprites and tilesets
+* LOuroboros: Headbutt event script
+* Poffin_Case: FRLG-styled OW sprites
+* Sierraffinity: RTC-based environmental tinting system; translated e-Reader strings; time-based Nurse greetings
 
+## Special Thanks
+
+* aldelaro5
+* Bulbapedia
+* Deokishisu
+* DRayX
+* Jaizu
+* The PKHeX team
 * pret
 * Project Pokémon
-* The PKHeX team
-* Bulbapedia
 * Serebii
-* DRayX
-* Deokishisu
 * ShinyDragonHunter
-* Sierraffinity
-* aldelaro5
-* ghoulslash
-* ipatix
