@@ -1711,7 +1711,7 @@ static void Cmd_adjustnormaldamage(void)
             gLastUsedItem = gBattleMons[gBattlerTarget].item;
         }
     }
-	else if (gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	else if (gBattleMons[gBattlerTarget].hp <= gBattleMoveDamage && gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
 	{
 		bool8 friendEndured = FALSE;
 		if (gBattleMons[gBattlerTarget].friendship >= 255)
@@ -1778,7 +1778,7 @@ static void Cmd_adjustnormaldamage2(void) // The same as adjustnormaldamage exce
             gLastUsedItem = gBattleMons[gBattlerTarget].item;
         }
     }
-	else if (gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	else if (gBattleMons[gBattlerTarget].hp <= gBattleMoveDamage && gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
 	{
 		bool8 friendEndured = FALSE;
 		if (gBattleMons[gBattlerTarget].friendship >= 255)
@@ -6007,7 +6007,7 @@ static void Cmd_adjustsetdamage(void) // The same as adjustnormaldamage, except 
             gLastUsedItem = gBattleMons[gBattlerTarget].item;
         }
     }
-	else if (gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+	else if (gBattleMons[gBattlerTarget].hp <= gBattleMoveDamage && gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
 	{
 		bool8 friendEndured = FALSE;
 		if (gBattleMons[gBattlerTarget].friendship >= 255)
@@ -7659,7 +7659,7 @@ static void Cmd_tryKO(void)
                 gMoveResultFlags |= MOVE_RESULT_FOE_HUNG_ON;
                 gLastUsedItem = gBattleMons[gBattlerTarget].item;
             }
-			else if (gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
+			else if (gBattleMons[gBattlerTarget].hp <= gBattleMoveDamage && gBattleMons[gBattlerTarget].friendship >= 180 && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER)))
 			{
 				bool8 friendEndured = FALSE;
 				if (gBattleMons[gBattlerTarget].friendship >= 255)
