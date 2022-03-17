@@ -385,13 +385,13 @@ SlateportCity_OceanicMuseum_2F_Text_WantToRideSubmarine:
 	.string "I want to go for a ride!$"
 
 SlateportCity_OceanicMuseum_2F_Text_WaterQualitySample1:
-	.string "“WATER Quality Sample 1,” the\n"
+	.string "“Water Quality Sample 1,” the\n"
 	.string "label says.\p"
 	.string "The sea is all connected, but the\n"
 	.string "water seems to differ by region.$"
 
 SlateportCity_OceanicMuseum_2F_Text_WaterQualitySample2:
-	.string "“WATER Quality Sample 2,” the\n"
+	.string "“Water Quality Sample 2,” the\n"
 	.string "label says.\p"
 	.string "Does the saltiness of seawater differ\n"
 	.string "by region, too?$"
@@ -408,7 +408,7 @@ SlateportCity_OceanicMuseum_2F_Text_PressureExperiment:
 	.string "thousands of tons on a small area.”$"
 
 SlateportCity_OceanicMuseum_2F_Text_HoennModel:
-	.string "“MODEL OF Hoenn REGION”\p"
+	.string "“Model of Hoenn Region”\p"
 	.string "It's a miniature diorama of the\n"
 	.string "Hoenn region.\p"
 	.string "Where is Littleroot Town on this?$"
@@ -425,17 +425,17 @@ SlateportCity_OceanicMuseum_2F_Text_SurfaceSeawaterDisplay:
 	.string "as currents driven by the winds.”$"
 
 SlateportCity_OceanicMuseum_2F_Text_SSTidalReplica:
-	.string "“THE Ferry S.S. Tidal\p"
+	.string "“The Ferry S.S. Tidal\p"
 	.string "“A scale replica of the ship under\n"
 	.string "construction at Stern's Shipyard.”$"
 
 SlateportCity_OceanicMuseum_2F_Text_SubmarineReplica:
-	.string "“SUBMARINE Explorer 1\p"
+	.string "“Submarine Explorer 1\p"
 	.string "“A replica of the high-performance\n"
 	.string "ocean floor exploration submarine.”$"
 
 SlateportCity_OceanicMuseum_2F_Text_SumbersibleReplica:
-	.string "“SUBMERSIBLE Pod\p"
+	.string "“Submersible Pod\p"
 	.string "“A replica of a compact, unmanned\n"
 	.string "pod for seafloor exploration.”$"
 

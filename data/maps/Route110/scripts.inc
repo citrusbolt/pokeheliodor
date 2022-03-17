@@ -950,10 +950,10 @@ Route110_Text_CyclingRoadSign:
 	.string "Seaside Cycling Road$"
 
 Route110_Text_AquaWasHere:
-	.string "“TEAM Aqua was here!”\p"
+	.string "“Team Aqua was here!”\p"
 	.string "Someone painted that onto this sign,\n"
 	.string "but then someone else painted over it.\p"
-	.string "“TEAM Magma rules!” is what it\n"
+	.string "“Team Magma rules!” is what it\n"
 	.string "says now.$"
 
 Route110_Text_Route103Sign:
@@ -984,12 +984,12 @@ Route110_Text_TrickHouseSign:
 	.string "to reach the wondrous Trick House.”$"
 
 Route110_Text_BestRecord:
-	.string "The Best Record TO Date…\p"
+	.string "The Best Record to Date…\p"
 	.string "No. of collisions: {STR_VAR_1}\p"
 	.string "Elapsed time: {STR_VAR_2}$"
 
 Route110_Text_ThereIsNoRecord:
-	.string "The Best Record TO Date…\p"
+	.string "The Best Record to Date…\p"
 	.string "No one seems to have taken the\n"
 	.string "challenge. There is no record…$"
 
