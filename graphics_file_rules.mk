@@ -89,35 +89,35 @@ $(TILESETGFXDIR)/secondary/sootopolis/tiles.4bpp: %.4bpp: %.png
 SOOTOPOLISANIMDIR := $(TILESETGFXDIR)/secondary/sootopolis/anim
 
 $(SOOTOPOLISANIMDIR)/stormy_water/0.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/0_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/0_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/0_groudon.4bpp
 	@cat $^ >$@
 
 $(SOOTOPOLISANIMDIR)/stormy_water/1.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/1_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/1_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/1_groudon.4bpp
 	@cat $^ >$@
 
 $(SOOTOPOLISANIMDIR)/stormy_water/2.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/2_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/2_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/2_groudon.4bpp
 	@cat $^ >$@
 
 $(SOOTOPOLISANIMDIR)/stormy_water/3.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/3_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/3_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/3_groudon.4bpp
 	@cat $^ >$@
 
 $(SOOTOPOLISANIMDIR)/stormy_water/4.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/4_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/4_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/4_groudon.4bpp
 	@cat $^ >$@
 
 $(SOOTOPOLISANIMDIR)/stormy_water/5.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/5_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/5_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/5_groudon.4bpp
 	@cat $^ >$@
 
 $(SOOTOPOLISANIMDIR)/stormy_water/6.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/6_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/6_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/6_groudon.4bpp
 	@cat $^ >$@
 
 $(SOOTOPOLISANIMDIR)/stormy_water/7.4bpp: $(SOOTOPOLISANIMDIR)/stormy_water/7_kyogre.4bpp \
-                                          $(SOOTOPOLISANIMDIR)/stormy_water/7_groudon.4bpp 
+                                          $(SOOTOPOLISANIMDIR)/stormy_water/7_groudon.4bpp
 	@cat $^ >$@
 
 $(TILESETGFXDIR)/secondary/battle_frontier_outside_west/tiles.4bpp: %.4bpp: %.png
@@ -460,9 +460,6 @@ $(TYPESGFXDIR)/move_types.gbapal: $(TYPESGFXDIR)/move_types_1.gbapal \
 							   $(TYPESGFXDIR)/move_types_3.gbapal
 	@cat $^ >$@
 
-$(INTERFACEGFXDIR)/bag_screen.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 53
-
 $(RAYQUAZAGFXDIR)/scene_2/rayquaza.8bpp: %.8bpp: %.png
 	$(GFX) $< $@ -num_tiles 227
 
@@ -689,7 +686,7 @@ $(OBJEVENTGFXDIR)/pics/effects/unknown_4F6D38/0.4bpp: %.4bpp: %.png
 
 $(INTERFACEGFXDIR)/selector_outline.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 8
-	
+
 $(BATTRANSGFXDIR)/frontier_logo_center.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 43
 
@@ -717,7 +714,7 @@ $(PKNAVGFXDIR)/header.4bpp: %.4bpp: %.png
 
 $(PKNAVGFXDIR)/device_outline.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 53
-	
+
 $(PKNAVGFXDIR)/ui_matchcall.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 13
 
