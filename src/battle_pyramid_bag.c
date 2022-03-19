@@ -1551,7 +1551,7 @@ static void LoadPyramidBagPalette(void)
 static void CreatePyramidBagSprite(void)
 {
     u8 *spriteId = &gPyramidBagMenu->spriteIds[PBAG_SPRITE_BAG];
-    *spriteId = CreateSprite(&sSpriteTemplate_PyramidBag, 68, 56, 0);
+    *spriteId = CreateSprite(&sSpriteTemplate_PyramidBag, 68, 66, 0);
 }
 
 static void ShakePyramidBag(void)

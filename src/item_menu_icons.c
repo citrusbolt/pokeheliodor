@@ -366,6 +366,10 @@ void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets)
     struct Sprite *sprite = &gSprites[gBagMenu->spriteIds[ITEMMENUSPRITE_BAG]];
     if (isSwitchingPockets)
     {
+		if (bagPocketId == KEYITEMS_POCKET && gSaveBlock2Ptr->playerGender == MALE)
+			sprite->y2 = -2;
+		else
+			sprite->y2 = 0;
         sprite->callback = SpriteCB_BagVisualSwitchingPockets;
         sprite->data[0] = bagPocketId + 1;
         StartSpriteAnim(sprite, 0);
