@@ -800,3 +800,5 @@ const u32 gBallIcon_Sport[] = INCBIN_U32("graphics/summary_screen/ball_icons/spo
 const u32 gBallIconPalette_Sport[] = INCBIN_U32("graphics/summary_screen/ball_icons/sport.gbapal.lz");
 const u32 gBallIcon_Dream[] = INCBIN_U32("graphics/summary_screen/ball_icons/dream.4bpp.lz");
 const u32 gBallIconPalette_Dream[] = INCBIN_U32("graphics/summary_screen/ball_icons/dream.gbapal.lz");
+const u32 gBallIcon_Beast[] = INCBIN_U32("graphics/summary_screen/ball_icons/beast.4bpp.lz");
+const u32 gBallIconPalette_Beast[] = INCBIN_U32("graphics/summary_screen/ball_icons/beast.gbapal.lz");

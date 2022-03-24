@@ -438,4 +438,5 @@ const u32 *const gBallIconTable[][2] =
 	{gBallIcon_Moon, gBallIconPalette_Moon},
 	{gBallIcon_Sport, gBallIconPalette_Sport},
 	{gBallIcon_Dream, gBallIconPalette_Dream},
+	{gBallIcon_Beast, gBallIconPalette_Beast},
 };
