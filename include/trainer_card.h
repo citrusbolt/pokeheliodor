@@ -86,6 +86,8 @@ struct TrainerCard
     /*0x50*/ u8 stickers[TRAINER_CARD_STICKER_TYPES];
 	/*0x53*/ u8 versionModifier;
     /*0x54*/ u16 monSpecies[PARTY_SIZE];
+             // Note: Link players use hasAllFrontierSymbols, not the field below,
+             // which they use for a Wonder Card flag id instead (see CreateTrainerCardInBuffer)
     /*0x60*/ bool16 hasAllSymbols; // Free for use
     /*0x62*/ u16 frontierBP;
 	/*0x64*/ u32 monForm0:2;
@@ -111,7 +113,7 @@ extern struct TrainerCard gTrainerCards[4];
 
 u32 CountPlayerTrainerStars(void);
 u8 GetTrainerCardStars(u8 cardId);
-void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion, u8 versionModifier);
+void CopyTrainerCardData(struct TrainerCard *dst, struct TrainerCard *src, u8 gameVersion, u8 versionModifier);
 void ShowPlayerTrainerCard(void (*callback)(void));
 void ShowTrainerCardInLink(u8 arg0, void (*callback)(void));
 void TrainerCard_GenerateCardForPlayer(struct TrainerCard *);

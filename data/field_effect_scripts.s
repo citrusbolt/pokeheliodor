@@ -28,7 +28,7 @@ gFieldEffectScriptPointers::
 	.4byte gFieldEffectScript_UnusedGrass2              @ FLDEFF_UNUSED_GRASS_2
 	.4byte gFieldEffectScript_UnusedSand                @ FLDEFF_UNUSED_SAND
 	.4byte gFieldEffectScript_WaterSurfacing            @ FLDEFF_WATER_SURFACING
-	.4byte gFieldEffectScript_BERRYTreeGrowthSparkle    @ FLDEFF_BERRY_TREE_GROWTH_SPARKLE
+	.4byte gFieldEffectScript_BerryTreeGrowthSparkle    @ FLDEFF_BERRY_TREE_GROWTH_SPARKLE
 	.4byte gFieldEffectScript_DeepSandFootprints        @ FLDEFF_DEEP_SAND_FOOTPRINTS
 	.4byte gFieldEffectScript_PokeCenterHeal            @ FLDEFF_POKECENTER_HEAL
 	.4byte gFieldEffectScript_UseSecretPowerTree        @ FLDEFF_USE_SECRET_POWER_TREE
@@ -50,7 +50,7 @@ gFieldEffectScriptPointers::
 	.4byte gFieldEffectScript_HotSpringsWater           @ FLDEFF_HOT_SPRINGS_WATER
 	.4byte gFieldEffectScript_UseWaterfall              @ FLDEFF_USE_WATERFALL
 	.4byte gFieldEffectScript_UseDive                   @ FLDEFF_USE_DIVE
-	.4byte gFieldEffectScript_Pokeball                  @ FLDEFF_POKEBALL
+	.4byte gFieldEffectScript_PokeballTrail             @ FLDEFF_POKEBALL_TRAIL
 	.4byte gFieldEffectScript_HeartIcon                 @ FLDEFF_HEART_ICON
 	.4byte gFieldEffectScript_Nop47                     @ FLDEFF_NOP_47
 	.4byte gFieldEffectScript_Nop48                     @ FLDEFF_NOP_48
@@ -166,8 +166,8 @@ gFieldEffectScript_WaterSurfacing::
 	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect0, FldEff_WaterSurfacing
 	field_eff_end
 
-gFieldEffectScript_BERRYTreeGrowthSparkle::
-	field_eff_callnative FldEff_BERRYTreeGrowthSparkle
+gFieldEffectScript_BerryTreeGrowthSparkle::
+	field_eff_callnative FldEff_BerryTreeGrowthSparkle
 	field_eff_end
 
 gFieldEffectScript_DeepSandFootprints::
@@ -255,9 +255,9 @@ gFieldEffectScript_UseDive::
 	field_eff_callnative FldEff_UseDive
 	field_eff_end
 
-gFieldEffectScript_Pokeball::
-	field_eff_loadpalnotint gSpritePalette_Pokeball
-	field_eff_callnative FldEff_Pokeball
+gFieldEffectScript_PokeballTrail::
+	field_eff_loadpal gSpritePalette_Pokeball
+	field_eff_callnative FldEff_PokeballTrail
 	field_eff_end
 
 gFieldEffectScript_HeartIcon::

@@ -1,26 +1,26 @@
 static const u16 sFrontierExchangeCorner_Decor1[] =
-{ 
-    DECOR_KISS_POSTER, 
-    DECOR_KISS_CUSHION, 
-    DECOR_SMOOCHUM_DOLL, 
-    DECOR_TOGEPI_DOLL, 
-    DECOR_MEOWTH_DOLL, 
-    DECOR_CLEFAIRY_DOLL, 
-    DECOR_DITTO_DOLL, 
-    DECOR_CYNDAQUIL_DOLL, 
-    DECOR_CHIKORITA_DOLL, 
-    DECOR_TOTODILE_DOLL, 
-    0xFFFF 
+{
+    DECOR_KISS_POSTER,
+    DECOR_KISS_CUSHION,
+    DECOR_SMOOCHUM_DOLL,
+    DECOR_TOGEPI_DOLL,
+    DECOR_MEOWTH_DOLL,
+    DECOR_CLEFAIRY_DOLL,
+    DECOR_DITTO_DOLL,
+    DECOR_CYNDAQUIL_DOLL,
+    DECOR_CHIKORITA_DOLL,
+    DECOR_TOTODILE_DOLL,
+    0xFFFF
 };
 
 static const u16 sFrontierExchangeCorner_Decor2[] =
-{ 
-    DECOR_LAPRAS_DOLL, 
-    DECOR_SNORLAX_DOLL, 
-    DECOR_VENUSAUR_DOLL, 
-    DECOR_CHARIZARD_DOLL, 
-    DECOR_BLASTOISE_DOLL, 
-    0xFFFF 
+{
+    DECOR_LAPRAS_DOLL,
+    DECOR_SNORLAX_DOLL,
+    DECOR_VENUSAUR_DOLL,
+    DECOR_CHARIZARD_DOLL,
+    DECOR_BLASTOISE_DOLL,
+    0xFFFF
 };
 
 static const u16 sFrontierExchangeCorner_Stones[] =
@@ -73,7 +73,7 @@ static const u8 *const sFrontierExchangeCorner_Decor1Descriptions[] =
     gText_Exit,
 };
 
-static const u8 *const sFrontierExchangeCorner_Decor2Descriptions[] = 
+static const u8 *const sFrontierExchangeCorner_Decor2Descriptions[] =
 {
     BattleFrontier_ExchangeServiceCorner_Text_LargeDollDesc,
     BattleFrontier_ExchangeServiceCorner_Text_LargeDollDesc,
@@ -99,7 +99,7 @@ static const u8 *const sFrontierExchangeCorner_StonesDescriptions[] =
     gText_Exit
 };
 
-static const u8 *const sFrontierExchangeCorner_HoldItemsDescriptions[] = 
+static const u8 *const sFrontierExchangeCorner_HoldItemsDescriptions[] =
 {
     BattleFrontier_ExchangeServiceCorner_Text_LeftoversDesc,
     BattleFrontier_ExchangeServiceCorner_Text_WhiteHerbDesc,

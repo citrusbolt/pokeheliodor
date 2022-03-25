@@ -42,9 +42,10 @@ struct Main
 
 extern EWRAM_DATA bool8 gDisableVBlankRNGAdvance;
 
+#define GAME_CODE_LENGTH 4
 extern const u8 gGameVersion;
 extern const u8 gGameLanguage;
-extern const u8 RomHeaderGameCode[4];
+extern const u8 RomHeaderGameCode[GAME_CODE_LENGTH];
 extern const u8 RomHeaderSoftwareVersion;
 
 extern u16 gKeyRepeatStartDelay;
@@ -73,7 +74,5 @@ void RestoreSerialTimer3IntrHandlers(void);
 void StartTimer1(void);
 void SeedRngAndSetTrainerId(void);
 u16 GetGeneratedTrainerIdLower(void);
-void sub_819789C(void);
-void WaitForVBlank(void);
 
 #endif // GUARD_MAIN_H

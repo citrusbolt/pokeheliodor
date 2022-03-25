@@ -499,8 +499,8 @@ static const u8 sTextColors[][3] =
     [PSS_COLOR_LIGHT_RED]               = {0, 13, 14}
 };
 
-static const u8 sSummaryAButtonBitmap[] = INCBIN_U8("graphics/interface/summary_a_button.4bpp");
-static const u8 sSummaryBButtonBitmap[] = INCBIN_U8("graphics/interface/summary_b_button.4bpp");
+static const u8 sSummaryAButtonBitmap[] = INCBIN_U8("graphics/summary_screen/a_button.4bpp");
+static const u8 sSummaryBButtonBitmap[] = INCBIN_U8("graphics/summary_screen/b_button.4bpp");
 
 static void (*const sTextPrinterFunctions[])(void) =
 {
@@ -844,7 +844,7 @@ static const struct SpriteTemplate sSpriteTemplate_StatusCondition =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallbackDummy
 };
-static const u16 sSummaryMarkingsPalette[] = INCBIN_U16("graphics/interface/summary_markings.gbapal");
+static const u16 sSummaryMarkingsPalette[] = INCBIN_U16("graphics/summary_screen/markings.gbapal");
 
 static const struct OamData sOamData_ExpHealthBars = {
     .y = 0,
@@ -1187,7 +1187,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     SummaryScreen_SetAnimDelayTaskId(TASK_NONE);
 
     if (gMonSpritesGfxPtr == NULL)
-        sub_806F2AC(0, 0);
+        CreateMonSpritesGfxManager(MON_SPR_GFX_MANAGER_A, MON_SPR_GFX_MODE_NORMAL);
 
     SetMainCallback2(CB2_InitSummaryScreen);
 }
@@ -1222,7 +1222,7 @@ static void VBlank(void)
 
 static void CB2_InitSummaryScreen(void)
 {
-    while (MenuHelpers_CallLinkSomething() != TRUE && LoadGraphics() != TRUE && MenuHelpers_LinkSomething() != TRUE);
+    while (MenuHelpers_ShouldWaitForLinkRecv() != TRUE && LoadGraphics() != TRUE && MenuHelpers_IsLinkActive() != TRUE);
 }
 
 static bool8 LoadGraphics(void)
@@ -1430,7 +1430,7 @@ static bool8 DecompressGraphics(void)
         break;
     case 4:
         LoadCompressedPalette(gSummaryScreenPalette, 0, 0x100);
-        LoadPalette(&gUnknown_08D85620, 0x81, 0x1E);
+        LoadPalette(&gPPTextPalette, 0x81, 0x1E);
         sMonSummaryScreen->switchCounter++;
         break;
     case 5:
@@ -1607,7 +1607,7 @@ static void BeginCloseSummaryScreen(u8 taskId)
 
 static void CloseSummaryScreen(u8 taskId)
 {
-    if (MenuHelpers_CallLinkSomething() != TRUE && !gPaletteFade.active)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE && !gPaletteFade.active)
     {
         SetMainCallback2(sMonSummaryScreen->callback);
         gLastViewedMonIndex = sMonSummaryScreen->curMonIndex;
@@ -1617,9 +1617,9 @@ static void CloseSummaryScreen(u8 taskId)
         ResetSpriteData();
         FreeAllSpritePalettes();
         StopCryAndClearCrySongs();
-        m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
+        m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0x100);
         if (gMonSpritesGfxPtr == NULL)
-            sub_806F47C(0);
+            DestroyMonSpritesGfxManager(MON_SPR_GFX_MANAGER_A);
         FreeSummaryScreen();
         DestroyTask(taskId);
     }
@@ -1631,7 +1631,7 @@ static void Task_HandleInput(u8 taskId)
 
 	data[0] = 0;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE && !gPaletteFade.active)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE && !gPaletteFade.active)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -1819,7 +1819,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
-        if (MenuHelpers_CallLinkSomething() == 0)
+        if (MenuHelpers_ShouldWaitForLinkRecv() == 0)
         {
             data[0] = 0;
             gTasks[taskId].func = Task_HandleInput;
@@ -2014,7 +2014,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != 1)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != 1)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2263,7 +2263,7 @@ static void Task_HandleInput_MovePositionSwitch(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2403,7 +2403,7 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE)
     {
         if (gPaletteFade.active != TRUE)
         {
@@ -2525,7 +2525,7 @@ static void Task_ConfirmHMCantForget(u8 taskId)
 {
 	s16* data = gTasks[taskId].data;
 
-	if (MenuHelpers_CallLinkSomething() != TRUE && gPaletteFade.active != TRUE && JOY_NEW(A_BUTTON))
+	if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE && gPaletteFade.active != TRUE && JOY_NEW(A_BUTTON))
 	{
 		data[0] = 4;
 		ChangeSelectedMove(data, 0, &sMonSummaryScreen->firstMoveIndex);
@@ -3890,9 +3890,9 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
             else
             {
                 if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == SUMMARY_MODE_BOX || sMonSummaryScreen->unk40EF == TRUE)
-                    HandleLoadSpecialPokePic_2(&gMonFrontPicTable[summary->species2], sub_806F4F8(0, 1), summary->species2, summary->pid);
+                    HandleLoadSpecialPokePic_2(&gMonFrontPicTable[summary->species2], MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT), summary->species2, summary->pid);
                 else
-                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], sub_806F4F8(0, 1), summary->species2, summary->pid);
+                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT), summary->species2, summary->pid);
             }
         }
         (*state)++;
@@ -3921,9 +3921,9 @@ static void PlayMonCry(void)
     if (!summary->isEgg)
     {
         if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon) == TRUE)
-            PlayCry3(summary->species2, 0, 0);
+            PlayCry_ByMode(summary->species2, 0, CRY_MODE_NORMAL);
         else
-            PlayCry3(summary->species2, 0, 11);
+            PlayCry_ByMode(summary->species2, 0, CRY_MODE_WEAK);
     }
 }
 

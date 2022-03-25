@@ -27,10 +27,10 @@ static int BerryFix_TrySetScene(int);
 static void BerryFix_SetScene(int);
 static void BerryFix_HideScene(void);
 
-static const u8 sText_BERRYProgramUpdate[] = _("Berry Program Update");
+static const u8 sText_BerryProgramUpdate[] = _("Berry Program Update");
 static const u8 sText_RubySapphire[] = _("Ruby/Sapphire");
 static const u8 sText_Emerald[] = _("Heliodor");
-static const u8 sText_BERRYProgramWillBeUpdatedPressA[] = _("The Berry Program on your POKéMON\n"
+static const u8 sText_BerryProgramWillBeUpdatedPressA[] = _("The Berry Program on your POKéMON\n"
                                                             "Ruby/Sapphire Game Pak will be updated.\n"
                                                             "{COLOR RED}{SHADOW LIGHT_RED}Press the A Button.");
 static const u8 sText_EnsureGBAConnectionMatches[] = _("Please ensure the connection of your\n"
@@ -51,20 +51,20 @@ static const u8 sText_TransmissionFailureTryAgain[] = _("Transmission failure.\n
 
 static const struct BgTemplate sBerryFixBgTemplates[] = {
     {
-        .bg = 0, 
-        .charBaseIndex = 0, 
-        .mapBaseIndex = 30, 
-        .screenSize = 0, 
-        .paletteMode = 0, 
+        .bg = 0,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 30,
+        .screenSize = 0,
+        .paletteMode = 0,
         .priority = 0,
         .baseTile = 0
-    }, 
+    },
     {
-        .bg = 1, 
-        .charBaseIndex = 1, 
-        .mapBaseIndex = 31, 
-        .screenSize = 0, 
-        .paletteMode = 0, 
+        .bg = 1,
+        .charBaseIndex = 1,
+        .mapBaseIndex = 31,
+        .screenSize = 0,
+        .paletteMode = 0,
         .priority = 1,
         .baseTile = 0
     }
@@ -72,39 +72,39 @@ static const struct BgTemplate sBerryFixBgTemplates[] = {
 
 static const struct WindowTemplate sBerryFixWindowTemplates[] = {
     {
-        .bg = 0, 
-        .tilemapLeft = 2,  
-        .tilemapTop = 4, 
-        .width = 26, 
-        .height = 2, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 2,
+        .tilemapTop = 4,
+        .width = 26,
+        .height = 2,
+        .paletteNum = 15,
         .baseBlock = 1
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 1, 
-        .tilemapTop = 11, 
-        .width = 28, 
-        .height = 8, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 11,
+        .width = 28,
+        .height = 8,
+        .paletteNum = 15,
         .baseBlock = 53
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 0,  
-        .tilemapTop = 8, 
-        .width = 30, 
-        .height = 2, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 8,
+        .width = 30,
+        .height = 2,
+        .paletteNum = 15,
         .baseBlock = 277
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 8,  
-        .tilemapTop = 0, 
-        .width = 14, 
-        .height = 2, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 8,
+        .tilemapTop = 0,
+        .width = 14,
+        .height = 2,
+        .paletteNum = 15,
         .baseBlock = 337
     },
     DUMMY_WIN_TEMPLATE
@@ -136,7 +136,7 @@ static const u8 *const sBerryProgramTexts[] = {
     [SCENE_TRANSMITTING]    = sText_TransmittingPleaseWait,
     [SCENE_FOLLOW_INSTRUCT] = sText_PleaseFollowInstructionsOnScreen,
     [SCENE_TRANSMIT_FAILED] = sText_TransmissionFailureTryAgain,
-    [SCENE_BEGIN]           = sText_BERRYProgramWillBeUpdatedPressA
+    [SCENE_BEGIN]           = sText_BerryProgramWillBeUpdatedPressA
 };
 
 static const struct {
@@ -148,27 +148,27 @@ static const struct {
         gBerryFixGameboy_Gfx,
         gBerryFixGameboy_Tilemap,
         gBerryFixGameboy_Pal
-    }, 
+    },
     [SCENE_TURN_OFF_POWER] = {
         gBerryFixGameboyLogo_Gfx,
         gBerryFixGameboyLogo_Tilemap,
         gBerryFixGameboyLogo_Pal
-    }, 
+    },
     [SCENE_TRANSMITTING] = {
         gBerryFixGbaTransfer_Gfx,
         gBerryFixGbaTransfer_Tilemap,
         gBerryFixGbaTransfer_Pal
-    }, 
+    },
     [SCENE_FOLLOW_INSTRUCT] = {
         gBerryFixGbaTransferHighlight_Gfx,
         gBerryFixGbaTransferHighlight_Tilemap,
         gBerryFixGbaTransferHighlight_Pal
-    }, 
+    },
     [SCENE_TRANSMIT_FAILED] = {
         gBerryFixGbaTransferError_Gfx,
         gBerryFixGbaTransferError_Tilemap,
         gBerryFixGbaTransferError_Pal
-    }, 
+    },
     [SCENE_BEGIN] = {
         gBerryFixWindow_Gfx,
         gBerryFixWindow_Tilemap,
@@ -176,8 +176,8 @@ static const struct {
     },
 };
 
-extern const u8 gMultiBootProgram_BERRYGlitchFix_Start[0x3BF4];
-extern const u8 gMultiBootProgram_BERRYGlitchFix_End[];
+extern const u8 gMultiBootProgram_BerryGlitchFix_Start[0x3BF4];
+extern const u8 gMultiBootProgram_BerryGlitchFix_End[];
 
 enum {
     MAINSTATE_INIT,
@@ -227,7 +227,7 @@ static void BerryFix_Main(void)
         case MAINSTATE_INIT_MULTIBOOT:
             if (TryScene(SCENE_TURN_OFF_POWER))
             {
-                sBerryFix->mb.masterp = gMultiBootProgram_BERRYGlitchFix_Start;
+                sBerryFix->mb.masterp = gMultiBootProgram_BerryGlitchFix_Start;
                 sBerryFix->mb.server_type = 0;
                 MultiBootInit(&sBerryFix->mb);
                 sBerryFix->timer = 0;
@@ -242,22 +242,22 @@ static void BerryFix_Main(void)
             }
             else if (++sBerryFix->timer > 180)
             {
-                MultiBootStartMaster(&sBerryFix->mb, 
-                                     gMultiBootProgram_BERRYGlitchFix_Start + ROM_HEADER_SIZE, 
-                                     (u32)(gMultiBootProgram_BERRYGlitchFix_End - (gMultiBootProgram_BERRYGlitchFix_Start + ROM_HEADER_SIZE)), 
-                                     4, 
+                MultiBootStartMaster(&sBerryFix->mb,
+                                     gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE,
+                                     (u32)(gMultiBootProgram_BerryGlitchFix_End - (gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE)),
+                                     4,
                                      1);
                 sBerryFix->state = MAINSTATE_TRANSMIT;
             }
             break;
         case MAINSTATE_TRANSMIT:
-            if (TryScene(SCENE_TRANSMITTING)) 
+            if (TryScene(SCENE_TRANSMITTING))
             {
                 MultiBootMain(&sBerryFix->mb);
 
-                if (MultiBootCheckComplete(&sBerryFix->mb)) 
+                if (MultiBootCheckComplete(&sBerryFix->mb))
                     sBerryFix->state = MAINSTATE_EXIT;
-                else if (!(sBerryFix->mb.client_bit & 2)) 
+                else if (!(sBerryFix->mb.client_bit & 2))
                     sBerryFix->state = MAINSTATE_FAILED;
             }
             break;
@@ -290,10 +290,10 @@ static void BerryFix_GpuSet(void)
     ResetBgsAndClearDma3BusyFlags(0);
 
     InitBgsFromTemplates(0, sBerryFixBgTemplates, ARRAY_COUNT(sBerryFixBgTemplates));
-    ChangeBgX(0, 0, 0);
-    ChangeBgY(0, 0, 0);
-    ChangeBgX(1, 0, 0);
-    ChangeBgY(1, 0, 0);
+    ChangeBgX(0, 0, BG_COORD_SET);
+    ChangeBgY(0, 0, BG_COORD_SET);
+    ChangeBgX(1, 0, BG_COORD_SET);
+    ChangeBgY(1, 0, BG_COORD_SET);
     InitWindows(sBerryFixWindowTemplates);
     DeactivateAllTextPrinters();
 
@@ -303,25 +303,25 @@ static void BerryFix_GpuSet(void)
     FillWindowPixelBuffer(3, PIXEL_FILL(0));
     FillWindowPixelBuffer(0, PIXEL_FILL(10));
 
-    width = GetStringWidth(0, sText_Emerald, 0);
+    width = GetStringWidth(FONT_SMALL, sText_Emerald, 0);
     left = (120 - width) / 2;
-    AddTextPrinterParameterized3(2, 0, left, 3, sGameTitleTextColors, TEXT_SPEED_FF, sText_Emerald);
+    AddTextPrinterParameterized3(2, FONT_SMALL, left, 3, sGameTitleTextColors, TEXT_SKIP_DRAW, sText_Emerald);
 
-    width = GetStringWidth(0, sText_RubySapphire, 0);
+    width = GetStringWidth(FONT_SMALL, sText_RubySapphire, 0);
     left = (120 - width) / 2 + 120;
-    AddTextPrinterParameterized3(2, 0, left, 3, sGameTitleTextColors, TEXT_SPEED_FF, sText_RubySapphire);
+    AddTextPrinterParameterized3(2, FONT_SMALL, left, 3, sGameTitleTextColors, TEXT_SKIP_DRAW, sText_RubySapphire);
 
-    width = GetStringWidth(0, sText_RubySapphire, 0);
+    width = GetStringWidth(FONT_SMALL, sText_RubySapphire, 0);
     left = (112 - width) / 2;
-    AddTextPrinterParameterized3(3, 0, left, 0, sGameTitleTextColors, TEXT_SPEED_FF, sText_RubySapphire);
+    AddTextPrinterParameterized3(3, FONT_SMALL, left, 0, sGameTitleTextColors, TEXT_SKIP_DRAW, sText_RubySapphire);
 
-    width = GetStringWidth(1, sText_BERRYProgramUpdate, 0);
+    width = GetStringWidth(FONT_NORMAL, sText_BerryProgramUpdate, 0);
     left = (208 - width) / 2;
-    AddTextPrinterParameterized3(0, 1, left, 2, sBerryProgramTextColors, TEXT_SPEED_FF, sText_BERRYProgramUpdate);
+    AddTextPrinterParameterized3(0, FONT_NORMAL, left, 2, sBerryProgramTextColors, TEXT_SKIP_DRAW, sText_BerryProgramUpdate);
 
-    CopyWindowToVram(2, 2);
-    CopyWindowToVram(3, 2);
-    CopyWindowToVram(0, 2);
+    CopyWindowToVram(2, COPYWIN_GFX);
+    CopyWindowToVram(3, COPYWIN_GFX);
+    CopyWindowToVram(0, COPYWIN_GFX);
 }
 
 static int BerryFix_TrySetScene(int scene)
@@ -346,9 +346,9 @@ static void BerryFix_SetScene(int scene)
 {
     FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 32, 32);
     FillWindowPixelBuffer(1, PIXEL_FILL(10));
-    AddTextPrinterParameterized3(1, 1, 0, 0, sBerryProgramTextColors, -1, sBerryProgramTexts[scene]);
+    AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0, sBerryProgramTextColors, TEXT_SKIP_DRAW, sBerryProgramTexts[scene]);
     PutWindowTilemap(1);
-    CopyWindowToVram(1, 2);
+    CopyWindowToVram(1, COPYWIN_GFX);
     switch (scene)
     {
     case SCENE_ENSURE_CONNECT:

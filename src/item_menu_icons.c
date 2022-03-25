@@ -178,7 +178,7 @@ static const struct OamData sBerryPicRotatingOamData =
     .affineParam = 0
 };
 
-static const union AnimCmd sAnim_BERRYPic[] =
+static const union AnimCmd sAnim_BerryPic[] =
 {
     ANIMCMD_FRAME(0, 0),
     ANIMCMD_END
@@ -186,7 +186,7 @@ static const union AnimCmd sAnim_BERRYPic[] =
 
 static const union AnimCmd *const sBerryPicSpriteAnimTable[] =
 {
-    sAnim_BERRYPic
+    sAnim_BerryPic
 };
 
 static const struct SpriteFrameImage sBerryPicSpriteImageTable[] =
@@ -196,7 +196,7 @@ static const struct SpriteFrameImage sBerryPicSpriteImageTable[] =
 
 static const struct SpriteTemplate gBerryPicSpriteTemplate =
 {
-    .tileTag = 0xFFFF,
+    .tileTag = TAG_NONE,
     .paletteTag = TAG_BERRY_PIC_PAL,
     .oam = &sBerryPicOamData,
     .anims = sBerryPicSpriteAnimTable,
@@ -205,7 +205,7 @@ static const struct SpriteTemplate gBerryPicSpriteTemplate =
     .callback = SpriteCallbackDummy,
 };
 
-static const union AffineAnimCmd sSpriteAffineAnim_BERRYPicRotation1[] =
+static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation1[] =
 {
     AFFINEANIMCMD_FRAME(-1, -1, 253, 96),
     AFFINEANIMCMD_FRAME(0, 0, 0, 16),
@@ -216,7 +216,7 @@ static const union AffineAnimCmd sSpriteAffineAnim_BERRYPicRotation1[] =
     AFFINEANIMCMD_JUMP(0)
 };
 
-static const union AffineAnimCmd sSpriteAffineAnim_BERRYPicRotation2[] =
+static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation2[] =
 {
     AFFINEANIMCMD_FRAME(-1, -1, 3, 96),
     AFFINEANIMCMD_FRAME(0, 0, 0, 16),
@@ -229,13 +229,13 @@ static const union AffineAnimCmd sSpriteAffineAnim_BERRYPicRotation2[] =
 
 static const union AffineAnimCmd *const sBerryPicRotatingAnimCmds[] =
 {
-    sSpriteAffineAnim_BERRYPicRotation1,
-    sSpriteAffineAnim_BERRYPicRotation2
+    sSpriteAffineAnim_BerryPicRotation1,
+    sSpriteAffineAnim_BerryPicRotation2
 };
 
 static const struct SpriteTemplate gBerryPicRotatingSpriteTemplate =
 {
-    .tileTag = 0xFFFF,
+    .tileTag = TAG_NONE,
     .paletteTag = TAG_BERRY_PIC_PAL,
     .oam = &sBerryPicRotatingOamData,
     .anims = sBerryPicSpriteAnimTable,
@@ -426,23 +426,31 @@ void UpdateItemMenuSwapLinePos(u8 y)
     UpdateSwapLineSpritesPos(&gBagMenu->spriteIds[ITEMMENUSPRITE_SWAP_LINE], ITEMMENU_SWAP_LINE_LENGTH | SWAP_LINE_HAS_MARGIN, 120, (y + 1) * 16);
 }
 
-static void sub_80D5018(void *mem0, void *mem1)
+static void ArrangeBerryGfx(void *src, void *dest)
 {
     u8 i, j;
 
-    memset(mem1, 0, 0x800);
-    mem1 += 0x100;
+    memset(dest, 0, 0x800);
+
+    // Create top margin
+    dest += 0x100;
+
     for (i = 0; i < 6; i++)
     {
-        mem1 += 0x20;
+        // Create left margin
+        dest += 0x20;
+
+        // Copy one row of berry's icon
         for (j = 0; j < 6; j++)
         {
-            memcpy(mem1, mem0, 0x20);
-            mem1 += 0x20;
-            mem0 += 0x20;
+            memcpy(dest, src, 0x20);
+            dest += 0x20;
+            src += 0x20;
         }
+
+        // Create right margin
         if (i != 5)
-            mem1 += 0x20;
+            dest += 0x20;
     }
 }
 
@@ -501,7 +509,7 @@ static void LoadBerryGfx(u8 berryId)
 
 	pal.tag = TAG_BERRY_PIC_PAL;
 	LoadCompressedSpritePalette(&pal);
-	sub_80D5018(&gDecompressionBuffer[0x1000], &gDecompressionBuffer[0]);
+    ArrangeBerryGfx(&gDecompressionBuffer[0x1000], &gDecompressionBuffer[0]);
 }
 
 u8 CreateBerryTagSprite(u8 id, s16 x, s16 y)

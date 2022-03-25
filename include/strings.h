@@ -139,8 +139,8 @@ extern const u8 gText_DecorationThrownAway[];
 
 extern const u8 gText_PokeBalls[];
 extern const u8 gText_Berries[];
-extern const u8 gText_BERRY[];
-extern const u8 gText_BERRY2[];
+extern const u8 gText_Berry[];
+extern const u8 gText_Berry2[];
 
 extern const u8 gText_Desk[];
 extern const u8 gText_Chair[];
@@ -412,7 +412,7 @@ extern const u8 gBerryFirmnessString_Soft[];
 extern const u8 gBerryFirmnessString_Hard[];
 extern const u8 gBerryFirmnessString_VeryHard[];
 extern const u8 gBerryFirmnessString_SuperHard[];
-extern const u8 gText_BERRYTag[];
+extern const u8 gText_BerryTag[];
 extern const u8 gText_NumberVar1Var2[];
 extern const u8 gText_SizeSlash[];
 extern const u8 gText_Var1DotVar2[];
@@ -613,6 +613,10 @@ extern const u8 gText_PlayersBattleResults[];
 extern const u8 gText_WinLoseDraw[];
 extern const u8 gText_ColorTransparent[];
 extern const u8 gText_Slash[];
+extern const u8 gText_HealthboxNickname[];
+extern const u8 gText_HealthboxGender_None[];
+extern const u8 gText_HealthboxGender_Male[];
+extern const u8 gText_HealthboxGender_Female[];
 
 extern const u8 gText_99TimesPlus[];
 extern const u8 gText_1MinutePlus[];
@@ -1286,7 +1290,7 @@ extern const u8 gText_RecordCorner[];
 extern const u8 gText_SingleBattle[];
 extern const u8 gText_DoubleBattle[];
 extern const u8 gText_MultiBattle[];
-extern const u8 gText_BERRYCrush3[];
+extern const u8 gText_BerryCrush3[];
 extern const u8 gText_PokemonJump[];
 extern const u8 gText_DodrioBerryPicking[];
 extern const u8 gText_JoinGroup[];
@@ -2603,7 +2607,7 @@ extern const u8 gText_Var1sTrainerCard[];
 extern const u8 gText_HallOfFameDebut[];
 extern const u8 gText_WinsLosses[];
 extern const u8 gText_PokemonTrades[];
-extern const u8 gText_BERRYCrush[];
+extern const u8 gText_BerryCrush[];
 extern const u8 gText_UnionTradesAndBattles[];
 extern const u8 gText_NumPokeblocks[];
 extern const u8 gText_PokeblocksWithFriends[];
@@ -2918,7 +2922,7 @@ extern const u8 gText_Register2[];
 extern const u8 gText_Exit2[];
 
 // Dodrio Berry Picking
-extern const u8 gText_BERRYPickingRecords[];
+extern const u8 gText_BerryPickingRecords[];
 extern const u8 gText_BerriesPicked[];
 extern const u8 gText_BerriesInRowFivePlayers[];
 extern const u8 gText_BestScore[];
@@ -2934,7 +2938,7 @@ extern const u8 gText_AnnouncingRankings[];
 extern const u8 gText_FirstPlacePrize[];
 extern const u8 gText_CantHoldAnyMore[];
 extern const u8 gText_FilledStorageSpace[];
-extern const u8 gText_BERRYPickingResults[];
+extern const u8 gText_BerryPickingResults[];
 extern const u8 gText_WantToPlayAgain[];
 extern const u8 gText_CommunicationStandby3[];
 extern const u8 gText_SomeoneDroppedOut[];
@@ -2970,7 +2974,7 @@ extern const u8 gText_Silkiness[];
 extern const u8 gText_Var1Percent[];
 extern const u8 gText_PressesRankings[];
 extern const u8 gText_CrushingResults[];
-extern const u8 gText_BERRYCrush2[];
+extern const u8 gText_BerryCrush2[];
 extern const u8 gText_PressingSpeedRankings[];
 extern const u8 gText_Var1Players[];
 extern const u8 gText_ReadyPickBerry[];
@@ -3041,8 +3045,8 @@ extern const u8 gText_FindToughPokemon[];
 extern const u8 gText_ReturnToConditionMenu[];
 extern const u8 gText_NoRibbonWinners[];
 
-// Pokenav Ribbons
-extern const u8 gText_NumberF700[];
+// Pokenav
+extern const u8 gText_NumberIndex[];
 extern const u8 gText_RibbonsF700[];
 
 // use_pokeblock
@@ -3316,5 +3320,8 @@ extern const u8 gText_CardTerminal_StickerShinyName[];
 extern const u8 gText_CardTerminal_StickerBerryName[];
 extern const u8 gText_CardTerminal_StickerCatchName[];
 extern const u8 gText_Back[];
+extern const u8 gText_ImpossibleToAim[];
+extern const u8 gText_CantThrowBall[];
+extern const u8 gText_MainMenuGameCube[];
 
 #endif // GUARD_STRINGS_H
