@@ -1,9 +1,0 @@
-src/battle_pyramid_bag.c: In function `LoadPyramidBagGfx':
-src/battle_pyramid_bag.c:581: `gBattlePyramidBagInterface_Pal' undeclared (first use in this function)
-src/battle_pyramid_bag.c:581: (Each undeclared identifier is reported only once
-src/battle_pyramid_bag.c:581: for each function it appears in.)
-Unexpected EOF. No CRLF at end of file.
-make: *** [Makefile:276: graphics/bag/menu.gbapal] Error 1
-make: *** Waiting for unfinished jobs....
-make: *** [Makefile:337: build/emerald/src/battle_pyramid_bag.o] Error 1
-make: *** Deleting file 'build/emerald/src/battle_pyramid_bag.o'

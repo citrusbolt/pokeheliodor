@@ -211,8 +211,8 @@ ALIGNED(4) static EWRAM_DATA u8 sAnimDelayTaskId = 0;
 
 static EWRAM_DATA struct HealthBar
 {
-    struct Sprite * sprites[HP_BAR_SPRITES_COUNT - 1];
-    u16 spritePositions[HP_BAR_SPRITES_COUNT - 1];
+    struct Sprite * sprites[HP_BAR_SPRITES_COUNT];
+    u16 spritePositions[HP_BAR_SPRITES_COUNT];
     u16 tileTag;
     u16 palTag;
 } *sHealthBar = NULL;
