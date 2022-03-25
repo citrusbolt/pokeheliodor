@@ -546,13 +546,7 @@ static void FortreeBridgePerStepCallback(u8 taskId)
         if (onBridgeElevation && (isFortreeBridgeCur == TRUE || isFortreeBridgePrev == TRUE))
             PlaySE(SE_BRIDGE_WALK);
 
-        // Because this doesn't check for isFortreeBridgeCur, bridge sections aren't
-        // lowered when first stepping onto them from anything other than another bridge.
-    #ifdef BUGFIX
         if (isFortreeBridgePrev || isFortreeBridgeCur)
-    #else
-        if (isFortreeBridgePrev)
-    #endif
         {
             // Raise old bridge
             TryRaiseFortreeBridge(prevX, prevY);
