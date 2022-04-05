@@ -379,13 +379,13 @@ SlateportCity_OceanicMuseum_2F_Text_WantToRideSubmarine:
 	.string "I want to go for a ride!$"
 
 SlateportCity_OceanicMuseum_2F_Text_WaterQualitySample1:
-	.string "“Water Quality Sample 1,” the\n"
+	.string "“Kanto Water Quality Sample,” the\n"
 	.string "label says.\p"
 	.string "The sea is all connected, but the\n"
 	.string "water seems to differ by region.$"
 
 SlateportCity_OceanicMuseum_2F_Text_WaterQualitySample2:
-	.string "“Water Quality Sample 2,” the\n"
+	.string "“Johto Water Quality Sample,” the\n"
 	.string "label says.\p"
 	.string "Does the saltiness of seawater differ\n"
 	.string "by region, too?$"
