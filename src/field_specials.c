@@ -2407,7 +2407,7 @@ void ShowScrollableMultichoice(void)
             break;
         case SCROLL_MULTI_CARD_TERMINAL_STATS:
             task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
-            task->tNumItems = 13;
+            task->tNumItems = 14;
             task->tLeft = 14;
             task->tTop = 1;
             task->tWidth = 15;
@@ -2698,6 +2698,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
 		gText_CardTerminal_StatBattlePoints,
 		gText_CardTerminal_StatShiny,
 		gText_CardTerminal_StatPowerPoints,
+		gText_CardTerminal_StatPokeCoupons,
         gText_Back
     }
 };

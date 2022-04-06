@@ -68,6 +68,7 @@ struct TrainerCardData
     u8 textBattlePoints[70];
     u8 textShinyCount[70];
     u8 textPowerPoints[70];
+    u8 textPokeCoupons[70];
     u16 monIconPal[16 * PARTY_SIZE];
     s8 flipBlendY;
     bool8 timeColonNeedDraw;
@@ -162,6 +163,8 @@ static void BufferShinyCount(void);
 static void PrintShinyCountStringOnCard(u8 slot);
 static void BufferPowerPoints(void);
 static void PrintPowerPointsStringOnCard(u8 slot);
+static void BufferPokeCoupons(void);
+static void PrintPokeCouponsStringOnCard(u8 slot);
 static void PrintStatOnBackOfCard(u8 top, const u8* str1, u8* str2, const u8* color);
 static void LoadStickerGfx(void);
 static u8 SetCardBgsAndPals(void);
@@ -872,11 +875,13 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	StringCopy(trainerCard->playerName, gSaveBlock2Ptr->playerName);
 
 	trainerCard->version = GAME_VERSION;
-	trainerCard->secretId = (gSaveBlock2Ptr->playerTrainerId[3] << 8) | gSaveBlock2Ptr->playerTrainerId[2];
 	//trainerCard->hasAllFrontierSymbols = HasAllFrontierSymbols();
+    trainerCard->crystalDustVersion = 0;
+	trainerCard->secretId = (gSaveBlock2Ptr->playerTrainerId[3] << 8) | gSaveBlock2Ptr->playerTrainerId[2];
 	trainerCard->berryCrushPoints = GetCappedGameStat(GAME_STAT_PLAYED_BERRY_CRUSH, 0xFFFF);
 	trainerCard->unionRoomNum = GetCappedGameStat(GAME_STAT_NUM_UNION_ROOM_BATTLES, 0xFFFF);
-	trainerCard->berriesPicked = gSaveBlock2Ptr->berryPick.berriesPicked;
+	//trainerCard->berriesPicked = gSaveBlock2Ptr->berryPick.berriesPicked;
+    trainerCard->pokeCoupons = gSaveBlock1Ptr->externalEventData.totalEarnedPokeCoupons;
 	trainerCard->jumpsInRow = gSaveBlock2Ptr->pokeJump.jumpsInRow;
 	trainerCard->shouldDrawStickers = FALSE;
 	trainerCard->hasAllMons = (trainerCard->caughtMonsCount == 386);
@@ -1152,6 +1157,7 @@ static void BufferTextsVarsForCardPage2(void)
     BufferBattlePoints();
     BufferShinyCount();
     BufferPowerPoints();
+    BufferPokeCoupons();
 }
 
 static void PrintNameOnCardFront(void)
@@ -1863,6 +1869,9 @@ static void PrintStatBySlot(u8 slot)
 		case CARD_STAT_POWER_POINTS:
 			PrintPowerPointsStringOnCard(slot);
 			break;
+		case CARD_STAT_POKE_COUPONS:
+			PrintPokeCouponsStringOnCard(slot);
+			break;
 	}
 }
 
@@ -2130,6 +2139,18 @@ static void PrintPowerPointsStringOnCard(u8 slot)
 		PrintStatOnBackOfCard(slot, gText_HCardPowerPoints, sData->textPowerPoints, sTrainerCardStatColors);
 }
 
+static void BufferPokeCoupons(void)
+{
+	ConvertUIntToDecimalStringN(gStringVar1, sData->trainerCard.pokeCoupons, STR_CONV_MODE_RIGHT_ALIGN, 5);
+	StringExpandPlaceholders(sData->textPokeCoupons, gText_HCardNumPokeCoupons);
+}
+
+static void PrintPokeCouponsStringOnCard(u8 slot)
+{
+	if (sData->cardLayout == CARD_LAYOUT_HELIODOR || sData->trainerCard.pokeCoupons)
+		PrintStatOnBackOfCard(slot, gText_HCardPokeCoupons, sData->textPokeCoupons, sTrainerCardStatColors);
+}
+
 static void PrintPokemonIconsOnCard(void)
 {
     u8 i;
@@ -2373,6 +2394,15 @@ static void DrawStarsAndBadgesOnCard(void)
             }
         }
     }
+	if (sData->cardLayout == CARD_LAYOUT_HELIODOR && sData->trainerCard.pokeCoupons >= 1)
+	{
+		FillBgTilemapBufferRect(3, 108, 14, 2, 1, 1, 0);
+		FillBgTilemapBufferRect(3, 109, 15, 2, 1, 1, 0);
+		FillBgTilemapBufferRect(3, 110, 16, 2, 1, 1, 0);
+		FillBgTilemapBufferRect(3, 111, 14, 3, 1, 1, 0);
+		FillBgTilemapBufferRect(3, 141, 15, 3, 1, 1, 0);
+		FillBgTilemapBufferRect(3, 157, 16, 3, 1, 1, 0);
+	}
     CopyBgTilemapBufferToVram(3);
 }
 
