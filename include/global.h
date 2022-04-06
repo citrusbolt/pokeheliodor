@@ -483,6 +483,7 @@ struct SaveBlock2
              u16 regionMapZoom:1; // whether the map is zoomed in
 			 u16 options24HourClock:1;
 			 u16 extraOptionsFiller:3;
+    /*0x16*/ u8 unused[2];
     /*0x18*/ struct Pokedex pokedex;
 	/*0x90*/ u16 lastUsedBall;
 	/*0x92*/ u16 powerPoints;
@@ -526,9 +527,10 @@ struct SecretBase
     /*0x1AA9*/ u8 language;
     /*0x1AAA*/ u16 numSecretBasesReceived;
     /*0x1AAC*/ u8 numTimesEntered;
-    /*0x1AAD*/ u8 unused;
+    /*0x1AAD*/ u8 unused1;
     /*0x1AAE*/ u8 decorations[DECOR_MAX_SECRET_BASE];
     /*0x1ABE*/ u8 decorationPositions[DECOR_MAX_SECRET_BASE];
+    /*0x1ACE*/ u8 unused2[2];
     /*0x1AD0*/ struct SecretBaseParty party;
 };
 
@@ -616,7 +618,7 @@ struct MauvilleManBard
     /*0x02*/ u16 songLyrics[BARD_SONG_LENGTH];
     /*0x0E*/ u16 temporaryLyrics[BARD_SONG_LENGTH];
     /*0x1A*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
-    /*0x22*/ u8 filler_2DB6[0x3];
+    /*0x22*/ u8 unused[0x3];
     /*0x25*/ u8 playerTrainerId[TRAINER_ID_LENGTH];
     /*0x29*/ bool8 hasChangedSong;
     /*0x2A*/ u8 language;
@@ -626,7 +628,7 @@ struct MauvilleManStoryteller
 {
     u8 id;
     bool8 alreadyRecorded;
-    u8 filler2[2];
+    u8 unused[2];
     u8 gameStatIDs[NUM_STORYTELLER_TALES];
     u8 trainerNames[NUM_STORYTELLER_TALES][PLAYER_NAME_LENGTH];
     u8 statValues[NUM_STORYTELLER_TALES][4];
@@ -692,7 +694,7 @@ struct RecordMixingGiftData
     u8 unk0;
     u8 quantity;
     u16 itemId;
-    u8 filler4[8];
+    u8 unused[8];
 };
 
 struct RecordMixingGift
@@ -742,6 +744,7 @@ struct DayCare
     struct DaycareMon mons[DAYCARE_MON_COUNT];
     u32 offspringPersonality;
     u8 stepCounter;
+    u8 unused[3];
 };
 
 struct LilycoveLadyQuiz
@@ -943,9 +946,11 @@ struct SaveBlock1
     /*0x2E*/ u8 weather;
     /*0x2F*/ u8 weatherCycleStage;
     /*0x30*/ u8 flashLevel;
+    /*0x31*/ u8 unused_31;
     /*0x32*/ u16 mapLayoutId;
     /*0x34*/ u16 mapView[0x100];
     /*0x234*/ u8 playerPartyCount;
+    /*0x235*/ u8 unused_235[3];
     /*0x238*/ struct Pokemon playerParty[PARTY_SIZE];
     /*0x490*/ u32 money;
     /*0x494*/ u16 coins;
@@ -962,6 +967,7 @@ struct SaveBlock1
     /*0x9C2*/ u8 unused_9C2[6];
     /*0x9C8*/ u16 trainerRematchStepCounter;
     /*0x9CA*/ u8 trainerRematches[MAX_REMATCH_ENTRIES];
+    /*0xA2E*/ u8 unused_A2E[2];
     /*0xA30*/ struct ObjectEvent objectEvents[OBJECT_EVENTS_COUNT];
     /*0xC70*/ struct ObjectEventTemplate objectEventTemplates[OBJECT_EVENT_TEMPLATES_COUNT];
     /*0x1270*/ u8 flags[NUM_FLAG_BYTES];
@@ -979,6 +985,7 @@ struct SaveBlock1
     /*0x278E*/ u8 decorationPosters[10];
     /*0x2798*/ u8 decorationDolls[40];
     /*0x27C0*/ u8 decorationCushions[10];
+    /*0x27CA*/ u8 unused_27CA[2];
     /*0x27CC*/ TVShow tvShows[TV_SHOWS_COUNT];
     /*0x2B50*/ PokeNews pokeNews[POKE_NEWS_COUNT];
     /*0x2B90*/ u16 outbreakPokemonSpecies;
@@ -998,6 +1005,7 @@ struct SaveBlock1
     /*0x2BD4*/ u16 easyChatBattleLost[EASY_CHAT_BATTLE_WORDS_COUNT];
     /*0x2BE0*/ struct Mail mail[MAIL_COUNT];
     /*0x2E20*/ u8 additionalPhrases[NUM_ADDITIONAL_PHRASE_BYTES]; // bitfield for 33 additional phrases in easy chat system
+    /*0x2E25*/ u8 unused_2E25[3];
     /*0x2E28*/ OldMan oldMan;
     /*0x2e64*/ struct DewfordTrend dewfordTrends[SAVED_TRENDS_COUNT];
     /*0x2e90*/ struct ContestWinner contestWinners[NUM_CONTEST_WINNERS]; // see CONTEST_WINNER_*
@@ -1015,7 +1023,7 @@ struct SaveBlock1
     /*0x3662*/ u16 registeredItemR;
 	/*0x3664*/ u8 trainerCardLayout;
 	/*0x3665*/ u8 trainerCardStickers[6];
-	/*0x366B*/ u8 missedPadding;
+	/*0x366B*/ u8 unused_366B;
 	/*0x366C*/ u32 trainerCardStat0:4;
 	           u32 trainerCardStat1:4;
 	           u32 trainerCardStat2:4;
@@ -1023,7 +1031,7 @@ struct SaveBlock1
 	           u32 trainerCardStat4:4;
 	           u32 filler:12;
     /*0x3670*/ u16 rubySapphireSecretId;
-    /*0x3672*/ u8 unused_3598[0xA6];
+    /*0x3672*/ u8 mainUnused[0xA6];
     /*0x3718*/ u32 trainerHillTimes[4];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
