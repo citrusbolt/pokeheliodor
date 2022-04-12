@@ -3216,6 +3216,8 @@ static void BattleStartClearSetData(void)
 
     gBattleStruct->arenaLostPlayerMons = 0;
     gBattleStruct->arenaLostOpponentMons = 0;
+    gBattleStruct->leftTarget = B_POSITION_OPPONENT_LEFT;
+    gBattleStruct->rightTarget = B_POSITION_OPPONENT_LEFT;
 }
 
 void SwitchInClearSetData(void)

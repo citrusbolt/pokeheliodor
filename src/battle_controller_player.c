@@ -431,6 +431,11 @@ static void HandleInputChooseTarget(void)
                 i = 0;
         } while (i == 0);
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCb_ShowAsMoveTarget;
+
+        if (gActiveBattler == B_POSITION_PLAYER_LEFT)
+                gBattleStruct->leftTarget = gMultiUsePlayerCursor;
+            else
+                gBattleStruct->rightTarget = gMultiUsePlayerCursor;
     }
     else if (JOY_NEW(DPAD_RIGHT | DPAD_DOWN))
     {
@@ -473,6 +478,11 @@ static void HandleInputChooseTarget(void)
                 i = 0;
         } while (i == 0);
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCb_ShowAsMoveTarget;
+
+        if (gActiveBattler == B_POSITION_PLAYER_LEFT)
+                gBattleStruct->leftTarget = gMultiUsePlayerCursor;
+            else
+                gBattleStruct->rightTarget = gMultiUsePlayerCursor;
     }
 }
 
@@ -543,8 +553,12 @@ static void HandleInputChooseMove(void)
                 gMultiUsePlayerCursor = gActiveBattler;
             else if (gAbsentBattlerFlags & gBitTable[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)])
                 gMultiUsePlayerCursor = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
-            else
+            else if (gAbsentBattlerFlags & gBitTable[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)])
                 gMultiUsePlayerCursor = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+            else if (gActiveBattler == B_POSITION_PLAYER_LEFT)
+                gMultiUsePlayerCursor = gBattleStruct->leftTarget;
+            else
+                gMultiUsePlayerCursor = gBattleStruct->rightTarget;
 
             gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCb_ShowAsMoveTarget;
         }
