@@ -157,12 +157,12 @@ static u32 Server_Run(struct MysteryGiftServer * svr)
     case SVR_CHECK_GAME_DATA_CARD:
         AGB_ASSERT(cmd->parameter == 0);
         AGB_ASSERT(cmd->ptr == NULL);
-        svr->param = MysteryGift_ValidateLinkGameData(svr->linkGameData, FALSE);
+        svr->param = MysteryGift_ValidateLinkGameData(svr, FALSE);
         break;
     case SVR_CHECK_GAME_DATA_NEWS:
         AGB_ASSERT(cmd->parameter == 0);
         AGB_ASSERT(cmd->ptr == NULL);
-        svr->param = MysteryGift_ValidateLinkGameData(svr->linkGameData, TRUE);
+        svr->param = MysteryGift_ValidateLinkGameData(svr, TRUE);
         break;
     case SVR_GOTO_IF_EQ:
         if (svr->param == cmd->parameter)

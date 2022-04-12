@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "constants/mystery_gift.h"
+#include"mystery_gift_server.h"
 
 struct MysteryGiftLinkGameData
 {
@@ -44,7 +45,7 @@ void DisableWonderCardSending(struct WonderCard *card);
 bool32 IsSavedWonderCardGiftNotReceived(void);
 bool32 MysteryGift_TrySaveStamp(const u16 *stamp);
 void MysteryGift_LoadLinkGameData(struct MysteryGiftLinkGameData *data, bool32 isWonderNews);
-bool32 MysteryGift_ValidateLinkGameData(const struct MysteryGiftLinkGameData *data, bool32 isWonderNews);
+bool32 MysteryGift_ValidateLinkGameData(struct MysteryGiftServer *svr, bool32 isWonderNews);
 u32 MysteryGift_CompareCardFlags(const u16 *flagId, const struct MysteryGiftLinkGameData *data, const void *unused);
 u32 MysteryGift_CheckStamps(const u16 *stamp, const struct MysteryGiftLinkGameData *data, const void *unused);
 bool32 MysteryGift_DoesQuestionnaireMatch(const struct MysteryGiftLinkGameData *data, const u16 *words);

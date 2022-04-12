@@ -10,6 +10,7 @@
 #include "new_game.h"
 #include "mystery_gift.h"
 #include "constants/mystery_gift.h"
+#include "mystery_gift_server.h"
 
 static EWRAM_DATA bool32 sStatsEnabled = FALSE;
 
@@ -21,6 +22,8 @@ static bool32 ValidateWonderCard(const struct WonderCard *);
 static void ClearSavedWonderCardMetadata(void);
 static void ClearSavedTrainerIds(void);
 static void IncrementCardStatForNewTrainer(u32, u32, u32 *, int);
+
+extern const u8 gRamScript_FRLG_MysticTicket[995];
 
 #define CALC_CRC(data) CalcCRC16WithTable((void *)&(data), sizeof(data))
 
@@ -387,23 +390,36 @@ void MysteryGift_LoadLinkGameData(struct MysteryGiftLinkGameData *data, bool32 i
     data->romHeaderSoftwareVersion = RomHeaderSoftwareVersion;
 }
 
-bool32 MysteryGift_ValidateLinkGameData(const struct MysteryGiftLinkGameData *data, bool32 isWonderNews)
+static bool8 ConvertCardForFRLG(struct MysteryGiftServer *svr)
 {
-    if (data->validationVar != GAME_DATA_VALID_VAR)
+    if (sReceivedGiftFlags[(svr->card)->flagId - WONDER_CARD_FLAG_OFFSET] == FLAG_RECEIVED_MYSTIC_TICKET)
+    {
+        svr->ramScript = &gRamScript_FRLG_MysticTicket;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+bool32 MysteryGift_ValidateLinkGameData(struct MysteryGiftServer *svr, bool32 isWonderNews)
+{
+    if ((svr->linkGameData)->validationVar != GAME_DATA_VALID_VAR)
         return FALSE;
 
-    if (!(data->validationFlag1 & 1))
+    if (!((svr->linkGameData)->validationFlag1 & 1))
         return FALSE;
 
-    if (!(data->validationFlag2 & 1))
+    if (!((svr->linkGameData)->validationFlag2 & 1))
         return FALSE;
 
     if (!isWonderNews)
     {
-        if (!(data->validationGiftType1 & GAME_DATA_VALID_GIFT_TYPE_1))
+        if ((svr->linkGameData)->validationGiftType1 & 1 && (svr->linkGameData)->validationGiftType2 & 0x0F && ConvertCardForFRLG(svr))
+            return TRUE;
+        
+        if (!((svr->linkGameData)->validationGiftType1 & GAME_DATA_VALID_GIFT_TYPE_1))
             return FALSE;
 
-        if (!(data->validationGiftType2 & (GAME_DATA_VALID_GIFT_TYPE_2 | 0x180)))
+        if (!((svr->linkGameData)->validationGiftType2 & (GAME_DATA_VALID_GIFT_TYPE_2 | 0x180)))
             return FALSE;
     }
 
