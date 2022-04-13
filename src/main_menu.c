@@ -680,8 +680,6 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                             tMenuType = HAS_GCN_LINK;
                         else
                             tMenuType = HAS_SAVED_GAME;
-						if (IsMysteryGiftEnabled())
-							tMenuType += 2;
 						gTasks[taskId].func = Task_MainMenuCheckBattery;
 					}
 					else
