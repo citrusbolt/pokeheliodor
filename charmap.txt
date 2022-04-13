@@ -61,6 +61,7 @@ UP_ARROW    = 79
 DOWN_ARROW  = 7A
 LEFT_ARROW  = 7B
 RIGHT_ARROW = 7C
+_           =83
 SUPER_E     = 84
 '<'         = 85
 '>'         = 86

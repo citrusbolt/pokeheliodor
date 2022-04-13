@@ -1838,9 +1838,9 @@ static void Task_MysteryGift(u8 taskId)
             data->state = MG_STATE_SOURCE_PROMPT;
         break;
     case MG_STATE_SEND:
-        if (IsWirelessAdapterConnected())
+        if (ExitWonderCardOrNews(data->isWonderNews, TRUE))
         {
-            if (ExitWonderCardOrNews(data->isWonderNews, TRUE))
+            if (IsWirelessAdapterConnected())
             {
                 switch (data->isWonderNews)
                 {
@@ -1854,10 +1854,10 @@ static void Task_MysteryGift(u8 taskId)
                 data->sourceIsFriend = TRUE;
                 data->state = MG_STATE_SERVER_LINK_WAIT;
             }
-        }
-        else
-        {
+            else
+            {
             data->state = MG_STATE_NO_WIRELESS;
+            }
         }
         break;
     case MG_STATE_SERVER_LINK_WAIT:

@@ -29,17 +29,17 @@ const struct WonderCard gAuroraTicket_Card = {
     .iconSpecies = 0xFFFF,
     .idNumber = 0,
     .type = CARD_TYPE_GIFT,
-    .bgType = 7,
+    .bgType = 0,
     .sendType = SEND_TYPE_ALLOWED_ALWAYS,
     .maxStamps = 0,
-    .titleText =       _("          AURORATICKET                 "),
-    .subtitleText =    _("          Exchange Card                "),
-    .bodyText =      { _("Go to the second floor of the POKéMON  "),
-                       _("CENTER and meet the delivery person in "),
-                       _("green. Receive the AURORATICKET and    "),
-                       _("then save the game!!                   ") },
-    .footerLine1Text = _("Do not toss this Exchange Card         "),
-    .footerLine2Text = _("before receiving the AURORATICKET!!    ")
+    .titleText =       _("{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}Aurora{_}Ticket                "),
+    .subtitleText =    _("{_}{_}{_}{_}{_}{_}Heliodor{_}Exchange{_}Card           "),
+    .bodyText =      { _("Go{_}to{_}the{_}second{_}floor{_}of{_}the{_}Pokémon  "),
+                       _("Center{_}and{_}meet{_}the{_}delivery{_}person{_}in "),
+                       _("green.{_}Receive{_}the{_}Aurora{_}Ticket{_}and   "),
+                       _("then{_}board{_}the{_}ferry.                  ") },
+    .footerLine1Text = _("This{_}Card{_}can{_}be{_}sent{_}to{_}Pokémon       "),
+    .footerLine2Text = _("FireRed,{_}LeafGreen,{_}Emerald{_}or{_}Heliodor")
 };
 
 const struct WonderCard gMysticTicket_Card = {
@@ -47,44 +47,47 @@ const struct WonderCard gMysticTicket_Card = {
     .iconSpecies = 0xFFFF,
     .idNumber = 0,
     .type = CARD_TYPE_GIFT,
-    .bgType = 7,
+    .bgType = 0,
     .sendType = SEND_TYPE_ALLOWED_ALWAYS,
     .maxStamps = 0,
-    .titleText =       _("         “MYSTIC TICKET”               "),
-    .subtitleText =    _("          Exchange Card                "),
-    .bodyText =      { _("Go to the second floor of the POKéMON  "),
-                       _("CENTER and meet the delivery person in "),
-                       _("green. Receive the MYSTIC TICKET and   "),
-                       _("then save the game!!                   ") },
-    .footerLine1Text = _("Do not toss this Exchange Card         "),
-    .footerLine2Text = _("before receiving the MYSTIC TICKET!!   ")
+    .titleText =       _("{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}Mystic{_}Ticket                "),
+    .subtitleText =    _("{_}{_}{_}{_}{_}{_}Heliodor{_}Exchange{_}Card           "),
+    .bodyText =      { _("Go{_}to{_}the{_}second{_}floor{_}of{_}the{_}Pokémon  "),
+                       _("Center{_}and{_}meet{_}the{_}delivery{_}person{_}in "),
+                       _("green.{_}Receive{_}the{_}Mystic{_}Ticket{_}and   "),
+                       _("then{_}board{_}the{_}ferry.                  ") },
+    .footerLine1Text = _("This{_}Card{_}can{_}be{_}sent{_}to{_}Pokémon       "),
+    .footerLine2Text = _("FireRed,{_}LeafGreen,{_}Emerald{_}or{_}Heliodor")
 };
 
 const struct WonderCard gEonTicket_Card = {
     .flagId = 1003,
-    .iconSpecies = 0xFFFF,
+    .iconSpecies = SPECIES_ZAPDOS,
     .idNumber = 0,
     .type = CARD_TYPE_GIFT,
-    .bgType = 7,
+    .bgType = 0,
     .sendType = SEND_TYPE_ALLOWED_ALWAYS,
     .maxStamps = 0,
-    .titleText =       _("           “EON TICKET”                "),
-    .subtitleText =    _("          Exchange Card                "),
-    .bodyText =      { _("Go to the second floor of the POKéMON  "),
-                       _("CENTER and meet the delivery person in "),
-                       _("green. Receive the EON TICKET and      "),
-                       _("then save the game!!                   ") },
-    .footerLine1Text = _("Do not toss this Exchange Card         "),
-    .footerLine2Text = _("before receiving the EON TICKET!!      ")
+    .titleText =       _("{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}Eon{_}Ticket                  "),
+    .subtitleText =    _("{_}{_}{_}{_}{_}{_}Heliodor{_}Exchange{_}Card           "),
+    .bodyText =      { _("Go{_}to{_}the{_}second{_}floor{_}of{_}the{_}Pokémon  "),
+                       _("Center{_}and{_}meet{_}the{_}delivery{_}person{_}in "),
+                       _("green.{_}Receive{_}the{_}Eon{_}Ticket{_}and      "),
+                       _("then{_}board{_}the{_}ferry.                  ") },
+    .footerLine1Text = _("This{_}Card{_}can{_}be{_}sent{_}to{_}Pokémon       "),
+    .footerLine2Text = _("Emerald{_}or{_}Heliodor.                   ")
 };
 
 const struct WonderCardMetadata gEventTicket_Metadata = {
     .battlesWon = 0,
     .battlesLost = 0,
     .numTrades = 0,
-    .iconSpecies = 0xFFFF,
+    .iconSpecies = SPECIES_ZAPDOS,
     .stampData = {{0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}}
 };
+
+static const u8 sFooterTextFRLG[] = _("FireRed{_}or{_}LeafGreen.                  ");
+static const u8 sFooterTextEH[] =   _("Emerald{_}or{_}Heliodor.                   ");
 
 extern const u8 gRamScript_EonTicket_E[995];
 extern const u8 gRamScript_MysticTicket_FRLG[995];
@@ -462,11 +465,13 @@ static bool8 ConvertCardForFRLG(struct MysteryGiftServer *svr)
     if (sReceivedGiftFlags[(svr->card)->flagId - WONDER_CARD_FLAG_OFFSET] == FLAG_RECEIVED_MYSTIC_TICKET)
     {
         svr->ramScript = &gRamScript_MysticTicket_FRLG;
+        memcpy((svr->card)->footerLine2Text, sFooterTextFRLG, sizeof(sFooterTextFRLG));
         return TRUE;
     }
     else if (sReceivedGiftFlags[(svr->card)->flagId - WONDER_CARD_FLAG_OFFSET] == FLAG_RECEIVED_AURORA_TICKET)
     {
         svr->ramScript = &gRamScript_AuroraTicket_FRLG;
+        memcpy((svr->card)->footerLine2Text, sFooterTextFRLG, sizeof(sFooterTextFRLG));
         return TRUE;
     }
     return FALSE;
@@ -491,6 +496,7 @@ bool32 MysteryGift_ValidateLinkGameData(struct MysteryGiftServer *svr, bool32 is
             svr->ramScript = &gRamScript_MysticTicket_E;
         else if (sReceivedGiftFlags[gEventTicketToSend] == FLAG_RECEIVED_EON_TICKET_MYSTERY_GIFT)
             svr->ramScript = &gRamScript_EonTicket_E;
+        memcpy((svr->card)->footerLine2Text, sFooterTextEH, sizeof(sFooterTextEH));
     }
 
     if (!isWonderNews)
