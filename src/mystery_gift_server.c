@@ -254,7 +254,14 @@ static u32 Server_Run(struct MysteryGiftServer * svr)
         break;
     case SVR_COPY_SAVED_CARD:
         AGB_ASSERT(cmd->parameter == 0 && cmd->ptr == NULL);
-        memcpy(svr->card, GetSavedWonderCard(), sizeof(*svr->card));
+        if (gEventTicketToSend == 0)
+            memcpy(svr->card, &gAuroraTicket_Card, sizeof(*svr->card));
+        else if (gEventTicketToSend == 1)
+            memcpy(svr->card, &gMysticTicket_Card, sizeof(*svr->card));
+        else if (gEventTicketToSend == 3)
+            memcpy(svr->card, &gEonTicket_Card, sizeof(*svr->card));
+        else
+            memcpy(svr->card, GetSavedWonderCard(), sizeof(*svr->card));
         DisableWonderCardSending(svr->card);
         break;
     case SVR_COPY_SAVED_NEWS:

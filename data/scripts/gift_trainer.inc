@@ -30,7 +30,7 @@ sText_MysteryGiftVisitingTrainerInstructions:
 	.string "…Let me give you a secret\n"
 	.string "password for a survey:\p"
 	.string "“GIVE ME\n"
-	.string "Awesome Trainer”\p"
+	.string "AWESOME TRAINER”\p"
 	.string "Write that in on a survey and send\n"
 	.string "it to the Wireless\l"
 	.string "Communication System.$"

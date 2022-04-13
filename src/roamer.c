@@ -472,6 +472,7 @@ u8 ResumeRoamerQuest(void)
 		}
 		else
 		{
+            FlagSet(FLAG_COMPLETED_ROAMER_QUEST);
 			VarSet(VAR_RESULT, 3);
 			return 3;
 		}

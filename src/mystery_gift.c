@@ -13,6 +13,7 @@
 #include "mystery_gift_server.h"
 
 static EWRAM_DATA bool32 sStatsEnabled = FALSE;
+EWRAM_DATA u8 gEventTicketToSend = 0xFF;
 
 static void ClearSavedWonderNewsMetadata(void);
 static void ClearSavedWonderNews(void);
@@ -23,7 +24,73 @@ static void ClearSavedWonderCardMetadata(void);
 static void ClearSavedTrainerIds(void);
 static void IncrementCardStatForNewTrainer(u32, u32, u32 *, int);
 
-extern const u8 gRamScript_FRLG_MysticTicket[995];
+const struct WonderCard gAuroraTicket_Card = {
+    .flagId = 1000,
+    .iconSpecies = 0xFFFF,
+    .idNumber = 0,
+    .type = CARD_TYPE_GIFT,
+    .bgType = 7,
+    .sendType = SEND_TYPE_ALLOWED_ALWAYS,
+    .maxStamps = 0,
+    .titleText =       _("          AURORATICKET                 "),
+    .subtitleText =    _("          Exchange Card                "),
+    .bodyText =      { _("Go to the second floor of the POKéMON  "),
+                       _("CENTER and meet the delivery person in "),
+                       _("green. Receive the AURORATICKET and    "),
+                       _("then save the game!!                   ") },
+    .footerLine1Text = _("Do not toss this Exchange Card         "),
+    .footerLine2Text = _("before receiving the AURORATICKET!!    ")
+};
+
+const struct WonderCard gMysticTicket_Card = {
+    .flagId = 1001,
+    .iconSpecies = 0xFFFF,
+    .idNumber = 0,
+    .type = CARD_TYPE_GIFT,
+    .bgType = 7,
+    .sendType = SEND_TYPE_ALLOWED_ALWAYS,
+    .maxStamps = 0,
+    .titleText =       _("         “MYSTIC TICKET”               "),
+    .subtitleText =    _("          Exchange Card                "),
+    .bodyText =      { _("Go to the second floor of the POKéMON  "),
+                       _("CENTER and meet the delivery person in "),
+                       _("green. Receive the MYSTIC TICKET and   "),
+                       _("then save the game!!                   ") },
+    .footerLine1Text = _("Do not toss this Exchange Card         "),
+    .footerLine2Text = _("before receiving the MYSTIC TICKET!!   ")
+};
+
+const struct WonderCard gEonTicket_Card = {
+    .flagId = 1003,
+    .iconSpecies = 0xFFFF,
+    .idNumber = 0,
+    .type = CARD_TYPE_GIFT,
+    .bgType = 7,
+    .sendType = SEND_TYPE_ALLOWED_ALWAYS,
+    .maxStamps = 0,
+    .titleText =       _("           “EON TICKET”                "),
+    .subtitleText =    _("          Exchange Card                "),
+    .bodyText =      { _("Go to the second floor of the POKéMON  "),
+                       _("CENTER and meet the delivery person in "),
+                       _("green. Receive the EON TICKET and      "),
+                       _("then save the game!!                   ") },
+    .footerLine1Text = _("Do not toss this Exchange Card         "),
+    .footerLine2Text = _("before receiving the EON TICKET!!      ")
+};
+
+const struct WonderCardMetadata gEventTicket_Metadata = {
+    .battlesWon = 0,
+    .battlesLost = 0,
+    .numTrades = 0,
+    .iconSpecies = 0xFFFF,
+    .stampData = {{0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}}
+};
+
+extern const u8 gRamScript_EonTicket_E[995];
+extern const u8 gRamScript_MysticTicket_FRLG[995];
+extern const u8 gRamScript_MysticTicket_E[995];
+extern const u8 gRamScript_AuroraTicket_FRLG[995];
+extern const u8 gRamScript_AuroraTicket_E[995];
 
 #define CALC_CRC(data) CalcCRC16WithTable((void *)&(data), sizeof(data))
 
@@ -234,7 +301,7 @@ static const u16 sReceivedGiftFlags[] =
     FLAG_RECEIVED_AURORA_TICKET,
     FLAG_RECEIVED_MYSTIC_TICKET,
     FLAG_RECEIVED_OLD_SEA_MAP,
-    FLAG_WONDER_CARD_UNUSED_1,
+    FLAG_RECEIVED_EON_TICKET_MYSTERY_GIFT,
     FLAG_WONDER_CARD_UNUSED_2,
     FLAG_WONDER_CARD_UNUSED_3,
     FLAG_WONDER_CARD_UNUSED_4,
@@ -394,7 +461,12 @@ static bool8 ConvertCardForFRLG(struct MysteryGiftServer *svr)
 {
     if (sReceivedGiftFlags[(svr->card)->flagId - WONDER_CARD_FLAG_OFFSET] == FLAG_RECEIVED_MYSTIC_TICKET)
     {
-        svr->ramScript = &gRamScript_FRLG_MysticTicket;
+        svr->ramScript = &gRamScript_MysticTicket_FRLG;
+        return TRUE;
+    }
+    else if (sReceivedGiftFlags[(svr->card)->flagId - WONDER_CARD_FLAG_OFFSET] == FLAG_RECEIVED_AURORA_TICKET)
+    {
+        svr->ramScript = &gRamScript_AuroraTicket_FRLG;
         return TRUE;
     }
     return FALSE;
@@ -410,6 +482,16 @@ bool32 MysteryGift_ValidateLinkGameData(struct MysteryGiftServer *svr, bool32 is
 
     if (!((svr->linkGameData)->validationFlag2 & 1))
         return FALSE;
+
+    if (gEventTicketToSend == (svr->card)->flagId - WONDER_CARD_FLAG_OFFSET)
+    {
+        if (sReceivedGiftFlags[gEventTicketToSend] == FLAG_RECEIVED_AURORA_TICKET)
+            svr->ramScript = &gRamScript_AuroraTicket_E;
+        else if (sReceivedGiftFlags[gEventTicketToSend] == FLAG_RECEIVED_MYSTIC_TICKET)
+            svr->ramScript = &gRamScript_MysticTicket_E;
+        else if (sReceivedGiftFlags[gEventTicketToSend] == FLAG_RECEIVED_EON_TICKET_MYSTERY_GIFT)
+            svr->ramScript = &gRamScript_EonTicket_E;
+    }
 
     if (!isWonderNews)
     {

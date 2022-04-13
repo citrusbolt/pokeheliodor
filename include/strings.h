@@ -3326,5 +3326,12 @@ extern const u8 gText_Back[];
 extern const u8 gText_ImpossibleToAim[];
 extern const u8 gText_CantThrowBall[];
 extern const u8 gText_MainMenuGameCube[];
+extern const u8 gText_EventTickets[];
+extern const u8 gText_WhatToDoWithTicket[];
+extern const u8 gText_SendingEventTicket[];
+extern const u8 gText_EventTicketSentTo[];
+extern const u8 gText_EonTicket[];
+extern const u8 gText_MysticTicket[];
+extern const u8 gText_AuroraTicket[];
 
 #endif // GUARD_STRINGS_H

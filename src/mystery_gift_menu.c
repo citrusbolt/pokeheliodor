@@ -31,6 +31,8 @@
 #include "link_rfu.h"
 #include "wonder_news.h"
 #include "constants/cable_club.h"
+#include "constants/flags.h"
+#include "pokedex.h"
 
 #define LIST_MENU_TILE_NUM 10
 #define LIST_MENU_PAL_NUM 224
@@ -156,12 +158,32 @@ static const struct WindowTemplate sWindowTemplate_GiftSelect = {
     .baseBlock = 0x00e5
 };
 
+static const struct WindowTemplate sWindowTemplate_TwoOptions = {
+    .bg = 0,
+    .tilemapLeft = 8,
+    .tilemapTop = 7,
+    .width = 14,
+    .height = 4,
+    .paletteNum = 12,
+    .baseBlock = 0x0155
+};
+
 static const struct WindowTemplate sWindowTemplate_ThreeOptions = {
     .bg = 0,
     .tilemapLeft = 8,
     .tilemapTop = 6,
     .width = 14,
     .height = 6,
+    .paletteNum = 12,
+    .baseBlock = 0x0155
+};
+
+static const struct WindowTemplate sWindowTemplate_FourOptions = {
+    .bg = 0,
+    .tilemapLeft = 8,
+    .tilemapTop = 5,
+    .width = 14,
+    .height = 8,
     .paletteNum = 12,
     .baseBlock = 0x0155
 };
@@ -218,12 +240,61 @@ static const struct ListMenuItem sListMenuItems_WirelessOrFriend[] = {
     { gText_Cancel2,                LIST_CANCEL }
 };
 
+static const struct ListMenuItem sListMenuItems_CardsOrNewsOrTickets[] = {
+    { gText_WonderCards,  0 },
+    { gText_WonderNews,   1 },
+    { gText_EventTickets, 2 },
+    { gText_Exit3,        LIST_CANCEL }
+};
+
+static const struct ListMenuTemplate sListMenuTemplate_TwoOptions = {
+    .items = NULL,
+    .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
+    .itemPrintFunc = NULL,
+    .totalItems = 2,
+    .maxShowed = 2,
+    .windowId = 0,
+    .header_X = 0,
+    .item_X = 8,
+    .cursor_X = 0,
+    .upText_Y = 1,
+    .cursorPal = 2,
+    .fillValue = 1,
+    .cursorShadowPal = 3,
+    .lettersSpacing = 0,
+    .itemVerticalPadding = 0,
+    .scrollMultiple = 0,
+    .fontId = FONT_NORMAL,
+    .cursorKind = 0
+};
+
 static const struct ListMenuTemplate sListMenuTemplate_ThreeOptions = {
     .items = NULL,
     .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
     .itemPrintFunc = NULL,
     .totalItems = 3,
     .maxShowed = 3,
+    .windowId = 0,
+    .header_X = 0,
+    .item_X = 8,
+    .cursor_X = 0,
+    .upText_Y = 1,
+    .cursorPal = 2,
+    .fillValue = 1,
+    .cursorShadowPal = 3,
+    .lettersSpacing = 0,
+    .itemVerticalPadding = 0,
+    .scrollMultiple = 0,
+    .fontId = FONT_NORMAL,
+    .cursorKind = 0
+};
+
+static const struct ListMenuTemplate sListMenuTemplate_FourOptions = {
+    .items = NULL,
+    .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
+    .itemPrintFunc = NULL,
+    .totalItems = 4,
+    .maxShowed = 4,
     .windowId = 0,
     .header_X = 0,
     .item_X = 8,
@@ -261,6 +332,51 @@ static const struct ListMenuItem sListMenuItems_ReceiveSend[] = {
 static const struct ListMenuItem sListMenuItems_Receive[] = {
     { gText_Receive,  0 },
     { gText_Cancel2,  LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_Send[] = {
+    { gText_Send,  0 },
+    { gText_Cancel2,  LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_Eon[] = {
+    { gText_EonTicket,    3 },
+    { gText_Cancel2,      LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_Mystic[] = {
+    { gText_MysticTicket, 1 },
+    { gText_Cancel2,      LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_Aurora[] = {
+    { gText_AuroraTicket, 0 },
+    { gText_Cancel2,      LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_EonMystic[] = {
+    { gText_EonTicket,    3 },
+    { gText_MysticTicket, 1 },
+    { gText_Cancel2,      LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_EonAurora[] = {
+    { gText_EonTicket,    3 },
+    { gText_AuroraTicket, 0 },
+    { gText_Cancel2,      LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_MysticAurora[] = {
+    { gText_MysticTicket, 1 },
+    { gText_AuroraTicket, 0 },
+    { gText_Cancel2,      LIST_CANCEL }
+};
+
+static const struct ListMenuItem sListMenuItems_EonMysticAurora[] = {
+    { gText_EonTicket,    3 },
+    { gText_MysticTicket, 1 },
+    { gText_AuroraTicket, 0 },
+    { gText_Cancel2,      LIST_CANCEL }
 };
 
 static const struct ListMenuTemplate sListMenu_ReceiveSendToss = {
@@ -328,6 +444,27 @@ static const struct ListMenuTemplate sListMenu_ReceiveSend = {
 
 static const struct ListMenuTemplate sListMenu_Receive = {
     .items = sListMenuItems_Receive,
+    .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
+    .itemPrintFunc = NULL,
+    .totalItems = 2,
+    .maxShowed = 2,
+    .windowId = 0,
+    .header_X = 0,
+    .item_X = 8,
+    .cursor_X = 0,
+    .upText_Y = 1,
+    .cursorPal = 2,
+    .fillValue = 1,
+    .cursorShadowPal = 3,
+    .lettersSpacing = 0,
+    .itemVerticalPadding = 0,
+    .scrollMultiple = 0,
+    .fontId = FONT_NORMAL,
+    .cursorKind = 0
+};
+
+static const struct ListMenuTemplate sListMenu_Send = {
+    .items = sListMenuItems_Send,
     .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
     .itemPrintFunc = NULL,
     .totalItems = 2,
@@ -623,6 +760,39 @@ static bool32 PrintStringAndWait2Seconds(u8 * counter, const u8 * str)
     }
 }
 
+static u32 MysteryGift_HandleTwoOptionMenu(u8 * unused0, u16 * unused1, u8 whichMenu)
+{
+    struct ListMenuTemplate listMenuTemplate = sListMenuTemplate_TwoOptions;
+    struct WindowTemplate windowTemplate = sWindowTemplate_TwoOptions;
+    s32 width;
+    s32 response;
+
+    if (whichMenu == 3)
+        listMenuTemplate.items = sListMenuItems_Eon;
+    else if (whichMenu == 4)
+        listMenuTemplate.items = sListMenuItems_Mystic;
+    else
+        listMenuTemplate.items = sListMenuItems_Aurora;
+
+    width = Intl_GetListMenuWidth(&listMenuTemplate);
+    if (width & 1)
+        width++;
+
+    windowTemplate.width = width;
+    if (width < 30)
+        windowTemplate.tilemapLeft = (30 - width) / 2;
+    else
+        windowTemplate.tilemapLeft = 0;
+
+    response = DoMysteryGiftListMenu(&windowTemplate, &listMenuTemplate, 1, LIST_MENU_TILE_NUM, LIST_MENU_PAL_NUM);
+    //if (response != LIST_NOTHING_CHOSEN)
+    //{
+    //    ClearWindowTilemap(2);
+    //    CopyWindowToVram(2, COPYWIN_MAP);
+    //}
+    return response;
+}
+
 static u32 MysteryGift_HandleThreeOptionMenu(u8 * unused0, u16 * unused1, u8 whichMenu)
 {
     struct ListMenuTemplate listMenuTemplate = sListMenuTemplate_ThreeOptions;
@@ -632,8 +802,45 @@ static u32 MysteryGift_HandleThreeOptionMenu(u8 * unused0, u16 * unused1, u8 whi
 
     if (whichMenu == 0)
         listMenuTemplate.items = sListMenuItems_CardsOrNews;
-    else
+    else if (whichMenu == 1)
         listMenuTemplate.items = sListMenuItems_WirelessOrFriend;
+    else if (whichMenu == 5)
+        listMenuTemplate.items = sListMenuItems_EonMystic;
+    else if (whichMenu == 6)
+        listMenuTemplate.items = sListMenuItems_EonAurora;
+    else if (whichMenu == 7)
+        listMenuTemplate.items = sListMenuItems_MysticAurora;
+
+    width = Intl_GetListMenuWidth(&listMenuTemplate);
+    if (width & 1)
+        width++;
+
+    windowTemplate.width = width;
+    if (width < 30)
+        windowTemplate.tilemapLeft = (30 - width) / 2;
+    else
+        windowTemplate.tilemapLeft = 0;
+
+    response = DoMysteryGiftListMenu(&windowTemplate, &listMenuTemplate, 1, LIST_MENU_TILE_NUM, LIST_MENU_PAL_NUM);
+    //if (response != LIST_NOTHING_CHOSEN)
+    //{
+    //    ClearWindowTilemap(2);
+    //    CopyWindowToVram(2, COPYWIN_MAP);
+    //}
+    return response;
+}
+
+static u32 MysteryGift_HandleFourOptionMenu(u8 * unused0, u16 * unused1, u8 whichMenu)
+{
+    struct ListMenuTemplate listMenuTemplate = sListMenuTemplate_FourOptions;
+    struct WindowTemplate windowTemplate = sWindowTemplate_FourOptions;
+    s32 width;
+    s32 response;
+
+    if (whichMenu == 2)
+        listMenuTemplate.items = sListMenuItems_CardsOrNewsOrTickets;
+    else
+        listMenuTemplate.items = sListMenuItems_EonMysticAurora;
 
     width = Intl_GetListMenuWidth(&listMenuTemplate);
     if (width & 1)
@@ -770,6 +977,50 @@ static s32 HandleGiftSelectMenu(u8 * textState, u16 * windowId, bool32 cannotTos
     return LIST_NOTHING_CHOSEN;
 }
 
+static s32 HandleTicketSelectMenu(u8 * textState, u16 * windowId)
+{
+    struct WindowTemplate windowTemplate;
+    s32 input;
+
+    switch (*textState)
+    {
+    case 0:
+        // Print menu message
+        StringExpandPlaceholders(gStringVar4, gText_WhatToDoWithTicket);
+        *windowId = AddWindow(&sWindowTemplate_GiftSelect);
+        FillWindowPixelBuffer(*windowId, 0x11);
+        AddTextPrinterParameterized4(*windowId, FONT_NORMAL, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
+        DrawTextBorderOuter(*windowId, 0x001, 0x0F);
+        CopyWindowToVram(*windowId, COPYWIN_GFX);
+        PutWindowTilemap(*windowId);
+        (*textState)++;
+        break;
+    case 1:
+        windowTemplate = sWindowTemplate_YesNoBox;
+        input = DoMysteryGiftListMenu(&sWindowTemplate_GiftSelect_1Option, &sListMenu_Send, 1, LIST_MENU_TILE_NUM, LIST_MENU_PAL_NUM);
+
+        if (input != LIST_NOTHING_CHOSEN)
+        {
+            *textState = 0;
+            rbox_fill_rectangle(*windowId);
+            ClearWindowTilemap(*windowId);
+            CopyWindowToVram(*windowId, COPYWIN_MAP);
+            RemoveWindow(*windowId);
+            return input;
+        }
+        break;
+    case 0xFF:
+        *textState = 0;
+        rbox_fill_rectangle(*windowId);
+        ClearWindowTilemap(*windowId);
+        CopyWindowToVram(*windowId, COPYWIN_MAP);
+        RemoveWindow(*windowId);
+        return LIST_CANCEL;
+    }
+
+    return LIST_NOTHING_CHOSEN;
+}
+
 static bool32 ValidateCardOrNews(bool32 isWonderNews)
 {
     if (!isWonderNews)
@@ -800,6 +1051,29 @@ static bool32 HandleLoadWonderCardOrNews(u8 * state, bool32 isWonderNews)
             if (!WonderNews_Enter())
                 return FALSE;
         }
+        *state = 0;
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+static bool32 HandleLoadTicket(u8 * state, u8 ticketId)
+{
+    switch (*state)
+    {
+    case 0:
+        if (ticketId == 0)
+            WonderCard_Init((struct WonderCard *)&gAuroraTicket_Card, (struct WonderCardMetadata*)&gEventTicket_Metadata);
+        else if (ticketId == 1)
+            WonderCard_Init((struct WonderCard *)&gMysticTicket_Card, (struct WonderCardMetadata*)&gEventTicket_Metadata);
+        else
+            WonderCard_Init((struct WonderCard *)&gEonTicket_Card, (struct WonderCardMetadata*)&gEventTicket_Metadata);
+        (*state)++;
+        break;
+    case 1:
+        if (!WonderCard_Enter())
+            return FALSE;
         *state = 0;
         return TRUE;
     }
@@ -1099,6 +1373,10 @@ enum {
     MG_STATE_SERVER_ERROR,
     MG_STATE_EXIT,
 	MG_STATE_NO_WIRELESS,
+    MG_STATE_TICKET_MENU,
+    MG_STATE_LOAD_TICKET,
+    MG_STATE_HANDLE_TICKET_INPUT,
+    MG_STATE_HANDLE_TICKET_SELECT,
 };
 
 static void CreateMysteryGiftTask(void)
@@ -1124,6 +1402,8 @@ static void Task_MysteryGift(u8 taskId)
     struct MysteryGiftTaskData *data = (void *)gTasks[taskId].data;
     u32 successMsg, input;
     const u8 *msg;
+    bool8 hasEonTicket, hasMysticTicket, hasAuroraTicket;
+    u8 ticketMenu;
 
     switch (data->state)
     {
@@ -1131,26 +1411,57 @@ static void Task_MysteryGift(u8 taskId)
         data->state = MG_STATE_MAIN_MENU;
         break;
     case MG_STATE_MAIN_MENU:
+        gEventTicketToSend = 0xFF;
         // Main Mystery Gift menu, player can select Wonder Cards or News (or exit)
-        switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->var, FALSE))
+        if ((FlagGet(FLAG_SYS_GAME_CLEAR) && FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND)) || (FlagGet(FLAG_COMPLETED_ROAMER_QUEST) && FlagGet(FLAG_RECEIVED_MYSTIC_TICKET)) || (HasAllHoennMons() && FlagGet(FLAG_RECEIVED_AURORA_TICKET)))
         {
-        case 0: // "Wonder Cards"
-            data->isWonderNews = FALSE;
-            if (ValidateSavedWonderCard() == TRUE)
-                data->state = MG_STATE_LOAD_GIFT;
-            else
-                data->state = MG_STATE_DONT_HAVE_ANY;
-            break;
-        case 1: // "Wonder News"
-            data->isWonderNews = TRUE;
-            if (ValidateSavedWonderNews() == TRUE)
-                data->state = MG_STATE_LOAD_GIFT;
-            else
-                data->state = MG_STATE_DONT_HAVE_ANY;
-            break;
-        case LIST_CANCEL:
-            data->state = MG_STATE_EXIT;
-            break;
+            switch (MysteryGift_HandleFourOptionMenu(&data->textState, &data->var, 2))
+            {
+            case 0: // "Wonder Cards"
+                data->isWonderNews = FALSE;
+                if (ValidateSavedWonderCard() == TRUE)
+                    data->state = MG_STATE_LOAD_GIFT;
+                else
+                    data->state = MG_STATE_DONT_HAVE_ANY;
+                break;
+            case 1: // "Wonder News"
+                data->isWonderNews = TRUE;
+                if (ValidateSavedWonderNews() == TRUE)
+                    data->state = MG_STATE_LOAD_GIFT;
+                else
+                    data->state = MG_STATE_DONT_HAVE_ANY;
+                break;
+            case 2: // "Event Tickets"
+                data->isWonderNews = FALSE;
+                data->state = MG_STATE_TICKET_MENU;
+                break;
+            case LIST_CANCEL:
+                data->state = MG_STATE_EXIT;
+                break;
+            }
+        }
+        else
+        {
+            switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->var, 0))
+            {
+            case 0: // "Wonder Cards"
+                data->isWonderNews = FALSE;
+                if (ValidateSavedWonderCard() == TRUE)
+                    data->state = MG_STATE_LOAD_GIFT;
+                else
+                    data->state = MG_STATE_DONT_HAVE_ANY;
+                break;
+            case 1: // "Wonder News"
+                data->isWonderNews = TRUE;
+                if (ValidateSavedWonderNews() == TRUE)
+                    data->state = MG_STATE_LOAD_GIFT;
+                else
+                    data->state = MG_STATE_DONT_HAVE_ANY;
+                break;
+            case LIST_CANCEL:
+                data->state = MG_STATE_EXIT;
+                break;
+            }
         }
         break;
     case MG_STATE_DONT_HAVE_ANY:
@@ -1184,7 +1495,7 @@ static void Task_MysteryGift(u8 taskId)
         break;
     case MG_STATE_SOURCE_PROMPT_INPUT:
         // Choose where to access the Wonder Card/News from
-        switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->var, TRUE))
+        switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->var, 1))
         {
         case 0: // "Wireless Communication"
             ClearTextWindow();
@@ -1527,19 +1838,26 @@ static void Task_MysteryGift(u8 taskId)
             data->state = MG_STATE_SOURCE_PROMPT;
         break;
     case MG_STATE_SEND:
-        if (ExitWonderCardOrNews(data->isWonderNews, TRUE))
+        if (IsWirelessAdapterConnected())
         {
-            switch (data->isWonderNews)
+            if (ExitWonderCardOrNews(data->isWonderNews, TRUE))
             {
-            case FALSE:
-                CreateTask_SendMysteryGift(ACTIVITY_WONDER_CARD);
-                break;
-            case TRUE:
-                CreateTask_SendMysteryGift(ACTIVITY_WONDER_NEWS);
-                break;
+                switch (data->isWonderNews)
+                {
+                case FALSE:
+                    CreateTask_SendMysteryGift(ACTIVITY_WONDER_CARD);
+                    break;
+                case TRUE:
+                    CreateTask_SendMysteryGift(ACTIVITY_WONDER_NEWS);
+                    break;
+                }
+                data->sourceIsFriend = TRUE;
+                data->state = MG_STATE_SERVER_LINK_WAIT;
             }
-            data->sourceIsFriend = TRUE;
-            data->state = MG_STATE_SERVER_LINK_WAIT;
+        }
+        else
+        {
+            data->state = MG_STATE_NO_WIRELESS;
         }
         break;
     case MG_STATE_SERVER_LINK_WAIT:
@@ -1620,12 +1938,119 @@ static void Task_MysteryGift(u8 taskId)
         SetMainCallback2(MainCB_FreeAllBuffersAndReturnToInitTitleScreen);
         break;
     case  MG_STATE_NO_WIRELESS:
-		if (PrintMysteryGiftMenuMessage(&data->textState, gText_WirelessNotConnected))
+		if (ExitWonderCardOrNews(data->isWonderNews, TRUE) && PrintMysteryGiftMenuMessage(&data->textState, gText_WirelessNotConnected))
 		{
 			data->state = MG_STATE_TO_MAIN_MENU;
 			PrintMysteryGiftOrEReaderTopMenu(FALSE, FALSE);
 		}
 		break;
+    case MG_STATE_TICKET_MENU:
+        hasEonTicket = FlagGet(FLAG_SYS_GAME_CLEAR) && FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND);
+        hasMysticTicket = FlagGet(FLAG_COMPLETED_ROAMER_QUEST) && FlagGet(FLAG_RECEIVED_MYSTIC_TICKET);
+        hasAuroraTicket = HasAllHoennMons() && FlagGet(FLAG_RECEIVED_AURORA_TICKET);
+
+        if (hasEonTicket && !hasMysticTicket && !hasAuroraTicket)
+            ticketMenu = 3;
+        else if (!hasEonTicket && hasMysticTicket && !hasAuroraTicket)
+            ticketMenu = 4;
+        else if (!hasEonTicket && !hasMysticTicket && hasAuroraTicket)
+            ticketMenu = 5;
+        else if (hasEonTicket && hasMysticTicket && !hasAuroraTicket)
+            ticketMenu = 6;
+        else if (hasEonTicket && !hasMysticTicket && hasAuroraTicket)
+            ticketMenu = 7;
+        else if (!hasEonTicket && hasMysticTicket && hasAuroraTicket)
+            ticketMenu = 8;
+        else if (hasEonTicket && hasMysticTicket && hasAuroraTicket)
+            ticketMenu = 9;
+
+        if (ticketMenu == 9)
+        {
+            switch (MysteryGift_HandleFourOptionMenu(&data->textState, &data->var, ticketMenu))
+            {
+            case 0:
+                gEventTicketToSend = 0;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case 1:
+                gEventTicketToSend = 1;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case 3:
+                gEventTicketToSend = 3;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case LIST_CANCEL:
+                data->state = MG_STATE_EXIT;
+                break;
+            }
+            break;
+        }
+        else if (ticketMenu >= 6)
+        {
+            switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->var, ticketMenu))
+            {
+            case 0:
+                gEventTicketToSend = 0;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case 1:
+                gEventTicketToSend = 1;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case 3:
+                gEventTicketToSend = 3;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case LIST_CANCEL:
+                data->state = MG_STATE_EXIT;
+                break;
+            }
+            break;
+        }
+        else
+        {
+            switch (MysteryGift_HandleTwoOptionMenu(&data->textState, &data->var, ticketMenu))
+            {
+            case 0:
+                gEventTicketToSend = 0;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case 1:
+                gEventTicketToSend = 1;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case 3:
+                gEventTicketToSend = 3;
+                data->state = MG_STATE_LOAD_TICKET;
+                break;
+            case LIST_CANCEL:
+                data->state = MG_STATE_EXIT;
+                break;
+            }
+            break;
+        }
+    case MG_STATE_LOAD_TICKET:
+        if (HandleLoadTicket(&data->textState, gEventTicketToSend))
+            data->state = MG_STATE_HANDLE_TICKET_INPUT;
+        break;
+    case MG_STATE_HANDLE_TICKET_INPUT:
+        if (JOY_NEW(A_BUTTON))
+            data->state = MG_STATE_HANDLE_TICKET_SELECT;
+        if (JOY_NEW(B_BUTTON))
+            data->state = MG_STATE_GIFT_INPUT_EXIT;
+        break;
+    case MG_STATE_HANDLE_TICKET_SELECT:
+        switch (HandleTicketSelectMenu(&data->textState, &data->var))
+        {
+        case 0:
+            data->state = MG_STATE_SEND;
+            break;
+        case LIST_CANCEL:
+            data->state = MG_STATE_HANDLE_TICKET_INPUT;
+            break;
+        }
+        break;
     }
 }
 

@@ -74,7 +74,7 @@
 #define FLAG_USED_EREADER    0x3E
 #define FLAG_DISPLAY_DOT_CODE 0x3F
 #define FLAG_BLENDER_UPGRADED 0x40
-#define FLAG_UNUSED_0x041    0x41 // Unused Flag
+#define FLAG_COMPLETED_ROAMER_QUEST 0x41 // Unused Flag
 #define FLAG_UNUSED_0x042    0x42 // Unused Flag
 #define FLAG_UNUSED_0x043    0x43 // Unused Flag
 #define FLAG_UNUSED_0x044    0x44 // Unused Flag
@@ -338,7 +338,7 @@
 #define FLAG_RECEIVED_AURORA_TICKET          0x13A
 #define FLAG_RECEIVED_MYSTIC_TICKET          0x13B
 #define FLAG_RECEIVED_OLD_SEA_MAP            0x13C
-#define FLAG_WONDER_CARD_UNUSED_1            0x13D // These Wonder Card flags are referenced but never set
+#define FLAG_RECEIVED_EON_TICKET_MYSTERY_GIFT 0x13D
 #define FLAG_WONDER_CARD_UNUSED_2            0x13E
 #define FLAG_WONDER_CARD_UNUSED_3            0x13F
 #define FLAG_WONDER_CARD_UNUSED_4            0x140

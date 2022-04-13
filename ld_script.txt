@@ -702,7 +702,9 @@ SECTIONS {
         data/sound_data.o(.rodata);
 	src/printf.o(.rodata);
 	src/power.o(.rodata);
+        data/ramscript_eon_ticket.o(.rodata);
         data/ramscript_mystic_ticket.o(.rodata);
+        data/ramscript_aurora_ticket.o(.rodata);
     } =0
 
     song_data :

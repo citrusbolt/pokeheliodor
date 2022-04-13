@@ -5,6 +5,13 @@
 #include "constants/mystery_gift.h"
 #include"mystery_gift_server.h"
 
+extern EWRAM_DATA u8 gEventTicketToSend;
+
+extern const struct WonderCard gAuroraTicket_Card;
+extern const struct WonderCard gMysticTicket_Card;
+extern const struct WonderCard gEonTicket_Card;
+extern const struct WonderCardMetadata gEventTicket_Metadata;
+
 struct MysteryGiftLinkGameData
 {
     // It's possible these first 5 fields had some other meaningful purpose,

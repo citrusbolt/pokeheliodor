@@ -41,6 +41,7 @@
 #include "new_game.h"
 #include "mgba.h"
 #include "mystery_gift_menu.h"
+#include "roamer.h"
 
 /*
  * Main menu state machine
@@ -2304,7 +2305,7 @@ static void MainMenu_FormatSavegameBadges(void)
     }
     StringExpandPlaceholders(gStringVar4, gText_ContinueMenuBadges);
     AddTextPrinterParameterized3(2, FONT_NORMAL, 0x6C, 33, sTextColor_MenuInfo, TEXT_SKIP_DRAW, gStringVar4);
-    ConvertIntToDecimalStringN(str, GetWonderCardFlagID(), STR_CONV_MODE_LEADING_ZEROS, 6);
+    ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_LEADING_ZEROS, 1);
     AddTextPrinterParameterized3(2, FONT_NORMAL, GetStringRightAlignXOffset(FONT_NORMAL, str, 0xD0), 33, sTextColor_MenuInfo, TEXT_SKIP_DRAW, str);
 }
 
@@ -2436,6 +2437,11 @@ static void PatchSave(void)
 	{
 		IssueRSSID();
 		VarSet(VAR_SAVE_VER, 3);
+	}
+	if (VarGet(VAR_SAVE_VER) == 3)
+	{
+		ResumeRoamerQuest();
+		VarSet(VAR_SAVE_VER, 4);
 	}
 }
 
