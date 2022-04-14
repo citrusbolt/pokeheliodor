@@ -469,7 +469,7 @@
       "movement_range_y": 2,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "SlateportCity_EventScript_BERRYPowderClerk",
+      "script": "SlateportCity_EventScript_BerryPowderClerk",
       "flag": "0"
     },
     {
@@ -679,7 +679,7 @@
       "y": 36,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
-      "script": "SlateportCity_EventScript_BERRYCrushRankingsSign"
+      "script": "SlateportCity_EventScript_BerryCrushRankingsSign"
     }
   ]
 }

@@ -84,9 +84,9 @@ static void DrawBgWindowFrames(void);
 
 EWRAM_DATA static bool8 sArrowPressed = FALSE;
 
-static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/misc/option_menu_text.gbapal");
+static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/interface/option_menu_text.gbapal");
 // note: this is only used in the Japanese release
-static const u8 sEqualSignGfx[] = INCBIN_U8("graphics/misc/option_menu_equals_sign.4bpp");
+static const u8 sEqualSignGfx[] = INCBIN_U8("graphics/interface/option_menu_equals_sign.4bpp");
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -179,14 +179,14 @@ void CB2_InitOptionMenu(void)
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
         ResetBgsAndClearDma3BusyFlags(0);
         InitBgsFromTemplates(0, sOptionMenuBgTemplates, ARRAY_COUNT(sOptionMenuBgTemplates));
-        ChangeBgX(0, 0, 0);
-        ChangeBgY(0, 0, 0);
-        ChangeBgX(1, 0, 0);
-        ChangeBgY(1, 0, 0);
-        ChangeBgX(2, 0, 0);
-        ChangeBgY(2, 0, 0);
-        ChangeBgX(3, 0, 0);
-        ChangeBgY(3, 0, 0);
+        ChangeBgX(0, 0, BG_COORD_SET);
+        ChangeBgY(0, 0, BG_COORD_SET);
+        ChangeBgX(1, 0, BG_COORD_SET);
+        ChangeBgY(1, 0, BG_COORD_SET);
+        ChangeBgX(2, 0, BG_COORD_SET);
+        ChangeBgY(2, 0, BG_COORD_SET);
+        ChangeBgX(3, 0, BG_COORD_SET);
+        ChangeBgY(3, 0, BG_COORD_SET);
         InitWindows(sOptionMenuWinTemplates);
         DeactivateAllTextPrinters();
         SetGpuReg(REG_OFFSET_WIN0H, 0);
@@ -259,7 +259,7 @@ void CB2_InitOptionMenu(void)
         Clock_DrawChoices(gTasks[taskId].data[TD_CLOCK]);
         HighlightOptionMenuItem(gTasks[taskId].data[TD_MENUSELECTION]);
 
-        CopyWindowToVram(WIN_OPTIONS, 3);
+        CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
         gMain.state++;
         break;
     }
@@ -368,7 +368,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
         if (sArrowPressed)
         {
             sArrowPressed = FALSE;
-            CopyWindowToVram(WIN_OPTIONS, 2);
+            CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
         }
     }
 }
@@ -418,7 +418,7 @@ static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
     }
 
     dst[i] = EOS;
-    AddTextPrinterParameterized(WIN_OPTIONS, 1, dst, x, y + 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, dst, x, y + 1, TEXT_SKIP_DRAW, NULL);
 }
 
 static u8 TextSpeed_ProcessInput(u8 selection)
@@ -456,15 +456,15 @@ static void TextSpeed_DrawChoices(u8 selection)
 
     DrawOptionMenuChoice(gText_TextSpeedSlow, 104, YPOS_TEXTSPEED, styles[0]);
 
-    widthSlow = GetStringWidth(1, gText_TextSpeedSlow, 0);
-    widthMid = GetStringWidth(1, gText_TextSpeedMid, 0);
-    widthFast = GetStringWidth(1, gText_TextSpeedFast, 0);
+    widthSlow = GetStringWidth(FONT_NORMAL, gText_TextSpeedSlow, 0);
+    widthMid = GetStringWidth(FONT_NORMAL, gText_TextSpeedMid, 0);
+    widthFast = GetStringWidth(FONT_NORMAL, gText_TextSpeedFast, 0);
 
     widthMid -= 94;
     xMid = (widthSlow - widthMid - widthFast) / 2 + 104;
     DrawOptionMenuChoice(gText_TextSpeedMid, xMid, YPOS_TEXTSPEED, styles[1]);
 
-    DrawOptionMenuChoice(gText_TextSpeedFast, GetStringRightAlignXOffset(1, gText_TextSpeedFast, 198), YPOS_TEXTSPEED, styles[2]);
+    DrawOptionMenuChoice(gText_TextSpeedFast, GetStringRightAlignXOffset(FONT_NORMAL, gText_TextSpeedFast, 198), YPOS_TEXTSPEED, styles[2]);
 }
 
 static u8 BattleScene_ProcessInput(u8 selection)
@@ -487,7 +487,7 @@ static void BattleScene_DrawChoices(u8 selection)
     styles[selection] = 1;
 
     DrawOptionMenuChoice(gText_BattleSceneOn, 104, YPOS_BATTLESCENE, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), YPOS_BATTLESCENE, styles[1]);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), YPOS_BATTLESCENE, styles[1]);
 }
 
 static u8 BattleStyle_ProcessInput(u8 selection)
@@ -510,7 +510,7 @@ static void BattleStyle_DrawChoices(u8 selection)
     styles[selection] = 1;
 
     DrawOptionMenuChoice(gText_BattleStyleShift, 104, YPOS_BATTLESTYLE, styles[0]);
-    DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(1, gText_BattleStyleSet, 198), YPOS_BATTLESTYLE, styles[1]);
+    DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), YPOS_BATTLESTYLE, styles[1]);
 }
 
 static u8 Sound_ProcessInput(u8 selection)
@@ -534,7 +534,7 @@ static void Sound_DrawChoices(u8 selection)
     styles[selection] = 1;
 
     DrawOptionMenuChoice(gText_SoundMono, 104, YPOS_SOUND, styles[0]);
-    DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(1, gText_SoundStereo, 198), YPOS_SOUND, styles[1]);
+    DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), YPOS_SOUND, styles[1]);
 }
 
 static u8 FrameType_ProcessInput(u8 selection)
@@ -630,15 +630,15 @@ static void ButtonMode_DrawChoices(u8 selection)
 
     DrawOptionMenuChoice(gText_ButtonTypeNormal, 104, YPOS_BUTTONMODE, styles[0]);
 
-    widthNormal = GetStringWidth(1, gText_ButtonTypeNormal, 0);
-    widthLR = GetStringWidth(1, gText_ButtonTypeLR, 0);
-    widthLA = GetStringWidth(1, gText_ButtonTypeLEqualsA, 0);
+    widthNormal = GetStringWidth(FONT_NORMAL, gText_ButtonTypeNormal, 0);
+    widthLR = GetStringWidth(FONT_NORMAL, gText_ButtonTypeLR, 0);
+    widthLA = GetStringWidth(FONT_NORMAL, gText_ButtonTypeLEqualsA, 0);
 
     widthLR -= 94;
     xLR = (widthNormal - widthLR - widthLA) / 2 + 104;
     DrawOptionMenuChoice(gText_ButtonTypeLR, xLR, YPOS_BUTTONMODE, styles[1]);
 
-    DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, gText_ButtonTypeLEqualsA, 198), YPOS_BUTTONMODE, styles[2]);
+    DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(FONT_NORMAL, gText_ButtonTypeLEqualsA, 198), YPOS_BUTTONMODE, styles[2]);
 }
 
 static u8 Clock_ProcessInput(u8 selection)
@@ -667,8 +667,8 @@ static void Clock_DrawChoices(u8 selection)
 static void DrawTextOption(void)
 {
     FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
-    AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gText_Option, 8, 1, TEXT_SPEED_FF, NULL);
-    CopyWindowToVram(WIN_TEXT_OPTION, 3);
+    AddTextPrinterParameterized(WIN_TEXT_OPTION, FONT_NORMAL, gText_Option, 8, 1, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(WIN_TEXT_OPTION, COPYWIN_FULL);
 }
 
 static void DrawOptionMenuTexts(void)
@@ -677,10 +677,8 @@ static void DrawOptionMenuTexts(void)
 
     FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
     for (i = 0; i < MENUITEM_COUNT; i++)
-    {
-        AddTextPrinterParameterized(WIN_OPTIONS, 1, sOptionMenuItemsNames[i], 8, (i * 16) + 1, TEXT_SPEED_FF, NULL);
-    }
-    CopyWindowToVram(WIN_OPTIONS, 3);
+        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, sOptionMenuItemsNames[i], 8, (i * 16) + 1, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
 }
 
 #define TILE_TOP_CORNER_L 0x1A2

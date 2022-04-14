@@ -96,7 +96,7 @@ void CopyItemName(u16 itemId, u8 *dst)
 			if (dst[i] >= 0xBB && dst[i] <= 0xD4)
 				dst[i] += 26;
 		}
-        StringAppend(dst, gText_BERRY2);
+        StringAppend(dst, gText_Berry2);
     }
     else
     {
@@ -128,7 +128,7 @@ void GetBerryCountString(u8 *dst, const u8 *berryName, u32 quantity)
     u8 *txtPtr;
 
     if (quantity < 2)
-        berryString = gText_BERRY;
+        berryString = gText_Berry;
     else
         berryString = gText_Berries;
 
@@ -978,9 +978,9 @@ u8 ItemId_GetImportance(u16 itemId)
 }
 
 // unused
-u8 ItemId_GetUnknownValue(u16 itemId)
+u8 ItemId_GetRegistrability(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].unk19;
+    return gItems[SanitizeItemId(itemId)].registrability;
 }
 
 u8 ItemId_GetPocket(u16 itemId)

@@ -1724,7 +1724,7 @@ static void ContestAICmd_if_user_doesnt_have_exciting_move(void)
 
 // BUG: This is checking if the user has a specific move, but when it's used in the AI script
 //      they're checking for an effect. Checking for a specific effect would make more sense,
-//      but given that effects are normally read as a single byte and this reads 2 bytes, it 
+//      but given that effects are normally read as a single byte and this reads 2 bytes, it
 //      seems reading a move was intended and the AI script is using it incorrectly.
 //      The fix below aligns the function with how it's used by the script, rather than the apparent
 //      intention of its usage
@@ -1738,7 +1738,7 @@ static void ContestAICmd_check_user_has_move(void)
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         u16 move = gContestMons[eContestAI.contestantId].moves[i];
-        
+
         if (move == targetMove)
         {
             hasMove = TRUE;

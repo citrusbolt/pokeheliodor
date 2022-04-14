@@ -124,13 +124,13 @@ RustboroCity_DevonCorp_1F_Text_RocksMetalDisplay:
 	.string "displayed in the glass case.\p"
 	.string "There's a panel with some writing\n"
 	.string "on it…\p"
-	.string "“DEVON Corporation got its start as\n"
+	.string "“Devon Corporation got its start as\n"
 	.string "a producer of stones from quarries.\p"
 	.string "“The company also produced iron from\n"
 	.string "filings in the sand.\p"
 	.string "“From that humble start as a producer\n"
 	.string "of raw materials, Devon developed.\p"
-	.string "“DEVON is now a manufacturer of a wide\n"
+	.string "“Devon is now a manufacturer of a wide\n"
 	.string "range of industrial products.”$"
 
 RustboroCity_DevonCorp_1F_Text_ProductDisplay:
@@ -142,5 +142,5 @@ RustboroCity_DevonCorp_1F_Text_ProductDisplay:
 	.string "pharmaceuticals for better lifestyles.\p"
 	.string "“Recently, Devon has begun marketing\n"
 	.string "tools for Pokémon Trainers, including\l"
-	.string "Poké Balls and PokéNAV systems.”$"
+	.string "Poké Balls and PokéNav systems.”$"
 

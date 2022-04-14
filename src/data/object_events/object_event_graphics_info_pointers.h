@@ -58,9 +58,9 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CyclingTriathleteM
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CyclingTriathleteF;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Nurse;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ItemBall;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BERRYTree;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BERRYTreeEarlyStages;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BERRYTreeLateStages;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTree;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTreeEarlyStages;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTreeLateStages;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanAcroBike;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ProfBirch;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Man4;
@@ -318,9 +318,9 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_CYCLING_TRIATHLETE_F] =     &gObjectEventGraphicsInfo_CyclingTriathleteF,
     [OBJ_EVENT_GFX_NURSE] =                    &gObjectEventGraphicsInfo_Nurse,
     [OBJ_EVENT_GFX_ITEM_BALL] =                &gObjectEventGraphicsInfo_ItemBall,
-    [OBJ_EVENT_GFX_BERRY_TREE] =               &gObjectEventGraphicsInfo_BERRYTree,
-    [OBJ_EVENT_GFX_BERRY_TREE_EARLY_STAGES] =  &gObjectEventGraphicsInfo_BERRYTreeEarlyStages,
-    [OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES] =   &gObjectEventGraphicsInfo_BERRYTreeLateStages,
+    [OBJ_EVENT_GFX_BERRY_TREE] =               &gObjectEventGraphicsInfo_BerryTree,
+    [OBJ_EVENT_GFX_BERRY_TREE_EARLY_STAGES] =  &gObjectEventGraphicsInfo_BerryTreeEarlyStages,
+    [OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES] =   &gObjectEventGraphicsInfo_BerryTreeLateStages,
     [OBJ_EVENT_GFX_BRENDAN_ACRO_BIKE] =        &gObjectEventGraphicsInfo_BrendanAcroBike,
     [OBJ_EVENT_GFX_PROF_BIRCH] =               &gObjectEventGraphicsInfo_ProfBirch,
     [OBJ_EVENT_GFX_MAN_4] =                    &gObjectEventGraphicsInfo_Man4,
