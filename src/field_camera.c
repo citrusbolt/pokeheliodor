@@ -252,16 +252,16 @@ static void DrawMetatile(s32 metatileLayerType, u16 *tiles, u16 offset)
         gOverworldTilemapBuffer_Bg3[offset + 0x21] = tiles[3];
 
         // Draw metatile's middle layer to the middle background layer.
-        gOverworldTilemapBuffer_Bg1[offset] = tiles[4];
-        gOverworldTilemapBuffer_Bg1[offset + 1] = tiles[5];
-        gOverworldTilemapBuffer_Bg1[offset + 0x20] = tiles[6];
-        gOverworldTilemapBuffer_Bg1[offset + 0x21] = tiles[7];
+        gOverworldTilemapBuffer_Bg2[offset] = tiles[4];
+        gOverworldTilemapBuffer_Bg2[offset + 1] = tiles[5];
+        gOverworldTilemapBuffer_Bg2[offset + 0x20] = tiles[6];
+        gOverworldTilemapBuffer_Bg2[offset + 0x21] = tiles[7];
 
         // Draw transparent tiles to the top background layer.
-        gOverworldTilemapBuffer_Bg2[offset] = 0;
-        gOverworldTilemapBuffer_Bg2[offset + 1] = 0;
-        gOverworldTilemapBuffer_Bg2[offset + 0x20] = 0;
-        gOverworldTilemapBuffer_Bg2[offset + 0x21] = 0;
+        gOverworldTilemapBuffer_Bg1[offset] = 0;
+        gOverworldTilemapBuffer_Bg1[offset + 1] = 0;
+        gOverworldTilemapBuffer_Bg1[offset + 0x20] = 0;
+        gOverworldTilemapBuffer_Bg1[offset + 0x21] = 0;
     }
     else
     {
@@ -272,16 +272,16 @@ static void DrawMetatile(s32 metatileLayerType, u16 *tiles, u16 offset)
         gOverworldTilemapBuffer_Bg3[offset + 0x21] = tiles[3];
 
         // Draw metatile's middle layer to the middle background layer.
-        gOverworldTilemapBuffer_Bg1[offset] =tiles[4];
-        gOverworldTilemapBuffer_Bg1[offset + 1] = tiles[5];
-        gOverworldTilemapBuffer_Bg1[offset + 0x20] = tiles[6];
-        gOverworldTilemapBuffer_Bg1[offset + 0x21] = tiles[7];
+        gOverworldTilemapBuffer_Bg2[offset] = tiles[4];
+        gOverworldTilemapBuffer_Bg2[offset + 1] = tiles[5];
+        gOverworldTilemapBuffer_Bg2[offset + 0x20] = tiles[6];
+        gOverworldTilemapBuffer_Bg2[offset + 0x21] = tiles[7];
 
         // Draw metatile's top layer to the top background layer, which covers object event sprites.
-        gOverworldTilemapBuffer_Bg2[offset] = tiles[8];
-        gOverworldTilemapBuffer_Bg2[offset + 1] = tiles[9];
-        gOverworldTilemapBuffer_Bg2[offset + 0x20] = tiles[10];
-        gOverworldTilemapBuffer_Bg2[offset + 0x21] = tiles[11];
+        gOverworldTilemapBuffer_Bg1[offset] = tiles[8];
+        gOverworldTilemapBuffer_Bg1[offset + 1] = tiles[9];
+        gOverworldTilemapBuffer_Bg1[offset + 0x20] = tiles[10];
+        gOverworldTilemapBuffer_Bg1[offset + 0x21] = tiles[11];
     }
     
     ScheduleBgCopyTilemapToVram(1);
