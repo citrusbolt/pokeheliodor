@@ -10,6 +10,7 @@ extern EWRAM_DATA u8 gEventTicketToSend;
 extern const struct WonderCard gAuroraTicket_Card;
 extern const struct WonderCard gMysticTicket_Card;
 extern const struct WonderCard gEonTicket_Card;
+extern const struct WonderCard gEgg_Card;
 extern const struct WonderCardMetadata gEventTicket_Metadata;
 
 struct MysteryGiftLinkGameData
@@ -61,5 +62,6 @@ u16 MysteryGift_GetCardStat(u32 stat);
 void MysteryGift_DisableStats(void);
 bool32 MysteryGift_TryEnableStatsByFlagId(u16 flagId);
 void MysteryGift_TryIncrementStat(u32 stat, u32 trainerId);
+void GiveEggWonderCard(void);
 
 #endif //GUARD_MYSTERY_GIFT_H

@@ -665,7 +665,10 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
             case SAVE_STATUS_OK:
 				PatchSave();
                 if (FlagGet(FLAG_SYS_GAME_CLEAR))
+                {
                     EnableMysteryGift();
+                    GiveEggWonderCard();
+                }
 				if (FlagGet(FLAG_SYS_GAME_CLEAR) && !FlagGet(FLAG_RECEIVED_PORYGON) && Random() % 44 == 0)
 				{
 					if (GivePorygon() == 2)

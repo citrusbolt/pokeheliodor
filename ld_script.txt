@@ -705,6 +705,7 @@ SECTIONS {
         data/ramscript_eon_ticket.o(.rodata);
         data/ramscript_mystic_ticket.o(.rodata);
         data/ramscript_aurora_ticket.o(.rodata);
+        data/ramscript_egg.o(.rodata);
     } =0
 
     song_data :

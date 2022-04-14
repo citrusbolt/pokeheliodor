@@ -514,6 +514,7 @@ static void (*const sTextPrinterFunctions[])(void) =
 
 static const u8 sMemoNatureTextColor[] = _("{COLOR 5}{SHADOW 6}");
 static const u8 sMemoMiscTextColor[] = _("{COLOR 7}{SHADOW 8}");
+static const u8 sMemoSpecialTextColor[] = _("{COLOR 14}{SHADOW 13}");
 
 #define TAG_MOVE_SELECTOR   30000
 #define TAG_MON_STATUS      30001
@@ -3182,6 +3183,11 @@ static void BufferEggMemo(void)
 		{
 			text = gText_TrainerMemo_EggFromPokecomCenter;
 		}
+        else if (sum->metLocation == MAPSEC_SILPH_CO)
+        {
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoSpecialTextColor);
+            text = gText_TrainerMemo_HeliodorEgg;
+        }
 		else if (DidMonComeFromFRLG())
 		{
 			text = gText_TrainerMemo_EggFromKanto;
