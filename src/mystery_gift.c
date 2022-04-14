@@ -35,8 +35,8 @@ const struct WonderCard gAuroraTicket_Card = {
     .titleText =       _("{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}Aurora{_}Ticket                "),
     .subtitleText =    _("{_}{_}{_}{_}{_}{_}Heliodor{_}Exchange{_}Card           "),
     .bodyText =      { _("Go{_}to{_}the{_}second{_}floor{_}of{_}the{_}Pokémon  "),
-                       _("Center{_}and{_}meet{_}the{_}delivery{_}person{_}in "),
-                       _("green.{_}Receive{_}the{_}Aurora{_}Ticket{_}and   "),
+                       _("Center{_}and{_}meet{_}the{_}delivery{_}person.   "),
+                       _("Receive{_}the{_}Aurora{_}Ticket{_}and          "),
                        _("then{_}board{_}the{_}ferry.                  ") },
     .footerLine1Text = _("This{_}Card{_}can{_}be{_}sent{_}to{_}Pokémon       "),
     .footerLine2Text = _("FireRed,{_}LeafGreen,{_}Emerald{_}or{_}Heliodor")
@@ -53,8 +53,8 @@ const struct WonderCard gMysticTicket_Card = {
     .titleText =       _("{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}Mystic{_}Ticket                "),
     .subtitleText =    _("{_}{_}{_}{_}{_}{_}Heliodor{_}Exchange{_}Card           "),
     .bodyText =      { _("Go{_}to{_}the{_}second{_}floor{_}of{_}the{_}Pokémon  "),
-                       _("Center{_}and{_}meet{_}the{_}delivery{_}person{_}in "),
-                       _("green.{_}Receive{_}the{_}Mystic{_}Ticket{_}and   "),
+                       _("Center{_}and{_}meet{_}the{_}delivery{_}person.   "),
+                       _("Receive{_}the{_}Mystic{_}Ticket{_}and          "),
                        _("then{_}board{_}the{_}ferry.                  ") },
     .footerLine1Text = _("This{_}Card{_}can{_}be{_}sent{_}to{_}Pokémon       "),
     .footerLine2Text = _("FireRed,{_}LeafGreen,{_}Emerald{_}or{_}Heliodor")
@@ -71,8 +71,8 @@ const struct WonderCard gEonTicket_Card = {
     .titleText =       _("{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}Eon{_}Ticket                  "),
     .subtitleText =    _("{_}{_}{_}{_}{_}{_}Heliodor{_}Exchange{_}Card           "),
     .bodyText =      { _("Go{_}to{_}the{_}second{_}floor{_}of{_}the{_}Pokémon  "),
-                       _("Center{_}and{_}meet{_}the{_}delivery{_}person{_}in "),
-                       _("green.{_}Receive{_}the{_}Eon{_}Ticket{_}and      "),
+                       _("Center{_}and{_}meet{_}the{_}delivery{_}person.   "),
+                       _("Receive{_}the{_}Eon{_}Ticket{_}and             "),
                        _("then{_}board{_}the{_}ferry.                  ") },
     .footerLine1Text = _("This{_}Card{_}can{_}be{_}sent{_}to{_}Pokémon       "),
     .footerLine2Text = _("Emerald{_}or{_}Heliodor.                   ")
@@ -88,8 +88,8 @@ const struct WonderCard gEgg_Card = {
     .titleText =       _("{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}{_}Pokémon{_}Egg                 "),
     .subtitleText =    _("{_}{_}{_}{_}{_}{_}Heliodor{_}Exchange{_}Card           "),
     .bodyText =      { _("Go{_}to{_}the{_}second{_}floor{_}of{_}the{_}Pokémon  "),
-                       _("Center{_}and{_}meet{_}the{_}delivery{_}person{_}in "),
-                       _("green.{_}Receive{_}a{_}special{_}Pokémon{_}Egg   "),
+                       _("Center{_}and{_}meet{_}the{_}delivery{_}person.   "),
+                       _("Receive{_}a{_}special{_}Pokémon{_}Egg          "),
                        _("as{_}thanks{_}for{_}playing{_}Pokémon{_}Heliodor.") },
     .footerLine1Text = _("This{_}Card{_}can{_}be{_}sent{_}to{_}Pokémon       "),
     .footerLine2Text = _("FireRed,{_}LeafGreen,{_}Emerald{_}or{_}Heliodor")
