@@ -8,8 +8,7 @@ MirageTower_4F_EventScript_Ruby::
 	lock
 	faceplayer
 	msgbox MirageTower_4F_Text_TakeRuby, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq MirageTower_4F_EventScript_LeaveRuby
+	goto_if_eq VAR_RESULT, NO, MirageTower_4F_EventScript_LeaveRuby
 	giveitem ITEM_RUBY
 	closemessage
 	setflag FLAG_HIDE_MIRAGE_TOWER_RUBY
@@ -29,8 +28,7 @@ MirageTower_4F_EventScript_Sapphire::
 	lock
 	faceplayer
 	msgbox MirageTower_4F_Text_TakeSapphire, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq MirageTower_4F_EventScript_LeaveSapphire
+	goto_if_eq VAR_RESULT, NO, MirageTower_4F_EventScript_LeaveSapphire
 	giveitem ITEM_SAPPHIRE
 	closemessage
 	setflag FLAG_HIDE_MIRAGE_TOWER_SAPPHIRE
@@ -57,7 +55,7 @@ MirageTower_4F_EventScript_CollapseMirageTower::
 	waitstate
 	setvar VAR_MIRAGE_TOWER_STATE, 1
 	clearflag FLAG_LANDMARK_MIRAGE_TOWER
-	warp MAP_ROUTE111, 255, 19, 59
+	warp MAP_ROUTE111, 19, 59
 	waitstate
 	release
 	end

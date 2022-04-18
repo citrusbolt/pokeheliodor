@@ -3,6 +3,7 @@
 *.i
 *.elf
 *.gba
+!data/*.gba
 *.sgm
 *.sa1
 *.ss[0-9]
@@ -34,8 +35,6 @@ porymap.project.cfg
 *.a
 .fuse_hidden*
 *.sna
-<<<<<<< HEAD
-poryscript
-=======
-*.png
->>>>>>> 07c18b49dcd474d7980ce018155a67d7d906cfb6
+*.diff
+*.sym
+*.js

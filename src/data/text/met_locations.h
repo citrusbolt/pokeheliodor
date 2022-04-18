@@ -39,6 +39,7 @@ const u8 gText_TrainerMemo_EggFromPokecomCenter[] = _("An odd Pokémon Egg\nobta
 const u8 gText_TrainerMemo_EggFromKanto[] = _("An odd Pokémon Egg found\nby {DYNAMIC 0}the Day Care couple{DYNAMIC 1}\nin the {DYNAMIC 0}Kanto{DYNAMIC 1} region.\n\n“The Egg Watch”\n{DYNAMIC 2}");
 const u8 gText_TrainerMemo_EggFromJohto[] = _("An odd Pokémon Egg found\nby {DYNAMIC 0}the Day Care couple{DYNAMIC 1}\nin the {DYNAMIC 0}Johto{DYNAMIC 1} region.\n\n“The Egg Watch”\n{DYNAMIC 2}");
 const u8 gText_TrainerMemo_EggFromBrigette[] = _("A Pokémon Egg obtained\nfrom {DYNAMIC 0}Brigette{DYNAMIC 1}.\n\n\n“The Egg Watch”\n{DYNAMIC 2}");
+const u8 gText_TrainerMemo_HeliodorEgg[] = _("A Pokémon Egg obtained\nas thanks for playing\n{DYNAMIC 0}Pokémon Heliodor{DYNAMIC 1}.\n\n“The Egg Watch”\n{DYNAMIC 2}");
 const u8 gText_TrainerMemo_BadEgg[] = _("A very mysterious\nPokémon Egg.\n\n\n“The Egg Watch”\n{DYNAMIC 2}");
 const u8 gText_TrainerMemo_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}'s old friend\nfrom {DYNAMIC 0}Orre{DYNAMIC 1}.\n\n{DYNAMIC 6}\n{DYNAMIC 7}");
 const u8 gText_TrainerMemo_ReceivedFrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n\nreceived from {DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}\nin {DYNAMIC 0}Orre{DYNAMIC 1}.\n\n{DYNAMIC 6}\n{DYNAMIC 7}");

@@ -61,6 +61,7 @@ UP_ARROW    = 79
 DOWN_ARROW  = 7A
 LEFT_ARROW  = 7B
 RIGHT_ARROW = 7C
+_           =83
 SUPER_E     = 84
 '<'         = 85
 '>'         = 86
@@ -84,6 +85,7 @@ SUPER_RE    = A0
 '“'         = B1
 '”'         = B2
 '‘'         = B3
+'’'         = B4
 '\''         = B4
 '♂'         = B5
 '♀'         = B6
@@ -414,7 +416,7 @@ HIGHLIGHT = FC 02 @ same as fc 01
 SHADOW = FC 03 @ same as fc 01
 COLOR_HIGHLIGHT_SHADOW = FC 04 @ takes 3 bytes
 PALETTE = FC 05 @ used in credits
-SIZE = FC 06 @ note that anything other than "SMALL" is invalid
+FONT = FC 06 @ Given a font id, or use font constants below instead
 RESET_SIZE = FC 07
 PAUSE = FC 08 @ manually print the wait byte after this, havent mapped them
 PAUSE_UNTIL_PRESS = FC 09
@@ -433,6 +435,16 @@ JPN = FC 15
 ENG = FC 16
 PAUSE_MUSIC = FC 17
 RESUME_MUSIC = FC 18
+
+@ fonts
+
+FONT_SMALL = FC 06 00
+FONT_NORMAL = FC 06 01
+FONT_FRLG = FC 06 02
+FONT_E = FC 06 03
+FONT_RS = FC 06 04
+FONT_BRAILLE = FC 06 05
+FONT_NARROW = FC 06 06
 
 @ colors
 

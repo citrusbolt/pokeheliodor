@@ -5,7 +5,6 @@
 #include "fieldmap.h"
 #include "metatile_behavior.h"
 #include "task.h"
-#include "constants/maps.h"
 #include "constants/songs.h"
 #include "constants/metatile_labels.h"
 
@@ -370,14 +369,14 @@ static void DrawDoor(const struct DoorGraphics *gfx, const struct DoorAnimFrame 
     {
         DrawClosedDoorTiles(gfx, x, y);
         if (ShouldUseMultiCorridorDoor())
-            DrawClosedDoorTiles(gfx, gSpecialVar_0x8004 + 7, gSpecialVar_0x8005 + 7);
+            DrawClosedDoorTiles(gfx, gSpecialVar_0x8004 + MAP_OFFSET, gSpecialVar_0x8005 + MAP_OFFSET);
     }
     else
     {
         CopyDoorTilesToVram(gfx, frame);
         DrawCurrentDoorAnimFrame(gfx, x, y, gfx->palette);
         if (ShouldUseMultiCorridorDoor())
-            DrawCurrentDoorAnimFrame(gfx, gSpecialVar_0x8004 + 7, gSpecialVar_0x8005 + 7, gfx->palette);
+            DrawCurrentDoorAnimFrame(gfx, gSpecialVar_0x8004 + MAP_OFFSET, gSpecialVar_0x8005 + MAP_OFFSET, gfx->palette);
     }
 }
 
@@ -556,7 +555,7 @@ bool8 FieldIsDoorAnimationRunning(void)
 u32 GetDoorSoundEffect(u32 x, u32 y)
 {
     int sound = GetDoorSoundType(sDoorAnimGraphicsTable, x, y);
-    
+
     if (sound == DOOR_SOUND_NORMAL)
         return SE_DOOR;
     else if (sound == DOOR_SOUND_SLIDING)
@@ -572,7 +571,7 @@ static bool8 ShouldUseMultiCorridorDoor(void)
 {
     if (FlagGet(FLAG_ENABLE_MULTI_CORRIDOR_DOOR))
     {
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR) 
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR)
             && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR))
         {
             return TRUE;

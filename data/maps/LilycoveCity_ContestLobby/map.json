@@ -378,7 +378,7 @@
       "y": 5,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "BerryBlender_EventScript_BERRYBlenderLink"
+      "script": "BerryBlender_EventScript_BerryBlenderLink"
     },
     {
       "type": "sign",
@@ -386,7 +386,7 @@
       "y": 9,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "BerryBlender_EventScript_BERRYBlender3"
+      "script": "BerryBlender_EventScript_BerryBlender3"
     },
     {
       "type": "sign",
@@ -418,7 +418,7 @@
       "y": 1,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "LilycoveCity_ContestLobby_EventScript_BERRYBlenderSpeedRecords"
+      "script": "LilycoveCity_ContestLobby_EventScript_BerryBlenderSpeedRecords"
     },
     {
       "type": "sign",
@@ -450,7 +450,7 @@
       "y": 5,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "BerryBlender_EventScript_BERRYBlender1"
+      "script": "BerryBlender_EventScript_BerryBlender1"
     },
     {
       "type": "sign",
@@ -458,7 +458,7 @@
       "y": 9,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "BerryBlender_EventScript_BERRYBlender2"
+      "script": "BerryBlender_EventScript_BerryBlender2"
     },
     {
       "type": "sign",
