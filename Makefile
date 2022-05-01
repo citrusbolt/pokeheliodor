@@ -98,6 +98,16 @@ MID_BUILDDIR = $(OBJ_DIR)/$(MID_SUBDIR)
 
 ASFLAGS := -mcpu=arm7tdmi --defsym MODERN=$(MODERN)
 
+GIT_URL := $(shell git remote get-url origin)
+BUILD_REPO_BRANCH := \"$(GIT_URL:https://github.com/%=%)/$(shell git branch --show-current)\"
+BUILD_VERSION := \"$(shell git describe --tags --abbrev=7)\"
+BUILD_TIME := \"$(shell date -u +%Y.%m.%d-%H:%M)\"
+BUILD_DIRTY := $(shell if [ -n "$$(git status --porcelain)" ]; then \
+		echo "TRUE"; \
+	else \
+		echo "FALSE"; \
+	fi)
+
 ifeq ($(MODERN),0)
 CC1             := tools/agbcc/bin/agbcc$(EXE)
 override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm -g
@@ -114,7 +124,7 @@ LIBPATH := -L "$(dir $(shell $(PATH_MODERNCC) -mthumb -print-file-name=libgcc.a)
 LIB := $(LIBPATH) -lc -lnosys -lgcc -L../../libagbsyscall -lagbsyscall
 endif
 
-CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN)
+CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DBUILD_REPO_BRANCH=$(BUILD_REPO_BRANCH) -DBUILD_VERSION=$(BUILD_VERSION) -DBUILD_TIME=$(BUILD_TIME) -DBUILD_DIRTY=$(BUILD_DIRTY)
 ifneq ($(MODERN),1)
 CPPFLAGS += -I tools/agbcc/include -I tools/agbcc -nostdinc -undef
 endif
@@ -314,15 +324,15 @@ $(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.c
 ifeq (,$(KEEP_TEMPS))
 	@echo "$(CC1) <flags> -o $@ $<"
 	@$(CPP) $(CPPFLAGS) $< | $(PREPROC) $< charmap.txt -i | $(CC1) $(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $(AS) $(ASFLAGS) -o $@ -
-else
 	@$(CPP) $(CPPFLAGS) $< -o $(C_BUILDDIR)/$*.i
+else
 	@$(PREPROC) $(C_BUILDDIR)/$*.i charmap.txt | $(CC1) $(CFLAGS) -o $(C_BUILDDIR)/$*.s
 	@echo -e ".text\n\t.align\t2, 0\n" >> $(C_BUILDDIR)/$*.s
 	$(AS) $(ASFLAGS) -o $@ $(C_BUILDDIR)/$*.s
 endif
 else
 define C_DEP
-$1: $2 $$(shell $(SCANINC) -I include -I tools/agbcc/include -I gflib $2)
+$1: $2 $$(shell touch $(C_SUBDIR)/data/text/build_info.h; $(SCANINC) -I include -I tools/agbcc/include -I gflib $2)
 ifeq (,$$(KEEP_TEMPS))
 	@echo "$$(CC1) <flags> -o $$@ $$<"
 	@$$(CPP) $$(CPPFLAGS) $$< | $$(PREPROC) $$< charmap.txt -i | $$(CC1) $$(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $$(AS) $$(ASFLAGS) -o $$@ -

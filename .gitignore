@@ -38,3 +38,4 @@ porymap.project.cfg
 *.diff
 *.sym
 *.js
+src/data/text/build_info.h

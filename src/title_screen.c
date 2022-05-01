@@ -22,6 +22,7 @@
 #include "graphics.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "build_info.h"
 
 #define VERSION_BANNER_RIGHT_TILEOFFSET 64
 #define VERSION_BANNER_LEFT_X 98
@@ -33,6 +34,7 @@
 #define CLEAR_SAVE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_UP)
 #define RESET_RTC_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_LEFT)
 #define BERRY_UPDATE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON)
+#define BUILD_INFO_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_DOWN)
 #define A_B_START_SELECT (A_BUTTON | B_BUTTON | START_BUTTON | SELECT_BUTTON)
 
 static void MainCB2(void);
@@ -43,6 +45,7 @@ static void CB2_GoToMainMenu(void);
 static void CB2_GoToClearSaveDataScreen(void);
 static void CB2_GoToResetRtcScreen(void);
 static void CB2_GoToBerryFixScreen(void);
+static void CB2_GoToBuildInfoScreen(void);
 static void CB2_GoToCopyrightScreen(void);
 static void UpdateLegendaryMarkingColor(u8);
 
@@ -743,6 +746,12 @@ static void Task_TitleScreenPhase3(u8 taskId)
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         SetMainCallback2(CB2_GoToResetRtcScreen);
     }
+    else if (JOY_HELD(BUILD_INFO_BUTTON_COMBO) == BUILD_INFO_BUTTON_COMBO)
+    {
+        FadeOutBGM(4);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+        SetMainCallback2(CB2_GoToBuildInfoScreen);
+    }
     else if (JOY_HELD(BERRY_UPDATE_BUTTON_COMBO) == BERRY_UPDATE_BUTTON_COMBO)
     {
         FadeOutBGM(4);
@@ -799,6 +808,15 @@ static void CB2_GoToBerryFixScreen(void)
     {
         m4aMPlayAllStop();
         SetMainCallback2(CB2_InitBerryFixProgram);
+    }
+}
+
+static void CB2_GoToBuildInfoScreen(void)
+{
+    if (!UpdatePaletteFade())
+    {
+        m4aMPlayAllStop();
+        SetMainCallback2(CB2_InitBuildInfoScreen);
     }
 }
 
