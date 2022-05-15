@@ -395,7 +395,7 @@ Route119_WeatherInstitute_2F_Text_ShowRoamer:
 	.string "Make sure to keep an eye out for it!$"
 
 Route119_WeatherInstitute_2F_Text_MentionZapdos:
-	.string "I've also received a signular report\n"
+	.string "I've also received a singular report\n"
 	.string "of a yellow-colored Flying-type\l"
 	.string "Pokémon on Route 110.\p"
 	.string "If you have time, can you try\n"
