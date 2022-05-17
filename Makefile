@@ -224,12 +224,18 @@ AUTO_GEN_TARGETS :=
 
 all: rom
 
-tools: $(TOOLDIRS)
+tools: $(TOOLDIRS) tools/agbcc
 
 syms: $(SYM)
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
+
+tools/agbcc: subrepos/agbcc/agbcc
+	cd subrepos/agbcc; ./install.sh ../..
+
+subrepos/agbcc/agbcc:
+	cd subrepos/agbcc; ./build.sh
 
 rom: $(ROM)
 ifeq ($(COMPARE),1)
@@ -243,6 +249,12 @@ clean: mostlyclean clean-tools
 
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
+	rm -rf tools/agbcc
+	rm -f subrepos/agbcc/agbcc
+	rm -f subrepos/agbcc/old_agbcc
+	rm -f subrepos/agbcc/agbcc_arm
+	rm -f subrepos/agbcc/libgcc.a
+	rm -f subrepos/agbcc/libc.a
 
 mostlyclean: tidynonmodern tidymodern
 	rm -f $(SAMPLE_SUBDIR)/*.bin
