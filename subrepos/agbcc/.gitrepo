@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/pret/agbcc
+	branch = master
+	commit = faa413eb0e76fad87875b7680f77e0c43df694cd
+	parent = 1b7715f0c65f597f05b41d1e600a01b8ef01a994
+	method = merge
+	cmdver = 0.4.3
