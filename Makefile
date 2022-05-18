@@ -66,11 +66,13 @@ endif
 ROM_NAME := heliodor.gba
 ELF_NAME := $(ROM_NAME:.gba=.elf)
 MAP_NAME := $(ROM_NAME:.gba=.map)
+PATCH_NAME := $(ROM_NAME:.gba=.bps)
 OBJ_DIR_NAME := build/emerald
 
 MODERN_ROM_NAME := $(ROM_NAME:.gba=_modern.gba)
 MODERN_ELF_NAME := $(MODERN_ROM_NAME:.gba=.elf)
 MODERN_MAP_NAME := $(MODERN_ROM_NAME:.gba=.map)
+MODERN_PATCH_NAME := $(MODERN_ROM_NAME:.gba=.bps)
 MODERN_OBJ_DIR_NAME := build/modern
 
 SHELL := /bin/bash -o pipefail
@@ -245,7 +247,7 @@ endif
 # For contributors to make sure a change didn't affect the contents of the ROM.
 compare: all
 
-clean: mostlyclean clean-tools
+clean: mostlyclean clean-tools clean-emerald
 
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
@@ -255,6 +257,8 @@ clean-tools:
 	rm -f subrepos/agbcc/agbcc_arm
 	rm -f subrepos/agbcc/libgcc.a
 	rm -f subrepos/agbcc/libc.a
+	rm -rf subrepos/flips/obj
+	rm -f subrepos/flips/flips
 
 mostlyclean: tidynonmodern tidymodern
 	rm -f $(SAMPLE_SUBDIR)/*.bin
@@ -266,6 +270,9 @@ mostlyclean: tidynonmodern tidymodern
 	find $(DATA_ASM_SUBDIR)/maps \( -iname 'connections.inc' -o -iname 'events.inc' -o -iname 'header.inc' \) -exec rm {} +
 	rm -f $(AUTO_GEN_TARGETS)
 	@$(MAKE) clean -C libagbsyscall
+
+clean-emerald:
+	@$(MAKE) clean -C subrepos/pokeemerald
 
 tidy: tidynonmodern tidymodern
 
@@ -448,6 +455,22 @@ $(ROM): $(ELF)
 	$(FIX) $@ -p --silent
 
 modern: all
+
+patch: all subrepos/pokeemerald/pokeemerald.gba subrepos/flips/flips
+ifeq ($(MODERN),0)
+	subrepos/flips/flips --manifest=patch.xml subrepos/pokeemerald/pokeemerald.gba $(ROM_NAME) $(PATCH_NAME)
+else
+	subrepos/flips/flips --manifest=patch.xml subrepos/pokeemerald/pokeemerald.gba $(MODERN_ROM_NAME) $(MODERN_PATCH_NAME)
+endif
+
+subrepos/pokeemerald/pokeemerald.gba: subrepos/pokeemerald/tools/agbcc
+	@$(MAKE) -C subrepos/pokeemerald
+
+subrepos/pokeemerald/tools/agbcc: subrepos/agbcc/agbcc
+	cd subrepos/agbcc; ./install.sh ../pokeemerald
+
+subrepos/flips/flips:
+	cd subrepos/flips; ./make.sh
 
 libagbsyscall:
 	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)
