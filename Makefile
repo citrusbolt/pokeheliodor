@@ -67,13 +67,13 @@ ROM_NAME := heliodor.gba
 ELF_NAME := $(ROM_NAME:.gba=.elf)
 MAP_NAME := $(ROM_NAME:.gba=.map)
 PATCH_NAME := $(ROM_NAME:.gba=.bps)
-OBJ_DIR_NAME := build/emerald
+OBJ_DIR_NAME := build/heliodor
 
 MODERN_ROM_NAME := $(ROM_NAME:.gba=_modern.gba)
 MODERN_ELF_NAME := $(MODERN_ROM_NAME:.gba=.elf)
 MODERN_MAP_NAME := $(MODERN_ROM_NAME:.gba=.map)
 MODERN_PATCH_NAME := $(MODERN_ROM_NAME:.gba=.bps)
-MODERN_OBJ_DIR_NAME := build/modern
+MODERN_OBJ_DIR_NAME := build/heliodor_modern
 
 SHELL := /bin/bash -o pipefail
 
@@ -162,7 +162,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern
+.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -170,7 +170,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom compare modern libagbsyscall syms,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom compare modern libagbsyscall syms emerald patch,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -182,7 +182,7 @@ ifeq (,$(MAKECMDGOALS))
 else
   # clean, tidy, tools, mostlyclean, clean-tools, $(TOOLDIRS), tidymodern, tidynonmodern don't even build the ROM
   # libagbsyscall does its own thing
-  ifeq (,$(filter-out clean tidy tools mostlyclean clean-tools $(TOOLDIRS) tidymodern tidynonmodern libagbsyscall,$(MAKECMDGOALS)))
+  ifeq (,$(filter-out clean tidy tools mostlyclean clean-tools $(TOOLDIRS) tidymodern tidynonmodern libagbsyscall clean-emerald,$(MAKECMDGOALS)))
     SCAN_DEPS ?= 0
   else
     SCAN_DEPS ?= 1
@@ -273,6 +273,7 @@ mostlyclean: tidynonmodern tidymodern
 
 clean-emerald:
 	@$(MAKE) clean -C subrepos/pokeemerald
+	rm -f pokeemerald.gba
 
 tidy: tidynonmodern tidymodern
 
@@ -283,6 +284,16 @@ tidynonmodern:
 tidymodern:
 	rm -f $(MODERN_ROM_NAME) $(MODERN_ELF_NAME) $(MODERN_MAP_NAME)
 	rm -rf $(MODERN_OBJ_DIR_NAME)
+
+emerald: subrepos/pokeemerald/tools/agbcc
+	@$(MAKE) -C subrepos/pokeemerald
+	cp subrepos/pokeemerald/pokeemerald.gba ./
+
+subrepos/pokeemerald/tools/agbcc: subrepos/agbcc/agbcc
+	cd subrepos/agbcc; ./install.sh ../pokeemerald
+
+subrepos/flips/flips:
+	cd subrepos/flips; ./make.sh
 	
 ifneq ($(MODERN),0)
 $(C_BUILDDIR)/berry_crush.o: override CFLAGS += -Wno-address-of-packed-member
@@ -456,21 +467,12 @@ $(ROM): $(ELF)
 
 modern: all
 
-patch: all subrepos/pokeemerald/pokeemerald.gba subrepos/flips/flips
+patch: all emerald subrepos/flips/flips
 ifeq ($(MODERN),0)
-	subrepos/flips/flips --manifest=patch.xml subrepos/pokeemerald/pokeemerald.gba $(ROM_NAME) $(PATCH_NAME)
+	subrepos/flips/flips --manifest=patch.xml pokeemerald.gba $(ROM_NAME) $(PATCH_NAME)
 else
-	subrepos/flips/flips --manifest=patch.xml subrepos/pokeemerald/pokeemerald.gba $(MODERN_ROM_NAME) $(MODERN_PATCH_NAME)
+	subrepos/flips/flips --manifest=patch.xml pokeemerald.gba $(MODERN_ROM_NAME) $(MODERN_PATCH_NAME)
 endif
-
-subrepos/pokeemerald/pokeemerald.gba: subrepos/pokeemerald/tools/agbcc
-	@$(MAKE) -C subrepos/pokeemerald
-
-subrepos/pokeemerald/tools/agbcc: subrepos/agbcc/agbcc
-	cd subrepos/agbcc; ./install.sh ../pokeemerald
-
-subrepos/flips/flips:
-	cd subrepos/flips; ./make.sh
 
 libagbsyscall:
 	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)
