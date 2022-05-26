@@ -2960,6 +2960,8 @@ extern const u32 gTrainerFrontPic_PikeQueenLucy[];
 extern const u32 gTrainerFrontPic_PyramidKingBrandon[];
 extern const u32 gTrainerFrontPic_Red[];
 extern const u32 gTrainerFrontPic_Leaf[];
+extern const u32 gTrainerFrontPic_EmeraldBrendan[];
+extern const u32 gTrainerFrontPic_EmeraldMay[];
 extern const u32 gTrainerFrontPic_RubySapphireBrendan[];
 extern const u32 gTrainerFrontPic_RubySapphireMay[];
 extern const u32 gTrainerFrontPic_Gold[];
@@ -5035,7 +5037,8 @@ extern const u16 gFrontierFactorySelectMenu_Pal[];
 // Object event pals
 extern const u16 gObjectEventPal_Brendan[];
 extern const u16 gObjectEventPal_May[];
-extern const u16 gObjectEventPal_RubySapphireHero[];
+extern const u16 gObjectEventPal_RubySapphireBrendan[];
+extern const u16 gObjectEventPal_RubySapphireMay[];
 extern const u16 gObjectEventPal_EmeraldBrendan[];
 extern const u16 gObjectEventPal_EmeraldMay[];
 extern const u16 gObjectEventPal_Gold[];

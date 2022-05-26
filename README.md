@@ -99,7 +99,11 @@ If you encounter any other issues, especially relating to the three compatibilit
 
 The release patch can be applied to a dump of Pokémon Emerald with a sha1 sum of f3ae088181bf583e55daf962a92bb46f4f1d07b7 using a program such as [***beat***](https://github.com/Screwtapello/beat) or [***Floating IPS***](https://github.com/Alcaro/Flips).
 
-To build this yourself, see [INSTALL.md](docs/INSTALL.md).
+## Building
+
+To build this yourself, you'll need `git`, `build-essential`, `binutils-arm-none-eabi`, and `libpng-dev` or equivilant non-Debian packages.
+Simply run `make` to build a `.gba` image or `make patch` to build a `.bps` patch.
+For more detailed compilation instructions, see [INSTALL.md](docs/INSTALL.md).
 
 ## Credits
 
@@ -108,10 +112,11 @@ To build this yourself, see [INSTALL.md](docs/INSTALL.md).
 * Buffel Salt: Give NPCs different Poké Balls based on Class; Stop Berry Trees from dying
 * DizzyEgg: Repel renewal prompt; Double wild encounters
 * ghoulslash: Item sorting in Bag; Additional item registration slots; Poké Ball quick-use function
+* hyo: FRLG-styled Player Character OW sprites
 * ipatix: Improved audio mixer
 * Jaizu: Partnered to design new Summary Screen; inserting FRLG-styled OW sprites and tilesets
 * LOuroboros: Headbutt event script
-* Poffin_Case: FRLG-styled OW sprites
+* Poffin_Case: FRLG-styled NPC OW sprites
 * Sierraffinity: RTC-based environmental tinting system; translated e-Reader strings; time-based Nurse greetings
 
 ## Special Thanks

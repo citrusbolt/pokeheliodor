@@ -279,7 +279,7 @@ void RoamerMove(void)
         if (!ROAMER->active)
             return;
 
-		if (ROAMER->species == SPECIES_RAIKOU || ROAMER->species == SPECIES_ENTEI || ROAMER->species == SPECIES_SUICUNE)
+		if (ROAMER->species == SPECIES_RAIKOU || ROAMER->species == SPECIES_ENTEI)
 		{
 			while (locSet < (ARRAY_COUNT(sLandRoamerLocations) - 1))
 			{
@@ -465,7 +465,7 @@ u8 ResumeRoamerQuest(void)
 	}
 	else if (ROAMER->active == FALSE && VarGet(VAR_ROAMER_POKEMON) >= 6)
 	{
-		if (!FlagGet(FLAG_DEFEATED_ZAPDOS))
+		if (!FlagGet(FLAG_DEFEATED_ZAPDOS) && !FlagGet(FLAG_COMPLETED_ROAMER_QUEST))
 		{
 			VarSet(VAR_RESULT, 2);
 			return 2;

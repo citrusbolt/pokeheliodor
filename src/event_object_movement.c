@@ -437,18 +437,19 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE      0x111F
 #define OBJ_EVENT_PAL_TAG_HO_OH                   0x1120
 #define OBJ_EVENT_PAL_TAG_LUGIA                   0x1121
-#define OBJ_EVENT_PAL_TAG_RS_HERO                 0x1122
-#define OBJ_EVENT_PAL_TAG_ARTICUNO                0x1123
-#define OBJ_EVENT_PAL_TAG_ZAPDOS                  0x1124
-#define OBJ_EVENT_PAL_TAG_MOLTRES                 0x1125
-#define OBJ_EVENT_PAL_TAG_MEWTWO                  0x1126
-#define OBJ_EVENT_PAL_TAG_RAIKOU                  0x1127
-#define OBJ_EVENT_PAL_TAG_ENTEI                   0x1128
-#define OBJ_EVENT_PAL_TAG_SUICUNE                 0x1129
-#define OBJ_EVENT_PAL_TAG_E_BRENDAN               0x112A
-#define OBJ_EVENT_PAL_TAG_E_MAY                   0x112B
-#define OBJ_EVENT_PAL_TAG_GOLD                    0x112C
-#define OBJ_EVENT_PAL_TAG_KRIS                    0x112D
+#define OBJ_EVENT_PAL_TAG_RS_BRENDAN              0x1122
+#define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
+#define OBJ_EVENT_PAL_TAG_ARTICUNO                0x1124
+#define OBJ_EVENT_PAL_TAG_ZAPDOS                  0x1125
+#define OBJ_EVENT_PAL_TAG_MOLTRES                 0x1126
+#define OBJ_EVENT_PAL_TAG_MEWTWO                  0x1127
+#define OBJ_EVENT_PAL_TAG_RAIKOU                  0x1128
+#define OBJ_EVENT_PAL_TAG_ENTEI                   0x1129
+#define OBJ_EVENT_PAL_TAG_SUICUNE                 0x112A
+#define OBJ_EVENT_PAL_TAG_E_BRENDAN               0x112B
+#define OBJ_EVENT_PAL_TAG_E_MAY                   0x112C
+#define OBJ_EVENT_PAL_TAG_GOLD                    0x112D
+#define OBJ_EVENT_PAL_TAG_KRIS                    0x112E
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -493,7 +494,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_BirthIslandStone,      OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
     {gObjectEventPal_HoOh,                  OBJ_EVENT_PAL_TAG_HO_OH},
     {gObjectEventPal_Lugia,                 OBJ_EVENT_PAL_TAG_LUGIA},
-    {gObjectEventPal_RubySapphireHero,      OBJ_EVENT_PAL_TAG_RS_HERO},
+    {gObjectEventPal_RubySapphireBrendan,      OBJ_EVENT_PAL_TAG_RS_BRENDAN},
+    {gObjectEventPal_RubySapphireMay,      OBJ_EVENT_PAL_TAG_RS_MAY},
     {gObjectEventPal_Articuno,              OBJ_EVENT_PAL_TAG_ARTICUNO},
     {gObjectEventPal_Zapdos,                OBJ_EVENT_PAL_TAG_ZAPDOS},
     {gObjectEventPal_Moltres,               OBJ_EVENT_PAL_TAG_MOLTRES},

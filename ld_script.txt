@@ -339,6 +339,7 @@ SECTIONS {
 	src/mgba.o(.text);
 	src/printf.o(.text);
 	src/power.o(.text);
+        src/build_info.o(.text);
     } =0
 
     script_data :
@@ -706,6 +707,7 @@ SECTIONS {
         data/ramscript_mystic_ticket.o(.rodata);
         data/ramscript_aurora_ticket.o(.rodata);
         data/ramscript_egg.o(.rodata);
+        src/build_info.o(.rodata);
     } =0
 
     song_data :

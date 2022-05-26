@@ -8089,6 +8089,7 @@ u8 GivePorygon(void)
 void RespawnLegendaries(void)
 {
 	struct Roamer *roamer = &gSaveBlock1Ptr->roamer;
+    u32 roamerSpecies, stationarySpecies;
 
 	FlagClear(FLAG_DEFEATED_MEW);
 	FlagClear(FLAG_DEFEATED_LATIAS_OR_LATIOS);
@@ -8120,13 +8121,45 @@ void RespawnLegendaries(void)
 	}
 	if (VarGet(VAR_ROAMER_POKEMON) >= 6 && FlagGet(FLAG_DEFEATED_ZAPDOS))
 	{
+        switch (roamer->species)
+        {
+            case SPECIES_ARTICUNO:
+                roamerSpecies = 1;
+                break;
+            case SPECIES_ZAPDOS:
+                roamerSpecies = 2;
+                break;
+            case SPECIES_MOLTRES:
+                roamerSpecies = 3;
+                break;
+            case SPECIES_RAIKOU:
+                roamerSpecies = 4;
+                break;
+            case SPECIES_ENTEI:
+                roamerSpecies = 5;
+                break;
+            case SPECIES_SUICUNE:
+                roamerSpecies = 6;
+                break;
+            default:
+                roamerSpecies = 7;
+                break;
+        }
+
+        do
+        {
+            stationarySpecies = (Random() % 6) + 1;
+        } while (stationarySpecies == roamerSpecies);
+
 		FlagClear(FLAG_DEFEATED_ZAPDOS);
-		VarSet(VAR_LEGENDARY_AT_NEW_MAUVILLE, (Random() % 6) + 1);
+		VarSet(VAR_LEGENDARY_AT_NEW_MAUVILLE, stationarySpecies);
 	}
 }
 
 void RespawnAllLegendaries(void)
 {
+	struct Roamer *roamer = &gSaveBlock1Ptr->roamer;
+
 	if (GetGameStat(GAME_STAT_ENTERED_HOF) % 10 == 9)
 	{
 		FlagClear(FLAG_DEFEATED_MEW);
@@ -8150,11 +8183,11 @@ void RespawnAllLegendaries(void)
 		
 		FlagClear(FLAG_HIDDEN_ITEM_NAVEL_ROCK_TOP_SACRED_ASH);
 		
-		if (FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS))
+		if (FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS) && VarGet(VAR_ROAMER_POKEMON) >= 4)
 		{
-			if (FlagGet(FLAG_ROAMER_QUEST))
+			if (FlagGet(FLAG_ROAMER_QUEST) && roamer->species != SPECIES_LATIAS)
 				FlagClear(FLAG_ROAMER_QUEST);
-			else
+			else if (!FlagGet(FLAG_ROAMER_QUEST) && roamer->species != SPECIES_LATIOS)
 				FlagSet(FLAG_ROAMER_QUEST);
 			FlagClear(FLAG_CAUGHT_LATIAS_OR_LATIOS);
 		}

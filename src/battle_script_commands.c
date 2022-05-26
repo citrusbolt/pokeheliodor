@@ -3351,9 +3351,7 @@ static void Cmd_getexp(void)
 
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
-                *exp = SAFE_DIV(calculatedExp / 2, viaSentIn);
-                if (*exp == 0)
-                    *exp = 1;
+                *exp = calculatedExp;
 
                 // gExpShareExp = calculatedExp / 2 / viaExpShare;
 				viaExpShare = gSaveBlock1Ptr->playerPartyCount;

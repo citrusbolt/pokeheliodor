@@ -42,7 +42,7 @@ MAKER_CODE  := 01
 REVISION    := 0
 MODERN      ?= 0
 
-ifeq (modern,$(MAKECMDGOALS))
+ifneq ($(filter modern, $(MAKECMDGOALS)),)
   MODERN := 1
 endif
 
@@ -66,12 +66,14 @@ endif
 ROM_NAME := heliodor.gba
 ELF_NAME := $(ROM_NAME:.gba=.elf)
 MAP_NAME := $(ROM_NAME:.gba=.map)
-OBJ_DIR_NAME := build/emerald
+PATCH_NAME := $(ROM_NAME:.gba=.bps)
+OBJ_DIR_NAME := build/heliodor
 
 MODERN_ROM_NAME := $(ROM_NAME:.gba=_modern.gba)
 MODERN_ELF_NAME := $(MODERN_ROM_NAME:.gba=.elf)
 MODERN_MAP_NAME := $(MODERN_ROM_NAME:.gba=.map)
-MODERN_OBJ_DIR_NAME := build/modern
+MODERN_PATCH_NAME := $(MODERN_ROM_NAME:.gba=.bps)
+MODERN_OBJ_DIR_NAME := build/heliodor_modern
 
 SHELL := /bin/bash -o pipefail
 
@@ -98,6 +100,16 @@ MID_BUILDDIR = $(OBJ_DIR)/$(MID_SUBDIR)
 
 ASFLAGS := -mcpu=arm7tdmi --defsym MODERN=$(MODERN)
 
+GIT_URL := $(shell git remote get-url origin)
+BUILD_REPO_BRANCH := \"$(GIT_URL:https://github.com/%=%)/$(shell git branch --show-current)\"
+BUILD_VERSION := \"$(shell git describe --tags --abbrev=7)\"
+BUILD_TIME := \"$(shell date -u +%Y.%m.%d-%H:%M)\"
+BUILD_DIRTY := $(shell if [ -n "$$(git status --porcelain)" ]; then \
+		echo "TRUE"; \
+	else \
+		echo "FALSE"; \
+	fi)
+
 ifeq ($(MODERN),0)
 CC1             := tools/agbcc/bin/agbcc$(EXE)
 override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm -g
@@ -114,7 +126,7 @@ LIBPATH := -L "$(dir $(shell $(PATH_MODERNCC) -mthumb -print-file-name=libgcc.a)
 LIB := $(LIBPATH) -lc -lnosys -lgcc -L../../libagbsyscall -lagbsyscall
 endif
 
-CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN)
+CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DBUILD_REPO_BRANCH=$(BUILD_REPO_BRANCH) -DBUILD_VERSION=$(BUILD_VERSION) -DBUILD_TIME=$(BUILD_TIME) -DBUILD_DIRTY=$(BUILD_DIRTY)
 ifneq ($(MODERN),1)
 CPPFLAGS += -I tools/agbcc/include -I tools/agbcc -nostdinc -undef
 endif
@@ -150,7 +162,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern
+.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -158,7 +170,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom compare modern libagbsyscall syms,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom compare modern libagbsyscall syms emerald patch,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -170,7 +182,7 @@ ifeq (,$(MAKECMDGOALS))
 else
   # clean, tidy, tools, mostlyclean, clean-tools, $(TOOLDIRS), tidymodern, tidynonmodern don't even build the ROM
   # libagbsyscall does its own thing
-  ifeq (,$(filter-out clean tidy tools mostlyclean clean-tools $(TOOLDIRS) tidymodern tidynonmodern libagbsyscall,$(MAKECMDGOALS)))
+  ifeq (,$(filter-out clean tidy tools mostlyclean clean-tools $(TOOLDIRS) tidymodern tidynonmodern libagbsyscall clean-emerald,$(MAKECMDGOALS)))
     SCAN_DEPS ?= 0
   else
     SCAN_DEPS ?= 1
@@ -214,12 +226,18 @@ AUTO_GEN_TARGETS :=
 
 all: rom
 
-tools: $(TOOLDIRS)
+tools: $(TOOLDIRS) tools/agbcc
 
 syms: $(SYM)
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
+
+tools/agbcc: subrepos/agbcc/agbcc
+	cd subrepos/agbcc; ./install.sh ../..
+
+subrepos/agbcc/agbcc:
+	cd subrepos/agbcc; ./build.sh
 
 rom: $(ROM)
 ifeq ($(COMPARE),1)
@@ -229,10 +247,18 @@ endif
 # For contributors to make sure a change didn't affect the contents of the ROM.
 compare: all
 
-clean: mostlyclean clean-tools
+clean: mostlyclean clean-tools clean-emerald
 
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
+	rm -rf tools/agbcc
+	rm -f subrepos/agbcc/agbcc
+	rm -f subrepos/agbcc/old_agbcc
+	rm -f subrepos/agbcc/agbcc_arm
+	rm -f subrepos/agbcc/libgcc.a
+	rm -f subrepos/agbcc/libc.a
+	rm -rf subrepos/flips/obj
+	rm -f subrepos/flips/flips
 
 mostlyclean: tidynonmodern tidymodern
 	rm -f $(SAMPLE_SUBDIR)/*.bin
@@ -245,6 +271,10 @@ mostlyclean: tidynonmodern tidymodern
 	rm -f $(AUTO_GEN_TARGETS)
 	@$(MAKE) clean -C libagbsyscall
 
+clean-emerald:
+	@$(MAKE) clean -C subrepos/pokeemerald
+	rm -f pokeemerald.gba
+
 tidy: tidynonmodern tidymodern
 
 tidynonmodern:
@@ -254,6 +284,16 @@ tidynonmodern:
 tidymodern:
 	rm -f $(MODERN_ROM_NAME) $(MODERN_ELF_NAME) $(MODERN_MAP_NAME)
 	rm -rf $(MODERN_OBJ_DIR_NAME)
+
+emerald: subrepos/pokeemerald/tools/agbcc
+	@$(MAKE) -C subrepos/pokeemerald
+	cp subrepos/pokeemerald/pokeemerald.gba ./
+
+subrepos/pokeemerald/tools/agbcc: subrepos/agbcc/agbcc
+	cd subrepos/agbcc; ./install.sh ../pokeemerald
+
+subrepos/flips/flips:
+	cd subrepos/flips; ./make.sh
 	
 ifneq ($(MODERN),0)
 $(C_BUILDDIR)/berry_crush.o: override CFLAGS += -Wno-address-of-packed-member
@@ -322,7 +362,7 @@ else
 endif
 else
 define C_DEP
-$1: $2 $$(shell $(SCANINC) -I include -I tools/agbcc/include -I gflib $2)
+$1: $2 $$(shell touch $(C_SUBDIR)/data/text/build_info.h; $(SCANINC) -I include -I tools/agbcc/include -I gflib $2)
 ifeq (,$$(KEEP_TEMPS))
 	@echo "$$(CC1) <flags> -o $$@ $$<"
 	@$$(CPP) $$(CPPFLAGS) $$< | $$(PREPROC) $$< charmap.txt -i | $$(CC1) $$(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $$(AS) $$(ASFLAGS) -o $$@ -
@@ -426,6 +466,13 @@ $(ROM): $(ELF)
 	$(FIX) $@ -p --silent
 
 modern: all
+
+patch: all emerald subrepos/flips/flips
+ifeq ($(MODERN),0)
+	subrepos/flips/flips --manifest=patch.xml pokeemerald.gba $(ROM_NAME) $(PATCH_NAME)
+else
+	subrepos/flips/flips --manifest=patch.xml pokeemerald.gba $(MODERN_ROM_NAME) $(MODERN_PATCH_NAME)
+endif
 
 libagbsyscall:
 	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)
