@@ -140,7 +140,7 @@ gTileset_EverGrande::
 	.4byte gMetatiles_EverGrande
 	.4byte gMetatileAttributes_EverGrande
 	.4byte InitTilesetAnim_EverGrande
-	.4byte NULL @ palette overrides
+	.4byte gTilesetPalOverrides_EverGrande
 
 	.align 2
 gTileset_Pacifidlog::
