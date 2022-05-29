@@ -128,7 +128,7 @@ gTileset_Mossdeep::
 	.4byte gMetatiles_Mossdeep
 	.4byte gMetatileAttributes_Mossdeep
 	.4byte InitTilesetAnim_Mossdeep
-	.4byte NULL @ palette overrides
+	.4byte gTilesetPalOverrides_EverGrande
 
 	.align 2
 gTileset_EverGrande::
@@ -668,7 +668,7 @@ gTileset_MossdeepGym::
 	.4byte gMetatiles_MossdeepGym
 	.4byte gMetatileAttributes_MossdeepGym
 	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
+	.4byte NULL
 
 	.align 2
 gTileset_InsideShip::
