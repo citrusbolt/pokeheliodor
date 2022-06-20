@@ -289,6 +289,7 @@ Text_FailSweetScent:
 	.string "Looks like there's nothing here…$"
 
 EventScript_Headbutt::
+    end
 	lockall
 	@specialvar VAR_RESULT, IsTreeInhabited
 	@compare VAR_RESULT, FALSE

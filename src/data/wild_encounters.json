@@ -11,31 +11,25 @@
           ]
         },
         {
-          "type": "land_mons_morning",
+          "type": "land_mons_ruby",
           "encounter_rates": [
             20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
           ]
         },
         {
-          "type": "land_mons_night",
+          "type": "land_mons_sapphire",
           "encounter_rates": [
             20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
           ]
         },
         {
-          "type": "land_mons_nat",
+          "type": "land_mons_firered",
           "encounter_rates": [
             20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
           ]
         },
         {
-          "type": "land_mons_nat_morning",
-          "encounter_rates": [
-            20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
-          ]
-        },
-        {
-          "type": "land_mons_nat_night",
+          "type": "land_mons_leafgreen",
           "encounter_rates": [
             20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1
           ]
@@ -47,31 +41,25 @@
           ]
         },
         {
-          "type": "water_mons_morning",
+          "type": "water_mons_ruby",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "water_mons_night",
+          "type": "water_mons_sapphire",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "water_mons_nat",
+          "type": "water_mons_firered",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "water_mons_nat_morning",
-          "encounter_rates": [
-            60, 30, 5, 4, 1
-          ]
-        },
-        {
-          "type": "water_mons_nat_night",
+          "type": "water_mons_leafgreen",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
@@ -83,31 +71,25 @@
           ]
         },
         {
-          "type": "rock_smash_mons_morning",
+          "type": "rock_smash_mons_ruby",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "rock_smash_mons_night",
+          "type": "rock_smash_mons_sapphire",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "rock_smash_mons_nat",
+          "type": "rock_smash_mons_firered",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "rock_smash_mons_nat_morning",
-          "encounter_rates": [
-            60, 30, 5, 4, 1
-          ]
-        },
-        {
-          "type": "rock_smash_mons_nat_night",
+          "type": "rock_smash_mons_leafgreen",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
@@ -124,7 +106,7 @@
           }
         },
         {
-          "type": "fishing_mons_morning",
+          "type": "fishing_mons_ruby",
           "encounter_rates": [
             70, 30, 60, 20, 20, 40, 40, 15, 4, 1
           ],
@@ -135,7 +117,7 @@
           }
         },
         {
-          "type": "fishing_mons_night",
+          "type": "fishing_mons_sapphire",
           "encounter_rates": [
             70, 30, 60, 20, 20, 40, 40, 15, 4, 1
           ],
@@ -146,7 +128,7 @@
           }
         },
         {
-          "type": "fishing_mons_nat",
+          "type": "fishing_mons_firered",
           "encounter_rates": [
             70, 30, 60, 20, 20, 40, 40, 15, 4, 1
           ],
@@ -157,18 +139,7 @@
           }
         },
         {
-          "type": "fishing_mons_nat_morning",
-          "encounter_rates": [
-            70, 30, 60, 20, 20, 40, 40, 15, 4, 1
-          ],
-          "groups": {
-            "old_rod": [0, 1],
-            "good_rod": [2, 3, 4],
-            "super_rod": [5, 6, 7, 8, 9]
-          }
-        },
-        {
-          "type": "fishing_mons_nat_night",
+          "type": "fishing_mons_leafgreen",
           "encounter_rates": [
             70, 30, 60, 20, 20, 40, 40, 15, 4, 1
           ],
@@ -185,31 +156,25 @@
           ]
         },
         {
-          "type": "puddle_mons_morning",
+          "type": "puddle_mons_ruby",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "puddle_mons_night",
+          "type": "puddle_mons_sapphire",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "puddle_mons_nat",
+          "type": "puddle_mons_firered",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
         },
         {
-          "type": "puddle_mons_nat_morning",
-          "encounter_rates": [
-            60, 30, 5, 4, 1
-          ]
-        },
-        {
-          "type": "puddle_mons_nat_night",
+          "type": "puddle_mons_leafgreen",
           "encounter_rates": [
             60, 30, 5, 4, 1
           ]
@@ -284,7 +249,7 @@
               }
             ]
           },
-		  "land_mons_nat": {
+		  "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -418,7 +383,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -513,7 +478,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -598,7 +563,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -722,7 +687,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -872,7 +837,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -996,7 +961,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -1146,7 +1111,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -1235,7 +1200,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -1320,7 +1285,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -1444,7 +1409,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -1594,7 +1559,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -1718,7 +1683,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -1813,7 +1778,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -1928,7 +1893,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -2052,7 +2017,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -2186,7 +2151,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -2320,7 +2285,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -2415,7 +2380,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -2530,7 +2495,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -2654,7 +2619,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -2788,7 +2753,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -2883,7 +2848,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -2968,7 +2933,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -3092,7 +3057,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -3242,7 +3207,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -3386,7 +3351,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -3510,7 +3475,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -3851,7 +3816,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -3985,7 +3950,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -4119,7 +4084,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 25,
             "mons": [
               {
@@ -4252,7 +4217,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -4337,7 +4302,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -4461,7 +4426,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -4625,7 +4590,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -4759,7 +4724,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -4909,7 +4874,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -5033,7 +4998,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -5132,7 +5097,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -5217,7 +5182,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -5306,7 +5271,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -5391,7 +5356,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -5480,7 +5445,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -5565,7 +5530,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -5654,7 +5619,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -5739,7 +5704,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -5863,7 +5828,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -6013,7 +5978,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -6206,7 +6171,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 15,
             "mons": [
               {
@@ -6356,7 +6321,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -6441,7 +6406,7 @@
               }
             ]
           },
-          "puddle_mons_nat": {
+          "puddle_mons_firered": {
             "encounter_rate": 15,
             "mons": [
               {
@@ -6540,7 +6505,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -6690,7 +6655,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -6775,7 +6740,7 @@
               }
             ]
           },
-          "puddle_mons_nat": {
+          "puddle_mons_firered": {
             "encounter_rate": 15,
             "mons": [
               {
@@ -6874,7 +6839,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -7024,7 +6989,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -7168,7 +7133,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -7377,7 +7342,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -7501,7 +7466,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -7635,7 +7600,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -7769,7 +7734,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -7903,7 +7868,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -8171,7 +8136,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -8374,7 +8339,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -8473,7 +8438,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -8558,7 +8523,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -8702,7 +8667,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -8846,7 +8811,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -8990,7 +8955,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -9258,7 +9223,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -9408,7 +9373,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -9552,7 +9517,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -9696,7 +9661,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -9840,7 +9805,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -9984,7 +9949,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -10073,7 +10038,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -10158,7 +10123,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 20,
             "mons": [
               {
@@ -11438,7 +11403,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -11572,7 +11537,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 25,
             "mons": [
               {
@@ -11667,7 +11632,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 9,
             "mons": [
               {
@@ -11752,7 +11717,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 35,
             "mons": [
               {
@@ -11876,7 +11841,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 25,
             "mons": [
               {
@@ -12040,7 +12005,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 25,
             "mons": [
               {
@@ -12259,7 +12224,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -12423,7 +12388,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -12573,7 +12538,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -12697,7 +12662,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -12847,7 +12812,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -12971,7 +12936,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -13121,7 +13086,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -13245,7 +13210,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -13395,7 +13360,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 30,
             "mons": [
               {
@@ -13519,7 +13484,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -13653,7 +13618,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -13787,7 +13752,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -14006,7 +13971,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -14101,7 +14066,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 4,
             "mons": [
               {
@@ -14275,7 +14240,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -14419,7 +14384,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -14563,7 +14528,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -14707,7 +14672,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -14851,7 +14816,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -14995,7 +14960,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -15139,7 +15104,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -15297,7 +15262,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -15465,7 +15430,7 @@
               }
             ]
           },
-          "water_mons_nat": {
+          "water_mons_firered": {
             "encounter_rate": 1,
             "mons": [
               {
@@ -15550,7 +15515,7 @@
               }
             ]
           },
-          "fishing_mons_nat": {
+          "fishing_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -15812,7 +15777,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 25,
             "mons": [
               {
@@ -16889,7 +16854,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {
@@ -17851,7 +17816,7 @@
               }
             ]
           },
-          "land_mons_nat": {
+          "land_mons_firered": {
             "encounter_rate": 10,
             "mons": [
               {

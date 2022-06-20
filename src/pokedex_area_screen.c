@@ -389,72 +389,72 @@ static bool8 MapHasSpecies(const struct WildPokemonHeader *info, u16 species)
 	
 	if (IsNationalPokedexEnabled())
 	{
-		if (info->landMonsNatInfo != NULL)
+		if (info->landMonsInfo != NULL)
 		{
-			if (MonListHasSpecies(info->landMonsNatInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsNatMorningInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsNatNightInfo, species, LAND_WILD_COUNT))
+			if (MonListHasSpecies(info->landMonsInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsRubyInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsSapphireInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsFireRedInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsLeafGreenInfo, species, LAND_WILD_COUNT))
 				return TRUE;
 		}
 		else
 		{
-			if (MonListHasSpecies(info->landMonsInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsMorningInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsNightInfo, species, LAND_WILD_COUNT))
+			if (MonListHasSpecies(info->landMonsInfo, species, LAND_WILD_COUNT))
 				return TRUE;
 		}
 
-		if (info->waterMonsNatInfo != NULL)
+		if (info->waterMonsInfo != NULL)
 		{
-			if (MonListHasSpecies(info->waterMonsNatInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsNatMorningInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsNatNightInfo, species, WATER_WILD_COUNT))
+			if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsRubyInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsSapphireInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsFireRedInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsLeafGreenInfo, species, WATER_WILD_COUNT))
 				return TRUE;
 		}
 		else
 		{
-			if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsMorningInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsNightInfo, species, WATER_WILD_COUNT))
+			if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT))
 				return TRUE;
 		}
 
-		if (info->fishingMonsNatInfo != NULL)
+		if (info->fishingMonsInfo != NULL)
 		{
-			if (MonListHasSpecies(info->fishingMonsNatInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsNatMorningInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsNatNightInfo, species, FISH_WILD_COUNT))
+			if (MonListHasSpecies(info->fishingMonsInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsRubyInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsSapphireInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsFireRedInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsLeafGreenInfo, species, FISH_WILD_COUNT))
 				return TRUE;
 		}
 		else
 		{
-			if (MonListHasSpecies(info->fishingMonsInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsMorningInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsNightInfo, species, FISH_WILD_COUNT))
+			if (MonListHasSpecies(info->fishingMonsInfo, species, FISH_WILD_COUNT))
 				return TRUE;
 		}
 
-		if (info->rockSmashMonsNatInfo != NULL)
+		if (info->rockSmashMonsInfo != NULL)
 		{
-			if (MonListHasSpecies(info->rockSmashMonsNatInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsNatMorningInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsNatNightInfo, species, ROCK_WILD_COUNT))
+			if (MonListHasSpecies(info->rockSmashMonsInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsRubyInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsSapphireInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsFireRedInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsLeafGreenInfo, species, ROCK_WILD_COUNT))
 				return TRUE;
 		}
 		else
 		{
-			if (MonListHasSpecies(info->rockSmashMonsInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsMorningInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsNightInfo, species, ROCK_WILD_COUNT))
+			if (MonListHasSpecies(info->rockSmashMonsInfo, species, ROCK_WILD_COUNT))
 				return TRUE;
 		}
 
-		if (info->puddleMonsNatInfo != NULL)
+		if (info->puddleMonsInfo != NULL)
 		{
-			if (MonListHasSpecies(info->puddleMonsNatInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsNatMorningInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsNatNightInfo, species, WATER_WILD_COUNT))
+			if (MonListHasSpecies(info->puddleMonsInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsRubyInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsSapphireInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsFireRedInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsLeafGreenInfo, species, WATER_WILD_COUNT))
 				return TRUE;
 		}
 		else
 		{
-			if (MonListHasSpecies(info->puddleMonsInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsMorningInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsNightInfo, species, WATER_WILD_COUNT))
+			if (MonListHasSpecies(info->puddleMonsInfo, species, WATER_WILD_COUNT))
 				return TRUE;
 		}
 	}
 	else
 	{
-		if (MonListHasSpecies(info->landMonsInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsMorningInfo, species, LAND_WILD_COUNT) || MonListHasSpecies(info->landMonsNightInfo, species, LAND_WILD_COUNT))
+		if (MonListHasSpecies(info->landMonsInfo, species, LAND_WILD_COUNT))
 			return TRUE;
-		if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsMorningInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->waterMonsNightInfo, species, WATER_WILD_COUNT))
+		if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT))
 			return TRUE;
-		if (MonListHasSpecies(info->fishingMonsInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsMorningInfo, species, FISH_WILD_COUNT) || MonListHasSpecies(info->fishingMonsNightInfo, species, FISH_WILD_COUNT))
+		if (MonListHasSpecies(info->fishingMonsInfo, species, FISH_WILD_COUNT))
 			return TRUE;
-		if (MonListHasSpecies(info->rockSmashMonsInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsMorningInfo, species, ROCK_WILD_COUNT) || MonListHasSpecies(info->rockSmashMonsNightInfo, species, ROCK_WILD_COUNT))
+		if (MonListHasSpecies(info->rockSmashMonsInfo, species, ROCK_WILD_COUNT))
 			return TRUE;
-		if (MonListHasSpecies(info->puddleMonsInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsMorningInfo, species, WATER_WILD_COUNT) || MonListHasSpecies(info->puddleMonsNightInfo, species, WATER_WILD_COUNT))
+		if (MonListHasSpecies(info->puddleMonsInfo, species, WATER_WILD_COUNT))
 			return TRUE;
 	}
 	
