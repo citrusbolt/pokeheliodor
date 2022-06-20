@@ -168,7 +168,7 @@ clean-tools:
 
 tidy:
 	rm -f $(ROM) $(ELF) $(MAP)
-	rm -r build/*
+	rm -rf build/*
 	make -C payload tidy
 
 %.s: ;
