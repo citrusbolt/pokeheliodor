@@ -31,6 +31,7 @@
 #include "fldeff.h"
 #include "constants/battle.h"
 #include "battle.h"
+#include "mgba.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -1020,6 +1021,10 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                         gEnemyParty[1] = mon1;
                         BattleSetup_StartWildDoubleBattle();
                     }
+                    else
+                    {
+                        BattleSetup_StartWildBattle();
+                    }
                 }
                 else
                 {
@@ -1169,6 +1174,10 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                             IncrementGameStat(GAME_STAT_SHINIES_FOUND);
                         gEnemyParty[1] = mon1;
                         BattleSetup_StartWildDoubleBattle();
+                    }
+                    else
+                    {
+                        BattleSetup_StartWildBattle();
                     }
                 }
                 else
