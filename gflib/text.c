@@ -580,10 +580,10 @@ static u8 GetLastTextColor(u8 colorType)
     }
 }
 
-inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s64 i, u32 *glyphPixels, s32 width, s32 height)
+inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s32 i, u32 *glyphPixels, s32 width, s32 height)
 {
     u32 xAdd, pixelData, bits, toOrr, dummyX, dummyY;
-	s64 yAdd;
+	s32 yAdd;
     u8 *dst;
 
     xAdd = j + width;
@@ -619,7 +619,7 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
     struct WindowTemplate *template;
     u32 *glyphPixels;
     u32 currX, widthOffset;
-    s64 currY, glyphWidth, glyphHeight;
+    s32 currY, glyphWidth, glyphHeight;
     u8 *windowTiles;
 
     window = &gWindows[textPrinter->printerTemplate.windowId];
