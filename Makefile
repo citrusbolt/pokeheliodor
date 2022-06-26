@@ -170,7 +170,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom compare modern libagbsyscall syms emerald patch,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom compare modern libagbsyscall syms emerald data/mb_berry_fix.gba patch,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -182,7 +182,7 @@ ifeq (,$(MAKECMDGOALS))
 else
   # clean, tidy, tools, mostlyclean, clean-tools, $(TOOLDIRS), tidymodern, tidynonmodern don't even build the ROM
   # libagbsyscall does its own thing
-  ifeq (,$(filter-out clean tidy tools mostlyclean clean-tools $(TOOLDIRS) tidymodern tidynonmodern libagbsyscall clean-emerald,$(MAKECMDGOALS)))
+  ifeq (,$(filter-out clean tidy tools mostlyclean clean-tools $(TOOLDIRS) tidymodern tidynonmodern libagbsyscall clean-emerald clean-berry-fix,$(MAKECMDGOALS)))
     SCAN_DEPS ?= 0
   else
     SCAN_DEPS ?= 1
@@ -224,7 +224,7 @@ endif
 
 AUTO_GEN_TARGETS :=
 
-all: rom
+all: rom data/mb_berry_fix.gba
 
 tools: $(TOOLDIRS) tools/agbcc
 
@@ -247,10 +247,13 @@ endif
 # For contributors to make sure a change didn't affect the contents of the ROM.
 compare: all
 
-clean: mostlyclean clean-tools clean-emerald
+clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
+	@$(MAKE) -C subrepos/agbcc/gcc clean
+	@$(MAKE) -C subrepos/agbcc/libgcc clean
+	@$(MAKE) -C subrepos/agbcc/libc clean
 	rm -rf tools/agbcc
 	rm -f subrepos/agbcc/agbcc
 	rm -f subrepos/agbcc/old_agbcc
@@ -274,6 +277,12 @@ mostlyclean: tidynonmodern tidymodern
 clean-emerald:
 	@$(MAKE) clean -C subrepos/pokeemerald
 	rm -f pokeemerald.gba
+	rm -rf subrepos/pokeemerald/tools/agbcc
+
+clean-berry-fix:
+	@$(MAKE) clean -C subrepos/berry-fix
+	rm -f data/mb_berry_fix.gba
+	rm -rf subrepos/berry-fix/tools/agbcc
 
 tidy: tidynonmodern tidymodern
 
@@ -291,6 +300,13 @@ emerald: subrepos/pokeemerald/tools/agbcc
 
 subrepos/pokeemerald/tools/agbcc: subrepos/agbcc/agbcc
 	cd subrepos/agbcc; ./install.sh ../pokeemerald
+
+data/mb_berry_fix.gba: subrepos/berry-fix/tools/agbcc
+	@$(MAKE) -C subrepos/berry-fix
+	cp subrepos/berry-fix/berry_fix.gba data/mb_berry_fix.gba
+
+subrepos/berry-fix/tools/agbcc: subrepos/agbcc/agbcc
+	cd subrepos/agbcc; ./install.sh ../berry-fix
 
 subrepos/flips/flips:
 	cd subrepos/flips; ./make.sh
