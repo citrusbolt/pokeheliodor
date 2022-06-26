@@ -251,6 +251,9 @@ clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
+	@$(MAKE) -C subrepos/agbcc/gcc clean
+	@$(MAKE) -C subrepos/agbcc/libgcc clean
+	@$(MAKE) -C subrepos/agbcc/libc clean
 	rm -rf tools/agbcc
 	rm -f subrepos/agbcc/agbcc
 	rm -f subrepos/agbcc/old_agbcc
@@ -274,10 +277,12 @@ mostlyclean: tidynonmodern tidymodern
 clean-emerald:
 	@$(MAKE) clean -C subrepos/pokeemerald
 	rm -f pokeemerald.gba
+	rm -rf subrepos/pokeemerald/tools/agbcc
 
 clean-berry-fix:
 	@$(MAKE) clean -C subrepos/berry-fix
 	rm -f data/mb_berry_fix.gba
+	rm -rf subrepos/berry-fix/tools/agbcc
 
 tidy: tidynonmodern tidymodern
 
