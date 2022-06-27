@@ -81,8 +81,8 @@ static const char sVersionData[][2] = {
     {'I', 1},
     {'S', 1}
 };
-static const char sRubyTitleAndCode[ROM_GAME_TITLE_LEN] = "POKEMON RUBYAXV";
-static const char sSapphireTitleAndCode[ROM_GAME_TITLE_LEN] = "POKEMON SAPPAXP";
+static const char sFireRedTitleAndCode[ROM_GAME_TITLE_LEN] = "POKEMON FIREBPR";
+static const char sLeafGreenTitleAndCode[ROM_GAME_TITLE_LEN] = "POKEMON LEAFBPG";
 static const u16 sDebugPals[20] = {
     RGB_BLACK,
     RGB_RED,
@@ -149,28 +149,28 @@ static s32 ValidateGameVersion(void)
 {
     char languageCode = RomHeaderGameCode[3];
     s32 softwareVersion = *RomHeaderSoftwareVersion;
-    s32 shouldUpdate = -1;
+    s32 shouldUpdate = TRUE;
     s32 i;
 
     // Check rom header data to see if games of this
     // language and revision need the berry fix.
-    for (i = 0; i < ARRAY_COUNT(sVersionData); i++)
-    {
-        if (languageCode == sVersionData[i][0])
-        {
-            if (softwareVersion >= sVersionData[i][1])
-                shouldUpdate = FALSE;
-            else
-                shouldUpdate = TRUE;
-            break;
-        }
-    }
+    //for (i = 0; i < ARRAY_COUNT(sVersionData); i++)
+    //{
+    //    if (languageCode == sVersionData[i][0])
+    //    {
+    //        if (softwareVersion >= sVersionData[i][1])
+    //            shouldUpdate = FALSE;
+    //        else
+    //            shouldUpdate = TRUE;
+    //        break;
+    //    }
+    //}
     if (shouldUpdate != -1)
     {
         // A valid language/revision was found, check game title
         // and code to see if it's Ruby or Sapphire
 
-        if (CheckSameString(RomHeaderGameTitle, sRubyTitleAndCode, ROM_GAME_TITLE_LEN) == TRUE)
+        if (CheckSameString(RomHeaderGameTitle, sFireRedTitleAndCode, ROM_GAME_TITLE_LEN) == TRUE)
         {
             if (shouldUpdate == FALSE)
             {
@@ -178,11 +178,11 @@ static s32 ValidateGameVersion(void)
             }
             else
             {
-                gGameVersion = VERSION_RUBY;
+                gGameVersion = VERSION_FIRERED;
                 return UPDATE_RUBY;
             }
         }
-        else if (CheckSameString(RomHeaderGameTitle, sSapphireTitleAndCode, ROM_GAME_TITLE_LEN) == TRUE)
+        else if (CheckSameString(RomHeaderGameTitle, sLeafGreenTitleAndCode, ROM_GAME_TITLE_LEN) == TRUE)
         {
             if (shouldUpdate == FALSE)
             {
@@ -190,7 +190,7 @@ static s32 ValidateGameVersion(void)
             }
             else
             {
-                gGameVersion = VERSION_SAPPHIRE;
+                gGameVersion = VERSION_LEAFGREEN;
                 return UPDATE_SAPPHIRE;
             }
         }
@@ -204,6 +204,15 @@ static s32 ValidateRomHeader(void)
         return ValidateGameVersion();
     else
         return INVALID;
+}
+
+static void TestPatch(void)
+{
+    gSaveBlock2.playerName[0] = 0xCE;
+    gSaveBlock2.playerName[1] = 0xBF;
+    gSaveBlock2.playerName[2] = 0xCD;
+    gSaveBlock2.playerName[3] = 0xCE;
+    gSaveBlock2.playerName[4] = 0xFF;
 }
 
 static void BerryFix(u32 * state, void * unused1, void * unused2)
@@ -235,9 +244,9 @@ static void BerryFix(u32 * state, void * unused1, void * unused2)
         }
         break;
     case STATE_CHECK_RTC:
-        if (!BerryFix_TryInitRtc())
-            *state = STATE_ERROR;
-        else
+        //if (!BerryFix_TryInitRtc())
+        //    *state = STATE_ERROR;
+        //else
             ++(*state); // STATE_CHECK_FLASH
         break;
     case STATE_CHECK_FLASH:
@@ -253,25 +262,35 @@ static void BerryFix(u32 * state, void * unused1, void * unused2)
             *state = STATE_ERROR;
         break;
     case STATE_CHECK_TIME:
-        if (BerryFix_CalcTimeDifference(&year) == TRUE)
+        TestPatch();
+        if (BerryFix_TrySave(SAVE_NORMAL) == SAVE_STATUS_OK)
         {
-            // Time difference is okay, only fix the date if
-            // the Berry Glitch hasn't happened yet (if year is 2000)
-            if (year == 0)
-                ++(*state); // STATE_FIX_DATE
-            else
-                *state = STATE_CHECK_PACIFIDLOG_TM;
+            gUpdateSuccessful |= 1;
+            *state = STATE_FINISHED;
         }
         else
         {
-            // Time difference is incorrect, if the year is 2001
-            // then the Berry Glitch is occurring. If the year is
-            // not 2001 then some error has occurred.
-            if (year != 1)
-                *state = STATE_ERROR_YEAR;
-            else
-                ++(*state); // STATE_FIX_DATE
+            *state = STATE_ERROR;
         }
+       //if (BerryFix_CalcTimeDifference(&year) == TRUE)
+       //{
+       //    // Time difference is okay, only fix the date if
+       //    // the Berry Glitch hasn't happened yet (if year is 2000)
+       //    if (year == 0)
+       //        ++(*state); // STATE_FIX_DATE
+       //    else
+       //        *state = STATE_CHECK_PACIFIDLOG_TM;
+       //}
+       //else
+       //{
+       //    // Time difference is incorrect, if the year is 2001
+       //    // then the Berry Glitch is occurring. If the year is
+       //    // not 2001 then some error has occurred.
+       //    if (year != 1)
+       //        *state = STATE_ERROR_YEAR;
+       //    else
+       //        ++(*state); // STATE_FIX_DATE
+       //}
         break;
     case STATE_FIX_DATE:
         // Set the clock forward to fix the Berry Glitch

@@ -77,13 +77,17 @@ struct SaveBlock1
 {
     u8 dummy_0[0x30D0];
     struct Roamer roamer;
+    u16 vars[VARS_COUNT];
     u8 dummy_1[0xC7C];
 };
 extern struct SaveBlock1 gSaveBlock1;
 
 struct SaveBlock2
 {
+    u8 playerName[8];
     u8 dummy_0[0xF24];
+    struct Time localTimeOffset;
+    struct Time lastBerryTreeUpdate;
 };
 extern struct SaveBlock2 gSaveBlock2;
 
