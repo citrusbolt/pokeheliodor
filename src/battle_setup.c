@@ -730,7 +730,7 @@ static u8 GetBattleTransitionTypeByMap(void)
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     if (GetFlashLevel())
         return TRANSITION_TYPE_FLASH;
-    if (!MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+    if (!MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior) && !(TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridgeOverWater(tileBehavior) == TRUE))
     {
         switch (gMapHeader.mapType)
         {
