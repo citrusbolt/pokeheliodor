@@ -88,11 +88,11 @@ gTilesetPalOverrides_EverGrande::
 	.align 2
 
 gTilesetPalOverrides_BattleFrontierOutsideWest::
-	.byte 5            @ palette index
+	.byte 10            @ palette index
 	.byte HOUR_NIGHT    @ start hour (inclusive)
 	.byte HOUR_MORNING  @ end hour (exclusive)
 	.byte 0             @ padding
-	.4byte gTilesetPalOverride_BattleFrontierOutsideWest05
+	.4byte gTilesetPalOverride_BattleFrontierOutsideWest10
 
 	.byte 0xFF
 	.byte 0
