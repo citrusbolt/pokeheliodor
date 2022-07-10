@@ -176,7 +176,7 @@ gTileset_BattleFrontierOutsideWest::
 	.4byte gMetatiles_BattleFrontierOutsideWest
 	.4byte gMetatileAttributes_BattleFrontierOutsideWest
 	.4byte InitTilesetAnim_BattleFrontierOutsideWest
-	.4byte NULL @ palette overrides
+	.4byte gTilesetPalOverrides_BattleFrontierOutsideWest
 
 	.align 2
 gTileset_BattleFrontierOutsideEast::

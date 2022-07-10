@@ -1757,3 +1757,7 @@ gTilesetPalOverride_Mauville07::
 .align 2
 gTilesetPalOverride_Slateport10::
 	.incbin "data/tilesets/secondary/slateport/palettes/10_over.gbapal"
+
+.align 2
+gTilesetPalOverride_BattleFrontierOutsideWest05::
+	.incbin "data/tilesets/secondary/battle_frontier_outside_west/palettes/05_over.gbapal"
