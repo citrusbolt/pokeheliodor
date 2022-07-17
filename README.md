@@ -61,8 +61,7 @@ The highest design priorities are 100% compatibility in terms of:
 * EVs are capped at 252 per stat instead of 255.
   * The cap on EVs able to be earned through vitamins has been removed as well.
 * The battle and summary screens report the correct type and base power for Hidden Power.
-* Synchronize's field effect is 100% effective.
-* If the first member of the party has Lightningrod or Flash Fire as its ability, there is a 50% chance of finding a Electric or Fire-type Pokémon respectively in a wild encounter if an applicable encounter is possible in that area.
+* Many encounter mechanics have been modified.
 * Catching a Pokémon yields experience points.
 * All TMs are purchasable.
 * HM moves can be forgotten without the use of the Move Deleter.
@@ -76,6 +75,10 @@ The highest design priorities are 100% compatibility in terms of:
 * Pokémon have slight differences in coloration that varies with the individual.
 * Eggs are colored based on the Type(s) of the Pokémon inside.
 * A system similar to Pass/O/Rotom Power has been added and can be accessed through the Power Pad, a Key Item found in the Bag by default.
+* The Trainer Card can be customized at a terminal in Pokémon Centers.
+    * When linking with Pokémon Ruby, Sapphire, FireRed, and LeafGreen other player's Trainer Cards are displayed as they are in the player's game.
+* Numerous aspects of the graphical style have been changed.
+* Event tickets can be shared with other players via Mystery Gift and Record Mixing.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
