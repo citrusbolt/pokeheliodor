@@ -308,17 +308,17 @@ void RunTextPrinters(void)
 					bool8 active = sTextPrinters[i].active;
 					if (active)
 					{
-						u16 temp = RenderFont(&sTextPrinters[i]);
-						switch (temp)
+						u16 renderCmd = RenderFont(&sTextPrinters[i]);
+						switch (renderCmd)
 						{
 						case RENDER_PRINT:
 							CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
-							if (sTextPrinters[i].callback != 0)
-								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+							if (sTextPrinters[i].callback != NULL)
+								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
 							break;
 						case RENDER_UPDATE:
-							if (sTextPrinters[i].callback != 0)
-								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+							if (sTextPrinters[i].callback != NULL)
+								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
 							active = FALSE;
 							break;
 						case RENDER_FINISH:
@@ -335,14 +335,14 @@ void RunTextPrinters(void)
 			{
 				if (sTextPrinters[i].active)
 				{
-					u16 temp = RenderFont(&sTextPrinters[i]);
-					switch (temp)
+					u16 renderCmd = RenderFont(&sTextPrinters[i]);
+					switch (renderCmd)
 					{
 					case RENDER_PRINT:
 						CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
 					case RENDER_UPDATE:
-						if (sTextPrinters[i].callback != 0)
-							sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+						if (sTextPrinters[i].callback != NULL)
+							sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
 						break;
 					case RENDER_FINISH:
 						sTextPrinters[i].active = FALSE;

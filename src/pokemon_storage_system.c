@@ -1041,7 +1041,7 @@ static const struct BgTemplate sBgTemplates[] =
     },
 };
 
-static const struct SpritePalette gWaveformSpritePalette =
+static const struct SpritePalette sWaveformSpritePalette =
 {
     sWaveform_Pal, PALTAG_MISC_2
 };
@@ -3845,7 +3845,7 @@ static bool8 InitPokeStorageWindows(void)
 
 static void LoadWaveformSpritePalette(void)
 {
-    LoadSpritePalette(&gWaveformSpritePalette);
+    LoadSpritePalette(&sWaveformSpritePalette);
 }
 
 static void InitPalettesAndSprites(void)
@@ -5434,8 +5434,7 @@ static bool32 WaitForWallpaperGfxLoad(void)
     if (IsDma3ManagerBusyWithBgCopy())
         return FALSE;
 
-    if (sStorage->wallpaperTiles != NULL)
-        FREE_AND_SET_NULL(sStorage->wallpaperTiles);
+    TRY_FREE_AND_SET_NULL(sStorage->wallpaperTiles);
 
     return TRUE;
 }
@@ -8498,11 +8497,11 @@ static void MultiMove_ClearIconFromBg(u8 x, u8 y)
     }
 }
 
-static void MultiMove_InitMove(u16 x, u16 y, u16 arg2)
+static void MultiMove_InitMove(u16 x, u16 y, u16 moveSteps)
 {
     sMultiMove->bgX = x;
     sMultiMove->bgY = y;
-    sMultiMove->bgMoveSteps = arg2;
+    sMultiMove->bgMoveSteps = moveSteps;
 }
 
 static u8 MultiMove_UpdateMove(void)

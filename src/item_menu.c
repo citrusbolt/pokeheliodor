@@ -1485,7 +1485,7 @@ static void SwitchBagPocket(u8 taskId, s16 deltaBagPocketId, bool16 skipEraseLis
     }
     FillBgTilemapBufferRect_Palette0(2, 7, 14, 2, 15, 16);
     ScheduleBgCopyTilemapToVram(2);
-    SetBagVisualPocketId(newPocket, 1);
+    SetBagVisualPocketId(newPocket, TRUE);
     SetTaskFuncWithFollowupFunc(taskId, Task_SwitchBagPocket, gTasks[taskId].func);
 }
 
@@ -1951,7 +1951,7 @@ static void ItemMenu_UseOutOfBattle(u8 taskId)
             if (gBagPosition.pocket != BERRIES_POCKET)
                 ItemId_GetFieldFunc(gSpecialVar_ItemId)(taskId);
             else
-                ItemUseOutOfBattle_BERRY(taskId);
+                ItemUseOutOfBattle_Berry(taskId);
         }
     }
 }
