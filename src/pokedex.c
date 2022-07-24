@@ -4148,7 +4148,12 @@ static void PrintMonHeight(u16 height, u8 left, u8 top)
     u8 buffer[16];
     u32 inches, feet;
     u8 i = 0;
+    int offset;
+    u8 result;
+    offset = 0;
 
+    if (gSaveBlock2Ptr->optionsUnitSystem == 0) // Imperial
+    {
     inches = (height * 10000) / 254;
     if (inches % 10 >= 5)
         inches += 10;
@@ -4174,15 +4179,62 @@ static void PrintMonHeight(u16 height, u8 left, u8 top)
     buffer[i++] = CHAR_DBL_QUOTE_RIGHT;
     buffer[i++] = EOS;
     PrintInfoScreenText(buffer, left, top);
+    }
+    else // Metric
+    {
+        buffer[i++] = EXT_CTRL_CODE_BEGIN;
+        buffer[i++] = EXT_CTRL_CODE_CLEAR_TO;
+        i++;
+        buffer[i++] = CHAR_SPACE;
+        buffer[i++] = CHAR_SPACE;
+        buffer[i++] = CHAR_SPACE;
+        buffer[i++] = CHAR_SPACE;
+        buffer[i++] = CHAR_SPACE;
+
+        result = (height / 1000);
+        if (result == 0)
+        {
+            offset = 6;
+        }
+        else
+        {
+            buffer[i++] = result + CHAR_0;
+        }
+
+        result = (height % 1000) / 100;
+        if (result == 0 && offset != 0)
+        {
+            offset += 6;
+        }
+        else
+        {
+            buffer[i++] = result + CHAR_0;
+        }
+
+        buffer[i++] = (((height % 1000) % 100) / 10) + CHAR_0;
+        buffer[i++] = CHAR_PERIOD;
+        buffer[i++] = (((height % 1000) % 100) % 10) + CHAR_0;
+        buffer[i++] = CHAR_SPACE;
+        buffer[i++] = CHAR_m;
+
+        buffer[i++] = EOS;
+        buffer[2] = offset;
+        PrintInfoScreenText(buffer, left, top);   
+    }
 }
 
 static void PrintMonWeight(u16 weight, u8 left, u8 top)
 {
     u8 buffer[16];
+    u8 buffer_metric[18];
     bool8 output;
-    u8 i;
+    u8 i = 0;
     u32 lbs = (weight * 100000) / 4536;
+    int offset = 0;
+    u8 result;
 
+    if (gSaveBlock2Ptr->optionsUnitSystem == 0) // Imperial
+    {
     if (lbs % 10u >= 5)
         lbs += 10;
     i = 0;
@@ -4232,6 +4284,41 @@ static void PrintMonWeight(u16 weight, u8 left, u8 top)
     buffer[i++] = CHAR_PERIOD;
     buffer[i++] = EOS;
     PrintInfoScreenText(buffer, left, top);
+    }
+    else // Metric
+    {
+        buffer_metric[i++] = EXT_CTRL_CODE_BEGIN;
+        buffer_metric[i++] = EXT_CTRL_CODE_CLEAR_TO;
+        i++;
+        buffer_metric[i++] = CHAR_SPACE;
+        buffer_metric[i++] = CHAR_SPACE;
+        buffer_metric[i++] = CHAR_SPACE;
+        buffer_metric[i++] = CHAR_SPACE;
+        buffer_metric[i++] = CHAR_SPACE;
+
+        result = (weight / 1000);
+        if (result == 0)
+            offset = 6;
+        else
+            buffer_metric[i++] = result + CHAR_0;
+
+        result = (weight % 1000) / 100;
+        if (result == 0 && offset != 0)
+            offset += 6;
+        else
+            buffer_metric[i++] = result + CHAR_0;
+
+        buffer_metric[i++] = (((weight % 1000) % 100) / 10) + CHAR_0;
+        buffer_metric[i++] = CHAR_PERIOD;
+        buffer_metric[i++] = (((weight % 1000) % 100) % 10) + CHAR_0;
+        buffer_metric[i++] = CHAR_SPACE;
+        buffer_metric[i++] = CHAR_k;
+        buffer_metric[i++] = CHAR_g;
+
+        buffer_metric[i++] = EOS;
+        buffer_metric[2] = offset;
+        PrintInfoScreenText(buffer_metric, left, top);
+    }
 }
 
 const u8 *GetPokedexCategoryName(u16 dexNum) // unused

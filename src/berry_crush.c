@@ -2390,8 +2390,8 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
             game->players[i].berryId = gBlockRecvBuffer[i][0];
             if (game->players[i].berryId > LAST_BERRY_INDEX + 1)
                 game->players[i].berryId = 0;
-            game->targetAPresses += gBerryCrush_BERRYData[game->players[i].berryId].difficulty;
-            game->powder += gBerryCrush_BERRYData[game->players[i].berryId].powder;
+            game->targetAPresses += gBerryCrush_BerryData[game->players[i].berryId].difficulty;
+            game->powder += gBerryCrush_BerryData[game->players[i].berryId].powder;
         }
         game->cmdTimer = 0;
         ResetBlockReceivedFlags();
