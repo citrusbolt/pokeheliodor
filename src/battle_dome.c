@@ -4396,7 +4396,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     else
         textPrinter.currentChar = sBattleDomePotentialTexts[trainerTourneyId];
 
-    textPrinter.fontId = FONT_NORMAL;
+    textPrinter.fontId = FONT_OPTION;
     textPrinter.windowId = windowId + 4;
     textPrinter.currentX = 0;
     textPrinter.y = 4;
@@ -4862,7 +4862,7 @@ static void DisplayMatchInfoOnCard(u8 flags, u8 matchNo)
     StringExpandPlaceholders(gStringVar4, sBattleDomeWinTexts[winStringId]);
     textPrinter.currentChar = gStringVar4;
     textPrinter.windowId = windowId + 8;
-    textPrinter.fontId = FONT_NORMAL;
+    textPrinter.fontId = FONT_OPTION;
     PutWindowTilemap(windowId + 8);
     CopyWindowToVram(windowId + 8, COPYWIN_FULL);
     textPrinter.currentX = 0;

@@ -556,7 +556,7 @@ static void Task_TrainerCard(u8 taskId)
     case STATE_WAIT_LINK_PARTNER:
         SetCloseLinkCallback();
         DrawDialogueFrame(0, 1);
-        AddTextPrinterParameterized(0, 1, gText_WaitingTrainerFinishReading, 0, 1, 255, 0);
+        AddTextPrinterParameterized(0, FONT_OPTION, gText_WaitingTrainerFinishReading, 0, 1, 255, 0);
         CopyWindowToVram(0, 3);
         sData->mainState = STATE_CLOSE_CARD_LINK;
         break;
@@ -1187,7 +1187,7 @@ static void PrintNameOnCardFront(void)
 	{
 		x = 20;
 		y = 28;
-		font = FONT_NORMAL;
+		font = FONT_HGSS;
 	}
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
@@ -1238,7 +1238,7 @@ static void PrintIdOnCard(void)
     else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
     {
 		y = 9;
-        font = FONT_NORMAL;
+        font = FONT_HGSS;
         x = GetStringCenterAlignXOffset(font, buffer, 80) + 130;
     }
 	if (sData->cardLayout == CARD_LAYOUT_HELIODOR && (sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
@@ -1273,7 +1273,7 @@ static void PrintMoneyOnCard(void)
 	{
 		x = 20;
 		y = 56;
-		font = FONT_NORMAL;
+		font = FONT_HGSS;
 	}
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 		AddTextPrinterParameterized3(1, font, x, y, sTrainerCardRSTextColors, TEXT_SKIP_DRAW, gText_TrainerCardMoney);
@@ -1330,7 +1330,7 @@ static void PrintPokedexOnCard(void)
 		{
 			x = 20;
 			y = 72;
-			font = FONT_NORMAL;
+			font = FONT_HGSS;
 		}
 		if (sData->cardLayout == CARD_LAYOUT_RS)
 			AddTextPrinterParameterized3(1, font, x, y, sTrainerCardRSTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
@@ -1385,7 +1385,7 @@ static void PrintTimeOnCard(void)
 	{
 		x = 20;
 		y = 88;
-		font = FONT_NORMAL;
+		font = FONT_HGSS;
 	}
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 		AddTextPrinterParameterized3(1, font, x, y, sTrainerCardRSTextColors, TEXT_SKIP_DRAW, gText_RSCardTime);
@@ -1491,7 +1491,7 @@ static void PrintProfilePhraseOnCard(void)
 		x = 10;
 		y1 = 114;
 		y2 = 129;
-		font = FONT_NORMAL;
+		font = FONT_HGSS;
 		space = 6;
 	}
 
@@ -1617,9 +1617,9 @@ static void PrintBarcodeOnCard(void)
 	StringAppend(barcode, sText_BarcodeEnd);
 
 	if ((sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
-		AddTextPrinterParameterized4(1, 0, 1, 2, 0, -4, sTrainerCard5StarNameColors, TEXT_SKIP_DRAW, buffer);
+		AddTextPrinterParameterized4(1, FONT_SMALL, 1, 2, 0, -4, sTrainerCard5StarNameColors, TEXT_SKIP_DRAW, buffer);
 	else
-		AddTextPrinterParameterized4(1, 0, 1, 2, 0, -4, sTrainerCardTextColors, TEXT_SKIP_DRAW, buffer);
+		AddTextPrinterParameterized4(1, FONT_SMALL, 1, 2, 0, -4, sTrainerCardTextColors, TEXT_SKIP_DRAW, buffer);
 }
 
 static const u8 *ConvertDigitToBarcodeSymbol(u8 digit)
@@ -1819,7 +1819,7 @@ static void PrintStatOnBackOfCard(u8 top, const u8* statName, u8* stat, const u8
 	{
 		x = 10;
 		y = 35;
-		font = FONT_NORMAL;
+		font = FONT_HGSS;
 	}
 
 	if (sData->cardLayout == CARD_LAYOUT_RS)
@@ -1936,17 +1936,17 @@ static void PrintLinkBattleResultsOnCard(u8 slot)
 {
 	if (sData->cardLayout == CARD_LAYOUT_HELIODOR && (sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
 	{
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textLinkBattleType);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardWinsLosses);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textLinkBattleWins, 168), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleWins);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 216), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleLosses);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textLinkBattleType);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardWinsLosses);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textLinkBattleWins, 168), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleWins);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 216), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleLosses);
 	}
     else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
 	{
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textLinkBattleType);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardWinsLosses);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textLinkBattleWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleWins);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleLosses);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textLinkBattleType);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardWinsLosses);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textLinkBattleWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleWins);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textLinkBattleLosses, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textLinkBattleLosses);
 	}
     else if (sData->hasLinkResults)
     {
@@ -2053,17 +2053,17 @@ static void PrintBattleTowerStringOnCard(u8 slot)
 {
 	if (sData->cardLayout == CARD_LAYOUT_HELIODOR && (sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
 	{
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTower);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTowerStats);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerWins);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerStreak);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTower);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTowerStats);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerWins);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCard5StarStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerStreak);
 	}
 	else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
 	{
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTower);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTowerStats);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerWins);
-		AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerStreak);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTower);
+		AddTextPrinterParameterized3(1, FONT_HGSS, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTowerStats);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerWins);
+		AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerStreak);
 	}
 	else if (sData->hasBattleTowerWins)
 	{
@@ -2074,10 +2074,10 @@ static void PrintBattleTowerStringOnCard(u8 slot)
 		}
 		else
 		{
-			AddTextPrinterParameterized3(1, FONT_NORMAL, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTower);
-			AddTextPrinterParameterized3(1, FONT_NORMAL, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTowerStats);
-			AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerWins);
-			AddTextPrinterParameterized3(1, FONT_NORMAL, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerStreak);
+			AddTextPrinterParameterized3(1, FONT_HGSS, 10, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTower);
+			AddTextPrinterParameterized3(1, FONT_HGSS, 127, slot * 16 + 35, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_HCardTowerStats);
+			AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textBattleTowerWins, 168), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerWins);
+			AddTextPrinterParameterized3(1, FONT_HGSS, GetStringRightAlignXOffset(1, sData->textBattleTowerStreak, 216), slot * 16 + 35, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->textBattleTowerStreak);
 		}
 	}
 }

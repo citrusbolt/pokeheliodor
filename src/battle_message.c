@@ -1655,7 +1655,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
 {
     [B_WIN_MSG] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1667,7 +1667,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_ACTION_PROMPT] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 1,
         .y = 1,
         .letterSpacing = 0,
@@ -1679,7 +1679,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_ACTION_MENU] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1751,7 +1751,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_DUMMY] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1763,7 +1763,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_PP_REMAINING] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 2,
         .y = 1,
         .letterSpacing = 0,
@@ -1799,7 +1799,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_YESNO] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1811,7 +1811,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_LEVEL_UP_BOX] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1823,7 +1823,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_LEVEL_UP_BANNER] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 32,
         .y = 1,
         .letterSpacing = 0,
@@ -1835,7 +1835,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_PLAYER] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1847,7 +1847,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OPPONENT] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1859,7 +1859,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_1] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1871,7 +1871,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_2] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1883,7 +1883,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_3] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1895,7 +1895,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_4] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1907,7 +1907,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OUTCOME_DRAW] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1919,7 +1919,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OUTCOME_LEFT] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1931,7 +1931,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OUTCOME_RIGHT] = {
         .fillValue = PIXEL_FILL(0x0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -1947,7 +1947,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
 {
     [B_WIN_MSG] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1959,7 +1959,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_ACTION_PROMPT] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 1,
         .y = 1,
         .letterSpacing = 0,
@@ -1971,7 +1971,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_ACTION_MENU] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -2043,7 +2043,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_DUMMY] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -2055,7 +2055,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_PP_REMAINING] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 2,
         .y = 1,
         .letterSpacing = 0,
@@ -2091,7 +2091,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_YESNO] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -2103,7 +2103,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_LEVEL_UP_BOX] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -2115,7 +2115,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_LEVEL_UP_BANNER] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 32,
         .y = 1,
         .letterSpacing = 0,
@@ -2127,7 +2127,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_PLAYER_NAME] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -2139,7 +2139,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_VS] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -2151,7 +2151,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_OPPONENT_NAME] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -2163,7 +2163,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_MIND] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -2175,7 +2175,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_SKILL] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -2187,7 +2187,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_BODY] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -2199,7 +2199,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_JUDGEMENT_TITLE] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = -1,
         .y = 1,
         .letterSpacing = 0,
@@ -2211,7 +2211,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_JUDGEMENT_TEXT] = {
         .fillValue = PIXEL_FILL(0x1),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_OPTION,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,

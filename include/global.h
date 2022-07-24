@@ -486,9 +486,9 @@ struct SaveBlock2
              u16 regionMapZoom:1; // whether the map is zoomed in
 			 u16 options24HourClock:1;
 			 u16 optionsUnitSystem:1;
-			 u16 optionsFont:2;
-    /*0x16*/ u16 optionFrameColor:2;
-             u16 optionUnused:14;
+			 u16 optionsMessageColor:2;
+    /*0x16*/ u16 optionsFont:3;
+             u16 optionsUnused:13;
     /*0x18*/ struct Pokedex pokedex;
 	/*0x90*/ u16 lastUsedBall;
 	/*0x92*/ u16 powerPoints;

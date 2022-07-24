@@ -662,9 +662,9 @@ static void PrintSearchResultListMenuItems(struct Pokenav_SearchResultsGfx *gfx)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStringVar1);
     *gStringVar1 = EOS;
     DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar2, gText_NumberIndex);
-    AddTextPrinterParameterized(gfx->winid, FONT_NORMAL, gStringVar2, 4, 1, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(gfx->winid, FONT_OPTION, gStringVar2, 4, 1, TEXT_SKIP_DRAW, NULL);
     ConvertIntToDecimalStringN(gStringVar1, rank, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    AddTextPrinterParameterized(gfx->winid, FONT_NORMAL, gStringVar1, 34, 1, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(gfx->winid, FONT_OPTION, gStringVar1, 34, 1, TEXT_SKIP_DRAW, NULL);
     CopyWindowToVram(gfx->winid, COPYWIN_GFX);
 }
 
@@ -681,7 +681,7 @@ static void CreateSearchResultsList(void)
     template.listTop = 1;
     template.maxShowed = 8;
     template.fillValue = 2;
-    template.fontId = FONT_NORMAL;
+    template.fontId = FONT_OPTION;
     template.bufferItemFunc = (PokenavListBufferItemFunc)BufferSearchMonListItem;
     template.iconDrawFunc = NULL;
     CreatePokenavList(&sConditionSearchResultBgTemplates[1], &template, 0);
@@ -712,7 +712,7 @@ static void BufferSearchMonListItem(struct PokenavMonListItem * item, u8 * dest)
     }
 
     StringGet_Nickname(gStringVar3);
-    dest = GetStringClearToWidth(dest, FONT_NORMAL, gStringVar3, 60);
+    dest = GetStringClearToWidth(dest, FONT_OPTION, gStringVar3, 60);
     switch (gender)
     {
     default:
@@ -730,5 +730,5 @@ static void BufferSearchMonListItem(struct PokenavMonListItem * item, u8 * dest)
     *s++ = CHAR_EXTRA_SYMBOL;
     *s++ = CHAR_LV_2;
     ConvertIntToDecimalStringN(s, level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    GetStringClearToWidth(dest, FONT_NORMAL, gStringVar1, 40);
+    GetStringClearToWidth(dest, FONT_OPTION, gStringVar1, 40);
 }

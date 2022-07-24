@@ -113,20 +113,20 @@ static void Task_ShowBuildInfoPrompt(u8 taskId)
     case 0:
         DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x214, 0xE);
 
-        AddTextPrinterParameterized(0, FONT_NORMAL, sText_BuildInfoHeader, GetStringCenterAlignXOffset(FONT_NORMAL, sText_BuildInfoHeader, 230) - 2, 1, TEXT_SKIP_DRAW, 0);
-        AddTextPrinterParameterized(0, FONT_NORMAL, gText_RepoBranch, 0, 33, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, FONT_OPTION, sText_BuildInfoHeader, GetStringCenterAlignXOffset(FONT_OPTION, sText_BuildInfoHeader, 230) - 2, 1, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, FONT_OPTION, gText_RepoBranch, 0, 33, TEXT_SKIP_DRAW, 0);
         if (gUncommitedChanges)
         {
             colors[1] = 4;
             colors[2] = 5;
         }
-        AddTextPrinterParameterized(0, FONT_NORMAL, sText_BuildVersion, 0, 57, TEXT_SKIP_DRAW, 0);
-        AddTextPrinterParameterized3(0, FONT_NORMAL, 75, 57, colors, TEXT_SKIP_DRAW, gText_BuildVersion);
-        AddTextPrinterParameterized(0, FONT_NORMAL, gText_BuildTime, 0, 73, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, FONT_OPTION, sText_BuildVersion, 0, 57, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized3(0, FONT_OPTION, 75, 57, colors, TEXT_SKIP_DRAW, gText_BuildVersion);
+        AddTextPrinterParameterized(0, FONT_OPTION, gText_BuildTime, 0, 73, TEXT_SKIP_DRAW, 0);
 
-        AddTextPrinterParameterized(0, FONT_NORMAL, sText_SaveVersion, 0, 97, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, FONT_OPTION, sText_SaveVersion, 0, 97, TEXT_SKIP_DRAW, 0);
         ConvertIntToDecimalStringN(saveVer, VarGet(VAR_SAVE_VER), STR_CONV_MODE_LEADING_ZEROS, 1);
-        AddTextPrinterParameterized(0, FONT_NORMAL, saveVer, 73, 97, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(0, FONT_OPTION, saveVer, 73, 97, TEXT_SKIP_DRAW, 0);
 
         CopyWindowToVram(0, COPYWIN_GFX);
         ScheduleBgCopyTilemapToVram(0);

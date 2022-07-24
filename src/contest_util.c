@@ -1179,12 +1179,12 @@ static s32 DrawResultsTextWindow(const u8 *text, u8 spriteId)
     windowId = AddWindow(&windowTemplate);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
 
-    origWidth = GetStringWidth(FONT_NORMAL, text, 0);
+    origWidth = GetStringWidth(FONT_OPTION, text, 0);
     strWidth = (origWidth + 9) / 8;
     if (strWidth > 30)
      strWidth = 30;
 
-    AddTextPrinterParameterized3(windowId, FONT_NORMAL, (strWidth * 8 - origWidth) / 2, 1, sContestLinkTextColors, TEXT_SKIP_DRAW, text);
+    AddTextPrinterParameterized3(windowId, FONT_OPTION, (strWidth * 8 - origWidth) / 2, 1, sContestLinkTextColors, TEXT_SKIP_DRAW, text);
     {
         s32 i;
         struct Sprite *sprite;

@@ -431,7 +431,7 @@ static void DrawCardWindow(u8 whichWindow)
 
         // Print id number
         if (sWonderCardData->card.idNumber != 0)
-            AddTextPrinterParameterized3(windowId, FONT_NORMAL, 166, 17, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->idNumberText);
+            AddTextPrinterParameterized3(windowId, FONT_OPTION, 166, 17, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->idNumberText);
         break;
     }
     case CARD_WIN_BODY:

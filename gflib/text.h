@@ -11,10 +11,11 @@
 
 enum {
     FONT_SMALL,
-    FONT_NORMAL,
+    FONT_HGSS,
     FONT_FRLG,
     FONT_E,
     FONT_RS,
+    FONT_OPTION,
     FONT_BRAILLE,
     FONT_NARROW,
     FONT_BOLD, // JP glyph set only
