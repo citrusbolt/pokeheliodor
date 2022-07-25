@@ -40,7 +40,7 @@ enum
     MENUITEM_FONT,
     MENUITEM_UNIT_SYSTEM,
     MENUITEM_CLOCK,
-    MENUITEM_PARTY_BOX,
+    //MENUITEM_PARTY_BOX,
     MENUITEM_NICKNAME,
     MENUITEM_CONFIRM,
     MENUITEM_COUNT
@@ -204,7 +204,7 @@ static const u8 sText_UnitSystem[]      = _("UNIT SYSTEM");
 static const u8 sText_Clock[]           = _("12 HOUR CLOCK");
 static const u8 sText_PartyBox[]        = _("PARTY/BOX");
 static const u8 sText_Nickname[]        = _("GIVE NICKNAMES");
-static const u8 sText_Confirm[]         = _("CONFIRM");
+static const u8 sText_Confirm[]         = _("CLOSE");
 
 static const u8 sText_FollowerPkmn[]    = _("FOLLOWER {PKMN}");
 static const u8 sText_StartMenu[]       = _("START MENU");
@@ -308,7 +308,7 @@ static const sItemFunctionsGame[MENUITEM_COUNT] =
     [MENUITEM_FONT]          = {DrawChoices_Font,         ProcessInput_Options_Font}, 
     [MENUITEM_UNIT_SYSTEM]   = {DrawChoices_UnitSystem,   ProcessInput_Options_Two},
     [MENUITEM_CLOCK]         = {DrawChoices_OnOff,        ProcessInput_Options_Two},
-    [MENUITEM_PARTY_BOX]     = {DrawChoices_PartyBox,     ProcessInput_Options_Two},
+    //[MENUITEM_PARTY_BOX]     = {DrawChoices_PartyBox,     ProcessInput_Options_Two},
     [MENUITEM_NICKNAME]      = {DrawChoices_Nickname,     ProcessInput_Options_Two},
     [MENUITEM_CONFIRM]       = {NULL,                     NULL}
 };
@@ -326,7 +326,7 @@ static const u8 *const sOptionMenuItemsNamesGame[MENUITEM_COUNT] =
     [MENUITEM_FONT]          = sText_Font,
     [MENUITEM_UNIT_SYSTEM]   = sText_UnitSystem,
     [MENUITEM_CLOCK]         = sText_Clock,
-    [MENUITEM_PARTY_BOX]     = sText_PartyBox,
+    //[MENUITEM_PARTY_BOX]     = sText_PartyBox,
     [MENUITEM_NICKNAME]      = sText_Nickname,
     [MENUITEM_CONFIRM]       = sText_Confirm
 };
@@ -376,7 +376,7 @@ static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_COUNT] =
     [MENUITEM_FONT]          = sText_Desc_Font,
     [MENUITEM_UNIT_SYSTEM]   = sText_Desc_UnitSystem,
     [MENUITEM_CLOCK]         = sText_Desc_Clock,
-    [MENUITEM_PARTY_BOX]     = sText_Desc_PartyBox,
+    //[MENUITEM_PARTY_BOX]     = sText_Desc_PartyBox,
     [MENUITEM_NICKNAME]      = sText_Desc_Nickname,
     [MENUITEM_CONFIRM]       = sText_Desc_Confirm
 };
@@ -623,7 +623,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_FONT]          = gSaveBlock2Ptr->optionsFont;
         sOptions->sel[MENUITEM_UNIT_SYSTEM]   = gSaveBlock2Ptr->optionsUnitSystem;
         sOptions->sel[MENUITEM_CLOCK]         = gSaveBlock2Ptr->options24HourClock;
-        sOptions->sel[MENUITEM_PARTY_BOX]     = gSaveBlock2Ptr->optionsPartyBox;
+        //sOptions->sel[MENUITEM_PARTY_BOX]     = gSaveBlock2Ptr->optionsPartyBox;
         sOptions->sel[MENUITEM_NICKNAME]      = gSaveBlock2Ptr->optionsNickname;
 
         sOptions->submenu = MENU_GAME;
@@ -853,7 +853,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsFont            = sOptions->sel[MENUITEM_FONT];
     gSaveBlock2Ptr->optionsUnitSystem      = sOptions->sel[MENUITEM_UNIT_SYSTEM];
     gSaveBlock2Ptr->options24HourClock     = sOptions->sel[MENUITEM_CLOCK];
-    gSaveBlock2Ptr->optionsPartyBox        = sOptions->sel[MENUITEM_PARTY_BOX];
+    //gSaveBlock2Ptr->optionsPartyBox        = sOptions->sel[MENUITEM_PARTY_BOX];
     gSaveBlock2Ptr->optionsNickname     = sOptions->sel[MENUITEM_NICKNAME];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);

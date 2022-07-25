@@ -229,7 +229,7 @@ void NewGameInitData(void)
 	for (i = 0; i < 6; i++)
 		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
 	
-	VarSet(VAR_SAVE_VER, 4);
+	VarSet(VAR_SAVE_VER, 5);
 }
 
 static void ResetMiniGamesRecords(void)

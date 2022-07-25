@@ -581,7 +581,7 @@ Route111_EventScript_GiveUnown::
 	goto_if_eq VAR_RESULT, NO, Route111_EventScript_DeclineUnown
 	setvar VAR_TEMP_1, SPECIES_UNOWN
 	giveunown 25, 0
-	goto_ VAR_RESULT, MON_GIVEN_TO_PARTY, Route111_EventScript_ReceiveUnownParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Route111_EventScript_ReceiveUnownParty
 	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Route111_EventScript_ReceiveUnownPC
 	goto Common_EventScript_NoMoreRoomForPokemon
 	end

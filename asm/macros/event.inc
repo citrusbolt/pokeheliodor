@@ -1957,4 +1957,3 @@
 	setvar VAR_0x8001, \stringvarnumber
 	special BufferUnitSystemText
 	.endm
-    
