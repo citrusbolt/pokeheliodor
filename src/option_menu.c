@@ -621,8 +621,10 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_FRAME_TYPE]    = gSaveBlock2Ptr->optionsWindowFrameType;
         sOptions->sel[MENUITEM_MESSAGE_COLOR] = gSaveBlock2Ptr->optionsMessageColor;
         sOptions->sel[MENUITEM_FONT]          = gSaveBlock2Ptr->optionsFont;
-        sOptions->sel[MENUITEM_UNIT_SYSTEM]   = gSaveBlock2Ptr->optionsUnitSystem;      
-        sOptions->sel[MENUITEM_CLOCK]         = gSaveBlock2Ptr->options24HourClock;      
+        sOptions->sel[MENUITEM_UNIT_SYSTEM]   = gSaveBlock2Ptr->optionsUnitSystem;
+        sOptions->sel[MENUITEM_CLOCK]         = gSaveBlock2Ptr->options24HourClock;
+        sOptions->sel[MENUITEM_PARTY_BOX]     = gSaveBlock2Ptr->optionsPartyBox;
+        sOptions->sel[MENUITEM_NICKNAME]      = gSaveBlock2Ptr->optionsNickname;
 
         sOptions->submenu = MENU_GAME;
 
@@ -851,6 +853,8 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsFont            = sOptions->sel[MENUITEM_FONT];
     gSaveBlock2Ptr->optionsUnitSystem      = sOptions->sel[MENUITEM_UNIT_SYSTEM];
     gSaveBlock2Ptr->options24HourClock     = sOptions->sel[MENUITEM_CLOCK];
+    gSaveBlock2Ptr->optionsPartyBox        = sOptions->sel[MENUITEM_PARTY_BOX];
+    gSaveBlock2Ptr->optionsNickname     = sOptions->sel[MENUITEM_NICKNAME];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;

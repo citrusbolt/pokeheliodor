@@ -378,6 +378,8 @@ static void CreateBattleStartTask(u8 transition, u16 song)
 {
     u8 taskId = CreateTask(Task_BattleStart, 1);
 
+    gSkipNickname = gSaveBlock2Ptr->optionsNickname;
+
     gTasks[taskId].tTransition = transition;
     PlayMapChosenOrBattleBGM(song);
 }

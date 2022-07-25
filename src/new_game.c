@@ -101,6 +101,8 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsUnitSystem = 0; // Imperial
     gSaveBlock2Ptr->optionsMessageColor = 3; // Yellow
     gSaveBlock2Ptr->optionsFont = 3; // HGSS
+    gSaveBlock2Ptr->optionsPartyBox = 1; // Automatic
+    gSaveBlock2Ptr->optionsNickname = 0; // Give
 }
 
 static void ClearPokedexFlags(void)
