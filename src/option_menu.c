@@ -1343,3 +1343,8 @@ static void DrawBgWindowFramesDescription(void)
 
     CopyBgTilemapBufferToVram(1);
 }
+
+void SkipNickname(void)
+{
+    gSpecialVar_Result = gSaveBlock2Ptr->optionsNickname;
+}

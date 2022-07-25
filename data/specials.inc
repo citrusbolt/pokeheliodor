@@ -585,3 +585,4 @@ gSpecials::
 	def_special SetEonTicketAsRecordMixingGift
 	def_special HeadbuttWildEncounter
     def_special BufferUnitSystemText
+    def_special SkipNickname
