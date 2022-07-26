@@ -676,6 +676,11 @@ static void CB2_EggHatch(void)
             sEggHatchData->state++;
         break;
     case 8:
+        if (gSaveBlock2Ptr->optionsNickname)
+        {
+            sEggHatchData->state = 11;
+            break;
+        }
         // Ready the nickname prompt
         GetMonNickname2(&gPlayerParty[sEggHatchData->eggPartyId], gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_NicknameHatchPrompt);
