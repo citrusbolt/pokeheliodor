@@ -778,7 +778,8 @@ static const u16 sNaturePowerMoves[] =
     [BATTLE_TERRAIN_MOUNTAIN]   = MOVE_ROCK_SLIDE,
     [BATTLE_TERRAIN_CAVE]       = MOVE_SHADOW_BALL,
     [BATTLE_TERRAIN_BUILDING]   = MOVE_SWIFT,
-    [BATTLE_TERRAIN_PLAIN]      = MOVE_SWIFT
+    [BATTLE_TERRAIN_PLAIN]      = MOVE_SWIFT,
+    [BATTLE_TERRAIN_GYM]        = MOVE_SWIFT
 };
 
 // format: min. weight (hectograms), base power
@@ -846,6 +847,7 @@ static const u8 sTerrainToType[] =
     [BATTLE_TERRAIN_CAVE]       = TYPE_ROCK,
     [BATTLE_TERRAIN_BUILDING]   = TYPE_NORMAL,
     [BATTLE_TERRAIN_PLAIN]      = TYPE_NORMAL,
+    [BATTLE_TERRAIN_GYM]        = TYPE_NORMAL,
 };
 
 // - ITEM_ULTRA_BALL skips Master Ball and ITEM_NONE
