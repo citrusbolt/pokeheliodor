@@ -445,19 +445,42 @@ const struct CompressedSpriteSheet gMonFrontPicTable[] =
 const struct CompressedSpriteSheet gMonFrontPicTableFRLG[] =
 {
     SPECIES_SPRITE(BULBASAUR, gMonFrontPicFRLG_Bulbasaur),
+    SPECIES_SPRITE(IVYSAUR, gMonFrontPicFRLG_Ivysaur),
+    SPECIES_SPRITE(VENUSAUR, gMonFrontPicFRLG_Venusaur),
+    SPECIES_SPRITE(CHARMANDER, gMonFrontPicFRLG_Charmander),
+    SPECIES_SPRITE(CHARMELEON, gMonFrontPicFRLG_Charmeleon),
+    SPECIES_SPRITE(CHARIZARD, gMonFrontPicFRLG_Charizard),
+    SPECIES_SPRITE(SQUIRTLE, gMonFrontPicFRLG_Squirtle),
+    SPECIES_SPRITE(WARTORTLE, gMonFrontPicFRLG_Wartortle),
+    SPECIES_SPRITE(BLASTOISE, gMonFrontPicFRLG_Blastoise),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
 {
     SPECIES_SPRITE(BULBASAUR, gMonFrontPicDP_Bulbasaur),
+    SPECIES_SPRITE(IVYSAUR, gMonFrontPicDP_Ivysaur),
+    SPECIES_SPRITE(CHARMANDER, gMonFrontPicDP_Charmander),
+    SPECIES_SPRITE(CHARMELEON, gMonFrontPicDP_Charmeleon),
+    SPECIES_SPRITE(SQUIRTLE, gMonFrontPicDP_Squirtle),
+    SPECIES_SPRITE(WARTORTLE, gMonFrontPicDP_Wartortle),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
 {
     SPECIES_SPRITE(BULBASAUR, gMonFrontPicHGSS_Bulbasaur),
+    SPECIES_SPRITE(IVYSAUR, gMonFrontPicHGSS_Ivysaur),
+    SPECIES_SPRITE(CHARMANDER, gMonFrontPicHGSS_Charmander),
+    SPECIES_SPRITE(CHARMELEON, gMonFrontPicHGSS_Charmeleon),
+    SPECIES_SPRITE(SQUIRTLE, gMonFrontPicHGSS_Squirtle),
+    SPECIES_SPRITE(WARTORTLE, gMonFrontPicHGSS_Wartortle),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
 {
     SPECIES_SPRITE(BULBASAUR, gMonFrontPicBW_Bulbasaur),
+    SPECIES_SPRITE(IVYSAUR, gMonFrontPicBW_Ivysaur),
+    SPECIES_SPRITE(CHARMANDER, gMonFrontPicBW_Charmander),
+    SPECIES_SPRITE(CHARMELEON, gMonFrontPicBW_Charmeleon),
+    SPECIES_SPRITE(SQUIRTLE, gMonFrontPicBW_Squirtle),
+    SPECIES_SPRITE(WARTORTLE, gMonFrontPicBW_Wartortle),
 };

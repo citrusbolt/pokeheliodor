@@ -104,6 +104,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_VENUSAUR] =
@@ -136,6 +140,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = FALSE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_CHARMANDER] =
@@ -168,6 +176,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_CHARMELEON] =
@@ -200,6 +212,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_CHARIZARD] =
@@ -232,6 +248,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = FALSE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_SQUIRTLE] =
@@ -264,6 +284,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_WARTORTLE] =
@@ -296,6 +320,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_BLASTOISE] =
@@ -328,6 +356,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = FALSE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_CATERPIE] =
