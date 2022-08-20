@@ -448,10 +448,16 @@ static void DuplicateDeoxysTiles(void *pointer, s32 species)
 
 static void SwapSprite(u16 species, u32 pid, void *dest)
 {
-    u8 value = (pid >> 24) % 2;
+    u8 value = (pid >> 24) & 7;
 
     if (value == 1 && gBaseStats[species].hasFRLGSprite)
         LZ77UnCompWram(gMonFrontPicTableFRLG[species].data, dest);
+    if (value == 2 && gBaseStats[species].hasDPSprite)
+        LZ77UnCompWram(gMonFrontPicTableDP[species].data, dest);
+    if (value == 3 && gBaseStats[species].hasHGSSSprite)
+        LZ77UnCompWram(gMonFrontPicTableHGSS[species].data, dest);
+    if (value == 4 && gBaseStats[species].hasBWSprite)
+        LZ77UnCompWram(gMonFrontPicTableBW[species].data, dest);
     else
         return;
 }

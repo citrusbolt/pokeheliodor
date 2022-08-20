@@ -69,6 +69,9 @@ const struct BaseStats gBaseStats[] =
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
         .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_IVYSAUR] =

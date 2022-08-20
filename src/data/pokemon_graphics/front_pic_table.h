@@ -446,3 +446,18 @@ const struct CompressedSpriteSheet gMonFrontPicTableFRLG[] =
 {
     SPECIES_SPRITE(BULBASAUR, gMonFrontPicFRLG_Bulbasaur),
 };
+
+const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
+{
+    SPECIES_SPRITE(BULBASAUR, gMonFrontPicDP_Bulbasaur),
+};
+
+const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
+{
+    SPECIES_SPRITE(BULBASAUR, gMonFrontPicHGSS_Bulbasaur),
+};
+
+const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
+{
+    SPECIES_SPRITE(BULBASAUR, gMonFrontPicBW_Bulbasaur),
+};

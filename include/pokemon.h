@@ -234,8 +234,11 @@ struct BaseStats
  /* 0x18 */ u8 safariZoneFleeRate;
  /* 0x19 */ u8 bodyColor : 7;
             u8 noFlip : 1;
-            u8 hasFRLGSprite:1;
-            u8 spriteFiller:7;
+ /* 0x20 */ u8 hasFRLGSprite:1;
+            u8 hasDPSprite:1;
+            u8 hasHGSSSprite:1;
+            u8 hasBWSprite:1;
+            u8 spriteFiller:4;
 };
 
 struct BattleMove

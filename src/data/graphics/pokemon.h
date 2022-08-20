@@ -1,5 +1,4 @@
 const u32 gMonStillFrontPic_Bulbasaur[] = INCBIN_U32("graphics/pokemon/bulbasaur/front.4bpp.lz");
-const u32 gMonStillFrontPicFRLG_Bulbasaur[] = INCBIN_U32("graphics/pokemon/bulbasaur/front_frlg.4bpp.lz");
 const u32 gMonPalette_Bulbasaur[] = INCBIN_U32("graphics/pokemon/bulbasaur/normal.gbapal.lz");
 const u32 gMonBackPic_Bulbasaur[] = INCBIN_U32("graphics/pokemon/bulbasaur/back.4bpp.lz");
 //const u32 gMonBackPicFRLG_Bulbasaur[] = INCBIN_U32("graphics/pokemon/bulbasaur/back_frlg.4bpp.lz");
