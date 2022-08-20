@@ -68,6 +68,7 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
     },
 
     [SPECIES_IVYSAUR] =
