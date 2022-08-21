@@ -453,6 +453,10 @@ const struct CompressedSpriteSheet gMonFrontPicTableFRLG[] =
     SPECIES_SPRITE(SQUIRTLE, gMonFrontPicFRLG_Squirtle),
     SPECIES_SPRITE(WARTORTLE, gMonFrontPicFRLG_Wartortle),
     SPECIES_SPRITE(BLASTOISE, gMonFrontPicFRLG_Blastoise),
+    SPECIES_SPRITE(CATERPIE, gMonFrontPicFRLG_Caterpie),
+    SPECIES_SPRITE(BUTTERFREE, gMonFrontPicFRLG_Butterfree),
+    SPECIES_SPRITE(KAKUNA, gMonFrontPicFRLG_Kakuna),
+    SPECIES_SPRITE(BEEDRILL, gMonFrontPicFRLG_Beedrill),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
@@ -463,6 +467,12 @@ const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
     SPECIES_SPRITE(CHARMELEON, gMonFrontPicDP_Charmeleon),
     SPECIES_SPRITE(SQUIRTLE, gMonFrontPicDP_Squirtle),
     SPECIES_SPRITE(WARTORTLE, gMonFrontPicDP_Wartortle),
+    SPECIES_SPRITE(CATERPIE, gMonFrontPicDP_Caterpie),
+    SPECIES_SPRITE(METAPOD, gMonFrontPicDP_Metapod),
+    SPECIES_SPRITE(BUTTERFREE, gMonFrontPicDP_Butterfree),
+    SPECIES_SPRITE(WEEDLE, gMonFrontPicDP_Weedle),
+    SPECIES_SPRITE(KAKUNA, gMonFrontPicDP_Kakuna),
+    SPECIES_SPRITE(BEEDRILL, gMonFrontPicDP_Beedrill),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
@@ -473,6 +483,12 @@ const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
     SPECIES_SPRITE(CHARMELEON, gMonFrontPicHGSS_Charmeleon),
     SPECIES_SPRITE(SQUIRTLE, gMonFrontPicHGSS_Squirtle),
     SPECIES_SPRITE(WARTORTLE, gMonFrontPicHGSS_Wartortle),
+    SPECIES_SPRITE(CATERPIE, gMonFrontPicHGSS_Caterpie),
+    SPECIES_SPRITE(METAPOD, gMonFrontPicHGSS_Metapod),
+    SPECIES_SPRITE(BUTTERFREE, gMonFrontPicHGSS_Butterfree),
+    SPECIES_SPRITE(WEEDLE, gMonFrontPicHGSS_Weedle),
+    SPECIES_SPRITE(KAKUNA, gMonFrontPicHGSS_Kakuna),
+    SPECIES_SPRITE(BEEDRILL, gMonFrontPicHGSS_Beedrill),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
@@ -483,4 +499,5 @@ const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
     SPECIES_SPRITE(CHARMELEON, gMonFrontPicBW_Charmeleon),
     SPECIES_SPRITE(SQUIRTLE, gMonFrontPicBW_Squirtle),
     SPECIES_SPRITE(WARTORTLE, gMonFrontPicBW_Wartortle),
+    SPECIES_SPRITE(CATERPIE, gMonFrontPicBW_Caterpie),
 };
