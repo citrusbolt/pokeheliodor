@@ -89,6 +89,9 @@ EWRAM_DATA static u8 sPreviousEncounterZoneDirection = DIR_NORTH;
 EWRAM_DATA static u8 sEncounterZoneDirectionReversals = 0;
 EWRAM_DATA u8 sEncounterMode = ENCOUNTER_EMERALD;
 
+#include "data/wild_encounters_rs.h"
+// #include "data/wild_encounters_frlg.h"
+#include "data/wild_encounters_e.h"
 #include "data/wild_encounters.h"
 
 static const struct WildPokemon sWildFeebas = {20, 25, SPECIES_FEEBAS};

@@ -91,6 +91,13 @@ int main(int argc, char *argv[])
         return rawValue.substr(0, i);
     });
 
+    env.add_callback("compare", 2, [](Arguments& args) {
+        string word = args.at(0)->get<string>();
+        string check = args.at(1)->get<string>();
+
+        return word.compare(check);
+    });
+
     // single argument is a json object
     env.add_callback("isEmpty", 1, [](Arguments& args) {
         return args.at(0)->empty();
