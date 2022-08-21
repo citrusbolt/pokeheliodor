@@ -457,6 +457,10 @@ const struct CompressedSpriteSheet gMonFrontPicTableFRLG[] =
     SPECIES_SPRITE(BUTTERFREE, gMonFrontPicFRLG_Butterfree),
     SPECIES_SPRITE(KAKUNA, gMonFrontPicFRLG_Kakuna),
     SPECIES_SPRITE(BEEDRILL, gMonFrontPicFRLG_Beedrill),
+    SPECIES_SPRITE(PIDGEY, gMonFrontPicFRLG_Pidgey),
+    SPECIES_SPRITE(PIDGEOT, gMonFrontPicFRLG_Pidgeot),
+    SPECIES_SPRITE(RATTATA, gMonFrontPicFRLG_Rattata),
+    SPECIES_SPRITE(RATICATE, gMonFrontPicFRLG_Raticate),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
@@ -473,6 +477,9 @@ const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
     SPECIES_SPRITE(WEEDLE, gMonFrontPicDP_Weedle),
     SPECIES_SPRITE(KAKUNA, gMonFrontPicDP_Kakuna),
     SPECIES_SPRITE(BEEDRILL, gMonFrontPicDP_Beedrill),
+    SPECIES_SPRITE(PIDGEY, gMonFrontPicDP_Pidgey),
+    SPECIES_SPRITE(RATTATA, gMonFrontPicDP_Rattata),
+    SPECIES_SPRITE(RATICATE, gMonFrontPicDP_Raticate),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
@@ -489,6 +496,10 @@ const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
     SPECIES_SPRITE(WEEDLE, gMonFrontPicHGSS_Weedle),
     SPECIES_SPRITE(KAKUNA, gMonFrontPicHGSS_Kakuna),
     SPECIES_SPRITE(BEEDRILL, gMonFrontPicHGSS_Beedrill),
+    SPECIES_SPRITE(PIDGEY, gMonFrontPicHGSS_Pidgey),
+    SPECIES_SPRITE(PIDGEOTTO, gMonFrontPicHGSS_Pidgeotto),
+    SPECIES_SPRITE(RATTATA, gMonFrontPicHGSS_Rattata),
+    SPECIES_SPRITE(RATICATE, gMonFrontPicHGSS_Raticate),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
@@ -500,4 +511,6 @@ const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
     SPECIES_SPRITE(SQUIRTLE, gMonFrontPicBW_Squirtle),
     SPECIES_SPRITE(WARTORTLE, gMonFrontPicBW_Wartortle),
     SPECIES_SPRITE(CATERPIE, gMonFrontPicBW_Caterpie),
+    SPECIES_SPRITE(PIDGEY, gMonFrontPicBW_Pidgey),
+    SPECIES_SPRITE(RATTATA, gMonFrontPicBW_Rattata),
 };

@@ -608,6 +608,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_PIDGEOTTO] =
@@ -640,6 +644,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
+        .hasFRLGSprite = FALSE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_PIDGEOT] =
@@ -672,6 +680,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = FALSE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_RATTATA] =
@@ -704,6 +716,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PURPLE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_RATICATE] =
@@ -736,6 +752,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_SPEAROW] =
