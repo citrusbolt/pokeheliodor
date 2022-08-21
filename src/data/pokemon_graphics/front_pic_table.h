@@ -461,6 +461,13 @@ const struct CompressedSpriteSheet gMonFrontPicTableFRLG[] =
     SPECIES_SPRITE(PIDGEOT, gMonFrontPicFRLG_Pidgeot),
     SPECIES_SPRITE(RATTATA, gMonFrontPicFRLG_Rattata),
     SPECIES_SPRITE(RATICATE, gMonFrontPicFRLG_Raticate),
+    SPECIES_SPRITE(SPEAROW, gMonFrontPicFRLG_Spearow),
+    SPECIES_SPRITE(FEAROW, gMonFrontPicFRLG_Fearow),
+    SPECIES_SPRITE(EKANS, gMonFrontPicFRLG_Ekans),
+    SPECIES_SPRITE(ARBOK, gMonFrontPicFRLG_Arbok),
+    SPECIES_SPRITE(RAICHU, gMonFrontPicFRLG_Raichu),
+    SPECIES_SPRITE(SANDSHREW, gMonFrontPicFRLG_Sandshrew),
+    SPECIES_SPRITE(SANDSLASH, gMonFrontPicFRLG_Sandslash),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
@@ -480,6 +487,12 @@ const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
     SPECIES_SPRITE(PIDGEY, gMonFrontPicDP_Pidgey),
     SPECIES_SPRITE(RATTATA, gMonFrontPicDP_Rattata),
     SPECIES_SPRITE(RATICATE, gMonFrontPicDP_Raticate),
+    SPECIES_SPRITE(SPEAROW, gMonFrontPicDP_Spearow),
+    SPECIES_SPRITE(EKANS, gMonFrontPicDP_Ekans),
+    SPECIES_SPRITE(PIKACHU, gMonFrontPicDP_Pikachu),
+    SPECIES_SPRITE(RAICHU, gMonFrontPicDP_Raichu),
+    SPECIES_SPRITE(SANDSHREW, gMonFrontPicDP_Sandshrew),
+    SPECIES_SPRITE(SANDSLASH, gMonFrontPicDP_Sandslash),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
@@ -500,6 +513,12 @@ const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
     SPECIES_SPRITE(PIDGEOTTO, gMonFrontPicHGSS_Pidgeotto),
     SPECIES_SPRITE(RATTATA, gMonFrontPicHGSS_Rattata),
     SPECIES_SPRITE(RATICATE, gMonFrontPicHGSS_Raticate),
+    SPECIES_SPRITE(SPEAROW, gMonFrontPicHGSS_Spearow),
+    SPECIES_SPRITE(EKANS, gMonFrontPicHGSS_Ekans),
+    SPECIES_SPRITE(ARBOK, gMonFrontPicHGSS_Arbok),
+    SPECIES_SPRITE(PIKACHU, gMonFrontPicHGSS_Pikachu),
+    SPECIES_SPRITE(SANDSHREW, gMonFrontPicHGSS_Sandshrew),
+    SPECIES_SPRITE(SANDSLASH, gMonFrontPicHGSS_Sandslash),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
@@ -513,4 +532,7 @@ const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
     SPECIES_SPRITE(CATERPIE, gMonFrontPicBW_Caterpie),
     SPECIES_SPRITE(PIDGEY, gMonFrontPicBW_Pidgey),
     SPECIES_SPRITE(RATTATA, gMonFrontPicBW_Rattata),
+    SPECIES_SPRITE(SPEAROW, gMonFrontPicBW_Spearow),
+    SPECIES_SPRITE(PIKACHU, gMonFrontPicBW_Pikachu),
+    SPECIES_SPRITE(SANDSHREW, gMonFrontPicBW_Sandshrew),
 };
