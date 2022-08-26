@@ -58,6 +58,7 @@
 #include "roamer.h"
 #include "power.h"
 #include "constants/power.h"
+#include "wild_encounter.h"
 
 struct SpeciesItem
 {
@@ -2647,54 +2648,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		else
 			version = VERSION_FIRERED;
 	}
-	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == METLOC_IN_GAME_TRADE)
-	{
-		if (hasFixedPersonality)
-		{
-			personality = fixedPersonality;
-		}
-		else
-		{
-			do
-			{
-				if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE)
-				{
-					do
-					{
-						personality = Random32();
-					} while (personality % NUM_NATURES != GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES);
-				}
-				else
-				{
-					personality = Random32();
-				}
-				
-				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
-				if (shinyValue < SHINY_ODDS)
-					break;
-				i++;
-			} while (i < rolls);
-		}
-		GetSpeciesName(speciesName, species);
-		otName[0] = gSaveBlock2Ptr->playerName[0];
-		otName[1] = gSaveBlock2Ptr->playerName[1];
-		otName[2] = gSaveBlock2Ptr->playerName[2];
-		otName[3] = gSaveBlock2Ptr->playerName[3];
-		otName[4] = gSaveBlock2Ptr->playerName[4];
-		otName[5] = gSaveBlock2Ptr->playerName[5];
-		otName[6] = gSaveBlock2Ptr->playerName[6];
-		otName[7] = gSaveBlock2Ptr->playerName[7];
-		otGender = gSaveBlock2Ptr->playerGender;
-		otId = gSaveBlock2Ptr->playerTrainerId[0]
-              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
-		language = gGameLanguage;
-		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-			version = VERSION_LEAFGREEN;
-		else
-			version = VERSION_FIRERED;
-	}
 	else
 	{
 		if (hasFixedPersonality)
@@ -2739,44 +2692,66 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
 		
-		if (IsMonSapphireExclusive(species))
-		{
-			version = VERSION_SAPPHIRE;
-			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
-		}
-		else if (IsMonRubyExclusive(species))
-		{
-			version = VERSION_RUBY;
-			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
-		}
-		else if (IsMonRubySapphireExclusive(species))
-		{
-			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-				version = VERSION_SAPPHIRE;
-			else
-				version = VERSION_RUBY;
-			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
-		}
-		else if (IsMonFireRedExclusive(species))
-		{
-			version = VERSION_FIRERED;
-		}
-		else if (IsMonLeafGreenExclusive(species))
-		{
-			version = VERSION_LEAFGREEN;
-		}
-		else if (IsMonFireRedLeafGreenExclusive(species))
-		{
-			if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-				version = VERSION_LEAFGREEN;
-			else
-				version = VERSION_FIRERED;
-		}
-		else
-		{
-			version = gGameVersion;
-		}
+		//if (IsMonSapphireExclusive(species))
+		//{
+		//	version = VERSION_SAPPHIRE;
+		//	otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+		//}
+		//else if (IsMonRubyExclusive(species))
+		//{
+		//	version = VERSION_RUBY;
+		//	otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+		//}
+		//else if (IsMonRubySapphireExclusive(species))
+		//{
+		//	if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+		//		version = VERSION_SAPPHIRE;
+		//	else
+		//		version = VERSION_RUBY;
+		//	otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+		//}
+		//else if (IsMonFireRedExclusive(species))
+		//{
+		//	version = VERSION_FIRERED;
+		//}
+		//else if (IsMonLeafGreenExclusive(species))
+		//{
+		//	version = VERSION_LEAFGREEN;
+		//}
+		//else if (IsMonFireRedLeafGreenExclusive(species))
+		//{
+		//	if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+		//		version = VERSION_LEAFGREEN;
+		//	else
+		//		version = VERSION_FIRERED;
+		//}
+		//else
+		//{
+		//	version = gGameVersion;
+		//}
 		
+        switch (gEncounterMode)
+        {
+            case ENCOUNTER_RUBY:
+                version = VERSION_RUBY;
+                break;
+            case ENCOUNTER_SAPPHIRE:
+                version = VERSION_SAPPHIRE;
+                break;
+            case ENCOUNTER_FIRERED:
+                version = VERSION_FIRERED;
+                break;
+            case ENCOUNTER_LEAFGREEN:
+                version = VERSION_LEAFGREEN;
+                break;
+            case ENCOUNTER_EMERALD:
+                version = VERSION_EMERALD;
+                break;
+            default:
+                version = VERSION_GAMECUBE;    // Shouldn't happen
+                break;
+        }
+        
 		if (metLocation != MAPSEC_SAFARI_ZONE)
 		{
 			if (IsMonOutsideSafariFireRed(species))

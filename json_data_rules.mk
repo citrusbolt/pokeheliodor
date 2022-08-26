@@ -6,9 +6,9 @@ $(DATA_SRC_SUBDIR)/wild_encounters_rs.h: $(DATA_SRC_SUBDIR)/wild_encounters_rs.j
 	$(JSONPROC) $^ $@
 
 
-# AUTO_GEN_TARGETS += $(DATA_SRC_SUBDIR)/wild_encounters_frlg.h
-# $(DATA_SRC_SUBDIR)/wild_encounters_frlg.h: $(DATA_SRC_SUBDIR)/wild_encounters_frlg.json $(DATA_SRC_SUBDIR)/wild_encounters_frlg.json.txt
-# 	$(JSONPROC) $^ $@
+AUTO_GEN_TARGETS += $(DATA_SRC_SUBDIR)/wild_encounters_frlg.h
+$(DATA_SRC_SUBDIR)/wild_encounters_frlg.h: $(DATA_SRC_SUBDIR)/wild_encounters_frlg.json $(DATA_SRC_SUBDIR)/wild_encounters_frlg.json.txt
+	$(JSONPROC) $^ $@
 
 
 AUTO_GEN_TARGETS += $(DATA_SRC_SUBDIR)/wild_encounters_e.h
@@ -22,5 +22,5 @@ $(DATA_SRC_SUBDIR)/wild_encounters.h: $(DATA_SRC_SUBDIR)/wild_encounters.json $(
 
 $(C_BUILDDIR)/wild_encounter.o: c_dep += $(DATA_SRC_SUBDIR)/wild_encounters.h
 	c_dep += $(DATA_SRC_SUBDIR)/wild_encounters_rs.h
-#	c_dep += $(DATA_SRC_SUBDIR)/wild_encounters_frlg.h
+	c_dep += $(DATA_SRC_SUBDIR)/wild_encounters_frlg.h
 	c_dep += $(DATA_SRC_SUBDIR)/wild_encounters_e.h

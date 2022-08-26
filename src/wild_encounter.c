@@ -31,7 +31,6 @@
 #include "fldeff.h"
 #include "constants/battle.h"
 #include "battle.h"
-#include "mgba.h"
 #include "constants/pokemon.h"
 
 extern const u8 EventScript_RepelWoreOff[];
@@ -69,9 +68,9 @@ static bool8 IsAbilityAllowingEncounter(u8 level);
 static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex);
 static u8 ChooseWildMonIndex_Land(void);
 static u8 ChooseWildMonIndex_WaterRock(void);
-static bool8 RubyEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area);
-static bool8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area);
-static bool8 EmeraldEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area);
+static bool8 RubyEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 partySlot);
+static bool8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 partySlot);
+static bool8 EmeraldEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 partySlot);
 
 static u32 GenerateUnownPersonalityByLetter(u8 letter);
 static u8 GetUnownLetterByPersonalityLoByte(u32 personality);
@@ -82,10 +81,10 @@ EWRAM_DATA u8 gChainStreak = 0;
 EWRAM_DATA u16 gLastEncounteredSpecies = 0;
 EWRAM_DATA static u8 sPreviousEncounterZoneDirection = DIR_NORTH;
 EWRAM_DATA static u8 sEncounterZoneDirectionReversals = 0;
-EWRAM_DATA u8 sEncounterMode = ENCOUNTER_EMERALD;
+EWRAM_DATA u8 gEncounterMode = ENCOUNTER_EMERALD;
 
 #include "data/wild_encounters_rs.h"
-// #include "data/wild_encounters_frlg.h"
+#include "data/wild_encounters_frlg.h"
 #include "data/wild_encounters_e.h"
 #include "data/wild_encounters.h"
 
@@ -410,7 +409,7 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon)
     rand = Random() % range;
 
     // check ability for max level mon
-    if (sEncounterMode == ENCOUNTER_EMERALD && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
+    if (gEncounterMode == ENCOUNTER_EMERALD && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
     {
         u8 ability = GetMonAbility(&gPlayerParty[0]);
         if (ability == ABILITY_HUSTLE || ability == ABILITY_VITAL_SPIRIT || ability == ABILITY_PRESSURE)
@@ -499,60 +498,60 @@ static u16 GetCorrespondingSapphireWildMonHeaderId(u16 currentId)
 
 static u16 GetFireRedWildMonHeaderId(void)
 {
-    //u16 i;
-    //
-    //for (i = 0; ; i++)
-    //{
-    //    const struct WildPokemonHeader *wildHeader = &gWildMonHeadersFRLG[i];
-    //    if (wildHeader->mapGroup == MAP_GROUP(UNDEFINED))
-    //        break;
-    //
-    //    if (gWildMonHeadersFRLG[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
-    //        gWildMonHeadersFRLG[i].mapNum == gSaveBlock1Ptr->location.mapNum)
-    //    {
-    //        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(KANTO_ALTERING_CAVE) &&
-    //            gSaveBlock1Ptr->location.mapNum == MAP_NUM(KANTO_ALTERING_CAVE))
-    //        {
-    //            u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-    //            if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
-    //                alteringCaveId = 0;
-    //
-    //            i += alteringCaveId;
-    //        }
-    //
-    //        return i;
-    //    }
-    //}
+    u16 i;
+    
+    for (i = 0; ; i++)
+    {
+        const struct WildPokemonHeader *wildHeader = &gWildMonHeadersFRLG[i];
+        if (wildHeader->mapGroup == MAP_GROUP(UNDEFINED))
+            break;
+    
+        if (gWildMonHeadersFRLG[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
+            gWildMonHeadersFRLG[i].mapNum == gSaveBlock1Ptr->location.mapNum)
+        {
+            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(KANTO_SIX_ISLAND_ALTERING_CAVE) &&
+                gSaveBlock1Ptr->location.mapNum == MAP_NUM(KANTO_SIX_ISLAND_ALTERING_CAVE))
+            {
+                u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+                if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
+                    alteringCaveId = 0;
+    
+                i += alteringCaveId;
+            }
+    
+            return i;
+        }
+    }
     
     return HEADER_NONE;
 }
 
 static u16 GetCorrespondingLeafGreenWildMonHeaderId(u16 currentId)
 {
-    //u16 i;
-    //
-    //for (i = currentId + 1; ; i++)
-    //{
-    //    const struct WildPokemonHeader *wildHeader = &gWildMonHeadersFRLG[i];
-    //    if (wildHeader->mapGroup == MAP_GROUP(UNDEFINED))
-    //        break;
-    //
-    //    if (gWildMonHeadersFRLG[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
-    //        gWildMonHeadersFRLG[i].mapNum == gSaveBlock1Ptr->location.mapNum)
-    //    {
-    //        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(KANTO_ALTERING_CAVE) &&
-    //            gSaveBlock1Ptr->location.mapNum == MAP_NUM(KANTO_ALTERING_CAVE))
-    //        {
-    //            u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-    //            if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
-    //                alteringCaveId = 0;
-    //
-    //            i += alteringCaveId;
-    //        }
-    //
-    //        return i;
-    //    }
-    //}
+    u16 i;
+    
+    for (i = currentId + 1; ; i++)
+    {
+        const struct WildPokemonHeader *wildHeader = &gWildMonHeadersFRLG[i];
+        if (wildHeader->mapGroup == MAP_GROUP(UNDEFINED))
+            break;
+    
+        if (gWildMonHeadersFRLG[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
+            gWildMonHeadersFRLG[i].mapNum == gSaveBlock1Ptr->location.mapNum)
+        {
+            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(KANTO_SIX_ISLAND_ALTERING_CAVE) &&
+                gSaveBlock1Ptr->location.mapNum == MAP_NUM(KANTO_SIX_ISLAND_ALTERING_CAVE))
+            {
+                u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+                if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
+                    alteringCaveId = 0;
+    
+                i += alteringCaveId;
+            }
+    
+            return i;
+        }
+    }
     
     return HEADER_NONE;
 }
@@ -620,7 +619,7 @@ static u8 PickWildMonNature(void)
         }
     }
     // check synchronize for a pokemon with the same ability
-    if (sEncounterMode == ENCOUNTER_EMERALD
+    if (gEncounterMode == ENCOUNTER_EMERALD
 		&& !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
         && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE
         && Random() % 2 == 0)
@@ -632,12 +631,12 @@ static u8 PickWildMonNature(void)
     return Random() % NUM_NATURES;
 }
 
-static void CreateWildMon(u16 species, u8 level)
+static void CreateWildMon(u16 species, u8 level, u8 partySlot)
 {
     bool32 checkCuteCharm;
 
     ZeroEnemyPartyMons();
-	checkCuteCharm = (sEncounterMode == ENCOUNTER_EMERALD);
+	checkCuteCharm = (gEncounterMode == ENCOUNTER_EMERALD);
 	
 	if (species == gLastEncounteredSpecies)
 	{
@@ -674,11 +673,11 @@ static void CreateWildMon(u16 species, u8 level)
         else
             gender = MON_FEMALE;
 
-        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, USE_RANDOM_IVS, gender, PickWildMonNature(), 0);
+        CreateMonWithGenderNatureLetter(&gEnemyParty[partySlot], species, level, USE_RANDOM_IVS, gender, PickWildMonNature(), 0);
         return;
     }
 
-    CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, PickWildMonNature());
+    CreateMonWithNature(&gEnemyParty[partySlot], species, level, USE_RANDOM_IVS, PickWildMonNature());
 }
 
 static void CreateWildUnown(u8 slot, u8 level)
@@ -791,9 +790,9 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
 	if (wildMonInfo->wildPokemon[wildMonIndex].species == SPECIES_UNOWN)
 		CreateWildUnown(wildMonIndex, level);
 	else if (FlagGet(FLAG_UNOWN_RELEASED) && !FlagGet(FLAG_UNOWN_SETTLED) && Random() % 8 == 0)
-		CreateWildMon(SPECIES_UNOWN, 25);
+		CreateWildMon(SPECIES_UNOWN, 25, 0);
 	else
-		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, 0);
     return TRUE;
 }
 
@@ -810,9 +809,9 @@ static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 
     level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
 
 	if (FlagGet(FLAG_UNOWN_RELEASED) && !FlagGet(FLAG_UNOWN_SETTLED) && Random() % 8 == 0)
-		CreateWildMon(SPECIES_UNOWN, 25);
+		CreateWildMon(SPECIES_UNOWN, 25, 0);
 	else
-		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, 0);
     return wildMonInfo->wildPokemon[wildMonIndex].species;
 }
 
@@ -824,7 +823,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
     if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(gSaveBlock1Ptr->outbreakPokemonLevel + levelBonus))
         return FALSE;
 
-    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel + levelBonus);
+    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel + levelBonus, 0);
 	gChainStreak++;
     for (i = 0; i < MAX_MON_MOVES; i++)
         SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
@@ -984,14 +983,14 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
         return FALSE;
 
     headerId = GetEmeraldWildMonHeaderId();
-    sEncounterMode = ENCOUNTER_EMERALD;
+    gEncounterMode = ENCOUNTER_EMERALD;
 
     if (headerId == HEADER_NONE)
     {
         headerId = GetFireRedWildMonHeaderId();
 
         if (headerId != HEADER_NONE)
-            sEncounterMode = ENCOUNTER_FIRERED;
+            gEncounterMode = ENCOUNTER_FIRERED;
     }
 
     if (headerId == HEADER_NONE)
@@ -1035,20 +1034,20 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             else if (!DoGlobalWildEncounterDiceRoll())
                 return FALSE;
 
-            if (sEncounterMode == ENCOUNTER_FIRERED)
+            if (gEncounterMode == ENCOUNTER_FIRERED)
             {
-                //wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
-                //
-                //if (Random() % 2)
-                //{
-                //    oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
-                //
-                //    if (oppositeHeaderId != HEADER_NONE)
-                //    {
-                //        sEncounterMode = ENCOUNTER_LEAFGREEN;
-                //        wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].landMonsInfo;
-                //    }
-                //}
+                wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
+                
+                if (Random() % 2)
+                {
+                    oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+                
+                    if (oppositeHeaderId != HEADER_NONE)
+                    {
+                        gEncounterMode = ENCOUNTER_LEAFGREEN;
+                        wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].landMonsInfo;
+                    }
+                }
             }
             else
             {
@@ -1061,7 +1060,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 
                         if (headerId != HEADER_NONE)
                         {
-                            sEncounterMode = ENCOUNTER_RUBY;
+                            gEncounterMode = ENCOUNTER_RUBY;
                             wildPokemonInfo = gWildMonHeadersRS[headerId].landMonsInfo;
                         }
                         break;
@@ -1074,7 +1073,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                             
                             if (oppositeHeaderId != HEADER_NONE)
                             {
-                                sEncounterMode = ENCOUNTER_SAPPHIRE;
+                                gEncounterMode = ENCOUNTER_SAPPHIRE;
                                 wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].landMonsInfo;
                             }
                         }
@@ -1082,18 +1081,18 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                 }
             }
 
-            switch (sEncounterMode)
+            switch (gEncounterMode)
             {
                 case ENCOUNTER_RUBY:
                 case ENCOUNTER_SAPPHIRE:
-                    encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                    encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
                     break;
                 case ENCOUNTER_FIRERED:
                 case ENCOUNTER_LEAFGREEN:
-                    encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                    encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
                     break;
                 case ENCOUNTER_EMERALD:
-                    encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                    encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
                     break;
             }
 
@@ -1114,27 +1113,27 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                     if (IsMonShiny(&gEnemyParty[0]))
                         IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 
-                    if (sEncounterMode == ENCOUNTER_FIRERED || sEncounterMode == ENCOUNTER_FIRERED)
+                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_FIRERED)
                     {
-                        //headerId = GetFireRedWildMonHeaderId();
-                        //sEncounterMode = ENCOUNTER_FIRERED;
-                        //wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
-                        //
-                        //if (Random() % 2)
-                        //{
-                        //    oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
-                        //
-                        //    if (oppositeHeaderId != HEADER_NONE)
-                        //    {
-                        //        sEncounterMode = ENCOUNTER_LEAFGREEN;
-                        //        wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].landMonsInfo;
-                        //    }
-                        //}
+                        headerId = GetFireRedWildMonHeaderId();
+                        gEncounterMode = ENCOUNTER_FIRERED;
+                        wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
+                        
+                        if (Random() % 2)
+                        {
+                            oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+                        
+                            if (oppositeHeaderId != HEADER_NONE)
+                            {
+                                gEncounterMode = ENCOUNTER_LEAFGREEN;
+                                wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].landMonsInfo;
+                            }
+                        }
                     }
                     else
                     {
                         headerId = GetEmeraldWildMonHeaderId();
-                        sEncounterMode = ENCOUNTER_EMERALD;
+                        gEncounterMode = ENCOUNTER_EMERALD;
                         wildPokemonInfo = gWildMonHeadersE[headerId].landMonsInfo;
 
                         switch (Random() % 3)
@@ -1144,7 +1143,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 
                                 if (headerId != HEADER_NONE)
                                 {
-                                    sEncounterMode = ENCOUNTER_RUBY;
+                                    gEncounterMode = ENCOUNTER_RUBY;
                                     wildPokemonInfo = gWildMonHeadersRS[headerId].landMonsInfo;
                                 }
                                 break;
@@ -1157,7 +1156,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 
                                     if (oppositeHeaderId != HEADER_NONE)
                                     {
-                                        sEncounterMode = ENCOUNTER_SAPPHIRE;
+                                        gEncounterMode = ENCOUNTER_SAPPHIRE;
                                         wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].landMonsInfo;
                                     }
                                 }
@@ -1165,31 +1164,30 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                         }
                     }
 
-                    switch (sEncounterMode)
+                    switch (gEncounterMode)
                     {
                         case ENCOUNTER_RUBY:
                         case ENCOUNTER_SAPPHIRE:
-                            encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                            encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
                             break;
                         case ENCOUNTER_FIRERED:
                         case ENCOUNTER_LEAFGREEN:
-                            encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                            encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
                             break;
                         case ENCOUNTER_EMERALD:
-                            encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                            encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
                             break;
                     }
 
                     if (encounterResult == 1)
                     {
-                        if (IsMonShiny(&gEnemyParty[0]))
+                        if (IsMonShiny(&gEnemyParty[1]))
                             IncrementGameStat(GAME_STAT_SHINIES_FOUND);
-                        gEnemyParty[1] = mon1;
+                        gEnemyParty[0] = mon1;
                         BattleSetup_StartWildDoubleBattle();
                     }
                     else
                     {
-                        gEnemyParty[0] = mon1;
                         BattleSetup_StartWildBattle();
                     }
                 }
@@ -1216,20 +1214,20 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             else if (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
                 return FALSE;
 
-			if (sEncounterMode == ENCOUNTER_FIRERED)
+			if (gEncounterMode == ENCOUNTER_FIRERED)
             {
-                //wildPokemonInfo = gWildMonHeadersFRLG[headerId].waterMonsInfo;
-                //
-                //if (Random() % 2)
-                //{
-                //    oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
-                //
-                //    if (oppositeHeaderId != HEADER_NONE)
-                //    {
-                //        sEncounterMode = ENCOUNTER_LEAFGREEN;
-                //        wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].waterMonsInfo;
-                //    }
-                //}
+                wildPokemonInfo = gWildMonHeadersFRLG[headerId].waterMonsInfo;
+                
+                if (Random() % 2)
+                {
+                    oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+                
+                    if (oppositeHeaderId != HEADER_NONE)
+                    {
+                        gEncounterMode = ENCOUNTER_LEAFGREEN;
+                        wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].waterMonsInfo;
+                    }
+                }
             }
             else
             {
@@ -1242,7 +1240,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 
                         if (headerId != HEADER_NONE)
                         {
-                            sEncounterMode = ENCOUNTER_RUBY;
+                            gEncounterMode = ENCOUNTER_RUBY;
                             wildPokemonInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
                         }
                         break;
@@ -1255,7 +1253,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                             
                             if (oppositeHeaderId != HEADER_NONE)
                             {
-                                sEncounterMode = ENCOUNTER_SAPPHIRE;
+                                gEncounterMode = ENCOUNTER_SAPPHIRE;
                                 wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
                             }
                         }
@@ -1263,18 +1261,18 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                 }
             }
 
-            switch (sEncounterMode)
+            switch (gEncounterMode)
             {
                 case ENCOUNTER_RUBY:
                 case ENCOUNTER_SAPPHIRE:
-                    encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                    encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
                     break;
                 case ENCOUNTER_FIRERED:
                 case ENCOUNTER_LEAFGREEN:
-                    encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                    encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
                     break;
                 case ENCOUNTER_EMERALD:
-                    encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                    encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
                     break;
             }
 
@@ -1295,27 +1293,27 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                     if (IsMonShiny(&gEnemyParty[0]))
                         IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 
-                    if (sEncounterMode == ENCOUNTER_FIRERED || sEncounterMode == ENCOUNTER_FIRERED)
+                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_FIRERED)
                     {
-                        //headerId = GetFireRedWildMonHeaderId();
-                        //sEncounterMode = ENCOUNTER_FIRERED;
-                        //wildPokemonInfo = gWildMonHeadersFRLG[headerId].waterMonsInfo;
-                        //
-                        //if (Random() % 2)
-                        //{
-                        //    oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
-                        //
-                        //    if (oppositeHeaderId != HEADER_NONE)
-                        //    {
-                        //        sEncounterMode = ENCOUNTER_LEAFGREEN;
-                        //        wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].waterMonsInfo;
-                        //    }
-                        //}
+                        headerId = GetFireRedWildMonHeaderId();
+                        gEncounterMode = ENCOUNTER_FIRERED;
+                        wildPokemonInfo = gWildMonHeadersFRLG[headerId].waterMonsInfo;
+                        
+                        if (Random() % 2)
+                        {
+                            oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+                        
+                            if (oppositeHeaderId != HEADER_NONE)
+                            {
+                                gEncounterMode = ENCOUNTER_LEAFGREEN;
+                                wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].waterMonsInfo;
+                            }
+                        }
                     }
                     else
                     {
                         headerId = GetEmeraldWildMonHeaderId();
-                        sEncounterMode = ENCOUNTER_EMERALD;
+                        gEncounterMode = ENCOUNTER_EMERALD;
                         wildPokemonInfo = gWildMonHeadersE[headerId].waterMonsInfo;
 
                         switch (Random() % 3)
@@ -1325,7 +1323,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 
                                 if (headerId != HEADER_NONE)
                                 {
-                                    sEncounterMode = ENCOUNTER_RUBY;
+                                    gEncounterMode = ENCOUNTER_RUBY;
                                     wildPokemonInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
                                 }
                                 break;
@@ -1338,7 +1336,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 
                                     if (oppositeHeaderId != HEADER_NONE)
                                     {
-                                        sEncounterMode = ENCOUNTER_SAPPHIRE;
+                                        gEncounterMode = ENCOUNTER_SAPPHIRE;
                                         wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
                                     }
                                 }
@@ -1346,31 +1344,30 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                         }
                     }
 
-                    switch (sEncounterMode)
+                    switch (gEncounterMode)
                     {
                         case ENCOUNTER_RUBY:
                         case ENCOUNTER_SAPPHIRE:
-                            encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                            encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
                             break;
                         case ENCOUNTER_FIRERED:
                         case ENCOUNTER_LEAFGREEN:
-                            encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                            encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
                             break;
                         case ENCOUNTER_EMERALD:
-                            encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND);
+                            encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
                             break;
                     }
 
                     if (encounterResult == 1)
                     {
-                        if (IsMonShiny(&gEnemyParty[0]))
+                        if (IsMonShiny(&gEnemyParty[1]))
                             IncrementGameStat(GAME_STAT_SHINIES_FOUND);
-                        gEnemyParty[1] = mon1;
+                        gEnemyParty[0] = mon1;
                         BattleSetup_StartWildDoubleBattle();
                     }
                     else
                     {
-                        gEnemyParty[0] = mon1;
                         BattleSetup_StartWildBattle();
                     }
                 }
@@ -1942,7 +1939,7 @@ void HeadbuttWildEncounter(void)
 	//	u32 status = STATUS1_SLEEP;
 	//	range = max - min + 1;
 	//	level = Random() % range + min;
-	//	CreateWildMon(species, level);
+	//	CreateWildMon(species, level, 0);
 	//	if (IsMonShiny(&gEnemyParty[0]))
 	//		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 	//	if (GetCurrentTimeOfDay() == TIME_NIGHT && (Random() % 10))
@@ -2098,7 +2095,7 @@ void FishingWildEncounter(u8 rod)
         u8 level = ChooseWildMonLevel(&sWildFeebas);
 
         species = sWildFeebas.species;
-        CreateWildMon(species, level);
+        CreateWildMon(species, level, 0);
     }
     else
     {
@@ -2346,7 +2343,7 @@ static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex)
 	return TRUE;
 }
 
-static bool8 RubyEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area)
+static bool8 RubyEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 partySlot)
 {
     u32 encounterRate, wildMonIndex, level;
     struct Roamer *roamer;
@@ -2402,12 +2399,12 @@ static bool8 RubyEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area)
     if (IsWildLevelAllowedByRepel(level) == FALSE)
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, partySlot);
 
     return TRUE;
 }
 
-static bool8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area)
+static u8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 partySlot)
 {
     u32 encounterRate, wildMonIndex, level;
     struct Roamer *roamer;
@@ -2432,14 +2429,14 @@ static bool8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area
     if (!DoWildEncounterRateDiceRoll(encounterRate))
         return FALSE;
 
-    if (TryStartRoamerEncounter() == TRUE)
-    {
-        roamer = &gSaveBlock1Ptr->roamer;
-        if (!IsWildLevelAllowedByRepel(roamer->level) || (area == WILD_AREA_WATER && roamer->species == SPECIES_RAIKOU) || (area == WILD_AREA_WATER && roamer->species == SPECIES_ENTEI))
-            return FALSE;
-
-        return 2;
-    }
+   //if (TryStartRoamerEncounter() == TRUE)
+   //{
+   //    roamer = &gSaveBlock1Ptr->roamer;
+   //    if (!IsWildLevelAllowedByRepel(roamer->level) || (area == WILD_AREA_WATER && roamer->species == SPECIES_RAIKOU) || (area == WILD_AREA_WATER && roamer->species == SPECIES_ENTEI))
+   //        return FALSE;
+   //
+   //    return 2;
+   //}
     //else if (DoMassOutbreakEncounterTest(FALSE) == TRUE && SetUpMassOutbreakEncounter(WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
     //{
     //    return TRUE;
@@ -2463,12 +2460,12 @@ static bool8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area
     if (IsWildLevelAllowedByRepel(level) == FALSE)
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, partySlot);
 
     return TRUE;
 }
 
-static bool8 EmeraldEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area)
+static bool8 EmeraldEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 partySlot)
 {
     u32 encounterRate, level;
     u8 wildMonIndex;
@@ -2540,7 +2537,7 @@ static bool8 EmeraldEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && !IsAbilityAllowingEncounter(level))
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, partySlot);
 
     return TRUE;
 }
