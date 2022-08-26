@@ -1,0 +1,42 @@
+{
+  "id": "MAP_KANTO_INDIGO_PLATEAU_POKEMON_CENTER_1F",
+  "name": "_Kanto_IndigoPlateau_PokemonCenter_1F",
+  "layout": "LAYOUT_KANTO_INDIGO_PLATEAU_POKEMON_CENTER_1F",
+  "music": "MUS_RG_GYM",
+  "region_map_section": "MAPSEC_INDIGO_PLATEAU",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_GYM",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 11,
+      "y": 16,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_INDIGO_PLATEAU_EXTERIOR",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_POKEMON_LEAGUE_LORELEIS_ROOM",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 1,
+      "y": 14,
+      "elevation": 4,
+      "dest_map": "MAP_KANTO_INDIGO_PLATEAU_POKEMON_CENTER_2F",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

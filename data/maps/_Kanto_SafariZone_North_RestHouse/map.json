@@ -1,0 +1,42 @@
+{
+  "id": "MAP_KANTO_SAFARI_ZONE_NORTH_REST_HOUSE",
+  "name": "_Kanto_SafariZone_North_RestHouse",
+  "layout": "LAYOUT_KANTO_SAFARI_ZONE_REST_HOUSE",
+  "music": "MUS_SAFARI_ZONE",
+  "region_map_section": "MAPSEC_KANTO_SAFARI_ZONE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SAFARI_ZONE_NORTH",
+      "dest_warp_id": 12
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SAFARI_ZONE_NORTH",
+      "dest_warp_id": 12
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_SAFARI_ZONE_NORTH",
+      "dest_warp_id": 12
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

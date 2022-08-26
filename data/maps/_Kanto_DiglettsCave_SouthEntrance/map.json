@@ -1,0 +1,35 @@
+{
+  "id": "MAP_KANTO_DIGLETTS_CAVE_SOUTH_ENTRANCE",
+  "name": "_Kanto_DiglettsCave_SouthEntrance",
+  "layout": "LAYOUT_KANTO_DIGLETTS_CAVE_SOUTH_ENTRANCE",
+  "music": "MUS_RG_VIRIDIAN_FOREST",
+  "region_map_section": "MAPSEC_DIGLETTS_CAVE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 4,
+      "y": 6,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE11",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_DIGLETTS_CAVE_B1F",
+      "dest_warp_id": 1
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

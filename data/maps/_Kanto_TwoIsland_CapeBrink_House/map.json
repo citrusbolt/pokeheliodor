@@ -1,0 +1,28 @@
+{
+  "id": "MAP_KANTO_TWO_ISLAND_CAPE_BRINK_HOUSE",
+  "name": "_Kanto_TwoIsland_CapeBrink_House",
+  "layout": "LAYOUT_KANTO_HOUSE3",
+  "music": "MUS_RG_SEVII_123",
+  "region_map_section": "MAPSEC_CAPE_BRINK",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 4,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_TWO_ISLAND_CAPE_BRINK",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

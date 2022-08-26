@@ -1,0 +1,67 @@
+{
+  "id": "MAP_KANTO_ROUTE16",
+  "name": "_Kanto_Route16",
+  "layout": "LAYOUT_KANTO_ROUTE16",
+  "music": "MUS_RG_ROUTE3",
+  "region_map_section": "MAPSEC_ROUTE_16",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_ROUTE17",
+      "offset": 0,
+      "direction": "down"
+    },
+    {
+      "map": "MAP_KANTO_CELADON_CITY",
+      "offset": -10,
+      "direction": "right"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 10,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_ROUTE16_HOUSE",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 20,
+      "y": 6,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE16_NORTH_ENTRANCE_1F",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 27,
+      "y": 6,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE16_NORTH_ENTRANCE_1F",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 20,
+      "y": 13,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE16_NORTH_ENTRANCE_1F",
+      "dest_warp_id": 2
+    },
+    {
+      "x": 27,
+      "y": 13,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ROUTE16_NORTH_ENTRANCE_1F",
+      "dest_warp_id": 3
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

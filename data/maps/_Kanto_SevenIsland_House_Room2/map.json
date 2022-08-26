@@ -1,0 +1,28 @@
+{
+  "id": "MAP_KANTO_SEVEN_ISLAND_HOUSE_ROOM2",
+  "name": "_Kanto_SevenIsland_House_Room2",
+  "layout": "LAYOUT_KANTO_SEVEN_ISLAND_HOUSE_ROOM2",
+  "music": "MUS_RG_SEVII_67",
+  "region_map_section": "MAPSEC_SEVEN_ISLAND",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_GYM",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 1,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_SEVEN_ISLAND_HOUSE_ROOM1",
+      "dest_warp_id": 1
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

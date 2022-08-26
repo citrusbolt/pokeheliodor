@@ -1,0 +1,2 @@
+_Kanto_SaffronCity_PokemonCenter_1F_MapScripts::
+	.byte 0

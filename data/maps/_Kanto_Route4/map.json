@@ -1,0 +1,53 @@
+{
+  "id": "MAP_KANTO_ROUTE4",
+  "name": "_Kanto_Route4",
+  "layout": "LAYOUT_KANTO_ROUTE4",
+  "music": "MUS_RG_ROUTE3",
+  "region_map_section": "MAPSEC_ROUTE_4",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_ROUTE3",
+      "offset": -60,
+      "direction": "down"
+    },
+    {
+      "map": "MAP_KANTO_CERULEAN_CITY",
+      "offset": -10,
+      "direction": "right"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 19,
+      "y": 5,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_MT_MOON_1F",
+      "dest_warp_id": 3
+    },
+    {
+      "x": 32,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_MT_MOON_B1F",
+      "dest_warp_id": 7
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_ROUTE4_POKEMON_CENTER_1F",
+      "dest_warp_id": 1
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

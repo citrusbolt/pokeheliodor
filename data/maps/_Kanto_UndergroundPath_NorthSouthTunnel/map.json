@@ -1,0 +1,35 @@
+{
+  "id": "MAP_KANTO_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL",
+  "name": "_Kanto_UndergroundPath_NorthSouthTunnel",
+  "layout": "LAYOUT_KANTO_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL",
+  "music": "MUS_RG_ROUTE1",
+  "region_map_section": "MAPSEC_UNDERGROUND_PATH",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 4,
+      "y": 3,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_UNDERGROUND_PATH_NORTH_ENTRANCE",
+      "dest_warp_id": 3
+    },
+    {
+      "x": 3,
+      "y": 60,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_UNDERGROUND_PATH_SOUTH_ENTRANCE",
+      "dest_warp_id": 3
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

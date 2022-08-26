@@ -557,3 +557,549 @@ gMetatiles_UnionRoom::
 	.align 1
 gMetatileAttributes_UnionRoom::
 	.incbin "data/tilesets/secondary/union_room/metatile_attributes.bin"
+
+// Kanto
+
+	.align 1
+gMetatiles_FRLG_General::
+	.incbin "data/tilesets/primary/frlg_general/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_General::
+	.incbin "data/tilesets/primary/frlg_general/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Building::
+	.incbin "data/tilesets/primary/frlg_building/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Building::
+	.incbin "data/tilesets/primary/frlg_building/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PalletTown::
+	.incbin "data/tilesets/secondary/frlg_pallet_town/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PalletTown::
+	.incbin "data/tilesets/secondary/frlg_pallet_town/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_ViridianCity::
+	.incbin "data/tilesets/secondary/frlg_viridian_city/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_ViridianCity::
+	.incbin "data/tilesets/secondary/frlg_viridian_city/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PewterCity::
+	.incbin "data/tilesets/secondary/frlg_pewter_city/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PewterCity::
+	.incbin "data/tilesets/secondary/frlg_pewter_city/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CeruleanCity::
+	.incbin "data/tilesets/secondary/frlg_cerulean_city/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CeruleanCity::
+	.incbin "data/tilesets/secondary/frlg_cerulean_city/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_LavenderTown::
+	.incbin "data/tilesets/secondary/frlg_lavender_town/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_LavenderTown::
+	.incbin "data/tilesets/secondary/frlg_lavender_town/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_VermilionCity::
+	.incbin "data/tilesets/secondary/frlg_vermilion_city/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_VermilionCity::
+	.incbin "data/tilesets/secondary/frlg_vermilion_city/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CeladonCity::
+	.incbin "data/tilesets/secondary/frlg_celadon_city/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CeladonCity::
+	.incbin "data/tilesets/secondary/frlg_celadon_city/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_FuchsiaCity::
+	.incbin "data/tilesets/secondary/frlg_fuchsia_city/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_FuchsiaCity::
+	.incbin "data/tilesets/secondary/frlg_fuchsia_city/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CinnabarIsland::
+	.incbin "data/tilesets/secondary/frlg_cinnabar_island/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CinnabarIsland::
+	.incbin "data/tilesets/secondary/frlg_cinnabar_island/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_IndigoPlateau::
+	.incbin "data/tilesets/secondary/frlg_indigo_plateau/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_IndigoPlateau::
+	.incbin "data/tilesets/secondary/frlg_indigo_plateau/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SaffronCity::
+	.incbin "data/tilesets/secondary/frlg_saffron_city/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SaffronCity::
+	.incbin "data/tilesets/secondary/frlg_saffron_city/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PewterGym::
+	.incbin "data/tilesets/secondary/frlg_pewter_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PewterGym::
+	.incbin "data/tilesets/secondary/frlg_pewter_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CeruleanGym::
+	.incbin "data/tilesets/secondary/frlg_cerulean_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CeruleanGym::
+	.incbin "data/tilesets/secondary/frlg_cerulean_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_VermilionGym::
+	.incbin "data/tilesets/secondary/frlg_vermilion_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_VermilionGym::
+	.incbin "data/tilesets/secondary/frlg_vermilion_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CeladonGym::
+	.incbin "data/tilesets/secondary/frlg_celadon_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CeladonGym::
+	.incbin "data/tilesets/secondary/frlg_celadon_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_FuchsiaGym::
+	.incbin "data/tilesets/secondary/frlg_fuchsia_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_FuchsiaGym::
+	.incbin "data/tilesets/secondary/frlg_fuchsia_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SaffronGym::
+	.incbin "data/tilesets/secondary/frlg_saffron_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SaffronGym::
+	.incbin "data/tilesets/secondary/frlg_saffron_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CinnabarGym::
+	.incbin "data/tilesets/secondary/frlg_cinnabar_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CinnabarGym::
+	.incbin "data/tilesets/secondary/frlg_cinnabar_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_ViridianGym::
+	.incbin "data/tilesets/secondary/frlg_viridian_gym/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_ViridianGym::
+	.incbin "data/tilesets/secondary/frlg_viridian_gym/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Dummy1::
+	.incbin "data/tilesets/secondary/frlg_dummy_1/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Dummy1::
+	.incbin "data/tilesets/secondary/frlg_dummy_1/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_HoennBuilding::
+	.incbin "data/tilesets/secondary/frlg_hoenn_building/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_HoennBuilding::
+	.incbin "data/tilesets/secondary/frlg_hoenn_building/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_BikeShop::
+	.incbin "data/tilesets/secondary/frlg_bike_shop/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_BikeShop::
+	.incbin "data/tilesets/secondary/frlg_bike_shop/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Mart::
+	.incbin "data/tilesets/secondary/frlg_mart/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Mart::
+	.incbin "data/tilesets/secondary/frlg_mart/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PokemonCenter::
+	.incbin "data/tilesets/secondary/frlg_pokemon_center/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PokemonCenter::
+	.incbin "data/tilesets/secondary/frlg_pokemon_center/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_GenericBuilding1::
+	.incbin "data/tilesets/secondary/frlg_generic_building_1/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_GenericBuilding1::
+	.incbin "data/tilesets/secondary/frlg_generic_building_1/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Cave::
+	.incbin "data/tilesets/secondary/frlg_cave/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Cave::
+	.incbin "data/tilesets/secondary/frlg_cave/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_GameCorner::
+	.incbin "data/tilesets/secondary/frlg_game_corner/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_GameCorner::
+	.incbin "data/tilesets/secondary/frlg_game_corner/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Lab::
+	.incbin "data/tilesets/secondary/frlg_lab/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Lab::
+	.incbin "data/tilesets/secondary/frlg_lab/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SSAnne::
+	.incbin "data/tilesets/secondary/frlg_ss_anne/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SSAnne::
+	.incbin "data/tilesets/secondary/frlg_ss_anne/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Dummy2::
+	.incbin "data/tilesets/secondary/frlg_dummy_2/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Dummy2::
+	.incbin "data/tilesets/secondary/frlg_dummy_2/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_ViridianForest::
+	.incbin "data/tilesets/secondary/frlg_viridian_forest/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_ViridianForest::
+	.incbin "data/tilesets/secondary/frlg_viridian_forest/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_UnusedGatehouse1::
+	.incbin "data/tilesets/secondary/frlg_unused_gatehouse_1/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_UnusedGatehouse1::
+	.incbin "data/tilesets/secondary/frlg_unused_gatehouse_1/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_RockTunnel::
+	.incbin "data/tilesets/secondary/frlg_rock_tunnel/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_RockTunnel::
+	.incbin "data/tilesets/secondary/frlg_rock_tunnel/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_DiglettsCave::
+	.incbin "data/tilesets/secondary/frlg_digletts_cave/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_DiglettsCave::
+	.incbin "data/tilesets/secondary/frlg_digletts_cave/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SeafoamIslands::
+	.incbin "data/tilesets/secondary/frlg_seafoam_islands/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SeafoamIslands::
+	.incbin "data/tilesets/secondary/frlg_seafoam_islands/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_UnusedGatehouse2::
+	.incbin "data/tilesets/secondary/frlg_unused_gatehouse_2/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_UnusedGatehouse2::
+	.incbin "data/tilesets/secondary/frlg_unused_gatehouse_2/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CeruleanCave::
+	.incbin "data/tilesets/secondary/frlg_cerulean_cave/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CeruleanCave::
+	.incbin "data/tilesets/secondary/frlg_cerulean_cave/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_DepartmentStore::
+	.incbin "data/tilesets/secondary/frlg_department_store/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_DepartmentStore::
+	.incbin "data/tilesets/secondary/frlg_department_store/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_GenericBuilding2::
+	.incbin "data/tilesets/secondary/frlg_generic_building_2/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_GenericBuilding2::
+	.incbin "data/tilesets/secondary/frlg_generic_building_2/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PowerPlant::
+	.incbin "data/tilesets/secondary/frlg_power_plant/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PowerPlant::
+	.incbin "data/tilesets/secondary/frlg_power_plant/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SeaCottage::
+	.incbin "data/tilesets/secondary/frlg_sea_cottage/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SeaCottage::
+	.incbin "data/tilesets/secondary/frlg_sea_cottage/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SilphCo::
+	.incbin "data/tilesets/secondary/frlg_silph_co/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SilphCo::
+	.incbin "data/tilesets/secondary/frlg_silph_co/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_UndergroundPath::
+	.incbin "data/tilesets/secondary/frlg_underground_path/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_UndergroundPath::
+	.incbin "data/tilesets/secondary/frlg_underground_path/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PokemonTower::
+	.incbin "data/tilesets/secondary/frlg_pokemon_tower/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PokemonTower::
+	.incbin "data/tilesets/secondary/frlg_pokemon_tower/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SafariZoneBuilding::
+	.incbin "data/tilesets/secondary/frlg_safari_zone_building/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SafariZoneBuilding::
+	.incbin "data/tilesets/secondary/frlg_safari_zone_building/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PokemonMansion::
+	.incbin "data/tilesets/secondary/frlg_pokemon_mansion/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PokemonMansion::
+	.incbin "data/tilesets/secondary/frlg_pokemon_mansion/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Museum::
+	.incbin "data/tilesets/secondary/frlg_museum/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Museum::
+	.incbin "data/tilesets/secondary/frlg_museum/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_CableClub::
+	.incbin "data/tilesets/secondary/frlg_cable_club/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_CableClub::
+	.incbin "data/tilesets/secondary/frlg_cable_club/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_RestaurantHotel::
+	.incbin "data/tilesets/secondary/frlg_restaurant_hotel/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_RestaurantHotel::
+	.incbin "data/tilesets/secondary/frlg_restaurant_hotel/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_School::
+	.incbin "data/tilesets/secondary/frlg_school/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_School::
+	.incbin "data/tilesets/secondary/frlg_school/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_FanClubDaycare::
+	.incbin "data/tilesets/secondary/frlg_fan_club_daycare/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_FanClubDaycare::
+	.incbin "data/tilesets/secondary/frlg_fan_club_daycare/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Condominiums::
+	.incbin "data/tilesets/secondary/frlg_condominiums/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Condominiums::
+	.incbin "data/tilesets/secondary/frlg_condominiums/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_BurgledHouse::
+	.incbin "data/tilesets/secondary/frlg_burgled_house/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_BurgledHouse::
+	.incbin "data/tilesets/secondary/frlg_burgled_house/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Dummy3::
+	.incbin "data/tilesets/secondary/frlg_dummy_3/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Dummy3::
+	.incbin "data/tilesets/secondary/frlg_dummy_3/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_Dummy4::
+	.incbin "data/tilesets/secondary/frlg_dummy_4/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_Dummy4::
+	.incbin "data/tilesets/secondary/frlg_dummy_4/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_MtEmber::
+	.incbin "data/tilesets/secondary/frlg_mt_ember/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_MtEmber::
+	.incbin "data/tilesets/secondary/frlg_mt_ember/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_BerryForest::
+	.incbin "data/tilesets/secondary/frlg_berry_forest/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_BerryForest::
+	.incbin "data/tilesets/secondary/frlg_berry_forest/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_NavelRock::
+	.incbin "data/tilesets/secondary/frlg_navel_rock/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_NavelRock::
+	.incbin "data/tilesets/secondary/frlg_navel_rock/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_TanobyRuins::
+	.incbin "data/tilesets/secondary/frlg_tanoby_ruins/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_TanobyRuins::
+	.incbin "data/tilesets/secondary/frlg_tanoby_ruins/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SeviiIslands123::
+	.incbin "data/tilesets/secondary/frlg_sevii_islands_123/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SeviiIslands123::
+	.incbin "data/tilesets/secondary/frlg_sevii_islands_123/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SeviiIslands45::
+	.incbin "data/tilesets/secondary/frlg_sevii_islands_45/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SeviiIslands45::
+	.incbin "data/tilesets/secondary/frlg_sevii_islands_45/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_SeviiIslands67::
+	.incbin "data/tilesets/secondary/frlg_sevii_islands_67/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_SeviiIslands67::
+	.incbin "data/tilesets/secondary/frlg_sevii_islands_67/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_TrainerTower::
+	.incbin "data/tilesets/secondary/frlg_trainer_tower/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_TrainerTower::
+	.incbin "data/tilesets/secondary/frlg_trainer_tower/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_IslandHarbor::
+	.incbin "data/tilesets/secondary/frlg_island_harbor/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_IslandHarbor::
+	.incbin "data/tilesets/secondary/frlg_island_harbor/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_PokemonLeague::
+	.incbin "data/tilesets/secondary/frlg_pokemon_league/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_PokemonLeague::
+	.incbin "data/tilesets/secondary/frlg_pokemon_league/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_FRLG_HallOfFame::
+	.incbin "data/tilesets/secondary/frlg_hall_of_fame/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_FRLG_HallOfFame::
+	.incbin "data/tilesets/secondary/frlg_hall_of_fame/metatile_attributes.bin"

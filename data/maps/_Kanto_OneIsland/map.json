@@ -1,0 +1,60 @@
+{
+  "id": "MAP_KANTO_ONE_ISLAND",
+  "name": "_Kanto_OneIsland",
+  "layout": "LAYOUT_KANTO_ONE_ISLAND",
+  "music": "MUS_RG_SEVII_123",
+  "region_map_section": "MAPSEC_ONE_ISLAND",
+  "requires_flash": false,
+  "weather": "WEATHER_SUNNY",
+  "map_type": "MAP_TYPE_TOWN",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_KANTO_ONE_ISLAND_TREASURE_BEACH",
+      "offset": 0,
+      "direction": "down"
+    },
+    {
+      "map": "MAP_KANTO_ONE_ISLAND_KINDLE_ROAD",
+      "offset": -120,
+      "direction": "right"
+    }
+  ],
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 14,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_ONE_ISLAND_POKEMON_CENTER_1F",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 19,
+      "y": 9,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_ONE_ISLAND_HOUSE1",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 8,
+      "y": 11,
+      "elevation": 0,
+      "dest_map": "MAP_KANTO_ONE_ISLAND_HOUSE2",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 12,
+      "y": 18,
+      "elevation": 3,
+      "dest_map": "MAP_KANTO_ONE_ISLAND_HARBOR",
+      "dest_warp_id": 0
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

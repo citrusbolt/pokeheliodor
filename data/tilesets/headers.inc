@@ -907,3 +907,821 @@ gTileset_UnionRoom::
 	.4byte gMetatileAttributes_UnionRoom
 	.4byte NULL @ animation callback
 	.4byte NULL @ palette overrides
+
+// Kanto
+
+	.align 2
+gTileset_FRLG_General::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_General
+	.4byte gTilesetPalettes_FRLG_General
+	.4byte gMetatiles_FRLG_General
+	.4byte gMetatileAttributes_FRLG_General
+	.4byte InitTilesetAnim_FRLG_General
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Building::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Building
+	.4byte gTilesetPalettes_FRLG_Building
+	.4byte gMetatiles_FRLG_Building
+	.4byte gMetatileAttributes_FRLG_Building
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PalletTown::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PalletTown
+	.4byte gTilesetPalettes_FRLG_PalletTown
+	.4byte gMetatiles_FRLG_PalletTown
+	.4byte gMetatileAttributes_FRLG_PalletTown
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_ViridianCity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_ViridianCity
+	.4byte gTilesetPalettes_FRLG_ViridianCity
+	.4byte gMetatiles_FRLG_ViridianCity
+	.4byte gMetatileAttributes_FRLG_ViridianCity
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PewterCity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PewterCity
+	.4byte gTilesetPalettes_FRLG_PewterCity
+	.4byte gMetatiles_FRLG_PewterCity
+	.4byte gMetatileAttributes_FRLG_PewterCity
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CeruleanCity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CeruleanCity
+	.4byte gTilesetPalettes_FRLG_CeruleanCity
+	.4byte gMetatiles_FRLG_CeruleanCity
+	.4byte gMetatileAttributes_FRLG_CeruleanCity
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_LavenderTown::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_LavenderTown
+	.4byte gTilesetPalettes_FRLG_LavenderTown
+	.4byte gMetatiles_FRLG_LavenderTown
+	.4byte gMetatileAttributes_FRLG_LavenderTown
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_VermilionCity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_VermilionCity
+	.4byte gTilesetPalettes_FRLG_VermilionCity
+	.4byte gMetatiles_FRLG_VermilionCity
+	.4byte gMetatileAttributes_FRLG_VermilionCity
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CeladonCity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CeladonCity
+	.4byte gTilesetPalettes_FRLG_CeladonCity
+	.4byte gMetatiles_FRLG_CeladonCity
+	.4byte gMetatileAttributes_FRLG_CeladonCity
+	.4byte InitTilesetAnim_FRLG_CeladonCity
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_FuchsiaCity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_FuchsiaCity
+	.4byte gTilesetPalettes_FRLG_FuchsiaCity
+	.4byte gMetatiles_FRLG_FuchsiaCity
+	.4byte gMetatileAttributes_FRLG_FuchsiaCity
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CinnabarIsland::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CinnabarIsland
+	.4byte gTilesetPalettes_FRLG_CinnabarIsland
+	.4byte gMetatiles_FRLG_CinnabarIsland
+	.4byte gMetatileAttributes_FRLG_CinnabarIsland
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_IndigoPlateau::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_IndigoPlateau
+	.4byte gTilesetPalettes_FRLG_IndigoPlateau
+	.4byte gMetatiles_FRLG_IndigoPlateau
+	.4byte gMetatileAttributes_FRLG_IndigoPlateau
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SaffronCity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SaffronCity
+	.4byte gTilesetPalettes_FRLG_SaffronCity
+	.4byte gMetatiles_FRLG_SaffronCity
+	.4byte gMetatileAttributes_FRLG_SaffronCity
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Mart::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Mart
+	.4byte gTilesetPalettes_FRLG_Mart
+	.4byte gMetatiles_FRLG_Mart
+	.4byte gMetatileAttributes_FRLG_Mart
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PokemonCenter::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PokemonCenter
+	.4byte gTilesetPalettes_FRLG_PokemonCenter
+	.4byte gMetatiles_FRLG_PokemonCenter
+	.4byte gMetatileAttributes_FRLG_PokemonCenter
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Cave::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Cave
+	.4byte gTilesetPalettes_FRLG_Cave
+	.4byte gMetatiles_FRLG_Cave
+	.4byte gMetatileAttributes_FRLG_Cave
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Dummy1::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Dummy1
+	.4byte gTilesetPalettes_FRLG_Dummy1
+	.4byte gMetatiles_FRLG_Dummy1
+	.4byte gMetatileAttributes_FRLG_Dummy1
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Museum::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Museum
+	.4byte gTilesetPalettes_FRLG_Museum
+	.4byte gMetatiles_FRLG_Museum
+	.4byte gMetatileAttributes_FRLG_Museum
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CableClub::
+	.byte FALSE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CableClub
+	.4byte gTilesetPalettes_FRLG_CableClub
+	.4byte gMetatiles_FRLG_CableClub
+	.4byte gMetatileAttributes_FRLG_CableClub
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_BikeShop::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_BikeShop
+	.4byte gTilesetPalettes_FRLG_BikeShop
+	.4byte gMetatiles_FRLG_BikeShop
+	.4byte gMetatileAttributes_FRLG_BikeShop
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_GenericBuilding1::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_GenericBuilding1
+	.4byte gTilesetPalettes_FRLG_GenericBuilding1
+	.4byte gMetatiles_FRLG_GenericBuilding1
+	.4byte gMetatileAttributes_FRLG_GenericBuilding1
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Lab::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Lab
+	.4byte gTilesetPalettes_FRLG_Lab
+	.4byte gMetatiles_FRLG_Lab
+	.4byte gMetatileAttributes_FRLG_Lab
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_FuchsiaGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_FuchsiaGym
+	.4byte gTilesetPalettes_FRLG_FuchsiaGym
+	.4byte gMetatiles_FRLG_FuchsiaGym
+	.4byte gMetatileAttributes_FRLG_FuchsiaGym
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_ViridianGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_ViridianGym
+	.4byte gTilesetPalettes_FRLG_ViridianGym
+	.4byte gMetatiles_FRLG_ViridianGym
+	.4byte gMetatileAttributes_FRLG_ViridianGym
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_HoennBuilding::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_HoennBuilding
+	.4byte gTilesetPalettes_FRLG_HoennBuilding
+	.4byte gMetatiles_FRLG_HoennBuilding
+	.4byte gMetatileAttributes_FRLG_HoennBuilding
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_GameCorner::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_GameCorner
+	.4byte gTilesetPalettes_FRLG_GameCorner
+	.4byte gMetatiles_FRLG_GameCorner
+	.4byte gMetatileAttributes_FRLG_GameCorner
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PewterGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PewterGym
+	.4byte gTilesetPalettes_FRLG_PewterGym
+	.4byte gMetatiles_FRLG_PewterGym
+	.4byte gMetatileAttributes_FRLG_PewterGym
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CeruleanGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CeruleanGym
+	.4byte gTilesetPalettes_FRLG_CeruleanGym
+	.4byte gMetatiles_FRLG_CeruleanGym
+	.4byte gMetatileAttributes_FRLG_CeruleanGym
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_VermilionGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_VermilionGym
+	.4byte gTilesetPalettes_FRLG_VermilionGym
+	.4byte gMetatiles_FRLG_VermilionGym
+	.4byte gMetatileAttributes_FRLG_VermilionGym
+	.4byte InitTilesetAnim_FRLG_VermilionGym
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CeladonGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CeladonGym
+	.4byte gTilesetPalettes_FRLG_CeladonGym
+	.4byte gMetatiles_FRLG_CeladonGym
+	.4byte gMetatileAttributes_FRLG_CeladonGym
+	.4byte InitTilesetAnim_FRLG_CeladonGym
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SaffronGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SaffronGym
+	.4byte gTilesetPalettes_FRLG_SaffronGym
+	.4byte gMetatiles_FRLG_SaffronGym
+	.4byte gMetatileAttributes_FRLG_SaffronGym
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CinnabarGym::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CinnabarGym
+	.4byte gTilesetPalettes_FRLG_CinnabarGym
+	.4byte gMetatiles_FRLG_CinnabarGym
+	.4byte gMetatileAttributes_FRLG_CinnabarGym
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SSAnne::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SSAnne
+	.4byte gTilesetPalettes_FRLG_SSAnne
+	.4byte gMetatiles_FRLG_SSAnne
+	.4byte gMetatileAttributes_FRLG_SSAnne
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Dummy2::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Dummy2
+	.4byte gTilesetPalettes_FRLG_Dummy2
+	.4byte gMetatiles_FRLG_Dummy2
+	.4byte gMetatileAttributes_FRLG_Dummy2
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_ViridianForest::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_ViridianForest
+	.4byte gTilesetPalettes_FRLG_ViridianForest
+	.4byte gMetatiles_FRLG_ViridianForest
+	.4byte gMetatileAttributes_FRLG_ViridianForest
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_UnusedGatehouse1::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_UnusedGatehouse1
+	.4byte gTilesetPalettes_FRLG_UnusedGatehouse1
+	.4byte gMetatiles_FRLG_UnusedGatehouse1
+	.4byte gMetatileAttributes_FRLG_UnusedGatehouse1
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_RockTunnel::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_RockTunnel
+	.4byte gTilesetPalettes_FRLG_RockTunnel
+	.4byte gMetatiles_FRLG_RockTunnel
+	.4byte gMetatileAttributes_FRLG_RockTunnel
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_DiglettsCave::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_DiglettsCave
+	.4byte gTilesetPalettes_FRLG_DiglettsCave
+	.4byte gMetatiles_FRLG_DiglettsCave
+	.4byte gMetatileAttributes_FRLG_DiglettsCave
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SeafoamIslands::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SeafoamIslands
+	.4byte gTilesetPalettes_FRLG_SeafoamIslands
+	.4byte gMetatiles_FRLG_SeafoamIslands
+	.4byte gMetatileAttributes_FRLG_SeafoamIslands
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_UnusedGatehouse2::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_UnusedGatehouse2
+	.4byte gTilesetPalettes_FRLG_UnusedGatehouse2
+	.4byte gMetatiles_FRLG_UnusedGatehouse2
+	.4byte gMetatileAttributes_FRLG_UnusedGatehouse2
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_CeruleanCave::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_CeruleanCave
+	.4byte gTilesetPalettes_FRLG_CeruleanCave
+	.4byte gMetatiles_FRLG_CeruleanCave
+	.4byte gMetatileAttributes_FRLG_CeruleanCave
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_DepartmentStore::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_DepartmentStore
+	.4byte gTilesetPalettes_FRLG_DepartmentStore
+	.4byte gMetatiles_FRLG_DepartmentStore
+	.4byte gMetatileAttributes_FRLG_DepartmentStore
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_GenericBuilding2::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_GenericBuilding2
+	.4byte gTilesetPalettes_FRLG_GenericBuilding2
+	.4byte gMetatiles_FRLG_GenericBuilding2
+	.4byte gMetatileAttributes_FRLG_GenericBuilding2
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PowerPlant::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PowerPlant
+	.4byte gTilesetPalettes_FRLG_PowerPlant
+	.4byte gMetatiles_FRLG_PowerPlant
+	.4byte gMetatileAttributes_FRLG_PowerPlant
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SeaCottage::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SeaCottage
+	.4byte gTilesetPalettes_FRLG_SeaCottage
+	.4byte gMetatiles_FRLG_SeaCottage
+	.4byte gMetatileAttributes_FRLG_SeaCottage
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SilphCo::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SilphCo
+	.4byte gTilesetPalettes_FRLG_SilphCo
+	.4byte gMetatiles_FRLG_SilphCo
+	.4byte gMetatileAttributes_FRLG_SilphCo
+	.4byte InitTilesetAnim_FRLG_SilphCo
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_UndergroundPath::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_UndergroundPath
+	.4byte gTilesetPalettes_FRLG_UndergroundPath
+	.4byte gMetatiles_FRLG_UndergroundPath
+	.4byte gMetatileAttributes_FRLG_UndergroundPath
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PokemonTower::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PokemonTower
+	.4byte gTilesetPalettes_FRLG_PokemonTower
+	.4byte gMetatiles_FRLG_PokemonTower
+	.4byte gMetatileAttributes_FRLG_PokemonTower
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SafariZoneBuilding::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SafariZoneBuilding
+	.4byte gTilesetPalettes_FRLG_SafariZoneBuilding
+	.4byte gMetatiles_FRLG_SafariZoneBuilding
+	.4byte gMetatileAttributes_FRLG_SafariZoneBuilding
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PokemonMansion::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PokemonMansion
+	.4byte gTilesetPalettes_FRLG_PokemonMansion
+	.4byte gMetatiles_FRLG_PokemonMansion
+	.4byte gMetatileAttributes_FRLG_PokemonMansion
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_RestaurantHotel::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_RestaurantHotel
+	.4byte gTilesetPalettes_FRLG_RestaurantHotel
+	.4byte gMetatiles_FRLG_RestaurantHotel
+	.4byte gMetatileAttributes_FRLG_RestaurantHotel
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_School::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_School
+	.4byte gTilesetPalettes_FRLG_School
+	.4byte gMetatiles_FRLG_School
+	.4byte gMetatileAttributes_FRLG_School
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_FanClubDaycare::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_FanClubDaycare
+	.4byte gTilesetPalettes_FRLG_FanClubDaycare
+	.4byte gMetatiles_FRLG_FanClubDaycare
+	.4byte gMetatileAttributes_FRLG_FanClubDaycare
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Condominiums::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SilphCo
+	.4byte gTilesetPalettes_FRLG_SilphCo
+	.4byte gMetatiles_FRLG_Condominiums
+	.4byte gMetatileAttributes_FRLG_Condominiums
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_BurgledHouse::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_BurgledHouse
+	.4byte gTilesetPalettes_FRLG_BurgledHouse
+	.4byte gMetatiles_FRLG_BurgledHouse
+	.4byte gMetatileAttributes_FRLG_BurgledHouse
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Dummy3::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Dummy3
+	.4byte gTilesetPalettes_FRLG_Dummy3
+	.4byte gMetatiles_FRLG_Dummy3
+	.4byte gMetatileAttributes_FRLG_Dummy3
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_Dummy4::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_Dummy4
+	.4byte gTilesetPalettes_FRLG_Dummy4
+	.4byte gMetatiles_FRLG_Dummy4
+	.4byte gMetatileAttributes_FRLG_Dummy4
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_MtEmber::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_MtEmber
+	.4byte gTilesetPalettes_FRLG_MtEmber
+	.4byte gMetatiles_FRLG_MtEmber
+	.4byte gMetatileAttributes_FRLG_MtEmber
+	.4byte InitTilesetAnim_FRLG_MtEmber
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_BerryForest::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_BerryForest
+	.4byte gTilesetPalettes_FRLG_BerryForest
+	.4byte gMetatiles_FRLG_BerryForest
+	.4byte gMetatileAttributes_FRLG_BerryForest
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_NavelRock::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_NavelRock
+	.4byte gTilesetPalettes_FRLG_NavelRock
+	.4byte gMetatiles_FRLG_NavelRock
+	.4byte gMetatileAttributes_FRLG_NavelRock
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_TanobyRuins::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_TanobyRuins
+	.4byte gTilesetPalettes_FRLG_TanobyRuins
+	.4byte gMetatiles_FRLG_TanobyRuins
+	.4byte gMetatileAttributes_FRLG_TanobyRuins
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SeviiIslands123::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SeviiIslands123
+	.4byte gTilesetPalettes_FRLG_SeviiIslands123
+	.4byte gMetatiles_FRLG_SeviiIslands123
+	.4byte gMetatileAttributes_FRLG_SeviiIslands123
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SeviiIslands45::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SeviiIslands45
+	.4byte gTilesetPalettes_FRLG_SeviiIslands45
+	.4byte gMetatiles_FRLG_SeviiIslands45
+	.4byte gMetatileAttributes_FRLG_SeviiIslands45
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_SeviiIslands67::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_SeviiIslands67
+	.4byte gTilesetPalettes_FRLG_SeviiIslands67
+	.4byte gMetatiles_FRLG_SeviiIslands67
+	.4byte gMetatileAttributes_FRLG_SeviiIslands67
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_TrainerTower::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_TrainerTower
+	.4byte gTilesetPalettes_FRLG_TrainerTower
+	.4byte gMetatiles_FRLG_TrainerTower
+	.4byte gMetatileAttributes_FRLG_TrainerTower
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_IslandHarbor::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_IslandHarbor
+	.4byte gTilesetPalettes_FRLG_IslandHarbor
+	.4byte gMetatiles_FRLG_IslandHarbor
+	.4byte gMetatileAttributes_FRLG_IslandHarbor
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_PokemonLeague::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_PokemonLeague
+	.4byte gTilesetPalettes_FRLG_PokemonLeague
+	.4byte gMetatiles_FRLG_PokemonLeague
+	.4byte gMetatileAttributes_FRLG_PokemonLeague
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
+
+	.align 2
+gTileset_FRLG_HallOfFame::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary tileset
+	.2byte 0 @ padding
+	.4byte gTilesetTiles_FRLG_HallOfFame
+	.4byte gTilesetPalettes_FRLG_HallOfFame
+	.4byte gMetatiles_FRLG_HallOfFame
+	.4byte gMetatileAttributes_FRLG_HallOfFame
+	.4byte NULL @ animation callback
+	.4byte NULL @ palette overrides
