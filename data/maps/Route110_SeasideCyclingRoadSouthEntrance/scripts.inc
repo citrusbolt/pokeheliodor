@@ -3,10 +3,8 @@ Route110_SeasideCyclingRoadSouthEntrance_MapScripts::
 	.byte 0
 
 Route110_SeasideCyclingRoadSouthEntrance_OnTransition:
-	compare VAR_CYCLING_CHALLENGE_STATE, 3
-	call_if_eq Route110_SeasideCyclingRoadSouthEntrance_EventScript_RestartChallenge
-	compare VAR_CYCLING_CHALLENGE_STATE, 2
-	call_if_eq Route110_SeasideCyclingRoadSouthEntrance_EventScript_RestartChallenge
+	call_if_eq VAR_CYCLING_CHALLENGE_STATE, 3, Route110_SeasideCyclingRoadSouthEntrance_EventScript_RestartChallenge
+	call_if_eq VAR_CYCLING_CHALLENGE_STATE, 2, Route110_SeasideCyclingRoadSouthEntrance_EventScript_RestartChallenge
 	end
 
 Route110_SeasideCyclingRoadSouthEntrance_EventScript_RestartChallenge::
@@ -23,10 +21,8 @@ Route110_SeasideCyclingRoadSouthEntrance_EventScript_Clerk::
 Route110_SeasideCyclingRoadSouthEntrance_EventScript_BikeCheck::
 	lockall
 	specialvar VAR_RESULT, GetPlayerAvatarBike
-	compare VAR_RESULT, 2
-	call_if_eq Route110_SeasideCyclingRoadSouthEntrance_EventScript_OnMachBike
-	compare VAR_RESULT, 0
-	goto_if_eq Route110_SeasideCyclingRoadSouthEntrance_EventScript_NoBike
+	call_if_eq VAR_RESULT, 2, Route110_SeasideCyclingRoadSouthEntrance_EventScript_OnMachBike
+	goto_if_eq VAR_RESULT, 0, Route110_SeasideCyclingRoadSouthEntrance_EventScript_NoBike
 	setflag FLAG_SYS_CYCLING_ROAD
 	setvar VAR_TEMP_1, 1
 	releaseall
@@ -57,13 +53,13 @@ Route110_SeasideCyclingRoadSouthEntrance_EventScript_ClearCyclingRoad::
 	end
 
 Route110_SeasideCyclingRoadSouthEntrance_Text_GoAllOutOnCyclingRoad:
-	.string "On CYCLING ROAD, you can go all out\n"
+	.string "On Cycling Road, you can go all out\n"
 	.string "and cycle as fast as you'd like.\p"
 	.string "It feels great to go that fast, but try\n"
 	.string "not to crash into anyone!$"
 
 Route110_SeasideCyclingRoadSouthEntrance_Text_TooDangerousToWalk:
-	.string "Sorry, you can't walk on CYCLING\n"
-	.string "ROAD. It's too dangerous.\p"
-	.string "Please come back with a BIKE.$"
+	.string "Sorry, you can't walk on Cycling\n"
+	.string "Road. It's too dangerous.\p"
+	.string "Please come back with a Bike.$"
 

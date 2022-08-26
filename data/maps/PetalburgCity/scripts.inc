@@ -11,14 +11,10 @@ PetalburgCity_MapScripts::
 
 PetalburgCity_OnTransition:
 	setflag FLAG_VISITED_PETALBURG_CITY
-	compare VAR_PETALBURG_CITY_STATE, 0
-	call_if_eq PetalburgCity_EventScript_MoveGymBoyToWestEntrance
-	compare VAR_PETALBURG_CITY_STATE, 2
-	call_if_eq PetalburgCity_EventScript_DisableMapNameAndMusic
-	compare VAR_PETALBURG_CITY_STATE, 4
-	call_if_eq PetalburgCity_EventScript_DisableMapNameAndMusic
-	compare VAR_PETALBURG_GYM_STATE, 8
-	call_if_eq PetalburgCity_EventScript_SetGymDoorsUnlocked
+	call_if_eq VAR_PETALBURG_CITY_STATE, 0, PetalburgCity_EventScript_MoveGymBoyToWestEntrance
+	call_if_eq VAR_PETALBURG_CITY_STATE, 2, PetalburgCity_EventScript_DisableMapNameAndMusic
+	call_if_eq VAR_PETALBURG_CITY_STATE, 4, PetalburgCity_EventScript_DisableMapNameAndMusic
+	call_if_eq VAR_PETALBURG_GYM_STATE, 8, PetalburgCity_EventScript_SetGymDoorsUnlocked
 	end
 
 PetalburgCity_EventScript_MoveGymBoyToWestEntrance::
@@ -50,7 +46,7 @@ PetalburgCity_EventScript_WallyTutorial::
 	special StartWallyTutorialBattle
 	waitstate
 	msgbox Route102_Text_WallyIDidIt, MSGBOX_DEFAULT
-	applymovement LOCALID_WALLY, Common_Movement_WalkInPlaceFastestLeft, MAP_PETALBURG_CITY
+	applymovement LOCALID_WALLY, Common_Movement_WalkInPlaceFasterLeft, MAP_PETALBURG_CITY
 	waitmovement LOCALID_WALLY, MAP_PETALBURG_CITY
 	msgbox Route102_Text_LetsGoBack, MSGBOX_DEFAULT
 	closemessage
@@ -60,7 +56,7 @@ PetalburgCity_EventScript_WallyTutorial::
 	clearflag FLAG_DONT_TRANSITION_MUSIC
 	special LoadPlayerParty
 	setvar VAR_PETALBURG_GYM_STATE, 1
-	warp MAP_PETALBURG_CITY_GYM, 255, 4, 108
+	warp MAP_PETALBURG_CITY_GYM, 4, 108
 	waitstate
 	releaseall
 	end
@@ -85,7 +81,7 @@ PetalburgCity_EventScript_WalkToWallyHouse::
 	clearflag FLAG_HIDE_MAP_NAME_POPUP
 	fadedefaultbgm
 	clearflag FLAG_DONT_TRANSITION_MUSIC
-	warp MAP_PETALBURG_CITY_WALLYS_HOUSE, 255, 2, 4
+	warp MAP_PETALBURG_CITY_WALLYS_HOUSE, 2, 4
 	waitstate
 	releaseall
 	end
@@ -186,7 +182,7 @@ PetalburgCity_Movement_WallyTutorialPlayer:
 	walk_right
 	walk_up
 	walk_up
-	walk_in_place_fastest_right
+	walk_in_place_faster_right
 	step_end
 
 PetalburgCity_Movement_WallyTutorialWally:
@@ -222,10 +218,10 @@ PetalburgCity_Movement_WallyTutorialWally:
 	walk_up
 	walk_right
 	delay_16
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	delay_16
 	delay_16
-	walk_in_place_fastest_right
+	walk_in_place_faster_right
 	step_end
 
 PetalburgCity_EventScript_GymSign::
@@ -277,27 +273,19 @@ PetalburgCity_EventScript_ShowGymToPlayer::
 	waitmovement 0
 	applymovement LOCALID_GYM_BOY, Common_Movement_Delay48
 	waitmovement 0
-	compare VAR_0x8008, 0
-	call_if_eq PetalburgCity_EventScript_BoyApproachPlayer0
-	compare VAR_0x8008, 1
-	call_if_eq PetalburgCity_EventScript_BoyApproachPlayer1
-	compare VAR_0x8008, 2
-	call_if_eq PetalburgCity_EventScript_BoyApproachPlayer2
-	compare VAR_0x8008, 3
-	call_if_eq PetalburgCity_EventScript_BoyApproachPlayer3
+	call_if_eq VAR_0x8008, 0, PetalburgCity_EventScript_BoyApproachPlayer0
+	call_if_eq VAR_0x8008, 1, PetalburgCity_EventScript_BoyApproachPlayer1
+	call_if_eq VAR_0x8008, 2, PetalburgCity_EventScript_BoyApproachPlayer2
+	call_if_eq VAR_0x8008, 3, PetalburgCity_EventScript_BoyApproachPlayer3
 	msgbox PetalburgCity_Text_AreYouRookieTrainer, MSGBOX_DEFAULT
 	closemessage
-	compare VAR_0x8008, 0
-	call_if_eq PetalburgCity_EventScript_LeadPlayerToGym0
-	compare VAR_0x8008, 1
-	call_if_eq PetalburgCity_EventScript_LeadPlayerToGym1
-	compare VAR_0x8008, 2
-	call_if_eq PetalburgCity_EventScript_LeadPlayerToGym2
-	compare VAR_0x8008, 3
-	call_if_eq PetalburgCity_EventScript_LeadPlayerToGym3
+	call_if_eq VAR_0x8008, 0, PetalburgCity_EventScript_LeadPlayerToGym0
+	call_if_eq VAR_0x8008, 1, PetalburgCity_EventScript_LeadPlayerToGym1
+	call_if_eq VAR_0x8008, 2, PetalburgCity_EventScript_LeadPlayerToGym2
+	call_if_eq VAR_0x8008, 3, PetalburgCity_EventScript_LeadPlayerToGym3
 	msgbox PetalburgCity_Text_ThisIsPetalburgGym, MSGBOX_DEFAULT
-	applymovement LOCALID_GYM_BOY, Common_Movement_WalkInPlaceFastestRight
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
+	applymovement LOCALID_GYM_BOY, Common_Movement_WalkInPlaceFasterRight
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox PetalburgCity_Text_ThisIsGymSign, MSGBOX_DEFAULT
 	closemessage
@@ -310,7 +298,7 @@ PetalburgCity_EventScript_ShowGymToPlayer::
 PetalburgCity_EventScript_BoyApproachPlayer0::
 	applymovement LOCALID_GYM_BOY, PetalburgCity_Movement_BoyApproachPlayer0
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestDown
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	return
 
@@ -322,14 +310,14 @@ PetalburgCity_EventScript_BoyApproachPlayer1::
 PetalburgCity_EventScript_BoyApproachPlayer2::
 	applymovement LOCALID_GYM_BOY, PetalburgCity_Movement_BoyApproachPlayer2
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	return
 
 PetalburgCity_EventScript_BoyApproachPlayer3::
 	applymovement LOCALID_GYM_BOY, PetalburgCity_Movement_BoyApproachPlayer3
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	return
 
@@ -368,7 +356,7 @@ PetalburgCity_Movement_BoyApproachPlayer0:
 	walk_right
 	walk_right
 	walk_right
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	step_end
 
 PetalburgCity_Movement_BoyApproachPlayer1:
@@ -380,7 +368,7 @@ PetalburgCity_Movement_BoyApproachPlayer2:
 	walk_right
 	walk_right
 	walk_right
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 PetalburgCity_Movement_BoyApproachPlayer3:
@@ -388,7 +376,7 @@ PetalburgCity_Movement_BoyApproachPlayer3:
 	walk_right
 	walk_right
 	walk_right
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 PetalburgCity_Movement_BoyWalkToGym0:
@@ -401,7 +389,7 @@ PetalburgCity_Movement_BoyWalkToGym0:
 	walk_right
 	walk_up
 	walk_right
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	step_end
 
 PetalburgCity_Movement_BoyWalkToGym1:
@@ -417,7 +405,7 @@ PetalburgCity_Movement_BoyWalkToGym1:
 	walk_up
 	walk_up
 	walk_right
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	step_end
 
 PetalburgCity_Movement_BoyWalkToGym2:
@@ -430,7 +418,7 @@ PetalburgCity_Movement_BoyWalkToGym2:
 	walk_right
 	walk_up
 	walk_right
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	step_end
 
 PetalburgCity_Movement_BoyWalkToGym3:
@@ -444,7 +432,7 @@ PetalburgCity_Movement_BoyWalkToGym3:
 	walk_up
 	walk_up
 	walk_right
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	step_end
 
 PetalburgCity_Movement_BoyWalkAway:
@@ -556,29 +544,25 @@ PetalburgCity_EventScript_Scott::
 	waitmovement 0
 	applymovement LOCALID_SCOTT, PetalburgCity_Movement_ScottApproachPlayer
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	setvar VAR_SCOTT_STATE, 1
 	msgbox PetalburgCity_Text_AreYouATrainer, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_SCOTT, Common_Movement_WalkInPlaceFastestRight
+	applymovement LOCALID_SCOTT, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	delay 30
 	msgbox PetalburgCity_Text_WellMaybeNot, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_SCOTT, Common_Movement_WalkInPlaceFastestLeft
+	applymovement LOCALID_SCOTT, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	delay 30
 	msgbox PetalburgCity_Text_ImLookingForTalentedTrainers, MSGBOX_DEFAULT
 	closemessage
-	compare VAR_0x8008, 0
-	call_if_eq PetalburgCity_EventScript_ScottExit0
-	compare VAR_0x8008, 1
-	call_if_eq PetalburgCity_EventScript_ScottExit1
-	compare VAR_0x8008, 2
-	call_if_eq PetalburgCity_EventScript_ScottExit2
-	compare VAR_0x8008, 3
-	call_if_eq PetalburgCity_EventScript_ScottExit3
+	call_if_eq VAR_0x8008, 0, PetalburgCity_EventScript_ScottExit0
+	call_if_eq VAR_0x8008, 1, PetalburgCity_EventScript_ScottExit1
+	call_if_eq VAR_0x8008, 2, PetalburgCity_EventScript_ScottExit2
+	call_if_eq VAR_0x8008, 3, PetalburgCity_EventScript_ScottExit3
 	setvar VAR_SCOTT_PETALBURG_ENCOUNTER, 1
 	removeobject LOCALID_SCOTT
 	releaseall
@@ -640,11 +624,11 @@ PetalburgCity_Movement_ScottExit0:
 
 PetalburgCity_Movement_PlayerWatchScottExit0:
 	delay_16
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	delay_16
 	delay_16
 	delay_8
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	step_end
 
 PetalburgCity_Movement_ScottExit1:
@@ -664,10 +648,10 @@ PetalburgCity_Movement_ScottExit1:
 
 PetalburgCity_Movement_PlayerWatchScottExit1:
 	delay_16
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	delay_16
 	delay_8
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	step_end
 
 PetalburgCity_Movement_ScottExit2:
@@ -687,10 +671,10 @@ PetalburgCity_Movement_ScottExit2:
 
 PetalburgCity_Movement_PlayerWatchScottExit2:
 	delay_16
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	delay_16
 	delay_8
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	step_end
 
 PetalburgCity_Movement_ScottExit3:
@@ -710,10 +694,10 @@ PetalburgCity_Movement_ScottExit3:
 
 PetalburgCity_Movement_PlayerWatchScottExit3:
 	delay_16
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	delay_16
 	delay_8
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	step_end
 
 PetalburgCity_EventScript_GymBoy::
@@ -721,24 +705,24 @@ PetalburgCity_EventScript_GymBoy::
 	end
 
 PetalburgCity_Text_WhereIsWally:
-	.string "Where has our WALLY gone?\p"
-	.string "We have to leave for VERDANTURF TOWN\n"
+	.string "Where has our Wally gone?\p"
+	.string "We have to leave for Verdanturf Town\n"
 	.string "very soon…$"
 
 PetalburgCity_Text_AreYouRookieTrainer:
 	.string "Hiya! Are you maybe…\n"
-	.string "A rookie TRAINER?\p"
-	.string "Do you know what POKéMON TRAINERS\n"
+	.string "A rookie Trainer?\p"
+	.string "Do you know what Pokémon Trainers\n"
 	.string "do when they reach a new town?\p"
-	.string "They first check what kind of GYM\n"
+	.string "They first check what kind of Gym\n"
 	.string "is in the town.$"
 
 PetalburgCity_Text_ThisIsPetalburgGym:
-	.string "See? This is PETALBURG CITY's GYM.$"
+	.string "See? This is Petalburg City's Gym.$"
 
 PetalburgCity_Text_ThisIsGymSign:
-	.string "This is the GYM's sign. Look for it\n"
-	.string "whenever you're looking for a GYM.$"
+	.string "This is the Gym's sign. Look for it\n"
+	.string "whenever you're looking for a Gym.$"
 
 PetalburgCity_Text_WaterReflection:
 	.string "My face is reflected in the water.\p"
@@ -748,36 +732,36 @@ PetalburgCity_Text_WaterReflection:
 	.string "What do you see reflected in your face?$"
 
 PetalburgCity_Text_FullPartyExplanation:
-	.string "Let's say you have six POKéMON.\n"
+	.string "Let's say you have six Pokémon.\n"
 	.string "If you catch another one…\p"
-	.string "It is automatically sent to a STORAGE\n"
-	.string "BOX over a PC connection.$"
+	.string "It is automatically sent to a Storage\n"
+	.string "Box over a PC connection.$"
 
 PetalburgCity_Text_GymSign:
-	.string "PETALBURG CITY POKéMON GYM\n"
-	.string "LEADER: NORMAN\l"
+	.string "Petalburg City Pokémon Gym\n"
+	.string "Leader: Norman\l"
 	.string "“A man in pursuit of power!”$"
 
 PetalburgCity_Text_CitySign:
-	.string "PETALBURG CITY\n"
+	.string "Petalburg City\n"
 	.string "“Where people mingle with nature.”$"
 
 PetalburgCity_Text_WallyHouseSign:
-	.string "WALLY'S HOUSE$"
+	.string "Wally's House$"
 
 PetalburgCity_Text_AreYouATrainer:
 	.string "Excuse me!\p"
 	.string "Let me guess, from the way you're\n"
-	.string "dressed, are you a POKéMON TRAINER?$"
+	.string "dressed, are you a Pokémon Trainer?$"
 
 PetalburgCity_Text_WellMaybeNot:
 	.string "… … … … … …\p"
 	.string "Well, maybe not.\n"
 	.string "Your clothes aren't all that dirty.\p"
-	.string "You're either a rookie TRAINER,\n"
+	.string "You're either a rookie Trainer,\n"
 	.string "or maybe you're just an ordinary kid.$"
 
 PetalburgCity_Text_ImLookingForTalentedTrainers:
 	.string "I'm roaming the land in search of\n"
-	.string "talented TRAINERS.\p"
+	.string "talented Trainers.\p"
 	.string "I'm sorry to have taken your time.$"

@@ -22,7 +22,7 @@ FallarborTown_BattleTentCorridor_EventScript_EnterCorridor::
 	closedoor 2, 1
 	waitdooranim
 	setvar VAR_0x8006, 0
-	warp MAP_FALLARBOR_TOWN_BATTLE_TENT_BATTLE_ROOM, 255, 4, 4
+	warp MAP_FALLARBOR_TOWN_BATTLE_TENT_BATTLE_ROOM, 4, 4
 	waitstate
 	releaseall
 	end
@@ -52,19 +52,19 @@ FallarborTown_ContestHall_Text_DoAllRightInPreliminary:
 @ Unused
 FallarborTown_ContestHall_Text_MonAllTheseRibbons:
 	.string "See!\n"
-	.string "My POKéMON won all these RIBBONS!\p"
-	.string "Have your POKéMON earned any RIBBONS?\n"
-	.string "You can check them on your POKéNAV.$"
+	.string "My Pokémon won all these Ribbons!\p"
+	.string "Have your Pokémon earned any Ribbons?\n"
+	.string "You can check them on your PokéNav.$"
 
 @ Unused
 FallarborTown_ContestHall_Text_CantWinEverywhere:
-	.string "I can't beat GYM LEADERS…\p"
-	.string "I can't win any CONTESTS…\p"
+	.string "I can't beat Gym Leaders…\p"
+	.string "I can't win any Contests…\p"
 	.string "I've been here, there, and everywhere,\n"
 	.string "and it's all for naught…$"
 
 @ Unused
 FallarborTown_ContestHall_Text_SuperRankStage:
-	.string "POKéMON CONTESTS\n"
-	.string "SUPER RANK STAGE!$"
+	.string "Pokémon Contests\n"
+	.string "Super Rank Stage!$"
 

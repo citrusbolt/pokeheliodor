@@ -76,8 +76,7 @@ OldaleTown_EventScript_GoToMartEast::
 OldaleTown_EventScript_ExplainPokemonMart::
 	msgbox OldaleTown_Text_ThisIsAPokemonMart, MSGBOX_DEFAULT
 	giveitem ITEM_POTION
-	compare VAR_RESULT, FALSE
-	goto_if_eq OldaleTown_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, OldaleTown_EventScript_BagIsFull
 	msgbox OldaleTown_Text_PotionExplanation, MSGBOX_DEFAULT
 	setflag FLAG_RECEIVED_POTION_OLDALE
 	fadedefaultbgm
@@ -103,7 +102,7 @@ OldaleTown_Movement_EmployeeEast:
 	walk_up
 	walk_up
 	walk_up
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 OldaleTown_Movement_EmployeeSouth:
@@ -116,7 +115,7 @@ OldaleTown_Movement_EmployeeSouth:
 	walk_up
 	walk_up
 	walk_up
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 OldaleTown_Movement_EmployeeNorth:
@@ -127,7 +126,7 @@ OldaleTown_Movement_EmployeeNorth:
 	walk_up
 	walk_up
 	walk_up
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 OldaleTown_Movement_Unknown1:
@@ -143,7 +142,7 @@ OldaleTown_Movement_Unknown1:
 	walk_up
 	walk_up
 	delay_8
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 OldaleTown_Movement_PlayerEast:
@@ -232,7 +231,7 @@ OldaleTown_EventScript_RivalTrigger1::
 	lockall
 	applymovement LOCALID_RIVAL, OldaleTown_Movement_RivalApproachPlayer1
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	setvar VAR_0x8009, 1
 	goto OldaleTown_EventScript_ShowRivalMessage
@@ -242,7 +241,7 @@ OldaleTown_EventScript_RivalTrigger2::
 	lockall
 	applymovement LOCALID_RIVAL, OldaleTown_Movement_RivalApproachPlayer2
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	setvar VAR_0x8009, 1
 	goto OldaleTown_EventScript_ShowRivalMessage
@@ -252,7 +251,7 @@ OldaleTown_EventScript_RivalTrigger3::
 	lockall
 	applymovement LOCALID_RIVAL, OldaleTown_Movement_RivalApproachPlayer3
 	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestRight
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	setvar VAR_0x8009, 1
 	goto OldaleTown_EventScript_ShowRivalMessage
@@ -260,10 +259,8 @@ OldaleTown_EventScript_RivalTrigger3::
 
 OldaleTown_EventScript_ShowRivalMessage::
 	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq OldaleTown_EventScript_ShowMayMessage
-	compare VAR_RESULT, FEMALE
-	goto_if_eq OldaleTown_EventScript_ShowBrendanMessage
+	goto_if_eq VAR_RESULT, MALE, OldaleTown_EventScript_ShowMayMessage
+	goto_if_eq VAR_RESULT, FEMALE, OldaleTown_EventScript_ShowBrendanMessage
 	end
 
 OldaleTown_EventScript_ShowMayMessage::
@@ -278,10 +275,8 @@ OldaleTown_EventScript_ShowBrendanMessage::
 
 OldaleTown_EventScript_RivalFinish::
 	closemessage
-	compare VAR_0x8009, 0
-	call_if_eq OldaleTown_EventScript_DoExitMovement1
-	compare VAR_0x8009, 1
-	call_if_eq OldaleTown_EventScript_DoExitMovement2
+	call_if_eq VAR_0x8009, 0, OldaleTown_EventScript_DoExitMovement1
+	call_if_eq VAR_0x8009, 1, OldaleTown_EventScript_DoExitMovement2
 	applymovement LOCALID_RIVAL, OldaleTown_Movement_RivalExit
 	waitmovement 0
 	removeobject LOCALID_RIVAL
@@ -291,8 +286,7 @@ OldaleTown_EventScript_RivalFinish::
 	end
 
 OldaleTown_EventScript_DoExitMovement1::
-	compare VAR_FACING, DIR_SOUTH
-	goto_if_ne OldaleTown_EventScript_DoExitMovement2
+	goto_if_ne VAR_FACING, DIR_SOUTH, OldaleTown_EventScript_DoExitMovement2
 	applymovement LOCALID_RIVAL, OldaleTown_Movement_RivalExit
 	waitmovement 0
 	return
@@ -328,7 +322,7 @@ OldaleTown_Movement_RivalExit:
 OldaleTown_Movement_WatchRivalExit:
 	delay_8
 	delay_4
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 OldaleTown_Movement_PlayerStepBack:
@@ -338,7 +332,7 @@ OldaleTown_Movement_PlayerStepBack:
 
 OldaleTown_Movement_BackUp:
 	walk_fast_up
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	lock_facing_direction
 	walk_right
 	unlock_facing_direction
@@ -355,53 +349,53 @@ OldaleTown_Text_SavingMyProgress:
 
 OldaleTown_Text_IWorkAtPokemonMart:
 	.string "Hi!\n"
-	.string "I work at a POKéMON MART.\p"
+	.string "I work at a Pokémon Mart.\p"
 	.string "Can I get you to come with me?$"
 
 OldaleTown_Text_ThisIsAPokemonMart:
-	.string "This is a POKéMON MART.\n"
+	.string "This is a Pokémon Mart.\n"
 	.string "Just look for our blue roof.\p"
 	.string "We sell a variety of goods including\n"
-	.string "POKé BALLS for catching POKéMON.\p"
+	.string "Poké Balls for catching Pokémon.\p"
 	.string "Here, I'd like you to have this as\n"
 	.string "a promotional item.$"
 
 OldaleTown_Text_PotionExplanation:
-	.string "A POTION can be used anytime, so it's\n"
-	.string "even more useful than a POKéMON CENTER\l"
+	.string "A Potion can be used anytime, so it's\n"
+	.string "even more useful than a Pokémon Center\l"
 	.string "in certain situations.$"
 
 OldaleTown_Text_WaitDontComeInHere:
 	.string "Aaaaah! Wait!\n"
 	.string "Please don't come in here.\p"
 	.string "I just discovered the footprints of\n"
-	.string "a rare POKéMON!\p"
+	.string "a rare Pokémon!\p"
 	.string "Wait until I finish sketching\n"
 	.string "them, okay?$"
 
 OldaleTown_Text_DiscoveredFootprints:
 	.string "I just discovered the footprints of\n"
-	.string "a rare POKéMON!\p"
+	.string "a rare Pokémon!\p"
 	.string "Wait until I finish sketching\n"
 	.string "them, okay?$"
 
 OldaleTown_Text_FinishedSketchingFootprints:
 	.string "I finished sketching the footprints of\n"
-	.string "a rare POKéMON.\p"
+	.string "a rare Pokémon.\p"
 	.string "But it turns out they were only my\n"
 	.string "own footprints…$"
 
 OldaleTown_Text_MayLetsGoBack:
-	.string "MAY: {PLAYER}{KUN}!\n"
+	.string "May: {PLAYER}{KUN}!\n"
 	.string "Over here!\l"
 	.string "Let's hurry home!$"
 
 OldaleTown_Text_BrendanLetsGoBack:
-	.string "BRENDAN: I'm heading back to my dad's\n"
-	.string "LAB now.\l"
+	.string "Brendan: I'm heading back to my dad's\n"
+	.string "Lab now.\l"
 	.string "{PLAYER}, you should hustle back, too.$"
 
 OldaleTown_Text_CitySign:
-	.string "OLDALE TOWN\n"
+	.string "Oldale Town\n"
 	.string "“Where things start off scarce.”$"
 

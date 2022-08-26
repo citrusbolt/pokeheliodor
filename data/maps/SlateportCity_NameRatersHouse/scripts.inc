@@ -5,20 +5,16 @@ SlateportCity_NameRatersHouse_EventScript_NameRater::
 	lock
 	faceplayer
 	msgbox SlateportCity_NameRatersHouse_Text_PleasedToRateMonNickname, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_ChooseMonToRate
-	compare VAR_RESULT, NO
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_DeclineNameRate
+	goto_if_eq VAR_RESULT, YES, SlateportCity_NameRatersHouse_EventScript_ChooseMonToRate
+	goto_if_eq VAR_RESULT, NO, SlateportCity_NameRatersHouse_EventScript_DeclineNameRate
 	end
 
 SlateportCity_NameRatersHouse_EventScript_ChooseMonToRate::
 	msgbox SlateportCity_NameRatersHouse_Text_CritiqueWhichMonNickname, MSGBOX_DEFAULT
 	special ChoosePartyMon
 	waitstate
-	compare VAR_0x8004, 255
-	goto_if_ne SlateportCity_NameRatersHouse_EventScript_RateMonNickname
-	compare VAR_0x8004, 255
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_DeclineNameRate
+	goto_if_ne VAR_0x8004, PARTY_NOTHING_CHOSEN, SlateportCity_NameRatersHouse_EventScript_RateMonNickname
+	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, SlateportCity_NameRatersHouse_EventScript_DeclineNameRate
 	end
 
 SlateportCity_NameRatersHouse_EventScript_DeclineNameRate::
@@ -28,21 +24,16 @@ SlateportCity_NameRatersHouse_EventScript_DeclineNameRate::
 
 SlateportCity_NameRatersHouse_EventScript_RateMonNickname::
 	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	compare VAR_RESULT, SPECIES_EGG
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_CantRateEgg
+	goto_if_eq VAR_RESULT, SPECIES_EGG, SlateportCity_NameRatersHouse_EventScript_CantRateEgg
 	special BufferMonNickname
 	special IsMonOTIDNotPlayers
-	compare VAR_RESULT, TRUE
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_PlayerNotMonsOT
+	goto_if_eq VAR_RESULT, TRUE, SlateportCity_NameRatersHouse_EventScript_PlayerNotMonsOT
 	specialvar VAR_RESULT, MonOTNameNotPlayer
 	special BufferMonNickname
-	compare VAR_RESULT, TRUE
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_PlayerNotMonsOT
+	goto_if_eq VAR_RESULT, TRUE, SlateportCity_NameRatersHouse_EventScript_PlayerNotMonsOT
 	msgbox SlateportCity_NameRatersHouse_Text_FineNameSuggestBetterOne, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_ChangeNickname
-	compare VAR_RESULT, NO
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_DeclineNameRate
+	goto_if_eq VAR_RESULT, YES, SlateportCity_NameRatersHouse_EventScript_ChangeNickname
+	goto_if_eq VAR_RESULT, NO, SlateportCity_NameRatersHouse_EventScript_DeclineNameRate
 	end
 
 SlateportCity_NameRatersHouse_EventScript_CantRateEgg::
@@ -60,8 +51,7 @@ SlateportCity_NameRatersHouse_EventScript_ChangeNickname::
 	call Common_EventScript_NameReceivedPartyMon
 	specialvar VAR_RESULT, TryPutNameRaterShowOnTheAir
 	special BufferMonNickname
-	compare VAR_RESULT, TRUE
-	goto_if_eq SlateportCity_NameRatersHouse_EventScript_NewNameDifferent
+	goto_if_eq VAR_RESULT, TRUE, SlateportCity_NameRatersHouse_EventScript_NewNameDifferent
 	msgbox SlateportCity_NameRatersHouse_Text_NameNoDifferentYetSuperior, MSGBOX_DEFAULT
 	release
 	end
@@ -72,13 +62,13 @@ SlateportCity_NameRatersHouse_EventScript_NewNameDifferent::
 	end
 
 SlateportCity_NameRatersHouse_Text_PleasedToRateMonNickname:
-	.string "Hi, hi! I'm the NAME RATER!\n"
+	.string "Hi, hi! I'm the Name Rater!\n"
 	.string "I'm the fortune-teller of names!\p"
 	.string "I shall be pleased to rate your\n"
-	.string "POKéMON's nickname.$"
+	.string "Pokémon's nickname.$"
 
 SlateportCity_NameRatersHouse_Text_CritiqueWhichMonNickname:
-	.string "Which POKéMON's nickname should\n"
+	.string "Which Pokémon's nickname should\n"
 	.string "I critique?$"
 
 SlateportCity_NameRatersHouse_Text_FineNameSuggestBetterOne:
@@ -92,7 +82,7 @@ SlateportCity_NameRatersHouse_Text_WhatShallNewNameBe:
 	.string "nickname be?$"
 
 SlateportCity_NameRatersHouse_Text_MonShallBeKnownAsName:
-	.string "Done! From now on, this POKéMON\n"
+	.string "Done! From now on, this Pokémon\n"
 	.string "shall be known as {STR_VAR_1}!\p"
 	.string "It is a better name than before!\n"
 	.string "How fortunate for you!$"
@@ -102,7 +92,7 @@ SlateportCity_NameRatersHouse_Text_DoVisitAgain:
 	.string "Do come visit again.$"
 
 SlateportCity_NameRatersHouse_Text_NameNoDifferentYetSuperior:
-	.string "Done! From now on, this POKéMON\n"
+	.string "Done! From now on, this Pokémon\n"
 	.string "shall be known as {STR_VAR_1}!\p"
 	.string "It looks no different from before,\n"
 	.string "and yet, this is vastly superior!\p"
@@ -117,5 +107,5 @@ SlateportCity_NameRatersHouse_Text_MagnificentName:
 
 SlateportCity_NameRatersHouse_Text_ThatIsMerelyAnEgg:
 	.string "Now, now.\n"
-	.string "That is merely an EGG!$"
+	.string "That is merely an Egg!$"
 

@@ -5,17 +5,14 @@ BattleFrontier_Lounge5_EventScript_NatureGirl::
 	lock
 	faceplayer
 	msgbox BattleFrontier_Lounge5_Text_NatureGirlGreeting, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq BattleFrontier_Lounge5_EventScript_NatureGirlNoneShown
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_Lounge5_EventScript_NatureGirlNoneShown
 	special ChoosePartyMon
 	waitstate
 	lock
 	faceplayer
-	compare VAR_0x8004, 255
-	goto_if_eq BattleFrontier_Lounge5_EventScript_NatureGirlNoneShown
+	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, BattleFrontier_Lounge5_EventScript_NatureGirlNoneShown
 	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	compare VAR_RESULT, SPECIES_EGG
-	goto_if_eq BattleFrontier_Lounge5_EventScript_NatureGirlEgg
+	goto_if_eq VAR_RESULT, SPECIES_EGG, BattleFrontier_Lounge5_EventScript_NatureGirlEgg
 	special ShowNatureGirlMessage
 	waitmessage
 	waitbuttonpress
@@ -46,9 +43,9 @@ BattleFrontier_Lounge5_EventScript_LittleBoy::
 
 BattleFrontier_Lounge5_Text_NatureGirlGreeting::
 	.string "Ehehe!\n"
-	.string "I can tell what POKéMON are thinking!\p"
+	.string "I can tell what Pokémon are thinking!\p"
 	.string "Please!\n"
-	.string "Can I see your POKéMON?$"
+	.string "Can I see your Pokémon?$"
 
 BattleFrontier_Lounge5_Text_NatureGirlNoneShown::
 	.string "Boo!\n"
@@ -187,13 +184,13 @@ BattleFrontier_Lounge5_Text_NatureGirlCareful::
 	.string "it will turn sneaky!$"
 
 BattleFrontier_Lounge5_Text_NatureGirlEgg::
-	.string "That's silly! An EGG is asleep!\n"
+	.string "That's silly! An Egg is asleep!\n"
 	.string "I can't talk to it!$"
 
 BattleFrontier_Lounge5_Text_LadyClaimsSheUnderstandsPokemon::
 	.string "How charming!\n"
 	.string "That little lady claims she can\l"
-	.string "understand POKéMON!$"
+	.string "understand Pokémon!$"
 
 BattleFrontier_Lounge5_Text_GirlSayingSomethingProfound::
 	.string "I have this feeling that the little girl\n"

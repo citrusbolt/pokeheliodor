@@ -26,11 +26,73 @@ gTilesetPalOverrides_Petalburg::
 	.byte 0             @ padding
 	.4byte gTilesetPalOverride_Petalburg06
 
-	.byte 8             @ palette index
+	.byte 10            @ palette index
 	.byte HOUR_NIGHT    @ start hour (inclusive)
 	.byte HOUR_MORNING  @ end hour (exclusive)
 	.byte 0             @ padding
-	.4byte gTilesetPalOverride_Petalburg08
+	.4byte gTilesetPalOverride_Petalburg10
+
+	.byte 11            @ palette index
+	.byte HOUR_NIGHT    @ start hour (inclusive)
+	.byte HOUR_MORNING  @ end hour (exclusive)
+	.byte 0             @ padding
+	.4byte gTilesetPalOverride_Petalburg11
+
+	.byte 0xFF
+	.byte 0
+	.byte 0
+	.byte 0 @ padding
+	.4byte NULL
+
+	.align 2
+gTilesetPalOverrides_Mauville::
+	.byte 7             @ palette index
+	.byte HOUR_NIGHT    @ start hour (inclusive)
+	.byte HOUR_MORNING  @ end hour (exclusive)
+	.byte 0             @ padding
+	.4byte gTilesetPalOverride_Mauville07
+
+	.byte 0xFF
+	.byte 0
+	.byte 0
+	.byte 0 @ padding
+	.4byte NULL
+
+	.align 2
+gTilesetPalOverrides_SlatePort::
+	.byte 10            @ palette index
+	.byte HOUR_NIGHT    @ start hour (inclusive)
+	.byte HOUR_MORNING  @ end hour (exclusive)
+	.byte 0             @ padding
+	.4byte gTilesetPalOverride_Slateport10
+
+	.byte 0xFF
+	.byte 0
+	.byte 0
+	.byte 0 @ padding
+	.4byte NULL
+
+	.align 2
+gTilesetPalOverrides_EverGrande::
+	.byte 8            @ palette index
+	.byte HOUR_NIGHT    @ start hour (inclusive)
+	.byte HOUR_MORNING  @ end hour (exclusive)
+	.byte 0             @ padding
+	.4byte gTilesetPalOverride_General01
+
+	.byte 0xFF
+	.byte 0
+	.byte 0
+	.byte 0 @ padding
+	.4byte NULL
+	.align 2
+
+gTilesetPalOverrides_BattleFrontierOutsideWest::
+	.byte 10            @ palette index
+	.byte HOUR_NIGHT    @ start hour (inclusive)
+	.byte HOUR_MORNING  @ end hour (exclusive)
+	.byte 0             @ padding
+	.4byte gTilesetPalOverride_BattleFrontierOutsideWest10
 
 	.byte 0xFF
 	.byte 0

@@ -1,4 +1,4 @@
-#define GFXTAG_MENU_TEXT       200 // Used as a base tag in CB2_CreateTradeMenu and CB2_ReturnToTradeMenu 
+#define GFXTAG_MENU_TEXT       200 // Used as a base tag in CB2_CreateTradeMenu and CB2_ReturnToTradeMenu
 #define GFXTAG_CURSOR          300
 #define GFXTAG_LINK_MON_GLOW   5550
 #define GFXTAG_LINK_MON_SHADOW 5552
@@ -19,7 +19,7 @@ static const u32 sUnusedStructSizes[] =
     sizeof(struct SaveBlock1),
     sizeof(struct MapHeader),
  // 0x00000530, in RS
-    sizeof(struct MailStruct),  //or ObjectEvent / ObjectEventGraphicsInfo
+    sizeof(struct Mail),        //or ObjectEvent / ObjectEventGraphicsInfo
     sizeof(struct Pokemon),     //or TrainerCard
     0x00000528  // 0x000004D8, in RS
 };
@@ -174,10 +174,10 @@ static const struct SpriteTemplate sSpriteTemplate_MenuText =
     .callback = SpriteCallbackDummy,
 };
 
-static const u16 TradeScreenTextPalette[] = INCBIN_U16("graphics/trade/text.gbapal");
-static const struct SpritePalette gSpritePalette_TradeScreenText =
+static const u16 sTradeScreenTextPalette[] = INCBIN_U16("graphics/trade/text.gbapal");
+static const struct SpritePalette sSpritePalette_TradeScreenText =
 {
-    .data = TradeScreenTextPalette,
+    .data = sTradeScreenTextPalette,
     .tag = PALTAG_MENU_TEXT
 };
 
@@ -395,7 +395,7 @@ static const struct MenuAction sSelectTradeMonActions[] =
     {sText_Trade2,   Task_DrawSelectionTrade}
 };
 
-static const u8 *const sTradeMessages[] = 
+static const u8 *const sTradeMessages[] =
 {
     [TRADE_MSG_STANDBY]                    = sText_CommunicationStandby,
     [TRADE_MSG_CANCELED]                   = sText_TheTradeHasBeenCanceled,
@@ -408,8 +408,8 @@ static const u8 *const sTradeMessages[] =
     [TRADE_MSG_FRIENDS_MON_CANT_BE_TRADED] = gText_OtherTrainersPkmnCantBeTraded
 };
 
-static const u8 sTradeTextColors[] = 
-{ 
+static const u8 sTradeTextColors[] =
+{
     TEXT_COLOR_TRANSPARENT, //bg color
     TEXT_COLOR_WHITE,       //fg color
     TEXT_COLOR_DARK_GRAY    //shadow color
@@ -1072,14 +1072,14 @@ static const struct InGameTrade sIngameTrades[] =
         .nickname = _("CERISE"),
         .species = SPECIES_BULBASAUR,
         .ivs = {31, 31, 5, 2, 31, 31},
-        .abilityNum = 0, 
+        .abilityNum = 0,
         .otId = 91481,
         .conditions = {5, 5, 5, 30, 5},
         .personality = 0x90842c1d,
-        .heldItem = ITEM_RETRO_MAIL, 
+        .heldItem = ITEM_RETRO_MAIL,
         .mailNum = 0,
-        .otName = _("AKI"), 
-        .otGender = MALE, 
+        .otName = _("AKI"),
+        .otGender = MALE,
         .sheen = 10,
         .requestedSpecies = SPECIES_TREECKO
     }, 
@@ -1088,14 +1088,14 @@ static const struct InGameTrade sIngameTrades[] =
         .nickname = _("ZYNX"),
         .species = SPECIES_JYNX,
         .ivs = {18, 17, 18, 22, 25, 21},
-        .abilityNum = 0, 
+        .abilityNum = 0,
         .otId = 36728,
         .conditions = {5, 30, 5, 5, 5},
         .personality = 0x498a2e1d,
-        .heldItem = ITEM_NONE, 
+        .heldItem = ITEM_NONE,
         .mailNum = -1,
-        .otName = _("DONTAE"), 
-        .otGender = MALE, 
+        .otName = _("DONTAE"),
+        .otGender = MALE,
         .sheen = 10,
         .requestedSpecies = SPECIES_POLIWHIRL
     }

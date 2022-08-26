@@ -77,8 +77,7 @@ Route121_EventScript_Vanessa::
 Route121_EventScript_Walter::
 	trainerbattle_single TRAINER_WALTER_1, Route121_Text_WalterIntro, Route121_Text_WalterDefeat, Route121_EventScript_RegisterWalter
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route121_EventScript_RematchWalter
+	goto_if_eq VAR_RESULT, TRUE, Route121_EventScript_RematchWalter
 	msgbox Route121_Text_WalterPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -114,8 +113,7 @@ Route121_EventScript_Joy::
 Route121_EventScript_Jessica::
 	trainerbattle_single TRAINER_JESSICA_1, Route121_Text_JessicaIntro, Route121_Text_JessicaDefeat, Route121_EventScript_RegisterJessica
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route121_EventScript_RematchJessica
+	goto_if_eq VAR_RESULT, TRUE, Route121_EventScript_RematchJessica
 	msgbox Route121_Text_JessicaPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -156,8 +154,7 @@ Route121_EventScript_Marcel::
 Route121_EventScript_Cristin::
 	trainerbattle_single TRAINER_CRISTIN_1, Route121_Text_CristinIntro, Route121_Text_CristinDefeat, Route121_EventScript_RegisterCristin
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route121_EventScript_RematchCristin
+	goto_if_eq VAR_RESULT, TRUE, Route121_EventScript_RematchCristin
 	msgbox Route121_Text_CristinPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -177,19 +174,19 @@ Route121_EventScript_RematchCristin::
 
 Route121_Text_OkayMoveOutToMtPyre:
 	.string "Okay!\n"
-	.string "We're to move out to MT. PYRE!$"
+	.string "We're to move out to Mt. Pyre!$"
 
 Route121_Text_AheadLoomsMtPyre:
-	.string "Ahead looms MT. PYRE…\p"
+	.string "Ahead looms Mt. Pyre…\p"
 	.string "It is a natural monument to the spirits \n"
-	.string "of departed POKéMON…$"
+	.string "of departed Pokémon…$"
 
 Route121_Text_MtPyrePierSign:
-	.string "MT. PYRE PIER\p"
+	.string "Mt. Pyre Pier\p"
 	.string "…The sign is old and worn out.\n"
 	.string "The words are barely legible…$"
 
 Route121_Text_SafariZoneSign:
-	.string "“Filled with rare POKéMON!”\n"
-	.string "SAFARI ZONE$"
+	.string "“Filled with rare Pokémon!”\n"
+	.string "Safari Zone$"
 

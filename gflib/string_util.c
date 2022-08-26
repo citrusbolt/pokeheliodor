@@ -26,10 +26,10 @@ static const s32 sPowersOfTen[] =
     1000000000,
 };
 
-u8 *StringCopy10(u8 *dest, const u8 *src)
+u8 *StringCopy_Nickname(u8 *dest, const u8 *src)
 {
     u8 i;
-    u32 limit = 10;
+    u32 limit = POKEMON_NAME_LENGTH;
 
     for (i = 0; i < limit; i++)
     {
@@ -43,10 +43,10 @@ u8 *StringCopy10(u8 *dest, const u8 *src)
     return &dest[i];
 }
 
-u8 *StringGetEnd10(u8 *str)
+u8 *StringGet_Nickname(u8 *str)
 {
     u8 i;
-    u32 limit = 10;
+    u32 limit = POKEMON_NAME_LENGTH;
 
     for (i = 0; i < limit; i++)
         if (str[i] == EOS)
@@ -56,10 +56,10 @@ u8 *StringGetEnd10(u8 *str)
     return &str[i];
 }
 
-u8 *StringCopy7(u8 *dest, const u8 *src)
+u8 *StringCopy_PlayerName(u8 *dest, const u8 *src)
 {
     s32 i;
-    s32 limit = 7;
+    s32 limit = PLAYER_NAME_LENGTH;
 
     for (i = 0; i < limit; i++)
     {
@@ -207,7 +207,7 @@ u8 *ConvertIntToDecimalStringN(u8 *dest, s32 value, enum StringConvertMode mode,
         }
         else if (state == WRITING_SPACES)
         {
-            *dest++ = 0x77;
+            *dest++ = CHAR_SPACER;
         }
 
         value = temp;
@@ -263,7 +263,7 @@ u8 *ConvertUIntToDecimalStringN(u8 *dest, u32 value, enum StringConvertMode mode
         }
         else if (state == WRITING_SPACES)
         {
-            *dest++ = 0x77;
+            *dest++ = CHAR_SPACER;
         }
 
         value = temp;
@@ -323,7 +323,7 @@ u8 *ConvertIntToHexStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8 
         }
         else if (state == WRITING_SPACES)
         {
-            *dest++ = 0x77;
+            *dest++ = CHAR_SPACER;
         }
 
         value = temp;
@@ -385,18 +385,18 @@ u8 *StringExpandPlaceholders(u8 *dest, const u8 *src)
 
 u8 *StringBraille(u8 *dest, const u8 *src)
 {
-    const u8 setBrailleFont[] = { 
-        EXT_CTRL_CODE_BEGIN, 
-        EXT_CTRL_CODE_SIZE, 
-        6, 
-        EOS 
+    const u8 setBrailleFont[] = {
+        EXT_CTRL_CODE_BEGIN,
+        EXT_CTRL_CODE_FONT,
+        6,
+        EOS
     };
-    const u8 gotoLine2[] = { 
-        CHAR_NEWLINE, 
-        EXT_CTRL_CODE_BEGIN, 
-        EXT_CTRL_CODE_SHIFT_DOWN, 
-        2, 
-        EOS 
+    const u8 gotoLine2[] = {
+        CHAR_NEWLINE,
+        EXT_CTRL_CODE_BEGIN,
+        EXT_CTRL_CODE_SHIFT_DOWN,
+        2,
+        EOS
     };
 
     dest = StringCopy(dest, setBrailleFont);
@@ -415,7 +415,7 @@ u8 *StringBraille(u8 *dest, const u8 *src)
             break;
         default:
             *dest++ = c;
-            *dest++ = c + 0x40;
+            *dest++ = c + NUM_BRAILLE_CHARS;
             break;
         }
     }
@@ -631,7 +631,7 @@ bool32 IsStringJapanese(u8 *str)
 {
     while (*str != EOS)
     {
-        if (*str < CHAR_0)
+        if (*str <= JAPANESE_CHAR_END)
             if (*str != CHAR_SPACE)
                 return TRUE;
         str++;
@@ -640,13 +640,13 @@ bool32 IsStringJapanese(u8 *str)
     return FALSE;
 }
 
-bool32 sub_800924C(u8 *str, s32 n)
+bool32 IsStringNJapanese(u8 *str, s32 n)
 {
     s32 i;
 
     for (i = 0; *str != EOS && i < n; i++)
     {
-        if (*str < CHAR_0)
+        if (*str <= JAPANESE_CHAR_END)
             if (*str != CHAR_SPACE)
                 return TRUE;
         str++;
@@ -665,7 +665,7 @@ u8 GetExtCtrlCodeLength(u8 code)
         [EXT_CTRL_CODE_SHADOW]                 = 2,
         [EXT_CTRL_CODE_COLOR_HIGHLIGHT_SHADOW] = 4,
         [EXT_CTRL_CODE_PALETTE]                = 2,
-        [EXT_CTRL_CODE_SIZE]                   = 2,
+        [EXT_CTRL_CODE_FONT]                   = 2,
         [EXT_CTRL_CODE_RESET_SIZE]             = 1,
         [EXT_CTRL_CODE_PAUSE]                  = 2,
         [EXT_CTRL_CODE_PAUSE_UNTIL_PRESS]      = 1,
@@ -816,11 +816,11 @@ char *ConvertToAscii(const u8 *str)
         {
             modifiedCode = '.'; // period
         }
-        else if (*str == CHAR_DBL_QUOT_LEFT || *str == CHAR_DBL_QUOT_RIGHT)
+        else if (*str == CHAR_DBL_QUOTE_LEFT || *str == CHAR_DBL_QUOTE_RIGHT)
         {
             modifiedCode = '"'; // double quote
         }
-        else if (*str == CHAR_SGL_QUOT_LEFT || *str == CHAR_SGL_QUOT_RIGHT)
+        else if (*str == CHAR_SGL_QUOTE_LEFT || *str == CHAR_SGL_QUOTE_RIGHT)
         {
             modifiedCode = '"'; // single quote
         }

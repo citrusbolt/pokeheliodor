@@ -4,14 +4,10 @@ Route110_TrickHousePuzzle2_MapScripts::
 	.byte 0
 
 Route110_TrickHousePuzzle2_OnResume:
-	compare VAR_TEMP_1, 1
-	call_if_eq Route110_TrickHousePuzzle2_EventScript_PressButton1
-	compare VAR_TEMP_2, 1
-	call_if_eq Route110_TrickHousePuzzle2_EventScript_PressButton2
-	compare VAR_TEMP_3, 1
-	call_if_eq Route110_TrickHousePuzzle2_EventScript_PressButton3
-	compare VAR_TEMP_4, 1
-	call_if_eq Route110_TrickHousePuzzle2_EventScript_PressButton4
+	call_if_eq VAR_TEMP_1, 1, Route110_TrickHousePuzzle2_EventScript_PressButton1
+	call_if_eq VAR_TEMP_2, 1, Route110_TrickHousePuzzle2_EventScript_PressButton2
+	call_if_eq VAR_TEMP_3, 1, Route110_TrickHousePuzzle2_EventScript_PressButton3
+	call_if_eq VAR_TEMP_4, 1, Route110_TrickHousePuzzle2_EventScript_PressButton4
 	end
 
 Route110_TrickHousePuzzle2_OnTransition:
@@ -23,8 +19,7 @@ Route110_TrickHousePuzzle2_OnTransition:
 
 Route110_TrickHousePuzzle2_EventScript_Scroll::
 	lockall
-	compare VAR_TRICK_HOUSE_PUZZLE_2_STATE, 0
-	goto_if_eq Route110_TrickHousePuzzle2_EventScript_FoundScroll
+	goto_if_eq VAR_TRICK_HOUSE_PUZZLE_2_STATE, 0, Route110_TrickHousePuzzle2_EventScript_FoundScroll
 	goto Route110_TrickHousePuzzle_EventScript_ReadScrollAgain
 	end
 
@@ -70,23 +65,23 @@ Route110_TrickHousePuzzle2_EventScript_Button4::
 	end
 
 Route110_TrickHousePuzzle2_EventScript_PressButton1::
-	setmetatile 11, 12, METATILE_TrickHousePuzzle_Button_Pressed, 0
-	setmetatile 1, 13, METATILE_TrickHousePuzzle_Door_Shuttered, 0
+	setmetatile 11, 12, METATILE_TrickHousePuzzle_Button_Pressed, FALSE
+	setmetatile 1, 13, METATILE_TrickHousePuzzle_Door_Shuttered, FALSE
 	return
 
 Route110_TrickHousePuzzle2_EventScript_PressButton2::
-	setmetatile 0, 4, METATILE_TrickHousePuzzle_Button_Pressed, 0
-	setmetatile 5, 6, METATILE_TrickHousePuzzle_Door_Shuttered, 0
+	setmetatile 0, 4, METATILE_TrickHousePuzzle_Button_Pressed, FALSE
+	setmetatile 5, 6, METATILE_TrickHousePuzzle_Door_Shuttered, FALSE
 	return
 
 Route110_TrickHousePuzzle2_EventScript_PressButton3::
-	setmetatile 14, 5, METATILE_TrickHousePuzzle_Button_Pressed, 0
-	setmetatile 7, 15, METATILE_TrickHousePuzzle_Door_Shuttered, 0
+	setmetatile 14, 5, METATILE_TrickHousePuzzle_Button_Pressed, FALSE
+	setmetatile 7, 15, METATILE_TrickHousePuzzle_Door_Shuttered, FALSE
 	return
 
 Route110_TrickHousePuzzle2_EventScript_PressButton4::
-	setmetatile 7, 11, METATILE_TrickHousePuzzle_Button_Pressed, 0
-	setmetatile 14, 12, METATILE_TrickHousePuzzle_Door_Shuttered, 0
+	setmetatile 7, 11, METATILE_TrickHousePuzzle_Button_Pressed, FALSE
+	setmetatile 14, 12, METATILE_TrickHousePuzzle_Door_Shuttered, FALSE
 	return
 
 Route110_TrickHousePuzzle2_EventScript_Ted::
@@ -107,7 +102,7 @@ Route110_TrickHousePuzzle2_EventScript_Georgia::
 Route110_TrickHousePuzzle2_Text_WroteSecretCodeLockOpened:
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
-	.string "“TRICK MASTER is smart.”\n"
+	.string "“Trick Master is smart.”\n"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 
@@ -123,18 +118,18 @@ Route110_TrickHousePuzzle2_Text_TedPostBattle:
 	.string "for me?$"
 
 Route110_TrickHousePuzzle2_Text_PaulIntro:
-	.string "Oh! You're on your second TRICK HOUSE\n"
+	.string "Oh! You're on your second Trick House\n"
 	.string "challenge!$"
 
 Route110_TrickHousePuzzle2_Text_PaulDefeat:
 	.string "You're good at battling too?$"
 
 Route110_TrickHousePuzzle2_Text_PaulPostBattle:
-	.string "The TRICK MASTER rigged all the tricks\n"
+	.string "The Trick Master rigged all the tricks\n"
 	.string "in this house all by himself.$"
 
 Route110_TrickHousePuzzle2_Text_GeorgiaIntro:
-	.string "I want to make my own GYM one day.\n"
+	.string "I want to make my own Gym one day.\n"
 	.string "So, I'm studying how to set traps.$"
 
 Route110_TrickHousePuzzle2_Text_GeorgiaDefeat:
@@ -142,5 +137,5 @@ Route110_TrickHousePuzzle2_Text_GeorgiaDefeat:
 
 Route110_TrickHousePuzzle2_Text_GeorgiaPostBattle:
 	.string "You're strong, aren't you?\n"
-	.string "Maybe even enough to be a GYM LEADER!$"
+	.string "Maybe even enough to be a Gym Leader!$"
 

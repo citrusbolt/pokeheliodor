@@ -14,10 +14,8 @@ Route113_OnTransition:
 
 Route113_EventScript_CheckSetAshWeather::
 	getplayerxy VAR_TEMP_0, VAR_TEMP_1
-	compare VAR_TEMP_0, 19
-	goto_if_lt Route113_EventScript_DontSetAshWeather
-	compare VAR_TEMP_0, 84
-	goto_if_gt Route113_EventScript_DontSetAshWeather
+	goto_if_lt VAR_TEMP_0, 19, Route113_EventScript_DontSetAshWeather
+	goto_if_gt VAR_TEMP_0, 84, Route113_EventScript_DontSetAshWeather
 	setweather WEATHER_VOLCANIC_ASH
 	return
 
@@ -61,8 +59,7 @@ Route113_EventScript_Dillon::
 Route113_EventScript_Madeline::
 	trainerbattle_single TRAINER_MADELINE_1, Route113_Text_MadelineIntro, Route113_Text_MadelineDefeat, Route113_EventScript_RegisterMadeline
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route113_EventScript_RematchMadeline
+	goto_if_eq VAR_RESULT, TRUE, Route113_EventScript_RematchMadeline
 	msgbox Route113_Text_MadelinePostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -83,8 +80,7 @@ Route113_EventScript_RematchMadeline::
 Route113_EventScript_Lao::
 	trainerbattle_single TRAINER_LAO_1, Route113_Text_LaoIntro, Route113_Text_LaoDefeat, Route113_EventScript_RegisterLao
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route113_EventScript_RematchLao
+	goto_if_eq VAR_RESULT, TRUE, Route113_EventScript_RematchLao
 	msgbox Route113_Text_LaoPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -150,21 +146,21 @@ Route113_Text_FunWalkingThroughAsh:
 	.string "really neat!$"
 
 Route113_Text_RouteSign111:
-	.string "ROUTE 113\n"
-	.string "{RIGHT_ARROW} ROUTE 111$"
+	.string "Route 113\n"
+	.string "{RIGHT_ARROW} Route 111$"
 
 Route113_Text_RouteSignFallarbor:
-	.string "ROUTE 113\n"
-	.string "{LEFT_ARROW} FALLARBOR TOWN$"
+	.string "Route 113\n"
+	.string "{LEFT_ARROW} Fallarbor Town$"
 
 Route113_Text_TrainerTipsRegisterKeyItems:
-	.string "TRAINER TIPS\p"
-	.string "You may register three of the KEY ITEMS\n"
-	.string "in your BAG as SELECT, L, or R.\p"
-	.string "Simply press SELECT, L, or R to use\n"
+	.string "Trainer Tips\p"
+	.string "You may register three of the Key Items\n"
+	.string "in your Bag as Select, L, or R.\p"
+	.string "Simply press Select, L, or R to use\n"
 	.string "the registered item conveniently.$"
 
 Route113_Text_GlassWorkshopSign:
-	.string "GLASS WORKSHOP\n"
+	.string "Glass Workshop\n"
 	.string "“Turning Volcanic Ash into Glass Items”$"
 

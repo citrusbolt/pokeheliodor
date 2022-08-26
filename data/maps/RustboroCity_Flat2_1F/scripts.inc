@@ -9,14 +9,14 @@ RustboroCity_Flat2_1F_EventScript_Skitty::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_SKITTY, 0
+	playmoncry SPECIES_SKITTY, CRY_MODE_NORMAL
 	msgbox RustboroCity_Flat2_1F_Text_Skitty, MSGBOX_DEFAULT
 	waitmoncry
 	release
 	end
 
 RustboroCity_Flat2_1F_Text_DevonWorkersLiveHere:
-	.string "DEVON CORPORATION's workers live in\n"
+	.string "Devon Corporation's workers live in\n"
 	.string "this building.$"
 
 RustboroCity_Flat2_1F_Text_Skitty:

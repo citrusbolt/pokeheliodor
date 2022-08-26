@@ -15,7 +15,7 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "main.h"
-#include "mevent.h"
+#include "mystery_gift.h"
 #include "menu.h"
 #include "overworld.h"
 #include "palette.h"
@@ -27,7 +27,6 @@
 #include "task.h"
 #include "text_window.h"
 #include "window.h"
-#include "constants/easy_chat.h"
 #include "constants/event_objects.h"
 #include "constants/lilycove_lady.h"
 #include "constants/mauville_old_man.h"
@@ -114,6 +113,7 @@ static u8 GetLastAlphabetColumn(u8);
 static void ReduceToValidWordSelectColumn(void);
 static bool8 IsSelectedWordIndexInvalid(void);
 static int DidPlayerInputMysteryGiftPhrase(void);
+static int DidPlayerInputMysteryEventPhrase(void);
 static u16 DidPlayerInputABerryMasterWifePhrase(void);
 static bool8 InitEasyChatScreenControl_(void);
 static void LoadEasyChatPalettes(void);
@@ -686,6 +686,13 @@ static const u16 sMysteryGiftPhrase[NUM_QUESTIONNAIRE_WORDS] = {
     EC_WORD_ALL,
 };
 
+static const u16 sMysteryEventPhrase[NUM_QUESTIONNAIRE_WORDS] = {
+    EC_WORD_MYSTERY,
+    EC_WORD_EVENT,
+    EC_WORD_IS,
+    EC_WORD_EXCITING,
+};
+
 static const u16 sBerryMasterWifePhrases[][2] = {
     [PHRASE_GREAT_BATTLE - 1]        = {EC_WORD_GREAT, EC_WORD_BATTLE},
     [PHRASE_CHALLENGE_CONTEST - 1]   = {EC_WORD_CHALLENGE, EC_WORD_CONTEST},
@@ -857,7 +864,7 @@ static const struct WindowTemplate sEasyChatYesNoWindowTemplate = {
 
 static const u8 sText_Clear17[] = _("{CLEAR 17}");
 
-static const u8 *const sEasyChatKeyboardAlphabet[NUM_ALPHABET_ROWS] = 
+static const u8 *const sEasyChatKeyboardAlphabet[NUM_ALPHABET_ROWS] =
 {
     gText_EasyChatKeyboard_ABCDEFothers,
     gText_EasyChatKeyboard_GHIJKL,
@@ -1310,7 +1317,7 @@ static void StartEasyChatScreen(u8 taskId, TaskFunc taskFunc)
 
 static void Task_InitEasyChatScreen(u8 taskId)
 {
-    if (!IsUpdateLinkStateCBActive())
+    if (!IsOverworldLinkActive())
     {
         while (InitEasyChatScreen(taskId));
     }
@@ -1493,7 +1500,7 @@ void ShowEasyChatScreen(void)
         displayedPersonType = EASY_CHAT_PERSON_REPORTER_MALE;
         break;
     case EASY_CHAT_TYPE_BATTLE_TOWER_INTERVIEW:
-        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].fanclubOpinions.words18;
+        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].bravoTrainerTower.words;
         displayedPersonType = EASY_CHAT_PERSON_REPORTER_FEMALE;
         break;
     case EASY_CHAT_TYPE_GOOD_SAYING:
@@ -1673,8 +1680,7 @@ static bool8 InitEasyChatScreenStruct(u8 type, u16 *words, u8 displayedPersonTyp
 
 static void FreeEasyChatScreenStruct(void)
 {
-    if (sEasyChatScreen != NULL)
-        FREE_AND_SET_NULL(sEasyChatScreen);
+    TRY_FREE_AND_SET_NULL(sEasyChatScreen);
 }
 
 // Returns the function ID of the action to take as a result of player's input.
@@ -2908,7 +2914,7 @@ static void GetQuizTitle(u8 *dst)
     u8 name[32];
     struct SaveBlock1 *saveBlock1 = gSaveBlock1Ptr;
     DynamicPlaceholderTextUtil_Reset();
-    
+
     // Buffer author's name
     if (StringLength(saveBlock1->lilycoveLady.quiz.playerName) != 0)
     {
@@ -2956,6 +2962,8 @@ static void SetSpecialEasyChatResult(void)
     case EASY_CHAT_TYPE_QUESTIONNAIRE:
         if (DidPlayerInputMysteryGiftPhrase())
             gSpecialVar_0x8004 = 2;
+        else if (DidPlayerInputMysteryEventPhrase())
+            gSpecialVar_0x8004 = 1;
         else
             gSpecialVar_0x8004 = 0;
         break;
@@ -2972,6 +2980,11 @@ static void SetSpecialEasyChatResult(void)
 static int DidPlayerInputMysteryGiftPhrase(void)
 {
     return !IsPhraseDifferentThanPlayerInput(sMysteryGiftPhrase, ARRAY_COUNT(sMysteryGiftPhrase));
+}
+
+static int DidPlayerInputMysteryEventPhrase(void)
+{
+    return !IsPhraseDifferentThanPlayerInput(sMysteryEventPhrase, ARRAY_COUNT(sMysteryEventPhrase));
 }
 
 static u16 DidPlayerInputABerryMasterWifePhrase(void)
@@ -3076,8 +3089,7 @@ static bool8 LoadEasyChatScreen(void)
 
 static void FreeEasyChatScreenControl(void)
 {
-    if (sScreenControl)
-        FREE_AND_SET_NULL(sScreenControl);
+    TRY_FREE_AND_SET_NULL(sScreenControl);
 }
 
 static void StartEasyChatFunction(u16 funcId)
@@ -3176,7 +3188,7 @@ static bool8 UpdateMainCursor(void)
         else
         {
             CopyEasyChatWord(str, *ecWord);
-            stringWidth = GetStringWidth(1, str, 0);
+            stringWidth = GetStringWidth(FONT_OPTION, str, 0);
         }
 
         trueStringWidth = stringWidth + 17;
@@ -3900,14 +3912,14 @@ static bool8 InitEasyChatScreenControl_(void)
 
 static void InitEasyChatBgs(void)
 {
-    ChangeBgX(3, 0, 0);
-    ChangeBgY(3, 0, 0);
-    ChangeBgX(1, 0, 0);
-    ChangeBgY(1, 0, 0);
-    ChangeBgX(2, 0, 0);
-    ChangeBgY(2, 0, 0);
-    ChangeBgX(0, 0, 0);
-    ChangeBgY(0, 0, 0);
+    ChangeBgX(3, 0, BG_COORD_SET);
+    ChangeBgY(3, 0, BG_COORD_SET);
+    ChangeBgX(1, 0, BG_COORD_SET);
+    ChangeBgY(1, 0, BG_COORD_SET);
+    ChangeBgX(2, 0, BG_COORD_SET);
+    ChangeBgY(2, 0, BG_COORD_SET);
+    ChangeBgX(0, 0, BG_COORD_SET);
+    ChangeBgY(0, 0, BG_COORD_SET);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON | DISPCNT_WIN0_ON);
 }
 
@@ -3930,11 +3942,11 @@ static void PrintTitle(void)
     if (!titleText)
         return;
 
-    xOffset = GetStringCenterAlignXOffset(1, titleText, 144);
+    xOffset = GetStringCenterAlignXOffset(FONT_OPTION, titleText, 144);
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
-    PrintEasyChatTextWithColors(0, 1, titleText, xOffset, 1, TEXT_SPEED_FF, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
+    PrintEasyChatTextWithColors(0, FONT_OPTION, titleText, xOffset, 1, TEXT_SKIP_DRAW, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
     PutWindowTilemap(0);
-    CopyWindowToVram(0, 3);
+    CopyWindowToVram(0, COPYWIN_FULL);
 }
 
 static void PrintEasyChatText(u8 windowId, u8 fontId, const u8 *str, u8 x, u8 y, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
@@ -4003,12 +4015,12 @@ static void PrintEasyChatStdMessage(u8 msgId)
 
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
     if (text1)
-        PrintEasyChatText(1, 1, text1, 0, 1, TEXT_SPEED_FF, 0);
+        PrintEasyChatText(1, FONT_OPTION, text1, 0, 1, TEXT_SKIP_DRAW, 0);
 
     if (text2)
-        PrintEasyChatText(1, 1, text2, 0, 17, TEXT_SPEED_FF, 0);
+        PrintEasyChatText(1, FONT_OPTION, text2, 0, 17, TEXT_SKIP_DRAW, 0);
 
-    CopyWindowToVram(1, 3);
+    CopyWindowToVram(1, COPYWIN_FULL);
 }
 
 static void CreateEasyChatYesNoMenu(u8 initialCursorPos)
@@ -4099,10 +4111,10 @@ static void PrintCurrentPhrase(void)
         }
 
         *str = EOS;
-        PrintEasyChatText(sScreenControl->windowId, 1, sScreenControl->phrasePrintBuffer, 0, i * 16 + 1, TEXT_SPEED_FF, 0);
+        PrintEasyChatText(sScreenControl->windowId, FONT_OPTION, sScreenControl->phrasePrintBuffer, 0, i * 16 + 1, TEXT_SKIP_DRAW, 0);
     }
 
-    CopyWindowToVram(sScreenControl->windowId, 3);
+    CopyWindowToVram(sScreenControl->windowId, COPYWIN_FULL);
 }
 
 static void BufferFrameTilemap(u16 *tilemap)
@@ -4118,7 +4130,7 @@ static void BufferFrameTilemap(u16 *tilemap)
         // These frames fill the screen, no need to draw top/bottom edges
         right = sPhraseFrameDimensions[frameId].left + sPhraseFrameDimensions[frameId].width;
         bottom = sPhraseFrameDimensions[frameId].top + sPhraseFrameDimensions[frameId].height;
-        
+
         // Draw middle section
         for (y = sPhraseFrameDimensions[frameId].top; y < bottom; y++)
         {
@@ -4216,7 +4228,7 @@ static void InitLowerWindowText(u32 whichText)
         break;
     }
 
-    CopyWindowToVram(2, 2);
+    CopyWindowToVram(2, COPYWIN_GFX);
 }
 
 static void PrintKeyboardText(void)
@@ -4245,7 +4257,7 @@ static void PrintKeyboardGroupNames(void)
                 return;
             }
 
-            PrintEasyChatText(2, 1, GetEasyChatWordGroupName(groupId), x * 84 + 10, y, TEXT_SPEED_FF, NULL);
+            PrintEasyChatText(2, FONT_OPTION, GetEasyChatWordGroupName(groupId), x * 84 + 10, y, TEXT_SKIP_DRAW, NULL);
         }
 
         y += 16;
@@ -4257,7 +4269,7 @@ static void PrintKeyboardAlphabet(void)
     u32 i;
 
     for (i = 0; i < ARRAY_COUNT(sEasyChatKeyboardAlphabet); i++)
-        PrintEasyChatText(2, 1, sEasyChatKeyboardAlphabet[i], 10, 97 + i * 16, TEXT_SPEED_FF, NULL);
+        PrintEasyChatText(2, FONT_OPTION, sEasyChatKeyboardAlphabet[i], 10, 97 + i * 16, TEXT_SKIP_DRAW, NULL);
 }
 
 static void PrintInitialWordSelectText(void)
@@ -4328,16 +4340,16 @@ static void PrintWordSelectText(u8 scrollOffset, u8 numRows)
             {
                 CopyEasyChatWordPadded(sScreenControl->wordSelectPrintBuffer, easyChatWord, 0);
                 if (!DummyWordCheck(easyChatWord))
-                    PrintEasyChatText(2, 1, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SPEED_FF, NULL);
+                    PrintEasyChatText(2, FONT_OPTION, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SKIP_DRAW, NULL);
                 else // Never reached
-                    PrintEasyChatTextWithColors(2, 1, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SPEED_FF, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_LIGHT_GRAY);
+                    PrintEasyChatTextWithColors(2, FONT_OPTION, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SKIP_DRAW, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_LIGHT_GRAY);
             }
         }
 
         y += 16;
     }
 
-    CopyWindowToVram(2, 2);
+    CopyWindowToVram(2, COPYWIN_GFX);
 }
 
 static void EraseWordSelectRows(u8 scrollOffset, u8 numRows)
@@ -4369,7 +4381,7 @@ static void EraseWordSelectRows(u8 scrollOffset, u8 numRows)
 static void ClearWordSelectWindow(void)
 {
     FillWindowPixelBuffer(2, PIXEL_FILL(1));
-    CopyWindowToVram(2, 2);
+    CopyWindowToVram(2, COPYWIN_GFX);
 }
 
 static void InitLowerWindowAnim(int winAnimType)
@@ -4516,7 +4528,7 @@ static void BufferLowerWindowFrame(int left, int top, int width, int height)
     bottom = top + height - 1;
     x = left;
     y = top;
-    
+
     // Draw top edge
     tilemap[y * 32 + x] = FRAME_OFFSET_GREEN + FRAME_TILE_TOP_L_CORNER;
     x++;
@@ -4550,7 +4562,7 @@ static void BufferLowerWindowFrame(int left, int top, int width, int height)
 
 static void ResetLowerWindowScroll(void)
 {
-    ChangeBgY(2, 0x800, 0);
+    ChangeBgY(2, 0x800, BG_COORD_SET);
     sScreenControl->scrollOffset = 0;
 }
 
@@ -4572,7 +4584,7 @@ static void InitLowerWindowScroll(s16 scrollChange, u8 speed)
     }
     else
     {
-        ChangeBgY(2, bgY, 0);
+        ChangeBgY(2, bgY, BG_COORD_SET);
     }
 }
 
@@ -4587,7 +4599,7 @@ static bool8 UpdateLowerWindowScroll(void)
     }
     else
     {
-        ChangeBgY(2, sScreenControl->scrollSpeed, 1);
+        ChangeBgY(2, sScreenControl->scrollSpeed, BG_COORD_ADD);
         return TRUE;
     }
 }
@@ -4688,7 +4700,7 @@ static void UpdateRectangleCursorPos(void)
     s8 column;
     s8 row;
 
-    if (sScreenControl->rectangleCursorSpriteRight 
+    if (sScreenControl->rectangleCursorSpriteRight
      && sScreenControl->rectangleCursorSpriteLeft)
     {
         GetKeyboardCursorColAndRow(&column, &row);
@@ -5011,7 +5023,7 @@ static void TryAddInterviewObjectEvents(void)
         return;
 
     // Add object for reporter/interviewing fan (facing left)
-    spriteId = AddPseudoObjectEvent(graphicsId, SpriteCallbackDummy, 76, 40, 0);
+    spriteId = CreateObjectGraphicsSprite(graphicsId, SpriteCallbackDummy, 76, 40, 0);
     if (spriteId != MAX_SPRITES)
     {
         gSprites[spriteId].oam.priority = 0;
@@ -5019,7 +5031,7 @@ static void TryAddInterviewObjectEvents(void)
     }
 
     // Add object for player (facing right)
-    spriteId = AddPseudoObjectEvent(
+    spriteId = CreateObjectGraphicsSprite(
         gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL : OBJ_EVENT_GFX_RIVAL_MAY_NORMAL,
         SpriteCallbackDummy,
         52,
@@ -5082,7 +5094,7 @@ static void AddMainScreenButtonWindow(void)
         if (str)
         {
             int x = sFooterOptionXOffsets[footerIndex][i];
-            PrintEasyChatText(windowId, 1, str, x, 1, 0, NULL);
+            PrintEasyChatText(windowId, FONT_OPTION, str, x, 1, 0, NULL);
         }
     }
 
@@ -5192,7 +5204,7 @@ static const u8 *GetEasyChatWord(u8 groupId, u16 index)
         return gSpeciesNames[index];
     case EC_GROUP_MOVE_1:
     case EC_GROUP_MOVE_2:
-        return gMoveNames[index];
+        return gEasyChatMoveNames[index];
     default:
         return gEasyChatGroups[groupId].wordData.words[index].text;
     }
@@ -5532,33 +5544,24 @@ void InitEasyChatPhrases(void)
 
     for (i = 0; i < ARRAY_COUNT(sDefaultProfileWords); i++)
         gSaveBlock1Ptr->easyChatProfile[i] = sDefaultProfileWords[i];
-    
+
     for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
         gSaveBlock1Ptr->easyChatBattleStart[i] = sDefaultBattleStartWords[i];
-    
+
     for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
         gSaveBlock1Ptr->easyChatBattleWon[i] = sDefaultBattleWonWords[i];
-    
+
     for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
         gSaveBlock1Ptr->easyChatBattleLost[i] = sDefaultBattleLostWords[i];
-    
+
     for (i = 0; i < MAIL_COUNT; i++)
     {
         for (j = 0; j < MAIL_WORDS_COUNT; j++)
             gSaveBlock1Ptr->mail[i].words[j] = EC_EMPTY_WORD;
     }
 
-#ifndef UBFIX
-    // BUG: This is supposed to clear 64 bits, but this loop is clearing 64 bytes.
-    // However, this bug has no resulting effect on gameplay because only the
-    // Mauville old man data is corrupted, which is initialized directly after
-    // this function is called when starting a new game.
-    for (i = 0; i < 64; i++)
-        gSaveBlock1Ptr->additionalPhrases[i] = 0;
-#else
     for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->additionalPhrases); i++)
         gSaveBlock1Ptr->additionalPhrases[i] = 0;
-#endif
 }
 
 static bool8 InitEasyChatScreenWordData(void)
@@ -5574,8 +5577,7 @@ static bool8 InitEasyChatScreenWordData(void)
 
 static void FreeEasyChatScreenWordData(void)
 {
-    if (sWordData)
-        FREE_AND_SET_NULL(sWordData);
+    TRY_FREE_AND_SET_NULL(sWordData);
 }
 
 static void SetUnlockedEasyChatGroups(void)
@@ -5585,11 +5587,11 @@ static void SetUnlockedEasyChatGroups(void)
     sWordData->numUnlockedGroups = 0;
     if (GetNationalPokedexCount(FLAG_GET_SEEN))
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_POKEMON;
-    
+
     // These groups are unlocked automatically
     for (i = EC_GROUP_TRAINER; i <= EC_GROUP_ADJECTIVES; i++)
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = i;
-    
+
     if (FlagGet(FLAG_SYS_GAME_CLEAR))
     {
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_EVENTS;
@@ -5627,7 +5629,7 @@ static u8 *BufferEasyChatWordGroupName(u8 *dest, u8 groupId, u16 totalChars)
         *str = CHAR_SPACE;
         str++;
     }
-    
+
     *str = EOS;
     return str;
 }
@@ -5646,7 +5648,7 @@ static u8 *CopyEasyChatWordPadded(u8 *dest, u16 easyChatWord, u16 totalChars)
         *str = CHAR_SPACE;
         str++;
     }
-    
+
     *str = EOS;
     return str;
 }

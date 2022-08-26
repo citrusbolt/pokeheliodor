@@ -13,8 +13,7 @@ AbandonedShip_Rooms_1F_EventScript_Demetrius::
 AbandonedShip_Rooms_1F_EventScript_Thalia::
 	trainerbattle_single TRAINER_THALIA_1, AbandonedShip_Rooms_1F_Text_ThaliaIntro, AbandonedShip_Rooms_1F_Text_ThaliaDefeat, AbandonedShip_Rooms_1F_EventScript_RegisterThalia
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq AbandonedShip_Rooms_1F_EventScript_ThaliaRematch
+	goto_if_eq VAR_RESULT, TRUE, AbandonedShip_Rooms_1F_EventScript_ThaliaRematch
 	msgbox AbandonedShip_Rooms_1F_Text_ThaliaPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -51,7 +50,7 @@ AbandonedShip_Rooms_1F_Text_ThaliaPostBattle:
 	.string "but I don't know about that.$"
 
 AbandonedShip_Rooms_1F_Text_ThaliaRegister:
-	.string "You're such a tough TRAINER!\n"
+	.string "You're such a tough Trainer!\n"
 	.string "Let me register you as a memento!$"
 
 AbandonedShip_Rooms_1F_Text_ThaliaRematchIntro:

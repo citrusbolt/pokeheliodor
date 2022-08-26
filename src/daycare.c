@@ -30,7 +30,6 @@
 
 extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
-// this file's functions
 static void ClearDaycareMonMail(struct DaycareMail *mail);
 static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *daycare);
 static u8 GetDaycareCompatibilityScore(struct DayCare *daycare);
@@ -84,7 +83,7 @@ static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = 1,
+    .fontId = FONT_OPTION,
     .cursorKind = 0
 };
 
@@ -103,7 +102,7 @@ u8 *GetMonNickname2(struct Pokemon *mon, u8 *dest)
     u8 nickname[POKEMON_NAME_LENGTH * 2];
 
     GetMonData(mon, MON_DATA_NICKNAME, nickname);
-    return StringCopy10(dest, nickname);
+    return StringCopy_Nickname(dest, nickname);
 }
 
 u8 *GetBoxMonNickname(struct BoxPokemon *mon, u8 *dest)
@@ -111,7 +110,7 @@ u8 *GetBoxMonNickname(struct BoxPokemon *mon, u8 *dest)
     u8 nickname[POKEMON_NAME_LENGTH * 2];
 
     GetBoxMonData(mon, MON_DATA_NICKNAME, nickname);
-    return StringCopy10(dest, nickname);
+    return StringCopy_Nickname(dest, nickname);
 }
 
 u8 CountPokemonInDaycare(struct DayCare *daycare)
@@ -128,7 +127,7 @@ u8 CountPokemonInDaycare(struct DayCare *daycare)
     return count;
 }
 
-void InitDaycareMailRecordMixing(struct DayCare *daycare, struct RecordMixingDaycareMail *daycareMail)
+void InitDaycareMailRecordMixing(struct DayCare *daycare, struct RecordMixingDaycareMail *mixMail)
 {
     u8 i;
     u8 numDaycareMons = 0;
@@ -139,17 +138,18 @@ void InitDaycareMailRecordMixing(struct DayCare *daycare, struct RecordMixingDay
         {
             numDaycareMons++;
             if (GetBoxMonData(&daycare->mons[i].mon, MON_DATA_HELD_ITEM) == ITEM_NONE)
-                daycareMail->holdsItem[i] = FALSE;
+                mixMail->cantHoldItem[i] = FALSE;
             else
-                daycareMail->holdsItem[i] = TRUE;
+                mixMail->cantHoldItem[i] = TRUE;
         }
         else
         {
-            daycareMail->holdsItem[i] = TRUE;
+            // Daycare slot empty
+            mixMail->cantHoldItem[i] = TRUE;
         }
     }
 
-    daycareMail->numDaycareMons = numDaycareMons;
+    mixMail->numDaycareMons = numDaycareMons;
 }
 
 static s8 Daycare_FindEmptySpot(struct DayCare *daycare)
@@ -171,7 +171,7 @@ static void StorePokemonInDaycare(struct Pokemon *mon, struct DaycareMon *daycar
     {
         u8 mailId;
 
-        StringCopy(daycareMon->mail.OT_name, gSaveBlock2Ptr->playerName);
+        StringCopy(daycareMon->mail.otName, gSaveBlock2Ptr->playerName);
         GetMonNickname2(mon, daycareMon->mail.monName);
         StripExtCtrlCodes(daycareMon->mail.monName);
         daycareMon->mail.gameLanguage = GAME_LANGUAGE;
@@ -191,8 +191,14 @@ static void StorePokemonInDaycare(struct Pokemon *mon, struct DaycareMon *daycar
 
 static void StorePokemonInEmptyDaycareSlot(struct Pokemon *mon, struct DayCare *daycare)
 {
-    s8 slotId = Daycare_FindEmptySpot(daycare);
-    StorePokemonInDaycare(mon, &daycare->mons[slotId]);
+	if (Daycare_FindEmptySpot(daycare) == 1)
+	{
+		daycare->mons[1].mon = daycare->mons[0].mon;
+        daycare->mons[1].mail = daycare->mons[0].mail;
+        daycare->mons[1].steps = daycare->mons[0].steps;
+	}
+
+    StorePokemonInDaycare(mon, &daycare->mons[0]);
 }
 
 void StoreSelectedPokemonInDaycare(void)
@@ -268,7 +274,7 @@ static u16 TakeSelectedPokemonFromDaycare(struct DaycareMon *daycareMon)
     gPlayerParty[PARTY_SIZE - 1] = pokemon;
     if (daycareMon->mail.message.itemId)
     {
-        GiveMailToMon2(&gPlayerParty[PARTY_SIZE - 1], &daycareMon->mail.message);
+        GiveMailToMon(&gPlayerParty[PARTY_SIZE - 1], &daycareMon->mail.message);
         ClearDaycareMonMail(&daycareMon->mail);
     }
 
@@ -358,11 +364,11 @@ static void ClearDaycareMonMail(struct DaycareMail *mail)
     s32 i;
 
     for (i = 0; i < PLAYER_NAME_LENGTH + 1; i++)
-        mail->OT_name[i] = 0;
+        mail->otName[i] = 0;
     for (i = 0; i < POKEMON_NAME_LENGTH + 1; i++)
         mail->monName[i] = 0;
 
-    ClearMailStruct(&mail->message);
+    ClearMail(&mail->message);
 }
 
 static void ClearDaycareMon(struct DaycareMon *daycareMon)
@@ -1071,7 +1077,7 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
 
                 SetMonData(&gPlayerParty[i], MON_DATA_FRIENDSHIP, &eggCycles);
             }
-            else 
+            else
             {
                 gSpecialVar_0x8004 = i;
                 return TRUE;
@@ -1337,7 +1343,7 @@ static void DaycareAddTextPrinter(u8 windowId, const u8 *text, u32 x, u32 y)
 
     printer.currentChar = text;
     printer.windowId = windowId;
-    printer.fontId = 1;
+    printer.fontId = FONT_OPTION;
     printer.x = x;
     printer.y = y;
     printer.currentX = x;
@@ -1350,7 +1356,7 @@ static void DaycareAddTextPrinter(u8 windowId, const u8 *text, u32 x, u32 y)
     printer.bgColor = 1;
     printer.shadowColor = 3;
 
-    AddTextPrinter(&printer, 0xFF, NULL);
+    AddTextPrinter(&printer, TEXT_SKIP_DRAW, NULL);
 }
 
 static void DaycarePrintMonNickname(struct DayCare *daycare, u8 windowId, u32 daycareSlotId, u32 y)
@@ -1373,7 +1379,7 @@ static void DaycarePrintMonLvl(struct DayCare *daycare, u8 windowId, u32 daycare
     level = GetLevelAfterDaycareSteps(&daycare->mons[daycareSlotId].mon, daycare->mons[daycareSlotId].steps);
     ConvertIntToDecimalStringN(intText, level, STR_CONV_MODE_LEFT_ALIGN, 3);
     StringAppend(lvlText, intText);
-    x = GetStringRightAlignXOffset(1, lvlText, 112);
+    x = GetStringRightAlignXOffset(FONT_OPTION, lvlText, 112);
     DaycareAddTextPrinter(windowId, lvlText, x, y);
 }
 
@@ -1436,7 +1442,7 @@ void ShowDaycareLevelMenu(void)
     menuTemplate.windowId = windowId;
     listMenuTaskId = ListMenuInit(&menuTemplate, 0, 0);
 
-    CopyWindowToVram(windowId, 3);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
 
     daycareMenuTaskId = CreateTask(Task_HandleDaycareLevelMenuInput, 3);
     gTasks[daycareMenuTaskId].tMenuListTaskId = listMenuTaskId;
@@ -1928,18 +1934,18 @@ void GiveEventEgg(void)
 		rolls += SHINY_CHARM_REROLLS;
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
 		rolls *= 2;
-	
+
+	gDisableVBlankRNGAdvance = TRUE;
+
 	do
 	{
 		if (gSpecialVar_0x8004 < 25)
 		{
-			WaitForVBlank();
 			personality = Random32();					//ABDE - "Method 2"
 			Random();
 		}
 		else
 		{
-			WaitForVBlank();
 			personality = Random() << 16 | Random();	//BACD_U - "Reverse Method 1"
 		}
 		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
@@ -1947,7 +1953,9 @@ void GiveEventEgg(void)
 			break;
 		i++;
 	} while (i < rolls);
-	
+
+	gDisableVBlankRNGAdvance = FALSE;
+
 	iv1 = Random();
 	iv2 = Random();
 	

@@ -29,7 +29,6 @@
 #include "pokedex.h"
 #include "apprentice.h"
 #include "frontier_util.h"
-#include "constants/maps.h"
 #include "pokedex.h"
 #include "save.h"
 #include "link_rfu.h"
@@ -43,8 +42,9 @@
 #include "player_pc.h"
 #include "field_specials.h"
 #include "berry_powder.h"
-#include "mevent.h"
+#include "mystery_gift.h"
 #include "union_room_chat.h"
+#include "mgba.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -85,17 +85,24 @@ static void InitPlayerTrainerId(void)
 {
     u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
+	IssueRSSID();
 }
 
-// L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    gSaveBlock2Ptr->optionsButtonMode = OPTIONS_BUTTON_MODE_LR;
+    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
+    gSaveBlock2Ptr->options24HourClock = FALSE;
+    gSaveBlock2Ptr->optionsUnitSystem = 0; // Imperial
+    gSaveBlock2Ptr->optionsMessageColor = 3; // Yellow
+    gSaveBlock2Ptr->optionsFont = 3; // HGSS
+    gSaveBlock2Ptr->optionsPartyBox = 1; // Automatic
+    gSaveBlock2Ptr->optionsNickname = 0; // Give
 }
 
 static void ClearPokedexFlags(void)
@@ -126,7 +133,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    SetWarpDestination(MAP_GROUP(INSIDE_OF_TRUCK), MAP_NUM(INSIDE_OF_TRUCK), -1, -1, -1);
+    SetWarpDestination(MAP_GROUP(INSIDE_OF_TRUCK), MAP_NUM(INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
     WarpIntoMap();
 }
 
@@ -160,7 +167,7 @@ void NewGameInitData(void)
     ResetPokedex();
     ClearFrontierRecord();
     ClearSav1();
-    ClearMailData();
+    ClearAllMail();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
     InitPlayerTrainerId();
@@ -202,7 +209,7 @@ void NewGameInitData(void)
     ResetAllApprenticeData();
     ClearRankingHallRecords();
     InitMatchCallCounters();
-    sub_801AFD8();
+    ClearMysteryGift();
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
@@ -222,7 +229,7 @@ void NewGameInitData(void)
 	for (i = 0; i < 6; i++)
 		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
 	
-	VarSet(VAR_SAVE_VER, 2);
+	VarSet(VAR_SAVE_VER, 5);
 }
 
 static void ResetMiniGamesRecords(void)
@@ -231,4 +238,23 @@ static void ResetMiniGamesRecords(void)
     SetBerryPowder(&gSaveBlock2Ptr->berryCrush.berryPowderAmount, 0);
     ResetPokemonJumpRecords();
     CpuFill16(0, &gSaveBlock2Ptr->berryPick, sizeof(struct BerryPickingResults));
+}
+
+void IssueRSSID(void)
+{
+	u16 otid, ntid, sid;
+
+	gDisableVBlankRNGAdvance = TRUE;
+	otid = (gSaveBlock2Ptr->playerTrainerId[1] << 8) | gSaveBlock2Ptr->playerTrainerId[0];
+	sid = Random();
+	ntid = Random();
+
+	while (ntid != otid)
+	{
+		sid = ntid;
+		ntid = Random();
+	}
+
+	gSaveBlock1Ptr->rubySapphireSecretId = sid;
+	gDisableVBlankRNGAdvance = FALSE;
 }

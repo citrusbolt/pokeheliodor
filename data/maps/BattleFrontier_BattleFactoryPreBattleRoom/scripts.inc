@@ -11,8 +11,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_OnWarp:
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_SetUpObjects::
 	setvar VAR_TEMP_1, 1
-	compare VAR_0x8006, 1
-	goto_if_ne BattleFrontier_BattleFactoryPreBattleRoom_EventScript_TurnPlayerNorth
+	goto_if_ne VAR_0x8006, 1, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_TurnPlayerNorth
 	setobjectxy LOCALID_ATTENDANT, 8, 7
 	turnobject LOCALID_ATTENDANT, DIR_SOUTH
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_TurnPlayerNorth::
@@ -24,14 +23,12 @@ BattleFrontier_BattleFactoryPreBattleRoom_OnFrame:
 	.2byte 0
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_EnterRoom::
-	compare VAR_0x8006, 1
-	goto_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReturnToRoomFromBattle
+	goto_if_eq VAR_0x8006, 1, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReturnToRoomFromBattle
 	setvar VAR_TEMP_0, 1
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleFactoryPreBattleRoom_Movement_AttendantEnterRoom
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleFactoryPreBattleRoom_Movement_PlayerEnterRoom
 	waitmovement 0
-	compare VAR_0x8006, 2
-	goto_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ResumeChallenge
+	goto_if_eq VAR_0x8006, 2, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ResumeChallenge
 	factory_generaterentalmons
 	factory_generateopponentmons
 	factory_getopponentmontype
@@ -49,12 +46,10 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_EnterBattleRoom::
 	msgbox BattleFrontier_BattleFactoryPreBattleRoom_Text_RightThisWay, MSGBOX_DEFAULT
 	closemessage
 	call BattleFrontier_EventScript_GetLvlMode
-	compare VAR_RESULT, FRONTIER_LVL_50
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_WalkToBattleRoomLv50
-	compare VAR_RESULT, FRONTIER_LVL_OPEN
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_WalkToBattleRoomLvOpen
+	call_if_eq VAR_RESULT, FRONTIER_LVL_50, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_WalkToBattleRoomLv50
+	call_if_eq VAR_RESULT, FRONTIER_LVL_OPEN, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_WalkToBattleRoomLvOpen
 	waitmovement 0
-	warp MAP_BATTLE_FRONTIER_BATTLE_FACTORY_BATTLE_ROOM, 255, 6, 11
+	warp MAP_BATTLE_FRONTIER_BATTLE_FACTORY_BATTLE_ROOM, 6, 11
 	waitstate
 	end
 
@@ -66,8 +61,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReturnToRoomFromBattle::
 	waitfanfare
 	special HealPlayerParty
 	frontier_getbrainstatus
-	compare VAR_RESULT, FRONTIER_BRAIN_NOT_READY
-	goto_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForRegularOpponent
+	goto_if_eq VAR_RESULT, FRONTIER_BRAIN_NOT_READY, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForRegularOpponent
 	playse SE_POKENAV_CALL
 	waitse
 	msgbox BattleFrontier_BattleFactoryPreBattleRoom_Text_WaitFewMoments, MSGBOX_DEFAULT
@@ -86,25 +80,17 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReturnToRoomFromBattle::
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForOpponent::
 	frontier_getbrainstatus
-	compare VAR_RESULT, FRONTIER_BRAIN_NOT_READY
-	goto_if_ne BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForHead
+	goto_if_ne VAR_RESULT, FRONTIER_BRAIN_NOT_READY, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForHead
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForRegularOpponent::
 	frontier_get FRONTIER_DATA_BATTLE_NUM
-	compare VAR_RESULT, 1
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor2ndOpponent
-	compare VAR_RESULT, 2
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor3rdOpponent
-	compare VAR_RESULT, 3
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor4thOpponent
-	compare VAR_RESULT, 4
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor5thOpponent
-	compare VAR_RESULT, 5
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor6thOpponent
-	compare VAR_RESULT, 6
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor7thOpponent
+	call_if_eq VAR_RESULT, 1, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor2ndOpponent
+	call_if_eq VAR_RESULT, 2, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor3rdOpponent
+	call_if_eq VAR_RESULT, 3, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor4thOpponent
+	call_if_eq VAR_RESULT, 4, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor5thOpponent
+	call_if_eq VAR_RESULT, 5, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor6thOpponent
+	call_if_eq VAR_RESULT, 6, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReadyFor7thOpponent
 	call BattleFrontier_EventScript_GetCantRecordBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForOpponentNoRecord
+	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForOpponentNoRecord
 	multichoice 19, 4, MULTI_GO_ON_RECORD_REST_RETIRE, TRUE
 	switch VAR_RESULT
 	case 0, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskSwapMon
@@ -168,8 +154,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_SwapMons::
 	fadescreen FADE_TO_BLACK
 	factory_swapmons
 	waitstate
-	compare VAR_RESULT, TRUE  @ Did player keep current pokemon
-	goto_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_EnterBattleRoom
+	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_EnterBattleRoom  @ Did player keep current pokemon
 	factory_setswapped
 	msgbox BattleFrontier_BattleFactoryPreBattleRoom_Text_YourSwapIsComplete, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleFactoryPreBattleRoom_EventScript_EnterBattleRoom
@@ -223,42 +208,24 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ResumeChallenge::
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_CommentOnOpponentType::
 	msgbox BattleFrontier_BattleFactoryPreBattleRoom_Text_InvestigatedUpcomingOpponent, MSGBOX_DEFAULT
-	compare VAR_0x8005, TYPE_NORMAL
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesNormal
-	compare VAR_0x8005, TYPE_FIGHTING
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesFighting
-	compare VAR_0x8005, TYPE_FLYING
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesFlying
-	compare VAR_0x8005, TYPE_POISON
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesPoison
-	compare VAR_0x8005, TYPE_GROUND
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesGround
-	compare VAR_0x8005, TYPE_ROCK
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesRock
-	compare VAR_0x8005, TYPE_BUG
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesBug
-	compare VAR_0x8005, TYPE_GHOST
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesGhost
-	compare VAR_0x8005, TYPE_STEEL
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesSteel
-	compare VAR_0x8005, TYPE_FIRE
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesFire
-	compare VAR_0x8005, TYPE_WATER
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesWater
-	compare VAR_0x8005, TYPE_GRASS
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesGrass
-	compare VAR_0x8005, TYPE_ELECTRIC
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesElectric
-	compare VAR_0x8005, TYPE_PSYCHIC
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesPsychic
-	compare VAR_0x8005, TYPE_ICE
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesIce
-	compare VAR_0x8005, TYPE_DRAGON
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesDragon
-	compare VAR_0x8005, TYPE_DARK
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesDark
-	compare VAR_0x8005, NUMBER_OF_MON_TYPES
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentHasNoMostCommonType
+	call_if_eq VAR_0x8005, TYPE_NORMAL, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesNormal
+	call_if_eq VAR_0x8005, TYPE_FIGHTING, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesFighting
+	call_if_eq VAR_0x8005, TYPE_FLYING, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesFlying
+	call_if_eq VAR_0x8005, TYPE_POISON, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesPoison
+	call_if_eq VAR_0x8005, TYPE_GROUND, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesGround
+	call_if_eq VAR_0x8005, TYPE_ROCK, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesRock
+	call_if_eq VAR_0x8005, TYPE_BUG, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesBug
+	call_if_eq VAR_0x8005, TYPE_GHOST, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesGhost
+	call_if_eq VAR_0x8005, TYPE_STEEL, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesSteel
+	call_if_eq VAR_0x8005, TYPE_FIRE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesFire
+	call_if_eq VAR_0x8005, TYPE_WATER, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesWater
+	call_if_eq VAR_0x8005, TYPE_GRASS, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesGrass
+	call_if_eq VAR_0x8005, TYPE_ELECTRIC, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesElectric
+	call_if_eq VAR_0x8005, TYPE_PSYCHIC, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesPsychic
+	call_if_eq VAR_0x8005, TYPE_ICE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesIce
+	call_if_eq VAR_0x8005, TYPE_DRAGON, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesDragon
+	call_if_eq VAR_0x8005, TYPE_DARK, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesDark
+	call_if_eq VAR_0x8005, NUMBER_OF_MON_TYPES, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentHasNoMostCommonType
 	return
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentUsesNormal::
@@ -334,24 +301,15 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_OpponentHasNoMostCommonTyp
 	return
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_CommentOnOpponentStyle::
-	compare VAR_0x8006, FACTORY_STYLE_NONE
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleUnrestrained
-	compare VAR_0x8006, FACTORY_STYLE_PREPARATION
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleTotalPreparation
-	compare VAR_0x8006, FACTORY_STYLE_SLOW_STEADY
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleSlowAndSteady
-	compare VAR_0x8006, FACTORY_STYLE_ENDURANCE
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleEndurance
-	compare VAR_0x8006, FACTORY_STYLE_HIGH_RISK
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleHighRisk
-	compare VAR_0x8006, FACTORY_STYLE_WEAKENING
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleWeakenFoe
-	compare VAR_0x8006, FACTORY_STYLE_UNPREDICTABLE
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleImpossibleToPredict
-	compare VAR_0x8006, FACTORY_STYLE_WEATHER
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleDependsOnFlow
-	compare VAR_0x8006, FACTORY_NUM_STYLES
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleFlexible
+	call_if_eq VAR_0x8006, FACTORY_STYLE_NONE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleUnrestrained
+	call_if_eq VAR_0x8006, FACTORY_STYLE_PREPARATION, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleTotalPreparation
+	call_if_eq VAR_0x8006, FACTORY_STYLE_SLOW_STEADY, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleSlowAndSteady
+	call_if_eq VAR_0x8006, FACTORY_STYLE_ENDURANCE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleEndurance
+	call_if_eq VAR_0x8006, FACTORY_STYLE_HIGH_RISK, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleHighRisk
+	call_if_eq VAR_0x8006, FACTORY_STYLE_WEAKENING, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleWeakenFoe
+	call_if_eq VAR_0x8006, FACTORY_STYLE_UNPREDICTABLE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleImpossibleToPredict
+	call_if_eq VAR_0x8006, FACTORY_STYLE_WEATHER, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleDependsOnFlow
+	call_if_eq VAR_0x8006, FACTORY_NUM_STYLES, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleFlexible
 	return
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_StyleUnrestrained::
@@ -394,8 +352,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForHead::
 	message BattleFrontier_BattleFactoryPreBattleRoom_Text_PreparedToFaceHead
 	waitmessage
 	call BattleFrontier_EventScript_GetCantRecordBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForHeadNoRecord
+	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskReadyForHeadNoRecord
 	multichoice 19, 4, MULTI_GO_ON_RECORD_REST_RETIRE, TRUE
 	switch VAR_RESULT
 	case 0, BattleFrontier_BattleFactoryPreBattleRoom_EventScript_AskSwapBeforeHead
@@ -493,14 +450,14 @@ BattleFrontier_BattleFactoryPreBattleRoom_Movement_AttendantReturnToPlayer:
 	step_end
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_HoldMonsChooseFromSelection:
-	.string "First, we will hold your POKéMON for\n"
+	.string "First, we will hold your Pokémon for\n"
 	.string "safekeeping.\p"
 	.string "You may then choose from our\n"
-	.string "selection of POKéMON.$"
+	.string "selection of Pokémon.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_LetUsRestoreMons:
 	.string "Thank you for competing!\n"
-	.string "Let us restore your POKéMON!$"
+	.string "Let us restore your Pokémon!$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_ReadyFor2ndOpponent:
 	.string "The 2nd match is next!\n"
@@ -539,75 +496,75 @@ BattleFrontier_BattleFactoryPreBattleRoom_Text_InvestigatedUpcomingOpponent:
 	.string "about your upcoming opponent.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInNormalType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the NORMAL type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Normal type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInFireType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the FIRE type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Fire type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInWaterType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the WATER type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Water type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInElectricType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the ELECTRIC type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Electric type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInGrassType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the GRASS type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Grass type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInIceType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the ICE type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Ice type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInFightingType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the FIGHTING type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Fighting type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInPoisonType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the POISON type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Poison type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInGroundType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the GROUND type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Ground type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInFlyingType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the FLYING type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Flying type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInPsychicType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the PSYCHIC type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Psychic type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInBugType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the BUG type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Bug type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInRockType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the ROCK type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Rock type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInGhostType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the GHOST type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Ghost type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInDragonType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the DRAGON type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Dragon type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInDarkType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the DARK type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Dark type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInSteelType:
-	.string "The TRAINER is apparently skilled\n"
-	.string "in the handling of the STEEL type.$"
+	.string "The Trainer is apparently skilled\n"
+	.string "in the handling of the Steel type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerHasNoClearFavorite:
-	.string "The TRAINER appears to have no clear\n"
+	.string "The Trainer appears to have no clear\n"
 	.string "favorites when it comes to type.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleSlowAndSteady:
@@ -648,11 +605,11 @@ BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleUnrestrained:
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_LikeToSwapMon:
 	.string "Before starting the battle, would you\n"
-	.string "like to swap a POKéMON?$"
+	.string "like to swap a Pokémon?$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_YourSwapIsComplete:
 	.string "Thank you!\n"
-	.string "Your POKéMON swap is complete.$"
+	.string "Your Pokémon swap is complete.$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_RightThisWay:
 	.string "Right this way, please!$"
@@ -663,7 +620,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_Text_SavingDataPleaseWait:
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_RecordLatestBattle:
 	.string "Would you like to record your latest\n"
-	.string "battle on your FRONTIER PASS?$"
+	.string "battle on your Frontier Pass?$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_WaitFewMoments:
 	.string "Excuse me! Excuse me, please!\n"
@@ -677,14 +634,14 @@ BattleFrontier_BattleFactoryPreBattleRoom_Text_MessageFromHeadComeRightNow:
 	.string "Oh, my…\n"
 	.string "Sorry to keep you waiting!\p"
 	.string "I have a message from this facility's\n"
-	.string "boss, the FACTORY HEAD.\p"
+	.string "boss, the Factory Head.\p"
 	.string "He says, “We're going to do it!\n"
 	.string "Come here right now!”$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_PreparedToFaceHead:
-	.string "The FACTORY HEAD is demanding you.\n"
+	.string "The Factory Head is demanding you.\n"
 	.string "Are you prepared to face him?$"
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_CantTellAnythingAboutHead:
 	.string "I'm terribly sorry, but I can't tell you\n"
-	.string "anything about the FACTORY HEAD.$"
+	.string "anything about the Factory Head.$"

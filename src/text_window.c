@@ -6,7 +6,6 @@
 #include "bg.h"
 #include "graphics.h"
 
-// const rom data
 const u8 gTextWindowFrame1_Gfx[] = INCBIN_U8("graphics/text_window/1.4bpp");
 static const u8 sTextWindowFrame2_Gfx[] = INCBIN_U8("graphics/text_window/2.4bpp");
 static const u8 sTextWindowFrame3_Gfx[] = INCBIN_U8("graphics/text_window/3.4bpp");
@@ -187,10 +186,26 @@ const u16 *GetTextWindowPalette(u8 id)
 
 const u16 *GetOverworldTextboxPalettePtr(void)
 {
-    return gMessageBox_Pal;
+    switch (gSaveBlock2Ptr->optionsMessageColor)
+    {
+        case 0:
+            return gMessageBoxRed_Pal;
+            break;
+        case 1:
+            return gMessageBoxBlue_Pal;
+            break;
+        case 2:
+            return gMessageBoxGreen_Pal;
+            break;
+        case 3:
+        default:
+            return gMessageBoxYellow_Pal;
+            break;
+    }
 }
 
-void sub_8098C6C(u8 bg, u16 destOffset, u8 palOffset)
+// Effectively LoadUserWindowBorderGfx but specifying the bg directly instead of a window from that bg
+void LoadUserWindowBorderGfxOnBg(u8 bg, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(bg, sWindowFrames[gSaveBlock2Ptr->optionsWindowFrameType].tiles, 0x120, destOffset);
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, palOffset, 0x20);

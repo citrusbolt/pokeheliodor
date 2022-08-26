@@ -17,8 +17,7 @@ Route110_TrickHousePuzzle6_EventScript_InitPuzzle::
 
 Route110_TrickHousePuzzle6_EventScript_Scroll::
 	lockall
-	compare VAR_TRICK_HOUSE_PUZZLE_6_STATE, 0
-	goto_if_eq Route110_TrickHousePuzzle6_EventScript_FoundScroll
+	goto_if_eq VAR_TRICK_HOUSE_PUZZLE_6_STATE, 0, Route110_TrickHousePuzzle6_EventScript_FoundScroll
 	goto Route110_TrickHousePuzzle_EventScript_ReadScrollAgain
 	end
 
@@ -45,7 +44,7 @@ Route110_TrickHousePuzzle6_EventScript_Sebastian::
 Route110_TrickHousePuzzle6_Text_WroteSecretCodeLockOpened:
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
-	.string "“TRICK MASTER is my life.”\n"
+	.string "“Trick Master is my life.”\n"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 
@@ -54,7 +53,7 @@ Route110_TrickHousePuzzle6_Text_SophiaIntro:
 	.string "house, I had to check it out.$"
 
 Route110_TrickHousePuzzle6_Text_SophiaDefeat:
-	.string "I've discovered a tough TRAINER!$"
+	.string "I've discovered a tough Trainer!$"
 
 Route110_TrickHousePuzzle6_Text_SophiaPostBattle:
 	.string "I'm sure having a good time checking\n"
@@ -63,7 +62,7 @@ Route110_TrickHousePuzzle6_Text_SophiaPostBattle:
 	.string "repeating!$"
 
 Route110_TrickHousePuzzle6_Text_BennyIntro:
-	.string "Maybe I could get my BIRD POKéMON\n"
+	.string "Maybe I could get my Bird Pokémon\n"
 	.string "to fly over the wall…$"
 
 Route110_TrickHousePuzzle6_Text_BennyDefeat:

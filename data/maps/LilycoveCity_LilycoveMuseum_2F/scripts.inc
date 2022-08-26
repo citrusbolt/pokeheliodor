@@ -30,32 +30,32 @@ LilycoveCity_LilycoveMuseum_2F_EventScript_CheckToughPainting::
 	end
 
 LilycoveCity_LilycoveMuseum_2F_EventScript_SetCoolPainting::
-	setmetatile 10, 6, METATILE_LilycoveMuseum_Painting2_Left, 1
-	setmetatile 11, 6, METATILE_LilycoveMuseum_Painting2_Right, 1
+	setmetatile 10, 6, METATILE_LilycoveMuseum_Painting2_Left, TRUE
+	setmetatile 11, 6, METATILE_LilycoveMuseum_Painting2_Right, TRUE
 	goto LilycoveCity_LilycoveMuseum_2F_EventScript_CheckBeautyPainting
 	end
 
 LilycoveCity_LilycoveMuseum_2F_EventScript_SetBeautyPainting::
-	setmetatile 18, 6, METATILE_LilycoveMuseum_Painting1_Left, 1
-	setmetatile 19, 6, METATILE_LilycoveMuseum_Painting1_Right, 1
+	setmetatile 18, 6, METATILE_LilycoveMuseum_Painting1_Left, TRUE
+	setmetatile 19, 6, METATILE_LilycoveMuseum_Painting1_Right, TRUE
 	goto LilycoveCity_LilycoveMuseum_2F_EventScript_CheckCutePainting
 	end
 
 LilycoveCity_LilycoveMuseum_2F_EventScript_SetCutePainting::
-	setmetatile 14, 10, METATILE_LilycoveMuseum_Painting3_Left, 1
-	setmetatile 15, 10, METATILE_LilycoveMuseum_Painting3_Right, 1
+	setmetatile 14, 10, METATILE_LilycoveMuseum_Painting3_Left, TRUE
+	setmetatile 15, 10, METATILE_LilycoveMuseum_Painting3_Right, TRUE
 	goto LilycoveCity_LilycoveMuseum_2F_EventScript_CheckSmartPainting
 	end
 
 LilycoveCity_LilycoveMuseum_2F_EventScript_SetSmartPainting::
-	setmetatile 6, 10, METATILE_LilycoveMuseum_Painting0_Left, 1
-	setmetatile 7, 10, METATILE_LilycoveMuseum_Painting0_Right, 1
+	setmetatile 6, 10, METATILE_LilycoveMuseum_Painting0_Left, TRUE
+	setmetatile 7, 10, METATILE_LilycoveMuseum_Painting0_Right, TRUE
 	goto LilycoveCity_LilycoveMuseum_2F_EventScript_CheckToughPainting
 	end
 
 LilycoveCity_LilycoveMuseum_2F_EventScript_SetToughPainting::
-	setmetatile 2, 6, METATILE_LilycoveMuseum_Painting4_Left, 1
-	setmetatile 3, 6, METATILE_LilycoveMuseum_Painting4_Right, 1
+	setmetatile 2, 6, METATILE_LilycoveMuseum_Painting4_Left, TRUE
+	setmetatile 3, 6, METATILE_LilycoveMuseum_Painting4_Right, TRUE
 	end
 
 LilycoveCity_LilycoveMuseum_2F_OnFrame:
@@ -83,7 +83,7 @@ LilycoveCity_LilycoveMuseum_2F_EventScript_ShowExhibitHall::
 	end
 
 LilycoveCity_LilycoveMuseum_2F_Movement_PlayerWalkInPlaceLeft:
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	step_end
 
 LilycoveCity_LilycoveMuseum_2F_Movement_FaceExhibitHall:
@@ -121,8 +121,7 @@ LilycoveCity_LilycoveMuseum_2F_EventScript_GiveGlassOrnament::
 	applymovement LOCALID_CURATOR, Common_Movement_FacePlayer
 	msgbox LilycoveCity_LilycoveMuseum_2F_Text_TokenOfGratitude, MSGBOX_DEFAULT
 	givedecoration DECOR_GLASS_ORNAMENT
-	compare VAR_RESULT, FALSE
-	goto_if_eq LilycoveCity_LilycoveMuseum_2F_EventScript_NoRoomForGlassOrnament
+	goto_if_eq VAR_RESULT, FALSE, LilycoveCity_LilycoveMuseum_2F_EventScript_NoRoomForGlassOrnament
 	setflag FLAG_RECEIVED_GLASS_ORNAMENT
 	closemessage
 	releaseall
@@ -233,7 +232,7 @@ LilycoveCity_LilycoveMuseum_2F_Text_ExplainExhibitHall:
 	.string "famous works!\p"
 	.string "This exhibit hall, I wish to fill it with…\p"
 	.string "Modern and vibrant artworks of\n"
-	.string "POKéMON seemingly ready to spring\l"
+	.string "Pokémon seemingly ready to spring\l"
 	.string "forth into glorious life!$"
 
 LilycoveCity_LilycoveMuseum_2F_Text_PleaseObtainPaintingsForExhibit:
@@ -241,7 +240,7 @@ LilycoveCity_LilycoveMuseum_2F_Text_PleaseObtainPaintingsForExhibit:
 	.string "to monopolize the conversation.\p"
 	.string "Now, as you are young, and yet\n"
 	.string "obviously well traveled…\p"
-	.string "You must encounter lively POKéMON\n"
+	.string "You must encounter lively Pokémon\n"
 	.string "and works of art depicting them.\p"
 	.string "If you were to come across such\n"
 	.string "a painting, may we ask you to obtain\l"
@@ -251,12 +250,12 @@ LilycoveCity_LilycoveMuseum_2F_Text_PleaseObtainPaintingsForExhibit:
 LilycoveCity_LilycoveMuseum_2F_Text_WishToFillExhibit:
 	.string "I wish to fill this exhibit hall with\n"
 	.string "modern and vibrant paintings of\l"
-	.string "POKéMON.$"
+	.string "Pokémon.$"
 
 LilycoveCity_LilycoveMuseum_2F_Text_ThanksAddedNewPainting:
 	.string "Thanks to you, we've added a new\n"
 	.string "painting to our collection!\p"
-	.string "I've heard it depicts your POKéMON.\n"
+	.string "I've heard it depicts your Pokémon.\n"
 	.string "Truly magnificent!\p"
 	.string "Thank you so very, very much!$"
 
@@ -270,7 +269,7 @@ LilycoveCity_LilycoveMuseum_2F_Text_PaintingsAttractedMoreGuests:
 	.string "Each one of them flawless!\n"
 	.string "None better than another!\p"
 	.string "These paintings have attracted\n"
-	.string "more guests to our ART MUSEUM.\p"
+	.string "more guests to our Art Museum.\p"
 	.string "Sincerely, I thank you, {PLAYER}.\n"
 	.string "This is my dream come true!$"
 
@@ -309,23 +308,23 @@ LilycoveCity_LilycoveMuseum_2F_Text_ItsGreenPictureFrame:
 	.string "green-colored adornments.$"
 
 LilycoveCity_LilycoveMuseum_2F_Text_ItsPaintingOfPokemon:
-	.string "It's a painting of POKéMON.$"
+	.string "It's a painting of Pokémon.$"
 
 LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsSurprisedMe:
 	.string "I've been away awhile, so the new\n"
 	.string "paintings up here surprised me.\p"
-	.string "I wish someone would paint my POKéMON\n"
+	.string "I wish someone would paint my Pokémon\n"
 	.string "this pretty.$"
 
 LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsRatherAmusing:
 	.string "Well… So this is where they show\n"
-	.string "the topical POKéMON paintings.\p"
+	.string "the topical Pokémon paintings.\p"
 	.string "I see, these new paintings are indeed\n"
 	.string "rather amusing.$"
 
 LilycoveCity_LilycoveMuseum_2F_Text_ThesePaintingsOfYourPokemon:
 	.string "Wow, is that right?\n"
-	.string "These paintings are of your POKéMON.\p"
+	.string "These paintings are of your Pokémon.\p"
 	.string "Isn't that just the ultimate joy for\n"
-	.string "a TRAINER?$"
+	.string "a Trainer?$"
 

@@ -8,14 +8,12 @@ JaggedPass_MapScripts::
 
 JaggedPass_OnResume:
 	setstepcallback STEP_CB_ASH
-	compare VAR_JAGGED_PASS_STATE, 0
-	call_if_eq JaggedPass_EventScript_CheckHasMagmaEmblem
+	call_if_eq VAR_JAGGED_PASS_STATE, 0, JaggedPass_EventScript_CheckHasMagmaEmblem
 	end
 
 JaggedPass_EventScript_CheckHasMagmaEmblem::
-	checkitem ITEM_MAGMA_EMBLEM, 1
-	compare VAR_RESULT, TRUE
-	goto_if_eq JaggedPass_EventScript_SetReadyToOpenHideout
+	checkitem ITEM_MAGMA_EMBLEM
+	goto_if_eq VAR_RESULT, TRUE, JaggedPass_EventScript_SetReadyToOpenHideout
 	return
 
 JaggedPass_EventScript_SetReadyToOpenHideout::
@@ -23,8 +21,7 @@ JaggedPass_EventScript_SetReadyToOpenHideout::
 	return
 
 JaggedPass_OnTransition:
-	compare VAR_JAGGED_PASS_ASH_WEATHER, 1
-	call_if_eq JaggedPass_EventScript_SetWeatherAsh
+	call_if_eq VAR_JAGGED_PASS_ASH_WEATHER, 1, JaggedPass_EventScript_SetWeatherAsh
 	end
 
 JaggedPass_EventScript_SetWeatherAsh::
@@ -33,13 +30,12 @@ JaggedPass_EventScript_SetWeatherAsh::
 	return
 
 JaggedPass_OnLoad:
-	compare VAR_JAGGED_PASS_STATE, 1
-	goto_if_le JaggedPass_EventScript_ConcealHideoutEntrance
+	goto_if_le VAR_JAGGED_PASS_STATE, 1, JaggedPass_EventScript_ConcealHideoutEntrance
 	end
 
 JaggedPass_EventScript_ConcealHideoutEntrance::
-	setmetatile 16, 17, METATILE_Lavaridge_RockWall, 1
-	setmetatile 16, 18, METATILE_Lavaridge_RockWall, 1
+	setmetatile 16, 17, METATILE_Lavaridge_RockWall, TRUE
+	setmetatile 16, 18, METATILE_Lavaridge_RockWall, TRUE
 	end
 
 JaggedPass_EventScript_OpenMagmaHideout::
@@ -59,8 +55,8 @@ JaggedPass_EventScript_OpenMagmaHideout::
 	special ShakeCamera
 	waitstate
 	playse SE_EFFECTIVE
-	setmetatile 16, 17, METATILE_Lavaridge_CaveEntrance_Top, 1
-	setmetatile 16, 18, METATILE_Lavaridge_CaveEntrance_Bottom, 0
+	setmetatile 16, 17, METATILE_Lavaridge_CaveEntrance_Top, TRUE
+	setmetatile 16, 18, METATILE_Lavaridge_CaveEntrance_Bottom, FALSE
 	special DrawWholeMapView
 	delay 30
 	setvar VAR_JAGGED_PASS_STATE, 2
@@ -106,8 +102,7 @@ JaggedPass_EventScript_Eric::
 JaggedPass_EventScript_Diana::
 	trainerbattle_single TRAINER_DIANA_1, JaggedPass_Text_DianaIntro, JaggedPass_Text_DianaDefeat, JaggedPass_EventScript_RegisterDiana
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq JaggedPass_EventScript_DianaRematch
+	goto_if_eq VAR_RESULT, TRUE, JaggedPass_EventScript_DianaRematch
 	msgbox JaggedPass_Text_DianaPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -127,8 +122,7 @@ JaggedPass_EventScript_DianaRematch::
 JaggedPass_EventScript_Ethan::
 	trainerbattle_single TRAINER_ETHAN_1, JaggedPass_Text_EthanIntro, JaggedPass_Text_EthanDefeat, JaggedPass_EventScript_RegisterEthan
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq JaggedPass_EventScript_EthanRematch
+	goto_if_eq VAR_RESULT, TRUE, JaggedPass_EventScript_EthanRematch
 	msgbox JaggedPass_Text_EthanPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -156,7 +150,7 @@ JaggedPass_EventScript_Autumn::
 	end
 
 JaggedPass_Text_EricIntro:
-	.string "MT. CHIMNEY's JAGGED PASS…\p"
+	.string "Mt. Chimney's Jagged Pass…\p"
 	.string "Now this is what I've always wanted\n"
 	.string "in a mountain.\p"
 	.string "This jagged bumpiness…\n"
@@ -166,7 +160,7 @@ JaggedPass_Text_EricDefeat:
 	.string "Losing left me bitter!$"
 
 JaggedPass_Text_EricPostBattle:
-	.string "Yes, I did lose at POKéMON…\p"
+	.string "Yes, I did lose at Pokémon…\p"
 	.string "But, when it comes to the love of\n"
 	.string "the mountains, I have you beat!$"
 
@@ -189,7 +183,7 @@ JaggedPass_Text_DianaRegister:
 
 JaggedPass_Text_DianaRematchIntro:
 	.string "Picnics are fun wherever you go.\n"
-	.string "Just like POKéMON!$"
+	.string "Just like Pokémon!$"
 
 JaggedPass_Text_DianaRematchDefeat:
 	.string "I only lost because the ground is\n"
@@ -200,7 +194,7 @@ JaggedPass_Text_DianaPostRematch:
 	.string "enjoy this bumpy hike.$"
 
 JaggedPass_Text_EthanIntro:
-	.string "JAGGED PASS is hard to walk on.\n"
+	.string "Jagged Pass is hard to walk on.\n"
 	.string "It's a good place for training.$"
 
 JaggedPass_Text_EthanDefeat:
@@ -208,13 +202,13 @@ JaggedPass_Text_EthanDefeat:
 	.string "trying to find a good footing…$"
 
 JaggedPass_Text_EthanPostBattle:
-	.string "If I had an ACRO BIKE, I'd be able to\n"
+	.string "If I had an Acro Bike, I'd be able to\n"
 	.string "jump ledges.$"
 
 JaggedPass_Text_EthanRegister:
 	.string "When I get more used to this bumpiness,\n"
 	.string "I'll be sure to win!\p"
-	.string "Can you register me in your POKéNAV?$"
+	.string "Can you register me in your PokéNav?$"
 
 JaggedPass_Text_EthanRematchIntro:
 	.string "I got used to this bumpiness.\n"
@@ -225,8 +219,8 @@ JaggedPass_Text_EthanRematchDefeat:
 	.string "bumpy ground…$"
 
 JaggedPass_Text_EthanPostRematch:
-	.string "I should get an ACRO BIKE from RYDEL\n"
-	.string "in MAUVILLE CITY…$"
+	.string "I should get an Acro Bike from Rydel\n"
+	.string "in Mauville City…$"
 
 JaggedPass_Text_GruntIntro:
 	.string "Wah!\n"
@@ -236,7 +230,7 @@ JaggedPass_Text_GruntIntro:
 
 JaggedPass_Text_GruntDefeat:
 	.string "Urrrgh…\p"
-	.string "I should've ducked into our HIDEOUT\n"
+	.string "I should've ducked into our Hideout\n"
 	.string "right away…$"
 
 JaggedPass_Text_GoWhereverYouWant:
@@ -247,7 +241,7 @@ JaggedPass_Text_GoWhereverYouWant:
 
 JaggedPass_Text_BoulderShakingInResponseToEmblem:
 	.string "Oh! This boulder is shaking in response\n"
-	.string "to the MAGMA EMBLEM!$"
+	.string "to the Magma Emblem!$"
 
 JaggedPass_Text_JulioIntro:
 	.string "Aiyeeh! It's awfully scary to shoot\n"

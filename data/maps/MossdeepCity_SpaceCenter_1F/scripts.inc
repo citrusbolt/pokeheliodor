@@ -11,8 +11,7 @@ MossdeepCity_SpaceCenter_1F_MapScripts::
 	.byte 0
 
 MossdeepCity_SpaceCenter_1F_OnTransition:
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_MoveObjectsForTeamMagma
+	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_MoveObjectsForTeamMagma
 	end
 
 MossdeepCity_SpaceCenter_1F_EventScript_MoveObjectsForTeamMagma::
@@ -25,12 +24,9 @@ MossdeepCity_SpaceCenter_1F_EventScript_MoveObjectsForTeamMagma::
 	setobjectxyperm LOCALID_SCIENTIST_1, 3, 4
 	setobjectmovementtype LOCALID_SCIENTIST_1, MOVEMENT_TYPE_FACE_RIGHT
 	setobjectmovementtype LOCALID_SCIENTIST_2, MOVEMENT_TYPE_FACE_RIGHT
-	compare VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE, 1
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardLeft
-	compare VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE, 2
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardDown
-	compare VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE, 3
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardRight
+	goto_if_eq VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE, 1, MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardLeft
+	goto_if_eq VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardDown
+	goto_if_eq VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE, 3, MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardRight
 	end
 
 MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardLeft::
@@ -47,26 +43,22 @@ MossdeepCity_SpaceCenter_1F_EventScript_MoveStairGuardRight::
 	end
 
 MossdeepCity_SpaceCenter_1F_OnLoad:
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_le MossdeepCity_SpaceCenter_1F_EventScript_SetMagmaNote
+	goto_if_le VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_SetMagmaNote
 	end
 
 MossdeepCity_SpaceCenter_1F_EventScript_SetMagmaNote::
-	setmetatile 2, 5, METATILE_Facility_DataPad, 1
+	setmetatile 2, 5, METATILE_Facility_DataPad, TRUE
 	return
 
 MossdeepCity_SpaceCenter_1F_EventScript_RocketLaunchCounter::
 	lock
 	faceplayer
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_RocketLaunchCounterMagma
+	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_RocketLaunchCounterMagma
 	dotimebasedevents
 	specialvar VAR_RESULT, GetWeekCount
-	buffernumberstring 0, VAR_RESULT
-	compare VAR_RESULT, 0
-	call_if_eq MossdeepCity_SpaceCenter_1F_EventScript_NoLaunchesYet
-	compare VAR_RESULT, 1
-	call_if_ge MossdeepCity_SpaceCenter_1F_EventScript_ShowLaunchNumber
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	call_if_eq VAR_RESULT, 0, MossdeepCity_SpaceCenter_1F_EventScript_NoLaunchesYet
+	call_if_ge VAR_RESULT, 1, MossdeepCity_SpaceCenter_1F_EventScript_ShowLaunchNumber
 	closemessage
 	applymovement VAR_LAST_TALKED, Common_Movement_FaceOriginalDirection
 	waitmovement 0
@@ -84,13 +76,11 @@ MossdeepCity_SpaceCenter_1F_EventScript_ShowLaunchNumber::
 MossdeepCity_SpaceCenter_1F_EventScript_RocketLaunchCounterMagma::
 	dotimebasedevents
 	specialvar VAR_RESULT, GetWeekCount
-	buffernumberstring 0, VAR_RESULT
-	compare VAR_RESULT, 0
-	call_if_eq MossdeepCity_SpaceCenter_1F_EventScript_NoLaunchesYetMagma
-	compare VAR_RESULT, 1
-	call_if_ge MossdeepCity_SpaceCenter_1F_EventScript_ShowLaunchNumberMagma
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	call_if_eq VAR_RESULT, 0, MossdeepCity_SpaceCenter_1F_EventScript_NoLaunchesYetMagma
+	call_if_ge VAR_RESULT, 1, MossdeepCity_SpaceCenter_1F_EventScript_ShowLaunchNumberMagma
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFastestRight
+	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	release
 	end
@@ -106,15 +96,14 @@ MossdeepCity_SpaceCenter_1F_EventScript_ShowLaunchNumberMagma::
 MossdeepCity_SpaceCenter_1F_EventScript_Scientist::
 	lock
 	faceplayer
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_ScientistMagma
+	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_ScientistMagma
 	msgbox MossdeepCity_SpaceCenter_1F_Text_RocketLaunchDemandsPerfection, MSGBOX_DEFAULT
 	release
 	end
 
 MossdeepCity_SpaceCenter_1F_EventScript_ScientistMagma::
 	msgbox MossdeepCity_SpaceCenter_1F_Text_MagmaHaveSightsOnSpaceCenter, MSGBOX_DEFAULT
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFastestRight
+	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	release
 	end
@@ -122,13 +111,11 @@ MossdeepCity_SpaceCenter_1F_EventScript_ScientistMagma::
 MossdeepCity_SpaceCenter_1F_EventScript_SunStoneMan::
 	lock
 	faceplayer
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_SunStoneManMagma
+	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_SunStoneManMagma
 	goto_if_set FLAG_RECEIVED_SUN_STONE_MOSSDEEP, MossdeepCity_SpaceCenter_1F_EventScript_GaveSunStone
 	msgbox MossdeepCity_SpaceCenter_1F_Text_FoundThisYouCanHaveIt, MSGBOX_DEFAULT
 	giveitem ITEM_SUN_STONE
-	compare VAR_RESULT, FALSE
-	goto_if_eq Common_EventScript_ShowBagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_SUN_STONE_MOSSDEEP
 	msgbox MossdeepCity_SpaceCenter_1F_Text_HoennFamousForMeteorShowers, MSGBOX_DEFAULT
 	release
@@ -143,18 +130,17 @@ MossdeepCity_SpaceCenter_1F_EventScript_SunStoneManMagma::
 	goto_if_set FLAG_RECEIVED_SUN_STONE_MOSSDEEP, MossdeepCity_SpaceCenter_1F_EventScript_GaveSunStoneMagma
 	msgbox MossdeepCity_SpaceCenter_1F_Text_MagmaCantStealFuelTakeThis, MSGBOX_DEFAULT
 	giveitem ITEM_SUN_STONE
-	compare VAR_RESULT, FALSE
-	goto_if_eq Common_EventScript_ShowBagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_SUN_STONE_MOSSDEEP
 	msgbox MossdeepCity_SpaceCenter_1F_Text_CantStrollOnBeachWithMagma, MSGBOX_DEFAULT
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFastestRight
+	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	release
 	end
 
 MossdeepCity_SpaceCenter_1F_EventScript_GaveSunStoneMagma::
 	msgbox MossdeepCity_SpaceCenter_1F_Text_CantStrollOnBeachWithMagma, MSGBOX_DEFAULT
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFastestRight
+	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	release
 	end
@@ -163,10 +149,8 @@ MossdeepCity_SpaceCenter_1F_EventScript_Woman::
 	lock
 	faceplayer
 	goto_if_set FLAG_SYS_GAME_CLEAR, MossdeepCity_SpaceCenter_1F_EventScript_WomanNormal
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_WomanMagma
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_lt MossdeepCity_SpaceCenter_1F_EventScript_WomanNormal
+	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_WomanMagma
+	goto_if_lt VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_WomanNormal
 	goto MossdeepCity_SpaceCenter_1F_EventScript_WomanMagma
 	end
 
@@ -184,10 +168,8 @@ MossdeepCity_SpaceCenter_1F_EventScript_OldMan::
 	lock
 	faceplayer
 	goto_if_set FLAG_SYS_GAME_CLEAR, MossdeepCity_SpaceCenter_1F_EventScript_OldManNormal
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_eq MossdeepCity_SpaceCenter_1F_EventScript_OldManMagma
-	compare VAR_MOSSDEEP_CITY_STATE, 2
-	goto_if_lt MossdeepCity_SpaceCenter_1F_EventScript_OldManNormal
+	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_OldManMagma
+	goto_if_lt VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_OldManNormal
 	goto MossdeepCity_SpaceCenter_1F_EventScript_OldManMagma
 	end
 
@@ -247,11 +229,7 @@ MossdeepCity_SpaceCenter_1F_EventScript_Grunt2::
 	copyobjectxytoperm LOCALID_STAIR_GRUNT
 	switch VAR_FACING
 	case DIR_WEST, MossdeepCity_SpaceCenter_1F_EventScript_MoveGruntFromStairsWest
-	#ifdef BUGFIX
 	case DIR_EAST, MossdeepCity_SpaceCenter_1F_EventScript_MoveGruntFromStairsEast
-	#else
-	case DIR_WEST, MossdeepCity_SpaceCenter_1F_EventScript_MoveGruntFromStairsEast
-	#endif
 	applymovement LOCALID_STAIR_GRUNT, MossdeepCity_SpaceCenter_1F_Movement_MoveGruntFromStairs
 	waitmovement 0
 	setvar VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE, 2
@@ -327,8 +305,8 @@ MossdeepCity_SpaceCenter_1F_Text_RocketLaunchDemandsPerfection:
 	.string "Why? It's a dream that never ends.$"
 
 MossdeepCity_SpaceCenter_1F_Text_MagmaHaveSightsOnSpaceCenter:
-	.string "Those MAGMA thugs have their sights\n"
-	.string "set on our SPACE CENTER.\p"
+	.string "Those Magma thugs have their sights\n"
+	.string "set on our Space Center.\p"
 	.string "But we can't allow anything that minor\n"
 	.string "to interfere with our rocket launch!$"
 
@@ -339,27 +317,27 @@ MossdeepCity_SpaceCenter_1F_Text_FoundThisYouCanHaveIt:
 	.string "have it.$"
 
 MossdeepCity_SpaceCenter_1F_Text_HoennFamousForMeteorShowers:
-	.string "The HOENN region has been famous for \n"
+	.string "The Hoenn region has been famous for \n"
 	.string "its meteor showers for a long time.$"
 
 MossdeepCity_SpaceCenter_1F_Text_MagmaCantStealFuelTakeThis:
-	.string "TEAM MAGMA can't be allowed to steal\n"
+	.string "Team Magma can't be allowed to steal\n"
 	.string "the rocket fuel.\p"
 	.string "Oh, by the way, you can have this stone\n"
 	.string "I found on the beach.$"
 
 MossdeepCity_SpaceCenter_1F_Text_CantStrollOnBeachWithMagma:
-	.string "With TEAM MAGMA around, I guess\n"
+	.string "With Team Magma around, I guess\n"
 	.string "strolls on the beach aren't safe.$"
 
 MossdeepCity_SpaceCenter_1F_Text_DidPokemonComeFromSpace:
-	.string "Some people claim that POKéMON came\n"
+	.string "Some people claim that Pokémon came\n"
 	.string "from space. Could it be true?$"
 
 MossdeepCity_SpaceCenter_1F_Text_AquaShouldBeatMagma:
-	.string "TEAM AQUA should take care of\n"
-	.string "TEAM MAGMA!\p"
-	.string "But if they did that, TEAM AQUA will\n"
+	.string "Team Aqua should take care of\n"
+	.string "Team Magma!\p"
+	.string "But if they did that, Team Aqua will\n"
 	.string "become bold and brazen, won't they?$"
 
 MossdeepCity_SpaceCenter_1F_Text_RocketsBoggleMyMind:
@@ -370,14 +348,14 @@ MossdeepCity_SpaceCenter_1F_Text_RocketsBoggleMyMind:
 MossdeepCity_SpaceCenter_1F_Text_MagmaWantsToSpoilMyDream:
 	.string "A giant chunk of metal bursts through\n"
 	.string "the skies and flies into space…\p"
-	.string "But TEAM MAGMA wants to spoil\n"
+	.string "But Team Magma wants to spoil\n"
 	.string "that dream of mine!\p"
 	.string "I'm not having any of that!$"
 
 MossdeepCity_SpaceCenter_1F_Text_StevenMagmaCantBeAllowedToTakeFuel:
-	.string "STEVEN: {PLAYER}{KUN}, have you read that\n"
+	.string "Steven: {PLAYER}{KUN}, have you read that\n"
 	.string "proclamation already?\p"
-	.string "TEAM MAGMA is coming after the rocket\n"
+	.string "Team Magma is coming after the rocket\n"
 	.string "fuel on this island.\p"
 	.string "I don't know what they'd need it for,\n"
 	.string "but they can't be allowed to take it.\p"
@@ -410,7 +388,7 @@ MossdeepCity_SpaceCenter_1F_Text_Grunt1PostBattle:
 	.string "we'll come unannounced.$"
 
 MossdeepCity_SpaceCenter_1F_Text_Grunt4Intro:
-	.string "The rocket fuel the SPACE CENTER has\n"
+	.string "The rocket fuel the Space Center has\n"
 	.string "in storage--that's what we're after.\p"
 	.string "We mean to take every last bit of it!$"
 
@@ -439,11 +417,11 @@ MossdeepCity_SpaceCenter_1F_Text_Grunt2PostBattle:
 MossdeepCity_SpaceCenter_1F_Text_MagmaIntentToStealNotice:
 	.string "This is…\n"
 	.string "An intent-to-steal notice?\p"
-	.string "“To the staff of the SPACE CENTER:\n"
+	.string "“To the staff of the Space Center:\n"
 	.string "How are you? We are doing fine.\p"
 	.string "“We will soon visit you to take your\n"
 	.string "rocket fuel.\p"
 	.string "“Please don't try to stop us.\n"
 	.string "We will take the fuel no matter what.\p"
 	.string "“Let there be more land!\n"
-	.string "                                          TEAM MAGMA”$"
+	.string "                                          Team Magma”$"

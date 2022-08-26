@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/Alcaro/Flips
+	branch = master
+	commit = 96df78fd733ebc56d64bcfcaee7d127bfd6643d6
+	parent = c21a292385100099bd12c418731343ac0fa08d6b
+	method = merge
+	cmdver = 0.4.3

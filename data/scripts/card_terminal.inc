@@ -77,7 +77,7 @@ EventScript_CardTerminal_Stat1:
 	special ShowScrollableMultichoice
 	waitstate
 	copyvar VAR_0x8005, VAR_RESULT
-	compare VAR_RESULT, 12
+	compare VAR_RESULT, 13
 	goto_if_eq EventScript_CardTerminal_Menu
 	compare VAR_RESULT, MULTI_B_PRESSED
 	goto_if_eq EventScript_CardTerminal_Menu
@@ -88,7 +88,7 @@ EventScript_CardTerminal_Stat2:
 	special ShowScrollableMultichoice
 	waitstate
 	copyvar VAR_0x8006, VAR_RESULT
-	compare VAR_RESULT, 12
+	compare VAR_RESULT, 13
 	goto_if_eq EventScript_CardTerminal_Stat1
 	compare VAR_RESULT, MULTI_B_PRESSED
 	goto_if_eq EventScript_CardTerminal_Stat1
@@ -99,7 +99,7 @@ EventScript_CardTerminal_Stat3:
 	special ShowScrollableMultichoice
 	waitstate
 	copyvar VAR_0x8007, VAR_RESULT
-	compare VAR_RESULT, 12
+	compare VAR_RESULT, 13
 	goto_if_eq EventScript_CardTerminal_Stat2
 	compare VAR_RESULT, MULTI_B_PRESSED
 	goto_if_eq EventScript_CardTerminal_Stat2
@@ -110,7 +110,7 @@ EventScript_CardTerminal_Stat4:
 	special ShowScrollableMultichoice
 	waitstate
 	copyvar VAR_0x8008, VAR_RESULT
-	compare VAR_RESULT, 12
+	compare VAR_RESULT, 13
 	goto_if_eq EventScript_CardTerminal_Stat3
 	compare VAR_RESULT, MULTI_B_PRESSED
 	goto_if_eq EventScript_CardTerminal_Stat3
@@ -121,7 +121,7 @@ EventScript_CardTerminal_Stat5:
 	special ShowScrollableMultichoice
 	waitstate
 	copyvar VAR_0x8009, VAR_RESULT
-	compare VAR_RESULT, 12
+	compare VAR_RESULT, 13
 	goto_if_eq EventScript_CardTerminal_Stat4
 	compare VAR_RESULT, MULTI_B_PRESSED
 	goto_if_eq EventScript_CardTerminal_Stat4

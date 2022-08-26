@@ -34,7 +34,7 @@ The highest design priorities are 100% compatibility in terms of:
     * The Game Boy Kid in the Cove Lily Motel has an e-Card to scan, allowing an e-Card berry to be obtained without having access to an e-Reader.
   * The Eon Ticket can be obtained, but the event text is slightly garbled.
     * The Eon Ticket can also be obtained during normal gameplay after defeating the Elite Four for the first time.
-  * e-Card trainers will be saved, but can not actually be found to battle.
+  * Ruby/Sapphire e-Card trainers can be battled in Sootopolis.
 * The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colosseum, Pokémon XD: Gale of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
 * Breeding mechanics have been changed.
   * Both parents can now pass down Nature and moves.
@@ -61,8 +61,7 @@ The highest design priorities are 100% compatibility in terms of:
 * EVs are capped at 252 per stat instead of 255.
   * The cap on EVs able to be earned through vitamins has been removed as well.
 * The battle and summary screens report the correct type and base power for Hidden Power.
-* Synchronize's field effect is 100% effective.
-* If the first member of the party has Lightningrod or Flash Fire as its ability, there is a 50% chance of finding a Electric or Fire-type Pokémon respectively in a wild encounter if an applicable encounter is possible in that area.
+* Many encounter mechanics have been modified.
 * Catching a Pokémon yields experience points.
 * All TMs are purchasable.
 * HM moves can be forgotten without the use of the Move Deleter.
@@ -76,6 +75,10 @@ The highest design priorities are 100% compatibility in terms of:
 * Pokémon have slight differences in coloration that varies with the individual.
 * Eggs are colored based on the Type(s) of the Pokémon inside.
 * A system similar to Pass/O/Rotom Power has been added and can be accessed through the Power Pad, a Key Item found in the Bag by default.
+* The Trainer Card can be customized at a terminal in Pokémon Centers.
+    * When linking with Pokémon Ruby, Sapphire, FireRed, and LeafGreen other player's Trainer Cards are displayed as they are in the player's game.
+* Numerous aspects of the graphical style have been changed.
+* Event tickets can be shared with other players via Mystery Gift and Record Mixing.
 * The real-time clock effects the world visually.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
@@ -99,20 +102,35 @@ If you encounter any other issues, especially relating to the three compatibilit
 
 The release patch can be applied to a dump of Pokémon Emerald with a sha1 sum of f3ae088181bf583e55daf962a92bb46f4f1d07b7 using a program such as [***beat***](https://github.com/Screwtapello/beat) or [***Floating IPS***](https://github.com/Alcaro/Flips).
 
-To build this yourself, see [INSTALL.md](INSTALL.md).
+## Building
 
+To build this yourself, you'll need `git`, `build-essential`, `binutils-arm-none-eabi`, and `libpng-dev` or equivilant non-Debian packages.
+Simply run `make` to build a `.gba` image or `make patch` to build a `.bps` patch.
+For more detailed compilation instructions, see [INSTALL.md](docs/INSTALL.md).
 
-## Thanks to
+## Credits
 
+* Alistair: FRLG-styled tilesets
+* AsparagusEduardo: Modified white out penalty
+* Buffel Salt: Give NPCs different Poké Balls based on Class; Stop Berry Trees from dying
+* DizzyEgg: Repel renewal prompt; Double wild encounters
+* ghoulslash: Item sorting in Bag; Additional item registration slots; Poké Ball quick-use function
+* hyo: FRLG-styled Player Character OW sprites
+* ipatix: Improved audio mixer
+* Jaizu: Partnered to design new Summary Screen; inserting FRLG-styled OW sprites and tilesets
+* LOuroboros: Headbutt event script
+* Poffin_Case: FRLG-styled NPC OW sprites
+* Sierraffinity: RTC-based environmental tinting system; translated e-Reader strings; time-based Nurse greetings
+
+## Special Thanks
+
+* aldelaro5
+* Bulbapedia
+* Deokishisu
+* DRayX
+* Jaizu
+* The PKHeX team
 * pret
 * Project Pokémon
-* The PKHeX team
-* Bulbapedia
 * Serebii
-* DRayX
-* Deokishisu
 * ShinyDragonHunter
-* Sierraffinity
-* aldelaro5
-* ghoulslash
-* ipatix

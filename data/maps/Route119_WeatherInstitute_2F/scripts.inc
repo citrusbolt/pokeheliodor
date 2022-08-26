@@ -17,10 +17,8 @@ Route119_WeatherInstitute_2F_OnLoad::
 	removeobject LOCALID_SCIENTIST_R
 
 Route119_WeatherInstitute_2F_OnTransition:
-	compare VAR_WEATHER_INSTITUTE_STATE, 0
-	call_if_eq Route119_WeatherInstitute_2F_EventScript_SetScientistPosAquaHere
-	compare VAR_WEATHER_INSTITUTE_STATE, 1
-	call_if_eq Route119_WeatherInstitute_2F_EventScript_SetScientistPosAquaGone
+	call_if_eq VAR_WEATHER_INSTITUTE_STATE, 0, Route119_WeatherInstitute_2F_EventScript_SetScientistPosAquaHere
+	call_if_eq VAR_WEATHER_INSTITUTE_STATE, 1, Route119_WeatherInstitute_2F_EventScript_SetScientistPosAquaGone
 	call_if_set FLAG_SYS_GAME_CLEAR, Route119_WeatherInstitute_2F_EventScript_SetScientistPosGameClear
 	end
 
@@ -99,18 +97,17 @@ Route119_WeatherInstitute_2F_EventScript_ReceiveCastform::
 	msgbox Route119_WeatherInstitute_2F_Text_ThanksPleaseTakePokemon, MSGBOX_DEFAULT
 	setvar VAR_TEMP_1, SPECIES_CASTFORM
 	givemon SPECIES_CASTFORM, 25, ITEM_MYSTIC_WATER
-	compare VAR_RESULT, 0
-	goto_if_eq Route119_WeatherInstitute_2F_EventScript_ReceiveCastformParty
-	compare VAR_RESULT, 1
-	goto_if_eq Route119_WeatherInstitute_2F_EventScript_ReceiveCastformPC
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Route119_WeatherInstitute_2F_EventScript_ReceiveCastformParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Route119_WeatherInstitute_2F_EventScript_ReceiveCastformPC
 	goto Common_EventScript_NoMoreRoomForPokemon
 	end
 
 Route119_WeatherInstitute_2F_EventScript_ReceiveCastformParty::
 	call Route119_WeatherInstitute_2F_EventScript_ReceivedCastformFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, Route119_WeatherInstitute_2F_EventScript_ExplainCastform
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route119_WeatherInstitute_2F_EventScript_ExplainCastform
+	goto_if_eq VAR_RESULT, NO, Route119_WeatherInstitute_2F_EventScript_ExplainCastform
 	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
 	goto Route119_WeatherInstitute_2F_EventScript_ExplainCastform
@@ -118,9 +115,10 @@ Route119_WeatherInstitute_2F_EventScript_ReceiveCastformParty::
 
 Route119_WeatherInstitute_2F_EventScript_ReceiveCastformPC::
 	call Route119_WeatherInstitute_2F_EventScript_ReceivedCastformFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, Route119_WeatherInstitute_2F_EventScript_SendCastformToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route119_WeatherInstitute_2F_EventScript_SendCastformToPC
+	goto_if_eq VAR_RESULT, NO, Route119_WeatherInstitute_2F_EventScript_SendCastformToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto Route119_WeatherInstitute_2F_EventScript_SendCastformToPC
 	end
@@ -135,7 +133,7 @@ Route119_WeatherInstitute_2F_EventScript_ReceivedCastformFanfare::
 	message Route119_WeatherInstitute_2F_Text_PlayerReceivedCastform
 	waitmessage
 	waitfanfare
-	bufferspeciesname 0, SPECIES_CASTFORM
+	bufferspeciesname STR_VAR_1, SPECIES_CASTFORM
 	return
 
 Route119_WeatherInstitute_2F_EventScript_ExplainCastform::
@@ -154,12 +152,10 @@ Route119_WeatherInstitute_2F_EventScript_TryStartAbnormalWeather::
 	setvar VAR_0x8004, 0
 	call_if_set FLAG_DEFEATED_KYOGRE, Route119_WeatherInstitute_2F_EventScript_LegendaryDefeated
 	call_if_set FLAG_DEFEATED_GROUDON, Route119_WeatherInstitute_2F_EventScript_LegendaryDefeated
-	compare VAR_0x8004, 2  @ Both defeated
-	goto_if_eq Route119_WeatherInstitute_2F_EventScript_NoAbnormalWeather
+	goto_if_eq VAR_0x8004, 2, Route119_WeatherInstitute_2F_EventScript_NoAbnormalWeather  @ Both defeated
 	call_if_unset FLAG_TEMP_2, Route119_WeatherInstitute_2F_EventScript_CreateAbnormalWeather
 	specialvar VAR_RESULT, GetAbnormalWeatherMapNameAndType
-	compare VAR_RESULT, 1
-	goto_if_eq Route119_WeatherInstitute_2F_EventScript_KyogreWeather
+	goto_if_eq VAR_RESULT, 1, Route119_WeatherInstitute_2F_EventScript_KyogreWeather
 	msgbox Route119_WeatherInstitute_2F_Text_GroudonWeather, MSGBOX_DEFAULT
 	release
 	end
@@ -204,12 +200,12 @@ Route119_WeatherInstitute_2F_Movement_ShovePlayerOutOfWay:
 	delay_16
 	delay_16
 	ride_water_current_up
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 Route119_WeatherInstitute_2F_Movement_PlayerReturnToPosition:
 	slide_down
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	step_end
 
 Route119_WeatherInstitute_2F_Movement_ScientistApproachPlayer:
@@ -276,20 +272,20 @@ Route119_WeatherInstitute_2F_EventScript_RoamerQuestDone::
 	end
 
 Route119_WeatherInstitute_2F_Text_Grunt2Intro:
-	.string "The INSTITUTE created a type of\n"
-	.string "POKéMON that has something to do with\l"
+	.string "The Institute created a type of\n"
+	.string "Pokémon that has something to do with\l"
 	.string "the weather. We're here to take them!$"
 
 Route119_WeatherInstitute_2F_Text_Grunt2Defeat:
 	.string "Our plan's being spoiled by a kid?$"
 
 Route119_WeatherInstitute_2F_Text_Grunt2PostBattle:
-	.string "If the POKéMON they made here can\n"
+	.string "If the Pokémon they made here can\n"
 	.string "control the weather freely, then we of\l"
-	.string "TEAM AQUA definitely need it!$"
+	.string "Team Aqua definitely need it!$"
 
 Route119_WeatherInstitute_2F_Text_Grunt3Intro:
-	.string "We're TEAM AQUA!\n"
+	.string "We're Team Aqua!\n"
 	.string "We appear wherever anything rare is\l"
 	.string "found!$"
 
@@ -298,17 +294,17 @@ Route119_WeatherInstitute_2F_Text_Grunt3Defeat:
 
 Route119_WeatherInstitute_2F_Text_Grunt3PostBattle:
 	.string "You don't have any idea what we of\n"
-	.string "TEAM AQUA are working towards!\l"
+	.string "Team Aqua are working towards!\l"
 	.string "You stay out of our way!$"
 
 Route119_WeatherInstitute_2F_Text_Grunt5Intro:
 	.string "Don't tell me you're looking for that\n"
-	.string "weather POKéMON, too?\p"
+	.string "weather Pokémon, too?\p"
 	.string "That's a no-no!\n"
 	.string "We were here to get it first!$"
 
 Route119_WeatherInstitute_2F_Text_Grunt5Defeat:
-	.string "Oh, will you look at my POKéMON?$"
+	.string "Oh, will you look at my Pokémon?$"
 
 Route119_WeatherInstitute_2F_Text_Grunt5PostBattle:
 	.string "Humph, so what?\n"
@@ -318,7 +314,7 @@ Route119_WeatherInstitute_2F_Text_Grunt5PostBattle:
 
 Route119_WeatherInstitute_2F_Text_ShellyIntro:
 	.string "Ahahahaha!\p"
-	.string "You're going to meddle in TEAM AQUA's\n"
+	.string "You're going to meddle in Team Aqua's\n"
 	.string "affairs?\p"
 	.string "You're either absolutely fearless,\n"
 	.string "simply ignorant, or both!\p"
@@ -330,44 +326,44 @@ Route119_WeatherInstitute_2F_Text_ShellyDefeat:
 	.string "You're disgustingly strong!$"
 
 Route119_WeatherInstitute_2F_Text_ShellyPostBattle:
-	.string "It's bad enough to have TEAM MAGMA\n"
+	.string "It's bad enough to have Team Magma\n"
 	.string "blunder about, but now there's you!\p"
 	.string "What makes you want to sniff around\n"
 	.string "in our business, anyway?$"
 
 Route119_WeatherInstitute_2F_Text_TeamMagmaJustPassedBy:
 	.string "We have a situation here!\p"
-	.string "A TEAM MAGMA mob just passed\n"
-	.string "the WEATHER INSTITUTE.\p"
+	.string "A Team Magma mob just passed\n"
+	.string "the Weather Institute.\p"
 	.string "They appear to be headed for\n"
-	.string "MT. PYRE!$"
+	.string "Mt. Pyre!$"
 
 Route119_WeatherInstitute_2F_Text_WeHaveToHurryToMtPyre:
 	.string "What?!\p"
 	.string "We can't waste any more time here!\n"
-	.string "We have to hurry to MT. PYRE, too!\p"
+	.string "We have to hurry to Mt. Pyre, too!\p"
 	.string "Ahahahaha!\n"
-	.string "TEAM MAGMA, just you wait!$"
+	.string "Team Magma, just you wait!$"
 
 Route119_WeatherInstitute_2F_Text_ThanksPleaseTakePokemon:
 	.string "Thanks!\n"
 	.string "Thanks to you, we're safe!\p"
 	.string "It might be an odd way of thanking you,\n"
-	.string "but take this POKéMON.$"
+	.string "but take this Pokémon.$"
 
 @ Unused
 Route119_WeatherInstitute_2F_Text_NoRoomForPokemon:
 	.string "Hm? You don't seem to have any room\n"
-	.string "for this POKéMON.$"
+	.string "for this Pokémon.$"
 
 Route119_WeatherInstitute_2F_Text_PlayerReceivedCastform:
 	.string "{PLAYER} received CASTFORM!$"
 
 Route119_WeatherInstitute_2F_Text_PokemonChangesWithWeather:
-	.string "That POKéMON changes shape according\n"
+	.string "That Pokémon changes shape according\n"
 	.string "to the weather conditions.\p"
 	.string "There're plenty of them in the\n"
-	.string "INSTITUTE--go ahead and take it.$"
+	.string "Institute--go ahead and take it.$"
 
 Route119_WeatherInstitute_2F_Text_ChangingWeatherRidiculous:
 	.string "I've been researching rain for many\n"
@@ -376,7 +372,7 @@ Route119_WeatherInstitute_2F_Text_ChangingWeatherRidiculous:
 
 Route119_WeatherInstitute_2F_Text_GroudonWeather:
 	.string "I track weather patterns over\n"
-	.string "the HOENN region.\p"
+	.string "the Hoenn region.\p"
 	.string "Presently, a drought has been recorded\n"
 	.string "in {STR_VAR_1}.\p"
 	.string "Could that mean, somewhere near\n"
@@ -384,7 +380,7 @@ Route119_WeatherInstitute_2F_Text_GroudonWeather:
 
 Route119_WeatherInstitute_2F_Text_KyogreWeather:
 	.string "I track weather patterns over\n"
-	.string "the HOENN region.\p"
+	.string "the Hoenn region.\p"
 	.string "Presently, heavy rainfall has been\n"
 	.string "recorded over {STR_VAR_1}.\p"
 	.string "Could that mean, somewhere near\n"
@@ -397,30 +393,30 @@ Route119_WeatherInstitute_2F_Text_NoAbnormalWeather:
 	.string "really.$"
 
 Route119_WeatherInstitute_2F_Text_ShowRoamer:
-	.string "We've received reports of a POKéMON\n"
+	.string "We've received reports of a Pokémon\n"
 	.string "matching this description roaming\l"
-	.string "around HOENN.\p"
+	.string "around Hoenn.\p"
 	.string "Make sure to keep an eye out for it!$"
 
 Route119_WeatherInstitute_2F_Text_MentionZapdos:
-	.string "I've also received a signular report\n"
-	.string "of a yellow-colored FLYING-type\l"
-	.string "POKéMON on ROUTE 110.\p"
+	.string "I've also received a singular report\n"
+	.string "of a yellow-colored Flying-type\l"
+	.string "Pokémon on Route 110.\p"
 	.string "If you have time, can you try\n"
 	.string "to verify this report?$"
 
 Route119_WeatherInstitute_2F_Text_GiveMysticTicket:
 	.string "An island has been discovered near\n"
-	.string "the KANTO region that is possibly\l"
+	.string "the Kanto region that is possibly\l"
 	.string "a roosting point for some\l"
-	.string "powerful POKéMON.\p"
+	.string "powerful Pokémon.\p"
 	.string "As thanks for helping us study\n"
-	.string "the POKéMON that have been roaming\l"
-	.string "around HOENN, I'd like to grant\l"
+	.string "the Pokémon that have been roaming\l"
+	.string "around Hoenn, I'd like to grant\l"
 	.string "you authorization to visit this island.\p"
 	.string "Present this ticket to the staff\n"
 	.string "of the S.S. Tidal at the\l"
-	.string "LILYCOVE CITY port to be taken there.$"
+	.string "Lilycove City port to be taken there.$"
 
 Route119_WeatherInstitute_2F_Text_RoamerQuestDone:
 	.string "Thank you again for helping us\n"

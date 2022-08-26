@@ -9,6 +9,7 @@ EWRAM_DATA ALIGNED(4) u8 gDecompressionBuffer[0x4000] = {0};
 EWRAM_DATA ALIGNED(4) u8 gEggDecompressionBuffer[0x10] = {0};
 
 static void DuplicateDeoxysTiles(void *pointer, s32 species);
+static void SwapSprite(u16 species, u32 pid, void *dest);
 
 void LZDecompressWram(const u32 *src, void *dest)
 {
@@ -88,22 +89,24 @@ void LoadCompressedEggHatchSpritePalette(const struct CompressedSpritePalette *s
     LoadEggSpritePalette(&dest1, &dest2);
 }
 
-void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *a, void *buffer)
+void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *src, void *buffer)
 {
     struct SpritePalette dest;
 
-    LZ77UnCompWram(a->data, buffer);
+    LZ77UnCompWram(src->data, buffer);
     dest.data = buffer;
-    dest.tag = a->tag;
+    dest.tag = src->tag;
     LoadSpritePalette(&dest);
 }
 
-void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
+void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species, u32 personality)
 {
     if (species > NUM_SPECIES)
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
+
+    SwapSprite((u16)species, personality, buffer);
     DuplicateDeoxysTiles(buffer, species);
 }
 
@@ -141,6 +144,9 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
     else
         LZ77UnCompWram(src->data, dest);
 
+    if (isFrontPic)
+        SwapSprite((u16)species, personality, dest);
+
     DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
@@ -150,7 +156,7 @@ void Unused_LZDecompressWramIndirect(const void **src, void *dest)
     LZ77UnCompWram(*src, dest);
 }
 
-void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tiles)
+static void StitchObjectsOn8x8Canvas(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tiles)
 {
     /*
       This function appears to emulate behaviour found in the GB(C) versions regarding how the Pokemon images
@@ -332,12 +338,14 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
     return FALSE;
 }
 
-void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void* buffer, s32 species) // a copy of DecompressPicFromTable
+void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void* buffer, s32 species, u32 personality) // a copy of DecompressPicFromTable
 {
     if (species > NUM_SPECIES)
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
+
+    SwapSprite((u16)species, personality, buffer);
     DuplicateDeoxysTiles(buffer, species);
 }
 
@@ -363,6 +371,9 @@ void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s
     else
         LZ77UnCompWram(src->data, dest);
 
+    if (isFrontPic)
+        SwapSprite((u16)species, personality, dest);
+
     DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
@@ -379,12 +390,14 @@ void HandleLoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *d
     LoadSpecialPokePic_2(src, dest, species, personality, isFrontPic);
 }
 
-void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
+void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void* buffer, s32 species, u32 personality)
 {
     if (species > NUM_SPECIES)
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
+
+    SwapSprite((u16)species, personality, buffer);
 }
 
 void HandleLoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
@@ -421,6 +434,9 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
     else
         LZ77UnCompWram(src->data, dest);
 
+    if (isFrontPic)
+        SwapSprite((u16)species, personality, dest);
+
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
@@ -428,4 +444,20 @@ static void DuplicateDeoxysTiles(void *pointer, s32 species)
 {
     if (species == SPECIES_DEOXYS)
         CpuCopy32(pointer + MON_PIC_SIZE, pointer, MON_PIC_SIZE);
+}
+
+static void SwapSprite(u16 species, u32 pid, void *dest)
+{
+    u8 value = (pid >> 24) & 7;
+
+    if (value == 1 && gBaseStats[species].hasFRLGSprite)
+        LZ77UnCompWram(gMonFrontPicTableFRLG[species].data, dest);
+    if (value == 2 && gBaseStats[species].hasDPSprite)
+        LZ77UnCompWram(gMonFrontPicTableDP[species].data, dest);
+    if (value == 3 && gBaseStats[species].hasHGSSSprite)
+        LZ77UnCompWram(gMonFrontPicTableHGSS[species].data, dest);
+    if (value == 4 && gBaseStats[species].hasBWSprite)
+        LZ77UnCompWram(gMonFrontPicTableBW[species].data, dest);
+    else
+        return;
 }

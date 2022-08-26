@@ -28,7 +28,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_GetChallengeStatus::
 	end
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_WarpToLobby::
-	warp MAP_BATTLE_FRONTIER_BATTLE_PIKE_LOBBY, 255, 5, 6
+	warp MAP_BATTLE_FRONTIER_BATTLE_PIKE_LOBBY, 5, 6
 	waitstate
 	end
 
@@ -151,8 +151,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_AskRetireChallenge::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_SetHintRoom::
 	pike_sethintroom
-	compare VAR_RESULT, TRUE
-	goto_if_eq BattleFrontier_BattlePikeThreePathRoom_EventScript_SetPikeQueenHint
+	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattlePikeThreePathRoom_EventScript_SetPikeQueenHint
 	setvar VAR_TEMP_5, 255
 	end
 
@@ -173,8 +172,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_GivePikeQueenHint::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_HintGiver::
 	pike_gethint
-	compare VAR_RESULT, PIKE_HINT_BRAIN
-	goto_if_eq BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveBrainHint
+	goto_if_eq VAR_RESULT, PIKE_HINT_BRAIN, BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveBrainHint
 	lock
 	faceplayer
 	msgbox BattleFrontier_BattlePikeThreePathRoom_Text_FindingItDifficultToChoose, MSGBOX_YESNO
@@ -345,10 +343,10 @@ BattleFrontier_BattlePikeThreePathRoom_Text_SomethingAboutLeftPath:
 
 BattleFrontier_BattlePikeThreePathRoom_Text_AromaOfPokemon:
 	.string "It seems to have the distinct aroma\n"
-	.string "of POKéMON wafting around it…$"
+	.string "of Pokémon wafting around it…$"
 
 BattleFrontier_BattlePikeThreePathRoom_Text_PresenceOfPeople:
-	.string "Is it… A TRAINER?\n"
+	.string "Is it… A Trainer?\n"
 	.string "I sense the presence of people…$"
 
 BattleFrontier_BattlePikeThreePathRoom_Text_HeardWhispering:

@@ -10,7 +10,7 @@
 #include "constants/battle_anim.h"
 #include "constants/rgb.h"
 
-/* 
+/*
     This file handles the movements of the Pokémon intro animations.
 
     Each animation type is identified by an ANIM_* constant that
@@ -26,7 +26,7 @@
 
     The table linking species to a BACK_ANIM is in this file (sSpeciesToBackAnimSet)
     while the table linking species to an ANIM for their front animation is in
-    pokemon.c (sMonFrontAnimIdsTable). 
+    pokemon.c (sMonFrontAnimIdsTable).
 
     These are the functions that will start an animation:
     - LaunchAnimationTaskForFrontSprite
@@ -1073,14 +1073,10 @@ static void ResetSpriteAfterAnim(struct Sprite *sprite)
         sprite->oam.matrixNum |= (sprite->hFlip << 3);
         sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
     }
-#ifdef BUGFIX
     else
     {
-        // FIX: Reset these back to normal after they were changed so Poké Ball catch/release
-        // animations without a screen transition in between don't break
         sprite->affineAnims = gAffineAnims_BattleSpriteOpponentSide;
     }
-#endif // BUGFIX
 }
 
 static void Anim_CircularStretchTwice(struct Sprite *sprite)

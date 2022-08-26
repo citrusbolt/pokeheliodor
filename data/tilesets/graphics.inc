@@ -1743,8 +1743,24 @@ gTilesetPalOverride_Petalburg06::
 	.incbin "data/tilesets/secondary/petalburg/palettes/06_over.gbapal"
 
 .align 2
-gTilesetPalOverride_Petalburg08::
-	.incbin "data/tilesets/secondary/petalburg/palettes/08_over.gbapal"
+gTilesetPalOverride_Petalburg10::
+	.incbin "data/tilesets/secondary/petalburg/palettes/10_over.gbapal"
+
+.align 2
+gTilesetPalOverride_Petalburg11::
+	.incbin "data/tilesets/secondary/petalburg/palettes/11_over.gbapal"
+
+.align 2
+gTilesetPalOverride_Mauville07::
+	.incbin "data/tilesets/secondary/mauville/palettes/07_over.gbapal"
+
+.align 2
+gTilesetPalOverride_Slateport10::
+	.incbin "data/tilesets/secondary/slateport/palettes/10_over.gbapal"
+
+.align 2
+gTilesetPalOverride_BattleFrontierOutsideWest10::
+	.incbin "data/tilesets/secondary/battle_frontier_outside_west/palettes/10_over.gbapal"
 
 // Kanto
 

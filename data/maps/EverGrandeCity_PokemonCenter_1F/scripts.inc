@@ -37,12 +37,9 @@ EverGrandeCity_PokemonCenter_1F_EventScript_Scott::
 	faceplayer
 	msgbox EverGrandeCity_PokemonCenter_1F_Text_ScottHappyForYou, MSGBOX_DEFAULT
 	closemessage
-	compare VAR_FACING, DIR_NORTH
-	call_if_eq EverGrandeCity_PokemonCenter_1F_EventScript_ScottExitNorth
-	compare VAR_FACING, DIR_EAST
-	call_if_eq EverGrandeCity_PokemonCenter_1F_EventScript_ScottExit
-	compare VAR_FACING, DIR_WEST
-	call_if_eq EverGrandeCity_PokemonCenter_1F_EventScript_ScottExit
+	call_if_eq VAR_FACING, DIR_NORTH, EverGrandeCity_PokemonCenter_1F_EventScript_ScottExitNorth
+	call_if_eq VAR_FACING, DIR_EAST, EverGrandeCity_PokemonCenter_1F_EventScript_ScottExit
+	call_if_eq VAR_FACING, DIR_WEST, EverGrandeCity_PokemonCenter_1F_EventScript_ScottExit
 	addvar VAR_SCOTT_STATE, 1
 	setflag FLAG_MET_SCOTT_IN_EVERGRANDE
 	playse SE_EXIT
@@ -113,54 +110,54 @@ EverGrandeCity_PokemonCenter_1F_EventScript_DeclineEgg::
 	end
 
 EverGrandeCity_PokemonCenter_1F_Text_LeagueAfterVictoryRoad:
-	.string "The POKéMON LEAGUE is only a short\n"
-	.string "distance after the VICTORY ROAD.\p"
+	.string "The Pokémon League is only a short\n"
+	.string "distance after the Victory Road.\p"
 	.string "If you've come this far, what choice\n"
 	.string "do you have but to keep going?$"
 
 EverGrandeCity_PokemonCenter_1F_Text_BelieveInYourPokemon:
-	.string "The long and harrowing VICTORY ROAD…\p"
+	.string "The long and harrowing Victory Road…\p"
 	.string "It's like reliving the path one has\n"
 	.string "traveled in life…\p"
-	.string "Believe in your POKéMON and give it\n"
+	.string "Believe in your Pokémon and give it\n"
 	.string "your very best!$"
 
 EverGrandeCity_PokemonCenter_1F_Text_ScottHappyForYou:
-	.string "SCOTT: {PLAYER}{KUN}, you've clawed your\n"
-	.string "way up to face the POKéMON LEAGUE!\p"
+	.string "Scott: {PLAYER}{KUN}, you've clawed your\n"
+	.string "way up to face the Pokémon League!\p"
 	.string "I'm happy for you!\n"
 	.string "You made my cheering worthwhile!\p"
 	.string "{PLAYER}{KUN}, if you were to become\n"
-	.string "the POKéMON LEAGUE CHAMPION…\p"
+	.string "the Pokémon League Champion…\p"
 	.string "I'll get in touch with you then.\p"
 	.string "Okay, {PLAYER}{KUN}.\n"
 	.string "Go for greatness!$"
 
 EverGrandeCity_PokemonCenter_1F_Text_HaveEggWillYouTakeIt:
 	.string "You look like a strong\n"
-	.string "POKéMON TRAINER!\p"
+	.string "Pokémon Trainer!\p"
 	.string "I obtained this mysterious\n"
-	.string "EGG in my travels, but I'm not much\l"
-	.string "of a TRAINER myself.\p"
-	.string "Will you take this EGG to raise?$"
+	.string "Egg in my travels, but I'm not much\l"
+	.string "of a Trainer myself.\p"
+	.string "Will you take this Egg to raise?$"
 
 EverGrandeCity_PokemonCenter_1F_Text_HopeYoullWalkPlentyWithEgg:
 	.string "Good! I hope you'll walk plenty with\n"
-	.string "this here EGG!$"
+	.string "this here Egg!$"
 
 EverGrandeCity_PokemonCenter_1F_Text_ReceivedTheEgg:
-	.string "{PLAYER} received the EGG.$"
+	.string "{PLAYER} received the Egg.$"
 
 EverGrandeCity_PokemonCenter_1F_Text_NoRoomForThisEgg:
-	.string "Oh? You've too many POKéMON.\n"
-	.string "There's no room for this EGG…$"
+	.string "Oh? You've too many Pokémon.\n"
+	.string "There's no room for this Egg…$"
 
 EverGrandeCity_PokemonCenter_1F_Text_AsYouWishThen:
 	.string "As you wish, then…\p"
 	.string "If you have a change of heart about\n"
-	.string "hatching this EGG, I will be here.$"
+	.string "hatching this Egg, I will be here.$"
 
 EverGrandeCity_PokemonCenter_1F_Text_EggsAreIncredible:
-	.string "POKéMON EGGS are incredible…\p"
+	.string "Pokémon Eggs are incredible…\p"
 	.string "They represent the potential\n"
 	.string "of an entire life.$"

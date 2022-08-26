@@ -13,7 +13,7 @@ SootopolisCity_House4_EventScript_Azumarill::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_AZUMARILL, 0
+	playmoncry SPECIES_AZUMARILL, CRY_MODE_NORMAL
 	msgbox SootopolisCity_House4_Text_Azumarill, MSGBOX_DEFAULT
 	waitmoncry
 	release
@@ -32,7 +32,7 @@ SootopolisCity_House4_Text_StrollUnderwaterWithPokemon:
 	.string "It would be nice if they existed, but\n"
 	.string "even if they didn't, it would be so\l"
 	.string "beautiful to take an underwater\l"
-	.string "stroll with my POKéMON.$"
+	.string "stroll with my Pokémon.$"
 
 SootopolisCity_House4_Text_Azumarill:
 	.string "AZUMARILL: Marurii.$"

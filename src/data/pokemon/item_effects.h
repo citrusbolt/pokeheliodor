@@ -149,7 +149,7 @@ const u8 gItemEffect_RedFlute[6] = {
     [0] = ITEM0_INFATUATION,
 };
 
-const u8 gItemEffect_BerryJuice[7] = {
+const u8 gItemEffect_BERRYJuice[7] = {
     [4] = ITEM4_HEAL_HP,
     [6] = 20, // Amount of HP to recover
 };
@@ -413,7 +413,7 @@ const u8 *const gItemEffectTable[] =
     [ITEM_BLUE_FLUTE - ITEM_POTION]    = gItemEffect_BlueFlute,
     [ITEM_YELLOW_FLUTE - ITEM_POTION]  = gItemEffect_YellowFlute,
     [ITEM_RED_FLUTE - ITEM_POTION]     = gItemEffect_RedFlute,
-    [ITEM_BERRY_JUICE - ITEM_POTION]   = gItemEffect_BerryJuice,
+    [ITEM_BERRY_JUICE - ITEM_POTION]   = gItemEffect_BERRYJuice,
     [ITEM_SACRED_ASH - ITEM_POTION]    = gItemEffect_SacredAsh,
     [ITEM_HP_UP - ITEM_POTION]         = gItemEffect_HPUp,
     [ITEM_PROTEIN - ITEM_POTION]       = gItemEffect_Protein,

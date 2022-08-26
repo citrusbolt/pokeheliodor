@@ -22,25 +22,20 @@ Route124_DivingTreasureHuntersHouse_EventScript_SkipGreeting::
 
 Route124_DivingTreasureHuntersHouse_EventScript_CheckPlayerHasShard::
 	call Route124_DivingTreasureHuntersHouse_EventScript_GetPlayersShards
-	compare VAR_TEMP_1, 0
-	goto_if_eq Route124_DivingTreasureHuntersHouse_EventScript_NoShards
+	goto_if_eq VAR_TEMP_1, 0, Route124_DivingTreasureHuntersHouse_EventScript_NoShards
 	goto Route124_DivingTreasureHuntersHouse_EventScript_HasShard
 	end
 
 Route124_DivingTreasureHuntersHouse_EventScript_GetPlayersShards::
 	setvar VAR_TEMP_1, 0
-	checkitem ITEM_RED_SHARD, 1
-	compare VAR_RESULT, TRUE
-	call_if_eq Route124_DivingTreasureHuntersHouse_EventScript_HasRedShard
-	checkitem ITEM_YELLOW_SHARD, 1
-	compare VAR_RESULT, TRUE
-	call_if_eq Route124_DivingTreasureHuntersHouse_EventScript_HasYellowShard
-	checkitem ITEM_BLUE_SHARD, 1
-	compare VAR_RESULT, TRUE
-	call_if_eq Route124_DivingTreasureHuntersHouse_EventScript_HasBlueShard
-	checkitem ITEM_GREEN_SHARD, 1
-	compare VAR_RESULT, TRUE
-	call_if_eq Route124_DivingTreasureHuntersHouse_EventScript_HasGreenShard
+	checkitem ITEM_RED_SHARD
+	call_if_eq VAR_RESULT, TRUE, Route124_DivingTreasureHuntersHouse_EventScript_HasRedShard
+	checkitem ITEM_YELLOW_SHARD
+	call_if_eq VAR_RESULT, TRUE, Route124_DivingTreasureHuntersHouse_EventScript_HasYellowShard
+	checkitem ITEM_BLUE_SHARD
+	call_if_eq VAR_RESULT, TRUE, Route124_DivingTreasureHuntersHouse_EventScript_HasBlueShard
+	checkitem ITEM_GREEN_SHARD
+	call_if_eq VAR_RESULT, TRUE, Route124_DivingTreasureHuntersHouse_EventScript_HasGreenShard
 	return
 
 Route124_DivingTreasureHuntersHouse_EventScript_HasRedShard::
@@ -243,17 +238,14 @@ Route124_DivingTreasureHuntersHouse_EventScript_TradeGreenShard::
 	goto Route124_DivingTreasureHuntersHouse_EventScript_TryTradeShard
 
 Route124_DivingTreasureHuntersHouse_EventScript_TryTradeShard::
-	bufferitemname 0, VAR_0x8008
-	bufferitemname 1, VAR_0x8009
+	bufferitemname STR_VAR_1, VAR_0x8008
+	bufferitemname STR_VAR_2, VAR_0x8009
 	msgbox Route124_DivingTreasureHuntersHouse_Text_YoullTradeShardForStone, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route124_DivingTreasureHuntersHouse_EventScript_DeclineTrade
-	checkitemspace VAR_0x8009, 1
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route124_DivingTreasureHuntersHouse_EventScript_TradeShard
+	goto_if_eq VAR_RESULT, NO, Route124_DivingTreasureHuntersHouse_EventScript_DeclineTrade
+	checkitemspace VAR_0x8009
+	goto_if_eq VAR_RESULT, TRUE, Route124_DivingTreasureHuntersHouse_EventScript_TradeShard
 	checkitem VAR_0x8008, 2
-	compare VAR_RESULT, FALSE
-	goto_if_eq Route124_DivingTreasureHuntersHouse_EventScript_TradeShard
+	goto_if_eq VAR_RESULT, FALSE, Route124_DivingTreasureHuntersHouse_EventScript_TradeShard
 	goto Route124_DivingTreasureHuntersHouse_EventScript_BagFull
 	end
 
@@ -262,11 +254,9 @@ Route124_DivingTreasureHuntersHouse_EventScript_TradeShard::
 	giveitem VAR_0x8009
 	msgbox Route124_DivingTreasureHuntersHouse_Text_ItsADeal, MSGBOX_DEFAULT
 	call Route124_DivingTreasureHuntersHouse_EventScript_GetPlayersShards
-	compare VAR_TEMP_1, 0
-	goto_if_eq Route124_DivingTreasureHuntersHouse_EventScript_EndTrade
+	goto_if_eq VAR_TEMP_1, 0, Route124_DivingTreasureHuntersHouse_EventScript_EndTrade
 	msgbox Route124_DivingTreasureHuntersHouse_Text_TradeSomethingElse, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq Route124_DivingTreasureHuntersHouse_EventScript_ShowTradeOptions
+	goto_if_eq VAR_RESULT, YES, Route124_DivingTreasureHuntersHouse_EventScript_ShowTradeOptions
 	goto Route124_DivingTreasureHuntersHouse_EventScript_DeclineTrade
 	end
 
@@ -294,24 +284,24 @@ Route124_DivingTreasureHuntersHouse_EventScript_ShardTradeBoard::
 	end
 
 Route124_DivingTreasureHuntersHouse_Text_Greeting:
-	.string "I'm the DIVING TREASURE HUNTER!\p"
+	.string "I'm the Diving Treasure Hunter!\p"
 	.string "I'm the awesome dude who makes\n"
 	.string "deep-sea dives to gather treasures\l"
 	.string "resting at the bottom.$"
 
 Route124_DivingTreasureHuntersHouse_Text_HaveYouSeenAnyShards:
-	.string "Tell me, have you seen any SHARDS of\n"
+	.string "Tell me, have you seen any Shards of\n"
 	.string "tools made in ancient times?$"
 
 Route124_DivingTreasureHuntersHouse_Text_YouHaventGotAnyShards:
 	.string "You haven't got any treasures\n"
 	.string "for me…\p"
-	.string "If you see any SHARDS, like the RED\n"
-	.string "SHARD, you've got to trade it with me!$"
+	.string "If you see any Shards, like the Red\n"
+	.string "Shard, you've got to trade it with me!$"
 
 Route124_DivingTreasureHuntersHouse_Text_ThatsAShardIllTradeYou:
 	.string "Oh, hey! That…\n"
-	.string "That's a SHARD! I'm looking for those!\p"
+	.string "That's a Shard! I'm looking for those!\p"
 	.string "Oh, man, you've got to trade that\n"
 	.string "with me! I'll give you something good!$"
 
@@ -330,7 +320,7 @@ Route124_DivingTreasureHuntersHouse_Text_TradeSomethingElse:
 	.string "Do you want to trade something else?$"
 
 Route124_DivingTreasureHuntersHouse_Text_BagFull:
-	.string "Whoops, your BAG's full.\n"
+	.string "Whoops, your Bag's full.\n"
 	.string "Get rid of some items, friend!$"
 
 Route124_DivingTreasureHuntersHouse_Text_ComeBackIfYouChangeMind:
@@ -339,10 +329,10 @@ Route124_DivingTreasureHuntersHouse_Text_ComeBackIfYouChangeMind:
 
 Route124_DivingTreasureHuntersHouse_Text_ShardTradeBoard:
 	.string "{CLEAR_TO 0x0a}Wanted item{CLEAR_TO 0x7c}Trade item\n"
-	.string "{CLEAR_TO 0x0f}RED SHARD{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x7b}FIRE STONE{CLEAR_TO 0xc8}\p"
+	.string "{CLEAR_TO 0x0f}Red Shard{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x7b}Fire Stone{CLEAR_TO 0xc8}\p"
 	.string "{CLEAR_TO 0x0a}Wanted item{CLEAR_TO 0x7c}Trade item\n"
-	.string "{CLEAR_TO 0x06}YELLOW SHARD{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x73}THUNDERSTONE{CLEAR_TO 0xc8}\p"
+	.string "{CLEAR_TO 0x06}Yellow Shard{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x73}Thunderstone{CLEAR_TO 0xc8}\p"
 	.string "{CLEAR_TO 0x0a}Wanted item{CLEAR_TO 0x7c}Trade item\n"
-	.string "{CLEAR_TO 0x0c}BLUE SHARD{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x79}WATER STONE{CLEAR_TO 0xc8}\p"
+	.string "{CLEAR_TO 0x0c}Blue Shard{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x79}Water Stone{CLEAR_TO 0xc8}\p"
 	.string "{CLEAR_TO 0x0a}Wanted item{CLEAR_TO 0x7c}Trade item\n"
-	.string "{CLEAR_TO 0x08}GREEN SHARD{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x7b}LEAF STONE$"
+	.string "{CLEAR_TO 0x08}Green Shard{CLEAR_TO 0x59}{LEFT_ARROW}{RIGHT_ARROW}{CLEAR_TO 0x7b}Leaf Stone$"

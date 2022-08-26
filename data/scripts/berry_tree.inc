@@ -22,8 +22,7 @@ BerryTree_EventScript_CheckSoil::
 	lock
 	faceplayer
 	specialvar VAR_RESULT, PlayerHasBerries
-	compare VAR_RESULT, TRUE
-	goto_if_eq BerryTree_EventScript_WantToPlant
+	goto_if_eq VAR_RESULT, TRUE, BerryTree_EventScript_WantToPlant
 	message BerryTree_Text_ItsSoftLoamySoil
 	waitmessage
 	waitbuttonpress
@@ -32,10 +31,8 @@ BerryTree_EventScript_CheckSoil::
 
 BerryTree_EventScript_WantToPlant::
 	msgbox BerryTree_Text_WantToPlant, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BerryTree_EventScript_ChooseBerryToPlant
-	compare VAR_RESULT, NO
-	goto_if_eq BerryTree_EventScript_CancelPlanting
+	goto_if_eq VAR_RESULT, YES, BerryTree_EventScript_ChooseBerryToPlant
+	goto_if_eq VAR_RESULT, NO, BerryTree_EventScript_CancelPlanting
 	end
 
 BerryTree_EventScript_ChooseBerryToPlant::
@@ -43,8 +40,7 @@ BerryTree_EventScript_ChooseBerryToPlant::
 	closemessage
 	special Bag_ChooseBerry
 	waitstate
-	compare VAR_ITEM_ID, 0
-	goto_if_eq BerryTree_EventScript_CancelPlanting
+	goto_if_eq VAR_ITEM_ID, 0, BerryTree_EventScript_CancelPlanting
 	removeitem VAR_ITEM_ID
 	call BerryTree_EventScript_PlantBerry
 
@@ -88,37 +84,32 @@ BerryTree_EventScript_CheckBerryStage4::
 @ VAR_0x8005 here is the number of times watered
 @ Buffered by ObjectEventInteractionGetBerryTreeData
 BerryTree_EventScript_GetCareAdverb::
-	compare VAR_0x8005, 0
-	goto_if_eq BerryTree_EventScript_SetAdverbPoor
-	compare VAR_0x8005, 4
-	goto_if_eq BerryTree_EventScript_SetAdverbGreat
-	bufferstring 1, BerryTree_Text_CareAdverbGood
+	goto_if_eq VAR_0x8005, 0, BerryTree_EventScript_SetAdverbPoor
+	goto_if_eq VAR_0x8005, 4, BerryTree_EventScript_SetAdverbGreat
+	bufferstring STR_VAR_2, BerryTree_Text_CareAdverbGood
 	return
 
 BerryTree_EventScript_SetAdverbGreat::
-	bufferstring 1, BerryTree_Text_CareAdverbGreat
+	bufferstring STR_VAR_2, BerryTree_Text_CareAdverbGreat
 	return
 
 BerryTree_EventScript_SetAdverbPoor::
-	bufferstring 1, BerryTree_Text_CareAdverbPoor
+	bufferstring STR_VAR_2, BerryTree_Text_CareAdverbPoor
 	return
 
 @ VAR_0x8006 here is the number of berries
 BerryTree_EventScript_CheckBerryFullyGrown::
-	buffernumberstring 1, VAR_0x8006
+	buffernumberstring STR_VAR_2, VAR_0x8006
 	lock
 	faceplayer
 	special ObjectEventInteractionGetBerryCountString
 	msgbox BerryTree_Text_WantToPick, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BerryTree_EventScript_PickBerry
-	compare VAR_RESULT, NO
-	goto_if_eq BerryTree_EventScript_CancelPickingBerry
+	goto_if_eq VAR_RESULT, YES, BerryTree_EventScript_PickBerry
+	goto_if_eq VAR_RESULT, NO, BerryTree_EventScript_CancelPickingBerry
 
 BerryTree_EventScript_PickBerry::
 	special ObjectEventInteractionPickBerryTree
-	compare VAR_0x8004, 0
-	goto_if_eq BerryTree_EventScript_BerryPocketFull
+	goto_if_eq VAR_0x8004, 0, BerryTree_EventScript_BerryPocketFull
 	special IncrementDailyPickedBerries
 	special ObjectEventInteractionRemoveBerryTree
 	message BerryTree_Text_PickedTheBerry
@@ -154,15 +145,12 @@ BerryTree_EventScript_ItemUsePlantBerry::
 	end
 
 BerryTree_EventScript_WantToWater::
-	checkitem ITEM_WAILMER_PAIL, 1
-	compare VAR_RESULT, 0
-	goto_if_eq BerryTree_EventScript_DontWater
+	checkitem ITEM_WAILMER_PAIL
+	goto_if_eq VAR_RESULT, FALSE, BerryTree_EventScript_DontWater
 	special ObjectEventInteractionGetBerryName
 	msgbox BerryTree_Text_WantToWater, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BerryTree_EventScript_WaterBerry
-	compare VAR_RESULT, NO
-	goto_if_eq BerryTree_EventScript_DontWater
+	goto_if_eq VAR_RESULT, YES, BerryTree_EventScript_WaterBerry
+	goto_if_eq VAR_RESULT, NO, BerryTree_EventScript_DontWater
 
 BerryTree_EventScript_DontWater::
 	releaseall
@@ -199,7 +187,7 @@ BerryTree_Text_ItsSoftLoamySoil:
 
 BerryTree_Text_WantToPlant:
 	.string "It's soft, loamy soil.\n"
-	.string "Want to plant a BERRY?$"
+	.string "Want to plant a Berry?$"
 
 BerryTree_Text_PlantedOneBerry:
 	.string "{PLAYER} planted one {STR_VAR_1} in\n"
@@ -237,12 +225,12 @@ BerryTree_Text_PickedTheBerry:
 
 BerryTree_Text_PutAwayBerry:
 	.string "{PLAYER} put away the {STR_VAR_1}\n"
-	.string "in the BAG's BERRIES POCKET.\p"
+	.string "in the Bag's Berries Pocket.\p"
 	.string "The soil returned to its soft and\n"
 	.string "loamy state.$"
 
 BerryTree_Text_BerryPocketFull:
-	.string "The BAG's BERRIES POCKET is full.\p"
+	.string "The Bag's Berries Pocket is full.\p"
 	.string "The {STR_VAR_1} couldn't be taken.$"
 
 BerryTree_Text_BerryLeftUnpicked:
@@ -251,7 +239,7 @@ BerryTree_Text_BerryLeftUnpicked:
 
 BerryTree_Text_WantToWater:
 	.string "Want to water the {STR_VAR_1} with the\n"
-	.string "WAILMER PAIL?$"
+	.string "WAILMER Pail?$"
 
 BerryTree_Text_WateredTheBerry:
 	.string "{PLAYER} watered the {STR_VAR_1}.$"

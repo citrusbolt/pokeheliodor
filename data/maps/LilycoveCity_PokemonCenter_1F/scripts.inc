@@ -13,10 +13,8 @@ LilycoveCity_PokemonCenter_1F_OnTransition:
 @ SetLilycoveLadyGfx returns TRUE if its the Contest Lady
 LilycoveCity_PokemonCenter_1F_EventScript_SetLilycoveLadyGfx::
 	special SetLilycoveLadyGfx
-	compare VAR_RESULT, FALSE
-	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_HideContestLadyMon
-	compare VAR_RESULT, TRUE
-	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_ShowContestLadyMon
+	goto_if_eq VAR_RESULT, FALSE, LilycoveCity_PokemonCenter_1F_EventScript_HideContestLadyMon
+	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_PokemonCenter_1F_EventScript_ShowContestLadyMon
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_HideContestLadyMon::
@@ -96,19 +94,19 @@ LilycoveCity_PokemonCenter_1F_EventScript_ManiacBadTeamGone::
 	end
 
 LilycoveCity_PokemonCenter_1F_Text_HowManyKindsOfPokemon:
-	.string "I wonder how many kinds of POKéMON\n"
+	.string "I wonder how many kinds of Pokémon\n"
 	.string "there are in the world.\p"
 	.string "It'd be great to cross seas and\n"
-	.string "trade POKéMON with people far away.$"
+	.string "trade Pokémon with people far away.$"
 
 LilycoveCity_PokemonCenter_1F_Text_HeardAboutRottenScoundrels:
 	.string "I've been hearing about some rotten\n"
-	.string "scoundrels who steal POKéMON and rip\l"
-	.string "off METEORITES.$"
+	.string "scoundrels who steal Pokémon and rip\l"
+	.string "off Meteorites.$"
 
 LilycoveCity_PokemonCenter_1F_Text_HaventSeenRottenScoundrels:
 	.string "Those rotten scoundrels who steal\n"
-	.string "POKéMON and rip off METEORITES…\p"
+	.string "Pokémon and rip off Meteorites…\p"
 	.string "I haven't seen them around recently.$"
 
 LilycoveCity_PokemonCenter_1F_Text_IllTradeIfYouWant:
@@ -129,5 +127,5 @@ LilycoveCity_PokemonCenter_1F_Text_YouDontWantToThatsOkay:
 	.string "Well, if you don't want to…$"
 
 LilycoveCity_PokemonCenter_1F_Text_AnyPokemonCanBeCute:
-	.string "Any POKéMON can be cute if you raise\n"
+	.string "Any Pokémon can be cute if you raise\n"
 	.string "it with care and kindness.$"

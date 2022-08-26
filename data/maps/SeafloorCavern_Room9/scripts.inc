@@ -14,7 +14,7 @@ SeafloorCavern_Room9_EventScript_ArchieAwakenKyogre::
 	setvar VAR_0x8005, LOCALID_MAXIE
 	setvar VAR_0x8006, LOCALID_GRUNT_1
 	setvar VAR_0x8007, LOCALID_GRUNT_2
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	applymovement OBJ_EVENT_ID_PLAYER, SeafloorCavern_Room9_Movement_Delay32
 	waitmovement 0
@@ -22,12 +22,12 @@ SeafloorCavern_Room9_EventScript_ArchieAwakenKyogre::
 	msgbox SeafloorCavern_Room9_Text_ArchieHoldItRightThere, MSGBOX_DEFAULT
 	closemessage
 	addobject VAR_0x8004
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestLeft
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	applymovement VAR_0x8004, SeafloorCavern_Room9_Movement_ArchieApproachPlayer
 	waitmovement 0
 	msgbox SeafloorCavern_Room9_Text_ArchieSoItWasYou, MSGBOX_DEFAULT
-	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFastestUp
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	msgbox SeafloorCavern_Room9_Text_ArchieBeholdKyogre, MSGBOX_DEFAULT
 	applymovement VAR_0x8004, Common_Movement_FacePlayer
@@ -51,8 +51,8 @@ SeafloorCavern_Room9_EventScript_ArchieAwakenKyogre::
 	playfanfare MUS_AWAKEN_LEGEND
 	playse SE_ORB
 	special DoOrbEffect
-	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFastestUp
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterUp
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	delay 150
 	removeobject LOCALID_KYOGRE_SLEEPING
@@ -86,7 +86,7 @@ SeafloorCavern_Room9_EventScript_ArchieAwakenKyogre::
 	setvar VAR_0x8007, LOCALID_GRUNT_2
 	msgbox SeafloorCavern_Room9_Text_ArchieWhereDidKyogreGo, MSGBOX_DEFAULT
 	playse SE_PC_LOGIN
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestLeft
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	msgbox SeafloorCavern_Room9_Text_ArchieAMessageFromOutside, MSGBOX_DEFAULT
 	closemessage
@@ -96,7 +96,7 @@ SeafloorCavern_Room9_EventScript_ArchieAwakenKyogre::
 	closemessage
 	playse SE_PC_OFF
 	delay 20
-	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFastestDown
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	msgbox SeafloorCavern_Room9_Text_ArchieWhyDidKyogreDisappear, MSGBOX_DEFAULT
 	closemessage
@@ -107,7 +107,7 @@ SeafloorCavern_Room9_EventScript_ArchieAwakenKyogre::
 	applymovement VAR_0x8006, SeafloorCavern_Room9_Movement_MagmaGruntArrive
 	applymovement VAR_0x8005, SeafloorCavern_Room9_Movement_MaxieArrive
 	waitmovement 0
-	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFastestLeft
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	msgbox SeafloorCavern_Room9_Text_MaxieWhatHaveYouWrought, MSGBOX_DEFAULT
 	playse SE_PIN
@@ -145,7 +145,7 @@ SeafloorCavern_Room9_EventScript_ArchieAwakenKyogre::
 	setflag FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_KYOGRE
 	setflag FLAG_HIDE_SEAFLOOR_CAVERN_AQUA_GRUNTS
 	setflag FLAG_HIDE_MAP_NAME_POPUP
-	warp MAP_ROUTE128, 255, 38, 22
+	warp MAP_ROUTE128, 38, 22
 	waitstate
 	releaseall
 	end
@@ -179,7 +179,7 @@ SeafloorCavern_Room9_Movement_ArchieExit:
 	lock_facing_direction
 	walk_down
 	unlock_facing_direction
-	walk_in_place_fastest_right
+	walk_in_place_faster_right
 	step_end
 
 SeafloorCavern_Room9_Movement_KyogreApproach:
@@ -226,21 +226,21 @@ SeafloorCavern_Room9_Movement_Delay32:
 	step_end
 
 SeafloorCavern_Room9_Text_ArchieHoldItRightThere:
-	.string "ARCHIE: Hold it right there.$"
+	.string "Archie: Hold it right there.$"
 
 SeafloorCavern_Room9_Text_ArchieSoItWasYou:
-	.string "ARCHIE: Fufufu…\n"
+	.string "Archie: Fufufu…\n"
 	.string "So it was you, after all.$"
 
 SeafloorCavern_Room9_Text_ArchieBeholdKyogre:
-	.string "ARCHIE: Behold!\p"
+	.string "Archie: Behold!\p"
 	.string "See how beautiful it is, the sleeping\n"
-	.string "form of the ancient POKéMON KYOGRE!\p"
+	.string "form of the ancient Pokémon KYOGRE!\p"
 	.string "I have waited so long for this day to\n"
 	.string "come…$"
 
 SeafloorCavern_Room9_Text_ArchieYouMustDisappear:
-	.string "ARCHIE: It surprises me, how you've\n"
+	.string "Archie: It surprises me, how you've\n"
 	.string "managed to chase me here.\p"
 	.string "But that's all over now.\p"
 	.string "For the realization of my dream,\n"
@@ -251,34 +251,34 @@ SeafloorCavern_Room9_Text_ArchieDefeat:
 	.string "I lost to a mere child like you?!$"
 
 SeafloorCavern_Room9_Text_ArchieWithThisRedOrb:
-	.string "ARCHIE: Fufufu…\p"
+	.string "Archie: Fufufu…\p"
 	.string "I commend you. I must recognize that\n"
 	.string "you are truly gifted.\p"
 	.string "But!\n"
 	.string "I have this in my possession!\p"
-	.string "With this RED ORB, I can make KYOGRE…$"
+	.string "With this Red Orb, I can make KYOGRE…$"
 
 SeafloorCavern_Room9_Text_RedOrbShinesByItself:
-	.string "The RED ORB suddenly began shining\n"
+	.string "The Red Orb suddenly began shining\n"
 	.string "by itself!$"
 
 SeafloorCavern_Room9_Text_ArchieWhereDidKyogreGo:
-	.string "ARCHIE: What?!\p"
+	.string "Archie: What?!\p"
 	.string "I didn't do anything.\n"
-	.string "Why did the RED ORB…\p"
+	.string "Why did the Red Orb…\p"
 	.string "Where did KYOGRE go?$"
 
 SeafloorCavern_Room9_Text_ArchieAMessageFromOutside:
-	.string "ARCHIE: Hm? It's a message from our\n"
+	.string "Archie: Hm? It's a message from our\n"
 	.string "members outside…$"
 
 SeafloorCavern_Room9_Text_ArchieWhatRainingTooHard:
-	.string "ARCHIE: Yes, what is it?\p"
+	.string "Archie: Yes, what is it?\p"
 	.string "Hm…\n"
 	.string "It's raining heavily?\p"
 	.string "Good… That should have happened.\n"
 	.string "That is why we awakened KYOGRE,\l"
-	.string "to realize TEAM AQUA's vision of\l"
+	.string "to realize Team Aqua's vision of\l"
 	.string "expanding the sea.\p"
 	.string "What?!\p"
 	.string "It's raining far harder than we\n"
@@ -289,16 +289,16 @@ SeafloorCavern_Room9_Text_ArchieWhatRainingTooHard:
 	.string "the situation!$"
 
 SeafloorCavern_Room9_Text_ArchieWhyDidKyogreDisappear:
-	.string "ARCHIE: There's something wrong…\p"
-	.string "The RED ORB is supposed to awaken\n"
+	.string "Archie: There's something wrong…\p"
+	.string "The Red Orb is supposed to awaken\n"
 	.string "and control KYOGRE…\p"
 	.string "But… Why?\n"
 	.string "Why did KYOGRE disappear?\p"
 	.string "Why?!$"
 
 SeafloorCavern_Room9_Text_MaxieWhatHaveYouWrought:
-	.string "MAXIE: What have you wrought?\p"
-	.string "ARCHIE… You've finally awoken KYOGRE,\n"
+	.string "Maxie: What have you wrought?\p"
+	.string "Archie… You've finally awoken KYOGRE,\n"
 	.string "haven't you?\p"
 	.string "What will happen to the world if this\n"
 	.string "downpour continues for all eternity?\p"
@@ -306,21 +306,21 @@ SeafloorCavern_Room9_Text_MaxieWhatHaveYouWrought:
 	.string "the deepening sea…$"
 
 SeafloorCavern_Room9_Text_ArchieDontGetAllHighAndMighty:
-	.string "ARCHIE: W-what?!\n"
+	.string "Archie: W-what?!\n"
 	.string "Don't get all high and mighty with me!\p"
-	.string "Wasn't it you, TEAM MAGMA, that\n"
+	.string "Wasn't it you, Team Magma, that\n"
 	.string "infuriated GROUDON?\p"
-	.string "So long as I have this RED ORB,\n"
+	.string "So long as I have this Red Orb,\n"
 	.string "I should be able to control KYOGRE…\p"
 	.string "I should be able to control it…$"
 
 SeafloorCavern_Room9_Text_MaxieWeDontHaveTimeToArgue:
-	.string "MAXIE: We don't have the time to\n"
+	.string "Maxie: We don't have the time to\n"
 	.string "argue about it here!\p"
 	.string "Get outside and see for yourself!\p"
 	.string "See if what you've wrought is the\n"
 	.string "world that we desired!$"
 
 SeafloorCavern_Room9_Text_MaxieComeOnPlayer:
-	.string "MAXIE: {PLAYER}, come on, you have\n"
+	.string "Maxie: {PLAYER}, come on, you have\n"
 	.string "to get out of here, too!$"

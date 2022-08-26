@@ -3,6 +3,7 @@
 *.i
 *.elf
 *.gba
+!data/*.gba
 *.sgm
 *.sa1
 *.ss[0-9]
@@ -34,4 +35,8 @@ porymap.project.cfg
 *.a
 .fuse_hidden*
 *.sna
-poryscript
+*.diff
+*.sym
+*.js
+*.bps
+data/mb_berry_fix.gba

@@ -1,0 +1,9 @@
+gIntrTable
+gHeldKeys
+gNewKeys
+gIntrVector
+gUpdateSuccessful
+gUnusedVar
+gUnusedBuffer
+gMainCallbackState
+gGameVersion

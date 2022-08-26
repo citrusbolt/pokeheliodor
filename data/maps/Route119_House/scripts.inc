@@ -9,17 +9,17 @@ Route119_House_EventScript_Wingull::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_WINGULL, 0
+	playmoncry SPECIES_WINGULL, CRY_MODE_NORMAL
 	msgbox Route119_House_Text_Wingull, MSGBOX_DEFAULT
 	waitmoncry
 	release
 	end
 
 Route119_House_Text_RumorAboutCaveOfOrigin:
-	.string "I heard about a cave called the CAVE\n"
-	.string "OF ORIGIN.\p"
+	.string "I heard about a cave called the Cave\n"
+	.string "of Origin.\p"
 	.string "People rumor that the spirits of\n"
-	.string "POKéMON are revived there. Could\l"
+	.string "Pokémon are revived there. Could\l"
 	.string "something like that really happen?$"
 
 Route119_House_Text_Wingull:

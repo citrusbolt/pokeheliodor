@@ -15,45 +15,42 @@ Route111_MapScripts::
 
 Route111_OnLoad:
 	call_if_unset FLAG_REGI_DOORS_OPENED, Route111_EventScript_CloseDesertRuins
-	compare VAR_MIRAGE_TOWER_STATE, 1
-	call_if_eq Route111_EventScript_ShowTemporaryMirageTower
+	call_if_eq VAR_MIRAGE_TOWER_STATE, 1, Route111_EventScript_ShowTemporaryMirageTower
 	end
 
 Route111_EventScript_CloseDesertRuins::
-	setmetatile 29, 86, METATILE_General_RockWall_RockBase, 1
-	setmetatile 29, 87, METATILE_General_RockWall_SandBase, 1
+	setmetatile 29, 86, METATILE_General_RockWall_RockBase, TRUE
+	setmetatile 29, 87, METATILE_General_RockWall_SandBase, TRUE
 	return
 
 @ Show Mirage Tower just prior to disintegration. Mirage Tower is otherwise handled by the map layout
 Route111_EventScript_ShowTemporaryMirageTower::
-	setmetatile 18, 53, METATILE_Mauville_MirageTower_Tile0, 0
-	setmetatile 19, 53, METATILE_Mauville_MirageTower_Tile1, 0
-	setmetatile 20, 53, METATILE_Mauville_MirageTower_Tile2, 0
-	setmetatile 18, 54, METATILE_Mauville_MirageTower_Tile3, 0
-	setmetatile 19, 54, METATILE_Mauville_MirageTower_Tile4, 0
-	setmetatile 20, 54, METATILE_Mauville_MirageTower_Tile5, 0
-	setmetatile 18, 55, METATILE_Mauville_MirageTower_Tile6, 0
-	setmetatile 19, 55, METATILE_Mauville_MirageTower_Tile7, 0
-	setmetatile 20, 55, METATILE_Mauville_MirageTower_Tile8, 0
-	setmetatile 18, 56, METATILE_Mauville_MirageTower_Tile9, 0
-	setmetatile 19, 56, METATILE_Mauville_MirageTower_TileA, 0
-	setmetatile 20, 56, METATILE_Mauville_MirageTower_TileB, 0
-	setmetatile 18, 57, METATILE_Mauville_MirageTower_TileC, 0
-	setmetatile 19, 57, METATILE_Mauville_MirageTower_TileD, 0
-	setmetatile 20, 57, METATILE_Mauville_MirageTower_TileE, 0
-	setmetatile 18, 58, METATILE_Mauville_MirageTower_TileF, 0
-	setmetatile 19, 58, METATILE_Mauville_MirageTower_Tile10, 0
-	setmetatile 20, 58, METATILE_Mauville_MirageTower_Tile11, 0
+	setmetatile 18, 53, METATILE_Mauville_MirageTower_Tile0, FALSE
+	setmetatile 19, 53, METATILE_Mauville_MirageTower_Tile1, FALSE
+	setmetatile 20, 53, METATILE_Mauville_MirageTower_Tile2, FALSE
+	setmetatile 18, 54, METATILE_Mauville_MirageTower_Tile3, FALSE
+	setmetatile 19, 54, METATILE_Mauville_MirageTower_Tile4, FALSE
+	setmetatile 20, 54, METATILE_Mauville_MirageTower_Tile5, FALSE
+	setmetatile 18, 55, METATILE_Mauville_MirageTower_Tile6, FALSE
+	setmetatile 19, 55, METATILE_Mauville_MirageTower_Tile7, FALSE
+	setmetatile 20, 55, METATILE_Mauville_MirageTower_Tile8, FALSE
+	setmetatile 18, 56, METATILE_Mauville_MirageTower_Tile9, FALSE
+	setmetatile 19, 56, METATILE_Mauville_MirageTower_TileA, FALSE
+	setmetatile 20, 56, METATILE_Mauville_MirageTower_TileB, FALSE
+	setmetatile 18, 57, METATILE_Mauville_MirageTower_TileC, FALSE
+	setmetatile 19, 57, METATILE_Mauville_MirageTower_TileD, FALSE
+	setmetatile 20, 57, METATILE_Mauville_MirageTower_TileE, FALSE
+	setmetatile 18, 58, METATILE_Mauville_MirageTower_TileF, FALSE
+	setmetatile 19, 58, METATILE_Mauville_MirageTower_Tile10, FALSE
+	setmetatile 20, 58, METATILE_Mauville_MirageTower_Tile11, FALSE
 	return
 
 Route111_OnTransition:
 	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
 	special SetMirageTowerVisibility
 	call_if_unset FLAG_MIRAGE_TOWER_VISIBLE, Route111_EventScript_SetLayoutNoMirageTower
-	compare VAR_MIRAGE_TOWER_STATE, 1
-	call_if_eq Route111_EventScript_SetFallingPlayerGfx
-	compare VAR_MIRAGE_TOWER_STATE, 2
-	call_if_eq Route111_EventScript_SetMirageTowerGone
+	call_if_eq VAR_MIRAGE_TOWER_STATE, 1, Route111_EventScript_SetFallingPlayerGfx
+	call_if_eq VAR_MIRAGE_TOWER_STATE, 2, Route111_EventScript_SetMirageTowerGone
 	call Route111_EventScript_CheckSetSandstorm
 	call GabbyAndTy_EventScript_UpdateLocation
 	goto_if_not_defeated TRAINER_VICKY, Route111_EventScript_SetWinstratesNotDefeated
@@ -61,10 +58,8 @@ Route111_OnTransition:
 
 Route111_EventScript_SetFallingPlayerGfx::
 	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq Route111_EventScript_SetFallingPlayerGfxMale
-	compare VAR_RESULT, FEMALE
-	goto_if_eq Route111_EventScript_SetFallingPlayerGfxFemale
+	goto_if_eq VAR_RESULT, MALE, Route111_EventScript_SetFallingPlayerGfxMale
+	goto_if_eq VAR_RESULT, FEMALE, Route111_EventScript_SetFallingPlayerGfxFemale
 	return
 
 Route111_EventScript_SetFallingPlayerGfxMale::
@@ -77,16 +72,11 @@ Route111_EventScript_SetFallingPlayerGfxFemale::
 
 Route111_EventScript_CheckSetSandstorm::
 	getplayerxy VAR_TEMP_0, VAR_TEMP_1
-	compare VAR_TEMP_1, 34
-	goto_if_lt Route111_EventScript_EndCheckSetSandstorm
-	compare VAR_TEMP_1, 107
-	goto_if_gt Route111_EventScript_EndCheckSetSandstorm
-	compare VAR_TEMP_1, 72
-	goto_if_gt Route111_EventScript_SetSandstorm
-	compare VAR_TEMP_0, 2000
-	goto_if_gt Route111_EventScript_EndCheckSetSandstorm
-	compare VAR_TEMP_0, 8
-	goto_if_lt Route111_EventScript_EndCheckSetSandstorm
+	goto_if_lt VAR_TEMP_1, 34, Route111_EventScript_EndCheckSetSandstorm
+	goto_if_gt VAR_TEMP_1, 107, Route111_EventScript_EndCheckSetSandstorm
+	goto_if_gt VAR_TEMP_1, 72, Route111_EventScript_SetSandstorm
+	goto_if_gt VAR_TEMP_0, 2000, Route111_EventScript_EndCheckSetSandstorm
+	goto_if_lt VAR_TEMP_0, 8, Route111_EventScript_EndCheckSetSandstorm
 Route111_EventScript_SetSandstorm::
 	setweather WEATHER_SANDSTORM
 Route111_EventScript_EndCheckSetSandstorm::
@@ -143,8 +133,7 @@ Route111_EventScript_MirageTowerDisappear::
 	setvar VAR_MIRAGE_TOWER_STATE, 2
 	clearflag FLAG_HIDE_DESERT_UNDERPASS_FOSSIL
 	checkitem ITEM_SAPPHIRE, 1
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route111_EventScript_RubyDisappeared
+	goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_RubyDisappeared
 	msgbox Route111_Text_SapphireDisappeared, MSGBOX_DEFAULT
 	releaseall
 	end
@@ -172,8 +161,7 @@ Route111_EventScript_Girl::
 	goto_if_set FLAG_DAILY_ROUTE_111_RECEIVED_BERRY, Route111_EventScript_ReceivedBerry
 	msgbox Route111_Text_WateredPlantsEveryDayTakeBerry, MSGBOX_DEFAULT
 	giveitem ITEM_RAZZ_BERRY
-	compare VAR_RESULT, FALSE
-	goto_if_eq Common_EventScript_ShowBagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_DAILY_ROUTE_111_RECEIVED_BERRY
 	special GetPlayerBigGuyGirlString
 	msgbox Route111_Text_GoingToTryToMakeDifferentColorBerries, MSGBOX_DEFAULT
@@ -212,9 +200,8 @@ Route111_EventScript_ViciousSandstormTriggerRight::
 	end
 
 Route111_EventScript_ViciousSandstormTrigger::
-	checkitem ITEM_GO_GOGGLES, 1
-	compare VAR_RESULT, FALSE
-	goto_if_eq Route111_EventScript_PreventRouteAccess
+	checkitem ITEM_GO_GOGGLES
+	goto_if_eq VAR_RESULT, FALSE, Route111_EventScript_PreventRouteAccess
 	setvar VAR_TEMP_3, 1
 	releaseall
 	end
@@ -222,14 +209,10 @@ Route111_EventScript_ViciousSandstormTrigger::
 Route111_EventScript_PreventRouteAccess::
 	msgbox gText_SandstormIsVicious, MSGBOX_DEFAULT
 	closemessage
-	compare VAR_0x8004, 0
-	call_if_eq Route111_EventScript_PushUpFromRoute
-	compare VAR_0x8004, 1
-	call_if_eq Route111_EventScript_PushDownFromRoute
-	compare VAR_0x8004, 2
-	call_if_eq Route111_EventScript_PushLeftFromRoute
-	compare VAR_0x8004, 3
-	call_if_eq Route111_EventScript_PushRightFromRoute
+	call_if_eq VAR_0x8004, 0, Route111_EventScript_PushUpFromRoute
+	call_if_eq VAR_0x8004, 1, Route111_EventScript_PushDownFromRoute
+	call_if_eq VAR_0x8004, 2, Route111_EventScript_PushLeftFromRoute
+	call_if_eq VAR_0x8004, 3, Route111_EventScript_PushRightFromRoute
 	releaseall
 	end
 
@@ -287,8 +270,7 @@ Route111_EventScript_Victor::
 	faceplayer
 	setflag FLAG_LANDMARK_WINSTRATE_FAMILY
 	msgbox Route111_Text_BattleOurFamily, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq Route111_EventScript_BattleWinstrates
+	goto_if_eq VAR_RESULT, YES, Route111_EventScript_BattleWinstrates
 	msgbox Route111_Text_IsThatSo, MSGBOX_DEFAULT
 	release
 	end
@@ -296,7 +278,7 @@ Route111_EventScript_Victor::
 Route111_EventScript_BattleWinstrates::
 	msgbox Route111_Text_VictorIntro, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_VICTOR, Route111_Text_VictorDefeat
-	applymovement LOCALID_VICTOR, Common_Movement_WalkInPlaceFastestUp
+	applymovement LOCALID_VICTOR, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	call Route111_EventScript_OpenWinstrateDoor
 	msgbox Route111_Text_VictorPostBattle, MSGBOX_DEFAULT
@@ -314,7 +296,7 @@ Route111_EventScript_BattleWinstrates::
 	call Route111_EventScript_CloseWinstrateDoor
 	msgbox Route111_Text_VictoriaIntro, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_VICTORIA, Route111_Text_VictoriaDefeat
-	applymovement LOCALID_VICTORIA, Common_Movement_WalkInPlaceFastestUp
+	applymovement LOCALID_VICTORIA, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	call Route111_EventScript_OpenWinstrateDoor
 	msgbox Route111_Text_VictoriaPostBattle, MSGBOX_DEFAULT
@@ -332,7 +314,7 @@ Route111_EventScript_BattleWinstrates::
 	call Route111_EventScript_CloseWinstrateDoor
 	msgbox Route111_Text_ViviIntro, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_VIVI, Route111_Text_ViviDefeat
-	applymovement LOCALID_VIVI, Common_Movement_WalkInPlaceFastestUp
+	applymovement LOCALID_VIVI, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	call Route111_EventScript_OpenWinstrateDoor
 	msgbox Route111_Text_ViviPostBattle, MSGBOX_DEFAULT
@@ -352,7 +334,7 @@ Route111_EventScript_BattleWinstrates::
 	trainerbattle_no_intro TRAINER_VICKY, Route111_Text_VickyDefeat
 	msgbox Route111_Text_VickyPostBattle, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_VICKY, Common_Movement_WalkInPlaceFastestUp
+	applymovement LOCALID_VICKY, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	call Route111_EventScript_OpenWinstrateDoor
 	applymovement LOCALID_VICKY, Route111_Movement_WinstrateEnterHouse
@@ -373,7 +355,7 @@ Route111_EventScript_CloseWinstrateDoor::
 	return
 
 Route111_Movement_WinstrateEnterHouse:
-	walk_in_place_fastest_up
+	walk_in_place_faster_up
 	walk_up
 	step_end
 
@@ -422,17 +404,15 @@ Route111_EventScript_Man2::
 Route111_EventScript_Hiker::
 	lock
 	faceplayer
-	compare VAR_MIRAGE_TOWER_STATE, 3
-	goto_if_eq Route111_EventScript_HikerMirageTowerGone
-	compare VAR_MIRAGE_TOWER_STATE, 2
-	goto_if_eq Route111_EventScript_HikerMirageTowerDisintegrated
+	goto_if_eq VAR_MIRAGE_TOWER_STATE, 3, Route111_EventScript_HikerMirageTowerGone
+	goto_if_eq VAR_MIRAGE_TOWER_STATE, 2, Route111_EventScript_HikerMirageTowerDisintegrated
 	goto_if_set FLAG_MIRAGE_TOWER_VISIBLE, Route111_EventScript_HikerMirageTowerVisible
-	goto_if_unset FLAG_RECEIVED_UNOWN, Route111_EventScript_GiveUnown
 	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
 	release
 	end
 
 Route111_EventScript_HikerMirageTowerGone::
+	goto_if_unset FLAG_RECEIVED_UNOWN, Route111_EventScript_GiveUnown
 	msgbox Route111_Text_MirageTowerHasntBeenSeenSince, MSGBOX_DEFAULT
 	release
 	end
@@ -481,8 +461,7 @@ Route111_EventScript_Becky::
 Route111_EventScript_Dusty::
 	trainerbattle_single TRAINER_DUSTY_1, Route111_Text_DustyIntro, Route111_Text_DustyDefeat, Route111_EventScript_RegisterDusty
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route111_EventScript_RematchDusty
+	goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_RematchDusty
 	msgbox Route111_Text_DustyPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -518,8 +497,7 @@ Route111_EventScript_Daisuke::
 Route111_EventScript_Wilton::
 	trainerbattle_single TRAINER_WILTON_1, Route111_Text_WiltonIntro, Route111_Text_WiltonDefeat, Route111_EventScript_RegisterWilton
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route111_EventScript_RematchWilton
+	goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_RematchWilton
 	msgbox Route111_Text_WiltonPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -540,8 +518,7 @@ Route111_EventScript_RematchWilton::
 Route111_EventScript_Brooke::
 	trainerbattle_single TRAINER_BROOKE_1, Route111_Text_BrookeIntro, Route111_Text_BrookeDefeat, Route111_EventScript_RegisterBrooke
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route111_EventScript_RematchBrooke
+	goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_RematchBrooke
 	msgbox Route111_Text_BrookePostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -601,23 +578,21 @@ Route111_EventScript_TrainerHillSign::
 Route111_EventScript_GiveUnown::
 	goto_if_unset FLAG_UNOWN_RELEASED, Route111_EventScript_GiveUnownNotYet
 	msgbox Route111_Text_GiveUnown, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route111_EventScript_DeclineUnown
+	goto_if_eq VAR_RESULT, NO, Route111_EventScript_DeclineUnown
 	setvar VAR_TEMP_1, SPECIES_UNOWN
 	giveunown 25, 0
-	compare VAR_RESULT, 0
-	goto_if_eq Route111_EventScript_ReceiveUnownParty
-	compare VAR_RESULT, 1
-	goto_if_eq Route111_EventScript_ReceiveUnownPC
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Route111_EventScript_ReceiveUnownParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Route111_EventScript_ReceiveUnownPC
 	goto Common_EventScript_NoMoreRoomForPokemon
 	end
 
 Route111_EventScript_ReceiveUnownParty::
 	setflag FLAG_RECEIVED_UNOWN
 	call Route111_EventScript_ReceivedUnownFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_Done
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route111_EventScript_Done
+	goto_if_eq VAR_RESULT, NO, Route111_EventScript_Done
 	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
 	msgbox Route111_Text_GaveUnown
@@ -627,9 +602,10 @@ Route111_EventScript_ReceiveUnownParty::
 Route111_EventScript_ReceiveUnownPC::
 	setflag FLAG_RECEIVED_UNOWN
 	call Route111_EventScript_ReceivedUnownFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_SendUnownToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route111_EventScript_SendUnownToPC
+	goto_if_eq VAR_RESULT, NO,Route111_EventScript_SendUnownToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto Route111_EventScript_SendUnownToPC
 	end
@@ -649,7 +625,7 @@ Route111_EventScript_ReceivedUnownFanfare::
 	return
 
 Route111_EventScript_GiveUnownNotYet::
-	msgbox Route111_Text_ShouldBeMirageTowerAroundHere, MSGBOX_DEFAULT
+	msgbox Route111_Text_MirageTowerHasntBeenSeenSince, MSGBOX_DEFAULT
 	release
 	end
 
@@ -667,7 +643,7 @@ Route111_Text_BattleOurFamily:
 	.string "Hello! I take it you're a traveler.\p"
 	.string "How's this? What do you say to taking\n"
 	.string "on our family of four in a series of\l"
-	.string "POKéMON battles?$"
+	.string "Pokémon battles?$"
 
 Route111_Text_IsThatSo:
 	.string "Is that so?\n"
@@ -682,11 +658,11 @@ Route111_Text_VictorDefeat:
 
 Route111_Text_VictorPostBattle:
 	.string "Hey, all!\n"
-	.string "I've found a pretty strong TRAINER!$"
+	.string "I've found a pretty strong Trainer!$"
 
 Route111_Text_VictoriaIntro:
 	.string "Oh, my goodness! Aren't you young?\p"
-	.string "You must be quite the TRAINER to beat\n"
+	.string "You must be quite the Trainer to beat\n"
 	.string "my husband, though.\p"
 	.string "It's my turn to battle now!$"
 
@@ -695,7 +671,7 @@ Route111_Text_VictoriaDefeat:
 	.string "I can't get over how strong you are!$"
 
 Route111_Text_VictoriaPostBattle:
-	.string "There's a strong TRAINER here!\n"
+	.string "There's a strong Trainer here!\n"
 	.string "This one's really strong!$"
 
 Route111_Text_ViviIntro:
@@ -725,52 +701,52 @@ Route111_Text_VickyPostBattle:
 	.string "visit with us awhile.$"
 
 Route111_Text_ToughToKeepWinningUpTheRanks:
-	.string "If you don't raise your POKéMON some\n"
+	.string "If you don't raise your Pokémon some\n"
 	.string "more, it could be tough to keep winning\l"
 	.string "up through the ranks.\p"
-	.string "I've heard the POKéMON LEAGUE's\n"
-	.string "ELITE FOUR are far stronger than\l"
-	.string "any GYM LEADER.$"
+	.string "I've heard the Pokémon League's\n"
+	.string "Elite Four are far stronger than\l"
+	.string "any Gym Leader.$"
 
 Route111_Text_WinstrateFamilyDestroyedMe:
-	.string "I challenged the WINSTRATE family,\n"
+	.string "I challenged the Winstrate family,\n"
 	.string "but four matches in a row is tough\l"
 	.string "going… They destroyed me.$"
 
 Route111_Text_RouteSignMauville:
-	.string "ROUTE 111\n"
-	.string "{DOWN_ARROW} MAUVILLE CITY$"
+	.string "Route 111\n"
+	.string "{DOWN_ARROW} Mauville City$"
 
 Route111_Text_WinstrateHouseSign:
 	.string "“Our family's hearts beat as one!”\n"
-	.string "THE WINSTRATE'S HOUSE$"
+	.string "The Winstrate's House$"
 
 Route111_Text_RouteSign112:
-	.string "ROUTE 111\n"
-	.string "{LEFT_ARROW} ROUTE 112$"
+	.string "Route 111\n"
+	.string "{LEFT_ARROW} Route 112$"
 
 Route111_Text_RouteSign113:
-	.string "ROUTE 111\n"
-	.string "{LEFT_ARROW} ROUTE 113$"
+	.string "Route 111\n"
+	.string "{LEFT_ARROW} Route 113$"
 
 Route111_Text_OldLadysRestStopSign:
-	.string "OLD LADY'S REST STOP\n"
+	.string "Old Lady's Rest Stop\n"
 	.string "“Come in and rest your tired bones.”$"
 
 Route111_Text_TrainerTipsSpAtkSpDef:
-	.string "TRAINER TIPS\p"
-	.string "One of the indicators of a POKéMON's\n"
-	.string "powerfulness is SP. ATK. It stands for\l"
-	.string "“SPECIAL ATTACK.”\p"
-	.string "Likewise, SP. DEF stands for “SPECIAL\n"
-	.string "DEFENSE.”$"
+	.string "Trainer Tips\p"
+	.string "One of the indicators of a Pokémon's\n"
+	.string "powerfulness is Sp. Atk. It stands for\l"
+	.string "“Special Attack.”\p"
+	.string "Likewise, Sp. Def stands for “Special\n"
+	.string "Defense.”$"
 
 Route111_Text_ShouldBeMirageTowerAroundHere:
 	.string "There should be a tower made of sand\n"
 	.string "around here somewhere.\p"
 	.string "But for some reason, it can be seen\n"
 	.string "sometimes, and sometimes not.\p"
-	.string "That's why I call it the MIRAGE TOWER.$"
+	.string "That's why I call it the Mirage Tower.$"
 
 Route111_Text_MirageTowerClearlyVisible:
 	.string "I see it!\n"
@@ -794,37 +770,37 @@ Route111_Text_MirageTowerHasntBeenSeenSince:
 	.string "Since I spoke to you, the tower of sand\n"
 	.string "hasn't been seen.\p"
 	.string "Perhaps it really was\n"
-	.string "the MIRAGE TOWER…$"
+	.string "the Mirage Tower…$"
 
 Route111_Text_SapphireDisappeared:
-	.string "The SAPPHIRE disappeared into\n"
+	.string "The Sapphire disappeared into\n"
 	.string "the sand…$"
 
 Route111_Text_RubyDisappeared:
-	.string "The RUBY disappeared into\n"
+	.string "The Ruby disappeared into\n"
 	.string "the sand…$"
 
 Route111_Text_MauvilleUncleToldMeToTakeRockSmash:
 	.string "Oh, no!\p"
-	.string "My uncle in MAUVILLE told me to take\n"
-	.string "ROCK SMASH with me if I was going to\l"
-	.string "ROUTE 111!\p"
+	.string "My uncle in Mauville told me to take\n"
+	.string "Rock Smash with me if I was going to\l"
+	.string "Route 111!\p"
 	.string "My uncle? He lives across from\n"
-	.string "the bike shop in MAUVILLE.$"
+	.string "the bike shop in Mauville.$"
 
 Route111_Text_TrainerHillSign:
-	.string "{RIGHT_ARROW} TRAINER HILL ENTRANCE\p"
+	.string "{RIGHT_ARROW} Trainer Hill Entrance\p"
 	.string "“Scale the heights, you hot-blooded\n"
-	.string "TRAINERS!”$"
+	.string "Trainers!”$"
 
 Route111_Text_GiveUnown:
-	.string "I found this strange POKéMON\n"
+	.string "I found this strange Pokémon\n"
 	.string "wandering in the desert.\p"
 	.string "Truthfully, I don't really know\n"
 	.string "how to care for it.\p"
 	.string "You look like a strong\n"
 	.string "trainer, though!\p"
-	.string "Can this POKéMON go with you?$"
+	.string "Can this Pokémon go with you?$"
 
 Route111_Text_GaveUnown:
 	.string "I know it will be happy with you!\p"

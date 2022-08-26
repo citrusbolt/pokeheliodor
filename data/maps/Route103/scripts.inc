@@ -15,17 +15,15 @@ Route103_OnLoad:
 	end
 
 Route103_EventScript_OpenAlteringCave::
-	setmetatile 45, 5, METATILE_General_CaveEntrance_Top, 1
-	setmetatile 45, 6, METATILE_General_CaveEntrance_Bottom, 0
+	setmetatile 45, 5, METATILE_General_CaveEntrance_Top, TRUE
+	setmetatile 45, 6, METATILE_General_CaveEntrance_Bottom, FALSE
 	return
 
 Route103_EventScript_Rival::
 	lockall
 	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq Route103_EventScript_RivalMay
-	compare VAR_RESULT, FEMALE
-	goto_if_eq Route103_EventScript_RivalBrendan
+	goto_if_eq VAR_RESULT, MALE, Route103_EventScript_RivalMay
+	goto_if_eq VAR_RESULT, FEMALE, Route103_EventScript_RivalBrendan
 	end
 
 Route103_EventScript_RivalMay::
@@ -169,9 +167,9 @@ Route103_EventScript_RivalExitFacingNorth2:
 Route103_Movement_WatchRivalExitFacingNorth:
 	delay_16
 	delay_4
-	walk_in_place_fastest_left
+	walk_in_place_faster_left
 	delay_16
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 Route103_Movement_RivalExit1:
@@ -188,7 +186,7 @@ Route103_Movement_RivalExit2:
 
 Route103_Movement_WatchRivalExitFacingEastOrWest:
 	delay_16
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	step_end
 
 Route103_EventScript_Boy::
@@ -211,8 +209,7 @@ Route103_EventScript_Daisy::
 Route103_EventScript_Amy::
 	trainerbattle_double TRAINER_AMY_AND_LIV_1, Route103_Text_AmyIntro, Route103_Text_AmyDefeated, Route103_Text_AmyNotEnoughPokemon, Route102_EventScript_AmyRegisterMatchCallAfterBattle
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route102_EventScript_AmyRematch
+	goto_if_eq VAR_RESULT, TRUE, Route102_EventScript_AmyRematch
 	msgbox Route103_Text_AmyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -230,8 +227,7 @@ Route102_EventScript_AmyRematch::
 Route103_EventScript_Liv::
 	trainerbattle_double TRAINER_AMY_AND_LIV_1, Route103_Text_LivIntro, Route103_Text_LivDefeated, Route103_Text_LivNotEnoughPokemon, Route102_EventScript_LivRegisterMatchCallAfterBattle
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route102_EventScript_LivRematch
+	goto_if_eq VAR_RESULT, TRUE, Route102_EventScript_LivRematch
 	msgbox Route103_Text_LivPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -254,8 +250,7 @@ Route103_EventScript_Andrew::
 Route103_EventScript_Miguel::
 	trainerbattle_single TRAINER_MIGUEL_1, Route103_Text_MiguelIntro, Route103_Text_MiguelDefeated, Route102_EventScript_MiguelRegisterMatchCallAfterBattle
 	specialvar VAR_RESULT, ShouldTryRematchBattle
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route103_EventScript_MiguelRematch
+	goto_if_eq VAR_RESULT, TRUE, Route103_EventScript_MiguelRematch
 	msgbox Route103_Text_MiguelPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -294,67 +289,67 @@ Route103_EventScript_Isabelle::
 	end
 
 Route103_Text_MayRoute103Pokemon:
-	.string "MAY: Let's see… The POKéMON found\n"
-	.string "on ROUTE 103 include…$"
+	.string "May: Let's see… The Pokémon found\n"
+	.string "on Route 103 include…$"
 
 Route103_Text_MayLetsBattle:
 	.string "Oh, hi, {PLAYER}{KUN}!\p"
 	.string "…Oh, I see, my dad gave you\n"
-	.string "a POKéMON as a gift.\p"
+	.string "a Pokémon as a gift.\p"
 	.string "Since we're here, let's have a quick\n"
 	.string "battle!\p"
 	.string "I'll give you a taste of what being\n"
-	.string "a TRAINER is like.$"
+	.string "a Trainer is like.$"
 
 Route103_Text_MayDefeated:
 	.string "Wow! That's great!\n"
 	.string "{PLAYER}{KUN}, you're pretty good!$"
 
 Route103_Text_MayTimeToHeadBack:
-	.string "MAY: I think I know why my dad has\n"
+	.string "May: I think I know why my dad has\n"
 	.string "an eye out for you now.\p"
-	.string "I mean, you just got that POKéMON,\n"
+	.string "I mean, you just got that Pokémon,\n"
 	.string "but it already likes you.\p"
 	.string "You might be able to befriend any\n"
-	.string "kind of POKéMON easily.\p"
+	.string "kind of Pokémon easily.\p"
 	.string "Well, it's time to head back to\n"
-	.string "the LAB.$"
+	.string "the Lab.$"
 
 Route103_Text_BrendanRoute103Pokemon:
-	.string "BRENDAN: Okay, so it's this one and\n"
-	.string "that one that live on ROUTE 103…$"
+	.string "Brendan: Okay, so it's this one and\n"
+	.string "that one that live on Route 103…$"
 
 Route103_Text_BrendanLetsBattle:
 	.string "Hey, it's {PLAYER}!\p"
-	.string "…Oh, yeah, Dad gave you a POKéMON.\p"
+	.string "…Oh, yeah, Dad gave you a Pokémon.\p"
 	.string "Since we're here, how about a little\n"
 	.string "battle?\p"
-	.string "I'll teach you what being a TRAINER's\n"
+	.string "I'll teach you what being a Trainer's\n"
 	.string "about!$"
 
 Route103_Text_BrendanDefeated:
 	.string "Huh, {PLAYER}, you're not too shabby.$"
 
 Route103_Text_BrendanTimeToHeadBack:
-	.string "BRENDAN: I think I get it.\n"
+	.string "Brendan: I think I get it.\n"
 	.string "I think I know why my dad has his eye\l"
 	.string "out for you now.\p"
-	.string "Look, your POKéMON already likes you,\n"
+	.string "Look, your Pokémon already likes you,\n"
 	.string "even though you just got it.\p"
 	.string "{PLAYER}, I get the feeling that you\n"
-	.string "could befriend any POKéMON with ease.\p"
-	.string "We should head back to the LAB.$"
+	.string "could befriend any Pokémon with ease.\p"
+	.string "We should head back to the Lab.$"
 
 Route103_Text_ShouldHaveBroughtPotion:
-	.string "My POKéMON is staggeringly tired…\n"
-	.string "I should have brought a POTION…$"
+	.string "My Pokémon is staggeringly tired…\n"
+	.string "I should have brought a Potion…$"
 
 Route103_Text_ShortcutToOldale:
 	.string "If you cross the sea from here,\n"
-	.string "it'll be a shortcut to OLDALE TOWN.\p"
+	.string "it'll be a shortcut to Oldale Town.\p"
 	.string "Fufufu, that's useful, isn't it?$"
 
 Route103_Text_RouteSign:
-	.string "ROUTE 103\n"
-	.string "{DOWN_ARROW} OLDALE TOWN$"
+	.string "Route 103\n"
+	.string "{DOWN_ARROW} Oldale Town$"
 

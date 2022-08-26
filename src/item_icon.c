@@ -209,10 +209,12 @@ u8 AddBallIconSprite(u16 tilesTag, u16 paletteTag, u8 ballId)
         struct CompressedSpritePalette spritePalette;
         struct SpriteTemplate *spriteTemplate;
 
+		if (ballId > ARRAY_COUNT(gBallIconTable) - 1)
+			ballId = 0;
+
         LZDecompressWram(gBallIconTable[ballId][0], gItemIconDecompressionBuffer);
 		
 		CpuCopy16(gItemIconDecompressionBuffer, gItemIcon4x4Buffer, 0x100);
-		//CpuCopy16(gItemIconDecompressionBuffer + 96, gItemIcon4x4Buffer + 128, 0x60);
 		
         spriteSheet.data = gItemIcon4x4Buffer;
         spriteSheet.size = 0x100;

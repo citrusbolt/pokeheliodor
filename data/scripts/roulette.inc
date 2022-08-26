@@ -1,23 +1,19 @@
 Roulette_EventScript_Table1::
-	checkitem ITEM_COIN_CASE, 1
-	compare VAR_RESULT, FALSE
-	goto_if_eq MauvilleCity_GameCorner_EventScript_NoCoinCase
+	checkitem ITEM_COIN_CASE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 0
-	getpricereduction POKENEWS_GAME_CORNER
-	compare VAR_RESULT, FALSE
-	goto_if_eq Roulette_EventScript_Play
+	getpokenewsactive POKENEWS_GAME_CORNER
+	goto_if_eq VAR_RESULT, FALSE, Roulette_EventScript_Play
 	addvar VAR_0x8004, ROULETTE_SPECIAL_RATE
 	goto Roulette_EventScript_Play
 	end
 
 Roulette_EventScript_Table2::
-	checkitem ITEM_COIN_CASE, 1
-	compare VAR_RESULT, FALSE
-	goto_if_eq MauvilleCity_GameCorner_EventScript_NoCoinCase
+	checkitem ITEM_COIN_CASE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 1
-	getpricereduction POKENEWS_GAME_CORNER
-	compare VAR_RESULT, FALSE
-	goto_if_eq Roulette_EventScript_Play
+	getpokenewsactive POKENEWS_GAME_CORNER
+	goto_if_eq VAR_RESULT, FALSE, Roulette_EventScript_Play
 	addvar VAR_0x8004, ROULETTE_SPECIAL_RATE
 	goto Roulette_EventScript_Play
 	end
@@ -32,7 +28,7 @@ Roulette_Text_PlayMinimumWagerIsX::
 	.string "is {STR_VAR_1}. Do you want to play?$"
 
 Roulette_Text_NotEnoughCoins::
-	.string "You don't have enough COINS.$"
+	.string "You don't have enough Coins.$"
 
 Roulette_Text_SpecialRateTable::
 	.string "Special rate table right now!$"
@@ -51,21 +47,21 @@ Roulette_Text_NothingDoing::
 	.string "Nothing doing!$"
 
 Roulette_Text_YouveWonXCoins::
-	.string "You've won {STR_VAR_1} COINS!$"
+	.string "You've won {STR_VAR_1} Coins!$"
 
 Roulette_Text_NoCoinsLeft::
-	.string "No COINS left…$"
+	.string "No Coins left…$"
 
 Roulette_Text_KeepPlaying::
 	.string "Keep playing?$"
 
 Roulette_Text_BoardWillBeCleared::
-	.string "The ROULETTE board will be cleared.$"
+	.string "The Roulette board will be cleared.$"
 
 @ Unused
 Roulette_Text_YouDontHaveACoinCase::
-	.string "You don't have a COIN CASE.$"
+	.string "You don't have a Coin Case.$"
 
 Roulette_Text_CoinCaseIsFull::
-	.string "Your COIN CASE is full!\n"
+	.string "Your Coin Case is full!\n"
 	.string "Coins can be exchanged for prizes.$"

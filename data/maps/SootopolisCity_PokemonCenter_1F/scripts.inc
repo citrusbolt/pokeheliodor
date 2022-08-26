@@ -20,8 +20,7 @@ SootopolisCity_PokemonCenter_1F_EventScript_Nurse::
 SootopolisCity_PokemonCenter_1F_EventScript_Gentleman::
 	lock
 	faceplayer
-	compare VAR_SKY_PILLAR_STATE, 2
-	goto_if_ge SootopolisCity_PokemonCenter_1F_EventScript_GentlemanNoLegendaries
+	goto_if_ge VAR_SKY_PILLAR_STATE, 2, SootopolisCity_PokemonCenter_1F_EventScript_GentlemanNoLegendaries
 	goto_if_unset FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, SootopolisCity_PokemonCenter_1F_EventScript_GentlemanNoLegendaries
 	msgbox SootopolisCity_PokemonCenter_1F_Text_EveryoneTakenRefuge, MSGBOX_DEFAULT
 	release
@@ -35,8 +34,7 @@ SootopolisCity_PokemonCenter_1F_EventScript_GentlemanNoLegendaries::
 SootopolisCity_PokemonCenter_1F_EventScript_Woman::
 	lock
 	faceplayer
-	compare VAR_SKY_PILLAR_STATE, 2
-	goto_if_ge SootopolisCity_PokemonCenter_1F_EventScript_WomanNoLegendaries
+	goto_if_ge VAR_SKY_PILLAR_STATE, 2, SootopolisCity_PokemonCenter_1F_EventScript_WomanNoLegendaries
 	goto_if_unset FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, SootopolisCity_PokemonCenter_1F_EventScript_WomanNoLegendaries
 	msgbox SootopolisCity_PokemonCenter_1F_Text_ArentPokemonOurFriends, MSGBOX_DEFAULT
 	release
@@ -48,12 +46,12 @@ SootopolisCity_PokemonCenter_1F_EventScript_WomanNoLegendaries::
 	end
 
 SootopolisCity_PokemonCenter_1F_Text_WallaceToughestInHoenn:
-	.string "WALLACE is rumored to be the toughest\n"
-	.string "TRAINER in the whole HOENN region.\p"
-	.string "This town's GYM is led by the TRAINER\n"
-	.string "who taught WALLACE.\p"
-	.string "But the ELITE FOUR… They're said to be\n"
-	.string "even stronger than WALLACE's mentor.\p"
+	.string "Wallace is rumored to be the toughest\n"
+	.string "Trainer in the whole Hoenn region.\p"
+	.string "This town's Gym is led by the Trainer\n"
+	.string "who taught Wallace.\p"
+	.string "But the Elite Four… They're said to be\n"
+	.string "even stronger than Wallace's mentor.\p"
 	.string "How strong could they be?$"
 
 SootopolisCity_PokemonCenter_1F_Text_EveryoneTakenRefuge:
@@ -65,10 +63,10 @@ SootopolisCity_PokemonCenter_1F_Text_EveryoneTakenRefuge:
 SootopolisCity_PokemonCenter_1F_Text_AlwaysBeFriendsWithPokemon:
 	.string "Whenever, wherever, and whatever\n"
 	.string "happens, I will always be friends with\l"
-	.string "POKéMON.\p"
-	.string "Because it's fun to be with POKéMON!$"
+	.string "Pokémon.\p"
+	.string "Because it's fun to be with Pokémon!$"
 
 SootopolisCity_PokemonCenter_1F_Text_ArentPokemonOurFriends:
-	.string "Aren't POKéMON our friends?\p"
+	.string "Aren't Pokémon our friends?\p"
 	.string "Why are they going wild this way?$"
 

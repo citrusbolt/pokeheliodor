@@ -107,8 +107,7 @@ VerdanturfTown_BattleTentLobby_EventScript_Attendant::
 	lock
 	faceplayer
 	verdanturftent_getprize
-	compare VAR_RESULT, ITEM_NONE
-	goto_if_ne VerdanturfTown_BattleTentLobby_EventScript_PrizeWaiting
+	goto_if_ne VAR_RESULT, ITEM_NONE, VerdanturfTown_BattleTentLobby_EventScript_PrizeWaiting
 	special SavePlayerParty
 	msgbox VerdanturfTown_BattleTentLobby_Text_WelcomeToBattleTent, MSGBOX_DEFAULT
 VerdanturfTown_BattleTentLobby_EventScript_AskEnterChallenge::
@@ -126,8 +125,7 @@ VerdanturfTown_BattleTentLobby_EventScript_TryEnterChallenge::
 	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	setvar VAR_RESULT, 2
 	frontier_checkineligible
-	compare VAR_0x8004, TRUE
-	goto_if_eq VerdanturfTown_BattleTentLobby_EventScript_NotEnoughValidMons
+	goto_if_eq VAR_0x8004, TRUE, VerdanturfTown_BattleTentLobby_EventScript_NotEnoughValidMons
 	frontier_set FRONTIER_DATA_LVL_MODE, FRONTIER_LVL_TENT
 	msgbox VerdanturfTown_BattleTentLobby_Text_SelectThreeMons, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
@@ -135,8 +133,7 @@ VerdanturfTown_BattleTentLobby_EventScript_TryEnterChallenge::
 	setvar VAR_0x8005, FRONTIER_PARTY_SIZE
 	special ChoosePartyForBattleFrontier
 	waitstate
-	compare VAR_RESULT, 0
-	goto_if_eq VerdanturfTown_BattleTentLobby_EventScript_LoadPartyCancelChallenge
+	goto_if_eq VAR_RESULT, 0, VerdanturfTown_BattleTentLobby_EventScript_LoadPartyCancelChallenge
 	msgbox VerdanturfTown_BattleTentLobby_Text_SaveBeforeChallenge, MSGBOX_YESNO
 	switch VAR_RESULT
 	case NO, VerdanturfTown_BattleTentLobby_EventScript_LoadPartyCancelChallenge
@@ -154,15 +151,14 @@ VerdanturfTown_BattleTentLobby_EventScript_SaveBeforeChallenge::
 	delay 2
 	call Common_EventScript_SaveGame
 	setvar VAR_TEMP_0, 255
-	compare VAR_RESULT, 0
-	goto_if_eq VerdanturfTown_BattleTentLobby_EventScript_CancelChallengeSaveFailed
+	goto_if_eq VAR_RESULT, 0, VerdanturfTown_BattleTentLobby_EventScript_CancelChallengeSaveFailed
 VerdanturfTown_BattleTentLobby_EventScript_EnterChallenge::
 	special SavePlayerParty
 	frontier_setpartyorder FRONTIER_PARTY_SIZE
 	msgbox VerdanturfTown_BattleTentLobby_Text_NowFollowMe, MSGBOX_DEFAULT
 	closemessage
 	call VerdanturfTown_BattleTentLobby_EventScript_WalkToDoor
-	warp MAP_VERDANTURF_TOWN_BATTLE_TENT_CORRIDOR, 255, 2, 7
+	warp MAP_VERDANTURF_TOWN_BATTLE_TENT_CORRIDOR, 2, 7
 	setvar VAR_TEMP_0, 0
 	waitstate
 	end
@@ -232,8 +228,7 @@ VerdanturfTown_BattleTentLobby_EventScript_AttractGiver::
 	goto_if_set FLAG_RECEIVED_TM45, VerdanturfTown_BattleTentLobby_EventScript_ReceivedAttract
 	msgbox VerdanturfTown_BattleTentLobby_Text_AttractionRunsDeep, MSGBOX_DEFAULT
 	giveitem ITEM_TM45
-	compare VAR_RESULT, 0
-	goto_if_eq Common_EventScript_ShowBagIsFull
+	goto_if_eq VAR_RESULT, 0, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM45
 	msgbox VerdanturfTown_BattleTentLobby_Text_AttractionMutual, MSGBOX_DEFAULT
 	release
@@ -334,10 +329,10 @@ VerdanturfTown_BattleTentLobby_EventScript_ExitRules::
 
 VerdanturfTown_BattleTentLobby_Text_MonsReluctantToUseDislikedMoves:
 	.string "If it doesn't like a certain move,\n"
-	.string "a POKéMON will be reluctant to use it.\p"
+	.string "a Pokémon will be reluctant to use it.\p"
 	.string "It doesn't matter how strong it is,\n"
 	.string "either.\p"
-	.string "For example, a POKéMON with a GENTLE\n"
+	.string "For example, a Pokémon with a Gentle\n"
 	.string "nature probably won't enjoy hurting\l"
 	.string "its opponents.\p"
 	.string "If it can't seem to live up to its\n"
@@ -348,41 +343,41 @@ VerdanturfTown_BattleTentLobby_Text_GentleMonsScaryIfAngry:
 	.string "My big sister is gentle usually.\n"
 	.string "But when she gets angry,\l"
 	.string "she's really, really scary!\p"
-	.string "I bet a gentle POKéMON will be scary\n"
+	.string "I bet a gentle Pokémon will be scary\n"
 	.string "if it gets angry!$"
 
 VerdanturfTown_BattleTentLobby_Text_AttractionRunsDeep:
-	.string "My feelings toward my POKéMON…\n"
+	.string "My feelings toward my Pokémon…\n"
 	.string "The attraction runs deep…\p"
 	.string "Oh, hi, you didn't see that, did you?\n"
 	.string "Well, it doesn't matter.\p"
 	.string "How would you like this TM for\n"
-	.string "your POKéMON?$"
+	.string "your Pokémon?$"
 
 VerdanturfTown_BattleTentLobby_Text_AttractionMutual:
-	.string "My feelings toward my POKéMON…\n"
+	.string "My feelings toward my Pokémon…\n"
 	.string "I'm sure the attraction is mutual!\p"
 	.string "They battle exactly the way I want\n"
 	.string "them to!$"
 
 VerdanturfTown_BattleTentLobby_Text_TaughtWhatKindsOfMoves:
 	.string "What kind of moves have you taught\n"
-	.string "your POKéMON?\p"
+	.string "your Pokémon?\p"
 	.string "I think you would give yourself\n"
 	.string "an advantage if they knew how to\l"
 	.string "heal or protect themselves.$"
 
 VerdanturfTown_BattleTentLobby_Text_ScottCanMeetToughTrainers:
-	.string "SCOTT: Hey there, {PLAYER}{KUN}!\n"
+	.string "Scott: Hey there, {PLAYER}{KUN}!\n"
 	.string "I thought I might see you here.\p"
-	.string "A BATTLE TENT's a place where\n"
-	.string "you can meet tough TRAINERS.\p"
+	.string "A Battle Tent's a place where\n"
+	.string "you can meet tough Trainers.\p"
 	.string "It doesn't matter what the rules are,\n"
 	.string "or how battles are waged, either.\p"
 	.string "{PLAYER}{KUN}, I expect you to do\n"
 	.string "the best you can!$"
 
 VerdanturfTown_BattleTentLobby_Text_ScottVisitRegularly:
-	.string "SCOTT: I visit here regularly in hopes\n"
-	.string "of seeing tough TRAINERS in action\l"
+	.string "Scott: I visit here regularly in hopes\n"
+	.string "of seeing tough Trainers in action\l"
 	.string "in whatever the situation.$"

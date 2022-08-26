@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/pret/berry-fix
+	branch = master
+	commit = 3ef79724137a41cba7d2bb51dfdedcf49d77830a
+	parent = 9ca30cc2b8ac9bbbeefbc43575973c97076f242e
+	method = merge
+	cmdver = 0.4.3

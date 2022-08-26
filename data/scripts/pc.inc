@@ -1,6 +1,6 @@
 EventScript_PC::
 	lockall
-	setvar VAR_0x8004, 0
+	setvar VAR_0x8004, PC_LOCATION_OTHER
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
 	msgbox Text_BootUpPC, MSGBOX_DEFAULT
@@ -53,7 +53,7 @@ EventScript_AccessLanettesPC::
 	return
 
 EventScript_TurnOffPC::
-	setvar VAR_0x8004, 0
+	setvar VAR_0x8004, PC_LOCATION_OTHER
 	playse SE_PC_OFF
 	special DoPCTurnOffEffect
 	releaseall
@@ -352,62 +352,62 @@ EventScript_CouponExchange_Text_DontHaveSpaceToHoldIt:
 
 EventScript_CouponExchange_Text_DontHaveEnoughCoupons::
 	.string "You do not have enough\n"
-	.string "POKé COUPONS.$"
+	.string "Poké Coupons.$"
 
 EventScript_CouponExchange_Text_ConfirmPremierBall:
-	.string "You've chosen the PREMIER BALL.\n"
+	.string "You've chosen the Premier Ball.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmLuxuryBall:
-	.string "You've chosen the LUXURY BALL.\n"
+	.string "You've chosen the Luxury Ball.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmRareCandy:
-	.string "You've chosen the RARE CANDY.\n"
+	.string "You've chosen the Rare Candy.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmLiechiBerry:
-	.string "You've chosen the LIECHI BERRY.\n"
+	.string "You've chosen the Liechi Berry.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmGanlonBerry:
-	.string "You've chosen the GANLON BERRY.\n"
+	.string "You've chosen the Ganlon Berry.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmSalacBerry:
-	.string "You've chosen the SALAC BERRY.\n"
+	.string "You've chosen the Salac Berry.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmPetayaBerry:
-	.string "You've chosen the PETAYA BERRY.\n"
+	.string "You've chosen the Petaya Berry.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmApicotBerry:
-	.string "You've chosen the APICOT BERRY.\n"
+	.string "You've chosen the Apicot Berry.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmLansatBerry:
-	.string "You've chosen the LANSAT BERRY.\n"
+	.string "You've chosen the Lansat Berry.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmStarfBerry:
-	.string "You've chosen the STARF BERRY.\n"
+	.string "You've chosen the Starf Berry.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmRegirockDoll:
-	.string "You've chosen the REGIROCK DOLL.\n"
+	.string "You've chosen the REGIROCK Doll.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmRegiceDoll:
-	.string "You've chosen the REGICE DOLL.\n"
+	.string "You've chosen the REGICE Doll.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmRegisteelDoll:
-	.string "You've chosen the REGISTEEL DOLL.\n"
+	.string "You've chosen the REGISTEEL Doll.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_ConfirmMasterBall:
-	.string "You've chosen the MASTER BALL.\n"
+	.string "You've chosen the Master Ball.\n"
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_Confirm50BP:
@@ -419,35 +419,35 @@ EventScript_CouponExchange_Text_Confirm500BP:
 	.string "Is that correct?$"
 
 EventScript_CouponExchange_Text_PremierBallDesc::
-	.string "A rare BALL made in commemoration\n"
+	.string "A rare Ball made in commemoration\n"
 	.string "of some event.$"
 
 EventScript_CouponExchange_Text_LuxuryBallDesc::
-	.string "A cozy BALL that makes POKéMON\n"
+	.string "A cozy Ball that makes Pokémon\n"
 	.string "more friendly.$"
 
 EventScript_CouponExchange_Text_RareCandyDesc::
-	.string "Raises the level of a POKéMON\n"
+	.string "Raises the level of a Pokémon\n"
 	.string "by one.$"
 
 EventScript_CouponExchange_Text_LiechiBerryDesc::
-	.string "A hold item that raises ATTACK\n"
+	.string "A hold item that raises Attack\n"
 	.string "in a pinch.$"
 
 EventScript_CouponExchange_Text_GanlonBerryDesc::
-	.string "A hold item that raises DEFENSE\n"
+	.string "A hold item that raises Defense\n"
 	.string "in a pinch.$"
 
 EventScript_CouponExchange_Text_SalacBerryDesc::
-	.string "A hold item that raises SPEED\n"
+	.string "A hold item that raises Speed\n"
 	.string "in a pinch.$"
 
 EventScript_CouponExchange_Text_PetayaBerryDesc::
-	.string "A hold item that raises SP. ATK\n"
+	.string "A hold item that raises SP. Atk\n"
 	.string "in a pinch.$"
 
 EventScript_CouponExchange_Text_ApicotBerryDesc::
-	.string "A hold item that raises SP. DEF\n"
+	.string "A hold item that raises SP. Def\n"
 	.string "in a pinch.$"
 
 EventScript_CouponExchange_Text_LansatBerryDesc::
@@ -459,26 +459,26 @@ EventScript_CouponExchange_Text_StarfBerryDesc::
 	.string "stat in a pinch.$"
 
 EventScript_CouponExchange_Text_RegirockDollDesc::
-	.string "A large DOLL.\n"
+	.string "A large Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 EventScript_CouponExchange_Text_RegiceDollDesc::
-	.string "A large DOLL.\n"
+	.string "A large Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 EventScript_CouponExchange_Text_RegisteelDollDesc::
-	.string "A large DOLL.\n"
+	.string "A large Doll.\n"
 	.string "Place it on a mat or a desk.$"
 
 EventScript_CouponExchange_Text_MasterBallDesc::
-	.string "The best BALL that catches\n"
-	.string "a POKéMON without fail.$"
+	.string "The best Ball that catches\n"
+	.string "a Pokémon without fail.$"
 
 EventScript_CouponExchange_Text_50BPDesc::
-	.string "Convert POKé COUPONS to Battle Points.$"
+	.string "Convert Poké Coupons to Battle Points.$"
 
 EventScript_CouponExchange_Text_500BPDesc::
-	.string "Convert POKé COUPONS to Battle Points.$"
+	.string "Convert Poké Coupons to Battle Points.$"
 
 EventScript_CouponExchange_Text_BPIsMax::
 	.string "Your BP is already\n"

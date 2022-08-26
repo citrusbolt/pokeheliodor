@@ -34,8 +34,7 @@ FortreeCity_House4_EventScript_WingullReturned::
 	waitmovement 0
 	msgbox FortreeCity_House4_Text_WelcomeWingullTakeMentalHerb, MSGBOX_DEFAULT
 	giveitem ITEM_MENTAL_HERB
-	compare VAR_RESULT, FALSE
-	goto_if_eq Common_EventScript_ShowBagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_MENTAL_HERB
 	releaseall
 	end
@@ -51,7 +50,7 @@ FortreeCity_House4_Movement_WingullExit:
 	walk_fast_down
 	walk_fast_down
 	walk_fast_right
-	walk_in_place_fastest_down
+	walk_in_place_faster_down
 	delay_8
 	step_end
 
@@ -59,21 +58,21 @@ FortreeCity_House4_EventScript_Wingull::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_WINGULL, 0
+	playmoncry SPECIES_WINGULL, CRY_MODE_NORMAL
 	msgbox FortreeCity_House4_Text_Wingull, MSGBOX_DEFAULT
 	waitmoncry
 	release
 	end
 
 FortreeCity_House4_Text_BringsWorldCloserTogether:
-	.string "By being together with POKéMON,\n"
+	.string "By being together with Pokémon,\n"
 	.string "people make more and more friends.\p"
 	.string "And that brings the world closer\n"
 	.string "together. I think it's wonderful!$"
 
 FortreeCity_House4_Text_GoBirdPokemon:
 	.string "There!\n"
-	.string "Go, BIRD POKéMON!$"
+	.string "Go, Bird Pokémon!$"
 
 FortreeCity_House4_Text_AskedWingullToRunErrand:
 	.string "Heheh, I asked my WINGULL to run\n"
@@ -84,9 +83,9 @@ FortreeCity_House4_Text_WelcomeWingullTakeMentalHerb:
 	.string "Welcome back, WINGULL!\p"
 	.string "Huh? What is this?\n"
 	.string "What is it holding?\p"
-	.string "A MENTAL HERB?\n"
+	.string "A Mental Herb?\n"
 	.string "It must have picked it up somewhere.\p"
-	.string "But I'm not a TRAINER, so you can\n"
+	.string "But I'm not a Trainer, so you can\n"
 	.string "have it.$"
 
 FortreeCity_House4_Text_FriendsFarAwayThanksToWingull:

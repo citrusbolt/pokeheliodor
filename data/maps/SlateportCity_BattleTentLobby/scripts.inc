@@ -93,8 +93,7 @@ SlateportCity_BattleTentLobby_EventScript_Attendant::
 	lock
 	faceplayer
 	slateporttent_getprize
-	compare VAR_RESULT, ITEM_NONE
-	goto_if_ne SlateportCity_BattleTentLobby_EventScript_GivePrize
+	goto_if_ne VAR_RESULT, ITEM_NONE, SlateportCity_BattleTentLobby_EventScript_GivePrize
 	special SavePlayerParty
 	msgbox SlateportCity_BattleTentLobby_Text_WelcomeToBattleTent, MSGBOX_DEFAULT
 SlateportCity_BattleTentLobby_EventScript_AskEnterChallenge::
@@ -127,14 +126,13 @@ SlateportCity_BattleTentLobby_EventScript_SaveBeforeChallenge::
 	delay 2
 	call Common_EventScript_SaveGame
 	setvar VAR_TEMP_0, 255
-	compare VAR_RESULT, 0
-	goto_if_eq SlateportCity_BattleTentLobby_EventScript_CancelChallengeSaveFailed
+	goto_if_eq VAR_RESULT, 0, SlateportCity_BattleTentLobby_EventScript_CancelChallengeSaveFailed
 	setvar VAR_0x8006, 0
 SlateportCity_BattleTentLobby_EventScript_EnterChallenge::
 	msgbox SlateportCity_BattleTentLobby_Text_StepThisWay, MSGBOX_DEFAULT
 	closemessage
 	call SlateportCity_BattleTentLobby_EventScript_WalkToDoor
-	warp MAP_SLATEPORT_CITY_BATTLE_TENT_CORRIDOR, 255, 2, 7
+	warp MAP_SLATEPORT_CITY_BATTLE_TENT_CORRIDOR, 2, 7
 	setvar VAR_TEMP_0, 0
 	waitstate
 	end
@@ -204,8 +202,7 @@ SlateportCity_BattleTentLobby_EventScript_TormentGiver::
 	goto_if_set FLAG_RECEIVED_TM41, SlateportCity_BattleTentLobby_EventScript_ReceivedTorment
 	msgbox SlateportCity_BattleTentLobby_Text_CouldntFindMonForMe, MSGBOX_DEFAULT
 	giveitem ITEM_TM41
-	compare VAR_RESULT, FALSE
-	goto_if_eq Common_EventScript_ShowBagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM41
 	msgbox SlateportCity_BattleTentLobby_Text_ExplainTorment, MSGBOX_DEFAULT
 	release
@@ -279,7 +276,7 @@ SlateportCity_BattleTentLobby_EventScript_ExitRules::
 
 SlateportCity_BattleTentLobby_Text_CouldntFindMonForMe:
 	.string "So, like, I couldn't find myself any\n"
-	.string "POKéMON that were, like, for me.\p"
+	.string "Pokémon that were, like, for me.\p"
 	.string "So, I figured, like, hey, I should file\n"
 	.string "a complaint to the guy there?\p"
 	.string "And he wouldn't hear me out, like, hey!\n"
@@ -289,14 +286,14 @@ SlateportCity_BattleTentLobby_Text_CouldntFindMonForMe:
 
 SlateportCity_BattleTentLobby_Text_ExplainTorment:
 	.string "That's, like, TM41, you know?\n"
-	.string "Hey, it's TORMENT, you hearing me?\p"
+	.string "Hey, it's Torment, you hearing me?\p"
 	.string "Like, it won't let the other guy\n"
 	.string "use the same move twice in a row, see?\p"
 	.string "Hey, now, you listen here, like,\n"
 	.string "I'm not laying a torment on you!$"
 
 SlateportCity_BattleTentLobby_Text_IllTryUsingBugMons:
-	.string "I don't really like BUG POKéMON,\n"
+	.string "I don't really like Bug Pokémon,\n"
 	.string "but maybe I'll try using some for\l"
 	.string "a change of pace.\p"
 	.string "Who knows, I might even get to like\n"
@@ -304,7 +301,7 @@ SlateportCity_BattleTentLobby_Text_IllTryUsingBugMons:
 
 SlateportCity_BattleTentLobby_Text_BattleEvenWithoutToughMons:
 	.string "You can battle all you want here even\n"
-	.string "if you don't have any tough POKéMON.$"
+	.string "if you don't have any tough Pokémon.$"
 
 SlateportCity_BattleTentLobby_Text_NiceIfMoreSelection:
 	.string "Wouldn't it be nice if they had more of\n"

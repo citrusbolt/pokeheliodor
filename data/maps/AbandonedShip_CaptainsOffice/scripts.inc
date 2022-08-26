@@ -5,9 +5,8 @@ AbandonedShip_CaptainsOffice_EventScript_CaptSternAide::
 	lock
 	faceplayer
 	goto_if_set FLAG_EXCHANGED_SCANNER, AbandonedShip_CaptainsOffice_EventScript_ThisIsSSCactus
-	checkitem ITEM_SCANNER, 1
-	compare VAR_RESULT, TRUE
-	goto_if_eq AbandonedShip_CaptainsOffice_EventScript_CanYouDeliverScanner
+	checkitem ITEM_SCANNER
+	goto_if_eq VAR_RESULT, TRUE, AbandonedShip_CaptainsOffice_EventScript_CanYouDeliverScanner
 	goto_if_set FLAG_ITEM_ABANDONED_SHIP_HIDDEN_FLOOR_ROOM_4_SCANNER, AbandonedShip_CaptainsOffice_EventScript_ThisIsSSCactus
 	msgbox AbandonedShip_CaptainsOffice_Text_NoSuccessFindingScanner, MSGBOX_DEFAULT
 	release
@@ -25,18 +24,18 @@ AbandonedShip_CaptainsOffice_EventScript_ThisIsSSCactus::
 
 AbandonedShip_CaptainsOffice_Text_NoSuccessFindingScanner:
 	.string "I'm investigating this ship on behalf\n"
-	.string "of CAPT. STERN.\p"
-	.string "He also asked me to find a SCANNER,\n"
+	.string "of Capt. Stern.\p"
+	.string "He also asked me to find a Scanner,\n"
 	.string "but I haven't had any success…$"
 
 AbandonedShip_CaptainsOffice_Text_OhCanYouDeliverScanner:
-	.string "Oh! That's a SCANNER!\p"
+	.string "Oh! That's a Scanner!\p"
 	.string "Listen, can I get you to deliver that\n"
-	.string "to CAPT. STERN?\p"
+	.string "to Capt. Stern?\p"
 	.string "I want to investigate this ship a\n"
 	.string "little more.$"
 
 AbandonedShip_CaptainsOffice_Text_ThisIsSSCactus:
-	.string "This ship is called S.S. CACTUS.\n"
+	.string "This ship is called S.S. Cactus.\n"
 	.string "It seems to be from an earlier era.$"
 

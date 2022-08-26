@@ -14,10 +14,8 @@ BattleFrontier_Lounge1_EventScript_Breeder::
 BattleFrontier_Lounge1_EventScript_ChooseMonToShowBreeder::
 	special ChoosePartyMon
 	waitstate
-	compare VAR_0x8004, 255
-	goto_if_ne BattleFrontier_Lounge1_EventScript_ShowMonToBreeder
-	compare VAR_0x8004, 255
-	goto_if_eq BattleFrontier_Lounge1_EventScript_CancelMonSelect
+	goto_if_ne VAR_0x8004, PARTY_NOTHING_CHOSEN, BattleFrontier_Lounge1_EventScript_ShowMonToBreeder
+	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, BattleFrontier_Lounge1_EventScript_CancelMonSelect
 	end
 
 BattleFrontier_Lounge1_EventScript_BreederIntro::
@@ -34,17 +32,12 @@ BattleFrontier_Lounge1_EventScript_AlreadyMetBreeder::
 @ VAR_0x8007: IV of the highest IV stat
 BattleFrontier_Lounge1_EventScript_ShowMonToBreeder::
 	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	compare VAR_RESULT, SPECIES_EGG
-	goto_if_eq BattleFrontier_Lounge1_EventScript_ShowEggToBreeder
+	goto_if_eq VAR_RESULT, SPECIES_EGG, BattleFrontier_Lounge1_EventScript_ShowEggToBreeder
 	special BufferVarsForIVRater
-	compare VAR_0x8005, 90   @ Average of 15
-	goto_if_le BattleFrontier_Lounge1_EventScript_AverageTotalIVs
-	compare VAR_0x8005, 120  @ Average of 20
-	goto_if_le BattleFrontier_Lounge1_EventScript_AboveAverageTotalIVs
-	compare VAR_0x8005, 150  @ Average of 25
-	goto_if_le BattleFrontier_Lounge1_EventScript_HighTotalIVs
-	compare VAR_0x8005, 151  @ Average of > 25
-	goto_if_ge BattleFrontier_Lounge1_EventScript_VeryHighTotalIVs
+	goto_if_le VAR_0x8005, 90, BattleFrontier_Lounge1_EventScript_AverageTotalIVs       @ Average of 15
+	goto_if_le VAR_0x8005, 120, BattleFrontier_Lounge1_EventScript_AboveAverageTotalIVs @ Average of 20
+	goto_if_le VAR_0x8005, 150, BattleFrontier_Lounge1_EventScript_HighTotalIVs         @ Average of 25
+	goto_if_ge VAR_0x8005, 151, BattleFrontier_Lounge1_EventScript_VeryHighTotalIVs     @ Average of > 25
 	end
 
 BattleFrontier_Lounge1_EventScript_ShowEggToBreeder::
@@ -54,30 +47,20 @@ BattleFrontier_Lounge1_EventScript_ShowEggToBreeder::
 
 @ Comment on the highest IV stat
 BattleFrontier_Lounge1_EventScript_HighestIVStat::
-	compare VAR_0x8006, STAT_HP
-	goto_if_eq BattleFrontier_Lounge1_EventScript_HighestIVHP
-	compare VAR_0x8006, STAT_ATK
-	goto_if_eq BattleFrontier_Lounge1_EventScript_HighestIVAtk
-	compare VAR_0x8006, STAT_DEF
-	goto_if_eq BattleFrontier_Lounge1_EventScript_HighestIVDef
-	compare VAR_0x8006, STAT_SPEED
-	goto_if_eq BattleFrontier_Lounge1_EventScript_HighestIVSpeed
-	compare VAR_0x8006, STAT_SPATK
-	goto_if_eq BattleFrontier_Lounge1_EventScript_HighestIVSpAtk
-	compare VAR_0x8006, STAT_SPDEF
-	goto_if_eq BattleFrontier_Lounge1_EventScript_HighestIVSpDef
+	goto_if_eq VAR_0x8006, STAT_HP, BattleFrontier_Lounge1_EventScript_HighestIVHP
+	goto_if_eq VAR_0x8006, STAT_ATK, BattleFrontier_Lounge1_EventScript_HighestIVAtk
+	goto_if_eq VAR_0x8006, STAT_DEF, BattleFrontier_Lounge1_EventScript_HighestIVDef
+	goto_if_eq VAR_0x8006, STAT_SPEED, BattleFrontier_Lounge1_EventScript_HighestIVSpeed
+	goto_if_eq VAR_0x8006, STAT_SPATK, BattleFrontier_Lounge1_EventScript_HighestIVSpAtk
+	goto_if_eq VAR_0x8006, STAT_SPDEF, BattleFrontier_Lounge1_EventScript_HighestIVSpDef
 	end
 
 @ Comment on the highest IV value
 BattleFrontier_Lounge1_EventScript_HighestIVValue::
-	compare VAR_0x8007, 15
-	goto_if_le BattleFrontier_Lounge1_EventScript_HighestIVLow
-	compare VAR_0x8007, 25
-	goto_if_le BattleFrontier_Lounge1_EventScript_HighestIVMid
-	compare VAR_0x8007, 30
-	goto_if_le BattleFrontier_Lounge1_EventScript_HighestIVHigh
-	compare VAR_0x8007, 31
-	goto_if_ge BattleFrontier_Lounge1_EventScript_HighestIVMax
+	goto_if_le VAR_0x8007, 15, BattleFrontier_Lounge1_EventScript_HighestIVLow
+	goto_if_le VAR_0x8007, 25, BattleFrontier_Lounge1_EventScript_HighestIVMid
+	goto_if_le VAR_0x8007, 30, BattleFrontier_Lounge1_EventScript_HighestIVHigh
+	goto_if_ge VAR_0x8007, 31, BattleFrontier_Lounge1_EventScript_HighestIVMax
 	end
 
 BattleFrontier_Lounge1_EventScript_EndBreederComments::
@@ -176,17 +159,17 @@ BattleFrontier_Lounge1_EventScript_Boy2::
 	end
 
 BattleFrontier_Lounge1_Text_PokemonBreederIntro:
-	.string "For 70 years I have raised POKéMON!\n"
+	.string "For 70 years I have raised Pokémon!\n"
 	.string "I am the man they revere as\l"
-	.string "the legendary top POKéMON BREEDER!\p"
+	.string "the legendary top Pokémon Breeder!\p"
 	.string "If you ever become as seasoned as me,\n"
-	.string "you'll see the abilities of POKéMON\l"
+	.string "you'll see the abilities of Pokémon\l"
 	.string "at a glance.\p"
-	.string "You're a TRAINER. Doesn't it interest\n"
-	.string "you to know your own POKéMON's\l"
+	.string "You're a Trainer. Doesn't it interest\n"
+	.string "you to know your own Pokémon's\l"
 	.string "abilities?\p"
 	.string "Here!\n"
-	.string "Let's have a look at your POKéMON!$"
+	.string "Let's have a look at your Pokémon!$"
 
 BattleFrontier_Lounge1_Text_AverageAbility:
 	.string "…Hmm…\p"
@@ -214,23 +197,23 @@ BattleFrontier_Lounge1_Text_BestAspectHP:
 
 BattleFrontier_Lounge1_Text_BestAspectAtk:
 	.string "Incidentally, the best aspect of it,\n"
-	.string "I would say, is its ATTACK…$"
+	.string "I would say, is its Attack…$"
 
 BattleFrontier_Lounge1_Text_BestAspectDef:
 	.string "Incidentally, the best aspect of it,\n"
-	.string "I would say, is its DEFENSE…$"
+	.string "I would say, is its Defense…$"
 
 BattleFrontier_Lounge1_Text_BestAspectSpAtk:
 	.string "Incidentally, the best aspect of it,\n"
-	.string "I would say, is its SPECIAL ATTACK…$"
+	.string "I would say, is its Special Attack…$"
 
 BattleFrontier_Lounge1_Text_BestAspectSpDef:
 	.string "Incidentally, the best aspect of it,\n"
-	.string "I would say, is its SPECIAL DEFENSE…$"
+	.string "I would say, is its Special Defense…$"
 
 BattleFrontier_Lounge1_Text_BestAspectSpeed:
 	.string "Incidentally, the best aspect of it,\n"
-	.string "I would say, is its SPEED…$"
+	.string "I would say, is its Speed…$"
 
 BattleFrontier_Lounge1_Text_StatRelativelyGood:
 	.string "That stat is relatively good.\n"
@@ -261,32 +244,32 @@ BattleFrontier_Lounge1_Text_HaveBusinessNeedsTending:
 	.string "Save it for next time!$"
 
 BattleFrontier_Lounge1_Text_LetsLookAtYourPokemon:
-	.string "Ah, youngster! Do your POKéMON's\n"
+	.string "Ah, youngster! Do your Pokémon's\n"
 	.string "abilities intrigue you?\p"
 	.string "Here, here!\n"
-	.string "Let's have a look at your POKéMON!$"
+	.string "Let's have a look at your Pokémon!$"
 
 BattleFrontier_Lounge1_Text_EvenICantTell:
 	.string "An expert I am, but even I can't tell\n"
-	.string "anything about an unhatched POKéMON!\p"
-	.string "Show me a POKéMON!\n"
-	.string "A POKéMON is what I need to see!$"
+	.string "anything about an unhatched Pokémon!\p"
+	.string "Show me a Pokémon!\n"
+	.string "A Pokémon is what I need to see!$"
 
 BattleFrontier_Lounge1_Text_SaidMyMonIsOutstanding:
-	.string "He said my POKéMON is outstanding!\n"
+	.string "He said my Pokémon is outstanding!\n"
 	.string "I'm glad I raised it carefully!$"
 
 BattleFrontier_Lounge1_Text_DidntDoAnythingSpecialRaisingIt:
-	.string "He said my POKéMON is outstanding!\n"
+	.string "He said my Pokémon is outstanding!\n"
 	.string "But I didn't do anything special\l"
 	.string "raising it…$"
 
 BattleFrontier_Lounge1_Text_ReciteIVs1:
 	.string "Its HP is rated at {STR_VAR_1}.\p"
-	.string "Its ATTACK is rated at {STR_VAR_2}.\p"
-	.string "Its DEFENSE is rated at {STR_VAR_3}.$"
+	.string "Its Attack is rated at {STR_VAR_2}.\p"
+	.string "Its Defense is rated at {STR_VAR_3}.$"
 	
 BattleFrontier_Lounge1_Text_ReciteIVs2:
-	.string "Its SPECIAL ATTACK is rated at {STR_VAR_1}.\p"
-	.string "Its SPECIAL DEFENSE is rated at {STR_VAR_2}.\p"
-	.string "Its SPEED is rated at {STR_VAR_3}.$"
+	.string "Its Special Attack is rated at {STR_VAR_1}.\p"
+	.string "Its Special Defense is rated at {STR_VAR_2}.\p"
+	.string "Its Speed is rated at {STR_VAR_3}.$"

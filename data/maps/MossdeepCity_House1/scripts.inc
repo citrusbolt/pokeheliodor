@@ -4,11 +4,10 @@ MossdeepCity_House1_MapScripts::
 MossdeepCity_House1_EventScript_BlackBelt::
 	lock
 	faceplayer
-	bufferleadmonspeciesname 0
+	bufferleadmonspeciesname STR_VAR_1
 	msgbox MossdeepCity_House1_Text_HmmYourPokemon, MSGBOX_DEFAULT
 	specialvar VAR_RESULT, GetPokeblockNameByMonNature
-	compare VAR_RESULT, 0
-	goto_if_eq MossdeepCity_House1_EventScript_NeutralNature
+	goto_if_eq VAR_RESULT, 0, MossdeepCity_House1_EventScript_NeutralNature
 	msgbox MossdeepCity_House1_Text_ItLikesXPokeblocks, MSGBOX_DEFAULT
 	release
 	end
@@ -34,9 +33,9 @@ MossdeepCity_House1_Text_ItLikesXPokeblocks:
 
 MossdeepCity_House1_Text_DoesntLikeOrDislikePokeblocks:
 	.string "It doesn't appear to like or dislike\n"
-	.string "any {POKEBLOCK}S.$"
+	.string "any {POKEBLOCK}s.$"
 
 MossdeepCity_House1_Text_HusbandCanTellPokeblockMonLikes:
 	.string "My husband can tell what kind of\n"
-	.string "{POKEBLOCK}S a POKéMON likes at a glance.$"
+	.string "{POKEBLOCK}s a Pokémon likes at a glance.$"
 
