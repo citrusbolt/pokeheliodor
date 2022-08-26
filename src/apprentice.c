@@ -630,7 +630,7 @@ static void CreateApprenticeMenu(u8 menu)
     pixelWidth = 0;
     for (i = 0; i < count; i++)
     {
-        s32 width = GetStringWidth(FONT_NORMAL, strings[i], 0);
+        s32 width = GetStringWidth(FONT_OPTION, strings[i], 0);
         if (width > pixelWidth)
             pixelWidth = width;
     }
@@ -641,7 +641,7 @@ static void CreateApprenticeMenu(u8 menu)
     SetStandardWindowBorderStyle(windowId, 0);
 
     for (i = 0; i < count; i++)
-        AddTextPrinterParameterized(windowId, FONT_NORMAL, strings[i], 8, (i * 16) + 1, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(windowId, FONT_OPTION, strings[i], 8, (i * 16) + 1, TEXT_SKIP_DRAW, NULL);
 
     InitMenuInUpperLeftCornerNormal(windowId, count, 0);
     CreateChooseAnswerTask(TRUE, count, windowId);

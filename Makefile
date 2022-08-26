@@ -119,7 +119,7 @@ LIBPATH := -L ../../tools/agbcc/lib
 LIB := $(LIBPATH) -lgcc -lc -L../../libagbsyscall -lagbsyscall
 else
 CC1              = $(shell $(PATH_MODERNCC) --print-prog-name=cc1) -quiet
-override CFLAGS += -mthumb -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast -g
+override CFLAGS += -mthumb -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast
 ROM := $(MODERN_ROM_NAME)
 OBJ_DIR := $(MODERN_OBJ_DIR_NAME)
 LIBPATH := -L "$(dir $(shell $(PATH_MODERNCC) -mthumb -print-file-name=libgcc.a))" -L "$(dir $(shell $(PATH_MODERNCC) -mthumb -print-file-name=libnosys.a))" -L "$(dir $(shell $(PATH_MODERNCC) -mthumb -print-file-name=libc.a))"
@@ -251,6 +251,9 @@ clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
+	@$(MAKE) -C subrepos/agbcc/gcc clean
+	@$(MAKE) -C subrepos/agbcc/libgcc clean
+	@$(MAKE) -C subrepos/agbcc/libc clean
 	rm -rf tools/agbcc
 	rm -f subrepos/agbcc/agbcc
 	rm -f subrepos/agbcc/old_agbcc
@@ -274,10 +277,12 @@ mostlyclean: tidynonmodern tidymodern
 clean-emerald:
 	@$(MAKE) clean -C subrepos/pokeemerald
 	rm -f pokeemerald.gba
+	rm -rf subrepos/pokeemerald/tools/agbcc
 
 clean-berry-fix:
 	@$(MAKE) clean -C subrepos/berry-fix
 	rm -f data/mb_berry_fix.gba
+	rm -rf subrepos/berry-fix/tools/agbcc
 
 tidy: tidynonmodern tidymodern
 

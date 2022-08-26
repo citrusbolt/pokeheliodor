@@ -62,9 +62,6 @@ $(CASTFORMGFXDIR)/shiny.gbapal: $(CASTFORMGFXDIR)/shiny_normal_form.gbapal \
 
 ### Tilesets ###
 
-$(TILESETGFXDIR)/secondary/petalburg/tiles.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 159
-
 $(TILESETGFXDIR)/secondary/rustboro/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 498
 
@@ -295,7 +292,7 @@ $(TILESETGFXDIR)/secondary/mystery_events_house/tiles.4bpp: %.4bpp: %.png
 $(FONTGFXDIR)/small.latfont: $(FONTGFXDIR)/latin_small.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/normal.latfont: $(FONTGFXDIR)/latin_normal.png
+$(FONTGFXDIR)/hgss.latfont: $(FONTGFXDIR)/latin_hgss.png
 	$(GFX) $< $@
 
 $(FONTGFXDIR)/frlg.latfont: $(FONTGFXDIR)/latin_frlg.png

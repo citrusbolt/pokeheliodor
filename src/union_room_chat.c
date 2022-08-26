@@ -2160,8 +2160,7 @@ static bool32 IsDisplaySubtask0Active(void)
 static void FreeDisplay(void)
 {
     FreeSprites();
-    if (sDisplay)
-        FREE_AND_SET_NULL(sDisplay);
+    TRY_FREE_AND_SET_NULL(sDisplay);
 
     FreeAllWindowBuffers();
     gScanlineEffect.state = 3;
@@ -2740,8 +2739,8 @@ static void AddYesNoMenuAt(u8 left, u8 top, u8 initialCursorPos)
     {
         FillWindowPixelBuffer(sDisplay->yesNoMenuWindowId, PIXEL_FILL(1));
         PutWindowTilemap(sDisplay->yesNoMenuWindowId);
-        AddTextPrinterParameterized(sDisplay->yesNoMenuWindowId, FONT_NORMAL, gText_Yes, 8, 1, TEXT_SKIP_DRAW, NULL);
-        AddTextPrinterParameterized(sDisplay->yesNoMenuWindowId, FONT_NORMAL, gText_No, 8, 17, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(sDisplay->yesNoMenuWindowId, FONT_OPTION, gText_Yes, 8, 1, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(sDisplay->yesNoMenuWindowId, FONT_OPTION, gText_No, 8, 17, TEXT_SKIP_DRAW, NULL);
         DrawTextBorderOuter(sDisplay->yesNoMenuWindowId, 1, 13);
         InitMenuInUpperLeftCornerNormal(sDisplay->yesNoMenuWindowId, 2, initialCursorPos);
     }
@@ -2811,7 +2810,7 @@ static void AddStdMessageWindow(int msgId, u16 bg0vofs)
         DrawTextBorderInner(windowId, 0xA, 2);
         AddTextPrinterParameterized5(
             windowId,
-            FONT_NORMAL,
+            FONT_OPTION,
             str,
             sDisplayStdMessages[msgId].x + 8,
             sDisplayStdMessages[msgId].y + 8,
@@ -2825,7 +2824,7 @@ static void AddStdMessageWindow(int msgId, u16 bg0vofs)
         DrawTextBorderOuter(windowId, 0xA, 2);
         AddTextPrinterParameterized5(
             windowId,
-            FONT_NORMAL,
+            FONT_OPTION,
             str,
             sDisplayStdMessages[msgId].x,
             sDisplayStdMessages[msgId].y,

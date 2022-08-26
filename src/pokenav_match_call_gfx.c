@@ -1116,7 +1116,7 @@ static bool32 IsDma3ManagerBusyWithBgCopy2(struct Pokenav_MatchCallGfx *gfx)
 
 static void PrintCallingDots(struct Pokenav_MatchCallGfx *gfx)
 {
-    AddTextPrinterParameterized(gfx->msgBoxWindowId, FONT_NORMAL, sText_CallingDots, 32, 1, 1, NULL);
+    AddTextPrinterParameterized(gfx->msgBoxWindowId, FONT_OPTION, sText_CallingDots, 32, 1, 1, NULL);
 }
 
 static bool32 WaitForCallingDotsText(struct Pokenav_MatchCallGfx *gfx)
@@ -1127,7 +1127,7 @@ static bool32 WaitForCallingDotsText(struct Pokenav_MatchCallGfx *gfx)
 
 static void PrintTrainerIsCloseBy(struct Pokenav_MatchCallGfx *gfx)
 {
-    AddTextPrinterParameterized(gfx->msgBoxWindowId, FONT_NORMAL, gText_TrainerCloseBy, 0, 1, 1, NULL);
+    AddTextPrinterParameterized(gfx->msgBoxWindowId, FONT_OPTION, gText_TrainerCloseBy, 0, 1, 1, NULL);
 }
 
 static bool32 WaitForTrainerIsCloseByText(struct Pokenav_MatchCallGfx *gfx)
@@ -1141,7 +1141,7 @@ static void PrintMatchCallMessage(struct Pokenav_MatchCallGfx *gfx)
     int index = PokenavList_GetSelectedIndex();
     const u8 *str = GetMatchCallMessageText(index, &gfx->newRematchRequest);
     u8 speed = GetPlayerTextSpeedDelay();
-    AddTextPrinterParameterized(gfx->msgBoxWindowId, FONT_NORMAL, str, 32, 1, speed, NULL);
+    AddTextPrinterParameterized(gfx->msgBoxWindowId, FONT_OPTION, str, 32, 1, speed, NULL);
 }
 
 static bool32 WaitForMatchCallMessageText(struct Pokenav_MatchCallGfx *gfx)
@@ -1247,7 +1247,7 @@ static void LoadCheckPageTrainerPic(struct Pokenav_MatchCallGfx *gfx)
     int trainerPic = GetMatchCallTrainerPic(PokenavList_GetSelectedIndex());
     if (trainerPic >= 0)
     {
-        DecompressPicFromTable(&gTrainerFrontPicTable[trainerPic], gfx->trainerPicGfx, SPECIES_NONE);
+        DecompressPicFromTable(&gTrainerFrontPicTable[trainerPic], gfx->trainerPicGfx, SPECIES_NONE, 0);
         LZ77UnCompWram(gTrainerFrontPicPaletteTable[trainerPic].data, gfx->trainerPicPal);
         cursor = RequestDma3Copy(gfx->trainerPicGfx, gfx->trainerPicGfxPtr, sizeof(gfx->trainerPicGfx), 1);
         LoadPalette(gfx->trainerPicPal, gfx->trainerPicPalOffset, sizeof(gfx->trainerPicPal));

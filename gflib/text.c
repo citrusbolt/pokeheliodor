@@ -16,23 +16,25 @@
 static u16 RenderText(struct TextPrinter *);
 static u32 RenderFont(struct TextPrinter *);
 static u16 FontFunc_Small(struct TextPrinter *);
-static u16 FontFunc_Normal(struct TextPrinter *);
+static u16 FontFunc_HGSS(struct TextPrinter *);
 static u16 FontFunc_FRLG(struct TextPrinter *);
 static u16 FontFunc_E(struct TextPrinter *);
 static u16 FontFunc_RS(struct TextPrinter *);
+static u16 FontFunc_Option(struct TextPrinter *);
 static u16 FontFunc_Narrow(struct TextPrinter *);
 static void DecompressGlyph_Small(u16, bool32);
-static void DecompressGlyph_Normal(u16, bool32);
+static void DecompressGlyph_HGSS(u16, bool32);
 static void DecompressGlyph_FRLG(u16, bool32);
 static void DecompressGlyph_E(u16, bool32);
 static void DecompressGlyph_RS(u16, bool32);
 static void DecompressGlyph_Narrow(u16, bool32);
 static void DecompressGlyph_Bold(u16);
 static u32 GetGlyphWidth_Small(u16, bool32);
-static u32 GetGlyphWidth_Normal(u16, bool32);
+static u32 GetGlyphWidth_HGSS(u16, bool32);
 static u32 GetGlyphWidth_FRLG(u16, bool32);
 static u32 GetGlyphWidth_E(u16, bool32);
 static u32 GetGlyphWidth_RS(u16, bool32);
+static u32 GetGlyphWidth_Option(u16, bool32);
 static u32 GetGlyphWidth_Narrow(u16, bool32);
 
 static EWRAM_DATA struct TextPrinter sTempTextPrinter = {0};
@@ -82,10 +84,11 @@ static const u8 sWindowVerticalScrollSpeeds[] = {
 static const struct GlyphWidthFunc sGlyphWidthFuncs[] =
 {
     { FONT_SMALL,        GetGlyphWidth_Small },   // Healthbox, Party Screen, Frontier Pass details
-    { FONT_NORMAL,       GetGlyphWidth_Normal },  // HGSS - Primary Font
+    { FONT_HGSS,         GetGlyphWidth_HGSS },    // HGSS - Primary Font
     { FONT_FRLG,         GetGlyphWidth_FRLG },    // FRLG - Berry Crush
     { FONT_E,            GetGlyphWidth_E },       // Emerald
     { FONT_RS,           GetGlyphWidth_RS },      // Ruby/Sapphire
+    { FONT_OPTION,       GetGlyphWidth_Option },  // User Chosen Font
     { FONT_BRAILLE,      GetGlyphWidth_Braille }, // Braille
     { FONT_NARROW,       GetGlyphWidth_Narrow }   // PokeDex, Bag, Frontier Map
 };
@@ -126,8 +129,8 @@ static const struct FontInfo sFontInfos[] =
         .bgColor = 1,
         .shadowColor = 3,
     },
-    [FONT_NORMAL] = {
-        .fontFunction = FontFunc_Normal,
+    [FONT_HGSS] = {
+        .fontFunction = FontFunc_HGSS,
         .maxLetterWidth = 6,
         .maxLetterHeight = 16,
         .letterSpacing = 0,
@@ -160,6 +163,16 @@ static const struct FontInfo sFontInfos[] =
         .fontFunction = FontFunc_RS,
         .maxLetterWidth = 6,
         .maxLetterHeight =  16,
+        .letterSpacing = 0,
+        .lineSpacing = 0,
+        .fgColor = 2,
+        .bgColor = 1,
+        .shadowColor = 3,
+    },
+    [FONT_OPTION] = {
+        .fontFunction = FontFunc_Option,
+        .maxLetterWidth = 6,
+        .maxLetterHeight = 16,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .fgColor = 2,
@@ -201,10 +214,11 @@ static const struct FontInfo sFontInfos[] =
 static const u8 sMenuCursorDimensions[][2] =
 {
     [FONT_SMALL]   = { 8,  12 },
-    [FONT_NORMAL]  = { 8,  15 },
+    [FONT_HGSS]    = { 8,  15 },
     [FONT_FRLG]    = { 8,  14 },
     [FONT_E]       = { 8,  14 },
     [FONT_RS]      = { 8,  14 },
+    [FONT_OPTION]  = { 8,  15 },
     [FONT_BRAILLE] = { 8,  16 },
     [FONT_NARROW]  = { 8,  15 },
     [FONT_BOLD]    = {}
@@ -308,17 +322,17 @@ void RunTextPrinters(void)
 					bool8 active = sTextPrinters[i].active;
 					if (active)
 					{
-						u16 temp = RenderFont(&sTextPrinters[i]);
-						switch (temp)
+						u16 renderCmd = RenderFont(&sTextPrinters[i]);
+						switch (renderCmd)
 						{
 						case RENDER_PRINT:
 							CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
-							if (sTextPrinters[i].callback != 0)
-								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+							if (sTextPrinters[i].callback != NULL)
+								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
 							break;
 						case RENDER_UPDATE:
-							if (sTextPrinters[i].callback != 0)
-								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+							if (sTextPrinters[i].callback != NULL)
+								sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
 							active = FALSE;
 							break;
 						case RENDER_FINISH:
@@ -335,14 +349,14 @@ void RunTextPrinters(void)
 			{
 				if (sTextPrinters[i].active)
 				{
-					u16 temp = RenderFont(&sTextPrinters[i]);
-					switch (temp)
+					u16 renderCmd = RenderFont(&sTextPrinters[i]);
+					switch (renderCmd)
 					{
 					case RENDER_PRINT:
 						CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
 					case RENDER_UPDATE:
-						if (sTextPrinters[i].callback != 0)
-							sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+						if (sTextPrinters[i].callback != NULL)
+							sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
 						break;
 					case RENDER_FINISH:
 						sTextPrinters[i].active = FALSE;
@@ -580,10 +594,10 @@ static u8 GetLastTextColor(u8 colorType)
     }
 }
 
-inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s64 i, u32 *glyphPixels, s32 width, s32 height)
+inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s32 i, u32 *glyphPixels, s32 width, s32 height)
 {
     u32 xAdd, pixelData, bits, toOrr, dummyX, dummyY;
-	s64 yAdd;
+	s32 yAdd;
     u8 *dst;
 
     xAdd = j + width;
@@ -619,7 +633,7 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
     struct WindowTemplate *template;
     u32 *glyphPixels;
     u32 currX, widthOffset;
-    s64 currY, glyphWidth, glyphHeight;
+    s32 currY, glyphWidth, glyphHeight;
     u8 *windowTiles;
 
     window = &gWindows[textPrinter->printerTemplate.windowId];
@@ -709,13 +723,13 @@ static u16 FontFunc_Small(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-static u16 FontFunc_Normal(struct TextPrinter *textPrinter)
+static u16 FontFunc_HGSS(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
     if (subStruct->hasFontIdBeenSet == FALSE)
     {
-        subStruct->fontId = FONT_NORMAL;
+        subStruct->fontId = FONT_HGSS;
         subStruct->hasFontIdBeenSet = TRUE;
     }
     return RenderText(textPrinter);
@@ -752,6 +766,32 @@ static u16 FontFunc_RS(struct TextPrinter *textPrinter)
     if (subStruct->hasFontIdBeenSet == FALSE)
     {
         subStruct->fontId = FONT_RS;
+        subStruct->hasFontIdBeenSet = TRUE;
+    }
+    return RenderText(textPrinter);
+}
+
+static u16 FontFunc_Option(struct TextPrinter *textPrinter)
+{
+    struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
+
+    if (subStruct->hasFontIdBeenSet == FALSE)
+    {
+        switch (gSaveBlock2Ptr->optionsFont)
+        {
+            case 0:
+                subStruct->fontId = FONT_RS;
+                break;
+            case 1:
+                subStruct->fontId = FONT_FRLG;
+                break;
+            case 2:
+                subStruct->fontId = FONT_E;
+                break;
+            case 3:
+            default:
+                subStruct->fontId = FONT_HGSS;
+        }
         subStruct->hasFontIdBeenSet = TRUE;
     }
     return RenderText(textPrinter);
@@ -1125,8 +1165,8 @@ static u16 RenderText(struct TextPrinter *textPrinter)
         case FONT_SMALL:
             DecompressGlyph_Small(currChar, textPrinter->japanese);
             break;
-        case FONT_NORMAL:
-            DecompressGlyph_Normal(currChar, textPrinter->japanese);
+        case FONT_HGSS:
+            DecompressGlyph_HGSS(currChar, textPrinter->japanese);
             break;
         case FONT_FRLG:
             DecompressGlyph_FRLG(currChar, textPrinter->japanese);
@@ -1136,6 +1176,24 @@ static u16 RenderText(struct TextPrinter *textPrinter)
             break;
         case FONT_RS:
             DecompressGlyph_RS(currChar, textPrinter->japanese);
+            break;
+        case FONT_OPTION:
+            switch (gSaveBlock2Ptr->optionsFont)
+            {
+                case 0:
+                    DecompressGlyph_RS(currChar, textPrinter->japanese);
+                    break;
+                case 1:
+                    DecompressGlyph_FRLG(currChar, textPrinter->japanese);
+                    break;
+                case 2:
+                    DecompressGlyph_E(currChar, textPrinter->japanese);
+                    break;
+                case 3:
+                deafult:
+                    DecompressGlyph_HGSS(currChar, textPrinter->japanese);
+                    break;
+            }
             break;
         case FONT_NARROW:
             DecompressGlyph_Narrow(currChar, textPrinter->japanese);
@@ -1590,9 +1648,23 @@ u8 RenderTextHandleBold(u8 *pixels, u8 fontId, u8 *str)
             case FONT_BOLD:
                 DecompressGlyph_Bold(temp);
                 break;
-            case FONT_NORMAL:
             default:
-                DecompressGlyph_Normal(temp, TRUE);
+                switch (gSaveBlock2Ptr->optionsFont)
+                {
+                    case 0:
+                        DecompressGlyph_RS(temp, TRUE);
+                        break;
+                    case 1:
+                        DecompressGlyph_FRLG(temp, TRUE);
+                        break;
+                    case 2:
+                        DecompressGlyph_E(temp, TRUE);
+                        break;
+                    case 3:
+                    default:
+                        DecompressGlyph_HGSS(temp, TRUE);
+                        break;
+                }
                 break;
             }
             CpuCopy32(gCurGlyph.gfxBufferTop, pixels, 0x20);
@@ -1723,7 +1795,7 @@ static u32 GetGlyphWidth_Small(u16 glyphId, bool32 isJapanese)
         return gFontSmallLatinGlyphWidths[glyphId];
 }
 
-static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
+static void DecompressGlyph_HGSS(u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
@@ -1737,8 +1809,8 @@ static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
     }
     else
     {
-        glyphs = gFontNormalLatinGlyphs + (0x20 * glyphId);
-        gCurGlyph.width = gFontNormalLatinGlyphWidths[glyphId];
+        glyphs = gFontHGSSLatinGlyphs + (0x20 * glyphId);
+        gCurGlyph.width = gFontHGSSLatinGlyphWidths[glyphId];
 
         if (gCurGlyph.width <= 8)
         {
@@ -1757,12 +1829,12 @@ static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
     }
 }
 
-static u32 GetGlyphWidth_Normal(u16 glyphId, bool32 isJapanese)
+static u32 GetGlyphWidth_HGSS(u16 glyphId, bool32 isJapanese)
 {
     if (isJapanese == TRUE)
         return 8;
     else
-        return gFontNormalLatinGlyphWidths[glyphId];
+        return gFontHGSSLatinGlyphWidths[glyphId];
 }
 
 static void DecompressGlyph_FRLG(u16 glyphId, bool32 isJapanese)
@@ -1895,6 +1967,29 @@ static u32 GetGlyphWidth_RS(u16 glyphId, bool32 isJapanese)
         return gFontShortJapaneseGlyphWidths[glyphId];
     else
         return gFontRSLatinGlyphWidths[glyphId];
+}
+
+static u32 GetGlyphWidth_Option(u16 glyphId, bool32 isJapanese)
+{
+    if (isJapanese == TRUE)
+    {
+        return 8;
+    }
+    else
+    {
+        switch (gSaveBlock2Ptr->optionsFont)
+        {
+            case 0:
+                return gFontRSLatinGlyphWidths[glyphId];
+            case 1:
+                return gFontFRLGLatinGlyphWidths[glyphId];
+            case 2:
+                return gFontELatinGlyphWidths[glyphId];
+            case 3:
+            default:
+                return gFontHGSSLatinGlyphWidths[glyphId];
+        }
+    }
 }
 
 static void DecompressGlyph_Narrow(u16 glyphId, bool32 isJapanese)

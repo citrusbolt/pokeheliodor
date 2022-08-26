@@ -1810,10 +1810,10 @@ static void Task_ShowRankings(u8 taskId)
         break;
     case 1:
         // Print header text
-        xPos = 96 - GetStringWidth(FONT_NORMAL, gText_BerryCrush2, -1) / 2u;
-        AddTextPrinterParameterized3(tWindowId, FONT_NORMAL, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush2);
-        xPos = 96 - GetStringWidth(FONT_NORMAL, gText_PressingSpeedRankings, -1) / 2u;
-        AddTextPrinterParameterized3(tWindowId, FONT_NORMAL, xPos, 17, sTextColorTable[COLORID_BLUE], 0, gText_PressingSpeedRankings);
+        xPos = 96 - GetStringWidth(FONT_OPTION, gText_BerryCrush2, -1) / 2u;
+        AddTextPrinterParameterized3(tWindowId, FONT_OPTION, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush2);
+        xPos = 96 - GetStringWidth(FONT_OPTION, gText_PressingSpeedRankings, -1) / 2u;
+        AddTextPrinterParameterized3(tWindowId, FONT_OPTION, xPos, 17, sTextColorTable[COLORID_BLUE], 0, gText_PressingSpeedRankings);
 
         // Print pressing speed record for each group size, ranked
         yPos = 41;
@@ -1821,9 +1821,9 @@ static void Task_ShowRankings(u8 taskId)
         {
             ConvertIntToDecimalStringN(gStringVar1, i + 2, STR_CONV_MODE_LEFT_ALIGN, 1);
             StringExpandPlaceholders(gStringVar4, gText_Var1Players);
-            AddTextPrinterParameterized3(tWindowId, FONT_NORMAL, 0, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
-            xPos = 192 - (u8)GetStringWidth(FONT_NORMAL, gText_TimesPerSec, -1);
-            AddTextPrinterParameterized3(tWindowId, FONT_NORMAL, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gText_TimesPerSec);
+            AddTextPrinterParameterized3(tWindowId, FONT_OPTION, 0, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+            xPos = 192 - (u8)GetStringWidth(FONT_OPTION, gText_TimesPerSec, -1);
+            AddTextPrinterParameterized3(tWindowId, FONT_OPTION, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gText_TimesPerSec);
             for (j = 0; j < 8; j++)
             {
                 if (((tPressingSpeeds(i) & 0xFF) >> (7 - j)) & 1)
@@ -1832,8 +1832,8 @@ static void Task_ShowRankings(u8 taskId)
             ConvertIntToDecimalStringN(gStringVar1, (u16)tPressingSpeeds(i) >> 8, STR_CONV_MODE_RIGHT_ALIGN, 3);
             ConvertIntToDecimalStringN(gStringVar2, score / 1000000, STR_CONV_MODE_LEADING_ZEROS, 2);
             StringExpandPlaceholders(gStringVar4, gText_XDotY3);
-            xPos -= GetStringWidth(FONT_NORMAL, gStringVar4, -1);
-            AddTextPrinterParameterized3(tWindowId, FONT_NORMAL, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+            xPos -= GetStringWidth(FONT_OPTION, gStringVar4, -1);
+            AddTextPrinterParameterized3(tWindowId, FONT_OPTION, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
             yPos += 16;
             score = 0;
         }
@@ -2250,15 +2250,15 @@ static u32 Cmd_PrintMessage(struct BerryCrushGame *game, u8 *args)
     switch (game->cmdState)
     {
     case 0:
-        DrawDialogueFrame(0, 0);
+        DrawDialogueFrame(0, FALSE);
         if (args[1] & F_MSG_EXPAND)
         {
             StringExpandPlaceholders(gStringVar4, sMessages[args[0]]);
-            AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, FONT_OPTION, gStringVar4, game->textSpeed, 0, 2, 1, 3);
         }
         else
         {
-            AddTextPrinterParameterized2(0, FONT_NORMAL, sMessages[args[0]], game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, FONT_OPTION, sMessages[args[0]], game->textSpeed, 0, 2, 1, 3);
         }
         CopyWindowToVram(0, COPYWIN_FULL);
         break;
@@ -2390,8 +2390,8 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
             game->players[i].berryId = gBlockRecvBuffer[i][0];
             if (game->players[i].berryId > LAST_BERRY_INDEX + 1)
                 game->players[i].berryId = 0;
-            game->targetAPresses += gBerryCrush_BERRYData[game->players[i].berryId].difficulty;
-            game->powder += gBerryCrush_BERRYData[game->players[i].berryId].powder;
+            game->targetAPresses += gBerryCrush_BerryData[game->players[i].berryId].difficulty;
+            game->powder += gBerryCrush_BerryData[game->players[i].berryId].powder;
         }
         game->cmdTimer = 0;
         ResetBlockReceivedFlags();
@@ -3227,8 +3227,8 @@ static u32 Cmd_SaveGame(struct BerryCrushGame *game, u8 *args)
     case 2:
         if (!IsLinkTaskFinished())
             return 0;
-        DrawDialogueFrame(0, 0);
-        AddTextPrinterParameterized2(0, FONT_NORMAL, gText_SavingDontTurnOffPower, 0, 0, 2, 1, 3);
+        DrawDialogueFrame(0, FALSE);
+        AddTextPrinterParameterized2(0, FONT_OPTION, gText_SavingDontTurnOffPower, 0, 0, 2, 1, 3);
         CopyWindowToVram(0, COPYWIN_FULL);
         CreateTask(Task_LinkFullSave, 0);
         break;
@@ -3375,11 +3375,11 @@ static u32 Cmd_StopGame(struct BerryCrushGame *game, u8 *args)
     switch (game->cmdState)
     {
     case 0:
-        DrawDialogueFrame(0, 0);
+        DrawDialogueFrame(0, FALSE);
         if (game->playAgainState == PLAY_AGAIN_NO_BERRIES)
-            AddTextPrinterParameterized2(0, FONT_NORMAL, sMessages[MSG_NO_BERRIES], game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, FONT_OPTION, sMessages[MSG_NO_BERRIES], game->textSpeed, 0, 2, 1, 3);
         else
-            AddTextPrinterParameterized2(0, FONT_NORMAL, sMessages[MSG_DROPPED], game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, FONT_OPTION, sMessages[MSG_DROPPED], game->textSpeed, 0, 2, 1, 3);
         CopyWindowToVram(0, COPYWIN_FULL);
         break;
     case 1:

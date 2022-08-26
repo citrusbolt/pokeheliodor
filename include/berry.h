@@ -36,6 +36,8 @@ struct BerryCrushBerryData {
     u16 powder;
 };
 
-extern const struct BerryCrushBerryData gBerryCrush_BERRYData[];
+extern const struct BerryCrushBerryData gBerryCrush_BerryData[];
+extern const u8 sBerryDescriptionPart1_WatmelMetric[];
+extern const u8 sBerryDescriptionPart2_WatmelMetric[];
 
 #endif // GUARD_BERRY_H

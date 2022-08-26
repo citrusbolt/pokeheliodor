@@ -4762,6 +4762,7 @@ static bool8 FrontierSquaresScroll_End(struct Task *task)
     BlendPalettes(PALETTES_ALL, 16, RGB_BLACK);
 
     DestroyTask(FindTaskIdByFunc(task->func));
+    task->tState++; // Changing value of a destroyed task
 
     return FALSE;
 }

@@ -133,8 +133,7 @@ Route111_EventScript_MirageTowerDisappear::
 	setvar VAR_MIRAGE_TOWER_STATE, 2
 	clearflag FLAG_HIDE_DESERT_UNDERPASS_FOSSIL
 	checkitem ITEM_SAPPHIRE, 1
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route111_EventScript_RubyDisappeared
+	goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_RubyDisappeared
 	msgbox Route111_Text_SapphireDisappeared, MSGBOX_DEFAULT
 	releaseall
 	end
@@ -579,23 +578,21 @@ Route111_EventScript_TrainerHillSign::
 Route111_EventScript_GiveUnown::
 	goto_if_unset FLAG_UNOWN_RELEASED, Route111_EventScript_GiveUnownNotYet
 	msgbox Route111_Text_GiveUnown, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route111_EventScript_DeclineUnown
+	goto_if_eq VAR_RESULT, NO, Route111_EventScript_DeclineUnown
 	setvar VAR_TEMP_1, SPECIES_UNOWN
 	giveunown 25, 0
-	compare VAR_RESULT, 0
-	goto_if_eq Route111_EventScript_ReceiveUnownParty
-	compare VAR_RESULT, 1
-	goto_if_eq Route111_EventScript_ReceiveUnownPC
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Route111_EventScript_ReceiveUnownParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Route111_EventScript_ReceiveUnownPC
 	goto Common_EventScript_NoMoreRoomForPokemon
 	end
 
 Route111_EventScript_ReceiveUnownParty::
 	setflag FLAG_RECEIVED_UNOWN
 	call Route111_EventScript_ReceivedUnownFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_Done
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route111_EventScript_Done
+	goto_if_eq VAR_RESULT, NO, Route111_EventScript_Done
 	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
 	msgbox Route111_Text_GaveUnown
@@ -605,9 +602,10 @@ Route111_EventScript_ReceiveUnownParty::
 Route111_EventScript_ReceiveUnownPC::
 	setflag FLAG_RECEIVED_UNOWN
 	call Route111_EventScript_ReceivedUnownFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_SendUnownToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq Route111_EventScript_SendUnownToPC
+	goto_if_eq VAR_RESULT, NO,Route111_EventScript_SendUnownToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto Route111_EventScript_SendUnownToPC
 	end

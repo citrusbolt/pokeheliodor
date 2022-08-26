@@ -88,15 +88,21 @@ static void InitPlayerTrainerId(void)
 	IssueRSSID();
 }
 
-// L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    gSaveBlock2Ptr->optionsButtonMode = OPTIONS_BUTTON_MODE_LR;
+    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
+    gSaveBlock2Ptr->options24HourClock = FALSE;
+    gSaveBlock2Ptr->optionsUnitSystem = 0; // Imperial
+    gSaveBlock2Ptr->optionsMessageColor = 3; // Yellow
+    gSaveBlock2Ptr->optionsFont = 3; // HGSS
+    gSaveBlock2Ptr->optionsPartyBox = 1; // Automatic
+    gSaveBlock2Ptr->optionsNickname = 0; // Give
 }
 
 static void ClearPokedexFlags(void)
@@ -223,7 +229,7 @@ void NewGameInitData(void)
 	for (i = 0; i < 6; i++)
 		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
 	
-	VarSet(VAR_SAVE_VER, 4);
+	VarSet(VAR_SAVE_VER, 5);
 }
 
 static void ResetMiniGamesRecords(void)

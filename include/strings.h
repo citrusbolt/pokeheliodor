@@ -416,6 +416,7 @@ extern const u8 gText_BerryTag[];
 extern const u8 gText_NumberVar1Var2[];
 extern const u8 gText_SizeSlash[];
 extern const u8 gText_Var1DotVar2[];
+extern const u8 gText_Var1DotVar2_Metric[];
 extern const u8 gText_ThreeMarks[];
 extern const u8 gText_FirmSlash[];
 
@@ -3175,6 +3176,7 @@ extern const u8 gText_CurrentTimePMOff[];
 extern const u8 gText_ClockOption[];
 extern const u8 gText_ShinyStar[];
 extern const u8 gText_ShinySquare[];
+extern const u8 gText_FatefulTriangle[];
 extern const u8 gText_ShinyStarMale[];
 extern const u8 gText_ShinyStarFemale[];
 extern const u8 gText_PowerPadNoService[];

@@ -673,8 +673,8 @@ static void DrawListIndexNumber(s32 windowId, s32 index, s32 max)
     ptr = ConvertIntToDecimalStringN(ptr, index, STR_CONV_MODE_RIGHT_ALIGN, 3);
     *ptr++ = CHAR_SLASH;
     ConvertIntToDecimalStringN(ptr, max, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    x = GetStringCenterAlignXOffset(FONT_NORMAL, strbuf, 56);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, strbuf, x, 1, TEXT_SKIP_DRAW, NULL);
+    x = GetStringCenterAlignXOffset(FONT_OPTION, strbuf, 56);
+    AddTextPrinterParameterized(windowId, FONT_OPTION, strbuf, x, 1, TEXT_SKIP_DRAW, NULL);
 }
 
 static void CreateRibbonMonsList(void)
@@ -689,7 +689,7 @@ static void CreateRibbonMonsList(void)
     template.listTop = 1;
     template.maxShowed = 8;
     template.fillValue = 2;
-    template.fontId = FONT_NORMAL;
+    template.fontId = FONT_OPTION;
     template.bufferItemFunc = BufferRibbonMonInfoText;
     template.iconDrawFunc = NULL;
     CreatePokenavList(&sMonRibbonListBgTemplates[1], &template, 0);
@@ -722,7 +722,7 @@ static void BufferRibbonMonInfoText(struct PokenavListItem * listItem, u8 * dest
     }
 
     StringGet_Nickname(gStringVar3);
-    dest = GetStringClearToWidth(dest, FONT_NORMAL, gStringVar3, 60);
+    dest = GetStringClearToWidth(dest, FONT_OPTION, gStringVar3, 60);
     switch (gender)
     {
     default:
@@ -741,6 +741,6 @@ static void BufferRibbonMonInfoText(struct PokenavListItem * listItem, u8 * dest
     *s++ = CHAR_EXTRA_SYMBOL;
     *s++ = CHAR_LV_2;
     ConvertIntToDecimalStringN(s, level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    dest = GetStringClearToWidth(dest, FONT_NORMAL, gStringVar1, 54);
+    dest = GetStringClearToWidth(dest, FONT_OPTION, gStringVar1, 54);
     ConvertIntToDecimalStringN(dest, item->data, STR_CONV_MODE_RIGHT_ALIGN, 2);
 }

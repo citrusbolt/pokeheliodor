@@ -154,6 +154,8 @@ RustboroCity_DevonCorp_2F_EventScript_ReceiveLileep::
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveLileepParty::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedLileepFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingLileep
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingLileep
 	call Common_EventScript_GetGiftMonPartySlot
@@ -163,6 +165,8 @@ RustboroCity_DevonCorp_2F_EventScript_ReceiveLileepParty::
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveLileepPC::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedLileepFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_TransferLileepToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_TransferLileepToPC
 	call Common_EventScript_NameReceivedBoxMon
@@ -199,6 +203,8 @@ RustboroCity_DevonCorp_2F_EventScript_ReceiveAnorith::
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveAnorithParty::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedAnorithFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingAnorith
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingAnorith
 	call Common_EventScript_GetGiftMonPartySlot
@@ -208,6 +214,8 @@ RustboroCity_DevonCorp_2F_EventScript_ReceiveAnorithParty::
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveAnorithPC::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedAnorithFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_TransferAnorithToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_TransferAnorithToPC
 	call Common_EventScript_NameReceivedBoxMon
@@ -279,8 +287,7 @@ RustboroCity_DevonCorp_2F_EventScript_HaveFossils::
 	applymovement LOCALID_FOSSIL_SCIENTIST, Common_Movement_Delay48
 	waitmovement 0
 	msgbox RustboroCity_DevonCorp_2F_Text_WantToBringFossilBackToLife, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_DeclineGiveFossil
+	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_DeclineGiveFossil
 	special CheckFossils
 	special ScriptMenu_CreateFossilMultichoice
 	waitstate
@@ -344,18 +351,17 @@ RustboroCity_DevonCorp_2F_EventScript_OmanyteReady::
 RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanyte::
 	setvar VAR_TEMP_1, SPECIES_OMANYTE
 	givemon SPECIES_OMANYTE, 20, ITEM_NONE
-	compare VAR_RESULT, 0
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanyteParty
-	compare VAR_RESULT, 1
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanytePC
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanyteParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanytePC
 	goto Common_EventScript_NoMoreRoomForPokemon
 	end
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanyteParty::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedOmanyteFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingOmanyte
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_FinishReceivingOmanyte
+	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingOmanyte
 	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
 	goto RustboroCity_DevonCorp_2F_EventScript_FinishReceivingOmanyte
@@ -363,9 +369,10 @@ RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanyteParty::
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveOmanytePC::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedOmanyteFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_TransferOmanyteToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_TransferOmanyteToPC
+	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_TransferOmanyteToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto RustboroCity_DevonCorp_2F_EventScript_TransferOmanyteToPC
 	end
@@ -399,18 +406,17 @@ RustboroCity_DevonCorp_2F_EventScript_KabutoReady::
 RustboroCity_DevonCorp_2F_EventScript_ReceiveKabuto::
 	setvar VAR_TEMP_1, SPECIES_KABUTO
 	givemon SPECIES_KABUTO, 20, ITEM_NONE
-	compare VAR_RESULT, 0
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_ReceiveKabutoParty
-	compare VAR_RESULT, 1
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_ReceiveKabutoPC
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, RustboroCity_DevonCorp_2F_EventScript_ReceiveKabutoParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, RustboroCity_DevonCorp_2F_EventScript_ReceiveKabutoPC
 	goto Common_EventScript_NoMoreRoomForPokemon
 	end
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveKabutoParty::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedKabutoFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingKabuto
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_FinishReceivingKabuto
+	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingKabuto
 	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
 	goto RustboroCity_DevonCorp_2F_EventScript_FinishReceivingKabuto
@@ -418,9 +424,10 @@ RustboroCity_DevonCorp_2F_EventScript_ReceiveKabutoParty::
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveKabutoPC::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedKabutoFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_TransferKabutoToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_TransferKabutoToPC
+	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_TransferKabutoToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto RustboroCity_DevonCorp_2F_EventScript_TransferKabutoToPC
 	end
@@ -454,18 +461,17 @@ RustboroCity_DevonCorp_2F_EventScript_AerodactylReady::
 RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactyl::
 	setvar VAR_TEMP_1, SPECIES_AERODACTYL
 	givemon SPECIES_AERODACTYL, 20, ITEM_NONE
-	compare VAR_RESULT, 0
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactylParty
-	compare VAR_RESULT, 1
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactylPC
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactylParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactylPC
 	goto Common_EventScript_NoMoreRoomForPokemon
 	end
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactylParty::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedAerodactylFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingAerodactyl
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_FinishReceivingAerodactyl
+	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingAerodactyl
 	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
 	goto RustboroCity_DevonCorp_2F_EventScript_FinishReceivingAerodactyl
@@ -473,9 +479,10 @@ RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactylParty::
 
 RustboroCity_DevonCorp_2F_EventScript_ReceiveAerodactylPC::
 	call RustboroCity_DevonCorp_2F_EventScript_ReceivedAerodactylFanfare
+    special SkipNickname
+    goto_if_eq VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_TransferAerodactylToPC
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq RustboroCity_DevonCorp_2F_EventScript_TransferAerodactylToPC
+	goto_if_eq VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_TransferAerodactylToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto RustboroCity_DevonCorp_2F_EventScript_TransferAerodactylToPC
 	end
@@ -499,7 +506,6 @@ RustboroCity_DevonCorp_2F_EventScript_FinishReceivingAerodactyl::
 	setflag FLAG_RECEIVED_REVIVED_FOSSIL_MON
 	release
 	end
-
 
 RustboroCity_DevonCorp_2F_Text_DeviceForTalkingToPokemon:
 	.string "We're developing a device for talking\n"
