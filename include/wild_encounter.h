@@ -49,6 +49,9 @@ struct WildPokemonHeader
     const struct WildPokemonInfo *puddleMonsLeafGreenInfo;
 };
 
+extern const struct WildPokemonHeader gWildMonHeadersRS[];
+//extern const struct WildPokemonHeader gWildMonHeadersFRLG[];
+extern const struct WildPokemonHeader gWildMonHeadersE[];
 extern const struct WildPokemonHeader gWildMonHeaders[];
 
 extern u8 gChainStreak;
