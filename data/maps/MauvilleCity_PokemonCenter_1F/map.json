@@ -92,8 +92,8 @@
       "x": 6,
       "y": 8,
       "elevation": 3,
-      "dest_map": "MAP_MAUVILLE_CITY",
-      "dest_warp_id": 1
+      "dest_map": "MAP_KANTO_CELADON_CITY",
+      "dest_warp_id": 4
     },
     {
       "x": 1,
