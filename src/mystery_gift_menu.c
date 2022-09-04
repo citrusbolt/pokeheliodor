@@ -804,11 +804,11 @@ static u32 MysteryGift_HandleThreeOptionMenu(u8 * unused0, u16 * unused1, u8 whi
         listMenuTemplate.items = sListMenuItems_CardsOrNews;
     else if (whichMenu == 1)
         listMenuTemplate.items = sListMenuItems_WirelessOrFriend;
-    else if (whichMenu == 5)
-        listMenuTemplate.items = sListMenuItems_EonMystic;
     else if (whichMenu == 6)
-        listMenuTemplate.items = sListMenuItems_EonAurora;
+        listMenuTemplate.items = sListMenuItems_EonMystic;
     else if (whichMenu == 7)
+        listMenuTemplate.items = sListMenuItems_EonAurora;
+    else if (whichMenu == 8)
         listMenuTemplate.items = sListMenuItems_MysticAurora;
 
     width = Intl_GetListMenuWidth(&listMenuTemplate);
