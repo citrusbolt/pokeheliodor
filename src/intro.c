@@ -25,6 +25,7 @@
 #include "title_screen.h"
 #include "constants/rgb.h"
 #include "constants/battle_anim.h"
+#include "rumble.h"
 
 /*
     The intro is grouped into the following scenes
@@ -1094,7 +1095,7 @@ static u8 SetUpCopyrightScreen(void)
         EnableInterrupts(INTR_FLAG_VBLANK);
         SetVBlankCallback(VBlankCB_Intro);
         REG_DISPCNT = DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON;
-        SetSerialCallback(SerialCB_CopyrightScreen);
+        SetSerialCallback(gbp_serial_isr);
         GameCubeMultiBoot_Init(&gMultibootProgramStruct);
     default:
         UpdatePaletteFade();
@@ -1130,7 +1131,7 @@ static u8 SetUpCopyrightScreen(void)
         else
         {
             GameCubeMultiBoot_Quit();
-            SetSerialCallback(SerialCB);
+            SetSerialCallback(gbp_serial_isr);
         }
         return 0;
     }
@@ -3413,6 +3414,10 @@ static void SpriteCB_RayquazaOrb(struct Sprite *sprite)
 
 void CB2_DetectGameBoyPlayer(void)
 {
+    u16 inputLower;
+    u32 result = 0;
+    gbp_comms.serial_in_ = REG_SIODATA32;
+    inputLower = gbp_comms.serial_in_;
     switch (gMain.state)
     {
         case 0:
@@ -3455,6 +3460,98 @@ void CB2_DetectGameBoyPlayer(void)
             REG_BLDY = gMain.state - 49;
             gMain.state++;
             break;
+        case 66:
+            REG_IME = 0;
+            REG_IE &= ~(INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
+            REG_IME = 1;
+            REG_RCNT = 0;
+            REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD;
+            REG_SIOCNT |= SIO_INTR_ENABLE;
+            REG_IF = INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL;
+            REG_IME = 0;
+            REG_IE |= INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL;
+            REG_IME = INTR_FLAG_VBLANK;
+            REG_SIOCNT_L &= -2;
+            REG_IME = 0;
+            REG_SIOCNT |= SIO_MULTI_BUSY;
+            REG_IME = INTR_FLAG_VBLANK;
+            REG_TM3CNT_L = 0x8000;
+            REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
+            gIntrTable[1] = gbp_serial_isr;
+    IntrEnable(INTR_FLAG_SERIAL);
+            gMain.state = 72;
+            break;
+        case 67:
+            VBlankIntrWait();
+            if (inputLower == 0x8002)
+            {
+                result = 0x10000010;
+                gMain.state = 68;
+                REG_SIODATA32 = result;
+                REG_SIOCNT |= SIO_START;
+                break;
+            }
+            if ((gbp_comms.serial_in_ >> 16) != gbp_comms.out_1_) {
+                gbp_comms.index_ = 0;
+            }
+            if (gbp_comms.index_ > 3) {
+                gbp_comms.out_0_ = 0x8000;
+            } else {
+                if (gbp_comms.serial_in_ ==
+                    (u32) ~(gbp_comms.out_1_ | (gbp_comms.out_0_ << 16))) {
+                    gbp_comms.index_ += 1;
+                }
+    
+                gbp_comms.out_0_ =
+                    ((const u16*)comms_handshake_data)[gbp_comms.index_];
+            }
+    
+            gbp_comms.out_1_ = ~inputLower;
+            result = gbp_comms.out_1_;
+            result |= gbp_comms.out_0_ << 16;
+            REG_SIODATA32 = result;
+            REG_SIOCNT |= SIO_START;
+            break;
+        case 68:
+            VBlankIntrWait();
+            /* The GBATEK reference says to check for these integer constants in
+            this order... but why? Who knows. Anyway, it seems to work. */
+            if (gbp_comms.serial_in_ == 0x10000010) {
+                result = 0x20000013;
+                gMain.state = 69;
+            } else {
+                gMain.state = 71;
+            }
+            REG_SIODATA32 = result;
+            REG_SIOCNT |= SIO_START;
+            break;
+        case 69:
+            VBlankIntrWait();
+            if (gbp_comms.serial_in_ == 0x20000013) {
+                result = 0x40000004;
+                gMain.state = 70;
+            } else {
+                gMain.state = 71;
+            }
+            REG_SIODATA32 = result;
+            REG_SIOCNT |= SIO_START;
+            break;
+        case 70:
+            VBlankIntrWait();
+            if (gbp_comms.serial_in_ == 0x30000003) {
+                result = rumble_state;
+            } else {
+                gMain.state = 71;
+            }
+            REG_SIODATA32 = result;
+            REG_SIOCNT |= SIO_START;
+            break;
+        case 71: {
+            struct GBPComms reset = {0};
+            gbp_comms = reset;
+            gMain.state++;
+            break;
+        }
         default:
             SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
             break;
