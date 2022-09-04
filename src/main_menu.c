@@ -42,7 +42,6 @@
 #include "mgba.h"
 #include "mystery_gift_menu.h"
 #include "roamer.h"
-#include "rumble.h"
 
 /*
  * Main menu state machine
@@ -1076,28 +1075,8 @@ static void Task_HighlightSelectedMainMenuItem(u8 taskId)
 
 static bool8 HandleMainMenuInput(u8 taskId)
 {
-    u8 current_state = rumble_stop;
-
-    u32 counter = 0;
     s16* data = gTasks[taskId].data;
 
-while (1)
-{
-        rumble_update();
-        if (++counter == 90) {
-            counter = 0;
-            if (current_state == rumble_stop) {
-                current_state = rumble_start;
-            } else {
-                current_state = rumble_stop;
-            }
-            rumble_set_state(current_state);
-        }
-        VBlankIntrWait();
-}
-            
-        
-        
     if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
@@ -1115,7 +1094,6 @@ while (1)
     }
     else if ((JOY_NEW(DPAD_UP)) && tCurrItem > 0)
     {
-        rumble_set_state(rumble_stop);
         if (tIsScrolled == TRUE && tCurrItem == 1)
         {
             ChangeBgY(0, 0x2000, BG_COORD_SUB);
@@ -1134,7 +1112,6 @@ while (1)
     }
     else if ((JOY_NEW(DPAD_DOWN)) && tCurrItem < tItemCount - 1)
     {
-        rumble_set_state(rumble_start);
         if (tIsScrolled == FALSE && tCurrItem == 3 && (tMenuType == HAS_MYSTERY_GIFT || tMenuType == HAS_MYSTERY_EVENTS))
         {
             ChangeBgY(0, 0x2000, BG_COORD_ADD);
