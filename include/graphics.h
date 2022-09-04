@@ -5302,4 +5302,8 @@ extern const u32 gSummaryScreenPageContestMoveDetailsTilemap[];
 extern const u32 gSummaryScreenPageContestNewMoveTilemap[];
 extern const u32 gSummaryScreenPageConditionTilemap[];
 
+extern const u8 gIntroGameBoyPlayer_Gfx[];
+extern const u8 gIntroGameBoyPlayer_Tilemap[];
+extern const u8 gIntroGameBoyPlayer_Pal[16];
+
 #endif //GUARD_GRAPHICS_H

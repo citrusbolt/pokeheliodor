@@ -41,6 +41,7 @@ struct Main
 };
 
 extern EWRAM_DATA bool8 gDisableVBlankRNGAdvance;
+extern EWRAM_DATA bool8 gGameBoyPlayerDetected;
 
 #define GAME_CODE_LENGTH 4
 extern const u8 gGameVersion;

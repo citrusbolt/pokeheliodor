@@ -33,6 +33,7 @@ static void SerialIntr(void);
 static void IntrDummy(void);
 
 EWRAM_DATA bool8 gDisableVBlankRNGAdvance = FALSE;
+EWRAM_DATA bool8 gGameBoyPlayerDetected = FALSE;
 
 const u8 gGameVersion = GAME_VERSION;
 
@@ -171,7 +172,7 @@ static void InitMainCallbacks(void)
     gTrainerHillVBlankCounter = NULL;
     gMain.vblankCounter2 = 0;
     gMain.callback1 = NULL;
-    SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
+    SetMainCallback2(CB2_DetectGameBoyPlayer);
     gSaveBlock2Ptr = &gSaveblock2.block;
     gPokemonStoragePtr = &gPokemonStorage.block;
 }
