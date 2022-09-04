@@ -3410,3 +3410,53 @@ static void SpriteCB_RayquazaOrb(struct Sprite *sprite)
         break;
     }
 }
+
+void CB2_DetectGameBoyPlayer(void)
+{
+    switch (gMain.state)
+    {
+        case 0:
+            SetVBlankCallback(NULL);
+            SetGpuReg(REG_OFFSET_BLDCNT, 0);
+            SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+            SetGpuReg(REG_OFFSET_BLDY, 0);
+            *(u16 *)PLTT = RGB_WHITE;
+            SetGpuReg(REG_OFFSET_DISPCNT, 0);
+            SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+            SetGpuReg(REG_OFFSET_BG0VOFS, 0);
+            CpuFill32(0, (void *)VRAM, VRAM_SIZE);
+            CpuFill32(0, (void *)OAM, OAM_SIZE);
+            CpuFill16(0, (void *)(PLTT + 2), PLTT_SIZE - 2);
+            ResetPaletteFade();
+            REG_IE |= INTR_FLAG_VBLANK;
+            REG_DISPSTAT |= DISPSTAT_VBLANK_INTR;
+            REG_BLDCNT = BLDCNT_TGT2_ALL | BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_ALL;
+            REG_BLDY = 0x10;
+            REG_DISPCNT = DISPCNT_OBJ_ON | DISPCNT_BG0_ON;
+            VBlankIntrWait();
+            DmaCopy16(3, gIntroGameBoyPlayer_Gfx, (void *)BG_CHAR_ADDR(2), BG_CHAR_SIZE);
+            DmaCopy16(3, gIntroGameBoyPlayer_Pal, (void *)BG_PLTT, BG_PLTT_SIZE);
+            DmaCopy16(3, gIntroGameBoyPlayer_Tilemap, (void *)BG_SCREEN_ADDR(0), BG_SCREEN_SIZE);
+            REG_BG0CNT = BGCNT_256COLOR | BGCNT_CHARBASE(2);
+        case 1 ... 17:
+            VBlankIntrWait();
+            REG_BLDY = 17 - gMain.state;
+            gMain.state++;
+            break;
+        case 18 ... 48:
+            if (JOY_NEW(DPAD_UP | DPAD_RIGHT | DPAD_DOWN | DPAD_LEFT))
+                gGameBoyPlayerDetected = TRUE;
+            VBlankIntrWait();
+            DmaCopy32(3, gIntroGameBoyPlayer_Tilemap, (void *)BG_SCREEN_ADDR(0), BG_SCREEN_SIZE);
+            gMain.state++;
+            break;
+        case 49 ... 65:
+            VBlankIntrWait();
+            REG_BLDY = gMain.state - 49;
+            gMain.state++;
+            break;
+        default:
+            SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
+            break;
+    }
+}

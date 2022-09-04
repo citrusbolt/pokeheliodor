@@ -1569,3 +1569,7 @@ const u32 gSummaryScreenPageConditionTilemap[] = INCBIN_U32("graphics/summary_sc
 const u32 gSummaryExpBar_Tiles[] = INCBIN_U32("graphics/summary_screen/exp_bar.4bpp.lz");
 const u32 gSummaryHealthBar_Tiles[] = INCBIN_U32("graphics/summary_screen/hp_bar.4bpp.lz");
 const u16 gExpBarHealthBarGreenPal[] = INCBIN_U16("graphics/summary_screen/hp-exp_bar.gbapal");
+
+const u8 gIntroGameBoyPlayer_Pal[] = INCBIN_U8("graphics/intro/gbp_pal.bin");
+const u8 gIntroGameBoyPlayer_Gfx[] = INCBIN_U8("graphics/intro/gbp_gfx.bin");
+const u8 gIntroGameBoyPlayer_Tilemap[] = INCBIN_U8("graphics/intro/gbp_map.bin");
