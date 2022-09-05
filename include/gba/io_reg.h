@@ -477,6 +477,7 @@
 #define REG_TM3CNT_L    (*(vu16 *)REG_ADDR_TM3CNT_L)
 #define REG_TM3CNT_H    (*(vu16 *)REG_ADDR_TM3CNT_H)
 
+#define REG_SIOCNT_L    (*(vs8 *)REG_ADDR_SIOCNT)
 #define REG_SIOCNT      (*(vu16 *)REG_ADDR_SIOCNT)
 #define REG_SIODATA8    (*(vu16 *)REG_ADDR_SIODATA8)
 #define REG_SIODATA32   (*(vu32 *)REG_ADDR_SIODATA32)
@@ -773,5 +774,11 @@
 
 #define WAITCNT_AGB (0 << 15)
 #define WAITCNT_CGB (1 << 15)
+
+#define GPIO_PORT_DATA        (*(vu16 *)0x80000C4)
+#define GPIO_PORT_DIRECTION   (*(vu16 *)0x80000C6)
+
+typedef void (*fnptr)(void);
+#define REG_ISR_MAIN         *(fnptr*)(0x03007FFC)
 
 #endif // GUARD_GBA_IO_REG_H
