@@ -503,6 +503,7 @@ static u16 GetFireRedWildMonHeaderId(void)
     for (i = 0; ; i++)
     {
         const struct WildPokemonHeader *wildHeader = &gWildMonHeadersFRLG[i];
+
         if (wildHeader->mapGroup == MAP_GROUP(UNDEFINED))
             break;
     
@@ -1110,10 +1111,11 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                 if (GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS)
                 {
                     struct Pokemon mon1 = gEnemyParty[0];
+
                     if (IsMonShiny(&gEnemyParty[0]))
                         IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 
-                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_FIRERED)
+                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_LEAFGREEN)
                     {
                         headerId = GetFireRedWildMonHeaderId();
                         gEncounterMode = ENCOUNTER_FIRERED;
@@ -1293,7 +1295,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                     if (IsMonShiny(&gEnemyParty[0]))
                         IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 
-                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_FIRERED)
+                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_LEAFGREEN)
                     {
                         headerId = GetFireRedWildMonHeaderId();
                         gEncounterMode = ENCOUNTER_FIRERED;
@@ -2461,6 +2463,7 @@ static u8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u
         return FALSE;
 
     CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, partySlot);
+
 
     return TRUE;
 }
