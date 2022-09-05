@@ -1030,9 +1030,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
     {
         if (MetatileBehavior_IsLandWildEncounter(currMetaTileBehavior) == TRUE)
         {
-            if (gWildMonHeaders[headerId].landMonsInfo == NULL)
-                return FALSE;
-            else if (!DoGlobalWildEncounterDiceRoll())
+            if (!DoGlobalWildEncounterDiceRoll())
                 return FALSE;
 
             if (gEncounterMode == ENCOUNTER_FIRERED)
@@ -1081,6 +1079,9 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                         break;
                 }
             }
+
+            if (wildPokemonInfo == NULL)
+                return FALSE;
 
             switch (gEncounterMode)
             {
@@ -1211,8 +1212,6 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
         {
             if (AreLegendariesInSootopolisPreventingEncounters() == TRUE)
                 return FALSE;
-            else if (gWildMonHeaders[headerId].waterMonsInfo == NULL)
-                return FALSE;
             else if (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
                 return FALSE;
 
@@ -1262,6 +1261,9 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                         break;
                 }
             }
+
+            if (wildPokemonInfo == NULL)
+                return FALSE;
 
             switch (gEncounterMode)
             {
