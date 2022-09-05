@@ -2881,12 +2881,12 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 	u16 i = 0;
 	u16 rolls = 1;
 	
-	if (HasAllMons())
-		rolls += SHINY_CHARM_REROLLS;
-	if (species == gLastEncounteredSpecies)
-		rolls += gChainStreak;
-	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-		rolls *= 2;
+	//if (HasAllMons())
+	//	rolls += SHINY_CHARM_REROLLS;
+	//if (species == gLastEncounteredSpecies)
+	//	rolls += gChainStreak;
+	//if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+	//	rolls *= 2;
 	
 	do
 	{
@@ -2914,12 +2914,12 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 	u16 i = 0;
 	u16 rolls = 1;
 	
-	if (HasAllMons())
-		rolls += SHINY_CHARM_REROLLS;
-	if (species == gLastEncounteredSpecies)
-		rolls += gChainStreak;
-	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-		rolls *= 2;
+	//if (HasAllMons())
+	//	rolls += SHINY_CHARM_REROLLS;
+	//if (species == gLastEncounteredSpecies)
+	//	rolls += gChainStreak;
+	//if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+	//	rolls *= 2;
 
     if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {

@@ -2354,8 +2354,10 @@ static bool8 RubyEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u
 
     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         encounterRate = encounterRate * 80 / 100;
+
     ApplyFluteEncounterRateMod(&encounterRate);
     ApplyCleanseTagEncounterRateMod(&encounterRate);
+
     if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
     {
         u32 ability = GetMonAbility(&gPlayerParty[0]);
@@ -2364,8 +2366,10 @@ static bool8 RubyEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u
         if (ability == ABILITY_ILLUMINATE)
             encounterRate *= 2;
     }
+
     if (encounterRate > MAX_ENCOUNTER_RATE)
         encounterRate = MAX_ENCOUNTER_RATE;
+
     if (!DoWildEncounterRateDiceRoll(encounterRate))
         return FALSE;
 
@@ -2415,9 +2419,11 @@ static u8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u
 
     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         encounterRate = encounterRate * 80 / 100;
+
     //encounterRate += sWildEncounterData.encounterRateBuff * 16 / 200;
     ApplyFluteEncounterRateMod(&encounterRate);
     ApplyCleanseTagEncounterRateMod(&encounterRate);
+
     if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
     {
         u32 ability = GetMonAbility(&gPlayerParty[0]);
@@ -2426,8 +2432,10 @@ static u8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u
         if (ability == ABILITY_ILLUMINATE)
             encounterRate *= 2;
     }
+
     if (encounterRate > 1600)
         encounterRate = 1600;
+
     if (!DoWildEncounterRateDiceRoll(encounterRate))
         return FALSE;
 
@@ -2464,7 +2472,6 @@ static u8 FireRedEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area, u
 
     CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, partySlot);
 
-
     return TRUE;
 }
 
@@ -2478,8 +2485,10 @@ static bool8 EmeraldEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area
 
     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         encounterRate = encounterRate * 80 / 100;
+
     ApplyFluteEncounterRateMod(&encounterRate);
     ApplyCleanseTagEncounterRateMod(&encounterRate);
+
     if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
     {
         u32 ability = GetMonAbility(&gPlayerParty[0]);
@@ -2494,6 +2503,7 @@ static bool8 EmeraldEncounter(const struct WildPokemonInfo *wildMonInfo, u8 area
         else if (ability == ABILITY_SAND_VEIL && gSaveBlock1Ptr->weather == WEATHER_SANDSTORM)
             encounterRate /= 2;
     }
+
     if (encounterRate > MAX_ENCOUNTER_RATE)
         encounterRate = MAX_ENCOUNTER_RATE;
     if (!DoWildEncounterRateDiceRoll(encounterRate))

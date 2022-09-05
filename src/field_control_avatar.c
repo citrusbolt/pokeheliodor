@@ -688,12 +688,17 @@ static bool8 CheckStandardWildEncounter(u16 metatileBehavior)
         return FALSE;
     }
 
+    gDisableVBlankRNGAdvance = TRUE;
+
     if (StandardWildEncounter(metatileBehavior, sPreviousPlayerMetatileBehavior) == TRUE)
     {
+        gDisableVBlankRNGAdvance = FALSE;
         sWildEncounterImmunitySteps = 0;
         sPreviousPlayerMetatileBehavior = metatileBehavior;
         return TRUE;
     }
+
+    gDisableVBlankRNGAdvance = FALSE;
 
     sPreviousPlayerMetatileBehavior = metatileBehavior;
     return FALSE;
