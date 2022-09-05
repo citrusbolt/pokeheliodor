@@ -1267,14 +1267,14 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             {
                 case ENCOUNTER_RUBY:
                 case ENCOUNTER_SAPPHIRE:
-                    encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
+                    encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_WATER, 0);
                     break;
                 case ENCOUNTER_FIRERED:
                 case ENCOUNTER_LEAFGREEN:
-                    encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
+                    encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_WATER, 0);
                     break;
                 case ENCOUNTER_EMERALD:
-                    encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND, 0);
+                    encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_WATER, 0);
                     break;
             }
 
@@ -1350,14 +1350,14 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                     {
                         case ENCOUNTER_RUBY:
                         case ENCOUNTER_SAPPHIRE:
-                            encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
+                            encounterResult = RubyEncounter(wildPokemonInfo, WILD_AREA_WATER, 1);
                             break;
                         case ENCOUNTER_FIRERED:
                         case ENCOUNTER_LEAFGREEN:
-                            encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
+                            encounterResult = FireRedEncounter(wildPokemonInfo, WILD_AREA_WATER, 1);
                             break;
                         case ENCOUNTER_EMERALD:
-                            encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_LAND, 1);
+                            encounterResult = EmeraldEncounter(wildPokemonInfo, WILD_AREA_WATER, 1);
                             break;
                     }
 
