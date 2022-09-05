@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
         string word = args.at(0)->get<string>();
         string check = args.at(1)->get<string>();
 
-        return word.compare(check);
+        return !word.compare(check);
     });
 
     // single argument is a json object

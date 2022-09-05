@@ -635,6 +635,7 @@ static u8 PickWildMonNature(void)
 static void CreateWildMon(u16 species, u8 level, u8 partySlot)
 {
     bool32 checkCuteCharm;
+    u8 version;
 
     ZeroEnemyPartyMons();
 	checkCuteCharm = (gEncounterMode == ENCOUNTER_EMERALD);
@@ -678,7 +679,30 @@ static void CreateWildMon(u16 species, u8 level, u8 partySlot)
         return;
     }
 
+        switch (gEncounterMode)
+        {
+            case ENCOUNTER_RUBY:
+                version = VERSION_RUBY;
+                break;
+            case ENCOUNTER_SAPPHIRE:
+                version = VERSION_SAPPHIRE;
+                break;
+            case ENCOUNTER_FIRERED:
+                version = VERSION_FIRERED;
+                break;
+            case ENCOUNTER_LEAFGREEN:
+                version = VERSION_LEAFGREEN;
+                break;
+            case ENCOUNTER_EMERALD:
+                version = VERSION_EMERALD;
+                break;
+            default:
+                version = VERSION_GAMECUBE;    // Shouldn't happen
+                break;
+        }
+        
     CreateMonWithNature(&gEnemyParty[partySlot], species, level, USE_RANDOM_IVS, PickWildMonNature());
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_MET_GAME, &version);
 }
 
 static void CreateWildUnown(u8 slot, u8 level)
@@ -1055,7 +1079,9 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                 switch (Random() % 3)
                 {
                     case 0:
+                    mgba_printf(MGBA_LOG_WARN, "0");
                         headerId = GetRubyWildMonHeaderId();
+                    mgba_printf(MGBA_LOG_WARN, " heaader %d", headerId);
 
                         if (headerId != HEADER_NONE)
                         {
@@ -1064,8 +1090,10 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
                         }
                         break;
                     case 1:
+                    mgba_printf(MGBA_LOG_WARN, "1");
                         headerId = GetRubyWildMonHeaderId();
 
+                    mgba_printf(MGBA_LOG_WARN, " heaader %d", headerId);
                         if (headerId != HEADER_NONE)
                         {
                             oppositeHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);

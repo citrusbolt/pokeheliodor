@@ -2752,24 +2752,24 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
                 break;
         }
         
-		if (metLocation != MAPSEC_SAFARI_ZONE)
-		{
-			if (IsMonOutsideSafariFireRed(species))
-			{
-				version = VERSION_FIRERED;
-			}
-			else if (IsMonOutsideSafariLeafGreen(species))
-			{
-				version = VERSION_LEAFGREEN;
-			}
-			else if (IsMonOutsideSafariFireRedLeafGreen(species))
-			{
-				if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-					version = VERSION_LEAFGREEN;
-				else
-					version = VERSION_FIRERED;
-			}
-		}
+		//if (metLocation != MAPSEC_SAFARI_ZONE)
+		//{
+		//	if (IsMonOutsideSafariFireRed(species))
+		//	{
+		//		version = VERSION_FIRERED;
+		//	}
+		//	else if (IsMonOutsideSafariLeafGreen(species))
+		//	{
+		//		version = VERSION_LEAFGREEN;
+		//	}
+		//	else if (IsMonOutsideSafariFireRedLeafGreen(species))
+		//	{
+		//		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+		//			version = VERSION_LEAFGREEN;
+		//		else
+		//			version = VERSION_FIRERED;
+		//	}
+		//}
 	}
 
 	gDisableVBlankRNGAdvance = FALSE;

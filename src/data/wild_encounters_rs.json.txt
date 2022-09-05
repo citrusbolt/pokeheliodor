@@ -83,11 +83,11 @@ const struct WildPokemonHeader {{ wild_encounter_group.label }}RS[] =
         .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP(CAVE_OF_ORIGIN_B1F){% else %}0{% endif %},
         .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM(CAVE_OF_ORIGIN_B1F){% else %}{{ loop.index1 }}{% endif %},
         {% else if compare(encounter.map, "MAP_UNDERWATER1") %}
-        .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP(MAP_UNDERWATER_ROUTE124){% else %}0{% endif %},
-        .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM(MAP_UNDERWATER_ROUTE124){% else %}{{ loop.index1 }}{% endif %},
+        .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP(UNDERWATER_ROUTE124){% else %}0{% endif %},
+        .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM(UNDERWATER_ROUTE124){% else %}{{ loop.index1 }}{% endif %},
         {% else if compare(encounter.map, "MAP_UNDERWATER2") %}
-        .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP(MAP_UNDERWATER_ROUTE126){% else %}0{% endif %},
-        .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM(MAP_UNDERWATER_ROUTE126){% else %}{{ loop.index1 }}{% endif %},
+        .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP(UNDERWATER_ROUTE126){% else %}0{% endif %},
+        .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM(UNDERWATER_ROUTE126){% else %}{{ loop.index1 }}{% endif %},
         {% else %}
         .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP({{ removePrefix(encounter.map, "MAP_") }}){% else %}0{% endif %},
         .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM({{ removePrefix(encounter.map, "MAP_") }}){% else %}{{ loop.index1 }}{% endif %},
