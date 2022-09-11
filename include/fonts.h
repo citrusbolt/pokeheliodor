@@ -7,6 +7,7 @@ extern const u16 gFontHGSSLatinGlyphs[];
 extern const u8 gFontHGSSLatinGlyphWidths[];
 extern const u16 gFontFRLGLatinGlyphs[];
 extern const u8 gFontFRLGLatinGlyphWidths[];
+extern const u8 gFontFRLGELatinGlyphWidths[];
 extern const u16 gFontELatinGlyphs[];
 extern const u8 gFontELatinGlyphWidths[];
 extern const u16 gFontRSLatinGlyphs[];

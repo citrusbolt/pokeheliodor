@@ -13,6 +13,7 @@ enum {
     FONT_SMALL,
     FONT_HGSS,
     FONT_FRLG,
+    FONT_FRLGE,
     FONT_E,
     FONT_RS,
     FONT_OPTION,
