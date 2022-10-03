@@ -2901,7 +2901,7 @@ static void BufferMonTrainerMemo(void)
 				#endif
 			}
 		}
-		else if (sum->metLevel == 0)
+		else if (sum->metLevel == 0 && sum->species != SPECIES_JIRACHI)
 		{
 			DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
 			#if CONFIG_TRUST_OUTSIDERS
