@@ -482,7 +482,7 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 {
     u8 parent;
 	u32 personality;
-	u32 shinyValue;
+	u32 shinyValue, otId;
     u16 i = 0;
 	u8 rolls = 1;
 
@@ -496,13 +496,18 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
 		rolls *= 2;
 
+    otId = gSaveBlock2Ptr->playerTrainerId[0]
+        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+
     // don't inherit nature
     if (parent > 1)
     {
 		do
 		{
 			personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
-			shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+			shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
 			if (shinyValue < SHINY_ODDS)
 				break;
 			i++;
@@ -526,7 +531,7 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 					break; // found a personality with the same nature
 				i++;
 			} while (i <= 0xFFFF);
-			shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+			shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
 			if (shinyValue < SHINY_ODDS)
 				break;
 			j++;
@@ -918,13 +923,9 @@ static void _GiveEggFromDaycare(struct DayCare *daycare)
 
 void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
 {
-    u8 metLevel;
+    u8 metLevel, language, metLocation, isEgg;
     u16 ball;
-    u8 language;
-    u8 metLocation;
-    u8 isEgg;
-	u32 personality;
-	u32 shinyValue;
+	u32 personality, shinyValue, otId;
 	u16 i = 0;
 	u8 rolls = 1;
 	
@@ -932,11 +933,16 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
 		rolls += SHINY_CHARM_REROLLS;
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
 		rolls *= 2;
-	
+
+    otId = gSaveBlock2Ptr->playerTrainerId[0]
+        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+
 	do
 	{
 		personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
-		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+		shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
 		if (shinyValue < SHINY_ODDS)
 			break;
 		i++;
@@ -1715,8 +1721,7 @@ void GiveEventEgg(void)
 {
 	struct Pokemon mon;
 	u16 species, iv1, iv2, value;
-	u32 personality;
-	u32 shinyValue;
+	u32 personality, shinyValue, otId;
 	u8 metLevel = 0;
 	u16 ball = ITEM_POKE_BALL;
 	u8 language = LANGUAGE_JAPANESE;
@@ -1937,6 +1942,11 @@ void GiveEventEgg(void)
 
 	gDisableVBlankRNGAdvance = TRUE;
 
+    otId = gSaveBlock2Ptr->playerTrainerId[0]
+        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+
 	do
 	{
 		if (gSpecialVar_0x8004 < 25)
@@ -1948,7 +1958,7 @@ void GiveEventEgg(void)
 		{
 			personality = Random() << 16 | Random();	//BACD_U - "Reverse Method 1"
 		}
-		shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
+		shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
 		if (shinyValue < SHINY_ODDS)
 			break;
 		i++;
