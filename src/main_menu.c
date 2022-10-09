@@ -1306,6 +1306,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 DestroyTask(taskId);
                 break;
             case ACTION_MYSTERY_EVENTS:
+                IsWirelessAdapterConnected();
                 SetMainCallback2(CB2_InitMysteryEventMenu);
                 DestroyTask(taskId);
                 break;
@@ -1314,6 +1315,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 DestroyTask(taskId);
                 break;
             case ACTION_GAMECUBE:
+                IsWirelessAdapterConnected();
                 SetMainCallback2(CB2_InitMultibootMenu);
                 DestroyTask(taskId);
                 break;
