@@ -2756,9 +2756,7 @@ static int GetTypeEffectivenessPoints(int move, int targetSpecies, int mode)
         if (mode == EFFECTIVENESS_MODE_BAD)
         {
             typePower = 8;
-        #ifdef BUGFIX
             return typePower;
-        #endif
         }
     }
     else
