@@ -39,7 +39,7 @@ static const struct OamData sBagOamData =
     .y = 0,
     .affineMode = ST_OAM_AFFINE_NORMAL,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(64x64),
     .x = 0,
@@ -89,12 +89,12 @@ static const union AnimCmd sSpriteAnim_Bag_Berries[] =
 
 static const union AnimCmd *const sBagSpriteAnimTable[] =
 {
-    sSpriteAnim_Bag_Closed,
-    sSpriteAnim_Bag_Items,
-    sSpriteAnim_Bag_Pokeballs,
-    sSpriteAnim_Bag_TMsHMs,
-    sSpriteAnim_Bag_Berries,
-    sSpriteAnim_Bag_KeyItems
+    [POCKET_NONE]       = sSpriteAnim_Bag_Closed,
+    [POCKET_ITEMS]      = sSpriteAnim_Bag_Items,
+    [POCKET_POKE_BALLS] = sSpriteAnim_Bag_Pokeballs,
+    [POCKET_TM_HM]      = sSpriteAnim_Bag_TMsHMs,
+    [POCKET_BERRIES]    = sSpriteAnim_Bag_Berries,
+    [POCKET_KEY_ITEMS]  = sSpriteAnim_Bag_KeyItems,
 };
 
 static const union AffineAnimCmd sSpriteAffineAnim_BagNormal[] =
@@ -112,10 +112,15 @@ static const union AffineAnimCmd sSpriteAffineAnim_BagShake[] =
     AFFINEANIMCMD_END
 };
 
+enum {
+    ANIM_BAG_NORMAL,
+    ANIM_BAG_SHAKE,
+};
+
 static const union AffineAnimCmd *const sBagAffineAnimCmds[] =
 {
-    sSpriteAffineAnim_BagNormal,
-    sSpriteAffineAnim_BagShake
+    [ANIM_BAG_NORMAL] = sSpriteAffineAnim_BagNormal,
+    [ANIM_BAG_SHAKE]  = sSpriteAffineAnim_BagShake
 };
 
 const struct CompressedSpriteSheet gBagMaleSpriteSheet =
@@ -149,7 +154,7 @@ static const struct OamData sBerryPicOamData =
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(64x64),
     .x = 0,
@@ -166,7 +171,7 @@ static const struct OamData sBerryPicRotatingOamData =
     .y = 0,
     .affineMode = ST_OAM_AFFINE_DOUBLE,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(64x64),
     .x = 0,
@@ -306,7 +311,7 @@ static const struct OamData sBerryCheckCircleOamData =
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(64x64),
     .x = 0,
@@ -361,6 +366,8 @@ void AddBagVisualSprite(u8 bagPocketId)
     SetBagVisualPocketId(bagPocketId, FALSE);
 }
 
+#define sPocketId data[0]
+
 void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets)
 {
     struct Sprite *sprite = &gSprites[gBagMenu->spriteIds[ITEMMENUSPRITE_BAG]];
@@ -371,8 +378,8 @@ void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets)
 		else
 			sprite->y2 = 0;
         sprite->callback = SpriteCB_BagVisualSwitchingPockets;
-        sprite->data[0] = bagPocketId + 1;
-        StartSpriteAnim(sprite, 0);
+        sprite->sPocketId = bagPocketId + 1;
+        StartSpriteAnim(sprite, POCKET_NONE);
     }
     else
     {
@@ -476,6 +483,18 @@ static const u8 sStrib[] = _("STRIB");
 static const u8 sChilan[] = _("CHILAN");
 static const u8 sNutpea[] = _("NUTPEA");
 static const u8 sMochi[] = _("MOCHI");
+static const u8 sGinema[] = _("GINEMA");
+static const u8 sGinemaJP[] = _("ギネマ");
+static const u8 sKuo[] = _("KUO");
+static const u8 sKuoJP[] = _("クオ");
+static const u8 sYago[] = _("YAGO");
+static const u8 sYagoJP[] = _("ヤゴ");
+static const u8 sTouga[] = _("TOUGA");
+static const u8 sTougaJP[] = _("トウガ");
+static const u8 sNiniku[] = _("NINIKU");
+static const u8 sNinikuJP[] = _("ニニク");
+static const u8 sTopo[] = _("TOPO");
+static const u8 sTopoJP[] = _("トポ");
 
 static void LoadBerryGfx(u8 berryId)
 {
@@ -516,6 +535,36 @@ static void LoadBerryGfx(u8 berryId)
 	//	pal.data = gBerryPalette_Mochi;
 	//	LZDecompressWram(gBerryPic_Mochi, &gDecompressionBuffer[0x1000]);
 	///}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sGinema) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sGinemaJP)))
+	{
+		pal.data = gBerryPalette_Ginema;
+		LZDecompressWram(gBerryPic_Ginema, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sKuo) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sKuoJP)))
+	{
+		pal.data = gBerryPalette_Kuo;
+		LZDecompressWram(gBerryPic_Kuo, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sYago) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sYagoJP)))
+	{
+		pal.data = gBerryPalette_Yago;
+		LZDecompressWram(gBerryPic_Yago, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTouga) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTougaJP)))
+	{
+		pal.data = gBerryPalette_Touga;
+		LZDecompressWram(gBerryPic_Touga, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sNiniku) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sNinikuJP)))
+	{
+		pal.data = gBerryPalette_Niniku;
+		LZDecompressWram(gBerryPic_Niniku, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTopo) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTopoJP)))
+	{
+		pal.data = gBerryPalette_Topo;
+		LZDecompressWram(gBerryPic_Topo, &gDecompressionBuffer[0x1000]);
+	}
 	else
 	{
 		pal.data = sBerryPicTable[berryId].pal;

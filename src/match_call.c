@@ -1184,7 +1184,7 @@ static void StartMatchCall(void)
 {
     if (!sMatchCallState.triggeredFromScript)
     {
-        ScriptContext2_Enable();
+        LockPlayerFieldControls();
         FreezeObjectEvents();
         PlayerFreeze();
         StopPlayerAvatar();
@@ -1372,7 +1372,7 @@ static bool32 MatchCall_EndCall(u8 taskId)
             ObjectEventClearHeldMovementIfFinished(&gObjectEvents[playerObjectId]);
             ScriptMovement_UnfreezeObjectEvents();
             UnfreezeObjectEvents();
-            ScriptContext2_Disable();
+            UnlockPlayerFieldControls();
         }
 
         return TRUE;

@@ -27,7 +27,6 @@
 #include "link_rfu.h"
 #include "constants/rgb.h"
 #include "constants/trade.h"
-#include "mgba.h"
 
 struct BlockTransfer
 {
@@ -199,7 +198,7 @@ static const struct WindowTemplate sLinkErrorWindowTemplates[] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
-        .width = 30,
+        .width = DISPLAY_TILE_WIDTH,
         .height = 5,
         .paletteNum = 15,
         .baseBlock = 0x002
@@ -207,7 +206,7 @@ static const struct WindowTemplate sLinkErrorWindowTemplates[] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 6,
-        .width = 30,
+        .width = DISPLAY_TILE_WIDTH,
         .height = 7,
         .paletteNum = 15,
         .baseBlock = 0x098
@@ -215,7 +214,7 @@ static const struct WindowTemplate sLinkErrorWindowTemplates[] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 13,
-        .width = 30,
+        .width = DISPLAY_TILE_WIDTH,
         .height = 7,
         .paletteNum = 15,
         .baseBlock = 0x16A
@@ -1604,7 +1603,7 @@ void CB2_LinkError(void)
     ResetSpriteData();
     FreeAllSpritePalettes();
     ResetPaletteFadeControl();
-    FillPalette(0, 0, 2);
+    FillPalette(RGB_BLACK, 0, 2);
     ResetTasks();
     ScanlineEffect_Stop();
     if (gWirelessCommType)
@@ -1617,7 +1616,7 @@ void CB2_LinkError(void)
     SetVBlankCallback(VBlankCB_LinkError);
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sLinkErrorBgTemplates, ARRAY_COUNT(sLinkErrorBgTemplates));
-    sLinkErrorBgTilemapBuffer = tilemapBuffer = malloc(BG_SCREEN_SIZE);
+    sLinkErrorBgTilemapBuffer = tilemapBuffer = Alloc(BG_SCREEN_SIZE);
     SetBgTilemapBuffer(1, tilemapBuffer);
     if (InitWindows(sLinkErrorWindowTemplates))
     {
@@ -1652,8 +1651,8 @@ static void ErrorMsg_MoveCloserToPartner(void)
     LoadPalette(sWirelessLinkDisplayPal, 0, 0x20);
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(0, FONT_FRLG, 2, 6, sTextColors, 0, gText_CommErrorEllipsis);
-    AddTextPrinterParameterized3(2, FONT_FRLG, 2, 1, sTextColors, 0, gText_MoveCloserToLinkPartner);
+    AddTextPrinterParameterized3(0, FONT_FRLGE, 2, 6, sTextColors, 0, gText_CommErrorEllipsis);
+    AddTextPrinterParameterized3(2, FONT_FRLGE, 2, 1, sTextColors, 0, gText_MoveCloserToLinkPartner);
     PutWindowTilemap(0);
     PutWindowTilemap(2);
     CopyWindowToVram(0, COPYWIN_NONE); // Does nothing
@@ -1665,7 +1664,7 @@ static void ErrorMsg_CheckConnections(void)
     LoadBgTiles(0, sCommErrorBg_Gfx, 0x20, 0);
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(1, FONT_FRLG, 2, 0, sTextColors, 0, gText_CommErrorCheckConnections);
+    AddTextPrinterParameterized3(1, FONT_FRLGE, 2, 0, sTextColors, 0, gText_CommErrorCheckConnections);
     PutWindowTilemap(1);
     PutWindowTilemap(2);
     CopyWindowToVram(1, COPYWIN_NONE); // Does nothing
@@ -1700,9 +1699,9 @@ static void CB2_PrintErrorMessage(void)
             break;
         case 130:
             if (gWirelessCommType == 2)
-                AddTextPrinterParameterized3(0, FONT_FRLG, 2, 20, sTextColors, 0, gText_ABtnTitleScreen);
+                AddTextPrinterParameterized3(0, FONT_FRLGE, 2, 20, sTextColors, 0, gText_ABtnTitleScreen);
             else if (gWirelessCommType == 1)
-                AddTextPrinterParameterized3(0, FONT_FRLG, 2, 20, sTextColors, 0, gText_ABtnRegistrationCounter);
+                AddTextPrinterParameterized3(0, FONT_FRLGE, 2, 20, sTextColors, 0, gText_ABtnRegistrationCounter);
             break;
     }
     if (gMain.state == 160)
@@ -1855,46 +1854,7 @@ u8 GetWirelessCommType(void)
 }
 
 void ConvertLinkPlayerName(struct LinkPlayer *player)
-{
-	//switch (player->versionModifier)
-	//{
-	//	case DEV_GAME_FREAK:
-	//		if ((player->version & 0xFF) == VERSION_SAPPHIRE)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with Sapphire.");
-	//		else if ((player->version & 0xFF) == VERSION_RUBY)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with Ruby.");
-	//		else if ((player->version & 0xFF) == VERSION_EMERALD)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with Emerald.");
-	//		else if (player->version == 18180)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with CrystalDust.");
-	//		else if ((player->version & 0xFF) == VERSION_FIRERED)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with FireRed.");
-	//		else if ((player->version & 0xFF) == VERSION_LEAFGREEN)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with LeafGreen.");
-	//		else
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-	//		break;
-	//	case DEV_SOLITAIRI:
-	//		if ((player->version & 0xFF) == VERSION_EMERALD)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with Heliodor.");
-	//		else
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-	//		break;
-	//	case DEV_SHINY_DRAGON_HUNTER:
-	//		if ((player->version & 0xFF) == VERSION_FIRERED)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with FireRed DX.");
-	//		else if ((player->version & 0xFF) == VERSION_LEAFGREEN)
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with LeafGreen DX.");
-	//		else
-	//			mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-	//		break;
-	//	case DEV_TEST:
-	//		mgba_printf(MGBA_LOG_INFO, "Linked with test case.");
-	//	default:
-	//		mgba_printf(MGBA_LOG_INFO, "Linked with unknown game.");
-	//		break;
-	//}
-	
+{	
 	if ((((player->version & 0xC000) | ((player->version & 0x3F00) >> 8)) & 0xFF) == VERSION_HEARTGOLD)
 		player->versionModifier = DEV_SOLITAIRI_2;
 	

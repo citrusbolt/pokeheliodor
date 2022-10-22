@@ -419,7 +419,7 @@ EventScript_EventEggMan_DeclineEgg::
 	end
 	
 Route117_Text_SeeWifeIfYoudLikeMeToRaiseMon:
-	.string "I'm the DAY-CARE Man.\p"
+	.string "I'm the Day-Care Man.\p"
 	.string "I help take care of the precious\n"
 	.string "Pokémon of Trainers.\p"
 	.string "If you'd like me to raise your Pokémon,\n"
@@ -448,7 +448,7 @@ Route117_Text_YouHaveNoRoomForIt:
 
 Route117_Text_ReceivedEgg:
 	.string "{PLAYER} received the Egg from\n"
-	.string "the DAY-CARE Man.$"
+	.string "the Day-Care Man.$"
 
 Route117_Text_TakeGoodCareOfIt:
 	.string "Take good care of it.$"
@@ -474,7 +474,7 @@ Route117_Text_IWillKeepDoYouWantIt:
 	.string "You do want this, yes?$"
 
 Route117_PokemonDayCare_Text_WouldYouLikeUsToRaiseAMon:
-	.string "I'm the DAY-CARE Lady.\p"
+	.string "I'm the Day-Care Lady.\p"
 	.string "We can raise Pokémon for you.\p"
 	.string "Would you like us to raise one?$"
 
@@ -535,7 +535,7 @@ Route117_PokemonDayCare_Text_HeresYourMon:
 
 Route117_PokemonDayCare_Text_TookBackMon:
 	.string "{PLAYER} took back {STR_VAR_1} from\n"
-	.string "the DAY-CARE Lady.$"
+	.string "the Day-Care Lady.$"
 
 Route117_PokemonDayCare_Text_YouHaveJustOneMon:
 	.string "Oh? But you have just one\n"

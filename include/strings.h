@@ -181,7 +181,7 @@ extern const u8 gText_EmptyString2[];
 extern const u8 gText_Confirm3[];
 extern const u8 gText_Cancel4[];
 extern const u8 gText_IsThisTheCorrectTime[];
-extern const u8 gText_PkmnFainted3[];
+extern const u8 gText_PkmnFainted_FldPsn[];
 extern const u8 gText_Coins[];
 extern const u8 gText_Silver[];
 extern const u8 gText_Gold[];
@@ -2220,9 +2220,7 @@ extern const u8 gText_Switch2[];
 extern const u8 gText_Item[];
 extern const u8 gText_NotPkmnOtherTrainerWants[];
 extern const u8 gText_ThatIsntAnEgg[];
-extern const u8 gText_PkmnCantBeTradedNow[];
 extern const u8 gText_OtherTrainersPkmnCantBeTraded[];
-extern const u8 gText_EggCantBeTradedNow[];
 extern const u8 gText_OtherTrainerCantAcceptPkmn[];
 extern const u8 gText_CantTradeWithTrainer[];
 
@@ -3335,5 +3333,12 @@ extern const u8 gText_EventTicketSentTo[];
 extern const u8 gText_EonTicket[];
 extern const u8 gText_MysticTicket[];
 extern const u8 gText_AuroraTicket[];
+
+// Naming Screen
+extern const u8 gText_MoveOkBack[];
+extern const u8 gText_YourName[];
+extern const u8 gText_BoxName[];
+extern const u8 gText_PkmnsNickname[];
+extern const u8 gText_TellHimTheWords[];
 
 #endif // GUARD_STRINGS_H

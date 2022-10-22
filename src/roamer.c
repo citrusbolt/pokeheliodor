@@ -243,7 +243,7 @@ void UpdateLocationHistoryForRoamer(void)
 void RoamerMoveToOtherLocationSet(void)
 {
     u8 mapNum = 0;
-    
+
     if (!ROAMER->active)
         return;
 

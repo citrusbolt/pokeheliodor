@@ -793,7 +793,8 @@ static const union AnimCmd *const sAnims_KeyboardCursor[] = {
     sAnim_KeyboardCursorWide_Closed
 };
 
-static const struct SpriteTemplate sSpriteTemplate_KeyboardCursor = {
+static const struct SpriteTemplate sSpriteTemplate_KeyboardCursor =
+{
     .tileTag = GFXTAG_KEYBOARD_CURSOR,
     .paletteTag = PALTAG_INTERFACE,
     .oam = &sOam_KeyboardCursor,
@@ -809,7 +810,8 @@ static const struct OamData sOam_TextEntrySprite = {
     .priority = 2
 };
 
-static const struct SpriteTemplate sSpriteTemplate_TextEntryCursor = {
+static const struct SpriteTemplate sSpriteTemplate_TextEntryCursor =
+{
     .tileTag = GFXTAG_TEXT_ENTRY_CURSOR,
     .paletteTag = PALTAG_INTERFACE,
     .oam = &sOam_TextEntrySprite,
@@ -819,7 +821,8 @@ static const struct SpriteTemplate sSpriteTemplate_TextEntryCursor = {
     .callback = SpriteCB_TextEntryCursor
 };
 
-static const struct SpriteTemplate sSpriteTemplate_TextEntryArrow = {
+static const struct SpriteTemplate sSpriteTemplate_TextEntryArrow =
+{
     .tileTag = GFXTAG_TEXT_ENTRY_ARROW,
     .paletteTag = PALTAG_INTERFACE,
     .oam = &sOam_TextEntrySprite,
@@ -868,7 +871,8 @@ static const union AnimCmd *const sAnims_RButtonLabels[] = {
     sAnim_RegisterIcon
 };
 
-static const struct SpriteTemplate sSpriteTemplate_RButtonIcon = {
+static const struct SpriteTemplate sSpriteTemplate_RButtonIcon =
+{
     .tileTag = GFXTAG_RBUTTON_ICON,
     .paletteTag = PALTAG_INTERFACE,
     .oam = &sOam_RButtonIcon,
@@ -878,7 +882,8 @@ static const struct SpriteTemplate sSpriteTemplate_RButtonIcon = {
     .callback = SpriteCallbackDummy
 };
 
-static const struct SpriteTemplate sSpriteTemplate_RButtonLabels = {
+static const struct SpriteTemplate sSpriteTemplate_RButtonLabels =
+{
     .tileTag = GFXTAG_RBUTTON_LABELS,
     .paletteTag = PALTAG_INTERFACE,
     .oam = &sOam_RButtonLabel,
@@ -1039,7 +1044,7 @@ static void Chat_HandleInput(void)
         {
             SetChatFunction(CHAT_FUNC_SWITCH);
         }
-        else if (gMain.newAndRepeatedKeys & B_BUTTON)
+        else if (JOY_REPEAT(B_BUTTON))
         {
             if (sChat->bufferCursorPos)
             {
@@ -2876,7 +2881,7 @@ static void DrawTextEntryMessage(u16 x, u8 *str, u8 bgColor, u8 fgColor, u8 shad
     strBuffer[1] = EXT_CTRL_CODE_MIN_LETTER_SPACING;
     strBuffer[2] = 8;
     StringCopy(&strBuffer[3], str);
-    AddTextPrinterParameterized3(1, FONT_FRLG, x * 8, 1, color, TEXT_SKIP_DRAW, strBuffer);
+    AddTextPrinterParameterized3(1, FONT_FRLGE, x * 8, 1, color, TEXT_SKIP_DRAW, strBuffer);
 }
 
 static void PrintCurrentKeyboardPage(void)
@@ -2986,8 +2991,8 @@ static void ShowKeyboardSwapMenu(void)
 {
     FillWindowPixelBuffer(3, PIXEL_FILL(1));
     DrawTextBorderOuter(3, 1, 13);
-    PrintMenuActionTextsAtPos(3, FONT_FRLG, 8, 1, 14, ARRAY_COUNT(sKeyboardPageTitleTexts), sKeyboardPageTitleTexts);
-    InitMenuNormal(3, FONT_FRLG, 0, 1, 14, 5, GetCurrentKeyboardPage());
+    PrintMenuActionTextsAtPos(3, FONT_FRLGE, 8, 1, 14, ARRAY_COUNT(sKeyboardPageTitleTexts), sKeyboardPageTitleTexts);
+    InitMenuNormal(3, FONT_FRLGE, 0, 1, 14, 5, GetCurrentKeyboardPage());
     PutWindowTilemap(3);
 }
 
@@ -3005,7 +3010,7 @@ static void PrintChatMessage(u16 row, u8 *str, u8 colorIdx)
     color[1] = colorIdx * 2 + 2;
     color[2] = colorIdx * 2 + 3;
     FillWindowPixelRect(0, PIXEL_FILL(1), 0, row * 15, 168, 15);
-    AddTextPrinterParameterized3(0, FONT_FRLG, 0, row * 15 + 1, color, TEXT_SKIP_DRAW, str);
+    AddTextPrinterParameterized3(0, FONT_FRLGE, 0, row * 15 + 1, color, TEXT_SKIP_DRAW, str);
 }
 
 static void ResetGpuBgState(void)

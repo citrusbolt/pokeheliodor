@@ -252,6 +252,7 @@ clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
 	@$(MAKE) -C subrepos/agbcc/gcc clean
+	@$(MAKE) -C subrepos/agbcc/gcc_arm clean
 	@$(MAKE) -C subrepos/agbcc/libgcc clean
 	@$(MAKE) -C subrepos/agbcc/libc clean
 	rm -rf tools/agbcc
@@ -466,7 +467,7 @@ LD_SCRIPT := ld_script.txt
 LD_SCRIPT_DEPS := $(OBJ_DIR)/sym_bss.ld $(OBJ_DIR)/sym_common.ld $(OBJ_DIR)/sym_ewram.ld
 else
 LD_SCRIPT := ld_script_modern.txt
-LD_SCRIPT_DEPS := 
+LD_SCRIPT_DEPS :=
 endif
 
 $(OBJ_DIR)/ld_script.ld: $(LD_SCRIPT) $(LD_SCRIPT_DEPS)

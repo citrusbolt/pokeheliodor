@@ -18,6 +18,7 @@ static u32 RenderFont(struct TextPrinter *);
 static u16 FontFunc_Small(struct TextPrinter *);
 static u16 FontFunc_HGSS(struct TextPrinter *);
 static u16 FontFunc_FRLG(struct TextPrinter *);
+static u16 FontFunc_FRLGE(struct TextPrinter *);
 static u16 FontFunc_E(struct TextPrinter *);
 static u16 FontFunc_RS(struct TextPrinter *);
 static u16 FontFunc_Option(struct TextPrinter *);
@@ -25,6 +26,7 @@ static u16 FontFunc_Narrow(struct TextPrinter *);
 static void DecompressGlyph_Small(u16, bool32);
 static void DecompressGlyph_HGSS(u16, bool32);
 static void DecompressGlyph_FRLG(u16, bool32);
+static void DecompressGlyph_FRLGE(u16, bool32);
 static void DecompressGlyph_E(u16, bool32);
 static void DecompressGlyph_RS(u16, bool32);
 static void DecompressGlyph_Narrow(u16, bool32);
@@ -32,6 +34,7 @@ static void DecompressGlyph_Bold(u16);
 static u32 GetGlyphWidth_Small(u16, bool32);
 static u32 GetGlyphWidth_HGSS(u16, bool32);
 static u32 GetGlyphWidth_FRLG(u16, bool32);
+static u32 GetGlyphWidth_FRLGE(u16, bool32);
 static u32 GetGlyphWidth_E(u16, bool32);
 static u32 GetGlyphWidth_RS(u16, bool32);
 static u32 GetGlyphWidth_Option(u16, bool32);
@@ -75,7 +78,7 @@ static const u8 sDarkDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow_alt
 static const u8 sUnusedFRLGBlankedDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_blanked_down_arrow.4bpp");
 static const u8 sUnusedFRLGDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_down_arrow.4bpp");
 static const u8 sDownArrowYCoords[] = { 0, 1, 2, 1 };
-static const u8 sWindowVerticalScrollSpeeds[] = { 
+static const u8 sWindowVerticalScrollSpeeds[] = {
     [OPTIONS_TEXT_SPEED_SLOW] = 1,
     [OPTIONS_TEXT_SPEED_MID] = 2,
     [OPTIONS_TEXT_SPEED_FAST] = 4,
@@ -85,7 +88,8 @@ static const struct GlyphWidthFunc sGlyphWidthFuncs[] =
 {
     { FONT_SMALL,        GetGlyphWidth_Small },   // Healthbox, Party Screen, Frontier Pass details
     { FONT_HGSS,         GetGlyphWidth_HGSS },    // HGSS - Primary Font
-    { FONT_FRLG,         GetGlyphWidth_FRLG },    // FRLG - Berry Crush
+    { FONT_FRLG,         GetGlyphWidth_FRLG },    // FRLG - Trainer Cards
+    { FONT_FRLGE,        GetGlyphWidth_FRLGE },   // Emerald's version of FRLG - Berry Crush
     { FONT_E,            GetGlyphWidth_E },       // Emerald
     { FONT_RS,           GetGlyphWidth_RS },      // Ruby/Sapphire
     { FONT_OPTION,       GetGlyphWidth_Option },  // User Chosen Font
@@ -141,6 +145,16 @@ static const struct FontInfo sFontInfos[] =
     },
     [FONT_FRLG] = {
         .fontFunction = FontFunc_FRLG,
+        .maxLetterWidth = 6,
+        .maxLetterHeight = 14,
+        .letterSpacing = 0,
+        .lineSpacing = 0,
+        .fgColor = 2,
+        .bgColor = 1,
+        .shadowColor = 3,
+    },
+    [FONT_FRLGE] = {
+        .fontFunction = FontFunc_FRLGE,
         .maxLetterWidth = 6,
         .maxLetterHeight = 14,
         .letterSpacing = 0,
@@ -216,6 +230,7 @@ static const u8 sMenuCursorDimensions[][2] =
     [FONT_SMALL]   = { 8,  12 },
     [FONT_HGSS]    = { 8,  15 },
     [FONT_FRLG]    = { 8,  14 },
+    [FONT_FRLGE]   = { 8,  14 },
     [FONT_E]       = { 8,  14 },
     [FONT_RS]      = { 8,  14 },
     [FONT_OPTION]  = { 8,  15 },
@@ -289,7 +304,7 @@ bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
     else
     {
         sTempTextPrinter.textSpeed = 0;
-        
+
         // Render all text (up to limit) at once
         for (j = 0; j < 0x400; ++j)
         {
@@ -689,7 +704,7 @@ void ClearTextSpan(struct TextPrinter *textPrinter, u32 width)
     struct Window *window;
     struct Bitmap pixels_data;
     struct TextGlyph *glyph;
-    u8* glyphHeight;
+    u8 *glyphHeight;
 
     if (sLastTextBgColor != TEXT_COLOR_TRANSPARENT)
     {
@@ -747,6 +762,18 @@ static u16 FontFunc_FRLG(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
+static u16 FontFunc_FRLGE(struct TextPrinter *textPrinter)
+{
+    struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
+
+    if (subStruct->hasFontIdBeenSet == FALSE)
+    {
+        subStruct->fontId = FONT_FRLG;
+        subStruct->hasFontIdBeenSet = TRUE;
+    }
+    return RenderText(textPrinter);
+}
+
 static u16 FontFunc_E(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
@@ -783,7 +810,7 @@ static u16 FontFunc_Option(struct TextPrinter *textPrinter)
                 subStruct->fontId = FONT_RS;
                 break;
             case 1:
-                subStruct->fontId = FONT_FRLG;
+                subStruct->fontId = FONT_FRLGE;
                 break;
             case 2:
                 subStruct->fontId = FONT_E;
@@ -1171,6 +1198,9 @@ static u16 RenderText(struct TextPrinter *textPrinter)
         case FONT_FRLG:
             DecompressGlyph_FRLG(currChar, textPrinter->japanese);
             break;
+        case FONT_FRLGE:
+            DecompressGlyph_FRLGE(currChar, textPrinter->japanese);
+            break;
         case FONT_E:
             DecompressGlyph_E(currChar, textPrinter->japanese);
             break;
@@ -1184,7 +1214,7 @@ static u16 RenderText(struct TextPrinter *textPrinter)
                     DecompressGlyph_RS(currChar, textPrinter->japanese);
                     break;
                 case 1:
-                    DecompressGlyph_FRLG(currChar, textPrinter->japanese);
+                    DecompressGlyph_FRLGE(currChar, textPrinter->japanese);
                     break;
                 case 2:
                     DecompressGlyph_E(currChar, textPrinter->japanese);
@@ -1655,7 +1685,7 @@ u8 RenderTextHandleBold(u8 *pixels, u8 fontId, u8 *str)
                         DecompressGlyph_RS(temp, TRUE);
                         break;
                     case 1:
-                        DecompressGlyph_FRLG(temp, TRUE);
+                        DecompressGlyph_FRLGE(temp, TRUE);
                         break;
                     case 2:
                         DecompressGlyph_E(temp, TRUE);
@@ -1755,7 +1785,7 @@ u8 GetMenuCursorDimensionByFont(u8 fontId, u8 whichDimension)
 
 static void DecompressGlyph_Small(u16 glyphId, bool32 isJapanese)
 {
-    const u16* glyphs;
+    const u16 *glyphs;
 
     if (isJapanese == 1)
     {
@@ -1797,7 +1827,7 @@ static u32 GetGlyphWidth_Small(u16 glyphId, bool32 isJapanese)
 
 static void DecompressGlyph_HGSS(u16 glyphId, bool32 isJapanese)
 {
-    const u16* glyphs;
+    const u16 *glyphs;
 
     if (isJapanese == TRUE)
     {
@@ -1839,7 +1869,7 @@ static u32 GetGlyphWidth_HGSS(u16 glyphId, bool32 isJapanese)
 
 static void DecompressGlyph_FRLG(u16 glyphId, bool32 isJapanese)
 {
-    const u16* glyphs;
+    const u16 *glyphs;
 
     if (isJapanese == TRUE)
     {
@@ -1873,6 +1903,42 @@ static void DecompressGlyph_FRLG(u16 glyphId, bool32 isJapanese)
     }
 }
 
+static void DecompressGlyph_FRLGE(u16 glyphId, bool32 isJapanese)
+{
+    const u16* glyphs;
+
+    if (isJapanese == TRUE)
+    {
+        glyphs = gFontShortJapaneseGlyphs + (0x100 * (glyphId >> 0x3)) + (0x10 * (glyphId & 0x7));
+        DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);
+        DecompressGlyphTile(glyphs + 0x8, gCurGlyph.gfxBufferTop + 8);
+        DecompressGlyphTile(glyphs + 0x80, gCurGlyph.gfxBufferBottom);    // gCurGlyph + 0x20
+        DecompressGlyphTile(glyphs + 0x88, gCurGlyph.gfxBufferBottom + 8);    // gCurGlyph + 0x60
+        gCurGlyph.width = gFontShortJapaneseGlyphWidths[glyphId];
+        gCurGlyph.height = 14;
+    }
+    else
+    {
+        glyphs = gFontFRLGLatinGlyphs + (0x20 * glyphId);
+        gCurGlyph.width = gFontFRLGELatinGlyphWidths[glyphId];
+
+        if (gCurGlyph.width <= 8)
+        {
+            DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);
+            DecompressGlyphTile(glyphs + 0x10, gCurGlyph.gfxBufferBottom);
+        }
+        else
+        {
+            DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);
+            DecompressGlyphTile(glyphs + 0x8, gCurGlyph.gfxBufferTop + 8);
+            DecompressGlyphTile(glyphs + 0x10, gCurGlyph.gfxBufferBottom);
+            DecompressGlyphTile(glyphs + 0x18, gCurGlyph.gfxBufferBottom + 8);
+        }
+
+        gCurGlyph.height = 15;
+    }
+}
+
 static u32 GetGlyphWidth_FRLG(u16 glyphId, bool32 isJapanese)
 {
     if (isJapanese == TRUE)
@@ -1881,9 +1947,17 @@ static u32 GetGlyphWidth_FRLG(u16 glyphId, bool32 isJapanese)
         return gFontFRLGLatinGlyphWidths[glyphId];
 }
 
+static u32 GetGlyphWidth_FRLGE(u16 glyphId, bool32 isJapanese)
+{
+    if (isJapanese == TRUE)
+        return gFontShortJapaneseGlyphWidths[glyphId];
+    else
+        return gFontFRLGELatinGlyphWidths[glyphId];
+}
+
 static void DecompressGlyph_E(u16 glyphId, bool32 isJapanese)
 {
-    const u16* glyphs;
+    const u16 *glyphs;
 
     if (isJapanese == TRUE)
     {
@@ -1982,7 +2056,7 @@ static u32 GetGlyphWidth_Option(u16 glyphId, bool32 isJapanese)
             case 0:
                 return gFontRSLatinGlyphWidths[glyphId];
             case 1:
-                return gFontFRLGLatinGlyphWidths[glyphId];
+                return gFontFRLGELatinGlyphWidths[glyphId];
             case 2:
                 return gFontELatinGlyphWidths[glyphId];
             case 3:
@@ -1994,7 +2068,7 @@ static u32 GetGlyphWidth_Option(u16 glyphId, bool32 isJapanese)
 
 static void DecompressGlyph_Narrow(u16 glyphId, bool32 isJapanese)
 {
-    const u16* glyphs;
+    const u16 *glyphs;
 
     if (isJapanese == TRUE)
     {
@@ -2036,7 +2110,7 @@ static u32 GetGlyphWidth_Narrow(u16 glyphId, bool32 isJapanese)
 
 static void DecompressGlyph_Bold(u16 glyphId)
 {
-    const u16* glyphs;
+    const u16 *glyphs;
 
     glyphs = sFontBoldJapaneseGlyphs + (0x100 * (glyphId >> 4)) + (0x8 * (glyphId & 0xF));
     DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);

@@ -162,7 +162,8 @@ static const struct SpritePalette sSpritePalettes_StampShadow[] = {
     {sStampShadowPal8, TAG_STAMP_SHADOW}
 };
 
-static const struct SpriteTemplate sSpriteTemplate_StampShadow = {
+static const struct SpriteTemplate sSpriteTemplate_StampShadow =
+{
     .tileTag = TAG_STAMP_SHADOW,
     .paletteTag = TAG_STAMP_SHADOW,
     .oam = &gOamData_AffineOff_ObjNormal_32x16,
@@ -225,9 +226,9 @@ s32 WonderCard_Enter(void)
             return 0;
         break;
     case 2:
-        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
         CopyBgTilemapBufferToVram(0);
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(2);
@@ -243,7 +244,7 @@ s32 WonderCard_Enter(void)
         gPaletteFade.bufferTransferDisabled = TRUE;
         LoadPalette(sWonderCardData->gfx->pal, 0x10, 0x20);
         LZ77UnCompWram(sWonderCardData->gfx->map, sWonderCardData->bgTilemapBuffer);
-        CopyRectToBgTilemapBufferRect(2, sWonderCardData->bgTilemapBuffer, 0, 0, 30, 20, 0, 0, 30, 20, 1, 0x008, 0);
+        CopyRectToBgTilemapBufferRect(2, sWonderCardData->bgTilemapBuffer, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT, 1, 0x008, 0);
         CopyBgTilemapBufferToVram(2);
         break;
     case 4:
@@ -290,9 +291,9 @@ s32 WonderCard_Exit(bool32 useCancel)
             return 0;
         break;
     case 2:
-        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
         CopyBgTilemapBufferToVram(0);
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(2);
@@ -339,7 +340,7 @@ static void BufferCardText(void)
     if (sWonderCardData->card.idNumber > 999999)
         sWonderCardData->card.idNumber = 999999;
     ConvertIntToDecimalStringN(sWonderCardData->idNumberText, sWonderCardData->card.idNumber, STR_CONV_MODE_LEFT_ALIGN, 6);
-    
+
     // Copy body text
     for (i = 0; i < WONDER_CARD_BODY_TEXT_LINES; i++)
     {
@@ -363,12 +364,12 @@ static void BufferCardText(void)
         break;
     case CARD_TYPE_LINK_STAT:
         sWonderCardData->giftText[0] = EOS;
-        
+
         // Load stats
         stats[0] = sWonderCardData->cardMetadata.battlesWon < MAX_WONDER_CARD_STAT ? sWonderCardData->cardMetadata.battlesWon : MAX_WONDER_CARD_STAT;
         stats[1] = sWonderCardData->cardMetadata.battlesLost < MAX_WONDER_CARD_STAT ? sWonderCardData->cardMetadata.battlesLost : MAX_WONDER_CARD_STAT;
         stats[2] = sWonderCardData->cardMetadata.numTrades < MAX_WONDER_CARD_STAT ? sWonderCardData->cardMetadata.numTrades : MAX_WONDER_CARD_STAT;
-        
+
         // Init stat text arrays
         for (i = 0; i < ARRAY_COUNT(sWonderCardData->statTextData); i++)
         {
@@ -423,11 +424,11 @@ static void DrawCardWindow(u8 whichWindow)
     {
         // Print card title/subtitle
         s32 x;
-        AddTextPrinterParameterized3(windowId, FONT_FRLG, 0, 1, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->titleText);
-        x = 160 - GetStringWidth(FONT_FRLG, sWonderCardData->subtitleText, GetFontAttribute(FONT_FRLG, FONTATTR_LETTER_SPACING));
+        AddTextPrinterParameterized3(windowId, FONT_FRLGE, 0, 1, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->titleText);
+        x = 160 - GetStringWidth(FONT_FRLGE, sWonderCardData->subtitleText, GetFontAttribute(FONT_FRLGE, FONTATTR_LETTER_SPACING));
         if (x < 0)
             x = 0;
-        AddTextPrinterParameterized3(windowId, FONT_FRLG, x, 17, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->subtitleText);
+        AddTextPrinterParameterized3(windowId, FONT_FRLGE, x, 17, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->subtitleText);
 
         // Print id number
         if (sWonderCardData->card.idNumber != 0)
@@ -437,21 +438,21 @@ static void DrawCardWindow(u8 whichWindow)
     case CARD_WIN_BODY:
         // Print body text
         for (; i < WONDER_CARD_BODY_TEXT_LINES; i++)
-            AddTextPrinterParameterized3(windowId, FONT_FRLG, 0, 16 * i + 2, sCard_TextColorTable[sWonderCardData->gfx->bodyTextPal], 0, sWonderCardData->bodyText[i]);
+            AddTextPrinterParameterized3(windowId, FONT_FRLGE, 0, 16 * i + 2, sCard_TextColorTable[sWonderCardData->gfx->bodyTextPal], 0, sWonderCardData->bodyText[i]);
         break;
     case CARD_WIN_FOOTER:
         // Print footer line 1
-        AddTextPrinterParameterized3(windowId, FONT_FRLG, 0,
+        AddTextPrinterParameterized3(windowId, FONT_FRLGE, 0,
                                      sCard_FooterTextOffsets[sWonderCardData->card.type],
                                      sCard_TextColorTable[sWonderCardData->gfx->footerTextPal],
                                      0, sWonderCardData->footerLine1Text);
-        
+
         // Print footer line 2
         if (sWonderCardData->card.type != CARD_TYPE_LINK_STAT)
         {
             // Print gift text
             // Odd that CARD_TYPE_STAMP is not ignored, it has empty text for this
-            AddTextPrinterParameterized3(windowId, FONT_FRLG, 0,
+            AddTextPrinterParameterized3(windowId, FONT_FRLGE, 0,
                                          16 + sCard_FooterTextOffsets[sWonderCardData->card.type],
                                          sCard_TextColorTable[sWonderCardData->gfx->footerTextPal],
                                          0, sWonderCardData->giftText);
@@ -460,19 +461,19 @@ static void DrawCardWindow(u8 whichWindow)
         {
             s32 x = 0;
             s32 y = sCard_FooterTextOffsets[sWonderCardData->card.type] + 16;
-            s32 spacing = GetFontAttribute(FONT_FRLG, FONTATTR_LETTER_SPACING);
+            s32 spacing = GetFontAttribute(FONT_FRLGE, FONTATTR_LETTER_SPACING);
             for (; i < sWonderCardData->statFooterWidth; i++)
             {
                 // Print stat text
-                AddTextPrinterParameterized3(windowId, FONT_FRLG, x, y, sCard_TextColorTable[sWonderCardData->gfx->footerTextPal], 0, sWonderCardData->statTextData[i].statText);
+                AddTextPrinterParameterized3(windowId, FONT_FRLGE, x, y, sCard_TextColorTable[sWonderCardData->gfx->footerTextPal], 0, sWonderCardData->statTextData[i].statText);
                 if (sWonderCardData->statTextData[i].statNumberText[0] != EOS)
                 {
                     // Print stat number
-                    x += GetStringWidth(FONT_FRLG, sWonderCardData->statTextData[i].statText, spacing);
-                    AddTextPrinterParameterized3(windowId, FONT_FRLG, x, y,
+                    x += GetStringWidth(FONT_FRLGE, sWonderCardData->statTextData[i].statText, spacing);
+                    AddTextPrinterParameterized3(windowId, FONT_FRLGE, x, y,
                                                  sCard_TextColorTable[sWonderCardData->gfx->footerTextPal],
                                                  0, sWonderCardData->statTextData[i].statNumberText);
-                    x += GetStringWidth(FONT_FRLG, sWonderCardData->statTextData[i].statNumberText, spacing) + sWonderCardData->statTextData[i].width;
+                    x += GetStringWidth(FONT_FRLGE, sWonderCardData->statTextData[i].statNumberText, spacing) + sWonderCardData->statTextData[i].width;
                 }
             }
         }
@@ -485,7 +486,7 @@ static void CreateCardSprites(void)
 {
     u8 i = 0;
     sWonderCardData->monIconSpriteId = SPRITE_NONE;
-    
+
     // Create icon sprite
     if (sWonderCardData->cardMetadata.iconSpecies != SPECIES_NONE)
     {
@@ -504,7 +505,7 @@ static void CreateCardSprites(void)
             sWonderCardData->stampSpriteIds[i][1] = SPRITE_NONE;
             sWonderCardData->stampSpriteIds[i][0] = CreateSprite(&sSpriteTemplate_StampShadow, 216 - 32 * i, 144, 8);
             if (sWonderCardData->cardMetadata.stampData[STAMP_SPECIES][i] != SPECIES_NONE)
-                sWonderCardData->stampSpriteIds[i][1] = CreateMonIconNoPersonality(GetIconSpeciesNoPersonality(sWonderCardData->cardMetadata.stampData[STAMP_SPECIES][i]), 
+                sWonderCardData->stampSpriteIds[i][1] = CreateMonIconNoPersonality(GetIconSpeciesNoPersonality(sWonderCardData->cardMetadata.stampData[STAMP_SPECIES][i]),
                                                                                SpriteCallbackDummy,
                                                                                216 - 32 * i,
                                                                                136, 0, 0);
@@ -519,7 +520,7 @@ static void DestroyCardSprites(void)
     // Destroy icon sprite
     if (sWonderCardData->monIconSpriteId != SPRITE_NONE)
         FreeAndDestroyMonIconSprite(&gSprites[sWonderCardData->monIconSpriteId]);
-    
+
     // Destroy stamp sprites
     if (sWonderCardData->card.maxStamps != 0 && sWonderCardData->card.type == CARD_TYPE_STAMP)
     {
@@ -594,7 +595,7 @@ static const struct WindowTemplate sNews_WindowTemplates[] = {
         .tilemapLeft = 1,
         .tilemapTop = 3,
         .width = 28,
-        .height = 20,
+        .height = DISPLAY_TILE_HEIGHT,
         .paletteNum = 2,
         .baseBlock = 0x07C
     }
@@ -687,10 +688,10 @@ s32 WonderNews_Enter(void)
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
         break;
     case 2:
-        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
         CopyBgTilemapBufferToVram(0);
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(2);
@@ -706,8 +707,8 @@ s32 WonderNews_Enter(void)
         gPaletteFade.bufferTransferDisabled = TRUE;
         LoadPalette(sWonderNewsData->gfx->pal, 0x10, 0x20);
         LZ77UnCompWram(sWonderNewsData->gfx->map, sWonderNewsData->bgTilemapBuffer);
-        CopyRectToBgTilemapBufferRect(1, sWonderNewsData->bgTilemapBuffer, 0, 0, 30, 3, 0, 0, 30, 3, 1, 8, 0);
-        CopyRectToBgTilemapBufferRect(3, sWonderNewsData->bgTilemapBuffer, 0, 3, 30, 23, 0, 3, 30, 23, 1, 8, 0);
+        CopyRectToBgTilemapBufferRect(1, sWonderNewsData->bgTilemapBuffer, 0, 0, DISPLAY_TILE_WIDTH, 3, 0, 0, DISPLAY_TILE_WIDTH, 3, 1, 8, 0);
+        CopyRectToBgTilemapBufferRect(3, sWonderNewsData->bgTilemapBuffer, 0, 3, DISPLAY_TILE_WIDTH, 3 + DISPLAY_TILE_HEIGHT, 0, 3, DISPLAY_TILE_WIDTH, 3 + DISPLAY_TILE_HEIGHT, 1, 8, 0);
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(3);
         break;
@@ -759,10 +760,10 @@ s32 WonderNews_Exit(bool32 useCancel)
         ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
         break;
     case 2:
-        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 24);
-        FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, 30, 24);
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT + 4);
+        FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT + 4);
         CopyBgTilemapBufferToVram(0);
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(2);
@@ -864,7 +865,7 @@ u32 WonderNews_GetInput(u16 input)
 static void BufferNewsText(void)
 {
     u8 i = 0;
-    
+
     // Copy title text
     memcpy(sWonderNewsData->titleText, sWonderNewsData->news.titleText, WONDER_NEWS_TEXT_LENGTH);
     sWonderNewsData->titleText[WONDER_NEWS_TEXT_LENGTH] = EOS;
@@ -891,14 +892,15 @@ static void DrawNewsWindows(void)
     FillWindowPixelBuffer(sWonderNewsData->windowIds[NEWS_WIN_BODY], 0);
 
     // Print title text
-    x = (224 - GetStringWidth(FONT_FRLG, sWonderNewsData->titleText, GetFontAttribute(FONT_FRLG, FONTATTR_LETTER_SPACING))) / 2;
+    x = (224 - GetStringWidth(FONT_FRLGE, sWonderNewsData->titleText, GetFontAttribute(FONT_FRLGE, FONTATTR_LETTER_SPACING))) / 2;
     if (x < 0)
         x = 0;
-    AddTextPrinterParameterized3(sWonderNewsData->windowIds[NEWS_WIN_TITLE], FONT_FRLG, x, 6, sNews_TextColorTable[sWonderNewsData->gfx->titleTextPal], 0, sWonderNewsData->titleText);
-    
+    AddTextPrinterParameterized3(sWonderNewsData->windowIds[NEWS_WIN_TITLE], FONT_FRLGE, x, 6, sNews_TextColorTable[sWonderNewsData->gfx->titleTextPal], 0, sWonderNewsData->titleText);
+
+
     // Print body text
     for (; i < WONDER_NEWS_BODY_TEXT_LINES; i++)
-        AddTextPrinterParameterized3(sWonderNewsData->windowIds[NEWS_WIN_BODY], FONT_FRLG, 0,
+        AddTextPrinterParameterized3(sWonderNewsData->windowIds[NEWS_WIN_BODY], FONT_FRLGE, 0,
                                      16 * i + 2,
                                      sNews_TextColorTable[sWonderNewsData->gfx->bodyTextPal],
                                      0, sWonderNewsData->bodyText[i]);

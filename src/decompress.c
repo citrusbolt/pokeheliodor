@@ -48,7 +48,7 @@ void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
     struct SpritePalette dest;
 
     LZ77UnCompWram(src->data, gDecompressionBuffer);
-    dest.data = (void*) gDecompressionBuffer;
+    dest.data = (void *) gDecompressionBuffer;
     dest.tag = src->tag;
     LoadSpritePalette(&dest);
 }
@@ -99,7 +99,7 @@ void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePale
     LoadSpritePalette(&dest);
 }
 
-void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species, u32 personality)
+void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffer, s32 species, u32 personality)
 {
     if (species > NUM_SPECIES)
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
@@ -306,12 +306,12 @@ u32 GetDecompressedDataSize(const u32 *ptr)
     return (ptr8[3] << 16) | (ptr8[2] << 8) | (ptr8[1]);
 }
 
-bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet* src)
+bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet *src)
 {
     struct SpriteSheet dest;
-    void* buffer;
+    void *buffer;
 
-    buffer = AllocZeroed(*((u32*)(&src->data[0])) >> 8);
+    buffer = AllocZeroed(src->data[0] >> 8);
     LZ77UnCompWram(src->data, buffer);
 
     dest.data = buffer;
@@ -326,9 +326,9 @@ bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet* src
 bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette *src)
 {
     struct SpritePalette dest;
-    void* buffer;
+    void *buffer;
 
-    buffer = AllocZeroed(*((u32*)(&src->data[0])) >> 8);
+    buffer = AllocZeroed(src->data[0] >> 8);
     LZ77UnCompWram(src->data, buffer);
     dest.data = buffer;
     dest.tag = src->tag;
@@ -338,7 +338,7 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
     return FALSE;
 }
 
-void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void* buffer, s32 species, u32 personality) // a copy of DecompressPicFromTable
+void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void *buffer, s32 species, u32 personality) // a copy of DecompressPicFromTable
 {
     if (species > NUM_SPECIES)
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
@@ -390,7 +390,7 @@ void HandleLoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *d
     LoadSpecialPokePic_2(src, dest, species, personality, isFrontPic);
 }
 
-void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void* buffer, s32 species, u32 personality)
+void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *buffer, s32 species, u32 personality)
 {
     if (species > NUM_SPECIES)
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);

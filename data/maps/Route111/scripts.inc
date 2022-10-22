@@ -145,7 +145,7 @@ Route111_EventScript_RubyDisappeared::
 
 @ Unused
 Route111_Movement_PlayerFall::
-	store_lock_anim
+	lock_anim
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down

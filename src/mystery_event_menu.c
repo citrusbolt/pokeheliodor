@@ -23,7 +23,6 @@
 #include "libgcnmultiboot.h"
 #include "multiboot_pokemon_colosseum.h"
 #include "intro.h"
-#include "mgba.h"
 
 static void CB2_MysteryEventMenu(void);
 static void PrintMysteryMenuText(u8 windowId, const u8 *text, u8 x, u8 y, s32 speed);
@@ -97,7 +96,7 @@ void CB2_InitMysteryEventMenu(void)
         for (i = 0; i < 2; i++)
             FillWindowPixelBuffer(i, PIXEL_FILL(0));
 
-        FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 0x1E, 0x14);
+        FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
         LoadUserWindowBorderGfx(0, 1u, 0xD0u);
         Menu_LoadStdPalAt(0xE0);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON);
@@ -109,7 +108,7 @@ void CB2_InitMysteryEventMenu(void)
         BuildOamBuffer();
         RunTextPrinters();
         UpdatePaletteFade();
-        FillPalette(0, 0, 2);
+        FillPalette(RGB_BLACK, 0, 2);
         SetMainCallback2(CB2_MysteryEventMenu);
     }
 }
@@ -171,7 +170,7 @@ static void CB2_MysteryEventMenu(void)
     switch (gMain.state)
     {
     case 0:
-        DrawStdFrameWithCustomTileAndPalette(0, 1, 1, 0xD);
+        DrawStdFrameWithCustomTileAndPalette(0, TRUE, 1, 0xD);
         PutWindowTilemap(0);
         CopyWindowToVram(0, COPYWIN_FULL);
         ShowBg(0);
@@ -218,7 +217,7 @@ static void CB2_MysteryEventMenu(void)
             {
                 PlaySE(SE_SELECT);
                 CheckShouldAdvanceLinkState();
-                DrawStdFrameWithCustomTileAndPalette(1, 1, 1, 0xD);
+                DrawStdFrameWithCustomTileAndPalette(1, TRUE, 1, 0xD);
                 PrintMysteryMenuText(1, gText_LoadingEvent, 1, 2, 0);
                 PutWindowTilemap(1);
                 CopyWindowToVram(1, COPYWIN_FULL);
@@ -241,7 +240,7 @@ static void CB2_MysteryEventMenu(void)
     case 6:
         if (IsLinkConnectionEstablished())
         {
-            if (gReceivedRemoteLinkPlayers != 0)
+            if (gReceivedRemoteLinkPlayers)
             {
                 if (GetLinkPlayerDataExchangeStatusTimed(2, 2) == EXCHANGE_DIFF_SELECTIONS)
                 {

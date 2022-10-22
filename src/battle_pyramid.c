@@ -1477,7 +1477,7 @@ u8 GetTrainerEncounterMusicIdInBattlePyramid(u16 trainerId)
 // Unused
 static void BattlePyramidRetireChallenge(void)
 {
-    ScriptContext1_SetupScript(BattlePyramid_Retire);
+    ScriptContext_SetupScript(BattlePyramid_Retire);
 }
 
 static u16 GetUniqueTrainerId(u8 objectEventId)
@@ -1565,7 +1565,7 @@ void GenerateBattlePyramidFloorLayout(u16 *backupMapData, bool8 setPlayerPositio
         }
     }
     RunOnLoadMapScript();
-    free(floorLayoutOffsets);
+    Free(floorLayoutOffsets);
 }
 
 void LoadBattlePyramidObjectEventTemplates(void)
@@ -1694,7 +1694,7 @@ static void SetPyramidObjectPositionsUniformly(u8 objType)
         } while (!(bits & 4) && TrySetPyramidObjectEventPositionInSquare(objType, floorLayoutOffsets, squareId, objectStartIndex + i));
         bits &= 1;
     }
-    free(floorLayoutOffsets);
+    Free(floorLayoutOffsets);
 }
 
 static bool8 SetPyramidObjectPositionsInAndNearSquare(u8 objType, u8 squareId)
@@ -1757,7 +1757,7 @@ static bool8 SetPyramidObjectPositionsInAndNearSquare(u8 objType, u8 squareId)
         r7 &= 1;
     }
 
-    free(floorLayoutOffsets);
+    Free(floorLayoutOffsets);
 
     return (numObjects / 2) > numPlacedObjects;
 }
@@ -1810,7 +1810,7 @@ static bool8 SetPyramidObjectPositionsNearSquare(u8 objType, u8 squareId)
             break;
     }
 
-    free(floorLayoutOffsets);
+    Free(floorLayoutOffsets);
 
     return (numObjects / 2) > numPlacedObjects;
 }
