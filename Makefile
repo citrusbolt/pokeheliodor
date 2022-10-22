@@ -252,6 +252,7 @@ clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
 	@$(MAKE) -C subrepos/agbcc/gcc clean
+	@$(MAKE) -C subrepos/agbcc/gcc_arm clean
 	@$(MAKE) -C subrepos/agbcc/libgcc clean
 	@$(MAKE) -C subrepos/agbcc/libc clean
 	rm -rf tools/agbcc
