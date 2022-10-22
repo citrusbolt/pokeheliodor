@@ -483,6 +483,18 @@ static const u8 sStrib[] = _("STRIB");
 static const u8 sChilan[] = _("CHILAN");
 static const u8 sNutpea[] = _("NUTPEA");
 static const u8 sMochi[] = _("MOCHI");
+static const u8 sGinema[] = _("GINEMA");
+static const u8 sGinemaJP[] = _("ギネマ");
+static const u8 sKuo[] = _("KUO");
+static const u8 sKuoJP[] = _("クオ");
+static const u8 sYago[] = _("YAGO");
+static const u8 sYagoJP[] = _("ヤゴ");
+static const u8 sTouga[] = _("TOUGA");
+static const u8 sTougaJP[] = _("トウガ");
+static const u8 sNiniku[] = _("NINIKU");
+static const u8 sNinikuJP[] = _("ニニク");
+static const u8 sTopo[] = _("TOPO");
+static const u8 sTopoJP[] = _("トポ");
 
 static void LoadBerryGfx(u8 berryId)
 {
@@ -523,6 +535,36 @@ static void LoadBerryGfx(u8 berryId)
 	//	pal.data = gBerryPalette_Mochi;
 	//	LZDecompressWram(gBerryPic_Mochi, &gDecompressionBuffer[0x1000]);
 	///}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sGinema) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sGinemaJP)))
+	{
+		pal.data = gBerryPalette_Ginema;
+		LZDecompressWram(gBerryPic_Ginema, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sKuo) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sKuoJP)))
+	{
+		pal.data = gBerryPalette_Kuo;
+		LZDecompressWram(gBerryPic_Kuo, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sYago) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sYagoJP)))
+	{
+		pal.data = gBerryPalette_Yago;
+		LZDecompressWram(gBerryPic_Yago, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTouga) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTougaJP)))
+	{
+		pal.data = gBerryPalette_Touga;
+		LZDecompressWram(gBerryPic_Touga, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sNiniku) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sNinikuJP)))
+	{
+		pal.data = gBerryPalette_Niniku;
+		LZDecompressWram(gBerryPic_Niniku, &gDecompressionBuffer[0x1000]);
+	}
+	else if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid() && (!StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTopo) || !StringCompare(gSaveBlock1Ptr->enigmaBerry.berry.name, sTopoJP)))
+	{
+		pal.data = gBerryPalette_Topo;
+		LZDecompressWram(gBerryPic_Topo, &gDecompressionBuffer[0x1000]);
+	}
 	else
 	{
 		pal.data = sBerryPicTable[berryId].pal;

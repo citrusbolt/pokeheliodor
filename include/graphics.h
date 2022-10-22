@@ -5290,6 +5290,18 @@ extern const u32 gBerryPic_Nutpea[];
 extern const u32 gBerryPalette_Nutpea[];
 extern const u32 gBerryPic_Mochi[];
 extern const u32 gBerryPalette_Mochi[];
+extern const u32 gBerryPic_Ginema[];
+extern const u32 gBerryPalette_Ginema[];
+extern const u32 gBerryPic_Kuo[];
+extern const u32 gBerryPalette_Kuo[];
+extern const u32 gBerryPic_Yago[];
+extern const u32 gBerryPalette_Yago[];
+extern const u32 gBerryPic_Touga[];
+extern const u32 gBerryPalette_Touga[];
+extern const u32 gBerryPic_Niniku[];
+extern const u32 gBerryPalette_Niniku[];
+extern const u32 gBerryPic_Topo[];
+extern const u32 gBerryPalette_Topo[];
 
 extern const u32 gSummaryScreenTiles[];
 extern const u32 gSummaryScreenBackgroundTilemap[];
