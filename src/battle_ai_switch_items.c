@@ -629,11 +629,7 @@ static void ModulateByTypeEffectiveness(u8 atkType, u8 defType1, u8 defType2, u8
 u8 GetMostSuitableMonToSwitchInto(void)
 {
     u8 opposingBattler;
-#ifdef BUGFIX
-    s32 bestDmg;
-#else
     u8 bestDmg; // Note: should be changed to s32 since it is also used for the actual damage done later
-#endif
     u8 bestMonId;
     u8 battlerIn1, battlerIn2;
     s32 firstId;
