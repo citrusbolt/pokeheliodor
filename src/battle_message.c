@@ -685,6 +685,7 @@ static const u8 sText_Trainer1WinText[];
 static const u8 sText_Trainer2WinText[];
 static const u8 sText_TwoInGameTrainersDefeated[];
 static const u8 sText_Trainer2LoseText[];
+static const u8 sText_QuestionRunFromShiny[];
 
 const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_START] =
 {
@@ -1062,6 +1063,7 @@ const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_S
     [STRINGID_TAKEITEMCAPTURED - BATTLESTRINGS_TABLE_START] = sText_TakeItemCaptured,
     [STRINGID_ITEMTAKEN - BATTLESTRINGS_TABLE_START] = sText_ItemTaken,
     [STRINGID_PKMNRECOVEREDPROBLEM - BATTLESTRINGS_TABLE_START] = sText_PkmnRecoveredXProblem,
+    [STRINGID_QUESTIONRUNSHINY - BATTLESTRINGS_TABLE_START] = sText_QuestionRunFromShiny,
 };
 
 const u16 gMissStringIds[] =
@@ -1606,6 +1608,7 @@ const u8 gText_RecordBattleToPass[] = _("Would you like to record your battle\no
 const u8 gText_BattleRecordedOnPass[] = _("{B_PLAYER_NAME}'s battle result was recorded\non the Frontier Pass.");
 static const u8 sText_LinkTrainerWantsToBattlePause[] = _("{B_LINK_OPPONENT1_NAME}\nwants to battle!{PAUSE 49}");
 static const u8 sText_TwoLinkTrainersWantToBattlePause[] = _("{B_LINK_OPPONENT1_NAME} and {B_LINK_OPPONENT2_NAME}\nwant to battle!{PAUSE 49}");
+static const u8 sText_QuestionRunFromShiny[] = _("Would you like to run away from\nthis Shiny Pokémon?");
 
 // This is four lists of moves which use a different attack string in Japanese
 // to the default. See the documentation for ChooseTypeOfMoveUsedString for more detail.

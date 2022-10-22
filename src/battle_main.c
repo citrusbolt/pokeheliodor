@@ -4387,6 +4387,40 @@ static void HandleTurnActionSelectionState(void)
                     *(gBattleStruct->stateIdAfterSelScript + gActiveBattler) = STATE_BEFORE_ACTION_CHOSEN;
                     return;
                 }
+                else if (!(InBattlePyramid()
+                      || (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_MULTI
+                                            | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TWO_OPPONENTS
+                                            | BATTLE_TYPE_FRONTIER| BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_TOWER_LINK_MULTI
+                                            | BATTLE_TYPE_RECORDED | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER_HILL
+                                            | BATTLE_TYPE_SECRET_BASE | BATTLE_TYPE_RECORDED_IS_MASTER)))
+                      && gBattleBufferB[gActiveBattler][1] == B_ACTION_RUN)
+                {
+                    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+                    {
+                        if (GetBattlerSide(i) == B_SIDE_OPPONENT && IsShinyOtIdPersonality(gBattleMons[i].otId, gBattleMons[i].personality) && gBattleMons[i].hp)
+                        {
+                            DebugPrintf("%d", i);
+                            gSelectionBattleScripts[gActiveBattler] = BattleScript_AskIfWantsToRunFromShiny;
+                            gBattleCommunication[gActiveBattler] = STATE_SELECTION_SCRIPT_MAY_RUN;
+                            *(gBattleStruct->selectionScriptFinished + gActiveBattler) = FALSE;
+                            *(gBattleStruct->stateIdAfterSelScript + gActiveBattler) = STATE_BEFORE_ACTION_CHOSEN;
+                            return;
+                        }
+                    }
+                    if (IsRunningFromBattleImpossible() != BATTLE_RUN_SUCCESS
+                         && gBattleBufferB[gActiveBattler][1] == B_ACTION_RUN)
+                    {
+                        gSelectionBattleScripts[gActiveBattler] = BattleScript_PrintCantEscapeFromBattle;
+                        gBattleCommunication[gActiveBattler] = STATE_SELECTION_SCRIPT;
+                        *(gBattleStruct->selectionScriptFinished + gActiveBattler) = FALSE;
+                        *(gBattleStruct->stateIdAfterSelScript + gActiveBattler) = STATE_BEFORE_ACTION_CHOSEN;
+                        return;
+                    }
+                    else
+                    {
+                        gBattleCommunication[gActiveBattler]++;
+                    }
+                }
                 else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER
                          && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
                          && gBattleBufferB[gActiveBattler][1] == B_ACTION_RUN)

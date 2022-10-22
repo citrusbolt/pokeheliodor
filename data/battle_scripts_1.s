@@ -4574,3 +4574,8 @@ BattleScript_FriendshipRecover::
 	waitmessage B_WAIT_TIME_LONG
 	updatestatusicon BS_ATTACKER
 	end3
+
+BattleScript_AskIfWantsToRunFromShiny::
+	printselectionstring STRINGID_QUESTIONRUNSHINY
+	forfeityesnobox BS_ATTACKER
+	endselectionscript
