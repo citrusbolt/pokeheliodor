@@ -31,6 +31,7 @@
 #include "constants/battle_frontier.h"
 #include "constants/rgb.h"
 #include "constants/trainers.h"
+#include "constants/union_room.h"
 
 struct TrainerCardData
 {
@@ -104,8 +105,8 @@ static void CloseTrainerCard(u8 task);
 static bool8 PrintAllOnCardFront(void);
 static void DrawTrainerCardWindow(u8);
 static void CreateTrainerCardTrainerPic(void);
-static void DrawCardScreenBackground(u16*);
-static void DrawCardFrontOrBack(u16*);
+static void DrawCardScreenBackground(u16 *);
+static void DrawCardFrontOrBack(u16 *);
 static void DrawStarsAndBadgesOnCard(void);
 static void PrintTimeOnCard(void);
 static void FlipTrainerCard(void);
@@ -170,12 +171,12 @@ static void LoadStickerGfx(void);
 static u8 SetCardBgsAndPals(void);
 static void DrawCardBackStats(void);
 static void Task_DoCardFlipTask(u8);
-static bool8 Task_BeginCardFlip(struct Task* task);
-static bool8 Task_AnimateCardFlipDown(struct Task* task);
-static bool8 Task_DrawFlippedCardSide(struct Task* task);
-static bool8 Task_SetCardFlipped(struct Task* task);
-static bool8 Task_AnimateCardFlipUp(struct Task* task);
-static bool8 Task_EndCardFlip(struct Task* task);
+static bool8 Task_BeginCardFlip(struct Task *task);
+static bool8 Task_AnimateCardFlipDown(struct Task *task);
+static bool8 Task_DrawFlippedCardSide(struct Task *task);
+static bool8 Task_SetCardFlipped(struct Task *task);
+static bool8 Task_AnimateCardFlipUp(struct Task *task);
+static bool8 Task_EndCardFlip(struct Task *task);
 static void UpdateCardFlipRegs(u16);
 static void LoadMonIconGfx(void);
 
@@ -555,9 +556,9 @@ static void Task_TrainerCard(u8 taskId)
         break;
     case STATE_WAIT_LINK_PARTNER:
         SetCloseLinkCallback();
-        DrawDialogueFrame(0, 1);
+        DrawDialogueFrame(0, TRUE);
         AddTextPrinterParameterized(0, FONT_OPTION, gText_WaitingTrainerFinishReading, 0, 1, 255, 0);
-        CopyWindowToVram(0, 3);
+        CopyWindowToVram(0, COPYWIN_FULL);
         sData->mainState = STATE_CLOSE_CARD_LINK;
         break;
     case STATE_CLOSE_CARD_LINK:
@@ -888,9 +889,9 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 	trainerCard->monIconTint = VarGet(VAR_TRAINER_CARD_MON_ICON_TINT);
 
 	if (trainerCard->gender == FEMALE)
-		trainerCard->facilityClass = gLinkPlayerFacilityClasses[(trainerCard->trainerId % NUM_FEMALE_LINK_FACILITY_CLASSES) + NUM_MALE_LINK_FACILITY_CLASSES];
+		trainerCard->unionRoomClass = gUnionRoomFacilityClasses[(trainerCard->trainerId % NUM_UNION_ROOM_CLASSES) + NUM_UNION_ROOM_CLASSES];
 	else
-		trainerCard->facilityClass = gLinkPlayerFacilityClasses[trainerCard->trainerId % NUM_MALE_LINK_FACILITY_CLASSES];
+		trainerCard->unionRoomClass = gUnionRoomFacilityClasses[trainerCard->trainerId % NUM_UNION_ROOM_CLASSES];
 
 	for (i = 0; i < TRAINER_CARD_STICKER_TYPES; i++)
 	{
@@ -2317,7 +2318,7 @@ static void DrawCardScreenBackground(u16 *ptr)
     CopyBgTilemapBufferToVram(2);
 }
 
-static void DrawCardFrontOrBack(u16* ptr)
+static void DrawCardFrontOrBack(u16 *ptr)
 {
     s16 i, j;
     u16 *dst = sData->cardTilemapBuffer;
@@ -2496,7 +2497,7 @@ static void Task_DoCardFlipTask(u8 taskId)
         ;
 }
 
-static bool8 Task_BeginCardFlip(struct Task* task)
+static bool8 Task_BeginCardFlip(struct Task *task)
 {
     u32 i;
 
@@ -2513,7 +2514,7 @@ static bool8 Task_BeginCardFlip(struct Task* task)
 // Note: Cannot be DISPLAY_HEIGHT / 2, or cardHeight will be 0
 #define CARD_FLIP_Y ((DISPLAY_HEIGHT / 2) - 3)
 
-static bool8 Task_AnimateCardFlipDown(struct Task* task)
+static bool8 Task_AnimateCardFlipDown(struct Task *task)
 {
     u32 cardHeight, r5, r10, cardTop, r6, var_24, cardBottom, var;
     s16 i;
@@ -2558,7 +2559,7 @@ static bool8 Task_AnimateCardFlipDown(struct Task* task)
     return FALSE;
 }
 
-static bool8 Task_DrawFlippedCardSide(struct Task* task)
+static bool8 Task_DrawFlippedCardSide(struct Task *task)
 {
     sData->allowDMACopy = FALSE;
     if (Overworld_IsRecvQueueAtMax() == TRUE)
@@ -2612,7 +2613,7 @@ static bool8 Task_DrawFlippedCardSide(struct Task* task)
     return FALSE;
 }
 
-static bool8 Task_SetCardFlipped(struct Task* task)
+static bool8 Task_SetCardFlipped(struct Task *task)
 {
     sData->allowDMACopy = FALSE;
 
@@ -2632,7 +2633,7 @@ static bool8 Task_SetCardFlipped(struct Task* task)
     return FALSE;
 }
 
-static bool8 Task_AnimateCardFlipUp(struct Task* task)
+static bool8 Task_AnimateCardFlipUp(struct Task *task)
 {
     u32 cardHeight, r5, r10, cardTop, r6, var_24, cardBottom, var;
     s16 i;
@@ -2884,7 +2885,7 @@ static void CreateTrainerCardTrainerPic(void)
 {
     if (InUnionRoom() == TRUE && gReceivedRemoteLinkPlayers == 1)
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.facilityClass),
+        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.unionRoomClass),
                     TRUE,
                     sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][1],

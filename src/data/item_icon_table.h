@@ -1,4 +1,4 @@
-const u32 *const gItemIconTable[][2] =
+const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
 {
     [ITEM_NONE] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
     // Pokeballs
@@ -408,7 +408,7 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_CATCHING_CHARM] = {gItemIcon_CatchingCharm, gItemIconPalette_CatchingCharm},
     [ITEM_EXP_CHARM] = {gItemIcon_ExpCharm, gItemIconPalette_ExpCharm},
     // Return to field arrow
-    [ITEM_FIELD_ARROW] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
+    [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };
 
 const u32 *const gBallIconTable[][2] =

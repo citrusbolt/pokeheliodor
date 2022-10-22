@@ -315,7 +315,7 @@ MauvilleCity_PokemonCenter_1F_Text_TrendsStartedStory::
 	.string "the Hoenn region!$"
 
 MauvilleCity_PokemonCenter_1F_Text_BerriesPlantedTitle::
-    .string "The Berry-Planting Trainer$"
+	.string "The Berry-Planting Trainer$"
 
 MauvilleCity_PokemonCenter_1F_Text_BerriesPlantedAction::
 	.string "Planted Berries$"

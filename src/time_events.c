@@ -86,7 +86,7 @@ static const u16 sRespawnableHiddenItems[] =
 	FLAG_HIDDEN_ITEM_ROUTE_111_PROTEIN,
 	FLAG_HIDDEN_ITEM_ROUTE_111_RARE_CANDY,
 	FLAG_HIDDEN_ITEM_ROUTE_113_ETHER,
-	FLAG_HIDDEN_ITEM_ROUTE_113_TM_32,
+	FLAG_HIDDEN_ITEM_ROUTE_113_TM32,
 	FLAG_HIDDEN_ITEM_ROUTE_113_NUGGET,
 	FLAG_HIDDEN_ITEM_ROUTE_114_CARBOS,
 	FLAG_HIDDEN_ITEM_ROUTE_113_REVIVE,
@@ -204,7 +204,7 @@ static void Task_WaitWeather(u8 taskId)
 {
     if (IsWeatherChangeComplete())
     {
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
         DestroyTask(taskId);
     }
 }

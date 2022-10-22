@@ -10,7 +10,7 @@ static const u16 sFrontierExchangeCorner_Decor1[] =
     DECOR_CYNDAQUIL_DOLL,
     DECOR_CHIKORITA_DOLL,
     DECOR_TOTODILE_DOLL,
-    0xFFFF
+    ITEM_LIST_END
 };
 
 static const u16 sFrontierExchangeCorner_Decor2[] =
@@ -20,7 +20,7 @@ static const u16 sFrontierExchangeCorner_Decor2[] =
     DECOR_VENUSAUR_DOLL,
     DECOR_CHARIZARD_DOLL,
     DECOR_BLASTOISE_DOLL,
-    0xFFFF
+    ITEM_LIST_END
 };
 
 static const u16 sFrontierExchangeCorner_Stones[] =
@@ -36,7 +36,7 @@ static const u16 sFrontierExchangeCorner_Stones[] =
     ITEM_UP_GRADE, 
     ITEM_DEEP_SEA_SCALE, 
     ITEM_DEEP_SEA_TOOTH, 
-    0xFFFF 
+    ITEM_LIST_END 
 };
 
 static const u16 sFrontierExchangeCorner_HoldItems[] =
@@ -55,7 +55,7 @@ static const u16 sFrontierExchangeCorner_HoldItems[] =
     ITEM_LUCKY_PUNCH, 
     ITEM_LAX_INCENSE, 
     ITEM_SEA_INCENSE, 
-    0xFFFF 
+    ITEM_LIST_END 
 };
 
 static const u8 *const sFrontierExchangeCorner_Decor1Descriptions[] =
