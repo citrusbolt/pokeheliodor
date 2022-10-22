@@ -408,7 +408,7 @@ void WaitForVBlank(void)
 
     //while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
     //    ;
-	VBlankIntrWait();
+	asm("swi 0x5");
 }
 
 void SetTrainerHillVBlankCounter(u32 *counter)
