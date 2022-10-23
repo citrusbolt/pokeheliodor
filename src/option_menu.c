@@ -42,6 +42,7 @@ enum
     MENUITEM_CLOCK,
     //MENUITEM_PARTY_BOX,
     MENUITEM_NICKNAME,
+    MENUITEM_RUMBLE,
     MENUITEM_CONFIRM,
     MENUITEM_COUNT
 };
@@ -204,6 +205,7 @@ static const u8 sText_UnitSystem[]      = _("UNIT SYSTEM");
 static const u8 sText_Clock[]           = _("12 HOUR CLOCK");
 static const u8 sText_PartyBox[]        = _("PARTY/BOX");
 static const u8 sText_Nickname[]        = _("GIVE NICKNAMES");
+static const u8 sText_Rumble[]          = _("RUMBLE");
 static const u8 sText_Confirm[]         = _("CLOSE");
 
 static const u8 sText_FollowerPkmn[]    = _("FOLLOWER {PKMN}");
@@ -310,6 +312,7 @@ static const sItemFunctionsGame[MENUITEM_COUNT] =
     [MENUITEM_CLOCK]         = {DrawChoices_OnOff,        ProcessInput_Options_Two},
     //[MENUITEM_PARTY_BOX]     = {DrawChoices_PartyBox,     ProcessInput_Options_Two},
     [MENUITEM_NICKNAME]      = {DrawChoices_Nickname,     ProcessInput_Options_Two},
+    [MENUITEM_RUMBLE]        = {DrawChoices_OnOff,       ProcessInput_Options_Two},
     [MENUITEM_CONFIRM]       = {NULL,                     NULL}
 };
 
@@ -328,6 +331,7 @@ static const u8 *const sOptionMenuItemsNamesGame[MENUITEM_COUNT] =
     [MENUITEM_CLOCK]         = sText_Clock,
     //[MENUITEM_PARTY_BOX]     = sText_PartyBox,
     [MENUITEM_NICKNAME]      = sText_Nickname,
+    [MENUITEM_RUMBLE]        = sText_Rumble,
     [MENUITEM_CONFIRM]       = sText_Confirm
 };
 
@@ -362,6 +366,7 @@ static const u8 sText_Desc_UnitSystem[]   = _("Choose the system of measurement\
 static const u8 sText_Desc_Clock[]        = _("Choose the menu's clock mode.");
 static const u8 sText_Desc_PartyBox[]     = _("Choose to have {PKMN} automatically\nsent to your Boxes or not.");
 static const u8 sText_Desc_Nickname[]     = _("Choose whether you wish to\nnickname a {PKMN} when you obtain it.");
+static const u8 sText_Desc_Rumble[]       = _("Choose whether you wish to\nexperience rumble on GCN.");
 static const u8 sText_Desc_Confirm[]      = _("Return to the game.");
 
 static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_COUNT] =
@@ -378,6 +383,7 @@ static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_COUNT] =
     [MENUITEM_CLOCK]         = sText_Desc_Clock,
     //[MENUITEM_PARTY_BOX]     = sText_Desc_PartyBox,
     [MENUITEM_NICKNAME]      = sText_Desc_Nickname,
+    [MENUITEM_RUMBLE]      = sText_Desc_Rumble,
     [MENUITEM_CONFIRM]       = sText_Desc_Confirm
 };
 
@@ -625,6 +631,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_CLOCK]         = gSaveBlock2Ptr->options24HourClock;
         //sOptions->sel[MENUITEM_PARTY_BOX]     = gSaveBlock2Ptr->optionsPartyBox;
         sOptions->sel[MENUITEM_NICKNAME]      = gSaveBlock2Ptr->optionsNickname;
+        sOptions->sel[MENUITEM_RUMBLE]        = !gSaveBlock2Ptr->optionsRumble;
 
         sOptions->submenu = MENU_GAME;
 
@@ -854,7 +861,8 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsUnitSystem      = sOptions->sel[MENUITEM_UNIT_SYSTEM];
     gSaveBlock2Ptr->options24HourClock     = sOptions->sel[MENUITEM_CLOCK];
     //gSaveBlock2Ptr->optionsPartyBox        = sOptions->sel[MENUITEM_PARTY_BOX];
-    gSaveBlock2Ptr->optionsNickname     = sOptions->sel[MENUITEM_NICKNAME];
+    gSaveBlock2Ptr->optionsNickname        = sOptions->sel[MENUITEM_NICKNAME];
+    gSaveBlock2Ptr->optionsRumble          = !sOptions->sel[MENUITEM_RUMBLE];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;

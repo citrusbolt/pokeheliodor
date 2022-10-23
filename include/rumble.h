@@ -19,20 +19,20 @@ enum GBPCommsStage {
 };
 
 struct GBPComms {
-    enum GBPCommsStage stage_;
+    u32 stage_;
     u32 serial_in_;
     u16 index_;
     u16 out_0_;
     u16 out_1_;
 };
-void rumble_set_state(enum RumbleState state);
+void rumble_set_state(u32 state);
 
 void rumble_init();
 
 void rumble_update();
 void gbp_serial_isr();
 
-extern EWRAM_DATA u8 rumble_state;
+extern EWRAM_DATA u32 rumble_state;
 extern EWRAM_DATA struct GBPComms gbp_comms;
 
 extern u8 const comms_handshake_data[];

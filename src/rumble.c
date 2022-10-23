@@ -2,7 +2,7 @@
 #include "rumble.h"
 #include "main.h"
 
-EWRAM_DATA u8 rumble_state = 0;
+EWRAM_DATA u32 rumble_state = 0;
 
 
 u8 const comms_handshake_data[] = {"NINTENDO"};
@@ -25,6 +25,7 @@ static void gbp_serial_start()
 
 void gbp_serial_isr()
 {
+    u32 state = gbp_comms.stage_;
     u32 result = 0;
     gbp_comms.serial_in_ = REG_SIODATA32;
 
@@ -39,14 +40,17 @@ void gbp_serial_isr()
         break;
 
     case gbp_comms_finalize: {
-        struct GBPComms reset = {0};
-        gbp_comms = reset;
+        gbp_comms.serial_in_ = 0;
+        gbp_comms.stage_ = gbp_comms_nintendo_handshake;
+        gbp_comms.index_ = 0;
+        gbp_comms.out_0_ = 0;
+        gbp_comms.out_1_ = 0;
         return;
     }
 
     case gbp_comms_nintendo_handshake: {
         const u16 in_lower = gbp_comms.serial_in_;
-            static char const comms_handshake_data[] = {"NINTENDO"};
+        static u16 const comms_handshake_data[] = {0x494E, 0x544E, 0x4E45, 0x4F44, 0x8000};
 
         if (in_lower == 0x8002) {
             result = 0x10000010;
@@ -67,8 +71,7 @@ void gbp_serial_isr()
             }
 
 
-            gbp_comms.out_0_ =
-                ((const u16*)comms_handshake_data)[gbp_comms.index_];
+            gbp_comms.out_0_ = comms_handshake_data[gbp_comms.index_];
         }
 
         gbp_comms.out_1_ = ~in_lower;
@@ -98,8 +101,11 @@ void gbp_serial_isr()
         break;
     }
 
+    //DebugPrintf("%x - %x", gbp_comms.serial_in_, result);
+
     REG_SIODATA32 = result;
     REG_SIOCNT |= SIO_START;
+    REG_IF = INTR_FLAG_SERIAL;
 }
 
 
@@ -129,7 +135,7 @@ void rumble_update()
 }
 
 
-void rumble_set_state(enum RumbleState state)
+void rumble_set_state(u32 state)
 {
     rumble_state = state;
 

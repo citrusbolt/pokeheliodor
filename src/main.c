@@ -24,6 +24,7 @@
 #include "main.h"
 #include "trainer_hill.h"
 #include "constants/rgb.h"
+#include "rumble.h"
 
 static void VBlankIntr(void);
 static void HBlankIntr(void);
@@ -87,6 +88,9 @@ void EnableVCountIntrAtLine150(void);
 
 void AgbMain()
 {
+    u32 i = 0;
+    u32 current_state = rumble_stop;
+
     // Modern compilers are liberal with the stack on entry to this function,
     // so RegisterRamReset may crash if it resets IWRAM.
 #if !MODERN
@@ -127,6 +131,19 @@ void AgbMain()
 #endif
     for (;;)
     {
+        if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+            rumble_update();
+
+        //if (gGameBoyPlayerDetected && ++i == 80) {
+        //    i = 0;
+        //    if (current_state == rumble_stop) {
+        //        current_state = rumble_start;
+        //    } else {
+        //        current_state = rumble_stop;
+        //    }
+        //    rumble_set_state(current_state);
+        //}
+
         ReadKeys();
 
         if (gSoftResetDisabled == FALSE
@@ -392,7 +409,9 @@ static void VCountIntr(void)
 
 static void SerialIntr(void)
 {
-    if (gMain.serialCallback)
+    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+        gbp_serial_isr();
+    else
         gMain.serialCallback();
 
     INTR_CHECK |= INTR_FLAG_SERIAL;
