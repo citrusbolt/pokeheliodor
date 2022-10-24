@@ -1,6 +1,7 @@
 #include "global.h"
 #include "rumble.h"
 #include "main.h"
+#include "sound.h"
 
 EWRAM_DATA u32 rumble_state = 0;
 
@@ -29,6 +30,8 @@ void gbp_serial_isr()
     u32 result = 0;
     gbp_comms.serial_in_ = REG_SIODATA32;
 
+    if (!IsSEPlaying())
+        rumble_state = rumble_stop;
 
     switch (gbp_comms.stage_) {
     case gbp_comms_rumble:
