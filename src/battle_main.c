@@ -4399,7 +4399,6 @@ static void HandleTurnActionSelectionState(void)
                     {
                         if (GetBattlerSide(i) == B_SIDE_OPPONENT && IsShinyOtIdPersonality(gBattleMons[i].otId, gBattleMons[i].personality) && gBattleMons[i].hp)
                         {
-                            DebugPrintf("%d", i);
                             gSelectionBattleScripts[gActiveBattler] = BattleScript_AskIfWantsToRunFromShiny;
                             gBattleCommunication[gActiveBattler] = STATE_SELECTION_SCRIPT_MAY_RUN;
                             *(gBattleStruct->selectionScriptFinished + gActiveBattler) = FALSE;

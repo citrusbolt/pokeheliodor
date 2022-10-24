@@ -1165,12 +1165,12 @@ static void CompleteOnHealthbarDone(void)
 
     if (hpValue != -1)
     {
-        rumble_set_state(rumble_start);
+        SetRumbleState(RUMBLE_ON);
         UpdateHpTextInHealthbox(gHealthboxSpriteIds[gActiveBattler], hpValue, HP_CURRENT);
     }
     else
     {
-        rumble_set_state(rumble_stop);
+        SetRumbleState(RUMBLE_OFF);
         HandleLowHpMusicChange(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], gActiveBattler);
         PlayerBufferExecCompleted();
     }

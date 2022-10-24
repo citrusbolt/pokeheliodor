@@ -3437,10 +3437,6 @@ static void SpriteCB_RayquazaOrb(struct Sprite *sprite)
 
 void CB2_DetectGameBoyPlayer(void)
 {
-    u16 inputLower;
-    u32 result = 0;
-    gbp_comms.serial_in_ = REG_SIODATA32;
-    inputLower = gbp_comms.serial_in_;
     switch (gMain.state)
     {
         case 0:
@@ -3466,7 +3462,7 @@ void CB2_DetectGameBoyPlayer(void)
             DmaCopy16(3, gIntroGameBoyPlayer_Pal, (void *)BG_PLTT, BG_PLTT_SIZE);
             DmaCopy16(3, gIntroGameBoyPlayer_Tilemap, (void *)BG_SCREEN_ADDR(0), BG_SCREEN_SIZE);
             REG_BG0CNT = BGCNT_256COLOR | BGCNT_CHARBASE(2);
-            rumble_state = rumble_stop;
+            gRumbleState = RUMBLE_OFF;
         case 1 ... 17:
             VBlankIntrWait();
             REG_BLDY = 17 - gMain.state;
@@ -3480,11 +3476,11 @@ void CB2_DetectGameBoyPlayer(void)
                 REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD;
                 REG_SIOCNT |= SIO_INTR_ENABLE;
                 gGameBoyPlayerDetected = TRUE;
-                gbp_comms.serial_in_ = 0;
-                gbp_comms.stage_ = gbp_comms_nintendo_handshake;
-                gbp_comms.index_ = 0;
-                gbp_comms.out_0_ = 0;
-                gbp_comms.out_1_ = 0;
+                gGBPCommunication.input = 0;
+                gGBPCommunication.state = GBP_SERIAL_STATUS_NINTENDO_HANDSHAKE;
+                gGBPCommunication.handshakeIndex = 0;
+                gGBPCommunication.outputHigh = 0;
+                gGBPCommunication.outputLow = 0;
             }
             VBlankIntrWait();
             gMain.state++;
