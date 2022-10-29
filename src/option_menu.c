@@ -18,6 +18,7 @@
 #include "event_data.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
+#include "rumble.h"
 
 enum
 {
@@ -177,6 +178,7 @@ static void DrawChoices_Nickname(int selection, int y);
 static void DrawChoices_Font(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_OnOff(int selection, int y);
+static void DrawChoices_ExtPort(int selection, int y);
 static void DrawBgWindowFramesOptions(void);
 static int ProcessInput_Options_MessageColor(int selection);
 static void DrawBgWindowFramesDescription(void);
@@ -205,7 +207,7 @@ static const u8 sText_UnitSystem[]      = _("UNIT SYSTEM");
 static const u8 sText_Clock[]           = _("12 HOUR CLOCK");
 static const u8 sText_PartyBox[]        = _("PARTY/BOX");
 static const u8 sText_Nickname[]        = _("GIVE NICKNAMES");
-static const u8 sText_Rumble[]          = _("RUMBLE");
+static const u8 sText_Rumble[]          = _("EXT. PORT");
 static const u8 sText_Confirm[]         = _("CLOSE");
 
 static const u8 sText_FollowerPkmn[]    = _("FOLLOWER {PKMN}");
@@ -268,6 +270,8 @@ static const u8 sText_OptionCustom[]        = _("CUSTOM");
 static const u8 sText_FrameTypeNumber[]     = _("");
 static const u8 sText_Option3[]             = _("3");
 static const u8 sText_Option5[]             = _("5");
+static const u8 sText_OptionLink[]          = _("LINK");
+static const u8 sText_OptionRumble[]        = _("RUMBLE");
 
 // Header text
 static const u8 sText_TopBar_Options[]     = _("OPTIONS");
@@ -312,7 +316,7 @@ static const sItemFunctionsGame[MENUITEM_COUNT] =
     [MENUITEM_CLOCK]         = {DrawChoices_OnOff,        ProcessInput_Options_Two},
     //[MENUITEM_PARTY_BOX]     = {DrawChoices_PartyBox,     ProcessInput_Options_Two},
     [MENUITEM_NICKNAME]      = {DrawChoices_Nickname,     ProcessInput_Options_Two},
-    [MENUITEM_RUMBLE]        = {DrawChoices_OnOff,       ProcessInput_Options_Two},
+    [MENUITEM_RUMBLE]        = {DrawChoices_ExtPort,      ProcessInput_Options_Two},
     [MENUITEM_CONFIRM]       = {NULL,                     NULL}
 };
 
@@ -347,6 +351,8 @@ static const u8 *const OptionTextRight(u8 menuItem)
 // Menu left side text conditions
 static bool8 CheckConditions(int selection)
 {
+    if (!gGameBoyPlayerDetected && selection == MENUITEM_RUMBLE)
+        return FALSE;
     return TRUE;
 }
 
@@ -366,7 +372,7 @@ static const u8 sText_Desc_UnitSystem[]   = _("Choose the system of measurement\
 static const u8 sText_Desc_Clock[]        = _("Choose the menu's clock mode.");
 static const u8 sText_Desc_PartyBox[]     = _("Choose to have {PKMN} automatically\nsent to your Boxes or not.");
 static const u8 sText_Desc_Nickname[]     = _("Choose whether you wish to\nnickname a {PKMN} when you obtain it.");
-static const u8 sText_Desc_Rumble[]       = _("Choose whether you wish to\nexperience rumble on GCN.");
+static const u8 sText_Desc_Rumble[]       = _("Choose the EXT. function for the\nNintendo Game Boy Player.");
 static const u8 sText_Desc_Confirm[]      = _("Return to the game.");
 
 static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_COUNT] =
@@ -383,7 +389,7 @@ static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_COUNT] =
     [MENUITEM_CLOCK]         = sText_Desc_Clock,
     //[MENUITEM_PARTY_BOX]     = sText_Desc_PartyBox,
     [MENUITEM_NICKNAME]      = sText_Desc_Nickname,
-    [MENUITEM_RUMBLE]      = sText_Desc_Rumble,
+    [MENUITEM_RUMBLE]        = sText_Desc_Rumble,
     [MENUITEM_CONFIRM]       = sText_Desc_Confirm
 };
 
@@ -631,7 +637,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_CLOCK]         = gSaveBlock2Ptr->options24HourClock;
         //sOptions->sel[MENUITEM_PARTY_BOX]     = gSaveBlock2Ptr->optionsPartyBox;
         sOptions->sel[MENUITEM_NICKNAME]      = gSaveBlock2Ptr->optionsNickname;
-        sOptions->sel[MENUITEM_RUMBLE]        = !gSaveBlock2Ptr->optionsRumble;
+        sOptions->sel[MENUITEM_RUMBLE]        = gSaveBlock2Ptr->optionsRumble;
 
         sOptions->submenu = MENU_GAME;
 
@@ -850,6 +856,18 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 
 static void Task_OptionMenuSave(u8 taskId)
 {
+    if (gGameBoyPlayerDetected && sOptions->sel[MENUITEM_RUMBLE] && !gSaveBlock2Ptr->optionsRumble)
+    {
+        EnableInterrupts(INTR_FLAG_VBLANK | INTR_FLAG_SERIAL);
+        REG_RCNT = 0;
+        REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD | SIO_INTR_ENABLE;
+        gGBPCommunication.input = 0;
+        gGBPCommunication.state = GBP_SERIAL_STATUS_NINTENDO_HANDSHAKE;
+        gGBPCommunication.handshakeIndex = 0;
+        gGBPCommunication.outputHigh = 0;
+        gGBPCommunication.outputLow = 0;
+    }
+
     gSaveBlock2Ptr->optionsTextSpeed       = sOptions->sel[MENUITEM_TEXTSPEED];
     gSaveBlock2Ptr->optionsBattleSceneOff  = sOptions->sel[MENUITEM_BATTLE_SCENE];
     gSaveBlock2Ptr->optionsBattleStyle     = sOptions->sel[MENUITEM_BATTLE_STYLE];
@@ -862,7 +880,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->options24HourClock     = sOptions->sel[MENUITEM_CLOCK];
     //gSaveBlock2Ptr->optionsPartyBox        = sOptions->sel[MENUITEM_PARTY_BOX];
     gSaveBlock2Ptr->optionsNickname        = sOptions->sel[MENUITEM_NICKNAME];
-    gSaveBlock2Ptr->optionsRumble          = !sOptions->sel[MENUITEM_RUMBLE];
+    gSaveBlock2Ptr->optionsRumble          = sOptions->sel[MENUITEM_RUMBLE];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -1302,6 +1320,16 @@ static void DrawChoices_OnOff(int selection, int y)
 
     DrawOptionMenuChoice(sText_OptionOn, 104, y, styles[0], active);
     DrawOptionMenuChoice(sText_OptionOff, GetStringRightAlignXOffset(1, sText_OptionOff, 198), y, styles[1], active);
+}
+
+static void DrawChoices_ExtPort(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_RUMBLE);
+    u8 styles[2] = {0};
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(sText_OptionLink, 104, y, styles[0], active);
+    DrawOptionMenuChoice(sText_OptionRumble, GetStringRightAlignXOffset(1, sText_OptionRumble, 198), y, styles[1], active);
 }
 
 // Background tilemap

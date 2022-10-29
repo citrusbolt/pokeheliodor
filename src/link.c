@@ -226,6 +226,9 @@ static const u8 sUnusedData[] = {0x00, 0xFF, 0xFE, 0xFF, 0x00};
 
 bool8 IsWirelessAdapterConnected(void)
 {
+    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+        return 0xFF;
+
     SetWirelessCommType1();
     InitRFUAPI();
     if (rfu_LMAN_REQBN_softReset_and_checkID() == RFU_ID)

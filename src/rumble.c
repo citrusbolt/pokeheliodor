@@ -83,7 +83,7 @@ void GBPSerialInterrupt()
 
 void RumbleFrameUpdate()
 {
-    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble && gGBPCommunication.input != 0x30000003)
+    if (gGBPCommunication.input != 0x30000003)
     {
         REG_SIOCNT &= ~1;
         REG_SIOCNT |= SIO_START;
@@ -94,7 +94,7 @@ void SetRumbleState(u32 state)
 {
     gRumbleState = state;
 
-    if (!gGameBoyPlayerDetected) {
+    if (!gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble) {
         GPIO_PORT_DIRECTION = 1 << 3;
         GPIO_PORT_DATA = (gRumbleState == RUMBLE_ON) << 3;
     }

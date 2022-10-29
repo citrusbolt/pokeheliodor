@@ -3473,8 +3473,7 @@ void CB2_DetectGameBoyPlayer(void)
             {
                 EnableInterrupts(INTR_FLAG_VBLANK | INTR_FLAG_SERIAL);
                 REG_RCNT = 0;
-                REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD;
-                REG_SIOCNT |= SIO_INTR_ENABLE;
+                REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD | SIO_INTR_ENABLE;
                 gGameBoyPlayerDetected = TRUE;
                 gGBPCommunication.input = 0;
                 gGBPCommunication.state = GBP_SERIAL_STATUS_NINTENDO_HANDSHAKE;

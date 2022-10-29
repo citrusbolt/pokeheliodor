@@ -1499,7 +1499,7 @@ static void Task_MysteryGift(u8 taskId)
         {
         case 0: // "Wireless Communication"
             ClearTextWindow();
-			if (IsWirelessAdapterConnected())
+			if (IsWirelessAdapterConnected() == TRUE)
 			{
 				data->state = MG_STATE_CLIENT_LINK_START;
 				data->sourceIsFriend = FALSE;
@@ -1511,7 +1511,7 @@ static void Task_MysteryGift(u8 taskId)
             break;
         case 1: // "Friend"
             ClearTextWindow();
-			if (IsWirelessAdapterConnected())
+			if (IsWirelessAdapterConnected() == TRUE)
 			{
 				data->state = MG_STATE_CLIENT_LINK_START;
 				data->sourceIsFriend = TRUE;
@@ -1840,7 +1840,7 @@ static void Task_MysteryGift(u8 taskId)
     case MG_STATE_SEND:
         if (ExitWonderCardOrNews(data->isWonderNews, TRUE))
         {
-            if (IsWirelessAdapterConnected())
+            if (IsWirelessAdapterConnected() == TRUE)
             {
                 switch (data->isWonderNews)
                 {

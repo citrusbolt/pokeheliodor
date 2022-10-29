@@ -644,6 +644,7 @@ LilycoveCity_ContestLobby_EventScript_TryEnterLinkContest::
 	message LilycoveCity_ContestLobby_Text_WhichContestMode
 	waitmessage
 	specialvar VAR_TEMP_D, IsWirelessAdapterConnected
+	goto_if_eq VAR_TEMP_D, 0xFF, CableClub_EventScript_AbortLinkRumbleOn
 	multichoice 0, 0, MULTI_LINK_CONTEST_MODE, FALSE
 	switch VAR_RESULT
 	case 0, LilycoveCity_ContestLobby_EventScript_EmeraldMode  @ Shortened to E-Mode
