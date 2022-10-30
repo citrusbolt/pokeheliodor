@@ -1,5 +1,7 @@
 #include <string.h>
 #include "gba/m4a_internal.h"
+#include "rumble.h"
+#include "constants/songs.h"
 
 extern const u8 gCgb3Vol[];
 
@@ -111,6 +113,84 @@ void m4aSongNumStart(u16 n)
     const struct Song *songTable = gSongTable;
     const struct Song *song = &songTable[n];
     const struct MusicPlayer *mplay = &mplayTable[song->ms];
+
+    switch (n)
+    {
+        case SE_LEDGE:
+        case SE_BIKE_BELL:
+        case SE_NOT_EFFECTIVE:
+        case SE_EFFECTIVE:
+        case SE_SUPER_EFFECTIVE:
+        case SE_FAINT:
+        case SE_BIKE_HOP:
+        case SE_ICE_BREAK:
+        case SE_ICE_CRACK:
+        case SE_TRUCK_MOVE:
+        case SE_TRUCK_STOP:
+        case SE_TRUCK_UNLOAD:
+        case SE_TRUCK_DOOR:
+        case SE_ITEMFINDER:
+        case SE_BREAKABLE_DOOR:
+        case SE_FIELD_POISON:
+        case SE_THUNDER:
+        case SE_THUNDER2:
+        case SE_EGG_HATCH:
+        case SE_M_THUNDERBOLT:
+        case SE_M_THUNDERBOLT2:
+        case SE_M_VITAL_THROW:
+        case SE_M_VITAL_THROW2:
+        case SE_M_CUT:
+        case SE_M_ROCK_THROW:
+        case SE_M_DOUBLE_SLAP:
+        case SE_M_COMET_PUNCH:
+        case SE_M_MEGA_KICK:
+        case SE_M_MEGA_KICK2:
+        case SE_M_CRABHAMMER:
+        case SE_M_JUMP_KICK:
+        case SE_M_FLAME_WHEEL:
+        case SE_M_FLAME_WHEEL2:
+        case SE_M_FLAMETHROWER:
+        case SE_M_FIRE_PUNCH:
+        case SE_M_SACRED_FIRE:
+        case SE_M_SACRED_FIRE2:
+        case SE_M_EMBER:
+        case SE_M_TAKE_DOWN:
+        case SE_M_BLIZZARD:
+        case SE_M_BLIZZARD2:
+        case SE_M_SCRATCH:
+        case SE_M_VICEGRIP:
+        case SE_M_WING_ATTACK:
+        case SE_M_BITE:
+        case SE_M_HEADBUTT:
+        case SE_M_SURF:
+        case SE_M_HYDRO_PUMP:
+        case SE_M_WHIRLPOOL:
+        case SE_M_HORN_ATTACK:
+        case SE_M_BIND:
+        case SE_M_DRAGON_RAGE:
+        case SE_M_DIG:
+        case SE_M_DIZZY_PUNCH:
+        case SE_M_SELF_DESTRUCT:
+        case SE_M_EXPLOSION:
+        case SE_M_SUPERSONIC:
+        case SE_M_BELLY_DRUM:
+        case SE_M_BONEMERANG:
+        case SE_M_BRICK_BREAK:
+        case SE_M_STRENGTH:
+        case SE_M_HYPER_BEAM:
+        case SE_M_WATERFALL:
+        case SE_M_TRI_ATTACK:
+        case SE_M_TRI_ATTACK2:
+        case SE_M_SAND_TOMB:
+        case SE_M_EARTHQUAKE:
+        case SE_M_TWISTER:
+        case SE_M_SKY_UPPERCUT:
+        case SE_M_HAIL:
+        case SE_M_HYPER_BEAM2:
+        case SE_RG_SS_ANNE_HORN:
+        case SE_POKENAV_CALL:
+            SetRumbleState(RUMBLE_ON);
+    }
 
     MPlayStart(mplay->info, song->header);
 }
