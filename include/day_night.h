@@ -8,11 +8,11 @@ struct PaletteOverride
     u8 slot;
     u8 startHour;
     u8 endHour;
-    void *palette;
+    const u16 *palette;
 };
 
 extern EWRAM_DATA u16 gPlttBufferPreDN[];
-extern EWRAM_DATA struct PaletteOverride *gPaletteOverrides[];
+extern EWRAM_DATA const struct PaletteOverride *gPaletteOverrides[];
 
 u8 GetCurrentTimeOfDay(void);
 u8 GetTimeOfDay(s8 hours);
