@@ -439,6 +439,7 @@ static void PrintBerrySize(void)
             ConvertIntToDecimalStringN(gStringVar2, berry->size % 10, STR_CONV_MODE_LEFT_ALIGN, 2);
             StringExpandPlaceholders(gStringVar4, gText_Var1DotVar2_Metric);
         }
+        AddTextPrinterParameterized(WIN_SIZE_FIRM, FONT_OPTION, gStringVar4, 0x28, 1, 0, NULL);
     }
     else
     {

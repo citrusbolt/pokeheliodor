@@ -1,140 +1,101 @@
 #include "global.h"
 #include "rumble.h"
 #include "main.h"
+#include "sound.h"
 
-EWRAM_DATA u8 rumble_state = 0;
+EWRAM_DATA struct GBPCommunication gGBPCommunication;
+EWRAM_DATA u32 gRumbleState = 0;
 
+static u16 const sNintendoHandshakeData[] = {0x494E, 0x544E, 0x4E45, 0x4F44, 0x8000};
 
-u8 const comms_handshake_data[] = {"NINTENDO"};
-
-EWRAM_DATA struct GBPComms gbp_comms;
-
-
-static void gbp_serial_start()
+void GBPSerialInterrupt()
 {
+    u16 inputLow;
+    u32 state = gGBPCommunication.state;
+    u32 response = 0;
 
-    if (gbp_comms.serial_in_ == 0x30000003) {
-        /* We're currently in the middle of the GBP comms rumble stage. */
-        return;
-    }
+    gGBPCommunication.input = REG_SIODATA32;
+    inputLow = gGBPCommunication.input;
 
-    REG_SIOCNT &= ~1;
-    REG_SIOCNT |= SIO_START;
-}
-
-
-void gbp_serial_isr()
-{
-    u32 result = 0;
-    gbp_comms.serial_in_ = REG_SIODATA32;
-
-
-    switch (gbp_comms.stage_) {
-    case gbp_comms_rumble:
-        if (gbp_comms.serial_in_ == 0x30000003) {
-            result = rumble_state;
-        } else {
-            gbp_comms.stage_ = gbp_comms_finalize;
-        }
-        break;
-
-    case gbp_comms_finalize: {
-        struct GBPComms reset = {0};
-        gbp_comms = reset;
-        return;
-    }
-
-    case gbp_comms_nintendo_handshake: {
-        const u16 in_lower = gbp_comms.serial_in_;
-            static char const comms_handshake_data[] = {"NINTENDO"};
-
-        if (in_lower == 0x8002) {
-            result = 0x10000010;
-            gbp_comms.stage_ = gbp_comms_check_magic1;
-            break;
-        }
-
-        if ((gbp_comms.serial_in_ >> 16) != gbp_comms.out_1_) {
-            gbp_comms.index_ = 0;
-        }
-
-        if (gbp_comms.index_ > 3) {
-            gbp_comms.out_0_ = 0x8000;
-        } else {
-            if (gbp_comms.serial_in_ ==
-                (u32) ~(gbp_comms.out_1_ | (gbp_comms.out_0_ << 16))) {
-                gbp_comms.index_ += 1;
+    switch (gGBPCommunication.state) {
+        case GBP_SERIAL_STATUS_NINTENDO_HANDSHAKE:
+            if (inputLow == 0x8002)
+            {
+                response = 0x10000010;
+                gGBPCommunication.state = GBP_SERIAL_STATUS_CHECK_MAGIC1;
+                break;
             }
 
+            if ((gGBPCommunication.input >> 16) != gGBPCommunication.outputLow)
+                gGBPCommunication.handshakeIndex = 0;
 
-            gbp_comms.out_0_ =
-                ((const u16*)comms_handshake_data)[gbp_comms.index_];
-        }
+            if (gGBPCommunication.input == (u32) ~(gGBPCommunication.outputLow | (gGBPCommunication.outputHigh << 16)))
+                gGBPCommunication.handshakeIndex++;
 
-        gbp_comms.out_1_ = ~in_lower;
-        result = gbp_comms.out_1_;
-        result |= gbp_comms.out_0_ << 16;
-        break;
+            gGBPCommunication.outputHigh = sNintendoHandshakeData[gGBPCommunication.handshakeIndex];
+            gGBPCommunication.outputLow = ~inputLow;
+            response = gGBPCommunication.outputLow;
+            response |= gGBPCommunication.outputHigh << 16;
+            break;
+        case GBP_SERIAL_STATUS_CHECK_MAGIC1:
+            if (gGBPCommunication.input == 0x10000010)
+            {
+                response = 0x20000013;
+                gGBPCommunication.state = GBP_SERIAL_STATUS_CHECK_MAGIC2;
+            }
+            else
+            {
+                gGBPCommunication.state = GBP_SERIAL_STATUS_RESET;
+            }
+            break;
+        case GBP_SERIAL_STATUS_CHECK_MAGIC2:
+            if (gGBPCommunication.input == 0x20000013)
+            {
+                response = 0x40000004;
+                gGBPCommunication.state = GBP_SERIAL_STATUS_RUMBLE;
+            }
+            else
+            {
+                gGBPCommunication.state = GBP_SERIAL_STATUS_RESET;
+            }
+            break;
+        case GBP_SERIAL_STATUS_RUMBLE:
+            if (gGBPCommunication.input == 0x30000003)
+                response = gRumbleState;
+            else
+                gGBPCommunication.state = GBP_SERIAL_STATUS_RESET;
+            break;
+        case GBP_SERIAL_STATUS_RESET:
+            gGBPCommunication.input = 0;
+            gGBPCommunication.state = GBP_SERIAL_STATUS_NINTENDO_HANDSHAKE;
+            gGBPCommunication.handshakeIndex = 0;
+            gGBPCommunication.outputHigh = 0;
+            gGBPCommunication.outputLow = 0;
+            return;
     }
 
-    case gbp_comms_check_magic1:
-        /* The GBATEK reference says to check for these integer constants in
-           this order... but why? Who knows. Anyway, it seems to work. */
-        if (gbp_comms.serial_in_ == 0x10000010) {
-            result = 0x20000013;
-            gbp_comms.stage_ = gbp_comms_check_magic2;
-        } else {
-            gbp_comms.stage_ = gbp_comms_finalize;
-        }
-        break;
+    //DebugPrintf("%x - %x", gGBPCommunication.input, response);
 
-    case gbp_comms_check_magic2:
-        if (gbp_comms.serial_in_ == 0x20000013) {
-            result = 0x40000004;
-            gbp_comms.stage_ = gbp_comms_rumble;
-        } else {
-            gbp_comms.stage_ = gbp_comms_finalize;
-        }
-        break;
-    }
-
-    REG_SIODATA32 = result;
+    REG_SIODATA32 = response;
     REG_SIOCNT |= SIO_START;
+    REG_IF = INTR_FLAG_SERIAL;
 }
 
-
-void rumble_init()
+void RumbleFrameUpdate()
 {
-    rumble_state = rumble_stop;
-
-    
-        //config->serial_irq_setup_(gbp_serial_isr);
-        REG_RCNT = 0;
-        REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD;
-        REG_SIOCNT |= SIO_INTR_ENABLE;
-        gGameBoyPlayerDetected = TRUE;
-        gbp_comms.serial_in_ = 0;
-        gbp_comms.stage_ = gbp_comms_nintendo_handshake;
-        gbp_comms.index_ = 0;
-        gbp_comms.out_0_ = 0;
-        gbp_comms.out_1_ = 0;
-}
-
-
-void rumble_update()
-{
-    if (gGameBoyPlayerDetected) {
-        gbp_serial_start();
+    if (gGBPCommunication.input != 0x30000003)
+    {
+        REG_SIOCNT &= ~1;
+        REG_SIOCNT |= SIO_START;
     }
 }
 
-
-void rumble_set_state(enum RumbleState state)
+void SetRumbleState(u32 state)
 {
-    rumble_state = state;
+    gRumbleState = state;
 
-    if (!gGameBoyPlayerDetected) {
+    if (!gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble) {
         GPIO_PORT_DIRECTION = 1 << 3;
-        GPIO_PORT_DATA = (rumble_state == rumble_start) << 3;
+        GPIO_PORT_DATA = (gRumbleState == RUMBLE_ON) << 3;
     }
 }

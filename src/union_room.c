@@ -3280,7 +3280,8 @@ void InitUnionRoom(void)
     struct WirelessLink_URoom *data;
 
     sUnionRoomPlayerName[0] = EOS;
-    CreateTask(Task_InitUnionRoom, 0);
+    if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+        CreateTask(Task_InitUnionRoom, 0);
     sWirelessLinkMain.uRoom = sWirelessLinkMain.uRoom; // Needed to match.
     sWirelessLinkMain.uRoom = data = AllocZeroed(sizeof(struct WirelessLink_URoom));
     sURoom = sWirelessLinkMain.uRoom;

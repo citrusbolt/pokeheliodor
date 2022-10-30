@@ -1068,7 +1068,7 @@ static u8 SetUpCopyrightScreen(void)
 {
     switch (gMain.state)
     {
-    case 0:
+    case 1:
         SetVBlankCallback(NULL);
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -1092,25 +1092,29 @@ static u8 SetUpCopyrightScreen(void)
                                    | BGCNT_SCREENBASE(7)
                                    | BGCNT_16COLOR
                                    | BGCNT_TXT256x256);
-        EnableInterrupts(INTR_FLAG_VBLANK);
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+            EnableInterrupts(INTR_FLAG_VBLANK);
         SetVBlankCallback(VBlankCB_Intro);
         REG_DISPCNT = DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON;
         SetSerialCallback(SerialCB_CopyrightScreen);
-        GameCubeMultiBoot_Init(&gMultibootProgramStruct);
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+            GameCubeMultiBoot_Init(&gMultibootProgramStruct);
     default:
         UpdatePaletteFade();
         gMain.state++;
-        GameCubeMultiBoot_Main(&gMultibootProgramStruct);
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+            GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         break;
-    case 140:
-        GameCubeMultiBoot_Main(&gMultibootProgramStruct);
+    case 141:
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+            GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         if (gMultibootProgramStruct.gcmb_field_2 != 1)
         {
             BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
             gMain.state++;
         }
         break;
-    case 141:
+    case 142:
         if (UpdatePaletteFade())
             break;
         CreateTask(Task_Scene1_Load, 0);
@@ -1130,8 +1134,11 @@ static u8 SetUpCopyrightScreen(void)
         }
         else
         {
-            GameCubeMultiBoot_Quit();
-            SetSerialCallback(SerialCB);
+            if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+            {
+                GameCubeMultiBoot_Quit();
+                SetSerialCallback(SerialCB);
+            }
         }
         return 0;
     }
@@ -1141,7 +1148,7 @@ static u8 SetUpCopyrightScreen(void)
 
 void CB2_InitCopyrightScreenAfterBootup(void)
 {
-    if (!SetUpCopyrightScreen())
+    if (gMain.state == 0)
     {
         SetSaveBlocksPointers(GetSaveBlocksPointersBaseOffset());
         ResetMenuAndMonGlobals();
@@ -1151,6 +1158,11 @@ void CB2_InitCopyrightScreenAfterBootup(void)
             Sav2_ClearSetDefault();
         SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
         InitHeap(gHeap, HEAP_SIZE);
+        gMain.state = 1;
+    }
+    else
+    {
+        SetUpCopyrightScreen();
     }
 }
 
@@ -1209,7 +1221,8 @@ static void Task_Scene1_FadeIn(u8 taskId)
     gTasks[taskId].func = Task_Scene1_WaterDrops;
     gIntroFrameCounter = 0;
     m4aSongNumStart(MUS_INTRO);
-    ResetSerial();
+    if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+        ResetSerial();
 }
 
 // Task data for Task_Scene1_PanUp
@@ -3424,11 +3437,6 @@ static void SpriteCB_RayquazaOrb(struct Sprite *sprite)
 
 void CB2_DetectGameBoyPlayer(void)
 {
-    u16 inputLower;
-    u32 result = 0;
-    gbp_comms.serial_in_ = REG_SIODATA32;
-    inputLower = gbp_comms.serial_in_;
-
     switch (gMain.state)
     {
         case 0:
@@ -3454,16 +3462,26 @@ void CB2_DetectGameBoyPlayer(void)
             DmaCopy16(3, gIntroGameBoyPlayer_Pal, (void *)BG_PLTT, BG_PLTT_SIZE);
             DmaCopy16(3, gIntroGameBoyPlayer_Tilemap, (void *)BG_SCREEN_ADDR(0), BG_SCREEN_SIZE);
             REG_BG0CNT = BGCNT_256COLOR | BGCNT_CHARBASE(2);
+            gRumbleState = RUMBLE_OFF;
         case 1 ... 17:
             VBlankIntrWait();
             REG_BLDY = 17 - gMain.state;
             gMain.state++;
             break;
         case 18 ... 48:
-            if (JOY_NEW(DPAD_UP | DPAD_RIGHT | DPAD_DOWN | DPAD_LEFT))
+            if (JOY_NEW(DPAD_UP | DPAD_RIGHT | DPAD_DOWN | DPAD_LEFT) && !gGameBoyPlayerDetected)
+            {
+                EnableInterrupts(INTR_FLAG_VBLANK | INTR_FLAG_SERIAL);
+                REG_RCNT = 0;
+                REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD | SIO_INTR_ENABLE;
                 gGameBoyPlayerDetected = TRUE;
+                gGBPCommunication.input = 0;
+                gGBPCommunication.state = GBP_SERIAL_STATUS_NINTENDO_HANDSHAKE;
+                gGBPCommunication.handshakeIndex = 0;
+                gGBPCommunication.outputHigh = 0;
+                gGBPCommunication.outputLow = 0;
+            }
             VBlankIntrWait();
-            DmaCopy32(3, gIntroGameBoyPlayer_Tilemap, (void *)BG_SCREEN_ADDR(0), BG_SCREEN_SIZE);
             gMain.state++;
             break;
         case 49 ... 65:
@@ -3472,97 +3490,8 @@ void CB2_DetectGameBoyPlayer(void)
             gMain.state++;
             break;
         case 66:
-            REG_IME = 0;
-            REG_IE &= ~(INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
-            REG_IME = 1;
-            REG_RCNT = 0;
-            REG_SIOCNT = SIO_32BIT_MODE | SIO_MULTI_SD;
-            REG_SIOCNT |= SIO_INTR_ENABLE;
-            REG_IF = INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL;
-            REG_IME = 0;
-            REG_IE |= INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL;
-            REG_IME = INTR_FLAG_VBLANK;
-            REG_SIOCNT_L &= -2;
-            REG_IME = 0;
-            REG_SIOCNT |= SIO_MULTI_BUSY;
-            REG_IME = INTR_FLAG_VBLANK;
-            REG_TM3CNT_L = 0x8000;
-            REG_TM3CNT_H = TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_64CLK;
-            gIntrTable[1] = gbp_serial_isr;
-    IntrEnable(INTR_FLAG_SERIAL);
             gMain.state = 72;
             break;
-        case 67:
-            VBlankIntrWait();
-            if (inputLower == 0x8002)
-            {
-                result = 0x10000010;
-                gMain.state = 68;
-                REG_SIODATA32 = result;
-                REG_SIOCNT |= SIO_START;
-                break;
-            }
-            if ((gbp_comms.serial_in_ >> 16) != gbp_comms.out_1_) {
-                gbp_comms.index_ = 0;
-            }
-            if (gbp_comms.index_ > 3) {
-                gbp_comms.out_0_ = 0x8000;
-            } else {
-                if (gbp_comms.serial_in_ ==
-                    (u32) ~(gbp_comms.out_1_ | (gbp_comms.out_0_ << 16))) {
-                    gbp_comms.index_ += 1;
-                }
-    
-                gbp_comms.out_0_ =
-                    ((const u16*)comms_handshake_data)[gbp_comms.index_];
-            }
-    
-            gbp_comms.out_1_ = ~inputLower;
-            result = gbp_comms.out_1_;
-            result |= gbp_comms.out_0_ << 16;
-            REG_SIODATA32 = result;
-            REG_SIOCNT |= SIO_START;
-            break;
-        case 68:
-            VBlankIntrWait();
-            /* The GBATEK reference says to check for these integer constants in
-            this order... but why? Who knows. Anyway, it seems to work. */
-            if (gbp_comms.serial_in_ == 0x10000010) {
-                result = 0x20000013;
-                gMain.state = 69;
-            } else {
-                gMain.state = 71;
-            }
-            REG_SIODATA32 = result;
-            REG_SIOCNT |= SIO_START;
-            break;
-        case 69:
-            VBlankIntrWait();
-            if (gbp_comms.serial_in_ == 0x20000013) {
-                result = 0x40000004;
-                gMain.state = 70;
-            } else {
-                gMain.state = 71;
-            }
-            REG_SIODATA32 = result;
-            REG_SIOCNT |= SIO_START;
-            break;
-        case 70:
-            VBlankIntrWait();
-            if (gbp_comms.serial_in_ == 0x30000003) {
-                result = rumble_state;
-            } else {
-                gMain.state = 71;
-            }
-            REG_SIODATA32 = result;
-            REG_SIOCNT |= SIO_START;
-            break;
-        case 71: {
-            struct GBPComms reset = {0};
-            gbp_comms = reset;
-            gMain.state++;
-            break;
-        }
         default:
             SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
             break;

@@ -20,7 +20,7 @@
       "y": 2,
       "elevation": 3,
       "dest_map": "MAP_KANTO_NAVEL_ROCK_EXTERIOR",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [],

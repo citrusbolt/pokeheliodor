@@ -1253,7 +1253,14 @@ static u16 BerryTypeToItemId(u16 berry)
 
 void GetBerryNameByBerryType(u8 berry, u8 *string)
 {
+    u32 i;
+
     memcpy(string, GetBerryInfo(berry)->name, BERRY_NAME_LENGTH);
+	for (i = 1; i < 6; i++)
+	{
+		if (string[i] >= 0xBB && string[i] <= 0xD4)
+			string[i] += 26;
+	}
     string[BERRY_NAME_LENGTH] = EOS;
 }
 

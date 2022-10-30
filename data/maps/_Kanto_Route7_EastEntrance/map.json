@@ -20,28 +20,28 @@
       "y": 5,
       "elevation": 3,
       "dest_map": "MAP_KANTO_ROUTE7",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 1,
       "y": 6,
       "elevation": 3,
       "dest_map": "MAP_KANTO_ROUTE7",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 11,
       "y": 5,
       "elevation": 3,
       "dest_map": "MAP_KANTO_SAFFRON_CITY",
-      "dest_warp_id": 8
+      "dest_warp_id": "8"
     },
     {
       "x": 11,
       "y": 6,
       "elevation": 3,
       "dest_map": "MAP_KANTO_SAFFRON_CITY",
-      "dest_warp_id": 8
+      "dest_warp_id": "8"
     }
   ],
   "coord_events": [],

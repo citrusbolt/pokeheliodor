@@ -485,3 +485,10 @@ CableClub_Text_ExplainWirelessClub:
 CableClub_Text_HopeYouEnjoyWirelessSystem:
 	.string "I hope you enjoy the Wireless\n"
 	.string "Communication System.$"
+
+CableClub_Text_RumbleOn:
+	.string "Linking is not possible while\n"
+	.string "using the Nintendo GameCube's\l"
+	.string "rumble feature.\p"
+	.string "Please disable it in the\n"
+	.string "Options menu.$"

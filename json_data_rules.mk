@@ -24,3 +24,9 @@ $(C_BUILDDIR)/wild_encounter.o: c_dep += $(DATA_SRC_SUBDIR)/wild_encounters.h
 	c_dep += $(DATA_SRC_SUBDIR)/wild_encounters_rs.h
 	c_dep += $(DATA_SRC_SUBDIR)/wild_encounters_frlg.h
 	c_dep += $(DATA_SRC_SUBDIR)/wild_encounters_e.h
+
+AUTO_GEN_TARGETS += $(DATA_SRC_SUBDIR)/region_map/region_map_entries.h
+$(DATA_SRC_SUBDIR)/region_map/region_map_entries.h: $(DATA_SRC_SUBDIR)/region_map/region_map_sections.json $(DATA_SRC_SUBDIR)/region_map/region_map_sections.json.txt
+	$(JSONPROC) $^ $@
+
+$(C_BUILDDIR)/region_map.o: c_dep += $(DATA_SRC_SUBDIR)/region_map/region_map_entries.h

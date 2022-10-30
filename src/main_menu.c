@@ -531,6 +531,7 @@ enum
     HAS_NO_SAVED_GAME,           //NEW GAME, OPTION
     HAS_SAVED_GAME,              //CONTINUE, NEW GAME, OPTION
     HAS_GCN_LINK,                //CONTINUE, NEW GAME, GAMECUBE, OPTION
+    HAS_MYSTERY_GIFT_NO_GCN,     //CONTINUE, NEW GAME, MYSTERY GIFT, OPTION
     HAS_MYSTERY_GIFT,            //CONTINUE, NEW GAME, GAMECUBE, MYSTERY GIFT, OPTION
     HAS_MYSTERY_EVENTS,          //CONTINUE, NEW GAME, GAMECUBE, E-READER, OPTION
     HAS_MYSTERY_GIFT_AND_EVENTS, //CONTINUE, NEW GAME, GAMECUBE, MYSTERY GIFT, E-READER, OPTION
@@ -749,6 +750,20 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                 gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
                 break;
         }
+        if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+        {
+            switch (tMenuType)
+            {
+                case HAS_GCN_LINK:
+                case HAS_MYSTERY_EVENTS:
+                    tMenuType = HAS_SAVED_GAME;
+                    break;
+                case HAS_MYSTERY_GIFT:
+                case HAS_MYSTERY_GIFT_AND_EVENTS:
+                    tMenuType = HAS_MYSTERY_GIFT_NO_GCN;
+                    break;
+            }
+        }
 		switch (tMenuType)
 		{
 			case HAS_NO_SAVED_GAME:
@@ -758,6 +773,9 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
 				tItemCount = 3;
 				break;
 			case HAS_GCN_LINK:
+				tItemCount = 4;
+				break;
+			case HAS_MYSTERY_GIFT_NO_GCN:
 				tItemCount = 4;
 				break;
 			case HAS_MYSTERY_GIFT:
@@ -781,6 +799,9 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                     sCurrItemAndOptionMenuCheck = 2;
                     break;
                 case HAS_GCN_LINK:
+                    sCurrItemAndOptionMenuCheck = 3;
+                    break;
+                case HAS_MYSTERY_GIFT_NO_GCN:
                     sCurrItemAndOptionMenuCheck = 3;
                     break;
                 case HAS_MYSTERY_GIFT:
@@ -926,6 +947,29 @@ static void Task_DisplayMainMenu(u8 taskId)
                 AddTextPrinterParameterized3(2, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuContinue);
                 AddTextPrinterParameterized3(3, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuNewGame);
                 AddTextPrinterParameterized3(4, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuGameCube);
+                AddTextPrinterParameterized3(5, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuOption);
+                MainMenu_FormatSavegameText();
+                PutWindowTilemap(2);
+                PutWindowTilemap(3);
+                PutWindowTilemap(4);
+                PutWindowTilemap(5);
+                CopyWindowToVram(2, COPYWIN_GFX);
+                CopyWindowToVram(3, COPYWIN_GFX);
+                CopyWindowToVram(4, COPYWIN_GFX);
+                CopyWindowToVram(5, COPYWIN_GFX);
+                DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[2], MAIN_MENU_BORDER_TILE);
+                DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[3], MAIN_MENU_BORDER_TILE);
+                DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[4], MAIN_MENU_BORDER_TILE);
+                DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[5], MAIN_MENU_BORDER_TILE);
+                break;
+            case HAS_MYSTERY_GIFT_NO_GCN:
+                FillWindowPixelBuffer(2, PIXEL_FILL(0xA));
+                FillWindowPixelBuffer(3, PIXEL_FILL(0xA));
+                FillWindowPixelBuffer(4, PIXEL_FILL(0xA));
+                FillWindowPixelBuffer(5, PIXEL_FILL(0xA));
+                AddTextPrinterParameterized3(2, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuContinue);
+                AddTextPrinterParameterized3(3, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuNewGame);
+                AddTextPrinterParameterized3(4, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuMysteryGift);
                 AddTextPrinterParameterized3(5, FONT_OPTION, 0, 1, sTextColor_Headers, TEXT_SKIP_DRAW, gText_MainMenuOption);
                 MainMenu_FormatSavegameText();
                 PutWindowTilemap(2);
@@ -1212,6 +1256,24 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                         break;
                 }
                 break;
+            case HAS_MYSTERY_GIFT_NO_GCN:
+                switch (gTasks[taskId].tCurrItem)
+                {
+                    case 0:
+                    default:
+                        action = ACTION_CONTINUE;
+                        break;
+                    case 1:
+                        action = ACTION_NEW_GAME;
+                        break;
+                    case 2:
+                        action = ACTION_MYSTERY_GIFT;
+                        break;
+                    case 3:
+                        action = ACTION_OPTION;
+                        break;
+                }
+                break;
             case HAS_MYSTERY_GIFT:
                 switch (gTasks[taskId].tCurrItem)
                 {
@@ -1310,6 +1372,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 DestroyTask(taskId);
                 break;
             case ACTION_EREADER:
+                IsWirelessAdapterConnected();
                 SetMainCallback2(CB2_InitEReader);
                 DestroyTask(taskId);
                 break;
@@ -1436,6 +1499,24 @@ static void HighlightSelectedMainMenuItem(u8 menuType, u8 selectedMenuItem, s16 
             }
             break;
         case HAS_GCN_LINK:
+            switch (selectedMenuItem)
+            {
+                case 0:
+                default:
+                    SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(2));
+                    break;
+                case 1:
+                    SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(3));
+                    break;
+                case 2:
+                    SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(4));
+                    break;
+                case 3:
+                    SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(5));
+                    break;
+            }
+            break;
+        case HAS_MYSTERY_GIFT_NO_GCN:
             switch (selectedMenuItem)
             {
                 case 0:

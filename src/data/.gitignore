@@ -2,3 +2,5 @@ wild_encounters_rs.h
 wild_encounters_frlg.h
 wild_encounters_e.h
 wild_encounters.h
+region_map/region_map_entries.h
+region_map/porymap_config.json

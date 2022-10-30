@@ -24,6 +24,7 @@
 #include "main.h"
 #include "trainer_hill.h"
 #include "constants/rgb.h"
+#include "rumble.h"
 
 static void VBlankIntr(void);
 static void HBlankIntr(void);
@@ -127,6 +128,9 @@ void AgbMain()
 #endif
     for (;;)
     {
+        if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+            RumbleFrameUpdate();
+
         ReadKeys();
 
         if (gSoftResetDisabled == FALSE
@@ -362,6 +366,9 @@ static void VBlankIntr(void)
 
     UpdateWirelessStatusIndicatorSprite();
 
+    if (!IsSEPlaying())
+        SetRumbleState(RUMBLE_OFF);
+
     INTR_CHECK |= INTR_FLAG_VBLANK;
     gMain.intrCheck |= INTR_FLAG_VBLANK;
 }
@@ -392,7 +399,9 @@ static void VCountIntr(void)
 
 static void SerialIntr(void)
 {
-    if (gMain.serialCallback)
+    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+        GBPSerialInterrupt();
+    else
         gMain.serialCallback();
 
     INTR_CHECK |= INTR_FLAG_SERIAL;

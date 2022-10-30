@@ -46,8 +46,8 @@
       "x": 8,
       "y": 2,
       "elevation": 0,
-      "dest_map": "MAP_KANTO_VERMILION_CITY",
-      "dest_warp_id": 0
+      "dest_map": "MAP_BIRTH_ISLAND_EXTERIOR",
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],
