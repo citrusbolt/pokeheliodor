@@ -351,8 +351,8 @@ static const u8 *const OptionTextRight(u8 menuItem)
 // Menu left side text conditions
 static bool8 CheckConditions(int selection)
 {
-    if (!gGameBoyPlayerDetected && selection == MENUITEM_RUMBLE)
-        return FALSE;
+    //if (!gGameBoyPlayerDetected && selection == MENUITEM_RUMBLE)
+    //    return FALSE;
     return TRUE;
 }
 
