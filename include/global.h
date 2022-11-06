@@ -1031,7 +1031,7 @@ struct SaveBlock1
     /*0x3662*/ u16 registeredItemR;
 	/*0x3664*/ u8 trainerCardLayout;
 	/*0x3665*/ u8 trainerCardStickers[6];
-	/*0x366B*/ u8 unused_366B;
+	/*0x366B*/ u8 trainerClass;
 	/*0x366C*/ u32 trainerCardStat0:4;
 	           u32 trainerCardStat1:4;
 	           u32 trainerCardStat2:4;
