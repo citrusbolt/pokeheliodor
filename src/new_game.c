@@ -102,6 +102,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsFont = 3; // HGSS
     gSaveBlock2Ptr->optionsPartyBox = 1; // Automatic
     gSaveBlock2Ptr->optionsNickname = 0; // Give
+    gSaveBlock2Ptr->optionsRumble = 0;
 }
 
 static void ClearPokedexFlags(void)
@@ -227,8 +228,9 @@ void NewGameInitData(void)
 	gSaveBlock1Ptr->trainerCardStat4 = 0;
 	for (i = 0; i < 6; i++)
 		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
+    gSaveBlock1Ptr->trainerClass = 0;
 	
-	VarSet(VAR_SAVE_VER, 5);
+	VarSet(VAR_SAVE_VER, 6);
 }
 
 static void ResetMiniGamesRecords(void)

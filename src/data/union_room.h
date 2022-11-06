@@ -91,7 +91,7 @@ ALIGNED(4) static const u8 sText_PlayerContactedYouForXAccept[] = _("{STR_VAR_2}
 ALIGNED(4) static const u8 sText_PlayerContactedYouShareX[] = _("{STR_VAR_2} contacted you.\nWill you share {STR_VAR_1}?");
 ALIGNED(4) static const u8 sText_PlayerContactedYouAddToMembers[] = _("{STR_VAR_2} contacted you.\nAdd to the members?");
 ALIGNED(4) static const u8 sText_AreTheseMembersOK[] = _("{STR_VAR_1}!\nAre these members OK?");
-ALIGNED(4) static const u8 sText_CancelModeWithTheseMembers[] = _("Cancel {STR_VAR_1} MODE\nwith these members?");
+ALIGNED(4) static const u8 sText_CancelModeWithTheseMembers[] = _("Cancel {STR_VAR_1} Mode\nwith these members?");
 ALIGNED(4) static const u8 sText_AnOKWasSentToPlayer[] = _("An “OK” was sent\nto {STR_VAR_1}.");
 ALIGNED(4) static const u8 sText_OtherTrainerUnavailableNow[] = _("The other Trainer doesn't appear\nto be available now…\p");
 ALIGNED(4) static const u8 sText_CantTransmitTrainerTooFar[] = _("You can't transmit with a Trainer\nwho is too far away.\p");
@@ -102,7 +102,7 @@ static const u8 *const sCantTransmitToTrainerTexts[] = {
     [UR_TRADE_PARTNER_NOT_READY - 1] = sText_TrainersNotReadyYet
 };
 
-ALIGNED(4) static const u8 sText_ModeWithTheseMembersWillBeCanceled[] = _("The {STR_VAR_1} MODE with\nthese members will be canceled.{PAUSE 60}");
+ALIGNED(4) static const u8 sText_ModeWithTheseMembersWillBeCanceled[] = _("The {STR_VAR_1} Mode with\nthese members will be canceled.{PAUSE 60}");
 ALIGNED(4) static const u8 sText_MemberNoLongerAvailable[] = _("There is a member who can no\nlonger remain available.\p");
 
 static const u8 *const sPlayerUnavailableTexts[] = {
@@ -149,8 +149,8 @@ static const u8 *const sLinkDroppedTexts[] = {
     [RFU_STATUS_LEAVE_GROUP]         = NULL
 };
 
-ALIGNED(4) static const u8 sText_DoYouWantXMode[] = _("Do you want the {STR_VAR_2}\nMODE?");
-ALIGNED(4) static const u8 sText_DoYouWantXMode2[] = _("Do you want the {STR_VAR_2}\nMODE?");
+ALIGNED(4) static const u8 sText_DoYouWantXMode[] = _("Do you want the {STR_VAR_2}\nMode?");
+ALIGNED(4) static const u8 sText_DoYouWantXMode2[] = _("Do you want the {STR_VAR_2}\nMode?");
 
 // Unused
 static const u8 *const sDoYouWantModeTexts[] = {
@@ -212,7 +212,7 @@ static const u8 *const sPlayerContactedYouTexts[] = {
     sText_PlayerHasContactedYou
 };
 
-ALIGNED(4) static const u8 sText_AwaitingResponseFromTrainer[] = _("Awaiting a response from\nthe other TRAINER…");
+ALIGNED(4) static const u8 sText_AwaitingResponseFromTrainer[] = _("Awaiting a response from\nthe other Trainer…");
 ALIGNED(4) static const u8 sText_AwaitingResponseFromPlayer[] = _("Awaiting a response from\n{STR_VAR_1}…");
 
 static const u8 *const sAwaitingResponseTexts[] = {
@@ -402,7 +402,7 @@ static const u8 *const sChatReactionTexts[GENDER_COUNT][4] = {
     }
 };
 
-ALIGNED(4) static const u8 sText_ShowedTrainerCardMale1[] = _("I'm just showing my TraineR Card\nas my way of greeting.\p");
+ALIGNED(4) static const u8 sText_ShowedTrainerCardMale1[] = _("I'm just showing my Trainer Card\nas my way of greeting.\p");
 ALIGNED(4) static const u8 sText_ShowedTrainerCardMale2[] = _("I hope I get to know you better!\p");
 ALIGNED(4) static const u8 sText_ShowedTrainerCardFemale1[] = _("We're showing each other our\nTrainer Cards to get acquainted.\p");
 ALIGNED(4) static const u8 sText_ShowedTrainerCardFemale2[] = _("Glad to meet you.\nPlease don't be a stranger!\p");
@@ -577,8 +577,8 @@ static const u8 *const sCardColorTexts[] = {
     sText_ItsGoldCard
 };
 
-ALIGNED(4) static const u8 sText_TrainerCardInfoPage1[] = _("This is {DYNAMIC 0} {DYNAMIC 1}'s\nTRAINER CARD…\l{DYNAMIC 2}\pPOKéDEX: {DYNAMIC 3}\nTIME:    {DYNAMIC 4}:{DYNAMIC 5}\p");
-ALIGNED(4) static const u8 sText_TrainerCardInfoPage2[] = _("BATTLES: WINS: {DYNAMIC 0}  LOSSES: {DYNAMIC 2}\nTRADES: {DYNAMIC 3}\p“{DYNAMIC 4} {DYNAMIC 5}\n{DYNAMIC 6} {DYNAMIC 7}”\p");
+ALIGNED(4) static const u8 sText_TrainerCardInfoPage1[] = _("This is {DYNAMIC 0} {DYNAMIC 1}'s\nTrainer Card…\l{DYNAMIC 2}\pPokédex: {DYNAMIC 3}\nTime:    {DYNAMIC 4}:{DYNAMIC 5}\p");
+ALIGNED(4) static const u8 sText_TrainerCardInfoPage2[] = _("Battles: Wins: {DYNAMIC 0}  Losses: {DYNAMIC 2}\nTrades: {DYNAMIC 3}\p“{DYNAMIC 4} {DYNAMIC 5}\n{DYNAMIC 6} {DYNAMIC 7}”\p");
 ALIGNED(4) static const u8 sText_GladToMeetYouMale[] = _("{DYNAMIC 1}: Glad to have met you!{PAUSE 60}");
 ALIGNED(4) static const u8 sText_GladToMeetYouFemale[] = _("{DYNAMIC 1}: Glad to meet you!{PAUSE 60}");
 

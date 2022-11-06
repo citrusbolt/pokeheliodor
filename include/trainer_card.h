@@ -53,7 +53,7 @@ struct TrainerCard
     /*0x01*/ u8 stars;
     /*0x02*/ bool8 hasPokedex;
     /*0x03*/ u8 cardLayout; // caughtAllHoenn in FRLGE
-    /*0x04*/ u8 outfit; // hasAllPaintings in FRLGE
+    /*0x04*/ u8 badges; // hasAllPaintings in FRLGE
 	/*0x05*/ u8 extraStars;
     /*0x06*/ u16 hofDebutHours;
     /*0x08*/ u16 hofDebutMinutes;
@@ -78,11 +78,12 @@ struct TrainerCard
     /*0x3A*/ u16 secretId; // hasAllFrontierSymbols in FRLG, linkHasAllFrontierSymbols in E
     /*0x3C*/ u32 berryCrushPoints;
     /*0x40*/ u32 unionRoomNum;
-    /*0x44*/ u32 pokeCoupons:24; // berriesPicked in FRLG
-             u32 filler:8;
-    /*0x48*/ u32 jumpsInRow; // Free for use
+    /*0x44*/ u32 totalPokeCoupons:24; // berriesPicked in FRLG
+             u32 currentBattlePoints1:8;
+    /*0x48*/ u32 pokeCoupons:24; // jumpsInRow in FRLG
+             u32 currentBattlePoints2:8;
     /*0x4C*/ bool8 shouldDrawStickers;
-    /*0x4D*/ bool8 hasAllMons; // Free for use
+    /*0x4D*/ u8 trainerClass; // hasAllMons in FRLGE
     /*0x4E*/ u8 monIconTint;
     /*0x4F*/ u8 unionRoomClass;
     /*0x50*/ u8 stickers[TRAINER_CARD_STICKER_TYPES];
@@ -108,7 +109,7 @@ struct TrainerCard
 	         u16 hSticker1:3;
 	         u16 hSticker2:3;
 			 u16 displayDotCode:1;
-             u16 filler2:6;
+             u16 filler:6;
 };
 
 extern struct TrainerCard gTrainerCards[4];

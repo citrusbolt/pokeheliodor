@@ -2700,6 +2700,11 @@ static void PatchSave(void)
         gSaveBlock2Ptr->optionsNickname = 0; // Give
 		VarSet(VAR_SAVE_VER, 5);
 	}
+	if (VarGet(VAR_SAVE_VER) == 5)
+	{
+        gSaveBlock1Ptr->trainerClass = 0;
+		VarSet(VAR_SAVE_VER, 6);
+	}
 }
 
 #undef tTimer
