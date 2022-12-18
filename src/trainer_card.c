@@ -438,70 +438,80 @@ static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
 };
 
 static const u8 sTrainerClasses[][20] = {
-    _("Pokémon Trainer"),       // "Special" classes
-    _("Pokémon Breeder"),
-    _("Pokémon Ranger"),
-    _("Pokémon Professor"),
-    _("Pokémon Wielder"),
-    _("Champion"),
-    _("Beauty"),                // Standared classes - Gen 1
+    _("Pokémon Trainer"),
+    _("Beauty"),                // Gen 1
     _("Bird Keeper"),
     _("Bug Catcher"),
+    _("Champion"),
     _("Cooltrainer"),
     _("Fisherman"),
     _("Hiker"),
     _("Poké Maniac"),
     _("Psychic"),
     _("Scientist"),
+    _("Silph Co."),             // not official class
     _("Super Nerd"),
+    _("Team Rocket"),
     _("Youngster"),
-    _("Camper"),                // Gen 2
+    _("Camper"),                // GS
     _("Sage"),
-    _("Mysticalman"),
-    _("Aroma Lady"),            // Gen 3
+    _("Mysticalman"),           // C
+    _("Aroma Lady"),            // RS
     _("Collector"),
+    _("Devon Corporation"),
     _("Dragon Tamer"),
     _("Hex Maniac"),
     _("Ninja Boy"),
+    _("Pokémon Breeder"),
+    _("Pokémon Ranger"),
     _("Ruin Maniac"),
-    _("Painter"),
-    _("Mt. Batttle Master"),
-    _("Myth Trainer"),
-    _("Rider"),
-    _("Wanderer"),
-    _("Artist"),                // Gen 4
-    _("Reporter"),
-    _("Elder"),
-    _("Clerk"),                 // Gen 5
-    _("Musician"),
-    _("Lorekeeper"),            // Gen 6
-    _("Secret Base Expert"),
-    _("Battle Legend"),         // Gen 7
-    _("Master Trainer"),
-    _("Gym Challenger"),        // Gen 8
-    _("Team Rocket"),           // Teams/Organizations
-    _("Silph Co."),
     _("Team Aqua"),
     _("Team Magma"),
-    _("Devon Corporation"),
+    _("Cipher"),                // Colo
+    _("Mt. Batttle Master"),
+    _("Myth Trainer"),
     _("Team Snagem"),
-    _("Cipher"),
+    _("Rider"),
+    _("Painter"),               // FRLG
+    _("Wanderer"),              // XD
+    _("Pokémon Coordinator"),   // Anime
+    _("Top Coordinator"),
+    _("Artist"),                // DP
+    _("Reporter"),
     _("Team Galactic"),
+    _("Elder"),                 // HGSS
+    _("Clerk"),                 // BW
+    _("Musician"),
     _("Team Plasma"),
+    _("Pokémon Professor"),     // XY
     _("Team Flare"),
+    _("Lorekeeper"),            // ORAS
+    _("Secret Base Expert"),
+    _("Berry Master"),          // GO
+    _("Aether Foundation"),     // SM
+    _("Battle Legend"),
+    _("Faller"),                // not official class
     _("Team Skull"),
-    _("Aether Foundation"),
-    _("Team Rainbow Rocket"),
+    _("Team Rainbow Rocket"),   // USUM
     _("Ultra Recon Squad"),
-    _("Team GO Rocket"),
-    _("Team Break"),
-    _("Team Yell"),
+    _("Battle Master"),         // LGPE
+    _("{STR_VAR_1} Master"),
+    _("Grand Master"),
+    _("Team GO Rocket"),        // GO
+    _("Team Break"),            // Masters
+    _("Gym Challenger"),        // SwSh
     _("Macro Cosmos"),
+    _("Team Yell"),
+    _("Pokémon Wielder"),       // L:A
     _("Galaxy Team"),
     _("Gingko Guild"),
     _("Diamond Clan"),
     _("Pearl Clan"),
-    _("Team Star")
+    _("Courier"),               // SV
+    _("Instructor"),
+    _("Student"),
+    _("Team Star"),
+    _("Top Champion"),
 };
 
 static bool8 (*const sTrainerCardFlipTasks[])(struct Task *) =
@@ -973,7 +983,7 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 		trainerCard->stars = 4;
 	}
 
-	trainerCard->hasPokedex = FlagGet(FLAG_SYS_POKEDEX_GET);
+	//trainerCard->hasPokedex = FlagGet(FLAG_SYS_POKEDEX_GET);
 	//trainerCard->caughtAllHoenn = HasAllHoennMons();
 	//trainerCard->hasAllPaintings = (CountPlayerMuseumPaintings() >= CONTEST_CATEGORIES_COUNT);
 
@@ -1099,8 +1109,8 @@ static void SetDataFromTrainerCard(void)
     sData->unused_F = FALSE;
     sData->hasTrades = FALSE;
     memset(sData->badgeCount, 0, sizeof(sData->badgeCount));
-    if (sData->trainerCard.hasPokedex)
-        sData->hasPokedex++;
+    //if (sData->trainerCard.hasPokedex)
+    //    sData->hasPokedex++;
 
     if (sData->trainerCard.hofDebutHours
      || sData->trainerCard.hofDebutMinutes
