@@ -1288,6 +1288,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_CLEFABLE] =
@@ -1320,6 +1324,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_VULPIX] =
