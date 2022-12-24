@@ -1072,6 +1072,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_NIDORINA] =
@@ -1104,6 +1108,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
+        .hasFRLGSprite = FALSE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_NIDOQUEEN] =
@@ -1136,6 +1144,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = FALSE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_NIDORAN_M] =
@@ -1168,6 +1180,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PURPLE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_NIDORINO] =
@@ -1200,6 +1216,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PURPLE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_NIDOKING] =
@@ -1232,6 +1252,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PURPLE,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = FALSE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_CLEFAIRY] =

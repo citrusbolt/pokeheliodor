@@ -468,6 +468,11 @@ const struct CompressedSpriteSheet gMonFrontPicTableFRLG[] =
     SPECIES_SPRITE(RAICHU, gMonFrontPicFRLG_Raichu),
     SPECIES_SPRITE(SANDSHREW, gMonFrontPicFRLG_Sandshrew),
     SPECIES_SPRITE(SANDSLASH, gMonFrontPicFRLG_Sandslash),
+    SPECIES_SPRITE(NIDORAN_F, gMonFrontPicFRLG_NidoranF),
+    SPECIES_SPRITE(NIDOQUEEN, gMonFrontPicFRLG_Nidoqueen),
+    SPECIES_SPRITE(NIDORAN_M, gMonFrontPicFRLG_NidoranM),
+    SPECIES_SPRITE(NIDORINO, gMonFrontPicFRLG_Nidorino),
+    SPECIES_SPRITE(NIDOKING, gMonFrontPicFRLG_Nidoking),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
@@ -493,6 +498,10 @@ const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
     SPECIES_SPRITE(RAICHU, gMonFrontPicDP_Raichu),
     SPECIES_SPRITE(SANDSHREW, gMonFrontPicDP_Sandshrew),
     SPECIES_SPRITE(SANDSLASH, gMonFrontPicDP_Sandslash),
+    SPECIES_SPRITE(NIDORAN_F, gMonFrontPicDP_NidoranF),
+    SPECIES_SPRITE(NIDORINA, gMonFrontPicDP_Nidorina),
+    SPECIES_SPRITE(NIDORAN_M, gMonFrontPicDP_NidoranM),
+    SPECIES_SPRITE(NIDORINO, gMonFrontPicDP_Nidorino),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
@@ -519,6 +528,10 @@ const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
     SPECIES_SPRITE(PIKACHU, gMonFrontPicHGSS_Pikachu),
     SPECIES_SPRITE(SANDSHREW, gMonFrontPicHGSS_Sandshrew),
     SPECIES_SPRITE(SANDSLASH, gMonFrontPicHGSS_Sandslash),
+    SPECIES_SPRITE(NIDORAN_F, gMonFrontPicHGSS_NidoranF),
+    SPECIES_SPRITE(NIDORINA, gMonFrontPicHGSS_Nidorina),
+    SPECIES_SPRITE(NIDORAN_M, gMonFrontPicHGSS_NidoranM),
+    SPECIES_SPRITE(NIDORINO, gMonFrontPicHGSS_Nidorino),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
@@ -535,4 +548,7 @@ const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
     SPECIES_SPRITE(SPEAROW, gMonFrontPicBW_Spearow),
     SPECIES_SPRITE(PIKACHU, gMonFrontPicBW_Pikachu),
     SPECIES_SPRITE(SANDSHREW, gMonFrontPicBW_Sandshrew),
+    SPECIES_SPRITE(NIDORAN_F, gMonFrontPicBW_NidoranF),
+    SPECIES_SPRITE(NIDORAN_M, gMonFrontPicBW_NidoranM),
+    SPECIES_SPRITE(NIDORINO, gMonFrontPicBW_Nidorino),
 };
