@@ -475,6 +475,10 @@ const struct CompressedSpriteSheet gMonFrontPicTableFRLG[] =
     SPECIES_SPRITE(NIDOKING, gMonFrontPicFRLG_Nidoking),
     SPECIES_SPRITE(CLEFAIRY, gMonFrontPicFRLG_Clefairy),
     SPECIES_SPRITE(CLEFABLE, gMonFrontPicFRLG_Clefable),
+    SPECIES_SPRITE(VULPIX, gMonFrontPicFRLG_Vulpix),
+    SPECIES_SPRITE(NINETALES, gMonFrontPicFRLG_Ninetales),
+    SPECIES_SPRITE(JIGGLYPUFF, gMonFrontPicFRLG_Jigglypuff),
+    SPECIES_SPRITE(WIGGLYTUFF, gMonFrontPicFRLG_Wigglytuff),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
@@ -506,6 +510,9 @@ const struct CompressedSpriteSheet gMonFrontPicTableDP[] =
     SPECIES_SPRITE(NIDORINO, gMonFrontPicDP_Nidorino),
     SPECIES_SPRITE(CLEFAIRY, gMonFrontPicDP_Clefairy),
     SPECIES_SPRITE(CLEFABLE, gMonFrontPicDP_Clefable),
+    SPECIES_SPRITE(VULPIX, gMonFrontPicDP_Vulpix),
+    SPECIES_SPRITE(JIGGLYPUFF, gMonFrontPicDP_Jigglypuff),
+    SPECIES_SPRITE(WIGGLYTUFF, gMonFrontPicDP_Wigglytuff),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
@@ -538,6 +545,9 @@ const struct CompressedSpriteSheet gMonFrontPicTableHGSS[] =
     SPECIES_SPRITE(NIDORINO, gMonFrontPicHGSS_Nidorino),
     SPECIES_SPRITE(CLEFAIRY, gMonFrontPicHGSS_Clefairy),
     SPECIES_SPRITE(CLEFABLE, gMonFrontPicHGSS_Clefable),
+    SPECIES_SPRITE(VULPIX, gMonFrontPicHGSS_Vulpix),
+    SPECIES_SPRITE(JIGGLYPUFF, gMonFrontPicHGSS_Jigglypuff),
+    SPECIES_SPRITE(WIGGLYTUFF, gMonFrontPicHGSS_Wigglytuff),
 };
 
 const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
@@ -559,4 +569,6 @@ const struct CompressedSpriteSheet gMonFrontPicTableBW[] =
     SPECIES_SPRITE(NIDORINO, gMonFrontPicBW_Nidorino),
     SPECIES_SPRITE(CLEFAIRY, gMonFrontPicBW_Clefairy),
     SPECIES_SPRITE(CLEFABLE, gMonFrontPicBW_Clefable),
+    SPECIES_SPRITE(VULPIX, gMonFrontPicBW_Vulpix),
+    SPECIES_SPRITE(JIGGLYPUFF, gMonFrontPicBW_Jigglypuff),
 };

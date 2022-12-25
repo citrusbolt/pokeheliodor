@@ -1360,6 +1360,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_NINETALES] =
@@ -1392,6 +1396,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = FALSE,
+        .hasHGSSSprite = FALSE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_JIGGLYPUFF] =
@@ -1424,6 +1432,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = TRUE,
     },
 
     [SPECIES_WIGGLYTUFF] =
@@ -1456,6 +1468,10 @@ const struct BaseStats gBaseStats[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
+        .hasFRLGSprite = TRUE,
+        .hasDPSprite = TRUE,
+        .hasHGSSSprite = TRUE,
+        .hasBWSprite = FALSE,
     },
 
     [SPECIES_ZUBAT] =
