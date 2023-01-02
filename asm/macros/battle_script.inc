@@ -1214,8 +1214,9 @@
 	.byte 0xef
 	.endm
 
-	.macro givecaughtmon
+	.macro givecaughtmon ptr:req
 	.byte 0xf0
+	.4byte \ptr
 	.endm
 
 	.macro trysetcaughtmondexflags ptr:req
