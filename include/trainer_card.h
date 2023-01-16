@@ -51,7 +51,7 @@ struct TrainerCard
 {
     /*0x00*/ u8 gender;
     /*0x01*/ u8 stars;
-    /*0x02*/ bool8 hasPokedex;
+    /*0x02*/ u8 masterTrainerSpecies1; // hasPokedex in RSFRLGE
     /*0x03*/ u8 cardLayout; // caughtAllHoenn in FRLGE
     /*0x04*/ u8 badges; // hasAllPaintings in FRLGE
 	/*0x05*/ u8 extraStars;
@@ -91,7 +91,7 @@ struct TrainerCard
     /*0x54*/ u16 monSpecies[PARTY_SIZE]; // FRLG ends here
              // Note: Link players use hasAllFrontierSymbols, not the field below,
              // which they use for a Wonder Card flag id instead (see CreateTrainerCardInBuffer)
-    /*0x60*/ bool16 hasAllSymbols; // Gets overwritten with Wonder Card ID, E then overwrites again with secretId after receiving; in short, we can't really use this for anything
+    /*0x60*/ bool16 hasAllSymbols; // Gets overwritten with Wonder Card ID, E then overwrites again with secretId(0x3A) after receiving; in short, we can't really use this for anything
     /*0x62*/ u16 frontierBP; // E ends here
 	/*0x64*/ u32 monForm0:2;
 	         u32 monForm1:2;
@@ -109,7 +109,8 @@ struct TrainerCard
 	         u16 hSticker1:3;
 	         u16 hSticker2:3;
 			 u16 displayDotCode:1;
-             u16 filler:6;
+             u16 masterTrainerSpecies2:1;
+             u16 filler:5;
 };
 
 extern struct TrainerCard gTrainerCards[4];

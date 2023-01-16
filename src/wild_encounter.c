@@ -650,7 +650,7 @@ static void CreateWildMon(u16 species, u8 level, u8 partySlot)
 		gLastEncounteredSpecies = species;
 	}
 
-    switch (gBaseStats[species].genderRatio)
+    switch (gSpeciesInfo[species].genderRatio)
     {
     case MON_MALE:
     case MON_FEMALE:
@@ -2278,7 +2278,7 @@ bool8 DoesCurrentMapHaveFishingMons(void)
 void FishingWildEncounter(u8 rod)
 {
     const struct WildPokemonInfo *wildPokemonInfo;
-    u16 species;
+    u16 species, oppositeHeaderId;
     u16 headerId = GetEmeraldWildMonHeaderId();
 
     gEncounterMode = ENCOUNTER_EMERALD;
@@ -2360,6 +2360,7 @@ u16 GetLocalWildMon(bool8 *isWaterMon)
 {
     const struct WildPokemonInfo *landMonsInfo;
     const struct WildPokemonInfo *waterMonsInfo;
+    u16 oppositeHeaderId;
     u16 headerId = GetEmeraldWildMonHeaderId();
 
     gEncounterMode = ENCOUNTER_EMERALD;
@@ -2402,8 +2403,8 @@ u16 GetLocalWildMon(bool8 *isWaterMon)
                 if (headerId != HEADER_NONE)
                 {
                     gEncounterMode = ENCOUNTER_RUBY;
-                    landPokemonInfo = gWildMonHeadersRS[headerId].landMonsInfo;
-                    waterPokemonInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
+                    landMonsInfo = gWildMonHeadersRS[headerId].landMonsInfo;
+                    waterMonsInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
                 }
                 break;
             case 1:
@@ -2416,8 +2417,8 @@ u16 GetLocalWildMon(bool8 *isWaterMon)
                     if (oppositeHeaderId != HEADER_NONE)
                     {
                         gEncounterMode = ENCOUNTER_SAPPHIRE;
-                        landPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].landMonsInfo;
-                        waterPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
+                        landMonsInfo = gWildMonHeadersRS[oppositeHeaderId].landMonsInfo;
+                        waterMonsInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
                     }
                 }
                 break;
@@ -2454,6 +2455,7 @@ u16 GetLocalWildMon(bool8 *isWaterMon)
 u16 GetLocalWaterMon(void)
 {
     const struct WildPokemonInfo *waterMonsInfo;
+    u16 oppositeHeaderId;
     u16 headerId = GetEmeraldWildMonHeaderId();
 
     gEncounterMode = ENCOUNTER_EMERALD;
@@ -2493,7 +2495,7 @@ u16 GetLocalWaterMon(void)
                 if (headerId != HEADER_NONE)
                 {
                     gEncounterMode = ENCOUNTER_RUBY;
-                    waterPokemonInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
+                    waterMonsInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
                 }
                 break;
             case 1:
@@ -2506,7 +2508,7 @@ u16 GetLocalWaterMon(void)
                     if (oppositeHeaderId != HEADER_NONE)
                     {
                         gEncounterMode = ENCOUNTER_SAPPHIRE;
-                        waterPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
+                        waterMonsInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
                     }
                 }
                 break;
@@ -2596,7 +2598,7 @@ static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u
 
     for (validMonCount = 0, i = 0; i < numMon; i++)
     {
-        if (gBaseStats[wildMon[i].species].type1 == type || gBaseStats[wildMon[i].species].type2 == type)
+        if (gSpeciesInfo[wildMon[i].species].types[0] == type || gSpeciesInfo[wildMon[i].species].types[1] == type)
             validIndexes[validMonCount++] = i;
     }
 

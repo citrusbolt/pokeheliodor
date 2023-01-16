@@ -219,7 +219,7 @@ void ProcessImmediateTimeEvents(void)
 {
     s8 hour, nextHour;
     u8 hourPhase;
-    u16 period;
+    u16 period, paletteIndex;
     u8 timeOfDay = GetCurrentTimeOfDay();
 
     if (ShouldTintOverworld())
@@ -282,7 +282,12 @@ void ProcessImmediateTimeEvents(void)
             
             if (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_IN &&
                 gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_OUT)
+            {
                 CpuCopy16(gPlttBufferUnfaded, gPlttBufferFaded, PLTT_SIZE);
+
+                for (paletteIndex = 0; paletteIndex < 13; paletteIndex++)
+                    ApplyWeatherColorMapToPal(paletteIndex);
+            }
         }
     }
 

@@ -284,9 +284,9 @@ static const struct ListMenuTemplate sListMenuTemplate_ThreeOptions = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_OPTION,
-    .cursorKind = 0
+    .cursorKind = CURSOR_BLACK_ARROW
 };
 
 static const struct ListMenuTemplate sListMenuTemplate_FourOptions = {
@@ -305,9 +305,9 @@ static const struct ListMenuTemplate sListMenuTemplate_FourOptions = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_OPTION,
-    .cursorKind = 0
+    .cursorKind = CURSOR_BLACK_ARROW
 };
 
 static const struct ListMenuItem sListMenuItems_ReceiveSendToss[] = {
@@ -395,9 +395,9 @@ static const struct ListMenuTemplate sListMenu_ReceiveSendToss = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_OPTION,
-    .cursorKind = 0
+    .cursorKind = CURSOR_BLACK_ARROW
 };
 
 static const struct ListMenuTemplate sListMenu_ReceiveToss = {
@@ -416,9 +416,9 @@ static const struct ListMenuTemplate sListMenu_ReceiveToss = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_OPTION,
-    .cursorKind = 0
+    .cursorKind = CURSOR_BLACK_ARROW
 };
 
 static const struct ListMenuTemplate sListMenu_ReceiveSend = {
@@ -437,9 +437,9 @@ static const struct ListMenuTemplate sListMenu_ReceiveSend = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_OPTION,
-    .cursorKind = 0
+    .cursorKind = CURSOR_BLACK_ARROW
 };
 
 static const struct ListMenuTemplate sListMenu_Receive = {
@@ -458,9 +458,9 @@ static const struct ListMenuTemplate sListMenu_Receive = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_OPTION,
-    .cursorKind = 0
+    .cursorKind = CURSOR_BLACK_ARROW
 };
 
 static const struct ListMenuTemplate sListMenu_Send = {
@@ -479,9 +479,9 @@ static const struct ListMenuTemplate sListMenu_Send = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_OPTION,
-    .cursorKind = 0
+    .cursorKind = CURSOR_BLACK_ARROW
 };
 
 static const u8 *const sUnusedMenuTexts[] = {
@@ -1584,7 +1584,7 @@ static void Task_MysteryGift(u8 taskId)
             data->state = MG_STATE_CLIENT_LINK_END;
             break;
         case CLI_RET_COPY_MSG:
-            memcpy(data->clientMsg, MysteryGiftClient_GetMsg(), 0x40);
+            memcpy(data->clientMsg, MysteryGiftClient_GetMsg(), CLIENT_MAX_MSG_SIZE);
             MysteryGiftClient_AdvanceState();
             break;
         case CLI_RET_PRINT_MSG:
@@ -1697,9 +1697,9 @@ static void Task_MysteryGift(u8 taskId)
             if (data->msgId == CLI_MSG_NEWS_RECEIVED)
             {
                 if (data->sourceIsFriend == TRUE)
-                    GenerateRandomWonderNews(WONDER_NEWS_RECV_FRIEND);
+                    WonderNews_SetReward(WONDER_NEWS_RECV_FRIEND);
                 else
-                    GenerateRandomWonderNews(WONDER_NEWS_RECV_WIRELESS);
+                    WonderNews_SetReward(WONDER_NEWS_RECV_WIRELESS);
             }
             if (!successMsg)
             {
@@ -1913,7 +1913,7 @@ static void Task_MysteryGift(u8 taskId)
         {
             if (data->sourceIsFriend == TRUE && data->msgId == SVR_MSG_NEWS_SENT)
             {
-                GenerateRandomWonderNews(WONDER_NEWS_SENT);
+                WonderNews_SetReward(WONDER_NEWS_SENT);
                 data->state = MG_STATE_SAVE_LOAD_GIFT;
             }
             else

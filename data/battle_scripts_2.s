@@ -87,12 +87,12 @@ BattleScript_SkipNickname::
 	trytakecaughtmonitem BattleScript_ContinueCaughtMon
 	printstring STRINGID_ITEMTAKEN
 BattleScript_ContinueCaughtMon::
-	givecaughtmon
+	givecaughtmon BattleScript_SuccessBallThrowEnd
 	printfromtable gCaughtMonStringIds
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_SuccessBallThrowEnd
 BattleScript_GiveCaughtMonEnd::
-	givecaughtmon
+	givecaughtmon BattleScript_SuccessBallThrowEnd
 BattleScript_SuccessBallThrowEnd::
 	setbyte gBattleOutcome, B_OUTCOME_CAUGHT
 	finishturn

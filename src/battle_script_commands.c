@@ -1622,7 +1622,7 @@ u8 AI_TypeCalc(u16 move, u16 targetSpecies, u8 targetAbility)
 {
     s32 i = 0;
     u8 flags = 0;
-    u8 type1 = gBaseStats[targetSpecies].type1, type2 = gBaseStats[targetSpecies].type2;
+    u8 type1 = gSpeciesInfo[targetSpecies].types[0], type2 = gSpeciesInfo[targetSpecies].types[1];
     u8 moveType;
 
     if (move == MOVE_STRUGGLE)
@@ -3349,7 +3349,7 @@ static void Cmd_getexp(void)
         break;
     case 1: // calculate experience points to redistribute
         {
-            u16 calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
+            u16 calculatedExp = gSpeciesInfo[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
 
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
@@ -4715,8 +4715,8 @@ static void Cmd_switchindataupdate(void)
     for (i = 0; i < sizeof(struct BattlePokemon); i++)
         monData[i] = gBattleBufferB[gActiveBattler][4 + i];
 
-    gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
-    gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    gBattleMons[gActiveBattler].type1 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0];
+    gBattleMons[gActiveBattler].type2 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1];
     gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
 
     // check knocked off item
@@ -9125,10 +9125,10 @@ static void Cmd_trydobeatup(void)
 
             gBattlescriptCurrInstr += 9;
 
-            gBattleMoveDamage = gBaseStats[GetMonData(&party[gBattleCommunication[0]], MON_DATA_SPECIES)].baseAttack;
+            gBattleMoveDamage = gSpeciesInfo[GetMonData(&party[gBattleCommunication[0]], MON_DATA_SPECIES)].baseAttack;
             gBattleMoveDamage *= gBattleMoves[gCurrentMove].power;
             gBattleMoveDamage *= (GetMonData(&party[gBattleCommunication[0]], MON_DATA_LEVEL) * 2 / 5 + 2);
-            gBattleMoveDamage /= gBaseStats[gBattleMons[gBattlerTarget].species].baseDefense;
+            gBattleMoveDamage /= gSpeciesInfo[gBattleMons[gBattlerTarget].species].baseDefense;
             gBattleMoveDamage = (gBattleMoveDamage / 50) + 2;
             if (gProtectStructs[gBattlerAttacker].helpingHand)
                 gBattleMoveDamage = gBattleMoveDamage * 15 / 10;
@@ -9822,9 +9822,9 @@ static void Cmd_pickup(void)
             heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
 
             if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
-                ability = gBaseStats[species].abilities[1];
+                ability = gSpeciesInfo[species].abilities[1];
             else
-                ability = gBaseStats[species].abilities[0];
+                ability = gSpeciesInfo[species].abilities[0];
 
             if (ability == ABILITY_PICKUP
                 && species != SPECIES_NONE
@@ -9845,9 +9845,9 @@ static void Cmd_pickup(void)
             heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
 
             if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
-                ability = gBaseStats[species].abilities[1];
+                ability = gSpeciesInfo[species].abilities[1];
             else
-                ability = gBaseStats[species].abilities[0];
+                ability = gSpeciesInfo[species].abilities[0];
 
             if (ability == ABILITY_PICKUP
                 && species != SPECIES_NONE
@@ -10120,7 +10120,7 @@ static void Cmd_handleballthrow(void)
         else
 		{
 			gSaveBlock2Ptr->lastUsedBall = gLastUsedItem;
-            catchRate = gBaseStats[gBattleMons[gBattlerTarget].species].catchRate;
+            catchRate = gSpeciesInfo[gBattleMons[gBattlerTarget].species].catchRate;
 		}
 
         if (gLastUsedItem > ITEM_SAFARI_BALL)
@@ -10283,13 +10283,17 @@ static void Cmd_givecaughtmon(void)
         // Change to B_MSG_SENT_LANETTES_PC or B_MSG_LANETTES_BOX_FULL
         if (FlagGet(FLAG_SYS_PC_LANETTE))
             gBattleCommunication[MULTISTRING_CHOOSER]++;
+
+        gBattlescriptCurrInstr += 5;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
     }
 
     gBattleResults.caughtMonSpecies = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_SPECIES, NULL);
     GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_NICKNAME, gBattleResults.caughtMonNick);
     gBattleResults.caughtMonBall = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, NULL);
-
-    gBattlescriptCurrInstr++;
 }
 
 static void Cmd_trysetcaughtmondexflags(void)

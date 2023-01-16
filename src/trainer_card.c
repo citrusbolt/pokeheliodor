@@ -247,27 +247,27 @@ static const u32 *const sBadgeSpriteTable[][2] =
 	{sBadge_Hoenn7, sBadgePalette_Hoenn1},
 };
 
-static const u32 sTrainerCardStickers_Gfx[]      = INCBIN_U32("graphics/trainer_card/stickers_fr.4bpp.lz");
+static const u32 sTrainerCardStickers_Gfx[]      = INCBIN_U32("graphics/trainer_card/frlg/stickers.4bpp.lz");
 static const u16 sUnused_Pal[]                   = INCBIN_U16("graphics/trainer_card/unused.gbapal");
-static const u16 sHoennTrainerCard1Star_Pal[]    = INCBIN_U16("graphics/trainer_card/one_star.gbapal");
-static const u16 sKantoTrainerCard1Star_Pal[]    = INCBIN_U16("graphics/trainer_card/one_star_fr.gbapal");
-static const u16 sHoennTrainerCard2Star_Pal[]    = INCBIN_U16("graphics/trainer_card/two_stars.gbapal");
-static const u16 sKantoTrainerCard2Star_Pal[]    = INCBIN_U16("graphics/trainer_card/two_stars_fr.gbapal");
-static const u16 sHoennTrainerCard3Star_Pal[]    = INCBIN_U16("graphics/trainer_card/three_stars.gbapal");
-static const u16 sKantoTrainerCard3Star_Pal[]    = INCBIN_U16("graphics/trainer_card/three_stars_fr.gbapal");
-static const u16 sHoennTrainerCard4Star_Pal[]    = INCBIN_U16("graphics/trainer_card/four_stars.gbapal");
-static const u16 sKantoTrainerCard4Star_Pal[]    = INCBIN_U16("graphics/trainer_card/four_stars_fr.gbapal");
+static const u16 sHoennTrainerCardBronze_Pal[]   = INCBIN_U16("graphics/trainer_card/bronze.gbapal");
+static const u16 sKantoTrainerCardGreen_Pal[]    = INCBIN_U16("graphics/trainer_card/frlg/green.gbapal");
+static const u16 sHoennTrainerCardCopper_Pal[]   = INCBIN_U16("graphics/trainer_card/copper.gbapal");
+static const u16 sKantoTrainerCardBronze_Pal[]   = INCBIN_U16("graphics/trainer_card/frlg/bronze.gbapal");
+static const u16 sHoennTrainerCardSilver_Pal[]   = INCBIN_U16("graphics/trainer_card/silver.gbapal");
+static const u16 sKantoTrainerCardSilver_Pal[]   = INCBIN_U16("graphics/trainer_card/frlg/silver.gbapal");
+static const u16 sHoennTrainerCardGold_Pal[]     = INCBIN_U16("graphics/trainer_card/gold.gbapal");
+static const u16 sKantoTrainerCardGold_Pal[]     = INCBIN_U16("graphics/trainer_card/frlg/gold.gbapal");
 static const u16 sHoennTrainerCardFemaleBg_Pal[] = INCBIN_U16("graphics/trainer_card/female_bg.gbapal");
-static const u16 sKantoTrainerCardFemaleBg_Pal[] = INCBIN_U16("graphics/trainer_card/female_bg_fr.gbapal");
+static const u16 sKantoTrainerCardFemaleBg_Pal[] = INCBIN_U16("graphics/trainer_card/frlg/female_bg.gbapal");
 static const u16 sHoennTrainerCardBadges_Pal[]   = INCBIN_U16("graphics/trainer_card/badges.gbapal");
-static const u16 sKantoTrainerCardBadges_Pal[]   = INCBIN_U16("graphics/trainer_card/badges_fr.gbapal");
-static const u16 sTrainerCardGold_Pal[]          = INCBIN_U16("graphics/trainer_card/gold.gbapal");
-static const u16 sTrainerCardSticker1_Pal[]      = INCBIN_U16("graphics/trainer_card/stickers_fr1.gbapal");
-static const u16 sTrainerCardSticker2_Pal[]      = INCBIN_U16("graphics/trainer_card/stickers_fr2.gbapal");
-static const u16 sTrainerCardSticker3_Pal[]      = INCBIN_U16("graphics/trainer_card/stickers_fr3.gbapal");
-static const u16 sTrainerCardSticker4_Pal[]      = INCBIN_U16("graphics/trainer_card/stickers_fr4.gbapal");
+static const u16 sKantoTrainerCardBadges_Pal[]   = INCBIN_U16("graphics/trainer_card/frlg/badges.gbapal");
+static const u16 sTrainerCardStar_Pal[]          = INCBIN_U16("graphics/trainer_card/star.gbapal");
+static const u16 sTrainerCardSticker1_Pal[]      = INCBIN_U16("graphics/trainer_card/frlg/stickers1.gbapal");
+static const u16 sTrainerCardSticker2_Pal[]      = INCBIN_U16("graphics/trainer_card/frlg/stickers2.gbapal");
+static const u16 sTrainerCardSticker3_Pal[]      = INCBIN_U16("graphics/trainer_card/frlg/stickers3.gbapal");
+static const u16 sTrainerCardSticker4_Pal[]      = INCBIN_U16("graphics/trainer_card/frlg/stickers4.gbapal");
 static const u32 sHoennTrainerCardBadges_Gfx[]   = INCBIN_U32("graphics/trainer_card/badges.4bpp.lz");
-static const u32 sKantoTrainerCardBadges_Gfx[]   = INCBIN_U32("graphics/trainer_card/badges_fr.4bpp.lz");
+static const u32 sKantoTrainerCardBadges_Gfx[]   = INCBIN_U32("graphics/trainer_card/frlg/badges.4bpp.lz");
 static const u16 sTrainerCardGoldRS_Pal[]        = INCBIN_U16("graphics/trainer_card/gold_rs.gbapal");
 static const u32 sHoennTrainerCardBadges1_Gfx[]  = INCBIN_U32("graphics/trainer_card/badges1.4bpp.lz");
 static const u32 sHoennTrainerCardBadges2_Gfx[]  = INCBIN_U32("graphics/trainer_card/badges2.4bpp.lz");
@@ -348,22 +348,22 @@ static const struct WindowTemplate sTrainerCardWindowTemplates[] =
     DUMMY_WIN_TEMPLATE
 };
 
-static const u16 *const sHoennTrainerCardStarPals[] =
+static const u16 *const sHoennTrainerCardPals[] =
 {
-    gHoennTrainerCard0Star_Pal,
-    sHoennTrainerCard1Star_Pal,
-    sHoennTrainerCard2Star_Pal,
-    sHoennTrainerCard3Star_Pal,
-    sHoennTrainerCard4Star_Pal,
+    gHoennTrainerCardGreen_Pal,  // Default (0 stars)
+    sHoennTrainerCardBronze_Pal, // 1 star
+    sHoennTrainerCardCopper_Pal, // 2 stars
+    sHoennTrainerCardSilver_Pal, // 3 stars
+    sHoennTrainerCardGold_Pal,   // 4 stars
 };
 
-static const u16 *const sKantoTrainerCardStarPals[] =
+static const u16 *const sKantoTrainerCardPals[] =
 {
-    gKantoTrainerCard0Star_Pal,
-    sKantoTrainerCard1Star_Pal,
-    sKantoTrainerCard2Star_Pal,
-    sKantoTrainerCard3Star_Pal,
-    sKantoTrainerCard4Star_Pal,
+    gKantoTrainerCardBlue_Pal,   // Default (0 stars)
+    sKantoTrainerCardGreen_Pal,  // 1 star
+    sKantoTrainerCardBronze_Pal, // 2 stars
+    sKantoTrainerCardSilver_Pal, // 3 stars
+    sKantoTrainerCardGold_Pal,   // 4 stars
     sHeliodorTrainerCard5Star_Pal,
 };
 
@@ -438,70 +438,80 @@ static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
 };
 
 static const u8 sTrainerClasses[][20] = {
-    _("Pokémon Trainer"),       // "Special" classes
-    _("Pokémon Breeder"),
-    _("Pokémon Ranger"),
-    _("Pokémon Professor"),
-    _("Pokémon Wielder"),
-    _("Champion"),
-    _("Beauty"),                // Standared classes - Gen 1
+    _("Pokémon Trainer"),
+    _("Beauty"),                // Gen 1
     _("Bird Keeper"),
     _("Bug Catcher"),
+    _("Champion"),
     _("Cooltrainer"),
     _("Fisherman"),
     _("Hiker"),
     _("Poké Maniac"),
     _("Psychic"),
     _("Scientist"),
+    _("Silph Co."),             // not official class
     _("Super Nerd"),
+    _("Team Rocket"),
     _("Youngster"),
-    _("Camper"),                // Gen 2
+    _("Camper"),                // GS
     _("Sage"),
-    _("Mysticalman"),
-    _("Aroma Lady"),            // Gen 3
+    _("Mysticalman"),           // C
+    _("Aroma Lady"),            // RS
     _("Collector"),
+    _("Devon Corporation"),
     _("Dragon Tamer"),
     _("Hex Maniac"),
     _("Ninja Boy"),
+    _("Pokémon Breeder"),
+    _("Pokémon Ranger"),
     _("Ruin Maniac"),
-    _("Painter"),
-    _("Mt. Batttle Master"),
-    _("Myth Trainer"),
-    _("Rider"),
-    _("Wanderer"),
-    _("Artist"),                // Gen 4
-    _("Reporter"),
-    _("Elder"),
-    _("Clerk"),                 // Gen 5
-    _("Musician"),
-    _("Lorekeeper"),            // Gen 6
-    _("Secret Base Expert"),
-    _("Battle Legend"),         // Gen 7
-    _("Master Trainer"),
-    _("Gym Challenger"),        // Gen 8
-    _("Team Rocket"),           // Teams/Organizations
-    _("Silph Co."),
     _("Team Aqua"),
     _("Team Magma"),
-    _("Devon Corporation"),
+    _("Cipher"),                // Colo
+    _("Mt. Batttle Master"),
+    _("Myth Trainer"),
     _("Team Snagem"),
-    _("Cipher"),
+    _("Rider"),
+    _("Painter"),               // FRLG
+    _("Wanderer"),              // XD
+    _("Pokémon Coordinator"),   // Anime
+    _("Top Coordinator"),
+    _("Artist"),                // DP
+    _("Reporter"),
     _("Team Galactic"),
+    _("Elder"),                 // HGSS
+    _("Clerk"),                 // BW
+    _("Musician"),
     _("Team Plasma"),
+    _("Pokémon Professor"),     // XY
     _("Team Flare"),
+    _("Lorekeeper"),            // ORAS
+    _("Secret Base Expert"),
+    _("Berry Master"),          // GO
+    _("Aether Foundation"),     // SM
+    _("Battle Legend"),
+    _("Faller"),                // not official class
     _("Team Skull"),
-    _("Aether Foundation"),
-    _("Team Rainbow Rocket"),
+    _("Team Rainbow Rocket"),   // USUM
     _("Ultra Recon Squad"),
-    _("Team GO Rocket"),
-    _("Team Break"),
-    _("Team Yell"),
+    _("Battle Master"),         // LGPE
+    _("{STR_VAR_1} Master"),
+    _("Grand Master"),
+    _("Team GO Rocket"),        // GO
+    _("Team Break"),            // Masters
+    _("Gym Challenger"),        // SwSh
     _("Macro Cosmos"),
+    _("Team Yell"),
+    _("Pokémon Wielder"),       // L:A
     _("Galaxy Team"),
     _("Gingko Guild"),
     _("Diamond Clan"),
     _("Pearl Clan"),
-    _("Team Star")
+    _("Courier"),               // SV
+    _("Instructor"),
+    _("Student"),
+    _("Team Star"),
+    _("Top Champion"),
 };
 
 static bool8 (*const sTrainerCardFlipTasks[])(struct Task *) =
@@ -973,7 +983,7 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
 		trainerCard->stars = 4;
 	}
 
-	trainerCard->hasPokedex = FlagGet(FLAG_SYS_POKEDEX_GET);
+	//trainerCard->hasPokedex = FlagGet(FLAG_SYS_POKEDEX_GET);
 	//trainerCard->caughtAllHoenn = HasAllHoennMons();
 	//trainerCard->hasAllPaintings = (CountPlayerMuseumPaintings() >= CONTEST_CATEGORIES_COUNT);
 
@@ -1099,8 +1109,8 @@ static void SetDataFromTrainerCard(void)
     sData->unused_F = FALSE;
     sData->hasTrades = FALSE;
     memset(sData->badgeCount, 0, sizeof(sData->badgeCount));
-    if (sData->trainerCard.hasPokedex)
-        sData->hasPokedex++;
+    //if (sData->trainerCard.hasPokedex)
+    //    sData->hasPokedex++;
 
     if (sData->trainerCard.hofDebutHours
      || sData->trainerCard.hofDebutMinutes
@@ -2430,14 +2440,14 @@ static u8 SetCardBgsAndPals(void)
     case 2:
         if (sData->cardLayout == CARD_LAYOUT_RS || sData->cardLayout == CARD_LAYOUT_EMERALD)
         {
-            LoadPalette(sHoennTrainerCardStarPals[sData->trainerCard.stars], 0, 96);
+            LoadPalette(sHoennTrainerCardPals[sData->trainerCard.stars], 0, 96);
             LoadPalette(sHoennTrainerCardBadges_Pal, 48, 32);
             if (sData->trainerCard.gender != MALE)
                 LoadPalette(sHoennTrainerCardFemaleBg_Pal, 16, 32);
         }
         else if (sData->cardLayout == CARD_LAYOUT_FRLG)
         {
-            LoadPalette(sKantoTrainerCardStarPals[sData->trainerCard.stars], 0, 96);
+            LoadPalette(sKantoTrainerCardPals[sData->trainerCard.stars], 0, 96);
             LoadPalette(sHoennTrainerCardBadges_Pal, 48, 32);
             if (sData->trainerCard.gender != MALE)
                 LoadPalette(sKantoTrainerCardFemaleBg_Pal, 16, 32);
@@ -2447,7 +2457,7 @@ static u8 SetCardBgsAndPals(void)
 			stars = sData->trainerCard.stars + sData->trainerCard.extraStars;
 			if (stars > 5)
 				stars = 5;
-            LoadPalette(sKantoTrainerCardStarPals[stars], 0, 96);
+            LoadPalette(sKantoTrainerCardPals[stars], 0, 96);
             LoadPalette(sHoennTrainerCardBadges1_Pal, 32, 32);
             LoadPalette(sHoennTrainerCardBadges2_Pal, 48, 32);
             if (sData->trainerCard.gender != MALE)
@@ -2456,7 +2466,7 @@ static u8 SetCardBgsAndPals(void)
 		if (sData->cardLayout == CARD_LAYOUT_RS)
 			LoadPalette(sTrainerCardGoldRS_Pal, 64, 32);
 		else
-			LoadPalette(sTrainerCardGold_Pal, 64, 32);
+			LoadPalette(sTrainerCardStar_Pal, 64, 32);
         break;
     case 3:
         SetBgTilemapBuffer(0, sData->cardTilemapBuffer);
