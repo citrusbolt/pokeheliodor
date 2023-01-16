@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/Alcaro/Flips
 	branch = master
-	commit = ce2e7ca2175b7e8bf2b8d64216887ac3747fc750
+	commit = 4b72503d4320862e7b27eddc909c696dabd349cf
 	parent = d8ed087a3958f90c814be082326045cf3b99b88d
 	method = merge
 	cmdver = 0.4.3
