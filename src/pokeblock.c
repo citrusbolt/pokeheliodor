@@ -440,7 +440,7 @@ static const struct ListMenuTemplate sPokeblockListMenuTemplate =
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_MULTIPLE_SCROLL_DPAD,
     .fontId = FONT_OPTION,
-    .cursorKind = 1
+    .cursorKind = CURSOR_INVISIBLE
 };
 
 void OpenPokeblockCase(u8 caseId, void (*callback)(void))

@@ -44,6 +44,7 @@
 #include "berry_powder.h"
 #include "mystery_gift.h"
 #include "union_room_chat.h"
+#include "constants/items.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -191,7 +192,6 @@ void NewGameInitData(void)
     ResetPokemonStorageSystem();
     ClearRoamerData();
     ClearRoamerLocationData();
-    //gSaveBlock1Ptr->registeredItem = 0;
     ClearBag();
     NewGameInitPCItems();
     ClearPokeblocks();
@@ -214,10 +214,10 @@ void NewGameInitData(void)
     ResetTrainerHillResults();
     ResetContestLinkResults();
     
-    gSaveBlock1Ptr->registeredItemSelect = 0;
-    gSaveBlock1Ptr->registeredItemL = 0;
-    gSaveBlock1Ptr->registeredItemR = 0;
-	gSaveBlock2Ptr->lastUsedBall = 0;
+    gSaveBlock1Ptr->registeredItemSelect = ITEM_NONE;
+    gSaveBlock1Ptr->registeredItemL = ITEM_NONE;
+    gSaveBlock1Ptr->registeredItemR = ITEM_NONE;
+	gSaveBlock2Ptr->lastUsedBall = ITEM_NONE;
 	gSaveBlock2Ptr->powerPoints = 0;
 	gSaveBlock2Ptr->totalEarnedPowerPoints = 0;
 	gSaveBlock1Ptr->trainerCardLayout = 3;

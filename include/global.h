@@ -243,9 +243,11 @@ struct ApprenticeMon
 struct Apprentice
 {
     u8 id:5;
-    u8 lvlMode:2; // + 1
+    u8 lvlMode:2;
+    //u8 padding1:1;
     u8 numQuestions;
     u8 number;
+    //u8 padding2;
     struct ApprenticeMon party[MULTI_PARTY_SIZE];
     u16 speechWon[EASY_CHAT_BATTLE_WORDS_COUNT];
     u8 playerId[TRAINER_ID_LENGTH];
@@ -293,6 +295,7 @@ struct EmeraldBattleTowerRecord
     /*0x28*/ u16 speechLost[EASY_CHAT_BATTLE_WORDS_COUNT];
     /*0x34*/ struct BattleTowerPokemon party[MAX_FRONTIER_PARTY_SIZE];
     /*0xE4*/ u8 language;
+    /*0xE7*/ //u8 padding[3];
     /*0xE8*/ u32 checksum;
 };
 
@@ -325,14 +328,17 @@ struct DomeMonData
     u16 moves[MAX_MON_MOVES];
     u8 evs[NUM_STATS];
     u8 nature;
+    //u8 padding;
 };
 
 struct RentalMon
 {
     u16 monId;
+    //u8 padding1[2];
     u32 personality;
     u8 ivs;
     u8 abilityNum;
+    //u8 padding2[2];
 };
 
 struct BattleDomeTrainer
@@ -354,8 +360,9 @@ struct BattleFrontier
     /*0xBEC*/ struct BattleTowerEReaderTrainer ereaderTrainer;
     /*0xCA8*/ u8 challengeStatus;
     /*0xCA9*/ u8 lvlMode:2;
-    /*0xCA9*/ u8 challengePaused:1;
-    /*0xCA9*/ u8 disableRecordBattle:1;
+              u8 challengePaused:1;
+              u8 disableRecordBattle:1;
+              //u8 padding1:4;
     /*0xCAA*/ u16 selectedPartyMons[MAX_FRONTIER_PARTY_SIZE];
     /*0xCB2*/ u16 curChallengeBattleNum; // Battle number / room number (Pike) / floor number (Pyramid)
     /*0xCB4*/ u16 trainerIds[20];
@@ -399,16 +406,19 @@ struct BattleFrontier
     /*0xE08*/ u16 pikeRecordStreaks[FRONTIER_LVL_MODE_COUNT];
     /*0xE0C*/ u16 pikeTotalStreaks[FRONTIER_LVL_MODE_COUNT];
     /*0xE10*/ u8 pikeHintedRoomIndex:3;
-    /*0xE10*/ u8 pikeHintedRoomType:4;
-    /*0xE10*/ u8 pikeHealingRoomsDisabled:1;
+              u8 pikeHintedRoomType:4;
+              u8 pikeHealingRoomsDisabled:1;
+    /*0xE11*/ //u8 padding2;
     /*0xE12*/ u16 pikeHeldItemsBackup[FRONTIER_PARTY_SIZE];
     /*0xE18*/ u16 pyramidPrize;
     /*0xE1A*/ u16 pyramidWinStreaks[FRONTIER_LVL_MODE_COUNT];
     /*0xE1E*/ u16 pyramidRecordStreaks[FRONTIER_LVL_MODE_COUNT];
     /*0xE22*/ u16 pyramidRandoms[4];
     /*0xE2A*/ u8 pyramidTrainerFlags; // 1 bit for each trainer (MAX_PYRAMID_TRAINERS)
+    /*0xE2B*/ //u8 padding3;
     /*0xE2C*/ struct PyramidBag pyramidBag;
     /*0xE68*/ u8 pyramidLightRadius;
+    /*0xE69*/ //u8 padding4;
     /*0xE6A*/ u16 verdanturfTentPrize;
     /*0xE6C*/ u16 fallarborTentPrize;
     /*0xE6E*/ u16 slateportTentPrize;
@@ -433,6 +443,7 @@ struct ApprenticeQuestion
     u8 monId:2;
     u8 moveSlot:2;
     u8 suggestedChange:2; // TRUE if told to use held item or second move, FALSE if told to use no item or first move
+    //u8 padding;
     u16 data; // used both as an itemId and a moveId
 };
 
@@ -443,9 +454,11 @@ struct PlayersApprentice
     /*0xB1*/ u8 questionsAnswered:4;
     /*0xB1*/ u8 leadMonId:2;
     /*0xB2*/ u8 party:3;
-    /*0xB2*/ u8 saveId:2;
+             u8 saveId:2;
+             //u8 padding1:3;
     /*0xB3*/ u8 unused;
     /*0xB4*/ u8 speciesIds[MULTI_PARTY_SIZE];
+    /*0xB7*/ //u8 padding2;
     /*0xB8*/ struct ApprenticeQuestion questions[APPRENTICE_MAX_QUESTIONS];
 };
 
@@ -455,6 +468,7 @@ struct RankingHall1P
     u16 winStreak;
     u8 name[PLAYER_NAME_LENGTH + 1];
     u8 language;
+    //u8 padding;
 };
 
 struct RankingHall2P
@@ -465,6 +479,7 @@ struct RankingHall2P
     u8 name1[PLAYER_NAME_LENGTH + 1];
     u8 name2[PLAYER_NAME_LENGTH + 1];
     u8 language;
+    //u8 padding;
 };
 
 struct SaveBlock2
@@ -553,6 +568,7 @@ struct WarpData
     s8 mapGroup;
     s8 mapNum;
     s8 warpId;
+    //u8 padding;
     s16 x, y;
 };
 
@@ -597,6 +613,7 @@ struct RamScriptData
     u8 mapNum;
     u8 objectId;
     u8 script[995];
+    //u8 padding;
 };
 
 struct RamScript
@@ -611,6 +628,7 @@ struct DewfordTrend
     u16 trendiness:7;
     u16 maxTrendiness:7;
     u16 gainingTrendiness:1;
+    //u16 padding:1;
     u16 rand;
     u16 words[2];
 }; /*size = 0x8*/
@@ -623,6 +641,7 @@ struct MauvilleManCommon
 struct MauvilleManBard
 {
     /*0x00*/ u8 id;
+    /*0x01*/ //u8 padding1;
     /*0x02*/ u16 songLyrics[BARD_SONG_LENGTH];
     /*0x0E*/ u16 temporaryLyrics[BARD_SONG_LENGTH];
     /*0x1A*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -630,6 +649,7 @@ struct MauvilleManBard
     /*0x25*/ u8 playerTrainerId[TRAINER_ID_LENGTH];
     /*0x29*/ bool8 hasChangedSong;
     /*0x2A*/ u8 language;
+    /*0x2B*/ //u8 padding2;
 }; /*size = 0x2C*/
 
 struct MauvilleManStoryteller
@@ -648,9 +668,11 @@ struct MauvilleManGiddy
     /*0x00*/ u8 id;
     /*0x01*/ u8 taleCounter;
     /*0x02*/ u8 questionNum;
+    /*0x03*/ //u8 padding1;
     /*0x04*/ u16 randomWords[GIDDY_MAX_TALES];
     /*0x18*/ u8 questionList[GIDDY_MAX_QUESTIONS];
     /*0x20*/ u8 language;
+    /*0x21*/ //u8 padding2;
 }; /*size = 0x2C*/
 
 struct MauvilleManHipster
@@ -695,6 +717,7 @@ struct LinkBattleRecords
 {
     struct LinkBattleRecord entries[LINK_B_RECORDS_COUNT];
     u8 languages[LINK_B_RECORDS_COUNT];
+    //u8 padding;
 };
 
 struct RecordMixingGiftData
@@ -720,6 +743,7 @@ struct ContestWinner
     u8 monName[POKEMON_NAME_LENGTH + 1];
     u8 trainerName[PLAYER_NAME_LENGTH + 1];
     u8 contestRank;
+    //u8 padding;
 };
 
 struct Mail
@@ -765,10 +789,10 @@ struct LilycoveLadyQuiz
     /*0x018*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     /*0x020*/ u16 playerTrainerId[TRAINER_ID_LENGTH];
     /*0x028*/ u16 prize;
-    /*0x02a*/ bool8 waitingForChallenger;
-    /*0x02b*/ u8 questionId;
-    /*0x02c*/ u8 prevQuestionId;
-    /*0x02d*/ u8 language;
+    /*0x02A*/ bool8 waitingForChallenger;
+    /*0x02B*/ u8 questionId;
+    /*0x02C*/ u8 prevQuestionId;
+    /*0x02D*/ u8 language;
 };
 
 struct LilycoveLadyFavor
@@ -778,10 +802,12 @@ struct LilycoveLadyFavor
     /*0x002*/ bool8 likedItem;
     /*0x003*/ u8 numItemsGiven;
     /*0x004*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
-    /*0x00c*/ u8 favorId;
-    /*0x00e*/ u16 itemId;
+    /*0x00C*/ u8 favorId;
+    /*0x00D*/ //u8 padding1;
+    /*0x00E*/ u16 itemId;
     /*0x010*/ u16 bestItem;
     /*0x012*/ u8 language;
+    /*0x013*/ //u8 padding2;
 };
 
 struct LilycoveLadyContest
@@ -791,9 +817,9 @@ struct LilycoveLadyContest
     /*0x002*/ u8 numGoodPokeblocksGiven;
     /*0x003*/ u8 numOtherPokeblocksGiven;
     /*0x004*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
-    /*0x00c*/ u8 maxSheen;
-    /*0x00d*/ u8 category;
-    /*0x00e*/ u8 language;
+    /*0x00C*/ u8 maxSheen;
+    /*0x00D*/ u8 category;
+    /*0x00E*/ u8 language;
 };
 
 typedef union // 3b58
@@ -802,7 +828,7 @@ typedef union // 3b58
     struct LilycoveLadyFavor favor;
     struct LilycoveLadyContest contest;
     u8 id;
-    u8 pad[0x40];
+    u8 filler[0x40];
 } LilycoveLady;
 
 struct WaldaPhrase
@@ -812,6 +838,7 @@ struct WaldaPhrase
     u8 iconId;
     u8 patternId;
     bool8 patternUnlocked;
+    //u8 padding;
 };
 
 struct TrainerNameRecord
@@ -827,20 +854,22 @@ struct TrainerHillSave
     /*0x3D6C*/ u8 unk_3D6C;
     /*0x3D6D*/ u8 unused;
     /*0x3D6E*/ u16 receivedPrize:1;
-    /*0x3D6E*/ u16 checkedFinalTime:1;
-    /*0x3D6E*/ u16 spokeToOwner:1;
-    /*0x3D6E*/ u16 hasLost:1;
-    /*0x3D6E*/ u16 maybeECardScanDuringChallenge:1;
-    /*0x3D6E*/ u16 field_3D6E_0f:1;
-    /*0x3D6E*/ u16 mode:2; // HILL_MODE_*
+               u16 checkedFinalTime:1;
+               u16 spokeToOwner:1;
+               u16 hasLost:1;
+               u16 maybeECardScanDuringChallenge:1;
+               u16 field_3D6E_0f:1;
+               u16 mode:2; // HILL_MODE_*
+               //u16 padding:8;
 };
 
 struct WonderNewsMetadata
 {
     u8 newsType:2;
-    u8 sentCounter:3;
-    u8 getCounter:3;
-    u8 rand;
+    u8 sentRewardCounter:3;
+    u8 rewardCounter:3;
+    u8 berry;
+    //u8 padding[2];
 };
 
 struct WonderNews
@@ -866,6 +895,7 @@ struct WonderCard
     u8 bodyText[WONDER_CARD_BODY_TEXT_LINES][WONDER_CARD_TEXT_LENGTH];
     u8 footerLine1Text[WONDER_CARD_TEXT_LENGTH];
     u8 footerLine2Text[WONDER_CARD_TEXT_LENGTH];
+    //u8 padding[2];
 };
 
 struct WonderCardMetadata
@@ -918,7 +948,7 @@ struct ExternalEventFlags
 {
     u8 usedBoxRS:1; // Set by Pokémon Box: Ruby & Sapphire; denotes whether this save has connected to it and triggered the free False Swipe Swablu Egg giveaway.
     u8 boxRSEggsUnlocked:2; // Set by Pokémon Box: Ruby & Sapphire; denotes the number of Eggs unlocked from deposits; 1 for ExtremeSpeed Zigzagoon (at 100 deposited), 2 for Pay Day Skitty (at 500 deposited), 3 for Surf Pichu (at 1499 deposited)
-    u8 padding:5;
+    //u8 padding:5;
     u8 unknownFlag1;
     u8 receivedGCNJirachi; // Both the US Colosseum Bonus Disc and PAL/AUS Pokémon Channel use this field. One cannot receive a WISHMKR Jirachi and CHANNEL Jirachi with the same savefile.
     u8 unknownFlag3;

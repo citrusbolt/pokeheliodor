@@ -120,7 +120,7 @@ extern const u8 gRamScript_Egg_H[995];
 void ClearMysteryGift(void)
 {
     CpuFill32(0, &gSaveBlock1Ptr->mysteryGift, sizeof(gSaveBlock1Ptr->mysteryGift));
-    ClearSavedWonderNewsMetadata(); // Clear is redundant, InitSavedWonderNews would be sufficient
+    ClearSavedWonderNewsMetadata(); // Clear is redundant, WonderNews_Reset would be sufficient
     InitQuestionnaireWords();
 }
 
@@ -202,7 +202,7 @@ static void ClearSavedWonderNews(void)
 static void ClearSavedWonderNewsMetadata(void)
 {
     CpuFill32(0, GetSavedWonderNewsMetadata(), sizeof(gSaveBlock1Ptr->mysteryGift.newsMetadata));
-    InitSavedWonderNews();
+    WonderNews_Reset();
 }
 
 bool32 IsWonderNewsSameAsSaved(const u8 *news)

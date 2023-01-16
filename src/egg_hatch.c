@@ -544,8 +544,8 @@ static void CB2_LoadEggHatch(void)
         LoadSpriteSheet(&sEggHatch_Sheet);
         LoadSpriteSheet(&sEggShards_Sheet);
         //LoadSpritePalette(&sEgg_SpritePalette);
-		pal1 = &gEgg1PaletteTable[gBaseStats[GetMonData(&gPlayerParty[sEggHatchData->eggPartyId], MON_DATA_SPECIES)].type1];
-		pal2 = &gEgg2PaletteTable[gBaseStats[GetMonData(&gPlayerParty[sEggHatchData->eggPartyId], MON_DATA_SPECIES)].type2];
+		pal1 = &gEgg1PaletteTable[gSpeciesInfo[GetMonData(&gPlayerParty[sEggHatchData->eggPartyId], MON_DATA_SPECIES)].types[0]];
+		pal2 = &gEgg2PaletteTable[gSpeciesInfo[GetMonData(&gPlayerParty[sEggHatchData->eggPartyId], MON_DATA_SPECIES)].types[1]];
 		LoadCompressedEggHatchSpritePalette(pal1, pal2);
         gMain.state++;
         break;

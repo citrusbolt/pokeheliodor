@@ -2776,7 +2776,7 @@ static void PrintInfoPage(void)
 
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_ToNextLevel, 8, 116, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     if (summary->level < MAX_LEVEL)
-		ConvertIntToDecimalStringN(gStringVar1, gExperienceTables[gBaseStats[summary->species].growthRate][summary->level + 1] - summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 6);
+		ConvertIntToDecimalStringN(gStringVar1, gExperienceTables[gSpeciesInfo[summary->species].growthRate][summary->level + 1] - summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 6);
 	else
 		ConvertIntToDecimalStringN(gStringVar1, 0, STR_CONV_MODE_RIGHT_ALIGN, 6);
     x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
@@ -2784,8 +2784,8 @@ static void PrintInfoPage(void)
 
     if (summary->level < MAX_LEVEL)
     {
-        u32 expBetweenLevels = gExperienceTables[gBaseStats[summary->species].growthRate][summary->level + 1] - gExperienceTables[gBaseStats[summary->species].growthRate][summary->level];
-        u32 expSinceLastLevel = summary->exp - gExperienceTables[gBaseStats[summary->species].growthRate][summary->level];
+        u32 expBetweenLevels = gExperienceTables[gSpeciesInfo[summary->species].growthRate][summary->level + 1] - gExperienceTables[gSpeciesInfo[summary->species].growthRate][summary->level];
+        u32 expSinceLastLevel = summary->exp - gExperienceTables[gSpeciesInfo[summary->species].growthRate][summary->level];
 
         // Calculate the number of 1-pixel "ticks" to illuminate in the experience progress bar.
         // There are 8 tiles that make up the bar, and each tile has 8 "ticks". Hence, the numerator
@@ -3532,11 +3532,11 @@ static void PrintMoveDetails(u16 move)
     FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
 
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, FALSE);
-	SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 41, 45, SPRITE_ARR_ID_TYPE);
+	SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[0], 41, 45, SPRITE_ARR_ID_TYPE);
 
-	if (gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2)
+	if (gSpeciesInfo[summary->species].types[0] != gSpeciesInfo[summary->species].types[1])
 	{
-		SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 75, 45, SPRITE_ARR_ID_TYPE + 1);
+		SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[1], 75, 45, SPRITE_ARR_ID_TYPE + 1);
 		SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
 	}
 	else
@@ -3752,15 +3752,15 @@ static void SetMonTypeIcons(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
-    if (gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2)
+    if (gSpeciesInfo[summary->species].types[0] != gSpeciesInfo[summary->species].types[1])
     {
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 167, 65, SPRITE_ARR_ID_TYPE);
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 201, 65, SPRITE_ARR_ID_TYPE + 1);
+        SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[0], 167, 65, SPRITE_ARR_ID_TYPE);
+        SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[1], 201, 65, SPRITE_ARR_ID_TYPE + 1);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
     }
     else
     {
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 184, 65, SPRITE_ARR_ID_TYPE);
+        SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[0], 184, 65, SPRITE_ARR_ID_TYPE);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
     }
 }
@@ -3927,8 +3927,8 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 		}
 		else
 		{
-			pal1 = &gEgg1PaletteTable[gBaseStats[summary->species].type1];
-			pal2 = &gEgg2PaletteTable[gBaseStats[summary->species].type2];
+			pal1 = &gEgg1PaletteTable[gSpeciesInfo[summary->species].types[0]];
+			pal2 = &gEgg2PaletteTable[gSpeciesInfo[summary->species].types[1]];
 			LoadCompressedEggSpritePalette(pal1, pal2);
 		}
 		SetMultiuseSpriteTemplateToPokemon(pal1->tag, 1);
@@ -4392,8 +4392,8 @@ static void ConfigureExpBarSprites(void)
 
     if (level < 100)
     {
-        totalExpToNextLevel = gExperienceTables[gBaseStats[species].growthRate][level + 1] - gExperienceTables[gBaseStats[species].growthRate][level];
-        curExpToNextLevel = exp - gExperienceTables[gBaseStats[species].growthRate][level];
+        totalExpToNextLevel = gExperienceTables[gSpeciesInfo[species].growthRate][level + 1] - gExperienceTables[gSpeciesInfo[species].growthRate][level];
+        curExpToNextLevel = exp - gExperienceTables[gSpeciesInfo[species].growthRate][level];
         v0 = ((totalExpToNextLevel << 2) / 8);
         v1 = (curExpToNextLevel << 2);
 
