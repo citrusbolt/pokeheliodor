@@ -41,6 +41,7 @@
 #include "new_game.h"
 #include "mystery_gift_menu.h"
 #include "roamer.h"
+#include "convert_save.h"
 
 /*
  * Main menu state machine
@@ -2670,6 +2671,8 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
+    MgbaPrintf(3, "%x", DetectSaveType());
+    
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
 		gSaveBlock1Ptr->trainerCardLayout = 3;

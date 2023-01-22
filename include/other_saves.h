@@ -1,16 +1,16 @@
 #ifndef GUARD_OTHER_SAVES_H
 #define GUARD_OTHER_SAVES_H
 
+#include "global.h"
 #include "constants/rs_flags.h"
 #include "constants/rs_vars.h"
-#include "constants/rs_game_stat.h"
 #include "constants/prenl_flags.h"
 #include "constants/prenl_vars.h"
 #include "constants/prenl_game_stat.h"
 
 struct RubySapphireDayCareMail
 {
-    /*0x00*/ struct MailStruct message;
+    /*0x00*/ struct Mail message;
     /*0x24*/ u8 names[19];
 };
 
@@ -28,7 +28,7 @@ struct RubySapphireDayCareMisc
 
 struct RubySapphireDayCare {
     struct BoxPokemon mons[DAYCARE_MON_COUNT];
-    struct DayCareMisc misc;
+    struct RubySapphireDayCareMisc misc;
 };
 
 struct RubySapphireEnigmaBerry
@@ -138,7 +138,7 @@ struct RubySapphireSaveBlock1
     /*0x272C*/ u8 decorationCushions[10];
     /*0x2736*/ u8 padding_2736[2];
     /*0x2738*/ TVShow tvShows[TV_SHOWS_COUNT];
-    /*0x2ABC*/ struct PokeNews pokeNews[POKE_NEWS_COUNT];
+    /*0x2ABC*/ PokeNews pokeNews[POKE_NEWS_COUNT];
     /*0x2AFC*/ u16 outbreakPokemonSpecies;
     /*0x2AFE*/ u8 outbreakLocationMapNum;
     /*0x2AFF*/ u8 outbreakLocationMapGroup;

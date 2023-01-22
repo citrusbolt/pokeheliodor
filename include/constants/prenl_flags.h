@@ -355,7 +355,7 @@
 #define PRENL_FLAG_WONDER_CARD_UNUSED_15           0x14B
 #define PRENL_FLAG_WONDER_CARD_UNUSED_16           0x14C
 #define PRENL_FLAG_WONDER_CARD_UNUSED_17           0x14D
-#define NUM_WONDER_CARD_FLAGS                (1 + PRENL_FLAG_WONDER_CARD_UNUSED_17 - PRENL_FLAG_RECEIVED_AURORA_TICKET)
+#define PRENL_NUM_WONDER_CARD_FLAGS                (1 + PRENL_FLAG_WONDER_CARD_UNUSED_17 - PRENL_FLAG_RECEIVED_AURORA_TICKET)
 
 #define PRENL_FLAG_MIRAGE_TOWER_VISIBLE            0x14E
 #define PRENL_FLAG_GOT_ROOT_FOSSIL               0x14F
@@ -1359,7 +1359,7 @@
 #define PRENL_FLAG_BADGE06_GET                             (PRENL_SYSTEM_FLAGS + 0xC)
 #define PRENL_FLAG_BADGE07_GET                             (PRENL_SYSTEM_FLAGS + 0xD)
 #define PRENL_FLAG_BADGE08_GET                             (PRENL_SYSTEM_FLAGS + 0xE)
-#define NUM_BADGES                                   (1 + PRENL_FLAG_BADGE08_GET - PRENL_FLAG_BADGE01_GET)
+#define PRENL_NUM_BADGES                                   (1 + PRENL_FLAG_BADGE08_GET - PRENL_FLAG_BADGE01_GET)
 
 // Towns and Cities
 #define PRENL_FLAG_VISITED_LITTLEROOT_TOWN                (PRENL_SYSTEM_FLAGS + 0xF)
@@ -1630,7 +1630,7 @@
 #define PRENL_FLAG_UNUSED_0x95D                           (PRENL_DAILY_FLAGS_START + 0x3D) // Unused Flag
 #define PRENL_FLAG_UNUSED_0x95E                           (PRENL_DAILY_FLAGS_START + 0x3E) // Unused Flag
 #define PRENL_FLAG_UNUSED_0x95F                           (PRENL_DAILY_FLAGS_START + 0x3F) // Unused Flag
-#define DAILY_FLAGS_END                             (PRENL_FLAG_UNUSED_0x95F + (7 - PRENL_FLAG_UNUSED_0x95F % 8))
+#define PRENL_DAILY_FLAGS_END                             (PRENL_FLAG_UNUSED_0x95F + (7 - PRENL_FLAG_UNUSED_0x95F % 8))
 
 #define PRENL_FLAGS_COUNT (PRENL_DAILY_FLAGS_END + 1)
 
