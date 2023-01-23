@@ -4,6 +4,7 @@
 #include "global.h"
 #include "constants/rs_flags.h"
 #include "constants/rs_vars.h"
+#include "constants/rs_game_stat.h"
 #include "constants/prenl_flags.h"
 #include "constants/prenl_vars.h"
 #include "constants/prenl_game_stat.h"
@@ -85,8 +86,10 @@ struct RubySapphireBattleTowerData
 
 #define BAG_ITEMS_COUNT_RS      20
 #define BAG_KEYITEMS_COUNT_RS   20
+#define BAG_POKEBALLS_COUNT_RS  16
+#define BAG_TMHM_COUNT_RS       64
+#define BAG_BERRIES_COUNT_RS    46
 #define NUM_FLAG_BYTES_RS       288
-#define NUM_GAME_STATS_RS       50
 
 struct RubySapphireSaveBlock1
 {
@@ -110,9 +113,9 @@ struct RubySapphireSaveBlock1
     /*0x498*/ struct ItemSlot pcItems[PC_ITEMS_COUNT];
     /*0x560*/ struct ItemSlot bagPocket_Items[BAG_ITEMS_COUNT_RS];
     /*0x5B0*/ struct ItemSlot bagPocket_KeyItems[BAG_KEYITEMS_COUNT_RS];
-    /*0x600*/ struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT];
-    /*0x640*/ struct ItemSlot bagPocket_TMHM[BAG_TMHM_COUNT];
-    /*0x740*/ struct ItemSlot bagPocket_Berries[BAG_BERRIES_COUNT];
+    /*0x600*/ struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT_RS];
+    /*0x640*/ struct ItemSlot bagPocket_TMHM[BAG_TMHM_COUNT_RS];
+    /*0x740*/ struct ItemSlot bagPocket_Berries[BAG_BERRIES_COUNT_RS];
     /*0x7F8*/ struct Pokeblock pokeblocks[POKEBLOCKS_COUNT];
     /*0x938*/ u8 seen1[NUM_DEX_FLAG_BYTES];
     /*0x96C*/ u16 berryBlenderRecords[3];
@@ -123,7 +126,7 @@ struct RubySapphireSaveBlock1
     /*0xC20*/ struct ObjectEventTemplate objectEventTemplates[OBJECT_EVENT_TEMPLATES_COUNT];
     /*0x1220*/ u8 flags[NUM_FLAG_BYTES_RS];
     /*0x1340*/ u16 vars[VARS_COUNT];
-    /*0x1540*/ u32 gameStats[NUM_GAME_STATS_RS];
+    /*0x1540*/ u32 gameStats[RS_NUM_GAME_STATS];
     /*0x1608*/ struct BerryTree berryTrees[BERRY_TREES_COUNT];
     /*0x1A08*/ struct SecretBase secretBases[SECRET_BASES_COUNT];
     /*0x2688*/ u8 playerRoomDecorations[DECOR_MAX_PLAYERS_HOUSE];

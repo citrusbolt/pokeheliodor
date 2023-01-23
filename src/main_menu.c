@@ -2672,6 +2672,8 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 static void PatchSave(void)
 {
     MgbaPrintf(3, "%x", DetectSaveType());
+    if (DetectSaveType() == 2)
+        ConvertSaveFileFromRSToNL();
     
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
