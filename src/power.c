@@ -114,7 +114,7 @@ void GivePowerPoints(void)
 	newTotalPoints += GetGameStat(GAME_STAT_HATCHED_EGGS);
 	newTotalPoints += GetGameStat(GAME_STAT_EVOLVED_POKEMON);
 	newTotalPoints += GetGameStat(GAME_STAT_SLOT_JACKPOTS) * 30;
-	newTotalPoints += GetGameStat(GAME_STAT_BATTLE_TOWER_BEST_STREAK);
+	newTotalPoints += GetGameStat(GAME_STAT_BATTLE_TOWER_SINGLES_STREAK);
 	newTotalPoints += GetGameStat(GAME_STAT_WON_CONTEST);
 	newTotalPoints += GetGameStat(GAME_STAT_RECEIVED_RIBBONS);
 	newTotalPoints += GetGameStat(GAME_STAT_WON_POKEMON_LOTTERY) / 5;
