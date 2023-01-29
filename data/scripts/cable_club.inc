@@ -889,6 +889,7 @@ CableClub_EventScript_UnionRoomInfo::
 	end
 
 CableClub_EventScript_EnterUnionRoom::
+	setvar VAR_UNION_ROOM_ONLINE, TRUE
 	call CableClub_EventScript_CheckPartyUnionRoomRequirements
 	goto_if_eq VAR_RESULT, 0, CableClub_EventScript_AbortLink
 	call Common_EventScript_SaveGame
@@ -922,12 +923,11 @@ CableClub_EventScript_EnterUnionRoom::
 	end
 	
 CableClub_EventScript_EnterUnionRoomDummy::
+	setvar VAR_UNION_ROOM_ONLINE, FALSE
 	call CableClub_EventScript_CheckPartyUnionRoomRequirements
-	compare VAR_RESULT, 0
-	goto_if_eq CableClub_EventScript_AbortLink
+	goto_if_eq VAR_RESULT, 0, CableClub_EventScript_AbortLink
 	call Common_EventScript_SaveGame
-	compare VAR_RESULT, 0
-	goto_if_eq CableClub_EventScript_AbortLink
+	goto_if_eq VAR_RESULT, 0, CableClub_EventScript_AbortLink
 	msgbox CableClub_Text_EnjoyUnionRoom, MSGBOX_DEFAULT
 	closemessage
 	special HealPlayerParty
