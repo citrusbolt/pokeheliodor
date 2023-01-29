@@ -641,7 +641,7 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
                 LoadPalette(gObjectEventPal_EmeraldBrendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_E_MAY:
-                LoadPalette(gObjectEventPal_EmeraldMay, OBJ_PLTT_ID(adjustedPaletteNum)), PLTT_SIZE_4BPP);
+                LoadPalette(gObjectEventPal_EmeraldMay, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_GOLD:
                 LoadPalette(gObjectEventPal_Gold, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
