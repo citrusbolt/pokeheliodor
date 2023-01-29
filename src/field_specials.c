@@ -638,22 +638,22 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
                 LoadPalette(gObjectEventPal_May, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_E_BRENDAN:
-                LoadPalette(gObjectEventPal_EmeraldBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                LoadPalette(gObjectEventPal_EmeraldBrendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_E_MAY:
-                LoadPalette(gObjectEventPal_EmeraldMay, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                LoadPalette(gObjectEventPal_EmeraldMay, OBJ_PLTT_ID(adjustedPaletteNum)), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_GOLD:
-                LoadPalette(gObjectEventPal_Gold, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                LoadPalette(gObjectEventPal_Gold, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_KRIS:
-                LoadPalette(gObjectEventPal_Kris, 0x100 + (adjustedPaletteNum << 4), 0x20);
+                LoadPalette(gObjectEventPal_Kris, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_WALLY:
-                LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_RubySapphireBrendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             case OBJ_EVENT_GFX_STEVEN:
-                LoadPalette(gObjectEventPal_RubySapphireMay, 0x100 + (adjustedPaletteNum << 4), 0x20);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_RubySapphireMay, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             }
         }
