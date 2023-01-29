@@ -100,7 +100,7 @@ static const u8 sMetatileBehaviorConversion[] = {
 	[MB_KANTO_0B]                          	= MB_INDOOR_ENCOUNTER,
 	[MB_KANTO_0C]                          	= MB_MOUNTAIN_TOP,
 	[MB_KANTO_POND_WATER]                  	= MB_POND_WATER,
-	[MB_KANTO_SEMI_DEEP_WATER]             	= MB_SEMI_DEEP_WATER,
+	[MB_KANTO_SEMI_DEEP_WATER]             	= MB_INTERIOR_DEEP_WATER,
 	[MB_KANTO_DEEP_WATER]                  	= MB_DEEP_WATER,
 	[MB_KANTO_WATERFALL]                   	= MB_WATERFALL,
 	[MB_KANTO_OCEAN_WATER]                 	= MB_OCEAN_WATER,
@@ -1040,9 +1040,9 @@ void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u16 size)
         if (tileset->isSecondary == FALSE)
         {
             gPaletteOverrides[0] = tileset->paletteOverrides;
-            LoadPalette(&black, destOffset, 2);
-            LoadPaletteDayNight(((u16*)tileset->palettes) + 1, destOffset + 1, size - 2);
-            ApplyGlobalTintToPaletteEntries(destOffset + 1, (size - 2) >> 1);
+            LoadPalette(&black, destOffset, PLTT_SIZEOF(1));
+            LoadPaletteDayNight(((u16*)tileset->palettes) + 1, destOffset + 1, size - PLTT_SIZEOF(1));
+            ApplyGlobalTintToPaletteEntries(destOffset + 1, (size - PLTT_SIZEOF(1)) >> 1);
         }
         else if (tileset->isSecondary == TRUE)
         {
@@ -1089,17 +1089,17 @@ void CopySecondaryTilesetToVramUsingHeap(struct MapLayout const *mapLayout)
 static void LoadPrimaryTilesetPalette(struct MapLayout const *mapLayout)
 {
 	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
-		LoadTilesetPalette(mapLayout->primaryTileset, 0, NUM_PALS_IN_PRIMARY_KANTO * 16 * 2);
+		LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY_KANTO * PLTT_SIZE_4BPP);
 	else
-		LoadTilesetPalette(mapLayout->primaryTileset, 0, NUM_PALS_IN_PRIMARY * 16 * 2);
+		LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY * PLTT_SIZE_4BPP);
 }
 
 void LoadSecondaryTilesetPalette(struct MapLayout const *mapLayout)
 {
 	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
-		LoadTilesetPalette(mapLayout->secondaryTileset, NUM_PALS_IN_PRIMARY_KANTO * 16, (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY_KANTO) * 16 * 2);
+		LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY_KANTO) * PLTT_SIZE_4BPP);
 	else
-		LoadTilesetPalette(mapLayout->secondaryTileset, NUM_PALS_IN_PRIMARY * 16, (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY) * 16 * 2);
+		LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY) * PLTT_SIZE_4BPP);
 }
 
 void CopyMapTilesetsToVram(struct MapLayout const *mapLayout)
