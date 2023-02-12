@@ -13,4 +13,6 @@ void PanFadeAndZoomScreen(u16, u16, u16, u16);
 void CB2_DetectGameBoyPlayer(void);
 void CB2_SolitairiScreen(void);
 
+extern EWRAM_DATA u8 gTitleScreenVariation;
+
 #endif // GUARD_INTRO_H

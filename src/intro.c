@@ -172,6 +172,7 @@ extern const struct SpriteTemplate gAncientPowerRockSpriteTemplate[];
 static EWRAM_DATA u16 sIntroCharacterGender = 0;
 static EWRAM_DATA u16 sUnusedVar = 0;
 static EWRAM_DATA u16 sFlygonYOffset = 0;
+EWRAM_DATA u8 gTitleScreenVariation = 0;
 
 u32 gIntroFrameCounter;
 struct GcmbStruct gMultibootProgramStruct;
