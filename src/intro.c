@@ -1052,11 +1052,18 @@ static void MainCB2_EndIntro(void)
         SetMainCallback2(CB2_InitTitleScreen);
 }
 
-static void LoadCopyrightGraphics(u16 tilesetAddress, u16 tilemapAddress, u16 paletteOffset)
+static void LoadSolitairiGraphics(u16 tilesetAddress, u16 tilemapAddress, u16 paletteOffset)
 {
-    LZ77UnCompVram(gIntroCopyright_Gfx, (void *)(VRAM + tilesetAddress));
-    LZ77UnCompVram(gIntroCopyright_Tilemap, (void *)(VRAM + tilemapAddress));
-    LoadPalette(gIntroCopyright_Pal, paletteOffset, PLTT_SIZE_4BPP);
+    LZ77UnCompVram(gIntroSolitairi_Gfx, (void *)(VRAM + tilesetAddress));
+    LZ77UnCompVram(gIntroSolitairi_Tilemap, (void *)(VRAM + tilemapAddress));
+    LoadPalette(gIntroSolitairi_Pal, paletteOffset, PLTT_SIZE_4BPP);
+}
+
+static void LoadGameFreakGraphics(u16 tilesetAddress, u16 tilemapAddress, u16 paletteOffset)
+{
+    LZ77UnCompVram(gIntroGameFreak_Gfx, (void *)(VRAM + tilesetAddress));
+    LZ77UnCompVram(gIntroGameFreak_Tilemap, (void *)(VRAM + tilemapAddress));
+    LoadPalette(gIntroGameFreak_Pal, paletteOffset, PLTT_SIZE_4BPP);
 }
 
 static void SerialCB_CopyrightScreen(void)
@@ -1081,7 +1088,7 @@ static u8 SetUpCopyrightScreen(void)
         CpuFill32(0, (void *)OAM, OAM_SIZE);
         CpuFill16(0, (void *)(PLTT + 2), PLTT_SIZE - 2);
         ResetPaletteFade();
-        LoadCopyrightGraphics(0, 0x3800, BG_PLTT_ID(0));
+        LoadGameFreakGraphics(0, 0x3800, BG_PLTT_ID(0));
         ScanlineEffect_Stop();
         ResetTasks();
         ResetSpriteData();
@@ -1110,15 +1117,15 @@ static u8 SetUpCopyrightScreen(void)
             GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         if (gMultibootProgramStruct.gcmb_field_2 != 1)
         {
-            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_WHITE);
             gMain.state++;
         }
         break;
     case 142:
         if (UpdatePaletteFade())
             break;
-        CreateTask(Task_Scene1_Load, 0);
-        SetMainCallback2(MainCB2_Intro);
+        LZ77UnCompVram(gIntroWhiteScreen_Tilemap, (void *)(VRAM + 0x3800));
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         if (gMultibootProgramStruct.gcmb_field_2 != 0)
         {
             if (gMultibootProgramStruct.gcmb_field_2 == 2)
@@ -1140,6 +1147,13 @@ static u8 SetUpCopyrightScreen(void)
                 SetSerialCallback(SerialCB);
             }
         }
+        gMain.state++;
+        break;
+    case 143:
+        if (UpdatePaletteFade())
+            break;
+        CreateTask(Task_Scene1_Load, 0);
+        SetMainCallback2(MainCB2_Intro);
         return 0;
     }
 
@@ -1168,7 +1182,7 @@ void CB2_InitCopyrightScreenAfterBootup(void)
 
 void CB2_InitCopyrightScreenAfterTitleScreen(void)
 {
-    SetUpCopyrightScreen();
+    CB2_SolitairiScreen();
 }
 
 #define sBigDropSpriteId data[0]
@@ -3493,6 +3507,54 @@ void CB2_DetectGameBoyPlayer(void)
             gMain.state = 72;
             break;
         default:
+            SetMainCallback2(CB2_SolitairiScreen);
+            break;
+    }
+}
+
+void CB2_SolitairiScreen(void)
+{
+    switch (gMain.state)
+    {
+        case 1:
+            SetVBlankCallback(NULL);
+            SetGpuReg(REG_OFFSET_BLDCNT, 0);
+            SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+            SetGpuReg(REG_OFFSET_BLDY, 0);
+            *(u16 *)PLTT = RGB_WHITE;
+            SetGpuReg(REG_OFFSET_DISPCNT, 0);
+            SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+            SetGpuReg(REG_OFFSET_BG0VOFS, 0);
+            CpuFill32(0, (void *)VRAM, VRAM_SIZE);
+            CpuFill32(0, (void *)OAM, OAM_SIZE);
+            CpuFill16(0, (void *)(PLTT + 2), PLTT_SIZE - 2);
+            ResetPaletteFade();
+            LoadSolitairiGraphics(0, 0x3800, BG_PLTT_ID(0));
+            ScanlineEffect_Stop();
+            ResetTasks();
+            ResetSpriteData();
+            FreeAllSpritePalettes();
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_WHITEALPHA);
+            SetGpuReg(REG_OFFSET_BG0CNT, BGCNT_PRIORITY(0)
+                                    | BGCNT_CHARBASE(0)
+                                    | BGCNT_SCREENBASE(7)
+                                    | BGCNT_16COLOR
+                                    | BGCNT_TXT256x256);
+            if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+                EnableInterrupts(INTR_FLAG_VBLANK);
+            SetVBlankCallback(VBlankCB_Intro);
+            REG_DISPCNT = DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON;
+        default:
+            UpdatePaletteFade();
+            gMain.state++;
+            break;
+        case 91:
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_WHITE);
+            gMain.state++;
+            break;
+        case 92:
+            if (UpdatePaletteFade())
+                break;
             SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
             break;
     }
