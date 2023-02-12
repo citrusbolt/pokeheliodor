@@ -1,9 +1,4 @@
 TOOLCHAIN := $(DEVKITARM)
-COMPARE ?= 0
-
-ifeq (compare,$(MAKECMDGOALS))
-  COMPARE := 1
-endif
 
 # don't use dkP's base_tools anymore
 # because the redefinition of $(CC) conflicts
@@ -162,7 +157,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald
+.PHONY: all rom clean tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -170,7 +165,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom compare modern libagbsyscall syms emerald data/mb_berry_fix.gba patch,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -240,12 +235,6 @@ subrepos/agbcc/agbcc:
 	cd subrepos/agbcc; ./build.sh
 
 rom: $(ROM)
-ifeq ($(COMPARE),1)
-	@$(SHA1) rom.sha1
-endif
-
-# For contributors to make sure a change didn't affect the contents of the ROM.
-compare: all
 
 clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 
