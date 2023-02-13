@@ -1158,6 +1158,9 @@ static u8 SetUpCopyrightScreen(void)
         return 0;
     }
 
+    if (gMain.newKeys != 0 && !gPaletteFade.active)
+        SetMainCallback2(MainCB2_EndIntro);
+
     return 1;
 }
 
@@ -3559,4 +3562,7 @@ void CB2_SolitairiScreen(void)
             SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
             break;
     }
+
+    if (gMain.newKeys != 0 && !gPaletteFade.active)
+        SetMainCallback2(MainCB2_EndIntro);
 }
