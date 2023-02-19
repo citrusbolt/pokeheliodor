@@ -96,7 +96,7 @@ IntrMain_FoundIntr:
 	mov r1, 0x8
 	lsl r0, r1, r0
 	orr r0, r0, #INTR_FLAG_GAMEPAK
-	orr r1, r0, #INTR_FLAG_SERIAL | INTR_FLAG_TIMER3 | INTR_FLAG_VCOUNT | INTR_FLAG_HBLANK
+	orr r1, r0, #INTR_FLAG_SERIAL | INTR_FLAG_TIMER3 | INTR_FLAG_VCOUNT | INTR_FLAG_HBLANK | INTR_FLAG_TIMER1
 	and r1, r1, r2
 	strh r1, [r3, #OFFSET_REG_IE - 0x200]
 	mrs r3, cpsr

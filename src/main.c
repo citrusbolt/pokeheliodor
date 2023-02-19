@@ -25,11 +25,13 @@
 #include "trainer_hill.h"
 #include "constants/rgb.h"
 #include "rumble.h"
+#include "gcn_controller.h"
 
 static void VBlankIntr(void);
 static void HBlankIntr(void);
 static void VCountIntr(void);
 static void SerialIntr(void);
+static void Timer1Intr(void);
 static void IntrDummy(void);
 
 EWRAM_DATA bool8 gDisableVBlankRNGAdvance = FALSE;
@@ -47,7 +49,7 @@ const IntrFunc gIntrTableTemplate[] =
     HBlankIntr, // H-blank interrupt
     VBlankIntr, // V-blank interrupt
     IntrDummy,  // Timer 0 interrupt
-    IntrDummy,  // Timer 1 interrupt
+    Timer1Intr, // Timer 1 interrupt
     IntrDummy,  // Timer 2 interrupt
     IntrDummy,  // DMA 0 interrupt
     IntrDummy,  // DMA 1 interrupt
@@ -111,6 +113,10 @@ void AgbMain()
     SetDefaultFontsPointer();
     InitHeap(gHeap, HEAP_SIZE);
 
+    gGCNCommunication.controllerEnabled = FALSE;
+    gGCNCommunication.currentByte = 0;
+    gGCNCommunication.amountOfBits = 0;
+
     gSoftResetDisabled = FALSE;
 
     if (gFlashMemoryPresent != TRUE)
@@ -132,6 +138,9 @@ void AgbMain()
             RumbleFrameUpdate();
 
         ReadKeys();
+
+        //if (gGCNCommunication.controllerEnabled)
+        //    GCNControllerFrameUpdate();
 
         if (gSoftResetDisabled == FALSE
          && JOY_HELD_RAW(A_BUTTON)
@@ -304,6 +313,7 @@ void InitIntrHandlers(void)
     SetVBlankCallback(NULL);
     SetHBlankCallback(NULL);
     SetSerialCallback(NULL);
+    SetTimer1Callback(NULL);
 
     REG_IME = 1;
 
@@ -334,6 +344,11 @@ void RestoreSerialTimer3IntrHandlers(void)
 void SetSerialCallback(IntrCallback callback)
 {
     gMain.serialCallback = callback;
+}
+
+void SetTimer1Callback(IntrCallback callback)
+{
+    gMain.timer1Callback = callback;
 }
 
 static void VBlankIntr(void)
@@ -401,11 +416,20 @@ static void SerialIntr(void)
 {
     if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
         GBPSerialInterrupt();
-    else
+    else if (gMain.serialCallback)
         gMain.serialCallback();
 
     INTR_CHECK |= INTR_FLAG_SERIAL;
     gMain.intrCheck |= INTR_FLAG_SERIAL;
+}
+
+static void Timer1Intr(void)
+{
+    if (gMain.timer1Callback)
+        gMain.timer1Callback();
+
+    INTR_CHECK |= INTR_FLAG_TIMER1;
+    gMain.intrCheck |= INTR_FLAG_TIMER1;
 }
 
 static void IntrDummy(void)

@@ -80,3 +80,4 @@ gReservedSpritePaletteCount:
 	.include "librfu_rfu.o"
 	.include "librfu_sio32id.o"
 	.include "rumble.o"
+	.include "gcn_controller.o"

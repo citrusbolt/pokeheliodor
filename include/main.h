@@ -38,6 +38,8 @@ struct Main
     /*0x439*/ u8 oamLoadDisabled:1;
     /*0x439*/ u8 inBattle:1;
     /*0x439*/ u8 anyLinkBattlerHasFrontierPass:1;
+    
+    IntrCallback timer1Callback;
 };
 
 extern EWRAM_DATA bool8 gDisableVBlankRNGAdvance;
@@ -66,6 +68,7 @@ void SetVBlankCallback(IntrCallback callback);
 void SetHBlankCallback(IntrCallback callback);
 void SetVCountCallback(IntrCallback callback);
 void SetSerialCallback(IntrCallback callback);
+void SetTimer1Callback(IntrCallback callback);
 void InitFlashTimer(void);
 void SetTrainerHillVBlankCounter(u32 *var);
 void ClearTrainerHillVBlankCounter(void);
