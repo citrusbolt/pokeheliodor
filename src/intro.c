@@ -1180,8 +1180,13 @@ void CB2_InitCopyrightScreenAfterBootup(void)
     }
     else
     {
-        SetUpCopyrightScreen();
+        CB2_SolitairiScreen();
     }
+}
+
+void CB2_InitGameFreakScreen(void)
+{
+    SetUpCopyrightScreen();
 }
 
 void CB2_InitCopyrightScreenAfterTitleScreen(void)
@@ -3511,7 +3516,7 @@ void CB2_DetectGameBoyPlayer(void)
             gMain.state = 72;
             break;
         default:
-            SetMainCallback2(CB2_SolitairiScreen);
+            SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
             break;
     }
 }
@@ -3559,7 +3564,7 @@ void CB2_SolitairiScreen(void)
         case 92:
             if (UpdatePaletteFade())
                 break;
-            SetMainCallback2(CB2_InitCopyrightScreenAfterBootup);
+            SetMainCallback2(CB2_InitGameFreakScreen);
             break;
     }
 
