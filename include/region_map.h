@@ -4,7 +4,6 @@
 #include "bg.h"
 
 // Exported type declarations
-#define MAP_NAME_LENGTH 16
 
 enum
 {

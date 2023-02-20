@@ -4093,7 +4093,7 @@ static void PrintCurrentPhrase(void)
                 if (!isQuizQuestion)
                 {
                     str = WriteColorChangeControlCode(str, 0, 4);
-                    for (k = 0; k < 12; k++)
+                    for (k = 0; k < EASY_CHAT_WORD_LENGTH; k++)
                     {
                         *str = CHAR_HYPHEN;
                         str++;

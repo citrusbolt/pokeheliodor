@@ -43,7 +43,7 @@ enum DecorationCategory
 struct Decoration
 {
     u8 id;
-    u8 name[16];
+    u8 name[DECORATION_NAME_LENGTH + 1];
     u8 permission;
     u8 shape;
     u8 category;
