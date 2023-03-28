@@ -78,7 +78,7 @@ SlateportCity_SternsShipyard_1F_Text_MeetDockDeliverToStern:
 	.string "Capt. Stern commissioned me to\n"
 	.string "design a ferry.\p"
 	.string "Oh! That there…\n"
-	.string "Are they Devon Goods?\p"
+	.string "Are they Devon Parts?\p"
 	.string "But, hmm…\n"
 	.string "This won't do…\p"
 	.string "Capt. Stern went off somewhere.\n"

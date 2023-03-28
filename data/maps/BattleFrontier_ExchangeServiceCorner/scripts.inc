@@ -686,19 +686,19 @@ BattleFrontier_ExchangeServiceCorner_Text_ConfirmMetalCoat:
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmUpGrade:
-	.string "You've chosen the UP-Grade.\n"
+	.string "You've chosen the Upgrade.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmDeepSeaScale:
-	.string "You've chosen the DeepSeaScale.\n"
+	.string "You've chosen the Deep Sea Scale.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmDeepSeaTooth:
-	.string "You've chosen the DeepSeaTooth.\n"
+	.string "You've chosen the Deep Sea Tooth.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmBrightpowder:
-	.string "You've chosen the Brightpowder.\n"
+	.string "You've chosen the Bright Powder.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmWhiteHerb:
@@ -734,7 +734,7 @@ BattleFrontier_ExchangeServiceCorner_Text_ConfirmLeftovers:
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmStick:
-	.string "You've chosen the Stick.\n"
+	.string "You've chosen the Leek.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmThickClub:

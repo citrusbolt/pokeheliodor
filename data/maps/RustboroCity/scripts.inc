@@ -1102,14 +1102,14 @@ RustboroCity_Text_OutOfTheWay:
 
 RustboroCity_Text_WaitDontTakeMyGoods:
 	.string "Wait! Pleeeaaase!\p"
-	.string "Don't take my Goods!$"
+	.string "Don't take my Parts!$"
 
 RustboroCity_Text_HelpMeIWasRobbed:
 	.string "Oh, it's you!\p"
 	.string "You're that fantastic Trainer who\n"
 	.string "helped me in Petalburg Woods!\p"
 	.string "Help me! I was robbed by Team Aqua!\n"
-	.string "I have to get the Devon Goods back!\p"
+	.string "I have to get the Devon Parts back!\p"
 	.string "If I don't…\n"
 	.string "I'm going to be in serious trouble.$"
 
@@ -1119,7 +1119,7 @@ RustboroCity_Text_ShadyCharacterTookOffTowardsTunnel:
 
 RustboroCity_Text_YouGotItThankYou:
 	.string "Oh! How did it go?\n"
-	.string "The Devon Goods?\p"
+	.string "The Devon Parts?\p"
 	.string "You did!\n"
 	.string "You got them back!\p"
 	.string "You really are a great Trainer!\p"

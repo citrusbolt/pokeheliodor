@@ -480,11 +480,11 @@ DewfordTown_Text_BrineyLandedInSlateportDeliverGoods:
 	.string "Mr. Briney: Ahoy!\n"
 	.string "We've made land in Slateport!\p"
 	.string "I suppose you're going to visit Capt.\n"
-	.string "Stern and deliver the Devon Goods?$"
+	.string "Stern and deliver the Devon Parts?$"
 
 Route109_Text_BrineySailToDewfordQuestion:
 	.string "Mr. Briney: I thought you're supposed\n"
-	.string "to deliver the Devon Goods.\p"
+	.string "to deliver the Devon Parts.\p"
 	.string "Would you like to sail back to\n"
 	.string "Dewford, then?$"
 
@@ -495,7 +495,7 @@ Route109_Text_BrineyDewfordItIs:
 
 Route109_Text_BrineyDeliverDevonGoods:
 	.string "Mr. Briney: Then you go on and deliver\n"
-	.string "the Devon Goods. I'll be waiting.$"
+	.string "the Devon Parts. I'll be waiting.$"
 
 DewfordTown_Text_BrineyLandedInSlateport:
 	.string "Mr. Briney: Ahoy! We've made land in\n"
