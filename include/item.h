@@ -8,13 +8,15 @@ typedef void (*ItemUseFunc)(u8);
 struct Item
 {
     u8 name[ITEM_NAME_LENGTH];
+    u8 namePlural[ITEM_NAME_LENGTH];
+    u8 nameClassified[ITEM_CLASSIFIED_NAME_LENGTH];
+    u8 nameClassifiedPlural[ITEM_CLASSIFIED_NAME_LENGTH];
     u16 itemId;
     u16 price;
     u8 holdEffect;
     u8 holdEffectParam;
     const u8 *description;
-    u8 importance;
-    bool8 registrability; // unused
+    bool8 blockHolding;
     u8 pocket;
     u8 type;
     ItemUseFunc fieldUseFunc;
@@ -67,7 +69,8 @@ u16 ItemId_GetPrice(u16 itemId);
 u8 ItemId_GetHoldEffect(u16 itemId);
 u8 ItemId_GetHoldEffectParam(u16 itemId);
 const u8 *ItemId_GetDescription(u16 itemId);
-u8 ItemId_GetImportance(u16 itemId);
+bool8 ItemId_GetHoldability(u16 itemId);
+bool8 ItemId_GetUsability(u16 itemId);
 u8 ItemId_GetPocket(u16 itemId);
 u8 ItemId_GetType(u16 itemId);
 ItemUseFunc ItemId_GetFieldFunc(u16 itemId);

@@ -3,11 +3,12 @@
 
 enum
 {
-    BALL_POKE,
-    BALL_GREAT,
-    BALL_SAFARI,
-    BALL_ULTRA,
+    BALL_NONE,
     BALL_MASTER,
+    BALL_ULTRA,
+    BALL_GREAT,
+    BALL_POKE,
+    BALL_SAFARI,
     BALL_NET,
     BALL_DIVE,
     BALL_NEST,

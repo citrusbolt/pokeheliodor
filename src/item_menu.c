@@ -338,6 +338,16 @@ static const u8 sContextMenuItems_ItemsPocket[] = {
     ACTION_TOSS,        ACTION_CANCEL
 };
 
+static const u8 sContextMenuItems_ItemsPocket_NoUse[] = {
+    ACTION_GIVE,        ACTION_DUMMY,
+    ACTION_TOSS,        ACTION_CANCEL
+};
+
+static const u8 sContextMenuItems_ItemsPocket_NoHold[] = {
+    ACTION_USE,         ACTION_DUMMY,
+    ACTION_TOSS,        ACTION_CANCEL
+};
+
 static const u8 sContextMenuItems_KeyItemsPocket[] = {
     ACTION_USE,         ACTION_REGISTER,
     ACTION_DUMMY,       ACTION_CANCEL
@@ -367,11 +377,15 @@ static const u8 sContextMenuItems_Give[] = {
     ACTION_GIVE,        ACTION_CANCEL
 };
 
+static const u8 sContextMenuItems_Toss[] = {
+    ACTION_TOSS,        ACTION_CANCEL
+};
+
 static const u8 sContextMenuItems_Cancel[] = {
     ACTION_CANCEL
 };
 
-static const u8 sContextMenuItems_BERRYBlenderCrush[] = {
+static const u8 sContextMenuItems_BerryBlenderCrush[] = {
     ACTION_CONFIRM,     ACTION_CHECK_TAG,
     ACTION_DUMMY,       ACTION_CANCEL
 };
@@ -1072,7 +1086,7 @@ static void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
             offset = GetStringRightAlignXOffset(FONT_NARROW, gStringVar4, 119);
             BagMenu_Print(windowId, FONT_NARROW, gStringVar4, offset, y, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
         }
-        else if (gBagPosition.pocket != KEYITEMS_POCKET && ItemId_GetImportance(itemId) == FALSE)
+        else if (gBagPosition.pocket != KEYITEMS_POCKET)
         {
             // Print item quantity
             ConvertIntToDecimalStringN(gStringVar1, itemQuantity, STR_CONV_MODE_RIGHT_ALIGN, BAG_ITEM_CAPACITY_DIGITS);
@@ -1679,11 +1693,11 @@ static void OpenContextMenu(u8 taskId)
         }
         break;
     case ITEMMENULOCATION_BERRY_BLENDER_CRUSH:
-        gBagMenu->contextMenuItemsPtr = sContextMenuItems_BERRYBlenderCrush;
-        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BERRYBlenderCrush);
+        gBagMenu->contextMenuItemsPtr = sContextMenuItems_BerryBlenderCrush;
+        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BerryBlenderCrush);
         break;
     case ITEMMENULOCATION_APPRENTICE:
-        if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
+        if (!ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
         {
             gBagMenu->contextMenuItemsPtr = sContextMenuItems_Apprentice;
             gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Apprentice);
@@ -1695,7 +1709,7 @@ static void OpenContextMenu(u8 taskId)
         }
         break;
     case ITEMMENULOCATION_FAVOR_LADY:
-        if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
+        if (!ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
         {
             gBagMenu->contextMenuItemsPtr = sContextMenuItems_FavorLady;
             gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_FavorLady);
@@ -1707,7 +1721,7 @@ static void OpenContextMenu(u8 taskId)
         }
         break;
     case ITEMMENULOCATION_QUIZ_LADY:
-        if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
+        if (!ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
         {
             gBagMenu->contextMenuItemsPtr = sContextMenuItems_QuizLady;
             gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_QuizLady);
@@ -1741,15 +1755,38 @@ static void OpenContextMenu(u8 taskId)
             switch (gBagPosition.pocket)
             {
             case ITEMS_POCKET:
-                gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
-                memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_ItemsPocket, sizeof(sContextMenuItems_ItemsPocket));
-                if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
-                    gBagMenu->contextMenuItemsBuffer[0] = ACTION_CHECK;
+                if (ItemId_GetUsability(gSpecialVar_ItemId) == FALSE && ItemId_GetHoldability(gSpecialVar_ItemId) == FALSE)
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_Toss;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Toss);
+                }
+                else if (ItemId_GetUsability(gSpecialVar_ItemId) == TRUE && ItemId_GetHoldability(gSpecialVar_ItemId) == FALSE)
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_ItemsPocket_NoHold;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket_NoHold);
+                }
+                else if (ItemId_GetUsability(gSpecialVar_ItemId) == FALSE && ItemId_GetHoldability(gSpecialVar_ItemId) == TRUE)
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_ItemsPocket_NoUse;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket_NoUse);
+                }
+                else
+                {
+                    gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
+                    memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_ItemsPocket, sizeof(sContextMenuItems_ItemsPocket));
+                    if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
+                        gBagMenu->contextMenuItemsBuffer[0] = ACTION_CHECK;
+                }
                 break;
             case KEYITEMS_POCKET:
                 gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
-                if (sRegisterSubMenu == FALSE)
+                if (ItemId_GetUsability(gSpecialVar_ItemId) == FALSE && sRegisterSubMenu == FALSE)
+                {
+					gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Cancel);
+					memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_Cancel, sizeof(sContextMenuItems_Cancel));
+                }
+                else if (sRegisterSubMenu == FALSE)
 				{
 					gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_KeyItemsPocket);
 					memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_KeyItemsPocket, sizeof(sContextMenuItems_KeyItemsPocket));
@@ -1777,8 +1814,16 @@ static void OpenContextMenu(u8 taskId)
 
                 break;
             case BALLS_POCKET:
-                gBagMenu->contextMenuItemsPtr = sContextMenuItems_BallsPocket;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BallsPocket);
+                if (ItemId_GetHoldability(gSpecialVar_ItemId) == FALSE)
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_Toss;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Toss);
+                }
+                else
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_BallsPocket;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BallsPocket);
+                }
                 break;
             case TMHM_POCKET:
                 gBagMenu->contextMenuItemsPtr = sContextMenuItems_TmHmPocket;
@@ -2060,7 +2105,7 @@ static void ItemMenu_Give(u8 taskId)
     {
         DisplayItemMessage(taskId, FONT_OPTION, gText_CantWriteMail, HandleErrorMessage);
     }
-    else if (!ItemId_GetImportance(gSpecialVar_ItemId))
+    else if (!ItemId_GetHoldability(gSpecialVar_ItemId))
     {
         if (CalculatePlayerPartyCount() == 0)
         {
@@ -2143,7 +2188,7 @@ static void Task_ItemContext_GiveToParty(u8 taskId)
         StringExpandPlaceholders(gStringVar4, gText_Var1CantBeHeldHere);
         DisplayItemMessage(taskId, FONT_OPTION, gStringVar4, HandleErrorMessage);
     }
-    else if (gBagPosition.pocket != KEYITEMS_POCKET && !ItemId_GetImportance(gSpecialVar_ItemId))
+    else if (!ItemId_GetHoldability(gSpecialVar_ItemId))
     {
         Task_FadeAndCloseBagMenu(taskId);
     }
@@ -2158,7 +2203,7 @@ static void Task_ItemContext_GiveToPC(u8 taskId)
 {
     if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
         DisplayItemMessage(taskId, FONT_OPTION, gText_CantWriteMail, HandleErrorMessage);
-    else if (gBagPosition.pocket != KEYITEMS_POCKET && !ItemId_GetImportance(gSpecialVar_ItemId))
+    else if (!ItemId_GetHoldability(gSpecialVar_ItemId))
         gTasks[taskId].func = Task_FadeAndCloseBagMenu;
     else
         PrintItemCantBeHeld(taskId);
@@ -2338,7 +2383,7 @@ static void TryDepositItem(u8 taskId)
     s16 *data = gTasks[taskId].data;
 
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
-    if (ItemId_GetImportance(gSpecialVar_ItemId))
+    if (ItemId_GetPocket(gSpecialVar_ItemId) == POCKET_KEY_ITEMS)
     {
         // Can't deposit important items
         BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gText_CantStoreImportantItems, 3, 1, 0, 0, 0, COLORID_NORMAL);

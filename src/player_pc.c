@@ -1441,7 +1441,7 @@ static void ItemStorage_DoItemToss(u8 taskId)
     s16 *data = gTasks[taskId].data;
     u16 pos = gPlayerPCItemPageInfo.cursorPos + gPlayerPCItemPageInfo.itemsAbove;
 
-    if (!ItemId_GetImportance(gSaveBlock1Ptr->pcItems[pos].itemId))
+    if (ItemId_GetPocket(gSaveBlock1Ptr->pcItems[pos].itemId) != POCKET_KEY_ITEMS)
     {
         // Show toss confirmation prompt
         CopyItemName(gSaveBlock1Ptr->pcItems[pos].itemId, gStringVar1);

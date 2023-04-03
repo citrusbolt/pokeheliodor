@@ -15,6 +15,7 @@
 #include "constants/items.h"
 #include "constants/hold_effects.h"
 #include "pokedex.h"
+#include "pokeball.h"
 
 // this file's functions
 static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count);
@@ -977,15 +978,19 @@ const u8 *ItemId_GetDescription(u16 itemId)
     return gItems[SanitizeItemId(itemId)].description;
 }
 
-u8 ItemId_GetImportance(u16 itemId)
+bool8 ItemId_GetHoldability(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].importance;
+    if (gItems[SanitizeItemId(itemId)].pocket == POCKET_KEY_ITEMS)
+        return FALSE;
+    else if (gItems[SanitizeItemId(itemId)].blockHolding)
+        return FALSE;
+    else
+        return TRUE;
 }
 
-// Unused
-u8 ItemId_GetRegistrability(u16 itemId)
+bool8 ItemId_GetUsability(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].registrability;
+    return gItems[SanitizeItemId(itemId)].fieldUseFunc != ItemUseOutOfBattle_CannotUse;
 }
 
 u8 ItemId_GetPocket(u16 itemId)

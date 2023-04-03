@@ -139,6 +139,7 @@
 
 // string lengths
 #define ITEM_NAME_LENGTH 16
+#define ITEM_CLASSIFIED_NAME_LENGTH 20 // 24
 #define POKEMON_NAME_LENGTH 10
 #define PLAYER_NAME_LENGTH 7
 #define MAIL_WORDS_COUNT 9
