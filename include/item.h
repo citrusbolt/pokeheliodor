@@ -18,6 +18,8 @@ struct Item
     const u8 *description;
     bool8 blockHolding;
     u8 pocket;
+    u8 sortSection;
+    u8 sortId;
     u8 type;
     ItemUseFunc fieldUseFunc;
     u8 battleUsage;
