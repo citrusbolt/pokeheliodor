@@ -1697,7 +1697,7 @@ static void OpenContextMenu(u8 taskId)
         gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BerryBlenderCrush);
         break;
     case ITEMMENULOCATION_APPRENTICE:
-        if (!ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
+        if (ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
         {
             gBagMenu->contextMenuItemsPtr = sContextMenuItems_Apprentice;
             gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Apprentice);
@@ -1709,7 +1709,7 @@ static void OpenContextMenu(u8 taskId)
         }
         break;
     case ITEMMENULOCATION_FAVOR_LADY:
-        if (!ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
+        if (ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
         {
             gBagMenu->contextMenuItemsPtr = sContextMenuItems_FavorLady;
             gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_FavorLady);
@@ -1721,7 +1721,7 @@ static void OpenContextMenu(u8 taskId)
         }
         break;
     case ITEMMENULOCATION_QUIZ_LADY:
-        if (!ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
+        if (ItemId_GetHoldability(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
         {
             gBagMenu->contextMenuItemsPtr = sContextMenuItems_QuizLady;
             gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_QuizLady);
@@ -2105,7 +2105,7 @@ static void ItemMenu_Give(u8 taskId)
     {
         DisplayItemMessage(taskId, FONT_OPTION, gText_CantWriteMail, HandleErrorMessage);
     }
-    else if (!ItemId_GetHoldability(gSpecialVar_ItemId))
+    else if (ItemId_GetHoldability(gSpecialVar_ItemId) == TRUE)
     {
         if (CalculatePlayerPartyCount() == 0)
         {
@@ -2188,7 +2188,7 @@ static void Task_ItemContext_GiveToParty(u8 taskId)
         StringExpandPlaceholders(gStringVar4, gText_Var1CantBeHeldHere);
         DisplayItemMessage(taskId, FONT_OPTION, gStringVar4, HandleErrorMessage);
     }
-    else if (!ItemId_GetHoldability(gSpecialVar_ItemId))
+    else if (ItemId_GetHoldability(gSpecialVar_ItemId) == TRUE)
     {
         Task_FadeAndCloseBagMenu(taskId);
     }
@@ -2203,7 +2203,7 @@ static void Task_ItemContext_GiveToPC(u8 taskId)
 {
     if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
         DisplayItemMessage(taskId, FONT_OPTION, gText_CantWriteMail, HandleErrorMessage);
-    else if (!ItemId_GetHoldability(gSpecialVar_ItemId))
+    else if (ItemId_GetHoldability(gSpecialVar_ItemId) == TRUE)
         gTasks[taskId].func = Task_FadeAndCloseBagMenu;
     else
         PrintItemCantBeHeld(taskId);
