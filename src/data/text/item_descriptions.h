@@ -1550,27 +1550,286 @@ static const u8 sOldSeaMapDesc[] = _(
     "that shows the way\n"
     "to a certain island.");
 
-// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
-static const u8 sPowerPadDesc[] = _(
-	"A device used to\n"
-	"access H-Powers.");
+// Diamond/Pearl
+static const u8 sDuskBallDesc[] = _(
+    "A Ball that works\n"
+    "well if used at night\n"
+    "or in dark places.");
 
+static const u8 sHealBallDesc[] = _(
+    "A remedial Ball that\n"
+    "restores the caught\n"
+    "Pokémon's HP.");
+
+static const u8 sQuickBallDesc[] = _(
+    "A Ball that works\n"
+    "well if used at the\n"
+    "start of a battle.");
+
+static const u8 sCherishBallDesc[] = _(
+    "A rare Ball made\n"
+    "in commemoration\n"
+    "of some event.");
+
+static const u8 sHoneyDesc[] = _(
+    "Sweet honey that\n"
+    "attracts wild\n"
+    "Pokémon when used.");
+
+static const u8 sGrowthMulchDesc[] = _(
+    "A fertilizer that\n"
+    "speeds up the\n"
+    "growth of Berries.");
+
+static const u8 sDampMulchDesc[] = _(
+    "A fertilizer that\n"
+    "slows the growth\n"
+    "of Berries.");
+
+static const u8 sStableMulchDesc[] = _(
+    "A fertilizer that\n"
+    "extends the time\n"
+    "before Berries fall.");
+
+static const u8 sGooeyMulchDesc[] = _(
+    "A fertilizer that\n"
+    "helps Berries grow\n"
+    "after falling.");
+
+static const u8 sPokeRadarDesc[] = _(
+    "A tool used to\n"
+    "search out Pokémon\n"
+    "hiding in grass.");
+
+static const u8 sPointCardDesc[] = _(
+    "A card that lists\n"
+    "the Battle Points\n"
+    "you have earned.");
+
+static const u8 sJournalDesc[] = _(
+    "A notebook that\n"
+    "keeps a day-to-day\n"
+    "record of journeys.");
+
+static const u8 sPalPadDesc[] = _(
+    "A notebook that\n"
+    "keeps a record\n"
+    "of your friends.");
+
+// Platinum
+static const u8 sVsRecorderDesc[] = _(
+    "A device that can\n"
+    "record a battle at\n"
+    "certain facilities.");
+
+// HeartGold/SoulSilver
+static const u8 sApricornBoxDesc[] = _(
+    "A handy box that\n"
+    "can store different\n"
+    "kinds of Apricorn.");
+
+static const u8 sUnownReportDesc[] = _(
+    "A report of\n"
+    "all the discovered\n"
+    "kinds of UNOWN.");
+
+static const u8 sBerryPotsDesc[] = _(
+    "Handy containers\n"
+    "for cultivating\n"
+    "Berries on the go.");
+
+static const u8 sFastBallDesc[] = _(
+    "A Ball that works\n"
+    "well to catch\n"
+    "fast Pokémon.");
+
+static const u8 sLevelBallDesc[] = _(
+    "A Ball that works\n"
+    "well to catch\n"
+    "low-level Pokémon.");
+
+static const u8 sLureBallDesc[] = _(
+    "A Ball that works\n"
+    "well to catch\n"
+    "Pokémon with a Rod.");
+
+static const u8 sHeavyBallDesc[] = _(
+    "A Ball that works\n"
+    "well to catch\n"
+    "heavy Pokémon.");
+
+static const u8 sLoveBallDesc[] = _(
+    "A Ball that works\n"
+    "well to catch the\n"
+    "opposite gender.");
+
+static const u8 sFriendBallDesc[] = _(
+    "A Ball that makes\n"
+    "caught Pokémon\n"
+    "more friendly.");
+
+static const u8 sMoonBallDesc[] = _(
+    "A Ball that works\n"
+    "well on Moon\n"
+    "Stone evolvers.");
+
+static const u8 sSportBallDesc[] = _(
+    "A special Ball\n"
+    "used in the\n"
+    "Johto region.");
+
+static const u8 sParkBallDesc[] = _(
+    "A special Ball\n"
+    "used in the\n"
+    "Pal Park.");
+
+static const u8 sGBSoundsDesc[] = _(
+    "A music player\n"
+    "that allows for\n"
+    "nostalgic songs.");
+
+static const u8 sJadeOrbDesc[] = _(
+    "A green, glowing orb\n"
+    "said to contain an\n"
+    "ancient power.");
+
+// Black/White
+static const u8 sDreamBallDesc[] = _(
+    "A Ball that works\n"
+    "well to catch\n"
+    "sleeping Pokémon.");
+
+// Black 2/White 2
+static const u8 sMedalBoxDesc[] = _(
+    "A box that stores\n"
+    "Medals, Badges,\n"
+    "and Symbols.");
+    
 static const u8 sOvalCharmDesc[] = _(
-	"A charm to increase\n"
-	"the chance of Eggs\n"
-	"being found.");
+    "A charm to increase\n"
+    "the chance of Eggs\n"
+    "being found.");
 
 static const u8 sShinyCharmDesc[] = _(
-	"A charm to increase\n"
-	"the occurance of\n"
-	"Alt. Color {PKMN}.");
+    "A charm to increase\n"
+    "the occurance of\n"
+    "Shiny Pokémon.");
+
+// X/Y
+static const u8 sAdventureGuideDesc[] = _(
+	"A book that holds\n"
+	"all the advice a\n"
+	"new Trainer needs.");
+
+static const u8 sRichMulchDesc[] = _(
+    "A fertilizer that\n"
+    "increases the\n"
+    "Berry harvest.");
+
+static const u8 sSurpriseMulchDesc[] = _(
+    "A fertilizer that\n"
+    "causes mutations\n"
+    "in Berries.");
+
+static const u8 sBoostMulchDesc[] = _(
+    "A fertilizer that\n"
+    "allows Berries to\n"
+    "be watered more.");
+
+static const u8 sAmazeMulchDesc[] = _(
+    "A fertilizer that\n"
+    "has multiple\n"
+    "effects on Berries.");
+
+// Sun/Moon
+static const u8 sBeastBallDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+// Let's Go, Pikachu!/Let's Go, Eevee!
+static const u8 sClothingTrunkDesc[] = _(
+    "A case used to\n"
+    "store extra sets\n"
+    "of clothing.");
+    
+static const u8 sLureDesc[] = _(
+    "Makes Pokémon more\n"
+    "likely to appear\n"
+    "for 100 steps.");
+
+static const u8 sSuperLureDesc[] = _(
+    "Makes Pokémon more\n"
+    "likely to appear\n"
+    "for 200 steps.");
+
+static const u8 sMaxLureDesc[] = _(
+    "Makes Pokémon more\n"
+    "likely to appear\n"
+    "for 250 steps.");
+
+// Sword/Shield
+static const u8 sExpCandyXSDesc[] = _(
+    "Grants a very small\n"
+    "amount of Exp.\n"
+    "Points to a Pokémon.");
+
+static const u8 sExpCandySDesc[] = _(
+    "Grants a small\n"
+    "amount of Exp.\n"
+    "Points to a Pokémon.");
+
+static const u8 sExpCandyMDesc[] = _(
+    "Grants a moderate\n"
+    "amount of Exp.\n"
+    "Points to a Pokémon.");
+
+static const u8 sExpCandyLDesc[] = _(
+    "Grants a large\n"
+    "amount of Exp.\n"
+    "Points to a Pokémon.");
+
+static const u8 sExpCandyXLDesc[] = _(
+    "Grants a very large\n"
+    "amount of Exp.\n"
+    "Points to a Pokémon.");
 
 static const u8 sCatchingCharmDesc[] = _(
-	"A charm to increase\n"
-	"the chance of\n"
-	"capturing {PKMN}.");
+    "A charm to increase\n"
+    "the chance of\n"
+    "catching Pokémon.");
 
+// Isle of Armor
 static const u8 sExpCharmDesc[] = _(
-	"A charm to increase\n"
-	"the Exp. Points\n"
-	"gained in battle.");
+    "A charm to increase\n"
+    "the Exp. Points\n"
+    "gained in battle.");
+
+// Legends: Arceus
+static const u8 sHisuiPokeBallDesc[] = _(
+    "A rare Ball used\n"
+    "long ago to\n"
+    "to catch Pokémon.");
+
+static const u8 sHisuiOriginBallDesc[] = _(
+    "A very rare Ball\n"
+    "said to be used\n"
+    "long ago.");
+
+static const u8 sStrangeBallDesc[] = _(
+    "An odd Ball of\n"
+    "mysterious origin");
+
+// Heliodor Set 1
+static const u8 sPowerPadDesc[] = _(
+    "A device used to\n"
+    "access H-Powers.");
+
+static const u8 sMailCaseDesc[] = _(
+    "A case used to\n"
+    "store Mail items.");
+    
+static const u8 sEmeraldDesc[] = _(
+    "A glittering green\n"
+    "gem that symbolizes\n"
+    "strength of will.");

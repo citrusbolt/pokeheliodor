@@ -3244,7 +3244,7 @@ const struct Item gItems[] =
 
     [ITEM_WAILMER_PAIL] =
     {
-        .name = _("Watering Can"),
+        .name = _("WAILMER Pail"),
         .itemId = ITEM_WAILMER_PAIL,
         .price = 0,
         .description = sWailmerPailDesc,
@@ -4450,19 +4450,393 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
+// Diamond/Pearl
 
-// "Ghost" key items - will appear in the bag, but are not actually obtainable
-
-    [ITEM_POWER_PAD] =
+    [ITEM_DUSK_BALL] =
     {
-        .name = _("Power Pad"),
-        .itemId = ITEM_POWER_PAD,
-        .price = 0,
-        .description = sPowerPadDesc,
-        .pocket = POCKET_KEY_ITEMS,
-        .type = ITEM_USE_FIELD,
-        .fieldUseFunc = ItemUseOutOfBattle_PowerPad,
+        .name = _("Dusk Ball"),
+        .itemId = ITEM_DUSK_BALL,
+        .price = 1000,
+        .description = sDuskBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_DUSK,
     },
+
+    [ITEM_HEAL_BALL] =
+    {
+        .name = _("Heal Ball"),
+        .itemId = ITEM_HEAL_BALL,
+        .price = 300,
+        .description = sHealBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HEAL,
+    },
+
+    [ITEM_QUICK_BALL] =
+    {
+        .name = _("Quick Ball"),
+        .itemId = ITEM_QUICK_BALL,
+        .price = 1000,
+        .description = sQuickBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_QUICK,
+    },
+
+    [ITEM_CHERISH_BALL] =
+    {
+        .name = _("Cherish Ball"),
+        .itemId = ITEM_CHERISH_BALL,
+        .price = 0,
+        .description = sCherishBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_CHERISH,
+    },
+
+    [ITEM_HONEY] =
+    {
+        .name = _("Honey"),
+        .itemId = ITEM_HONEY,
+        .price = 300,
+        .description = sHoneyDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_GROWTH_MULCH] =
+    {
+        .name = _("Growth Mulch"),
+        .itemId = ITEM_GROWTH_MULCH,
+        .price = 200,
+        .description = sGrowthMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_DAMP_MULCH] =
+    {
+        .name = _("Damp Mulch"),
+        .itemId = ITEM_DAMP_MULCH,
+        .price = 200,
+        .description = sDampMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_STABLE_MULCH] =
+    {
+        .name = _("Stable Mulch"),
+        .itemId = ITEM_STABLE_MULCH,
+        .price = 200,
+        .description = sStableMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_GOOEY_MULCH] =
+    {
+        .name = _("Gooey Mulch"),
+        .itemId = ITEM_GOOEY_MULCH,
+        .price = 200,
+        .description = sGooeyMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_POKE_RADAR] =
+    {
+        .name = _("Poké Radar"),
+        .itemId = ITEM_POKE_RADAR,
+        .price = 0,
+        .description = sPokeRadarDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_POINT_CARD] =
+    {
+        .name = _("Point Card"),
+        .itemId = ITEM_POINT_CARD,
+        .price = 0,
+        .description = sPointCardDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_JOURNAL] =
+    {
+        .name = _("Journal"),
+        .itemId = ITEM_JOURNAL,
+        .price = 0,
+        .description = sJournalDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_PAL_PAD] =
+    {
+        .name = _("Pal Pad"),
+        .itemId = ITEM_PAL_PAD,
+        .price = 0,
+        .description = sPalPadDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+// Platinum
+
+    [ITEM_VS_RECORDER] =
+    {
+        .name = _("Vs. Recorder"),
+        .itemId = ITEM_VS_RECORDER,
+        .price = 0,
+        .description = sVsRecorderDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+// HeartGold/SoulSilver
+
+    [ITEM_APRICORN_BOX] =
+    {
+        .name = _("Apricorn Box"),
+        .itemId = ITEM_APRICORN_BOX,
+        .price = 0,
+        .description = sApricornBoxDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_UNOWN_REPORT] =
+    {
+        .name = _("UNOWN Report"),
+        .itemId = ITEM_UNOWN_REPORT,
+        .price = 0,
+        .description = sUnownReportDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_BERRY_POTS] =
+    {
+        .name = _("Berry Pots"),
+        .itemId = ITEM_BERRY_POTS,
+        .price = 0,
+        .description = sBerryPotsDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_FAST_BALL] =
+    {
+        .name = _("Fast Ball"),
+        .itemId = ITEM_FAST_BALL,
+        .price = 300,
+        .description = sFastBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_FAST,
+    },
+
+    [ITEM_LEVEL_BALL] =
+    {
+        .name = _("Level Ball"),
+        .itemId = ITEM_LEVEL_BALL,
+        .price = 300,
+        .description = sLevelBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_LEVEL,
+    },
+
+    [ITEM_LURE_BALL] =
+    {
+        .name = _("Lure Ball"),
+        .itemId = ITEM_LURE_BALL,
+        .price = 300,
+        .description = sLureBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_LURE,
+    },
+
+    [ITEM_HEAVY_BALL] =
+    {
+        .name = _("Heavy Ball"),
+        .itemId = ITEM_HEAVY_BALL,
+        .price = 300,
+        .description = sHeavyBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HEAVY,
+    },
+
+    [ITEM_LOVE_BALL] =
+    {
+        .name = _("Love Ball"),
+        .itemId = ITEM_LOVE_BALL,
+        .price = 300,
+        .description = sLureBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_LOVE,
+    },
+
+    [ITEM_FRIEND_BALL] =
+    {
+        .name = _("Friend Ball"),
+        .itemId = ITEM_FRIEND_BALL,
+        .price = 300,
+        .description = sFriendBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_FRIEND,
+    },
+
+    [ITEM_MOON_BALL] =
+    {
+        .name = _("Moon Ball"),
+        .itemId = ITEM_MOON_BALL,
+        .price = 300,
+        .description = sMoonBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_MOON,
+    },
+
+    [ITEM_SPORT_BALL] =
+    {
+        .name = _("Sport Ball"),
+        .itemId = ITEM_SPORT_BALL,
+        .price = 300,
+        .description = sSportBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_SPORT,
+    },
+
+    [ITEM_PARK_BALL] =
+    {
+        .name = _("Park Ball"),
+        .itemId = ITEM_PARK_BALL,
+        .price = 0,
+        .description = sParkBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_PARK,
+    },
+
+    [ITEM_GB_SOUNDS] =
+    {
+        .name = _("GB Sounds"),
+        .itemId = ITEM_GB_SOUNDS,
+        .price = 0,
+        .description = sGBSoundsDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_JADE_ORB] =
+    {
+        .name = _("Jade Orb"),
+        .itemId = ITEM_JADE_ORB,
+        .price = 0,
+        .description = sJadeOrbDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+// Black/White
+
+    [ITEM_DREAM_BALL] =
+    {
+        .name = _("Dream Ball"),
+        .itemId = ITEM_DREAM_BALL,
+        .price = 0,
+        .description = sDreamBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_DREAM,
+    },
+
+// Black 2/White 2
+
+	[ITEM_MEDAL_BOX] =
+    {
+        .name = _("Medal Box"),
+        .itemId = ITEM_MEDAL_BOX,
+        .price = 0,
+        .description = sMedalBoxDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
 	[ITEM_OVAL_CHARM] =
     {
         .name = _("Oval Charm"),
@@ -4473,6 +4847,7 @@ const struct Item gItems[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
+
     [ITEM_SHINY_CHARM] =
     {
         .name = _("Shiny Charm"),
@@ -4483,9 +4858,198 @@ const struct Item gItems[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
+
+// X/Y
+
+    [ITEM_ADVENTURE_GUIDE] =
+    {
+        .name = _("Adventure Guide"),
+        .itemId = ITEM_ADVENTURE_GUIDE,
+        .price = 0,
+        .description = sAdventureGuideDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_RICH_MULCH] =
+    {
+        .name = _("Rich Mulch"),
+        .itemId = ITEM_RICH_MULCH,
+        .price = 200,
+        .description = sRichMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SURPRISE_MULCH] =
+    {
+        .name = _("Suprise Mulch"),
+        .itemId = ITEM_SURPRISE_MULCH,
+        .price = 200,
+        .description = sSurpriseMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_BOOST_MULCH] =
+    {
+        .name = _("Boost Mulch"),
+        .itemId = ITEM_BOOST_MULCH,
+        .price = 200,
+        .description = sBoostMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_AMAZE_MULCH] =
+    {
+        .name = _("Amaze Mulch"),
+        .itemId = ITEM_AMAZE_MULCH,
+        .price = 200,
+        .description = sAmazeMulchDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+// Sun/Moon
+
+    [ITEM_BEAST_BALL] =
+    {
+        .name = _("Beast Ball"),
+        .itemId = ITEM_BEAST_BALL,
+        .price = 1000,
+        .description = sBeastBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_BEAST,
+    },
+
+// Let's Go, Pikachu!/Let's Go, Eevee!
+
+    [ITEM_CLOTHING_TRUNK] =
+    {
+        .name = _("Clothing Trunk"),
+        .itemId = ITEM_CLOTHING_TRUNK,
+        .price = 0,
+        .description = sClothingTrunkDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_LURE] =
+    {
+        .name = _("Lure"),
+        .itemId = ITEM_LURE,
+        .price = 400,
+        .description = sLureDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SUPER_LURE] =
+    {
+        .name = _("Super Lure"),
+        .itemId = ITEM_SUPER_LURE,
+        .price = 700,
+        .description = sSuperLureDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_MAX_LURE] =
+    {
+        .name = _("Max Lure"),
+        .itemId = ITEM_MAX_LURE,
+        .price = 900,
+        .description = sMaxLureDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+// Sword/Shield
+
+    [ITEM_EXP_CANDY_XS] =
+    {
+        .name = _("Exp. Candy XS"),
+        .itemId = ITEM_EXP_CANDY_XS,
+        .price = 600,
+        .description = sExpCandyXSDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_EXP_CANDY_S] =
+    {
+        .name = _("Exp. Candy S"),
+        .itemId = ITEM_EXP_CANDY_S,
+        .price = 1600,
+        .description = sExpCandySDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_EXP_CANDY_M] =
+    {
+        .name = _("Exp. Candy M"),
+        .itemId = ITEM_EXP_CANDY_M,
+        .price = 6000,
+        .description = sExpCandyMDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_EXP_CANDY_L] =
+    {
+        .name = _("Exp. Candy L"),
+        .itemId = ITEM_EXP_CANDY_L,
+        .price = 18000,
+        .description = sExpCandyLDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_EXP_CANDY_XL] =
+    {
+        .name = _("Exp. Candy XL"),
+        .itemId = ITEM_EXP_CANDY_XL,
+        .price = 50000,
+        .description = sExpCandyXLDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
     [ITEM_CATCHING_CHARM] =
     {
-        .name = _("Catch Charm"),
+        .name = _("Catching Charm"),
         .itemId = ITEM_CATCHING_CHARM,
         .price = 0,
         .description = sCatchingCharmDesc,
@@ -4493,12 +5057,205 @@ const struct Item gItems[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
+
+// Isle of Armor
+
     [ITEM_EXP_CHARM] =
     {
         .name = _("Exp. Charm"),
         .itemId = ITEM_EXP_CHARM,
         .price = 0,
         .description = sExpCharmDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+// Legends: Arceus
+
+    [ITEM_HISUI_POKE_BALL] =
+    {
+        .name = _("Old Poké Ball"),
+        .itemId = ITEM_HISUI_POKE_BALL,
+        .price = 100,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_POKE,
+    },
+
+    [ITEM_HISUI_GREAT_BALL] =
+    {
+        .name = _("Old Great Ball"),
+        .itemId = ITEM_HISUI_POKE_BALL,
+        .price = 300,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_GREAT,
+    },
+
+    [ITEM_HISUI_ULTRA_BALL] =
+    {
+        .name = _("Old Ultra Ball"),
+        .itemId = ITEM_HISUI_POKE_BALL,
+        .price = 600,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_ULTRA,
+    },
+
+    [ITEM_HISUI_FEATHER_BALL] =
+    {
+        .name = _("Feather Ball"),
+        .itemId = ITEM_HISUI_FEATHER_BALL,
+        .price = 140,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_FEATHER,
+    },
+
+    [ITEM_HISUI_WING_BALL] =
+    {
+        .name = _("Wing Ball"),
+        .itemId = ITEM_HISUI_WING_BALL,
+        .price = 340,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_WING,
+    },
+
+    [ITEM_HISUI_JET_BALL] =
+    {
+        .name = _("Jet Ball"),
+        .itemId = ITEM_HISUI_JET_BALL,
+        .price = 680,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_JET,
+    },
+
+    [ITEM_HISUI_HEAVY_BALL] =
+    {
+        .name = _("Old Heavy Ball"),
+        .itemId = ITEM_HISUI_HEAVY_BALL,
+        .price = 120,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_HEAVY,
+    },
+
+    [ITEM_HISUI_LEADEN_BALL] =
+    {
+        .name = _("Leaden Ball"),
+        .itemId = ITEM_HISUI_LEADEN_BALL,
+        .price = 320,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_LEADEN,
+    },
+
+    [ITEM_HISUI_GIGATON_BALL] =
+    {
+        .name = _("Gigaton Ball"),
+        .itemId = ITEM_HISUI_GIGATON_BALL,
+        .price = 640,
+        .description = sHisuiPokeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_GIGATON,
+    },
+
+    [ITEM_HISUI_ORIGIN_BALL] =
+    {
+        .name = _("Origin Ball"),
+        .itemId = ITEM_HISUI_ORIGIN_BALL,
+        .price = 0,
+        .description = sHisuiOriginBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_HISUI_ORIGIN,
+    },
+
+    [ITEM_STRANGE_BALL] =
+    {
+        .name = _("Strange Ball"),
+        .itemId = ITEM_STRANGE_BALL,
+        .price = 0,
+        .description = sStrangeBallDesc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeBall,
+        .secondaryId = BALL_STRANGE,
+    },
+
+// Heliodor Set 1
+    [ITEM_POWER_PAD] =
+    {
+        .name = _("Power Pad"),
+        .itemId = ITEM_POWER_PAD,
+        .price = 0,
+        .description = sPowerPadDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_PowerPad,
+    },
+
+    [ITEM_MAIL_CASE] =
+    {
+        .name = _("Mail Case"),
+        .itemId = ITEM_MAIL_CASE,
+        .price = 0,
+        .description = sMailCaseDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_EMERALD] =
+    {
+        .name = _("Emerald"),
+        .itemId = ITEM_EMERALD,
+        .price = 0,
+        .description = sEmeraldDesc,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,

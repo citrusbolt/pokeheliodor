@@ -476,16 +476,95 @@
 #define ITEM_MAGMA_EMBLEM 375
 #define ITEM_OLD_SEA_MAP 376
 
-// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
-#define ITEM_POWER_PAD 377
-#define ITEM_OVAL_CHARM 378
-#define ITEM_SHINY_CHARM 379
-#define ITEM_CATCHING_CHARM 380
-#define ITEM_EXP_CHARM 381
+// Diamond/Pearl
+#define ITEM_DUSK_BALL 377
+#define ITEM_HEAL_BALL 378
+#define ITEM_QUICK_BALL 379
+#define ITEM_CHERISH_BALL 380
+#define ITEM_HONEY 381
+#define ITEM_GROWTH_MULCH 382
+#define ITEM_DAMP_MULCH 383
+#define ITEM_STABLE_MULCH 384
+#define ITEM_GOOEY_MULCH 385
+#define ITEM_POKE_RADAR 386
+#define ITEM_POINT_CARD 387
+#define ITEM_JOURNAL 388
+#define ITEM_PAL_PAD 389
 
+// Platinum
+#define ITEM_VS_RECORDER 390
 
+// HeartGold/SoulSilver
+#define ITEM_APRICORN_BOX 391
+#define ITEM_UNOWN_REPORT 392
+#define ITEM_BERRY_POTS 393
+#define ITEM_FAST_BALL 394
+#define ITEM_LEVEL_BALL 395
+#define ITEM_LURE_BALL 396
+#define ITEM_HEAVY_BALL 397
+#define ITEM_LOVE_BALL 398
+#define ITEM_FRIEND_BALL 399
+#define ITEM_MOON_BALL 400
+#define ITEM_SPORT_BALL 401
+#define ITEM_PARK_BALL 402
+#define ITEM_GB_SOUNDS 403
+#define ITEM_JADE_ORB 404
 
-#define ITEMS_COUNT 382
+// Black/White
+#define ITEM_DREAM_BALL 405
+
+// Black 2/White 2
+#define ITEM_MEDAL_BOX 406
+#define ITEM_OVAL_CHARM 407
+#define ITEM_SHINY_CHARM 408
+
+// X/Y
+#define ITEM_ADVENTURE_GUIDE 409
+#define ITEM_RICH_MULCH 410
+#define ITEM_SURPRISE_MULCH 411
+#define ITEM_BOOST_MULCH 412
+#define ITEM_AMAZE_MULCH 413
+
+// Sun/Moon
+#define ITEM_BEAST_BALL 414
+
+// Let's Go, Pikachu!/Let's Go, Eevee!
+#define ITEM_CLOTHING_TRUNK 415
+#define ITEM_LURE 416
+#define ITEM_SUPER_LURE 417
+#define ITEM_MAX_LURE 418
+
+// Sword/Shield
+#define ITEM_EXP_CANDY_XS 419
+#define ITEM_EXP_CANDY_S 420
+#define ITEM_EXP_CANDY_M 421
+#define ITEM_EXP_CANDY_L 422
+#define ITEM_EXP_CANDY_XL 423
+#define ITEM_CATCHING_CHARM 424
+
+// Isle of Armor
+#define ITEM_EXP_CHARM 425
+
+// Legends: Arceus
+#define ITEM_HISUI_POKE_BALL 426
+#define ITEM_HISUI_GREAT_BALL 427
+#define ITEM_HISUI_ULTRA_BALL 428
+#define ITEM_HISUI_FEATHER_BALL 429
+#define ITEM_HISUI_WING_BALL 430
+#define ITEM_HISUI_JET_BALL 431
+#define ITEM_HISUI_HEAVY_BALL 432
+#define ITEM_HISUI_LEADEN_BALL 433
+#define ITEM_HISUI_GIGATON_BALL 434
+#define ITEM_HISUI_ORIGIN_BALL 435
+#define ITEM_STRANGE_BALL 436
+
+// Heliodor Set 1
+#define ITEM_POWER_PAD 437
+#define ITEM_MAIL_CASE 438
+#define ITEM_EMERALD 439
+
+#define ITEMS_COUNT 440
+
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations
 // Its icon is defined at ITEMS_COUNT as the "return to field" arrow

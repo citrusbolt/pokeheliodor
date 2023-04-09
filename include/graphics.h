@@ -3982,6 +3982,130 @@ extern const u32 gItemIcon_MagmaEmblem[];
 extern const u32 gItemIconPalette_MagmaEmblem[];
 extern const u32 gItemIcon_OldSeaMap[];
 extern const u32 gItemIconPalette_OldSeaMap[];
+// Diamond Pearl
+extern const u32 gItemIcon_DuskBall[];
+extern const u32 gItemIconPalette_DuskBall[];
+extern const u32 gItemIcon_HealBall[];
+extern const u32 gItemIconPalette_HealBall[];
+extern const u32 gItemIcon_QuickBall[];
+extern const u32 gItemIconPalette_QuickBall[];
+extern const u32 gItemIcon_CherishBall[];
+extern const u32 gItemIconPalette_CherishBall[];
+extern const u32 gItemIcon_Honey[];
+extern const u32 gItemIconPalette_Honey[];
+extern const u32 gItemIcon_Mulch[];
+extern const u32 gItemIconPalette_GrowthMulch[];
+extern const u32 gItemIconPalette_DampMulch[];
+extern const u32 gItemIcon_StableMulch[];
+extern const u32 gItemIconPalette_StableMulch[];
+extern const u32 gItemIconPalette_GooeyMulch[];
+extern const u32 gItemIcon_PokeRadar[];
+extern const u32 gItemIconPalette_PokeRadar[];
+extern const u32 gItemIcon_PointCard[];
+extern const u32 gItemIconPalette_PointCard[];
+extern const u32 gItemIcon_Journal[];
+extern const u32 gItemIconPalette_Journal[];
+extern const u32 gItemIcon_PalPad[];
+extern const u32 gItemIconPalette_PalPad[];
+// Platinum
+extern const u32 gItemIcon_VsRecorder[];
+extern const u32 gItemIconPalette_VsRecorder[];
+// HeartGold/SoulSilver
+extern const u32 gItemIcon_ApricornBox[];
+extern const u32 gItemIconPalette_ApricornBox[];
+extern const u32 gItemIcon_UnownReport[];
+extern const u32 gItemIconPalette_UnownReport[];
+extern const u32 gItemIcon_BerryPots[];
+extern const u32 gItemIconPalette_BerryPots[];
+extern const u32 gItemIcon_FastBall[];
+extern const u32 gItemIconPalette_FastBall[];
+extern const u32 gItemIcon_LevelBall[];
+extern const u32 gItemIconPalette_LevelBall[];
+extern const u32 gItemIcon_LureBall[];
+extern const u32 gItemIconPalette_LureBall[];
+extern const u32 gItemIcon_HeavyBall[];
+extern const u32 gItemIconPalette_HeavyBall[];
+extern const u32 gItemIcon_LoveBall[];
+extern const u32 gItemIconPalette_LoveBall[];
+extern const u32 gItemIcon_FriendBall[];
+extern const u32 gItemIconPalette_FriendBall[];
+extern const u32 gItemIcon_MoonBall[];
+extern const u32 gItemIconPalette_MoonBall[];
+extern const u32 gItemIcon_SportBall[];
+extern const u32 gItemIconPalette_SportBall[];
+extern const u32 gItemIcon_ParkBall[];
+extern const u32 gItemIconPalette_ParkBall[];
+extern const u32 gItemIcon_GBSounds[];
+extern const u32 gItemIconPalette_GBSounds[];
+extern const u32 gItemIconPalette_JadeOrb[];
+// Black/White
+extern const u32 gItemIcon_DreamBall[];
+extern const u32 gItemIconPalette_DreamBall[];
+// Black 2/White 2
+extern const u32 gItemIcon_MedalBox[];
+extern const u32 gItemIconPalette_MedalBox[];
+extern const u32 gItemIcon_OvalCharm[];
+extern const u32 gItemIconPalette_OvalCharm[];
+extern const u32 gItemIcon_ShinyCharm[];
+extern const u32 gItemIconPalette_ShinyCharm[];
+// X/Y
+extern const u32 gItemIcon_AdventureGuide[];
+extern const u32 gItemIconPalette_AdventureGuide[];
+extern const u32 gItemIconPalette_RichMulch[];
+extern const u32 gItemIconPalette_SurpriseMulch[];
+extern const u32 gItemIconPalette_BoostMulch[];
+extern const u32 gItemIconPalette_AmazeMulch[];
+// Sun/Moon
+extern const u32 gItemIcon_BeastBall[];
+extern const u32 gItemIconPalette_BeastBall[];
+// Let's Go, Pikachu!/Let's Go, Eevee!
+extern const u32 gItemIcon_ClothingTrunk[];
+extern const u32 gItemIconPalette_ClothingTrunk[];
+extern const u32 gItemIcon_Lure[];
+extern const u32 gItemIconPalette_Lure[];
+extern const u32 gItemIconPalette_SuperLure[];
+extern const u32 gItemIconPalette_MaxLure[];
+// Sword/Shield
+extern const u32 gItemIcon_ExpCandyXS[];
+extern const u32 gItemIcon_ExpCandyS[];
+extern const u32 gItemIcon_ExpCandyM[];
+extern const u32 gItemIcon_ExpCandyL[];
+extern const u32 gItemIcon_ExpCandyXL[];
+extern const u32 gItemIconPalette_ExpCandies[];
+extern const u32 gItemIcon_CatchingCharm[];
+extern const u32 gItemIconPalette_CatchingCharm[];
+// Isle of Armor
+extern const u32 gItemIcon_ExpCharm[];
+extern const u32 gItemIconPalette_ExpCharm[];
+// Legends: Arceus
+extern const u32 gItemIcon_HisuiPokeBall[];
+extern const u32 gItemIconPalette_HisuiPokeBall[];
+extern const u32 gItemIcon_HisuiGreatBall[];
+extern const u32 gItemIconPalette_HisuiGreatBall[];
+extern const u32 gItemIcon_HisuiUltraBall[];
+extern const u32 gItemIconPalette_HisuiUltraBall[];
+extern const u32 gItemIcon_HisuiFeatherBall[];
+extern const u32 gItemIconPalette_HisuiFeatherBall[];
+extern const u32 gItemIcon_HisuiWingBall[];
+extern const u32 gItemIconPalette_HisuiWingBall[];
+extern const u32 gItemIcon_HisuiJetBall[];
+extern const u32 gItemIconPalette_HisuiJetBall[];
+extern const u32 gItemIcon_HisuiHeavyBall[];
+extern const u32 gItemIconPalette_HisuiHeavyBall[];
+extern const u32 gItemIcon_HisuiLeadenBall[];
+extern const u32 gItemIconPalette_HisuiLeadenBall[];
+extern const u32 gItemIcon_HisuiGigatonBall[];
+extern const u32 gItemIconPalette_HisuiGigatonBall[];
+extern const u32 gItemIcon_HisuiOriginBall[];
+extern const u32 gItemIconPalette_HisuiOriginBall[];
+extern const u32 gItemIcon_StrangeBall[];
+extern const u32 gItemIconPalette_StrangeBall[];
+// Heliodor Set 1
+extern const u32 gItemIcon_PowerPad[];
+extern const u32 gItemIconPalette_PowerPad[];
+extern const u32 gItemIcon_MailCase[];
+extern const u32 gItemIconPalette_MailCase[];
+extern const u32 gItemIconPalette_Emerald[];
 
 extern const u32 gItemIcon_ReturnToFieldArrow[];
 extern const u32 gItemIconPalette_ReturnToFieldArrow[];
@@ -5244,18 +5368,6 @@ extern const u32 gMonPalette_Egg_Dragon1[];
 extern const u32 gMonPalette_Egg_Dragon2[];
 extern const u32 gMonPalette_Egg_Dark1[];
 extern const u32 gMonPalette_Egg_Dark2[];
-
-// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
-extern const u32 gItemIcon_PowerPad[];
-extern const u32 gItemIconPalette_PowerPad[];
-extern const u32 gItemIcon_OvalCharm[];
-extern const u32 gItemIconPalette_OvalCharm[];
-extern const u32 gItemIcon_ShinyCharm[];
-extern const u32 gItemIconPalette_ShinyCharm[];
-extern const u32 gItemIcon_CatchingCharm[];
-extern const u32 gItemIconPalette_CatchingCharm[];
-extern const u32 gItemIcon_ExpCharm[];
-extern const u32 gItemIconPalette_ExpCharm[];
 
 // Poké Ball Summary Icons
 extern const u32 gBallIcon_Poke[];

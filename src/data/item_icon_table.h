@@ -401,12 +401,81 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     // Emerald-only key items
     [ITEM_MAGMA_EMBLEM] = {gItemIcon_MagmaEmblem, gItemIconPalette_MagmaEmblem},
     [ITEM_OLD_SEA_MAP] = {gItemIcon_OldSeaMap, gItemIconPalette_OldSeaMap},
-	// "Ghost" Key Items - Will appear in the Bag, but are not actually obtainable
-    [ITEM_POWER_PAD] = {gItemIcon_PowerPad, gItemIconPalette_PowerPad},
+    // Diamond/Pearl
+    [ITEM_DUSK_BALL] = {gItemIcon_DuskBall, gItemIconPalette_DuskBall},
+    [ITEM_HEAL_BALL] = {gItemIcon_HealBall, gItemIconPalette_HealBall},
+    [ITEM_QUICK_BALL] = {gItemIcon_QuickBall, gItemIconPalette_QuickBall},
+    [ITEM_CHERISH_BALL] = {gItemIcon_CherishBall, gItemIconPalette_CherishBall},
+    [ITEM_HONEY] = {gItemIcon_Honey, gItemIconPalette_Honey},
+    [ITEM_GROWTH_MULCH] = {gItemIcon_Mulch, gItemIconPalette_GrowthMulch},
+    [ITEM_DAMP_MULCH] = {gItemIcon_Mulch, gItemIconPalette_DampMulch},
+    [ITEM_STABLE_MULCH] = {gItemIcon_StableMulch, gItemIconPalette_StableMulch},
+    [ITEM_GOOEY_MULCH] = {gItemIcon_Mulch, gItemIconPalette_GooeyMulch},
+    [ITEM_POKE_RADAR] = {gItemIcon_PokeRadar, gItemIconPalette_PokeRadar},
+    [ITEM_POINT_CARD] = {gItemIcon_PointCard, gItemIconPalette_PointCard},
+    [ITEM_JOURNAL] = {gItemIcon_Journal, gItemIconPalette_Journal},
+    [ITEM_PAL_PAD] = {gItemIcon_PalPad, gItemIconPalette_PalPad},
+    // Platinum
+    [ITEM_VS_RECORDER] = {gItemIcon_VsRecorder, gItemIconPalette_VsRecorder},
+    // HeartGold/SoulSilver
+    [ITEM_APRICORN_BOX] = {gItemIcon_ApricornBox, gItemIconPalette_ApricornBox},
+    [ITEM_UNOWN_REPORT] = {gItemIcon_UnownReport, gItemIconPalette_UnownReport},
+    [ITEM_BERRY_POTS] = {gItemIcon_BerryPots, gItemIconPalette_BerryPots},
+    [ITEM_FAST_BALL] = {gItemIcon_FastBall, gItemIconPalette_FastBall},
+    [ITEM_LEVEL_BALL] = {gItemIcon_LevelBall, gItemIconPalette_LevelBall},
+    [ITEM_LURE_BALL] = {gItemIcon_LureBall, gItemIconPalette_LureBall},
+    [ITEM_HEAVY_BALL] = {gItemIcon_HeavyBall, gItemIconPalette_HeavyBall},
+    [ITEM_LOVE_BALL] = {gItemIcon_LoveBall, gItemIconPalette_LoveBall},
+    [ITEM_FRIEND_BALL] = {gItemIcon_FriendBall, gItemIconPalette_FriendBall},
+    [ITEM_MOON_BALL] = {gItemIcon_MoonBall, gItemIconPalette_MoonBall},
+    [ITEM_SPORT_BALL] = {gItemIcon_SportBall, gItemIconPalette_SportBall},
+    [ITEM_PARK_BALL] = {gItemIcon_ParkBall, gItemIconPalette_ParkBall},
+    [ITEM_GB_SOUNDS] = {gItemIcon_GBSounds, gItemIconPalette_GBSounds},
+    [ITEM_JADE_ORB] = {gItemIcon_Orb, gItemIconPalette_JadeOrb},
+    // Black/White
+    [ITEM_DREAM_BALL] = {gItemIcon_DreamBall, gItemIconPalette_DreamBall},
+    // Black 2/White 2
+    [ITEM_MEDAL_BOX] = {gItemIcon_MedalBox, gItemIconPalette_MedalBox},
     [ITEM_OVAL_CHARM] = {gItemIcon_OvalCharm, gItemIconPalette_OvalCharm},
     [ITEM_SHINY_CHARM] = {gItemIcon_ShinyCharm, gItemIconPalette_ShinyCharm},
+    // X/Y
+    [ITEM_ADVENTURE_GUIDE] = {gItemIcon_AdventureGuide, gItemIconPalette_AdventureGuide},
+    [ITEM_RICH_MULCH] = {gItemIcon_Mulch, gItemIconPalette_RichMulch},
+    [ITEM_SURPRISE_MULCH] = {gItemIcon_Mulch, gItemIconPalette_SurpriseMulch},
+    [ITEM_BOOST_MULCH] = {gItemIcon_Mulch, gItemIconPalette_BoostMulch},
+    [ITEM_AMAZE_MULCH] = {gItemIcon_Mulch, gItemIconPalette_AmazeMulch},
+    // Sun/Moon
+    [ITEM_BEAST_BALL] = {gItemIcon_BeastBall, gItemIconPalette_BeastBall},
+    // Let's Go, Pikachu!/Let's Go, Eevee!
+    [ITEM_CLOTHING_TRUNK] = {gItemIcon_ClothingTrunk, gItemIconPalette_ClothingTrunk},
+    [ITEM_LURE] = {gItemIcon_Lure, gItemIconPalette_Lure},
+    [ITEM_SUPER_LURE] = {gItemIcon_Lure, gItemIconPalette_SuperLure},
+    [ITEM_MAX_LURE] = {gItemIcon_Lure, gItemIconPalette_MaxLure},
+    // Sword/Shield
+    [ITEM_EXP_CANDY_XS] = {gItemIcon_ExpCandyXS, gItemIconPalette_ExpCandies},
+    [ITEM_EXP_CANDY_S] = {gItemIcon_ExpCandyS, gItemIconPalette_ExpCandies},
+    [ITEM_EXP_CANDY_M] = {gItemIcon_ExpCandyM, gItemIconPalette_ExpCandies},
+    [ITEM_EXP_CANDY_L] = {gItemIcon_ExpCandyL, gItemIconPalette_ExpCandies},
+    [ITEM_EXP_CANDY_XL] = {gItemIcon_ExpCandyXL, gItemIconPalette_ExpCandies},
     [ITEM_CATCHING_CHARM] = {gItemIcon_CatchingCharm, gItemIconPalette_CatchingCharm},
+    // Isle of Armor
     [ITEM_EXP_CHARM] = {gItemIcon_ExpCharm, gItemIconPalette_ExpCharm},
+    // Legends: Arceus
+    [ITEM_HISUI_POKE_BALL] = {gItemIcon_HisuiPokeBall, gItemIconPalette_HisuiPokeBall},
+    [ITEM_HISUI_GREAT_BALL] = {gItemIcon_HisuiGreatBall, gItemIconPalette_HisuiGreatBall},
+    [ITEM_HISUI_ULTRA_BALL] = {gItemIcon_HisuiUltraBall, gItemIconPalette_HisuiUltraBall},
+    [ITEM_HISUI_FEATHER_BALL] = {gItemIcon_HisuiFeatherBall, gItemIconPalette_HisuiFeatherBall},
+    [ITEM_HISUI_WING_BALL] = {gItemIcon_HisuiWingBall, gItemIconPalette_HisuiWingBall},
+    [ITEM_HISUI_JET_BALL] = {gItemIcon_HisuiJetBall, gItemIconPalette_HisuiJetBall},
+    [ITEM_HISUI_HEAVY_BALL] = {gItemIcon_HisuiHeavyBall, gItemIconPalette_HisuiHeavyBall},
+    [ITEM_HISUI_LEADEN_BALL] = {gItemIcon_HisuiLeadenBall, gItemIconPalette_HisuiLeadenBall},
+    [ITEM_HISUI_GIGATON_BALL] = {gItemIcon_HisuiGigatonBall, gItemIconPalette_HisuiGigatonBall},
+    [ITEM_HISUI_ORIGIN_BALL] = {gItemIcon_HisuiOriginBall, gItemIconPalette_HisuiOriginBall},
+    [ITEM_STRANGE_BALL] = {gItemIcon_StrangeBall, gItemIconPalette_StrangeBall},
+    // Heliodor Set 1
+    [ITEM_POWER_PAD] = {gItemIcon_PowerPad, gItemIconPalette_PowerPad},
+    [ITEM_MAIL_CASE] = {gItemIcon_MailCase, gItemIconPalette_MailCase},
+    [ITEM_EMERALD] = {gItemIcon_Gem, gItemIconPalette_Emerald},
     // Return to field arrow
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };
