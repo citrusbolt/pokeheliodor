@@ -143,7 +143,7 @@ const u8 gText_SelectorArrow[] = _("▶");
 const u8 gText_WelcomeToHOF[] = _("Welcome to the Hall of Fame!");
 const u8 gText_HOFDexRating[] = _("Spotted Pokémon: {STR_VAR_1}!\nOwned Pokémon: {STR_VAR_2}!\pProf. Birch's Pokédex rating!\pProf. Birch: Let's see…\p");
 const u8 gText_HOFDexSaving[] = _("Saving…\nDon't turn off the power.");
-const u8 gText_HOFCorrupted[] = _("The Hakk of Fame data is corrupted.");
+const u8 gText_HOFCorrupted[] = _("The Hall of Fame data is corrupted.");
 const u8 gText_HOFNumber[] = _("Hall of Fame No. {STR_VAR_1}");
 const u8 gText_LeagueChamp[] = _("League Champion!\nCongratulations!");
 const u8 gText_Number[] = _("No. ");
@@ -157,6 +157,8 @@ const u8 gMenuText_Use[] = _("USE");
 const u8 gMenuText_Toss[] = _("TOSS");
 const u8 gMenuText_Register[] = _("REGISTER");
 const u8 gMenuText_Give[] = _("GIVE");
+const u8 gMenuText_MoveToFreeSpace[] = _("MOVE TO FREE SPACE");
+const u8 gMenuText_ReturnToPocket[] = _("RETURN TO POCKET");
 const u8 gMenuText_CheckTag[] = _("CHECK TAG");
 const u8 gMenuText_Confirm[] = _("CONFIRM");
 const u8 gMenuText_Walk[] = _("WALK");
@@ -205,7 +207,7 @@ const u8 gText_TooImportantToToss[] = _("That's much too\nimportant to toss\nout
 const u8 gText_TossHowManyVar1s[] = _("Toss out how many\n{STR_VAR_1}(s)?");
 const u8 gText_ThrewAwayVar2Var1s[] = _("Threw away {STR_VAR_2}\n{STR_VAR_1}(s).");
 const u8 gText_ConfirmTossItems[] = _("Is it okay to\nthrow away {STR_VAR_2}\n{STR_VAR_1}(s)?");
-const u8 gText_DadsAdvice[] = _("DAD's advice…\n{PLAYER}, there's a time and place for\leverything!{PAUSE_UNTIL_PRESS}");
+const u8 gText_DadsAdvice[] = _("Dad's advice…\n{PLAYER}, there's a time and place for\leverything!{PAUSE_UNTIL_PRESS}");
 const u8 gText_CantDismountBike[] = _("You can't dismount your Bike here.{PAUSE_UNTIL_PRESS}");
 const u8 gText_ItemFinderNearby[] = _("Huh?\nThe Dowsing Machine's responding!\pThere's an item buried around here!{PAUSE_UNTIL_PRESS}");
 const u8 gText_ItemFinderOnTop[] = _("Oh!\nThe Dowsing Machine's shaking wildly!{PAUSE_UNTIL_PRESS}");
@@ -252,18 +254,28 @@ const u8 *const gPyramidBagMenu_ReturnToStrings[] =
 
 const u8 gText_ReturnToVar1[] = _("Return to\n{STR_VAR_1}.");
 const u8 gText_ItemsPocket[] = _("ITEMS");
+const u8 gText_MedicinePocket[] = _("MEDICINE");
 const u8 gText_PokeBallsPocket[] = _("POKé BALLS");
+const u8 gText_BattleItemsPocket[] = _("BATTLE");
+const u8 gText_TreasuresPocket[] = _("TREASURES");
+const u8 gText_KeyItemsPocket[] = _("KEY ITEMS");
+const u8 gText_FreeSpacePocket[] = _("FREE SPACE");
 const u8 gText_TMHMPocket[] = _("TMs & HMs");
 const u8 gText_BerriesPocket[] = _("BERRIES");
-const u8 gText_KeyItemsPocket[] = _("KEY ITEMS");
+const u8 gText_MailPocket[] = _("MAIL");
 
 const u8 *const gPocketNamesStringsTable[] =
 {
     [ITEMS_POCKET] = gText_ItemsPocket,
+    [MEDICINE_POCKET] = gText_MedicinePocket,
     [BALLS_POCKET] = gText_PokeBallsPocket,
+    [BATTLEITEMS_POCKET] = gText_BattleItemsPocket,
+    [TREASURES_POCKET] = gText_TreasuresPocket,
+    [KEYITEMS_POCKET] = gText_KeyItemsPocket,
+    [FREESPACE_POCKET] = gText_FreeSpacePocket,
     [TMHM_POCKET]  = gText_TMHMPocket,
     [BERRIES_POCKET] = gText_BerriesPocket,
-    [KEYITEMS_POCKET] = gText_KeyItemsPocket
+    [MAIL_POCKET] = gText_MailPocket
 };
 
 const u8 gText_NumberItem_TMBerry[] = _("{NO}{STR_VAR_1}{CLEAR 0x07}{STR_VAR_2}");

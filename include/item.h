@@ -34,6 +34,10 @@ struct BagPocket
 
 extern const struct Item gItems[];
 extern struct BagPocket gBagPockets[];
+extern struct ItemSlot gBagTMHMPocket[BAG_TMHM_COUNT];
+extern struct ItemSlot gBagBerriesPocket[BAG_BERRIES_COUNT];
+extern struct ItemSlot gBagMailPocket[BAG_MAIL_COUNT];
+extern struct ItemSlot gBagKeyItemsPocket[BAG_KEYITEMS_COUNT];
 
 u16 GetBagItemQuantity(u16 *quantity);
 void ApplyNewEncryptionKeyToBagItems(u32 newKey);
@@ -78,5 +82,8 @@ ItemUseFunc ItemId_GetFieldFunc(u16 itemId);
 u8 ItemId_GetBattleUsage(u16 itemId);
 ItemUseFunc ItemId_GetBattleFunc(u16 itemId);
 u8 ItemId_GetSecondaryId(u16 itemId);
+
+void SaveFakePockets(void);
+void LoadFakePockets(void);
 
 #endif // GUARD_ITEM_H

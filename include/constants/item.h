@@ -1,25 +1,32 @@
 #ifndef GUARD_ITEM_CONSTANTS_H
 #define GUARD_ITEM_CONSTANTS_H
 
+#define ITEMS_POCKET        0
+#define MEDICINE_POCKET     1
+#define BALLS_POCKET        2
+#define BATTLEITEMS_POCKET  3
+#define TREASURES_POCKET    4
+#define KEYITEMS_POCKET     5
+#define FREESPACE_POCKET    6
+
+#define TMHM_POCKET         7
+#define BERRIES_POCKET      8
+#define MAIL_POCKET         9
+
+#define POCKETS_COUNT       10
+#define REAL_POCKETS_COUNT  (FREESPACE_POCKET + 1)
+
 // These constants are used in gItems
 #define POCKET_NONE         0
-#define POCKET_ITEMS        1
-#define POCKET_POKE_BALLS   2
-#define POCKET_TM_HM        3
-#define POCKET_BERRIES      4
-#define POCKET_KEY_ITEMS    5
-#define POCKET_MEDICINE     6
-#define POCKET_MAIL         7
-#define POCKET_BATTLE_ITEMS 8
-#define POCKET_TREASURES    9
-#define POCKET_FREE_SPACE   10
-
-
-#define ITEMS_POCKET       0
-#define BALLS_POCKET       1
-#define TMHM_POCKET        2
-#define BERRIES_POCKET     3
-#define KEYITEMS_POCKET    4
-#define POCKETS_COUNT      5
+#define POCKET_ITEMS        (ITEMS_POCKET + 1)
+#define POCKET_MEDICINE     (MEDICINE_POCKET + 1)
+#define POCKET_POKE_BALLS   (BALLS_POCKET + 1)
+#define POCKET_BATTLE_ITEMS (BATTLEITEMS_POCKET + 1)
+#define POCKET_TREASURES    (TREASURES_POCKET + 1)
+#define POCKET_KEY_ITEMS    (KEYITEMS_POCKET + 1)
+#define POCKET_FREE_SPACE   (FREESPACE_POCKET + 1)
+#define POCKET_TM_HM        (TMHM_POCKET + 1)
+#define POCKET_BERRIES      (BERRIES_POCKET + 1)
+#define POCKET_MAIL         (MAIL_POCKET + 1)
 
 #endif // GUARD_ITEM_CONSTANTS_H

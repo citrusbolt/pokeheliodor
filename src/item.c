@@ -24,10 +24,90 @@ void ItemId_GetHoldEffectParam_Script();
 
 // EWRAM variables
 EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
+EWRAM_DATA struct ItemSlot gBagTMHMPocket[BAG_TMHM_COUNT] = {0};
+EWRAM_DATA struct ItemSlot gBagBerriesPocket[BAG_BERRIES_COUNT] = {0};
+EWRAM_DATA struct ItemSlot gBagMailPocket[BAG_MAIL_COUNT] = {0};
+EWRAM_DATA struct ItemSlot gBagKeyItemsPocket[BAG_KEYITEMS_COUNT] = {0};
 
 // rodata
 #include "data/text/item_descriptions.h"
 #include "data/items.h"
+
+static const u16 sKeyItems[] = {
+    ITEM_NONE,
+    ITEM_ADVENTURE_GUIDE,
+    ITEM_JOURNAL,
+    ITEM_MACH_BIKE,
+    ITEM_ACRO_BIKE,
+    ITEM_BICYCLE,
+    ITEM_OLD_ROD,
+    ITEM_GOOD_ROD,
+    ITEM_SUPER_ROD,
+    ITEM_ITEMFINDER,
+    ITEM_WAILMER_PAIL,
+    ITEM_TOWN_MAP,
+    ITEM_TM_CASE,
+    ITEM_BERRY_POUCH,
+    ITEM_MAIL_CASE,
+    ITEM_POKEBLOCK_CASE,
+    ITEM_POWER_PAD,
+    ITEM_COIN_CASE,
+    ITEM_SOOT_SACK,
+    ITEM_POWDER_JAR,
+    ITEM_VS_RECORDER,
+    ITEM_VS_SEEKER,
+    ITEM_FAME_CHECKER,
+    ITEM_POKE_RADAR,
+    ITEM_POINT_CARD,
+    ITEM_PAL_PAD,
+    ITEM_CLOTHING_TRUNK,
+    ITEM_APRICORN_BOX,
+    ITEM_BERRY_POTS,
+    ITEM_UNOWN_REPORT,
+    ITEM_GB_SOUNDS,
+    ITEM_MEDAL_BOX,
+    ITEM_LETTER,
+    ITEM_DEVON_GOODS,
+    ITEM_GO_GOGGLES,
+    ITEM_DEVON_SCOPE,
+    ITEM_BASEMENT_KEY,
+    ITEM_SCANNER,
+    ITEM_STORAGE_KEY,
+    ITEM_ROOM_1_KEY,
+    ITEM_ROOM_2_KEY,
+    ITEM_ROOM_4_KEY,
+    ITEM_ROOM_6_KEY,
+    ITEM_SECRET_KEY,
+    ITEM_LIFT_KEY,
+    ITEM_CARD_KEY,
+    ITEM_METEORITE,
+    ITEM_RED_ORB,
+    ITEM_BLUE_ORB,
+    ITEM_JADE_ORB,
+    ITEM_RUBY,
+    ITEM_SAPPHIRE,
+    ITEM_EMERALD,
+    ITEM_MAGMA_EMBLEM,
+    ITEM_OAKS_PARCEL,
+    ITEM_GOLD_TEETH,
+    ITEM_TEA,
+    ITEM_POKE_FLUTE,
+    ITEM_SILPH_SCOPE,
+    ITEM_TEACHY_TV,
+    ITEM_BIKE_VOUCHER,
+    ITEM_CONTEST_PASS,
+    ITEM_SS_TICKET,
+    ITEM_TRI_PASS,
+    ITEM_RAINBOW_PASS,
+    ITEM_EON_TICKET,
+    ITEM_MYSTIC_TICKET,
+    ITEM_AURORA_TICKET,
+    ITEM_OLD_SEA_MAP,
+    ITEM_OVAL_CHARM,
+    ITEM_SHINY_CHARM,
+    ITEM_CATCHING_CHARM,
+    ITEM_EXP_CHARM
+};
 
 // code
 u16 GetBagItemQuantity(u16 *quantity)
@@ -70,17 +150,34 @@ void SetBagItemsPointers(void)
     gBagPockets[ITEMS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_Items;
     gBagPockets[ITEMS_POCKET].capacity = BAG_ITEMS_COUNT;
 
-    gBagPockets[KEYITEMS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_KeyItems;
-    gBagPockets[KEYITEMS_POCKET].capacity = BAG_KEYITEMS_COUNT;
+    gBagPockets[MEDICINE_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_Medicine;
+    gBagPockets[MEDICINE_POCKET].capacity = BAG_MEDICINE_COUNT;
 
     gBagPockets[BALLS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_PokeBalls;
     gBagPockets[BALLS_POCKET].capacity = BAG_POKEBALLS_COUNT;
 
-    gBagPockets[TMHM_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_TMHM;
+    gBagPockets[BATTLEITEMS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_BattleItems;
+    gBagPockets[BATTLEITEMS_POCKET].capacity = BAG_BATTLEITEMS_COUNT;
+
+    gBagPockets[TREASURES_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_Treasures;
+    gBagPockets[TREASURES_POCKET].capacity = BAG_TREASURES_COUNT;
+
+    gBagPockets[FREESPACE_POCKET].itemSlots = gSaveBlock1Ptr->pcItems;
+    gBagPockets[FREESPACE_POCKET].capacity = PC_ITEMS_COUNT;
+
+    
+
+    gBagPockets[TMHM_POCKET].itemSlots = &gBagTMHMPocket[0];
     gBagPockets[TMHM_POCKET].capacity = BAG_TMHM_COUNT;
 
-    gBagPockets[BERRIES_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_Berries;
+    gBagPockets[BERRIES_POCKET].itemSlots = &gBagBerriesPocket[0];
     gBagPockets[BERRIES_POCKET].capacity = BAG_BERRIES_COUNT;
+
+    gBagPockets[MAIL_POCKET].itemSlots = &gBagMailPocket[0];
+    gBagPockets[MAIL_POCKET].capacity = BAG_MAIL_COUNT;
+
+    gBagPockets[KEYITEMS_POCKET].itemSlots = &gBagKeyItemsPocket[0];
+    gBagPockets[KEYITEMS_POCKET].capacity = BAG_KEYITEMS_COUNT;
 }
 
 void CopyItemName(u16 itemId, u8 *dst)
@@ -791,10 +888,10 @@ static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count)
     {
         if (items[i] == itemId || items[i] == ITEM_NONE)
         {
-            if (quantities[i] + count <= MAX_BAG_ITEM_CAPACITY)
+            if (quantities[i] + count <= MAX_PYRAMID_BAG_ITEM_CAPACITY)
                 return TRUE;
 
-            count = (quantities[i] + count) - MAX_BAG_ITEM_CAPACITY;
+            count = (quantities[i] + count) - MAX_PYRAMID_BAG_ITEM_CAPACITY;
             if (count == 0)
                 return TRUE;
         }
@@ -818,13 +915,13 @@ bool8 AddPyramidBagItem(u16 itemId, u16 count)
 
     for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
     {
-        if (newItems[i] == itemId && newQuantities[i] < MAX_BAG_ITEM_CAPACITY)
+        if (newItems[i] == itemId && newQuantities[i] < MAX_PYRAMID_BAG_ITEM_CAPACITY)
         {
             newQuantities[i] += count;
-            if (newQuantities[i] > MAX_BAG_ITEM_CAPACITY)
+            if (newQuantities[i] > MAX_PYRAMID_BAG_ITEM_CAPACITY)
             {
-                count = newQuantities[i] - MAX_BAG_ITEM_CAPACITY;
-                newQuantities[i] = MAX_BAG_ITEM_CAPACITY;
+                count = newQuantities[i] - MAX_PYRAMID_BAG_ITEM_CAPACITY;
+                newQuantities[i] = MAX_PYRAMID_BAG_ITEM_CAPACITY;
             }
             else
             {
@@ -844,10 +941,10 @@ bool8 AddPyramidBagItem(u16 itemId, u16 count)
             {
                 newItems[i] = itemId;
                 newQuantities[i] = count;
-                if (newQuantities[i] > MAX_BAG_ITEM_CAPACITY)
+                if (newQuantities[i] > MAX_PYRAMID_BAG_ITEM_CAPACITY)
                 {
-                    count = newQuantities[i] - MAX_BAG_ITEM_CAPACITY;
-                    newQuantities[i] = MAX_BAG_ITEM_CAPACITY;
+                    count = newQuantities[i] - MAX_PYRAMID_BAG_ITEM_CAPACITY;
+                    newQuantities[i] = MAX_PYRAMID_BAG_ITEM_CAPACITY;
                 }
                 else
                 {
@@ -1026,4 +1123,146 @@ u8 ItemId_GetSecondaryId(u16 itemId)
 void ItemId_GetHoldEffectParam_Script()
 {
     VarSet(VAR_RESULT, ItemId_GetHoldEffectParam(VarGet(VAR_0x8004)));
+}
+
+void SaveFakePockets(void)
+{
+    u32 i, j, k = 0;
+
+    for (i = 0; i < 50; i++)
+        gSaveBlock1Ptr->bagPocket_TM[i] = 0;
+
+    gSaveBlock1Ptr->bagPocket_HM01 = 0;
+    gSaveBlock1Ptr->bagPocket_HM02 = 0;
+    gSaveBlock1Ptr->bagPocket_HM03 = 0;
+    gSaveBlock1Ptr->bagPocket_HM04 = 0;
+    gSaveBlock1Ptr->bagPocket_HM05 = 0;
+    gSaveBlock1Ptr->bagPocket_HM06 = 0;
+    gSaveBlock1Ptr->bagPocket_HM07 = 0;
+    gSaveBlock1Ptr->bagPocket_HM08 = 0;
+
+    for (i = 0; i < BAG_TMHM_COUNT; i++)
+    {
+        if (gBagTMHMPocket[i].itemId >= ITEM_TM01 && gBagTMHMPocket[i].itemId <= ITEM_TM50)
+            gSaveBlock1Ptr->bagPocket_TM[gBagTMHMPocket[i].itemId - ITEM_TM01] = GetBagItemQuantity(&gBagTMHMPocket[i].quantity);
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM01)
+            gSaveBlock1Ptr->bagPocket_HM01 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM02)
+            gSaveBlock1Ptr->bagPocket_HM02 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM03)
+            gSaveBlock1Ptr->bagPocket_HM03 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM04)
+            gSaveBlock1Ptr->bagPocket_HM04 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM05)
+            gSaveBlock1Ptr->bagPocket_HM05 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM06)
+            gSaveBlock1Ptr->bagPocket_HM06 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM07)
+            gSaveBlock1Ptr->bagPocket_HM07 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM08)
+            gSaveBlock1Ptr->bagPocket_HM08 = 1;
+    }
+
+    for (i = 0; i < BAG_BERRIES_COUNT; i++)
+        gSaveBlock1Ptr->bagPocket_Berries[i] = 0;
+
+    for (i = 0; i < BAG_BERRIES_COUNT; i++)
+    {
+        if (gBagBerriesPocket[i].itemId >= FIRST_BERRY_INDEX && gBagBerriesPocket[i].itemId <= LAST_BERRY_INDEX)
+            gSaveBlock1Ptr->bagPocket_Berries[gBagBerriesPocket[i].itemId - FIRST_BERRY_INDEX] = GetBagItemQuantity(&gBagBerriesPocket[i].quantity);
+    }
+
+    for (i = 0; i < BAG_MAIL_COUNT; i++)
+        gSaveBlock1Ptr->bagPocket_Mail[i] = 0;
+
+    for (i = 0; i < BAG_MAIL_COUNT; i++)
+    {
+        if (gBagMailPocket[i].itemId >= FIRST_MAIL_INDEX && gBagMailPocket[i].itemId <= LAST_MAIL_INDEX)
+            gSaveBlock1Ptr->bagPocket_Mail[gBagMailPocket[i].itemId - FIRST_MAIL_INDEX] = GetBagItemQuantity(&gBagMailPocket[i].quantity);
+    }
+
+    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+        gSaveBlock1Ptr->bagPocket_KeyItems[i] = 0;
+
+    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+    {
+        if (gBagKeyItemsPocket[i].itemId != ITEM_NONE && ItemId_GetPocket(gBagKeyItemsPocket[i].itemId) == POCKET_KEY_ITEMS && GetBagItemQuantity(&gBagKeyItemsPocket[i].quantity) > 0)
+        {
+            for (j = 0; j < sizeof(sKeyItems); j++)
+            {
+                if (sKeyItems[j] == gBagKeyItemsPocket[i].itemId)
+                {
+                    gSaveBlock1Ptr->bagPocket_KeyItems[k] = j;
+                    k++;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void LoadFakePockets(void)
+{
+    u32 i;
+
+    for (i = 0; i < BAG_TMHM_COUNT; i++)
+    {
+        gBagTMHMPocket[i].itemId = ITEM_NONE;
+        SetBagItemQuantity(&(gBagTMHMPocket[i].quantity), 0);
+    }
+    for (i = 0; i < 50; i++)
+    {
+        if (gSaveBlock1Ptr->bagPocket_TM[i] > 0)
+            AddBagItem(ITEM_TM01 + i, gSaveBlock1Ptr->bagPocket_TM[i]);
+    }
+
+    if (gSaveBlock1Ptr->bagPocket_HM01)
+        AddBagItem(ITEM_HM01, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM02)
+        AddBagItem(ITEM_HM02, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM03)
+        AddBagItem(ITEM_HM03, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM04)
+        AddBagItem(ITEM_HM04, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM05)
+        AddBagItem(ITEM_HM05, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM06)
+        AddBagItem(ITEM_HM06, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM07)
+        AddBagItem(ITEM_HM07, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM08)
+        AddBagItem(ITEM_HM08, 1);
+
+    for (i = 0; i < BAG_BERRIES_COUNT; i++)
+    {
+        gBagBerriesPocket[i].itemId = ITEM_NONE;
+        SetBagItemQuantity(&(gBagBerriesPocket[i].quantity), 0);
+    }
+    for (i = 0; i < BAG_BERRIES_COUNT; i++)
+    {
+        if (gSaveBlock1Ptr->bagPocket_Berries[i] > 0)
+            AddBagItem(FIRST_BERRY_INDEX + i, gSaveBlock1Ptr->bagPocket_Berries[i]);
+    }
+
+    for (i = 0; i < BAG_MAIL_COUNT; i++)
+    {
+        gBagMailPocket[i].itemId = ITEM_NONE;
+        SetBagItemQuantity(&(gBagMailPocket[i].quantity), 0);
+    }
+    for (i = 0; i < BAG_MAIL_COUNT; i++)
+    {
+        if (gSaveBlock1Ptr->bagPocket_Mail[i] > 0)
+            AddBagItem(FIRST_MAIL_INDEX + i, gSaveBlock1Ptr->bagPocket_Mail[i]);
+    }
+
+    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+    {
+        gBagKeyItemsPocket[i].itemId = ITEM_NONE;
+        SetBagItemQuantity(&(gBagKeyItemsPocket[i].quantity), 0);
+    }
+    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+    {
+        if (sKeyItems[gSaveBlock1Ptr->bagPocket_KeyItems[i]] != ITEM_NONE)
+            AddBagItem(sKeyItems[gSaveBlock1Ptr->bagPocket_KeyItems[i]], 1);
+    }
 }

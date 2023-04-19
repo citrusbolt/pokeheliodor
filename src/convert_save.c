@@ -977,10 +977,10 @@ u8 ConvertSaveFileFromRSToNL(void)
 
     memcpy(nlSaveBlock1Ptr, rsSaveBlock1Ptr, 0x560); // Save block structure is the same all the way until the Bag
     memcpy(nlSaveBlock1Ptr->bagPocket_Items, rsSaveBlock1Ptr->bagPocket_Items, sizeof(rsSaveBlock1Ptr->bagPocket_Items));
-    memcpy(nlSaveBlock1Ptr->bagPocket_KeyItems, rsSaveBlock1Ptr->bagPocket_KeyItems, sizeof(rsSaveBlock1Ptr->bagPocket_KeyItems));
+    //memcpy(nlSaveBlock1Ptr->bagPocket_KeyItems, rsSaveBlock1Ptr->bagPocket_KeyItems, sizeof(rsSaveBlock1Ptr->bagPocket_KeyItems));
     memcpy(nlSaveBlock1Ptr->bagPocket_PokeBalls, rsSaveBlock1Ptr->bagPocket_PokeBalls, sizeof(rsSaveBlock1Ptr->bagPocket_PokeBalls));
-    memcpy(nlSaveBlock1Ptr->bagPocket_TMHM, rsSaveBlock1Ptr->bagPocket_TMHM, sizeof(rsSaveBlock1Ptr->bagPocket_TMHM));
-    memcpy(nlSaveBlock1Ptr->bagPocket_Berries, rsSaveBlock1Ptr->bagPocket_Berries, sizeof(rsSaveBlock1Ptr->bagPocket_Berries));
+    //memcpy(nlSaveBlock1Ptr->bagPocket_TMHM, rsSaveBlock1Ptr->bagPocket_TMHM, sizeof(rsSaveBlock1Ptr->bagPocket_TMHM));
+    //memcpy(nlSaveBlock1Ptr->bagPocket_Berries, rsSaveBlock1Ptr->bagPocket_Berries, sizeof(rsSaveBlock1Ptr->bagPocket_Berries));
     memcpy(nlSaveBlock1Ptr->pokeblocks, rsSaveBlock1Ptr->pokeblocks, 0xA28); // This whole chunk is identical (although offset) until the flags
     // Convert flags and vars
     memcpy(nlSaveBlock1Ptr->gameStats, rsSaveBlock1Ptr->gameStats, sizeof(rsSaveBlock1Ptr->gameStats));
