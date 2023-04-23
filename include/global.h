@@ -1010,12 +1010,7 @@ struct SaveBlock1
               struct ItemSlot bagPocket_Treasures[BAG_TREASURES_COUNT];
               u8 bagPocket_KeyItems[BAG_KEYITEMS_COUNT];
               u16 extraItemSpace2;
-              // Needs 360 more bytes
-              //struct ItemSlot bagPocket_Medicine[BAG_MEDICINE_COUNT];
-              //struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT];
-              struct ItemSlot bagPocket_Medicine[1];
-              struct ItemSlot bagPocket_PokeBalls[1];
-              struct ItemSlot extraItemSpace3[5];
+              struct ItemSlot extraItemSpace3[7];
     /*0x848*/ struct Pokeblock pokeblocks[POKEBLOCKS_COUNT];
     /*0x988*/ u8 seen1[NUM_DEX_FLAG_BYTES];
     /*0x9BC*/ u16 berryBlenderRecords[3];
@@ -1030,6 +1025,9 @@ struct SaveBlock1
     /*0x159C*/ u32 gameStats[NUM_GAME_STATS];
     /*0x169C*/ struct BerryTree berryTrees[BERRY_TREES_COUNT];
     /*0x1A9C*/ struct SecretBase secretBases[SECRET_BASES_COUNT];
+               struct ItemSlot bagPocket_Medicine[BAG_MEDICINE_COUNT];
+               struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT];
+               u8 freeSpaceFromSecretBases[1240];
     /*0x271C*/ u8 playerRoomDecorations[DECOR_MAX_PLAYERS_HOUSE];
     /*0x2728*/ u8 playerRoomDecorationPositions[DECOR_MAX_PLAYERS_HOUSE];
     /*0x2734*/ u8 decorationDesks[10];
