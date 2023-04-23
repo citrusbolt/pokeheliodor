@@ -446,3 +446,14 @@ void ClearPokemonCrySongs(void)
 {
     CpuFill16(0, gPokemonCrySongs, MAX_POKEMON_CRIES * sizeof(struct PokemonCrySong));
 }
+
+
+//External software compatibility checks
+STATIC_ASSERT(offsetof(struct SaveBlock2, gcnLinkFlags) == 0xA8, linkBitFieldOffset);
+
+STATIC_ASSERT(offsetof(struct SaveBlock1, flags) + FLAG_SYS_POKEDEX_GET / 8 == 0x137C, dexFlagBlockOffset);
+STATIC_ASSERT(FLAG_SYS_POKEDEX_GET % 8 == 1, dexFlagBlockBit);
+
+//Need to test if this one is required
+STATIC_ASSERT(offsetof(struct SaveBlock1, flags) + FLAG_SYS_GAME_CLEAR / 8 == 0x137C, postGameFlagBlockOffset);
+STATIC_ASSERT(FLAG_SYS_GAME_CLEAR % 8 == 4, postGameFlagBlockBit);
