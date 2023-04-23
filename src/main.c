@@ -25,6 +25,7 @@
 #include "trainer_hill.h"
 #include "constants/rgb.h"
 #include "rumble.h"
+#include "save_location.h"
 
 static void VBlankIntr(void);
 static void HBlankIntr(void);
@@ -454,6 +455,16 @@ STATIC_ASSERT(offsetof(struct SaveBlock2, gcnLinkFlags) == 0xA8, linkBitFieldOff
 STATIC_ASSERT(offsetof(struct SaveBlock1, flags) + FLAG_SYS_POKEDEX_GET / 8 == 0x137C, dexFlagBlockOffset);
 STATIC_ASSERT(FLAG_SYS_POKEDEX_GET % 8 == 1, dexFlagBlockBit);
 
-//Need to test if this one is required
+//Need to test if these are required
 STATIC_ASSERT(offsetof(struct SaveBlock1, flags) + FLAG_SYS_GAME_CLEAR / 8 == 0x137C, postGameFlagBlockOffset);
 STATIC_ASSERT(FLAG_SYS_GAME_CLEAR % 8 == 4, postGameFlagBlockBit);
+
+STATIC_ASSERT(offsetof(struct SaveBlock1, pcItems) == 0x498, pcItemsOffset);
+STATIC_ASSERT(PC_ITEMS_COUNT == 50, pcItemsQuantity);
+
+STATIC_ASSERT(sizeof(struct SaveBlock2) == 0xF2C, saveBlock2Size);
+STATIC_ASSERT(sizeof(struct SaveBlock1) == 0x3D88, saveBlock1Size);
+
+STATIC_ASSERT(offsetof(struct SaveBlock2, specialSaveWarpFlags) == 9, saveFlagsOffset);
+STATIC_ASSERT(CHAMPION_SAVEWARP == (1 << 7), saveFlagPostGame);
+STATIC_ASSERT(POKECENTER_SAVEWARP == (1 << 1), saveFlagPokemonCenter);
