@@ -424,6 +424,8 @@ u8 (*const gMovementActionFuncs_StopLevitateAtTop[])(struct ObjectEvent *, struc
 u8 (*const gMovementActionFuncs_Figure8[])(struct ObjectEvent *, struct Sprite *);
 u8 (*const gMovementActionFuncs_FlyUp[])(struct ObjectEvent *, struct Sprite *);
 u8 (*const gMovementActionFuncs_FlyDown[])(struct ObjectEvent *, struct Sprite *);
+u8 (*const gMovementActionFuncs_EmoteX[])(struct ObjectEvent *, struct Sprite *);
+u8 (*const gMovementActionFuncs_EmoteDoubleExclMark[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_RaiseHandAndStop[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_RaiseHandAndJump[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_RaiseHandAndSwim[])(struct ObjectEvent *, struct Sprite *);
@@ -590,6 +592,8 @@ u8 (*const *const gMovementActionFuncs[])(struct ObjectEvent *, struct Sprite *)
     [MOVEMENT_ACTION_RAISE_HAND_AND_STOP]                = sMovementActionFuncs_RaiseHandAndStop,
     [MOVEMENT_ACTION_RAISE_HAND_AND_JUMP]                = sMovementActionFuncs_RaiseHandAndJump,
     [MOVEMENT_ACTION_RAISE_HAND_AND_SWIM]                = sMovementActionFuncs_RaiseHandAndSwim,
+    [MOVEMENT_ACTION_EMOTE_X]                            = gMovementActionFuncs_EmoteX,
+    [MOVEMENT_ACTION_EMOTE_DOUBLE_EXCL_MARK]             = gMovementActionFuncs_EmoteDoubleExclMark,
 };
 
 u8 (*const gMovementActionFuncs_FaceDown[])(struct ObjectEvent *, struct Sprite *) = {
@@ -1543,4 +1547,14 @@ static bool8 (*const sMovementActionFuncs_RaiseHandAndJump[])(struct ObjectEvent
 static bool8 (*const sMovementActionFuncs_RaiseHandAndSwim[])(struct ObjectEvent *, struct Sprite *) = {
     MovementAction_RaiseHand_Step0,
     MovementAction_RaiseHandAndSwim_Step1,
+};
+
+u8 (*const gMovementActionFuncs_EmoteX[])(struct ObjectEvent *, struct Sprite *) = {
+    MovementAction_EmoteX_Step0,
+    MovementAction_Finish,
+};
+
+u8 (*const gMovementActionFuncs_EmoteDoubleExclMark[])(struct ObjectEvent *, struct Sprite *) = {
+    MovementAction_EmoteDoubleExclamationMark_Step0,
+    MovementAction_Finish,
 };

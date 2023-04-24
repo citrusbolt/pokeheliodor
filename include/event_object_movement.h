@@ -454,5 +454,7 @@ static bool8 MovementType_RaiseHandAndStop_Step2(struct ObjectEvent *objectEvent
 static bool8 MovementType_RaiseHandAndJump_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite);
 static bool8 MovementType_RaiseHandAndSwim_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite);
 static bool8 MovementType_RaiseHandAndMove_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite);
+bool8 MovementAction_EmoteX_Step0(struct ObjectEvent *, struct Sprite *);
+bool8 MovementAction_EmoteDoubleExclamationMark_Step0(struct ObjectEvent *, struct Sprite *);
 
 #endif //GUARD_EVENT_OBJECT_MOVEMENT_H

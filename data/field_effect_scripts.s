@@ -74,6 +74,8 @@ gFieldEffectScriptPointers::
 	.4byte gFieldEffectScript_MoveDeoxysRock            @ FLDEFF_MOVE_DEOXYS_ROCK
 	.4byte gFieldEffectScript_UseHeadbutt               @ FLDEFF_USE_HEADBUTT
 	.4byte gFldEffScript_UseVsSeeker             		@ FLDEFF_USE_VS_SEEKER
+	.4byte gFldEffScript_XIcon               			@ FLDEFF_X_ICON
+	.4byte gFldEffScript_DoubleExclMarkIcon      		@ FLDEFF_DOUBLE_EXCL_MARK_ICON
 gFieldEffectScript_ExclamationMarkIcon1::
 	field_eff_loadfadedpalnotint_callnative gSpritePalette_ArrowEmotionsFieldEffect, FldEff_ExclamationMarkIcon
 	field_eff_end
@@ -351,4 +353,12 @@ gFieldEffectScript_UseHeadbutt::
 
 gFldEffScript_UseVsSeeker::
 	field_eff_callnative FldEff_UseVsSeeker
+	field_eff_end
+
+gFldEffScript_XIcon::
+	field_eff_callnative FldEff_XIcon
+	field_eff_end
+
+gFldEffScript_DoubleExclMarkIcon::
+	field_eff_callnative FldEff_DoubleExclMarkIcon
 	field_eff_end

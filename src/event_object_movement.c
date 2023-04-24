@@ -9001,6 +9001,22 @@ void MovementType_RaiseHandAndSwim(struct Sprite *sprite)
     UpdateObjectEventCurrentMovement(&gObjectEvents[sprite->data[0]], sprite, MovementType_RaiseHandAndSwim_Callback);
 }
 
+bool8 MovementAction_EmoteX_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ObjectEventGetLocalIdAndMap(objectEvent, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
+    FieldEffectStart(FLDEFF_X_ICON);
+    sprite->sActionFuncId = 1;
+    return TRUE;
+}
+
+bool8 MovementAction_EmoteDoubleExclamationMark_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ObjectEventGetLocalIdAndMap(objectEvent, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
+    FieldEffectStart(FLDEFF_DOUBLE_EXCL_MARK_ICON);
+    sprite->sActionFuncId = 1;
+    return TRUE;
+}
+
 static u8 MovementType_RaiseHandAndStop_Callback(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     return gMovementTypeFuncs_RaiseHandAndStop[sprite->data[1]](objectEvent, sprite);
