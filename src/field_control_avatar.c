@@ -27,6 +27,7 @@
 #include "start_menu.h"
 #include "trainer_see.h"
 #include "trainer_hill.h"
+#include "vs_seeker.h"
 #include "wild_encounter.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
@@ -189,7 +190,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         ShowStartMenu();
         return TRUE;
     }
-    
+
     if (input->pressedSelectButton && UseRegisteredKeyItemOnField(0))
         return TRUE;
     else if (input->pressedLButton && UseRegisteredKeyItemOnField(1))
@@ -552,14 +553,19 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
     {
         return FALSE;
     }
-
-    IncrementRematchStepCounter();
+    // Jaizu: Commented the Emerald one
+    //IncrementRematchStepCounter();
     UpdateFriendshipStepCounter();
     UpdateFarawayIslandStepCounter();
 
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) && !MetatileBehavior_IsForcedMovementTile(metatileBehavior))
     {
-        if (UpdatePoisonStepCounter() == TRUE)
+        if (UpdateVsSeekerStepCounter() == TRUE)
+        {
+            ScriptContext_SetupScript(EventScript_VsSeekerChargingDone);
+            return TRUE;
+        }
+        else if (UpdatePoisonStepCounter() == TRUE)
         {
             ScriptContext_SetupScript(EventScript_FieldPoison);
             return TRUE;

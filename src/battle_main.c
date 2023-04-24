@@ -48,6 +48,7 @@
 #include "trig.h"
 #include "tv.h"
 #include "util.h"
+#include "vs_seeker.h"
 #include "window.h"
 #include "constants/abilities.h"
 #include "constants/battle_move_effects.h"
@@ -5236,6 +5237,8 @@ static void HandleEndTurn_FinishBattle(void)
         }
 
         RecordedBattle_SetPlaybackFinished();
+        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            ClearRematchStateByTrainerId();
         BeginFastPaletteFade(3);
         FadeOutMapMusic(5);
         gBattleMainFunc = FreeResetData_ReturnToOvOrDoEvolutions;

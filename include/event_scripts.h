@@ -618,4 +618,11 @@ extern const u8 EventScript_Incubator[];
 extern const u8 EventScript_PowerPurchase[];
 extern const u8 EventScript_CardTerminal[];
 
+// vs_seeker
+extern const u8 VSSeeker_Text_BatteryNotChargedNeedXSteps[];
+extern const u8 VSSeeker_Text_NoTrainersWithinRange[];
+extern const u8 VSSeeker_Text_TrainersNotReady[];
+
+extern const u8 EventScript_VsSeekerChargingDone[];
+
 #endif // GUARD_EVENT_SCRIPTS_H

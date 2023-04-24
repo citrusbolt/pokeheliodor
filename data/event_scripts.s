@@ -1060,3 +1060,10 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/text/birch_speech.inc"
 	.include "data/scripts/power.inc"
 	.include "data/scripts/card_terminal.inc"
+
+EventScript_VsSeekerChargingDone::
+	special VsSeekerFreezeObjectsAfterChargeComplete
+	waitstate
+	special VsSeekerResetObjectMovementAfterChargeComplete
+	releaseall
+	end

@@ -73,7 +73,7 @@ gFieldEffectScriptPointers::
 	.4byte gFieldEffectScript_DestroyDeoxysRock         @ FLDEFF_DESTROY_DEOXYS_ROCK
 	.4byte gFieldEffectScript_MoveDeoxysRock            @ FLDEFF_MOVE_DEOXYS_ROCK
 	.4byte gFieldEffectScript_UseHeadbutt               @ FLDEFF_USE_HEADBUTT
-
+	.4byte gFldEffScript_UseVsSeeker             		@ FLDEFF_USE_VS_SEEKER
 gFieldEffectScript_ExclamationMarkIcon1::
 	field_eff_loadfadedpalnotint_callnative gSpritePalette_ArrowEmotionsFieldEffect, FldEff_ExclamationMarkIcon
 	field_eff_end
@@ -347,4 +347,8 @@ gFieldEffectScript_MoveDeoxysRock::
 
 gFieldEffectScript_UseHeadbutt::
 	field_eff_callnative FldEff_UseHeadbutt
+	field_eff_end
+
+gFldEffScript_UseVsSeeker::
+	field_eff_callnative FldEff_UseVsSeeker
 	field_eff_end

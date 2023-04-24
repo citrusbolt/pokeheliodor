@@ -151,3 +151,4 @@
 	.include "src/rayquaza_scene.o"
 	.include "src/power.o"
 	.include "src/rumble.o"
+	.include "src/vs_seeker.o"

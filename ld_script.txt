@@ -290,6 +290,7 @@ SECTIONS {
         src/battle_controller_recorded_opponent.o(.text);
         src/battle_controller_recorded_player.o(.text);
         src/trainer_pokemon_sprites.o(.text);
+        src/vs_seeker.o(.text);
         src/lilycove_lady.o(.text);
         src/battle_dome.o(.text);
         src/battle_palace.o(.text);
@@ -653,6 +654,7 @@ SECTIONS {
         src/battle_controller_recorded_opponent.o(.rodata);
         src/battle_controller_recorded_player.o(.rodata);
         src/trainer_pokemon_sprites.o(.rodata);
+        src/vs_seeker.o(.rodata);
         src/lilycove_lady.o(.rodata);
         src/battle_dome.o(.rodata);
         src/battle_palace.o(.rodata);

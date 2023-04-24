@@ -36,10 +36,12 @@
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
+#include "vs_seeker.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
+#include "constants/map_types.h"
 #include "constants/songs.h"
 #include "power.h"
 #include "constants/power.h"
@@ -695,7 +697,7 @@ void ItemUseOutOfBattle_SootSack(u8 taskId)
 	{
 		DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
 	}
-}		
+}
 
 u16 GetAshCount(void)
 {
@@ -1173,7 +1175,7 @@ void ItemUseOutOfBattle_PowerPad(u8 taskId)
 	PlaySE(SE_PC_ON);
 	DoTimeBasedEvents();
 	GivePowerPoints();
-	
+
 	if (gPowerTime > 0)
 	{
 		switch (gPowerType)
@@ -1209,7 +1211,7 @@ void ItemUseOutOfBattle_PowerPad(u8 taskId)
 				StringCopy(gStringVar1, gText_PowerLucky);
 				break;
 		}
-		
+
 		ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
 		ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
 		if (gPowerTime > 1)
@@ -1232,6 +1234,39 @@ static void ItemUseOnFieldCB_PowerPurchase(u8 taskId)
 	LockPlayerFieldControls();
 	ScriptContext_SetupScript(EventScript_PowerPurchase);
 	DestroyTask(taskId);
+}
+
+
+void FieldUseFunc_VsSeeker(u8 taskId)
+{
+    // Jaizu probably needs to be changed for Hoenn stuff
+    /*
+    if ((gMapHeader.mapType != MAP_TYPE_ROUTE
+      && gMapHeader.mapType != MAP_TYPE_TOWN
+      && gMapHeader.mapType != MAP_TYPE_CITY)
+     || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(VIRIDIAN_FOREST)
+      && (gSaveBlock1Ptr->location.mapNum == MAP_NUM(VIRIDIAN_FOREST)
+       || gSaveBlock1Ptr->location.mapNum == MAP_NUM(MT_EMBER_EXTERIOR)
+       || gSaveBlock1Ptr->location.mapNum == MAP_NUM(THREE_ISLAND_BERRY_FOREST)
+       || gSaveBlock1Ptr->location.mapNum == MAP_NUM(SIX_ISLAND_PATTERN_BUSH))))
+    {
+    */
+   if (gMapHeader.mapType != MAP_TYPE_ROUTE
+      && gMapHeader.mapType != MAP_TYPE_TOWN
+      && gMapHeader.mapType != MAP_TYPE_CITY)
+      {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].data[3]);
+    }
+    else
+    {
+        sItemUseOnFieldCB = Task_VsSeeker_0;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
+}
+
+void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8 taskId)
+{
+    Task_CloseCantUseKeyItemMessage(taskId);
 }
 
 #undef tUsingRegisteredKeyItem

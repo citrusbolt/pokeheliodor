@@ -58,6 +58,7 @@
 #include "trainer_pokemon_sprites.h"
 #include "tv.h"
 #include "scanline_effect.h"
+#include "vs_seeker.h"
 #include "wild_encounter.h"
 #include "frontier_util.h"
 #include "constants/abilities.h"
@@ -801,7 +802,9 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     ClearTempFieldEventData();
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
-    TryUpdateRandomTrainerRematches(mapGroup, mapNum);
+    // Jaizu: Commented the Emerald one
+    //TryUpdateRandomTrainerRematches(mapGroup, mapNum);
+    MapResetTrainerRematches(mapGroup, mapNum);
     DoTimeBasedEvents();
     SetSavedWeatherFromCurrMapHeader();
     ChooseAmbientCrySpecies();
@@ -851,7 +854,9 @@ static void LoadMapFromWarp(bool32 a1)
     ClearTempFieldEventData();
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
-    TryUpdateRandomTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
+    // Jaizu: Commented out the Emerald one
+    //TryUpdateRandomTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
+     MapResetTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     if (a1 != TRUE)
         DoTimeBasedEvents();
     SetSavedWeatherFromCurrMapHeader();
@@ -3169,7 +3174,7 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
     struct ObjectEvent *objEvent = &gObjectEvents[objEventId];
     struct Sprite *sprite;
 	bool8 foundMatch = FALSE;
-	
+
 	if (linkPlayerObjEvent->active)
 	{
 		switch (versionModifier)
@@ -3193,7 +3198,7 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
 					objEvent->spriteId = CreateObjectGraphicsSprite(GetTestAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
 				break;
 		}
-		
+
 		if (!foundMatch)
 		{
 			if (gameVersion == VERSION_RUBY || gameVersion == VERSION_SAPPHIRE)
@@ -3203,7 +3208,7 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
 			else if (gameVersion == VERSION_EMERALD)
             objEvent->spriteId = CreateObjectGraphicsSprite(GetEmeraldAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
 		}
-	
+
 		sprite = &gSprites[objEvent->spriteId];
 		sprite->coordOffsetEnabled = TRUE;
 		sprite->data[0] = linkPlayerId;

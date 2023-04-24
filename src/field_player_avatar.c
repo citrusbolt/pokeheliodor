@@ -241,7 +241,10 @@ static const u16 sRivalAvatarGfxIds[][2] =
     [PLAYER_AVATAR_STATE_UNDERWATER] = {OBJ_EVENT_GFX_BRENDAN_UNDERWATER,       OBJ_EVENT_GFX_MAY_UNDERWATER},
     [PLAYER_AVATAR_STATE_FIELD_MOVE] = {OBJ_EVENT_GFX_RIVAL_BRENDAN_FIELD_MOVE, OBJ_EVENT_GFX_RIVAL_MAY_FIELD_MOVE},
     [PLAYER_AVATAR_STATE_FISHING]    = {OBJ_EVENT_GFX_BRENDAN_FISHING,          OBJ_EVENT_GFX_MAY_FISHING},
-    [PLAYER_AVATAR_STATE_WATERING]   = {OBJ_EVENT_GFX_BRENDAN_WATERING,         OBJ_EVENT_GFX_MAY_WATERING}
+    [PLAYER_AVATAR_STATE_WATERING]   = {OBJ_EVENT_GFX_BRENDAN_WATERING,         OBJ_EVENT_GFX_MAY_WATERING},
+    // Jaizu: Not done yet
+    //[PLAYER_AVATAR_STATE_VSSEEKER]   = {OBJ_EVENT_GFX_RED_VS_SEEKER,            OBJ_EVENT_GFX_GREEN_VS_SEEKER},
+    [PLAYER_AVATAR_STATE_VSSEEKER]   = {OBJ_EVENT_GFX_RIVAL_BRENDAN_FIELD_MOVE,            OBJ_EVENT_GFX_RIVAL_MAY_FIELD_MOVE},
 };
 
 static const u16 sPlayerAvatarGfxIds[][2] =
@@ -254,6 +257,9 @@ static const u16 sPlayerAvatarGfxIds[][2] =
     [PLAYER_AVATAR_STATE_FIELD_MOVE] = {OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE, OBJ_EVENT_GFX_MAY_FIELD_MOVE},
     [PLAYER_AVATAR_STATE_FISHING]    = {OBJ_EVENT_GFX_BRENDAN_FISHING,    OBJ_EVENT_GFX_MAY_FISHING},
     [PLAYER_AVATAR_STATE_WATERING]   = {OBJ_EVENT_GFX_BRENDAN_WATERING,   OBJ_EVENT_GFX_MAY_WATERING},
+    // Jaizu: Not done yet
+    //[PLAYER_AVATAR_STATE_VSSEEKER]   = {OBJ_EVENT_GFX_RED_VS_SEEKER,      OBJ_EVENT_GFX_GREEN_VS_SEEKER},
+[PLAYER_AVATAR_STATE_VSSEEKER]   = {OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE,      OBJ_EVENT_GFX_MAY_FIELD_MOVE},
 };
 
 static const u16 sFRLGAvatarGfxIds[] = {OBJ_EVENT_GFX_RED, OBJ_EVENT_GFX_LEAF};
@@ -268,23 +274,23 @@ static const u16 sTestAvatarGfxIds[] = {OBJ_EVENT_GFX_WALLY, OBJ_EVENT_GFX_STEVE
 
 static const u16 sUnknownAvatarGfxIds[2][8] = {
     [MALE] = {
-        OBJ_EVENT_GFX_MAN_3, 
-        OBJ_EVENT_GFX_BLACK_BELT, 
-        OBJ_EVENT_GFX_CAMPER, 
-        OBJ_EVENT_GFX_YOUNGSTER, 
-        OBJ_EVENT_GFX_PSYCHIC_M, 
-        OBJ_EVENT_GFX_BUG_CATCHER, 
-        OBJ_EVENT_GFX_MAN_4, 
+        OBJ_EVENT_GFX_MAN_3,
+        OBJ_EVENT_GFX_BLACK_BELT,
+        OBJ_EVENT_GFX_CAMPER,
+        OBJ_EVENT_GFX_YOUNGSTER,
+        OBJ_EVENT_GFX_PSYCHIC_M,
+        OBJ_EVENT_GFX_BUG_CATCHER,
+        OBJ_EVENT_GFX_MAN_4,
         OBJ_EVENT_GFX_MAN_5
     },
     [FEMALE] = {
-        OBJ_EVENT_GFX_WOMAN_5, 
-        OBJ_EVENT_GFX_HEX_MANIAC, 
-        OBJ_EVENT_GFX_PICNICKER, 
-        OBJ_EVENT_GFX_LASS, 
-        OBJ_EVENT_GFX_LASS, 
-        OBJ_EVENT_GFX_GIRL_3, 
-        OBJ_EVENT_GFX_WOMAN_2, 
+        OBJ_EVENT_GFX_WOMAN_5,
+        OBJ_EVENT_GFX_HEX_MANIAC,
+        OBJ_EVENT_GFX_PICNICKER,
+        OBJ_EVENT_GFX_LASS,
+        OBJ_EVENT_GFX_LASS,
+        OBJ_EVENT_GFX_GIRL_3,
+        OBJ_EVENT_GFX_WOMAN_2,
         OBJ_EVENT_GFX_BEAUTY
     }
 };
@@ -2261,4 +2267,28 @@ static u8 TrySpinPlayerForWarp(struct ObjectEvent *object, s16 *delayTimer)
     ObjectEventForceSetHeldMovement(object, GetFaceDirectionMovementAction(sSpinDirections[object->facingDirection]));
     *delayTimer = 0;
     return sSpinDirections[object->facingDirection];
+}
+
+static const u8 sPlayerAvatarVsSeekerBikeGfxIds[] = {
+    /* Jaizu: Not done yet
+    OBJ_EVENT_GFX_RED_VS_SEEKER_BIKE,
+    OBJ_EVENT_GFX_GREEN_VS_SEEKER_BIKE
+    */
+   OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE,
+   OBJ_EVENT_GFX_MAY_FIELD_MOVE,
+
+};
+
+u8 GetPlayerAvatarVsSeekerGfxId(void)
+{
+    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+        return sPlayerAvatarVsSeekerBikeGfxIds[gPlayerAvatar.gender];
+    else
+        return GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_VSSEEKER);
+}
+
+void StartPlayerAvatarVsSeekerAnim(void)
+{
+    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarVsSeekerGfxId());
+    StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], ANIM_VS_SEEKER);
 }

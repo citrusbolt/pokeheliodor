@@ -38,5 +38,7 @@ u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId);
 bool32 CanFish(void);
 u32 CanThrowBall(void);
 void ItemUseOutOfBattle_PowerPad(u8);
+void FieldUseFunc_VsSeeker(u8 taskId);
+void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8);
 
 #endif // GUARD_ITEM_USE_H
