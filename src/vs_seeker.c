@@ -1132,6 +1132,9 @@ static u8 GetRunningBehaviorFromGraphicsId(u8 graphicsId)
 {
     switch (graphicsId)
     {
+        case OBJ_EVENT_GFX_TUBER_M:
+        case OBJ_EVENT_GFX_TUBER_F:
+            return MOVEMENT_TYPE_RAISE_HAND_AND_JUMP;
       /* Jaizu: Needs to be adapted to Hoenn gfx
         case OBJ_EVENT_GFX_LITTLE_GIRL:
         case OBJ_EVENT_GFX_YOUNGSTER:

@@ -680,6 +680,7 @@ static const struct SpriteFrameImage sPicTable_TuberF[] = {
     overworld_frame(gObjectEventPic_TuberF, 2, 2, 6),
     overworld_frame(gObjectEventPic_TuberF, 2, 2, 7),
     overworld_frame(gObjectEventPic_TuberF, 2, 2, 8),
+    overworld_frame(gObjectEventPic_TuberF, 2, 2, 9),
 };
 
 static const struct SpriteFrameImage sPicTable_TuberM[] = {
@@ -692,6 +693,7 @@ static const struct SpriteFrameImage sPicTable_TuberM[] = {
     overworld_frame(gObjectEventPic_TuberM, 2, 2, 6),
     overworld_frame(gObjectEventPic_TuberM, 2, 2, 7),
     overworld_frame(gObjectEventPic_TuberM, 2, 2, 8),
+    overworld_frame(gObjectEventPic_TuberM, 2, 2, 9),
 };
 
 static const struct SpriteFrameImage sPicTable_Hiker[] = {
@@ -704,6 +706,7 @@ static const struct SpriteFrameImage sPicTable_Hiker[] = {
     overworld_frame(gObjectEventPic_Hiker, 2, 4, 6),
     overworld_frame(gObjectEventPic_Hiker, 2, 4, 7),
     overworld_frame(gObjectEventPic_Hiker, 2, 4, 8),
+    overworld_frame(gObjectEventPic_Hiker, 2, 4, 9),
 };
 
 static const struct SpriteFrameImage sPicTable_CyclingTriathleteM[] = {
