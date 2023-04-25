@@ -251,8 +251,12 @@
 #define OBJ_EVENT_GFX_LINK_E_MAY                 247
 #define OBJ_EVENT_GFX_LINK_GOLD                  248
 #define OBJ_EVENT_GFX_LINK_KRIS                  249
+#define OBJ_EVENT_GFX_BRENDAN_VS_SEEKER          250
+#define OBJ_EVENT_GFX_MAY_VS_SEEKER              251
+#define OBJ_EVENT_GFX_BRENDAN_VS_SEEKER_BIKE     250
+#define OBJ_EVENT_GFX_MAY_VS_SEEKER_BIKE         251
 
-#define NUM_OBJ_EVENT_GFX                        250
+#define NUM_OBJ_EVENT_GFX                        254
 
 
 // These are dynamic object gfx ids.
