@@ -770,6 +770,19 @@ static u8 GetRunningBehaviorFromGraphicsId(u8 graphicsId)
     {
         case OBJ_EVENT_GFX_TUBER_M:
         case OBJ_EVENT_GFX_TUBER_F:
+        case OBJ_EVENT_GFX_GENTLEMAN:
+        case OBJ_EVENT_GFX_BEAUTY:
+        case OBJ_EVENT_GFX_BLACK_BELT:
+        case OBJ_EVENT_GFX_BUG_CATCHER:
+        case OBJ_EVENT_GFX_EXPERT_F:
+        case OBJ_EVENT_GFX_EXPERT_M:
+        case OBJ_EVENT_GFX_FISHERMAN:
+        case OBJ_EVENT_GFX_CAMPER:
+        case OBJ_EVENT_GFX_TWIN:
+        case OBJ_EVENT_GFX_LITTLE_BOY:
+        case OBJ_EVENT_GFX_MAN_3:
+        case OBJ_EVENT_GFX_PICNICKER:
+        case OBJ_EVENT_GFX_YOUNGSTER:
             return MOVEMENT_TYPE_RAISE_HAND_AND_JUMP;
       /* Jaizu: Needs to be adapted to Hoenn gfx
         case OBJ_EVENT_GFX_LITTLE_GIRL:
