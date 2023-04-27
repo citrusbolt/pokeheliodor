@@ -3492,7 +3492,7 @@ static void PrintContestMoves(void)
     PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
 }
 
-static u8 GetBattleMoveCategory(u16 move)
+u8 GetBattleMoveCategory(u16 move)
 {
 	if (gBattleMoves[move].power == 0)
 	{
