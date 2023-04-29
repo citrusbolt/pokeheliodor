@@ -62,6 +62,8 @@ ROM_NAME := heliodor.gba
 ELF_NAME := $(ROM_NAME:.gba=.elf)
 MAP_NAME := $(ROM_NAME:.gba=.map)
 PATCH_NAME := $(ROM_NAME:.gba=.bps)
+LASTFLASHED_ROM_NAME := $(ROM_NAME:.gba=_lastflashed.gba)
+FLASH_ROM_NAME := $(LASTFLASHED_ROM_NAME:.gba=.delta.gba)
 OBJ_DIR_NAME := build/heliodor
 
 MODERN_ROM_NAME := $(ROM_NAME:.gba=_modern.gba)
@@ -141,6 +143,8 @@ JSONPROC := tools/jsonproc/jsonproc$(EXE)
 
 PERL := perl
 
+FLASHGBX := python3 -m FlashGBX
+
 TOOLDIRS := $(filter-out tools/agbcc tools/binutils,$(wildcard tools/*))
 TOOLBASE = $(TOOLDIRS:tools/%=%)
 TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
@@ -165,7 +169,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch flash flash-delta,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -478,6 +482,34 @@ ifeq ($(MODERN),0)
 	subrepos/flips/flips --manifest=patch.xml pokeemerald.gba $(ROM_NAME) $(PATCH_NAME)
 else
 	subrepos/flips/flips --manifest=patch.xml pokeemerald.gba $(MODERN_ROM_NAME) $(MODERN_PATCH_NAME)
+endif
+
+flash: all
+ifeq ($(MODERN),0)
+	$(FLASHGBX) --cli --mode agb --action flash-rom $(ROM_NAME)
+	@cp $(ROM_NAME) $(LASTFLASHED_ROM_NAME)
+else
+	$(FLASHGBX) --cli --mode agb --action flash-rom $(MODERN_ROM_NAME)
+	@cp $(MODERN_ROM_NAME) $(LASTFLASHED_ROM_NAME)
+endif
+
+flash-delta: all
+ifeq ($(MODERN),0)
+	@if diff -q $(ROM_NAME) $(LASTFLASHED_ROM_NAME) > /dev/null; then \
+		echo "No change detected since (alleged) last flash."; \
+	else \
+		cp $(ROM_NAME) $(FLASH_ROM_NAME); \
+		$(FLASHGBX) --cli --mode agb --action flash-rom $(FLASH_ROM_NAME); \
+		mv $(FLASH_ROM_NAME) $(LASTFLASHED_ROM_NAME); \
+	fi
+else
+	@if diff -q $(MODERN_ROM_NAME) $(LASTFLASHED_ROM_NAME) > /dev/null; then \
+		echo "No change detected since (alleged) last flash."; \
+	else \
+		cp $(MODERN_ROM_NAME) $(FLASH_ROM_NAME); \
+		$(FLASHGBX) --cli --mode agb --action flash-rom $(FLASH_ROM_NAME); \
+		mv $(FLASH_ROM_NAME) $(LASTFLASHED_ROM_NAME); \
+	fi
 endif
 
 libagbsyscall:
