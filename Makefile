@@ -107,6 +107,17 @@ BUILD_DIRTY := $(shell if [ -n "$$(git status --porcelain)" ]; then \
 		echo "FALSE"; \
 	fi)
 
+MERGE_CHECK := 0
+
+ifneq ($(filter merge-check, $(MAKECMDGOALS)),)
+MERGE_CHECK := 1
+endif
+
+ifeq ($(MERGE_CHECK),1)
+BUILD_TIME := \"0\"
+BUILD_DIRTY := FALSE
+endif
+
 ifeq ($(MODERN),0)
 CC1             := tools/agbcc/bin/agbcc$(EXE)
 override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm -g
@@ -161,7 +172,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald
+.PHONY: all rom clean tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald flash flash-delta merge-check
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -169,7 +180,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch flash flash-delta,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch flash flash-delta merge-check,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -239,6 +250,8 @@ subrepos/agbcc/agbcc:
 	cd subrepos/agbcc; ./build.sh
 
 rom: $(ROM)
+
+merge-check: all
 
 clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 
