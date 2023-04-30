@@ -677,7 +677,7 @@ void InitHostRfuGameData(struct RfuGameData *data, u8 activity, bool32 startedAc
     data->compatibility.hasNews = FALSE;
     data->compatibility.hasCard = FALSE;
     data->compatibility.isCrystalDust = FALSE;
-    data->compatibility.isChampion = TRUE;
+    data->compatibility.canLinkNationally = TRUE;
     data->compatibility.hasNationalDex = TRUE;
     data->compatibility.gameClear = TRUE;
 	data->versionModifier = VERSION_MODIFIER;

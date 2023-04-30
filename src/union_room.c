@@ -1258,7 +1258,7 @@ static u32 IsTryingToTradeAcrossVersionTooSoon(struct WirelessLink_Group *data, 
     {
         if (!(gSaveBlock2Ptr->specialSaveWarpFlags & CHAMPION_SAVEWARP))
             return UR_TRADE_PLAYER_NOT_READY;
-        else if (partner->rfu.data.compatibility.isChampion)
+        else if (partner->rfu.data.compatibility.canLinkNationally)
             return UR_TRADE_READY;
     }
     else
@@ -1910,7 +1910,7 @@ static void Task_SendMysteryGift(u8 taskId)
         data->state = 3;
         break;
     case 3:
-        AddTextPrinterToWindow1(gStringVar4);
+        MG_AddMessageTextPrinter(gStringVar4);
         data->state = 4;
         break;
     case 4:
@@ -1984,7 +1984,7 @@ static void Task_SendMysteryGift(u8 taskId)
         }
         break;
     case 9:
-        AddTextPrinterToWindow1(gStringVar4);
+        MG_AddMessageTextPrinter(gStringVar4);
         data->state = 10;
         break;
     case 10:
@@ -2087,7 +2087,7 @@ static void Task_CardOrNewsWithFriend(u8 taskId)
         data->state = 1;
         break;
     case 1:
-        AddTextPrinterToWindow1(sText_ChooseTrainer);
+        MG_AddMessageTextPrinter(sText_ChooseTrainer);
         data->state = 2;
         break;
     case 2:
@@ -2159,7 +2159,7 @@ static void Task_CardOrNewsWithFriend(u8 taskId)
         }
         break;
     case 4:
-        AddTextPrinterToWindow1(sText_AwaitingPlayersResponse);
+        MG_AddMessageTextPrinter(sText_AwaitingPlayersResponse);
         CopyAndTranslatePlayerName(gStringVar1, &data->playerList->players[data->leaderId]);
         data->state = 5;
         break;
@@ -2178,7 +2178,7 @@ static void Task_CardOrNewsWithFriend(u8 taskId)
             data->state = 8;
             break;
         case RFU_STATUS_JOIN_GROUP_OK:
-            AddTextPrinterToWindow1(sText_PlayerSentBackOK);
+            MG_AddMessageTextPrinter(sText_PlayerSentBackOK);
             RfuSetStatus(RFU_STATUS_OK, 0);
             break;
         }
@@ -2206,7 +2206,7 @@ static void Task_CardOrNewsWithFriend(u8 taskId)
         break;
     case 7:
         DestroyWirelessStatusIndicatorSprite();
-        AddTextPrinterToWindow1(sText_PleaseStartOver);
+        MG_AddMessageTextPrinter(sText_PleaseStartOver);
         DestroyTask(taskId);
         LinkRfu_Shutdown();
         gSpecialVar_Result = LINKUP_FAILED;
@@ -2255,7 +2255,7 @@ static void Task_CardOrNewsOverWireless(u8 taskId)
         data->state = 1;
         break;
     case 1:
-        AddTextPrinterToWindow1(sText_SearchingForWirelessSystemWait);
+        MG_AddMessageTextPrinter(sText_SearchingForWirelessSystemWait);
         data->state = 2;
         break;
     case 2:
@@ -2324,7 +2324,7 @@ static void Task_CardOrNewsOverWireless(u8 taskId)
         }
         break;
     case 4:
-        AddTextPrinterToWindow1(sText_AwaitingResponseFromWirelessSystem);
+        MG_AddMessageTextPrinter(sText_AwaitingResponseFromWirelessSystem);
         CopyAndTranslatePlayerName(gStringVar1, &data->playerList->players[data->leaderId]);
         data->state = 5;
         break;
@@ -2343,7 +2343,7 @@ static void Task_CardOrNewsOverWireless(u8 taskId)
             data->state = 8;
             break;
         case RFU_STATUS_JOIN_GROUP_OK:
-            AddTextPrinterToWindow1(sText_WirelessLinkEstablished);
+            MG_AddMessageTextPrinter(sText_WirelessLinkEstablished);
             RfuSetStatus(RFU_STATUS_OK, 0);
             break;
         }
@@ -4160,7 +4160,7 @@ static s32 IsRequestedTradeInPlayerParty(u32 type, u32 species)
     {
         for (i = 0; i < gPlayerPartyCount; i++)
         {
-            species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2);
+            species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
             if (species == SPECIES_EGG)
                 return UR_TRADE_MATCH;
         }
@@ -4170,7 +4170,7 @@ static s32 IsRequestedTradeInPlayerParty(u32 type, u32 species)
     {
         for (i = 0; i < gPlayerPartyCount; i++)
         {
-            species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2);
+            species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
             if (gSpeciesInfo[species].types[0] == type || gSpeciesInfo[species].types[1] == type)
                 return UR_TRADE_MATCH;
         }
@@ -4303,7 +4303,7 @@ static bool32 HasAtLeastTwoMonsOfLevel30OrLower(void)
     for (i = 0; i < gPlayerPartyCount; i++)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) <= UNION_ROOM_MAX_LEVEL
-         && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2) != SPECIES_EGG)
+         && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG) != SPECIES_EGG)
             count++;
     }
 
@@ -4332,7 +4332,7 @@ void Script_ResetUnionRoomTrade(void)
 
 static bool32 RegisterTradeMonAndGetIsEgg(u32 monId, struct UnionRoomTrade *trade)
 {
-    trade->playerSpecies = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES2);
+    trade->playerSpecies = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES_OR_EGG);
     trade->playerLevel = GetMonData(&gPlayerParty[monId], MON_DATA_LEVEL);
     trade->playerPersonality = GetMonData(&gPlayerParty[monId], MON_DATA_PERSONALITY);
     if (trade->playerSpecies == SPECIES_EGG)
@@ -4343,7 +4343,7 @@ static bool32 RegisterTradeMonAndGetIsEgg(u32 monId, struct UnionRoomTrade *trad
 
 static void RegisterTradeMon(u32 monId, struct UnionRoomTrade *trade)
 {
-    trade->species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES2);
+    trade->species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES_OR_EGG);
     trade->level = GetMonData(&gPlayerParty[monId], MON_DATA_LEVEL);
     trade->personality = GetMonData(&gPlayerParty[monId], MON_DATA_PERSONALITY);
 }
@@ -4374,7 +4374,7 @@ static u32 GetPartyPositionOfRegisteredMon(struct UnionRoomTrade *trade, u8 mult
         cur_personality = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY);
         if (cur_personality != personality)
             continue;
-        cur_species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2);
+        cur_species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
         if (cur_species != species)
             continue;
         response = i;

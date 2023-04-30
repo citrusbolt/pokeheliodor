@@ -1981,7 +1981,7 @@ void GiveEventEgg(void)
 	SetMonData(&mon, MON_DATA_LANGUAGE, &language);
 	SetMonData(&mon, MON_DATA_MET_GAME, &version);
 	SetMonData(&mon, MON_DATA_MET_LOCATION, &metLocation);
-	SetMonData(&mon, MON_DATA_EVENT_LEGAL, &fatefulEncounter);
+	SetMonData(&mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, &fatefulEncounter);
 	SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
 	SetMonMoveSlot(&mon, move0, 0);
 	SetMonMoveSlot(&mon, move1, 1);
