@@ -178,7 +178,7 @@ static void DrawChoices_Nickname(int selection, int y);
 static void DrawChoices_Font(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_OnOff(int selection, int y);
-static void DrawChoices_ExtPort(int selection, int y);
+static void DrawChoices_Rumble(int selection, int y);
 static void DrawBgWindowFramesOptions(void);
 static int ProcessInput_Options_MessageColor(int selection);
 static void DrawBgWindowFramesDescription(void);
@@ -207,7 +207,8 @@ static const u8 sText_UnitSystem[]      = _("UNIT SYSTEM");
 static const u8 sText_Clock[]           = _("12 HOUR CLOCK");
 static const u8 sText_PartyBox[]        = _("PARTY/BOX");
 static const u8 sText_Nickname[]        = _("GIVE NICKNAMES");
-static const u8 sText_Rumble[]          = _("EXT. PORT");
+static const u8 sText_Rumble[]          = _("RUMBLE");
+static const u8 sText_ExtPort[]         = _("EXT. PORT");
 static const u8 sText_Confirm[]         = _("CLOSE");
 
 static const u8 sText_FollowerPkmn[]    = _("FOLLOWER {PKMN}");
@@ -316,7 +317,7 @@ static const sItemFunctionsGame[MENUITEM_COUNT] =
     [MENUITEM_CLOCK]         = {DrawChoices_OnOff,        ProcessInput_Options_Two},
     //[MENUITEM_PARTY_BOX]     = {DrawChoices_PartyBox,     ProcessInput_Options_Two},
     [MENUITEM_NICKNAME]      = {DrawChoices_Nickname,     ProcessInput_Options_Two},
-    [MENUITEM_RUMBLE]        = {DrawChoices_ExtPort,      ProcessInput_Options_Two},
+    [MENUITEM_RUMBLE]        = {DrawChoices_Rumble,       ProcessInput_Options_Two},
     [MENUITEM_CONFIRM]       = {NULL,                     NULL}
 };
 
@@ -344,7 +345,10 @@ static const u8 *const OptionTextRight(u8 menuItem)
     switch (sOptions->submenu)
     {
         case 0:
-            return sOptionMenuItemsNamesGame[menuItem];    
+            if (menuItem == MENUITEM_RUMBLE && gGameBoyPlayerDetected)
+                return sText_ExtPort;
+            else
+                return sOptionMenuItemsNamesGame[menuItem];
     }
 }
 
@@ -372,7 +376,8 @@ static const u8 sText_Desc_UnitSystem[]   = _("Choose the system of measurement\
 static const u8 sText_Desc_Clock[]        = _("Choose the menu's clock mode.");
 static const u8 sText_Desc_PartyBox[]     = _("Choose to have {PKMN} automatically\nsent to your Boxes or not.");
 static const u8 sText_Desc_Nickname[]     = _("Choose whether you wish to\nnickname a {PKMN} when you obtain it.");
-static const u8 sText_Desc_Rumble[]       = _("Choose the EXT. function for the\nNintendo Game Boy Player.");
+static const u8 sText_Desc_Rumble[]       = _("Choose whether to enable the\nrumble feature.");
+static const u8 sText_Desc_ExtPort[]      = _("Choose the EXT. function for the\nNintendo Game Boy Player.");
 static const u8 sText_Desc_Confirm[]      = _("Return to the game.");
 
 static const u8 *const sOptionMenuItemDescriptionsGame[MENUITEM_COUNT] =
@@ -401,7 +406,9 @@ static const u8 *const OptionTextDescription(void)
     switch (sOptions->submenu)
     {
     case 0:
-        selection = sOptions->sel[menuItem];  
+        if (menuItem == MENUITEM_RUMBLE && gGameBoyPlayerDetected)
+            return sText_Desc_ExtPort;
+        else
             return sOptionMenuItemDescriptionsGame[menuItem];
     }
 }
@@ -637,7 +644,11 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_CLOCK]         = gSaveBlock2Ptr->options24HourClock;
         //sOptions->sel[MENUITEM_PARTY_BOX]     = gSaveBlock2Ptr->optionsPartyBox;
         sOptions->sel[MENUITEM_NICKNAME]      = gSaveBlock2Ptr->optionsNickname;
-        sOptions->sel[MENUITEM_RUMBLE]        = gSaveBlock2Ptr->optionsRumble;
+
+        if (gGameBoyPlayerDetected)
+            sOptions->sel[MENUITEM_RUMBLE]    = gSaveBlock2Ptr->optionsGBPRumble;
+        else
+            sOptions->sel[MENUITEM_RUMBLE]    = !gSaveBlock2Ptr->optionsCartRumble;
 
         sOptions->submenu = MENU_GAME;
 
@@ -856,7 +867,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 
 static void Task_OptionMenuSave(u8 taskId)
 {
-    if (gGameBoyPlayerDetected && sOptions->sel[MENUITEM_RUMBLE] && !gSaveBlock2Ptr->optionsRumble)
+    if (gGameBoyPlayerDetected && sOptions->sel[MENUITEM_RUMBLE] && !gSaveBlock2Ptr->optionsGBPRumble)
     {
         EnableInterrupts(INTR_FLAG_VBLANK | INTR_FLAG_SERIAL);
         REG_RCNT = 0;
@@ -880,7 +891,11 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->options24HourClock     = sOptions->sel[MENUITEM_CLOCK];
     //gSaveBlock2Ptr->optionsPartyBox        = sOptions->sel[MENUITEM_PARTY_BOX];
     gSaveBlock2Ptr->optionsNickname        = sOptions->sel[MENUITEM_NICKNAME];
-    gSaveBlock2Ptr->optionsRumble          = sOptions->sel[MENUITEM_RUMBLE];
+
+    if (gGameBoyPlayerDetected)
+        gSaveBlock2Ptr->optionsGBPRumble   = sOptions->sel[MENUITEM_RUMBLE];
+    else
+        gSaveBlock2Ptr->optionsCartRumble  = !sOptions->sel[MENUITEM_RUMBLE];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -1322,14 +1337,22 @@ static void DrawChoices_OnOff(int selection, int y)
     DrawOptionMenuChoice(sText_OptionOff, GetStringRightAlignXOffset(1, sText_OptionOff, 198), y, styles[1], active);
 }
 
-static void DrawChoices_ExtPort(int selection, int y)
+static void DrawChoices_Rumble(int selection, int y)
 {
     bool8 active = CheckConditions(MENUITEM_RUMBLE);
     u8 styles[2] = {0};
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(sText_OptionLink, 104, y, styles[0], active);
-    DrawOptionMenuChoice(sText_OptionRumble, GetStringRightAlignXOffset(1, sText_OptionRumble, 198), y, styles[1], active);
+    if (gGameBoyPlayerDetected)
+    {
+        DrawOptionMenuChoice(sText_OptionLink, 104, y, styles[0], active);
+        DrawOptionMenuChoice(sText_OptionRumble, GetStringRightAlignXOffset(1, sText_OptionRumble, 198), y, styles[1], active);
+    }
+    else
+    {
+        DrawOptionMenuChoice(sText_OptionOn, 104, y, styles[0], active);
+        DrawOptionMenuChoice(sText_OptionOff, GetStringRightAlignXOffset(1, sText_OptionOff, 198), y, styles[1], active);
+    }
 }
 
 // Background tilemap

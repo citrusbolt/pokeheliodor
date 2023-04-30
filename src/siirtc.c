@@ -5,6 +5,7 @@
 #include "gba/gba.h"
 #include "siirtc.h"
 #include "config.h"
+#include "rumble.h"
 
 #define STATUS_INTFE  0x02 // frequency interrupt enable
 #define STATUS_INTME  0x08 // per-minute interrupt enable
@@ -57,12 +58,10 @@
 #define DIR_1_OUT   2
 #define DIR_2_IN    0
 #define DIR_2_OUT   4
-#define DIR_ALL_IN  (DIR_0_IN | DIR_1_IN | DIR_2_IN)
-#define DIR_ALL_OUT (DIR_0_OUT | DIR_1_OUT | DIR_2_OUT)
-
-#define GPIO_PORT_DATA        (*(vu16 *)0x80000C4)
-#define GPIO_PORT_DIRECTION   (*(vu16 *)0x80000C6)
-#define GPIO_PORT_READ_ENABLE (*(vu16 *)0x80000C8)
+#define DIR_3_IN    0
+#define DIR_3_OUT   8
+#define DIR_ALL_IN  (DIR_0_IN | DIR_1_IN | DIR_2_IN | DIR_3_IN)
+#define DIR_ALL_OUT (DIR_0_OUT | DIR_1_OUT | DIR_2_OUT | DIR_3_OUT)
 
 extern vu16 GPIOPortDirection;
 
@@ -140,15 +139,15 @@ bool8 SiiRtcReset(void)
 
     sLocked = TRUE;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     GPIO_PORT_DIRECTION = DIR_ALL_OUT;
 
     WriteCommand(CMD_RESET | WR);
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -168,14 +167,14 @@ bool8 SiiRtcGetStatus(struct SiiRtcInfo *rtc)
 
     sLocked = TRUE;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     GPIO_PORT_DIRECTION = DIR_ALL_OUT;
 
     WriteCommand(CMD_STATUS | RD);
 
-    GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT;
+    GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT | DIR_3_OUT;
 
     statusData = ReadData();
 
@@ -184,8 +183,8 @@ bool8 SiiRtcGetStatus(struct SiiRtcInfo *rtc)
                 | ((statusData & STATUS_INTME) >> 2)
                 | ((statusData & STATUS_INTFE) >> 1);
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -201,8 +200,8 @@ bool8 SiiRtcSetStatus(struct SiiRtcInfo *rtc)
 
     sLocked = TRUE;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     statusData = STATUS_24HOUR
                | ((rtc->status & SIIRTCINFO_INTAE) << 3)
@@ -215,8 +214,8 @@ bool8 SiiRtcSetStatus(struct SiiRtcInfo *rtc)
 
     WriteData(statusData);
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -232,22 +231,22 @@ bool8 SiiRtcGetDateTime(struct SiiRtcInfo *rtc)
 
     sLocked = TRUE;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     GPIO_PORT_DIRECTION = DIR_ALL_OUT;
 
     WriteCommand(CMD_DATETIME | RD);
 
-    GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT;
+    GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT | DIR_3_OUT;
 
     for (i = 0; i < DATETIME_BUF_LEN; i++)
         DATETIME_BUF(rtc, i) = ReadData();
 
     INFO_BUF(rtc, OFFSET_HOUR) &= 0x7F;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -263,8 +262,8 @@ bool8 SiiRtcSetDateTime(struct SiiRtcInfo *rtc)
 
     sLocked = TRUE;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     GPIO_PORT_DIRECTION = DIR_ALL_OUT;
 
@@ -273,8 +272,8 @@ bool8 SiiRtcSetDateTime(struct SiiRtcInfo *rtc)
     for (i = 0; i < DATETIME_BUF_LEN; i++)
         WriteData(DATETIME_BUF(rtc, i));
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -290,22 +289,22 @@ bool8 SiiRtcGetTime(struct SiiRtcInfo *rtc)
 
     sLocked = TRUE;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     GPIO_PORT_DIRECTION = DIR_ALL_OUT;
 
     WriteCommand(CMD_TIME | RD);
 
-    GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT;
+    GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT | DIR_3_OUT;
 
     for (i = 0; i < TIME_BUF_LEN; i++)
         TIME_BUF(rtc, i) = ReadData();
 
     INFO_BUF(rtc, OFFSET_HOUR) &= 0x7F;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -321,8 +320,8 @@ bool8 SiiRtcSetTime(struct SiiRtcInfo *rtc)
 
     sLocked = TRUE;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     GPIO_PORT_DIRECTION = DIR_ALL_OUT;
 
@@ -331,8 +330,8 @@ bool8 SiiRtcSetTime(struct SiiRtcInfo *rtc)
     for (i = 0; i < TIME_BUF_LEN; i++)
         WriteData(TIME_BUF(rtc, i));
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -361,8 +360,8 @@ bool8 SiiRtcSetAlarm(struct SiiRtcInfo *rtc)
 
     alarmData[1] = rtc->alarmMinute;
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI | CS_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
     GPIOPortDirection = DIR_ALL_OUT; // Why is this the only instance that uses a symbol?
 
@@ -371,8 +370,8 @@ bool8 SiiRtcSetAlarm(struct SiiRtcInfo *rtc)
     for (i = 0; i < 2; i++)
         WriteData(alarmData[i]);
 
-    GPIO_PORT_DATA = SCK_HI;
-    GPIO_PORT_DATA = SCK_HI;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
+    GPIO_PORT_DATA = SCK_HI | gRumbleGPIOMask;
 
     sLocked = FALSE;
 
@@ -387,10 +386,10 @@ static int WriteCommand(u8 value)
     for (i = 0; i < 8; i++)
     {
         temp = ((value >> (7 - i)) & 1);
-        GPIO_PORT_DATA = (temp << 1) | CS_HI;
-        GPIO_PORT_DATA = (temp << 1) | CS_HI;
-        GPIO_PORT_DATA = (temp << 1) | CS_HI;
-        GPIO_PORT_DATA = (temp << 1) | SCK_HI | CS_HI;
+        GPIO_PORT_DATA = (temp << 1) | CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = (temp << 1) | CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = (temp << 1) | CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = (temp << 1) | SCK_HI | CS_HI | gRumbleGPIOMask;
     }
 
     return 0;
@@ -404,10 +403,10 @@ static int WriteData(u8 value)
     for (i = 0; i < 8; i++)
     {
         temp = ((value >> i) & 1);
-        GPIO_PORT_DATA = (temp << 1) | CS_HI;
-        GPIO_PORT_DATA = (temp << 1) | CS_HI;
-        GPIO_PORT_DATA = (temp << 1) | CS_HI;
-        GPIO_PORT_DATA = (temp << 1) | SCK_HI | CS_HI;
+        GPIO_PORT_DATA = (temp << 1) | CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = (temp << 1) | CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = (temp << 1) | CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = (temp << 1) | SCK_HI | CS_HI | gRumbleGPIOMask;
     }
 
     return 0;
@@ -421,12 +420,12 @@ static u8 ReadData()
 
     for (i = 0; i < 8; i++)
     {
-        GPIO_PORT_DATA = CS_HI;
-        GPIO_PORT_DATA = CS_HI;
-        GPIO_PORT_DATA = CS_HI;
-        GPIO_PORT_DATA = CS_HI;
-        GPIO_PORT_DATA = CS_HI;
-        GPIO_PORT_DATA = SCK_HI | CS_HI;
+        GPIO_PORT_DATA = CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = CS_HI | gRumbleGPIOMask;
+        GPIO_PORT_DATA = SCK_HI | CS_HI | gRumbleGPIOMask;
 
         temp = ((GPIO_PORT_DATA & SIO_HI) >> 1);
         value = (value >> 1) | (temp << 7);

@@ -226,7 +226,7 @@ static const u8 sUnusedData[] = {0x00, 0xFF, 0xFE, 0xFF, 0x00};
 
 bool8 IsWirelessAdapterConnected(void)
 {
-    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble)
         return 0xFF;
 
     SetWirelessCommType1();

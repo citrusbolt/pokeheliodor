@@ -505,8 +505,9 @@ struct SaveBlock2
     /*0x16*/ u16 optionsFont:3;
              u16 optionsPartyBox:1;
              u16 optionsNickname:1;
-             u16 optionsRumble:1;
-             u16 optionsUnused:10;
+             u16 optionsGBPRumble:1;
+             u16 optionsCartRumble:1;
+             u16 optionsUnused:9;
     /*0x18*/ struct Pokedex pokedex;
 	/*0x90*/ u16 lastUsedBall;
 	/*0x92*/ u16 powerPoints;

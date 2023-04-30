@@ -1100,21 +1100,21 @@ static u8 SetUpCopyrightScreen(void)
                                    | BGCNT_SCREENBASE(7)
                                    | BGCNT_16COLOR
                                    | BGCNT_TXT256x256);
-        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble))
             EnableInterrupts(INTR_FLAG_VBLANK);
         SetVBlankCallback(VBlankCB_Intro);
         REG_DISPCNT = DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON;
         SetSerialCallback(SerialCB_CopyrightScreen);
-        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble))
             GameCubeMultiBoot_Init(&gMultibootProgramStruct);
     default:
         UpdatePaletteFade();
         gMain.state++;
-        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble))
             GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         break;
     case 141:
-        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+        if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble))
             GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         if (gMultibootProgramStruct.gcmb_field_2 != 1)
         {
@@ -1142,7 +1142,7 @@ static u8 SetUpCopyrightScreen(void)
         }
         else
         {
-            if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+            if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble))
             {
                 GameCubeMultiBoot_Quit();
                 SetSerialCallback(SerialCB);
@@ -1244,7 +1244,7 @@ static void Task_Scene1_FadeIn(u8 taskId)
     gTasks[taskId].func = Task_Scene1_WaterDrops;
     gIntroFrameCounter = 0;
     m4aSongNumStart(MUS_INTRO);
-    if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+    if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble))
         ResetSerial();
 }
 
@@ -3549,7 +3549,7 @@ void CB2_SolitairiScreen(void)
                                     | BGCNT_SCREENBASE(7)
                                     | BGCNT_16COLOR
                                     | BGCNT_TXT256x256);
-            if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble))
+            if (!(gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble))
                 EnableInterrupts(INTR_FLAG_VBLANK);
             SetVBlankCallback(VBlankCB_Intro);
             REG_DISPCNT = DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON;

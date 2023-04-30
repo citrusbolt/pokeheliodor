@@ -750,7 +750,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                 gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
                 break;
         }
-        if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+        if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble)
         {
             switch (tMenuType)
             {

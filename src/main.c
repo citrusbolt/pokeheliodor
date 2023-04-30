@@ -128,7 +128,7 @@ void AgbMain()
 #endif
     for (;;)
     {
-        if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+        if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble)
             RumbleFrameUpdate();
 
         ReadKeys();
@@ -399,7 +399,7 @@ static void VCountIntr(void)
 
 static void SerialIntr(void)
 {
-    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble)
+    if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble)
         GBPSerialInterrupt();
     else if (gMain.serialCallback)
         gMain.serialCallback();
