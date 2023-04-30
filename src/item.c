@@ -17,19 +17,16 @@
 #include "pokedex.h"
 #include "pokeball.h"
 
-// this file's functions
 static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count);
 static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count);
 void ItemId_GetHoldEffectParam_Script();
 
-// EWRAM variables
 EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
 EWRAM_DATA struct ItemSlot gBagTMHMPocket[BAG_TMHM_COUNT] = {0};
 EWRAM_DATA struct ItemSlot gBagBerriesPocket[BAG_BERRIES_COUNT] = {0};
 EWRAM_DATA struct ItemSlot gBagMailPocket[BAG_MAIL_COUNT] = {0};
 EWRAM_DATA struct ItemSlot gBagKeyItemsPocket[BAG_KEYITEMS_COUNT] = {0};
 
-// rodata
 #include "data/text/item_descriptions.h"
 #include "data/items.h"
 

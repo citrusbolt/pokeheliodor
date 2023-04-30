@@ -41,3 +41,4 @@ prefabs.json
 *.js
 *.bps
 data/mb_berry_fix.gba
+*.delta_*.json

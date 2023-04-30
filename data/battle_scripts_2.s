@@ -65,7 +65,7 @@ BattleScript_SuccessBallThrow::
 	jumpifhalfword CMP_EQUAL, gLastUsedItem, ITEM_SAFARI_BALL, BattleScript_PrintCaughtMonInfo
 	incrementgamestat GAME_STAT_POKEMON_CAPTURES
 BattleScript_PrintCaughtMonInfo::
-	printstring STRINGID_GOTCHAPKMNCAUGHT
+	printstring STRINGID_GOTCHAPKMNCAUGHTPLAYER
 	setbyte sGIVEEXP_STATE, 0x0
 	getexp BS_TARGET
 	trysetcaughtmondexflags BattleScript_TryNicknameCaughtMon
@@ -98,7 +98,7 @@ BattleScript_SuccessBallThrowEnd::
 	finishturn
 
 BattleScript_WallyBallThrow::
-	printstring STRINGID_GOTCHAPKMNCAUGHT2
+	printstring STRINGID_GOTCHAPKMNCAUGHTWALLY
 	setbyte gBattleOutcome, B_OUTCOME_CAUGHT
 	finishturn
 

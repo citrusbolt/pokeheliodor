@@ -4133,9 +4133,13 @@ extern const u32 gIntroSparkle_Gfx[];
 extern const u32 gIntroFlygonSilhouette_Gfx[];
 extern const u32 gIntroLightning_Gfx[];
 extern const u16 gIntroLightning_Pal[];
-extern const u32 gIntroCopyright_Gfx[];
-extern const u32 gIntroCopyright_Tilemap[];
-extern const u16 gIntroCopyright_Pal[16];
+extern const u32 gIntroSolitairi_Gfx[];
+extern const u32 gIntroSolitairi_Tilemap[];
+extern const u16 gIntroSolitairi_Pal[16];
+extern const u32 gIntroGameFreak_Gfx[];
+extern const u32 gIntroGameFreak_Tilemap[];
+extern const u16 gIntroGameFreak_Pal[16];
+extern const u32 gIntroWhiteScreen_Tilemap[];
 extern const u32 gIntroVolbeat_Gfx[];
 extern const u16 gIntroVolbeat_Pal[];
 extern const u32 gIntroTorchic_Gfx[];
@@ -4366,14 +4370,19 @@ extern const u16 gBattlePyramidFloor_Pal[][16];
 
 extern const u16 gStandardMenuPalette[];
 
-extern const u32 gTitleScreenEmeraldVersionGfx[];
+extern const u32 gTitleScreenVersionGfx[];
+extern const u32 gTitleScreenVersionJPGfx[];
 extern const u32 gTitleScreenPressStartGfx[];
 extern const u32 gTitleScreenPokemonLogoGfx[];
+extern const u32 gTitleScreenPokemonLogoJPGfx[];
 extern const u32 gTitleScreenPokemonLogoTilemap[];
 extern const u32 gTitleScreenCloudsTilemap[];
-extern const u16 gTitleScreenBgPalettes[];
+extern const u16 gTitleScreenBgPal[];
+extern const u32 gTitleScreenPokemonLogoPal[];
+extern const u32 gTitleScreenPokemonLogoJPPal[];
 extern const u16 gTitleScreenPressStartPal[];
-extern const u16 gTitleScreenEmeraldVersionPal[];
+extern const u16 gTitleScreenVersionPal[];
+extern const u16 gTitleScreenVersionJPPal[];
 
 // Battle Dome
 extern const u32 gDomeTourneyInfoCard_Gfx[];
@@ -5253,10 +5262,10 @@ extern const u32 gUsePokeblockCondition_Gfx[];
 extern const u16 gUnionRoomChat_Background_Pal[];
 extern const u32 gUnionRoomChat_Background_Gfx[];
 extern const u32 gUnionRoomChat_Background_Tilemap[];
-extern const u16 gUnionRoomChat_Window_Pal1[];
-extern const u16 gUnionRoomChat_Window_Pal2[];
-extern const u32 gUnionRoomChat_Border_Gfx[];
-extern const u32 gUnionRoomChat_Border_Tilemap[];
+extern const u16 gUnionRoomChat_InputText_Pal[];
+extern const u16 gUnionRoomChat_Keyboard_Pal[];
+extern const u32 gUnionRoomChat_Keyboard_Gfx[];
+extern const u32 gUnionRoomChat_Keyboard_Tilemap[];
 extern const u32 gUnionRoomChat_RButtonLabels[];
 
 // Use Pokeblock
