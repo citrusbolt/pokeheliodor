@@ -5,6 +5,7 @@
 
 EWRAM_DATA struct GBPCommunication gGBPCommunication;
 EWRAM_DATA u32 gRumbleState = 0;
+EWRAM_DATA u16 gRumbleGPIOMask = 0;
 
 static u16 const sNintendoHandshakeData[] = {0x494E, 0x544E, 0x4E45, 0x4F44, 0x8000};
 
@@ -92,10 +93,14 @@ void RumbleFrameUpdate()
 
 void SetRumbleState(u32 state)
 {
+    u16 rtcGPIOMask;
+
     gRumbleState = state;
 
-    if (!gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsRumble) {
-        GPIO_PORT_DIRECTION = 1 << 3;
-        GPIO_PORT_DATA = (gRumbleState == RUMBLE_ON) << 3;
+    if (!gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsCartRumble)
+    {
+        rtcGPIOMask = GPIO_PORT_DATA & 7;
+        gRumbleGPIOMask = (gRumbleState == RUMBLE_ON) << 3;
+        GPIO_PORT_DATA = rtcGPIOMask | gRumbleGPIOMask;
     }
 }

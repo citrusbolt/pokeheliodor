@@ -29,5 +29,6 @@ void SetRumbleState(u32 state);
 
 extern EWRAM_DATA struct GBPCommunication gGBPCommunication;
 extern EWRAM_DATA u32 gRumbleState;
+extern EWRAM_DATA u16 gRumbleGPIOMask;
 
 #endif // GUARD_RUMBLE_H
