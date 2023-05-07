@@ -293,6 +293,8 @@ const u8 gTrainerBackPic_RubySapphireBrendan[] = INCBIN_U8("graphics/trainers/ba
 const u8 gTrainerBackPic_RubySapphireMay[] = INCBIN_U8("graphics/trainers/back_pics/may_rs.4bpp");
 const u8 gTrainerBackPic_Wally[] = INCBIN_U8("graphics/trainers/back_pics/wally.4bpp");
 const u8 gTrainerBackPic_Steven[] = INCBIN_U8("graphics/trainers/back_pics/steven.4bpp");
+const u8 gTrainerBackPic_EmeraldBrendan[] = INCBIN_U8("graphics/trainers/back_pics/brendan_e.4bpp");
+const u8 gTrainerBackPic_EmeraldMay[] = INCBIN_U8("graphics/trainers/back_pics/may_e.4bpp");
 const u8 gTrainerBackPic_Gold[] = INCBIN_U8("graphics/trainers/back_pics/gold.4bpp");
 const u8 gTrainerBackPic_Kris[] = INCBIN_U8("graphics/trainers/back_pics/kris.4bpp");
 

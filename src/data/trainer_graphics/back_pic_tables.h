@@ -21,62 +21,62 @@ const struct CompressedSpriteSheet gTrainerBackPicTable[] =
 {
     [TRAINER_BACK_PIC_BRENDAN] = {
         .data = (const u32 *)gTrainerBackPic_Brendan,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Brendan),
         .tag = TRAINER_BACK_PIC_BRENDAN,
     },
     [TRAINER_BACK_PIC_MAY] = {
         .data = (const u32 *)gTrainerBackPic_May,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_May),
         .tag = TRAINER_BACK_PIC_MAY,
     },
     [TRAINER_BACK_PIC_RED] = {
         .data = (const u32 *)gTrainerBackPic_Red,
-        .size = 0x2800,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Red),
         .tag = TRAINER_BACK_PIC_RED,
     },
     [TRAINER_BACK_PIC_LEAF] = {
         .data = (const u32 *)gTrainerBackPic_Leaf,
-        .size = 0x2800,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Leaf),
         .tag = TRAINER_BACK_PIC_LEAF,
     },
     [TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN] = {
         .data = (const u32 *)gTrainerBackPic_RubySapphireBrendan,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RubySapphireBrendan),
         .tag = TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN,
     },
     [TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY] = {
         .data = (const u32 *)gTrainerBackPic_RubySapphireMay,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RubySapphireMay),
         .tag = TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY,
     },
     [TRAINER_BACK_PIC_WALLY] = {
         .data = (const u32 *)gTrainerBackPic_Wally,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Wally),
         .tag = TRAINER_BACK_PIC_WALLY,
     },
     [TRAINER_BACK_PIC_STEVEN] = {
         .data = (const u32 *)gTrainerBackPic_Steven,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Steven),
         .tag = TRAINER_BACK_PIC_STEVEN,
     },
     [TRAINER_BACK_PIC_EMERALD_BRENDAN] = {
-        .data = (const u32 *)gTrainerBackPic_Brendan,
-        .size = 0x2000,
+        .data = (const u32 *)gTrainerBackPic_EmeraldBrendan,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_EmeraldBrendan),
         .tag = TRAINER_BACK_PIC_EMERALD_BRENDAN,
     },
     [TRAINER_BACK_PIC_EMERALD_MAY] = {
-        .data = (const u32 *)gTrainerBackPic_May,
-        .size = 0x2000,
+        .data = (const u32 *)gTrainerBackPic_EmeraldMay,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_EmeraldMay),
         .tag = TRAINER_BACK_PIC_EMERALD_MAY,
     },
     [TRAINER_BACK_PIC_GOLD] = {
         .data = (const u32 *)gTrainerBackPic_Gold,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Gold),
         .tag = TRAINER_BACK_PIC_GOLD,
     },
     [TRAINER_BACK_PIC_KRIS] = {
         .data = (const u32 *)gTrainerBackPic_Kris,
-        .size = 0x2000,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Kris),
         .tag = TRAINER_BACK_PIC_KRIS,
     },
 };

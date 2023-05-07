@@ -3193,6 +3193,8 @@ extern const u8 gTrainerBackPic_RubySapphireBrendan[];
 extern const u8 gTrainerBackPic_RubySapphireMay[];
 extern const u8 gTrainerBackPic_Wally[];
 extern const u8 gTrainerBackPic_Steven[];
+extern const u8 gTrainerBackPic_EmeraldBrendan[];
+extern const u8 gTrainerBackPic_EmeraldMay[];
 extern const u8 gTrainerBackPic_Gold[];
 extern const u8 gTrainerBackPic_Kris[];
 
