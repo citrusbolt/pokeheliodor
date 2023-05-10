@@ -42,3 +42,4 @@ prefabs.json
 *.bps
 data/mb_berry_fix.gba
 *.delta_*.json
+__pycache__
