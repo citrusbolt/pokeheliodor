@@ -55,7 +55,7 @@
 #define CONFIG_CAN_FORGET_HM_MOVES                      TRUE
 #define CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP    TRUE
 #define CONFIG_PHYSICAL_SPECIAL_SPLIT                   FALSE	// Takes precendence over CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
-#define CONFIG_SHOW_ICONS_FOR_OLD_SPLIT                 FALSE
+#define CONFIG_SHOW_ICONS_FOR_OLD_SPLIT                 TRUE
 #define CONFIG_EXPANDED_MET_LOCATIONS                   TRUE
 #define CONFIG_TRUST_OUTSIDERS                          TRUE
 #define CONFIG_SHOW_HIDDEN_POWER_STATS                  TRUE
