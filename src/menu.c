@@ -110,7 +110,7 @@ static const u16 sHofPC_TopBar_Pal[] = INCBIN_U16("graphics/interface/hof_pc_top
 static const u8 sTextColors[] = { TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY };
 
 // Table of move info icon offsets in graphics/interface/menu_info.png
-static const struct MenuInfoIcon sMenuInfoIcons[] =
+const struct MenuInfoIcon sMenuInfoIcons[] =
 {   // { width, height, offset }
     { 12, 12, 0x00 },  // Unused
     [TYPE_NORMAL + 1]   = { 32, 12, 0x20 },

@@ -36,7 +36,8 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "constants/rgb.h"
-#include "rumble.h"
+#include "graphics.h"
+#include "menu.h"
 
 static void PlayerHandleGetMonData(void);
 static void PlayerHandleSetMonData(void);
@@ -121,6 +122,7 @@ static void DoSwitchOutAnimation(void);
 static void PlayerDoMoveAnimation(void);
 static void Task_StartSendOutAnim(u8);
 static void EndDrawPartyStatusSummary(void);
+static void MoveSelectionDisplayTypeIcon(u8);
 static void MoveSelectionDisplaySplitIcon(void);
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
@@ -1534,6 +1536,7 @@ static void MoveSelectionDisplayPpNumber(void)
 static void MoveSelectionDisplayMoveType(void)
 {
     u8 *txtPtr;
+    u8 type;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
 
     txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
@@ -1550,18 +1553,20 @@ static void MoveSelectionDisplayMoveType(void)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV) & 1) << 4)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 1) << 5);
 
-        u8 type = (15 * typeBits) / 63 + 1;
+        type = (15 * typeBits) / 63 + 1;
         if (type >= TYPE_MYSTERY)
             type++;
         type |= 0xC0;
-        StringCopy(txtPtr, gTypeNames[type & 0x3F]);
+        type &= 0x3F;
     }
     else
     {
-        StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
+        type = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type;
     }
 
-    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    //StringCopy(txtPtr, gTypeNames[type]);
+    //BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    MoveSelectionDisplayTypeIcon(type);
     MoveSelectionDisplaySplitIcon();
 }
 
@@ -3255,6 +3260,15 @@ static void PlayerHandleEndLinkBattle(void)
 
 static void PlayerCmdEnd(void)
 {
+}
+
+static void MoveSelectionDisplayTypeIcon(u8 type)
+{
+    ListMenuLoadStdPalAt(BG_PLTT_ID(12), 1);
+	PutWindowTilemap(B_WIN_MOVE_TYPE);
+    FillWindowPixelBuffer(B_WIN_MOVE_TYPE, PIXEL_FILL(15));
+    BlitMenuInfoIcon(B_WIN_MOVE_TYPE, type + 1, 16, 2);
+	CopyWindowToVram(B_WIN_MOVE_TYPE, COPYWIN_FULL);
 }
 
 static void MoveSelectionDisplaySplitIcon(void){
