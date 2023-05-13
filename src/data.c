@@ -52,6 +52,7 @@ const struct SpriteFrameImage gTrainerBackPicTable_Brendan[] =
     gTrainerBackPic_Brendan + TRAINER_PIC_SIZE * 1, TRAINER_PIC_SIZE,
     gTrainerBackPic_Brendan + TRAINER_PIC_SIZE * 2, TRAINER_PIC_SIZE,
     gTrainerBackPic_Brendan + TRAINER_PIC_SIZE * 3, TRAINER_PIC_SIZE,
+    gTrainerBackPic_Brendan + TRAINER_PIC_SIZE * 4, TRAINER_PIC_SIZE,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_May[] =
@@ -60,6 +61,7 @@ const struct SpriteFrameImage gTrainerBackPicTable_May[] =
     gTrainerBackPic_May + TRAINER_PIC_SIZE * 1, TRAINER_PIC_SIZE,
     gTrainerBackPic_May + TRAINER_PIC_SIZE * 2, TRAINER_PIC_SIZE,
     gTrainerBackPic_May + TRAINER_PIC_SIZE * 3, TRAINER_PIC_SIZE,
+    gTrainerBackPic_May + TRAINER_PIC_SIZE * 5, TRAINER_PIC_SIZE,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_Red[] =
@@ -118,6 +120,7 @@ const struct SpriteFrameImage gTrainerBackPicTable_EmeraldBrendan[] =
     gTrainerBackPic_EmeraldBrendan + TRAINER_PIC_SIZE * 1, TRAINER_PIC_SIZE,
     gTrainerBackPic_EmeraldBrendan + TRAINER_PIC_SIZE * 2, TRAINER_PIC_SIZE,
     gTrainerBackPic_EmeraldBrendan + TRAINER_PIC_SIZE * 3, TRAINER_PIC_SIZE,
+    gTrainerBackPic_EmeraldBrendan + TRAINER_PIC_SIZE * 4, TRAINER_PIC_SIZE,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_EmeraldMay[] =
@@ -126,6 +129,7 @@ const struct SpriteFrameImage gTrainerBackPicTable_EmeraldMay[] =
     gTrainerBackPic_EmeraldMay + TRAINER_PIC_SIZE * 1, TRAINER_PIC_SIZE,
     gTrainerBackPic_EmeraldMay + TRAINER_PIC_SIZE * 2, TRAINER_PIC_SIZE,
     gTrainerBackPic_EmeraldMay + TRAINER_PIC_SIZE * 3, TRAINER_PIC_SIZE,
+    gTrainerBackPic_EmeraldMay + TRAINER_PIC_SIZE * 4, TRAINER_PIC_SIZE,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_Gold[] =
