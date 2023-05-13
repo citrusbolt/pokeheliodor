@@ -59,6 +59,7 @@
 #define CONFIG_EXPANDED_MET_LOCATIONS                   TRUE
 #define CONFIG_TRUST_OUTSIDERS                          TRUE
 #define CONFIG_SHOW_HIDDEN_POWER_STATS                  TRUE
+#define CONFIG_SHOW_FRIENDSHIP_MOVE_STATS               TRUE
 #define CONFIG_DECAPITALIZE_TITLE_STRINGS               FALSE
 #define CONFIG_DECAPITALIZE_STRINGS                     TRUE
 #define CONFIG_FATEFUL_ENCOUNTER_MARK                   TRUE
@@ -3497,6 +3498,7 @@ static void PrintMoveDetails(u16 move)
 	u32 heartRow1, heartRow2;
 	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
 	struct PokeSummary *summary = &sMonSummaryScreen->summary;
+    u8 monFriendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
 
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
@@ -3537,6 +3539,14 @@ static void PrintMoveDetails(u16 move)
 
 				ConvertIntToDecimalStringN(gStringVar1, powerForHiddenPower, STR_CONV_MODE_RIGHT_ALIGN, 3);
 			}
+            else if (move == MOVE_RETURN && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, (10 * monFriendship / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+            }
+            else if (move == MOVE_FRUSTRATION && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, (10 * (MAX_FRIENDSHIP - monFriendship) / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+            }
 			else
 			{
 				if (gBattleMoves[move].power < 2)
