@@ -18,7 +18,6 @@
 #include "constants/event_object_movement.h"
 #include "constants/field_effects.h"
 #include "constants/trainer_types.h"
-#include "field_weather.h"
 
 // this file's functions
 static u8 CheckTrainer(u8 objectEventId);
@@ -169,7 +168,7 @@ static const union AnimCmd *const sSpriteAnimTable_Icons[] =
 static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = 0x1100,   // LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_BRENDAN)
+    .paletteTag = TAG_NONE,
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
     .images = sSpriteImageTable_ExclamationQuestionMark,
@@ -180,7 +179,7 @@ static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 static const struct SpriteTemplate sSpriteTemplate_HeartIcon =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = 0x1006,   // LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_NPC_4)
+    .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
     .images = sSpriteImageTable_HeartIcon,
@@ -696,12 +695,7 @@ void TryPrepareSecondApproachingTrainer(void)
 
 u8 FldEff_ExclamationMarkIcon(void)
 {
-    u8 spriteId, paletteNum;
-
-    LoadObjectEventPalette(0x1100); // LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_BRENDAN)
-    UpdatePaletteColorMapType(IndexOfSpritePaletteTag(0x1100), COLOR_MAP_CONTRAST);
-    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1100));
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x53);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
@@ -711,12 +705,7 @@ u8 FldEff_ExclamationMarkIcon(void)
 
 u8 FldEff_QuestionMarkIcon(void)
 {
-    u8 spriteId;
-
-    LoadObjectEventPalette(0x1100); // LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_BRENDAN)
-    UpdatePaletteColorMapType(IndexOfSpritePaletteTag(0x1100), COLOR_MAP_CONTRAST);
-    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1100));
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_QUESTION_MARK_ICON, 1);
@@ -726,12 +715,7 @@ u8 FldEff_QuestionMarkIcon(void)
 
 u8 FldEff_HeartIcon(void)
 {
-    u8 spriteId;
-
-    LoadObjectEventPalette(0x1106); // LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_NPC_4)
-    UpdatePaletteColorMapType(IndexOfSpritePaletteTag(0x1106), COLOR_MAP_CONTRAST);
-    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1106));
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
     {
