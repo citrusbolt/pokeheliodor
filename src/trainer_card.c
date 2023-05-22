@@ -444,7 +444,7 @@ static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
     }
 };
 
-static const u8 sTrainerClasses[][20] = {
+static const u8 sTrainerClasses[][21] = {
     _("Pokémon Trainer"),
     _("Beauty"),                // Gen 1
     _("Bird Keeper"),
@@ -495,6 +495,9 @@ static const u8 sTrainerClasses[][20] = {
     _("Lorekeeper"),            // ORAS
     _("Secret Base Expert"),
     _("Berry Master"),          // GO
+    _("Team Instinct"),
+    _("Team Mystic"),
+    _("Team Valor"),
     _("Aether Foundation"),     // SM
     _("Battle Legend"),
     _("Faller"),                // not official class
@@ -504,7 +507,8 @@ static const u8 sTrainerClasses[][20] = {
     _("Battle Master"),         // LGPE
     _("{STR_VAR_1} Master"),
     _("Grand Master"),
-    _("Team GO Rocket"),        // GO
+    _("GO Ultra Recon Squad"),  // GO
+    _("Team GO Rocket"),
     _("Team Break"),            // Masters
     _("Gym Challenger"),        // SwSh
     _("Macro Cosmos"),
