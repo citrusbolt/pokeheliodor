@@ -622,7 +622,7 @@ static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y)
 {
     u8 x;
 	u16 price;
-	
+
     if (itemId != LIST_CANCEL)
     {
         if (sMartInfo.martType == MART_TYPE_NORMAL)
@@ -863,7 +863,7 @@ static void BuyMenuDrawMapMetatile(s16 x, s16 y, const u16 *src, u8 metatileLaye
 {
     u16 offset1 = x * 2;
     u16 offset2 = y * 64;
-    
+
     if(metatileLayerType == 0)
     {
         BuyMenuDrawMapMetatileLayer(sShopData->tilemapBuffers[2], offset1, offset2, src + 0);
@@ -1297,12 +1297,25 @@ static void BuyMenuReturnToItemList(u8 taskId)
     gTasks[taskId].func = Task_BuyMenu;
 }
 
+u16 GetMoneyCoordinates(void)
+{
+    switch(gSaveBlock2Ptr->optionsFont)
+    {
+    case 0:
+    case 2:
+    case 3:
+        return 38;
+    case 1:
+        return 36;
+    }
+}
+
 static void BuyMenuPrintItemQuantityAndPrice(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     FillWindowPixelBuffer(WIN_QUANTITY_PRICE, PIXEL_FILL(1));
-    PrintMoneyAmount(WIN_QUANTITY_PRICE, 38, 1, sShopData->totalCost, TEXT_SKIP_DRAW);
+    PrintMoneyAmount(WIN_QUANTITY_PRICE, GetMoneyCoordinates(), 1, sShopData->totalCost, TEXT_SKIP_DRAW);
     ConvertIntToDecimalStringN(gStringVar1, tItemCount, STR_CONV_MODE_LEADING_ZEROS, BAG_ITEM_CAPACITY_DIGITS);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
     BuyMenuPrint(WIN_QUANTITY_PRICE, gStringVar4, 0, 1, 0, COLORID_NORMAL);
