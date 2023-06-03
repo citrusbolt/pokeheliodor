@@ -2430,6 +2430,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u32 hId;
 	u32 lId;
 	u32 shinyValue;
+    bool32 otIdOverride = FALSE;
 	u16 rolls = 1;
 	
 	if (HasAllMons())
@@ -2545,6 +2546,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		otName[3] = 0xFF;
 		otGender = FEMALE;
 		otId = 0x00007991u; //31121:00000
+        otIdOverride = TRUE;
 		metLocation = METLOC_FATEFUL_ENCOUNTER;
 		language = LANGUAGE_JAPANESE;
 		version = VERSION_RUBY;
@@ -2593,6 +2595,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		otName[7] = 0xFF;
 		otGender = MALE;
 		otId = 0x00004E4Bu; //20043:00000
+        otIdOverride = TRUE;
 		metLocation = METLOC_FATEFUL_ENCOUNTER;
 		language = LANGUAGE_ENGLISH;
 		version = VERSION_RUBY;
@@ -2743,11 +2746,13 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			version = VERSION_SAPPHIRE;
 			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+        otIdOverride = TRUE;
 		}
 		else if (IsMonRubyExclusive(species))
 		{
 			version = VERSION_RUBY;
 			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+        otIdOverride = TRUE;
 		}
 		else if (IsMonRubySapphireExclusive(species))
 		{
@@ -2756,6 +2761,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 			else
 				version = VERSION_RUBY;
 			otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+        otIdOverride = TRUE;
 		}
 		else if (IsMonFireRedExclusive(species))
 		{
@@ -2820,7 +2826,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     {
         otId = fixedOtId;
     }
-    else // Player is the OT
+    else if (otIdOverride != TRUE) // Player is the OT
     {
         otId = gSaveBlock2Ptr->playerTrainerId[0]
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
