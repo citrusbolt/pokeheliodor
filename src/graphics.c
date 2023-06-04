@@ -1591,3 +1591,12 @@ const u16 gExpBarHealthBarGreenPal[] = INCBIN_U16("graphics/summary_screen/hp-ex
 const u8 gIntroGameBoyPlayer_Pal[] = INCBIN_U8("graphics/intro/gbp_pal.bin");
 const u8 gIntroGameBoyPlayer_Gfx[] = INCBIN_U8("graphics/intro/gbp_gfx.bin");
 const u8 gIntroGameBoyPlayer_Tilemap[] = INCBIN_U8("graphics/intro/gbp_map.bin");
+
+// Language labels in the summary screen
+const u32 gSprite_LangLabelJpn[] = INCBIN_U32("graphics/interface/lang_labels/jpn.4bpp.lz");
+const u32 gSprite_LangLabelEng[] = INCBIN_U32("graphics/interface/lang_labels/eng.4bpp.lz");
+const u32 gSprite_LangLabelFre[] = INCBIN_U32("graphics/interface/lang_labels/fre.4bpp.lz");
+const u32 gSprite_LangLabelIta[] = INCBIN_U32("graphics/interface/lang_labels/ita.4bpp.lz");
+const u32 gSprite_LangLabelGer[] = INCBIN_U32("graphics/interface/lang_labels/ger.4bpp.lz");
+const u32 gSprite_LangLabelSpa[] = INCBIN_U32("graphics/interface/lang_labels/spa.4bpp.lz");
+const u32 gSpritePalette_LangLabels[] = INCBIN_U32("graphics/interface/lang_labels/labels.gbapal.lz");

@@ -5371,4 +5371,12 @@ extern const u8 gIntroGameBoyPlayer_Gfx[];
 extern const u8 gIntroGameBoyPlayer_Tilemap[];
 extern const u8 gIntroGameBoyPlayer_Pal[16];
 
+extern const u32 gSprite_LangLabelJpn[];
+extern const u32 gSprite_LangLabelEng[];
+extern const u32 gSprite_LangLabelFre[];
+extern const u32 gSprite_LangLabelIta[];
+extern const u32 gSprite_LangLabelGer[];
+extern const u32 gSprite_LangLabelSpa[];
+extern const u32 gSpritePalette_LangLabels[];
+
 #endif //GUARD_GRAPHICS_H
