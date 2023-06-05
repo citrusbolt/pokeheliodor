@@ -111,7 +111,8 @@ enum
     SPRITE_ARR_ID_MOVE_SELECTOR1 = SPRITE_ARR_ID_TYPE + 7,
     SPRITE_ARR_ID_MOVE_SELECTOR2 = SPRITE_ARR_ID_MOVE_SELECTOR1 + MOVE_SELECTOR_SPRITES_COUNT,
     SPRITE_ARR_ID_SPLIT = SPRITE_ARR_ID_MOVE_SELECTOR2 + MOVE_SELECTOR_SPRITES_COUNT,
-	SPRITE_ARR_ID_COUNT = SPRITE_ARR_ID_SPLIT + 1
+    SPRITE_ARR_ID_LANGLABEL = SPRITE_ARR_ID_SPLIT + 1,
+	SPRITE_ARR_ID_COUNT = SPRITE_ARR_ID_LANGLABEL + 1
 };
 
 #define TILE_EMPTY_HEART  109
@@ -310,6 +311,7 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon);
 static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon);
 static void CreateCaughtBallSprite(struct Pokemon *mon);
 static void CreateHeldItemSprite(struct Pokemon *mon);
+static void CreateLangLabelSprite(struct Pokemon *mon);
 static void CreateSetStatusSprite(void);
 static void CreateMoveSelectorSprites(u8 idArrayStart);
 static void SpriteCB_MoveSelector(struct Sprite *sprite);
@@ -1246,7 +1248,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 9:
-        if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) != 0)
+        if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) != FALSE)
             gMain.state++;
         break;
     case 10:
@@ -1288,28 +1290,32 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 18:
+        CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
+        gMain.state++;
+        break;
+    case 19:
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
         break;
-    case 19:
+    case 20:
         CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
         gMain.state++;
         break;
-    case 20:
+    case 21:
         CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
         gMain.state++;
-    case 21:
+    case 22:
         CreateSetStatusSprite();
         gMain.state++;
         break;
-    case 22:
+    case 23:
         SetTypeIcons();
         gMain.state++;
         break;
-	case 23:
+	case 24:
 		if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
 		{
 			SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
@@ -1321,7 +1327,7 @@ static bool8 LoadGraphics(void)
 		}
 		gMain.state++;
 		break;
-    case 24:
+    case 25:
         if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
 		{
 			LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
@@ -1344,11 +1350,11 @@ static bool8 LoadGraphics(void)
 		}
         gMain.state++;
         break;
-    case 25:
+    case 26:
         BlendPalettes(PALETTES_ALL, 16, 0);
         gMain.state++;
         break;
-    case 26:
+    case 27:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         gPaletteFade.bufferTransferDisabled = 0;
         gMain.state++;
@@ -1737,60 +1743,67 @@ static void Task_ChangeSummaryMon(u8 taskId)
         FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
         break;
     case 5:
+        FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]]);
+        break;
+    case 6:
         CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
         sMonSummaryScreen->switchCounter = 0;
         break;
-    case 6:
+    case 7:
         if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) == FALSE)
             return;
         break;
-    case 7:
+    case 8:
         RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 8:
+    case 9:
         CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 9:
+    case 10:
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
-	case 10:
+	case 11:
+        CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
+        gMain.state++;
+        break;
+    case 12:
 		FreeMonIconPalettes();
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
-    case 11:
+    case 13:
         CreateSetStatusSprite();
         data[1] = 0;
         break;
-    case 12:
+    case 14:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &data[1]);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] == SPRITE_NONE)
             return;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 1;
         data[1] = 0;
         break;
-    case 13:
+    case 15:
         ConfigureHealthBarSprites();
         break;
-    case 14:
+    case 16:
         ConfigureExpBarSprites();
         break;
-    case 15:
+    case 17:
         SetTypeIcons();
         break;
-    case 16:
+    case 18:
         PrintMonInfo();
         break;
-    case 17:
+    case 19:
         PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
         break;
-    case 18:
+    case 20:
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
-        if (MenuHelpers_ShouldWaitForLinkRecv() == 0)
+        if (MenuHelpers_ShouldWaitForLinkRecv() == FALSE)
         {
             data[0] = 0;
             gTasks[taskId].func = Task_HandleInput;
@@ -1955,6 +1968,7 @@ static void Task_SwitchToMoveDetails(u8 taskId)
             DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]]);
 			SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+            SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
 			StopPokemonAnimations();
 			sMonSummaryScreen->markingsSprite->x = 257;
 			sMonSummaryScreen->markingsSprite->y = 332;
@@ -1987,7 +2001,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (MenuHelpers_ShouldWaitForLinkRecv() != 1)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2112,7 +2126,7 @@ static bool8 HasMoreThanOneMove(void)
     u8 i;
     for (i = 1; i < MAX_MON_MOVES; i++)
     {
-        if (sMonSummaryScreen->summary.moves[i] != 0)
+        if (sMonSummaryScreen->summary.moves[i] != MOVE_NONE)
             return TRUE;
     }
     return FALSE;
@@ -2139,7 +2153,7 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
             break;
         }
         move = sMonSummaryScreen->summary.moves[newMoveIndex];
-        if (move != 0)
+        if (move != MOVE_NONE)
             break;
     }
     ScheduleBgCopyTilemapToVram(1);
@@ -2207,6 +2221,7 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 			PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+            SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, FALSE);
 
 			if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
 				SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, FALSE);
@@ -3132,7 +3147,7 @@ static void BufferEggMemo(void)
 	BufferEggState();
 
 	#if CONFIG_EXPANDED_MET_LOCATIONS
-	if (sMonSummaryScreen->summary.sanity != 1)
+	if (sMonSummaryScreen->summary.sanity != TRUE)
 	{
 		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
@@ -3188,7 +3203,7 @@ static void BufferEggMemo(void)
 		text = gText_TrainerMemo_BadEgg;
 	}
 	#else
-	if (sMonSummaryScreen->summary.sanity != 1)
+	if (sMonSummaryScreen->summary.sanity != TRUE)
 	{
 		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
@@ -3503,6 +3518,7 @@ static void PrintMoveDetails(u16 move)
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+    SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
 	sMonSummaryScreen->markingsSprite->x = 257;
 	sMonSummaryScreen->markingsSprite->y = 332;
     FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
@@ -4048,6 +4064,22 @@ static void CreateHeldItemSprite(struct Pokemon *mon)
 	}
 }
 
+static void CreateLangLabelSprite(struct Pokemon *mon)
+{
+    u8 lang = GetMonData(mon, MON_DATA_LANGUAGE);
+
+    if (lang != GAME_LANGUAGE && !sMonSummaryScreen->summary.isEgg)
+    {
+        FreeSpriteTilesByTag(5502);
+        FreeSpritePaletteByTag(5502);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL] = AddLangLabelSprite(5502, 5502, lang);
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].callback = SpriteCallbackDummy;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].oam.priority = 0;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].x = 76;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].y = 51;
+    }
+}
+
 static void CreateSetStatusSprite(void)
 {
     u8 *spriteId = &sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_STATUS];
@@ -4532,7 +4564,7 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 
 static u8 *GetMapNameHoennKanto(u8 *dest, u16 regionMapId)
 {
-	if (regionMapId < MAPSEC_NONE && gRegionMapEntries[regionMapId].name != 0)
+	if (regionMapId < MAPSEC_NONE && gRegionMapEntries[regionMapId].name != NULL)
 	{
 		StringCopy(dest, gRegionMapEntries[regionMapId].name);
 	}
@@ -4544,7 +4576,7 @@ static u8 *GetMapNameHoennKanto(u8 *dest, u16 regionMapId)
 
 static u8 *GetMapNameJohto(u8 *dest, u16 regionMapId)
 {
-	if (regionMapId < MAPSEC_NONE && gJohtoMapNamePointers[regionMapId] != 0)
+	if (regionMapId < MAPSEC_NONE && gJohtoMapNamePointers[regionMapId] != NULL)
 	{
 		StringCopy(dest, gJohtoMapNamePointers[regionMapId]);
 	}
@@ -4556,7 +4588,7 @@ static u8 *GetMapNameJohto(u8 *dest, u16 regionMapId)
 
 static u8 *GetMapNameSinnoh(u8 *dest, u16 regionMapId)
 {
-	if (regionMapId < MAPSEC_NONE && gSinnohMapNamePointers[regionMapId] != 0)
+	if (regionMapId < MAPSEC_NONE && gSinnohMapNamePointers[regionMapId] != NULL)
 	{
 		StringCopy(dest, gSinnohMapNamePointers[regionMapId]);
 	}
@@ -4995,7 +5027,7 @@ static u8 *GetMapNameOrre(u8 *dest, u16 regionMapId, bool8 isXD)
 		}
 	}
 
-	if (regionMapId < ORRE_MAPSEC_END && gOrreMapNamePointers[regionMapId] != 0)
+	if (regionMapId < ORRE_MAPSEC_END && gOrreMapNamePointers[regionMapId] != NULL)
 	{
 		StringCopy(dest, gOrreMapNamePointers[regionMapId]);
 	}
