@@ -122,8 +122,7 @@ static void DoSwitchOutAnimation(void);
 static void PlayerDoMoveAnimation(void);
 static void Task_StartSendOutAnim(u8);
 static void EndDrawPartyStatusSummary(void);
-static void MoveSelectionDisplayTypeIcon(u8);
-static void MoveSelectionDisplaySplitIcon(void);
+static void MoveSelectionDisplayTypeAndSplitIcons(u8);
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
@@ -1566,8 +1565,7 @@ static void MoveSelectionDisplayMoveType(void)
 
     //StringCopy(txtPtr, gTypeNames[type]);
     //BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
-    MoveSelectionDisplayTypeIcon(type);
-    MoveSelectionDisplaySplitIcon();
+    MoveSelectionDisplayTypeAndSplitIcons(type);
 }
 
 static void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
@@ -3262,24 +3260,21 @@ static void PlayerCmdEnd(void)
 {
 }
 
-static void MoveSelectionDisplayTypeIcon(u8 type)
+static void MoveSelectionDisplayTypeAndSplitIcons(u8 type)
 {
-    ListMenuLoadStdPalAt(BG_PLTT_ID(12), 1);
-	PutWindowTilemap(B_WIN_MOVE_TYPE);
-    FillWindowPixelBuffer(B_WIN_MOVE_TYPE, PIXEL_FILL(15));
-    BlitMenuInfoIcon(B_WIN_MOVE_TYPE, type + 1, 16, 2);
-	CopyWindowToVram(B_WIN_MOVE_TYPE, COPYWIN_FULL);
-}
-
-static void MoveSelectionDisplaySplitIcon(void){
 	struct ChooseMoveStruct *moveInfo;
 	u32 moveCategory;
-
 	moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][MAX_BATTLERS_COUNT]);
     moveCategory = GetBattleMoveCategory(moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]);
+
+    ListMenuLoadStdPalAt(BG_PLTT_ID(12), 1);
 	LoadPalette(sSplitIcons_Pal, 10 * 0x10, 0x20);
     PutWindowTilemap(B_WIN_PSS_ICON);
+	PutWindowTilemap(B_WIN_MOVE_TYPE);
+    FillWindowPixelBuffer(B_WIN_MOVE_TYPE, PIXEL_FILL(15));
     FillWindowPixelBuffer(B_WIN_PSS_ICON, PIXEL_FILL(7));
 	BlitBitmapToWindow(B_WIN_PSS_ICON, sSplitIcons_Gfx + 0x80 * moveCategory, 0, 0, 16, 16);
+    BlitMenuInfoIcon(B_WIN_MOVE_TYPE, gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type + 1, 16, 3);
+	CopyWindowToVram(B_WIN_MOVE_TYPE, COPYWIN_FULL);
 	CopyWindowToVram(B_WIN_PSS_ICON, COPYWIN_FULL);
 }
