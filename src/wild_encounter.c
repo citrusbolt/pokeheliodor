@@ -1741,6 +1741,7 @@ void FishingWildEncounter(u8 rod)
     SetPokemonAnglerSpecies(species);
 	if (IsMonShiny(&gEnemyParty[0]))
 		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+    gFishingEncounter = TRUE;
     BattleSetup_StartWildBattle();
 }
 

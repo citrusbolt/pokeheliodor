@@ -29,7 +29,6 @@
 #include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/trainer_types.h"
-#include "battle.h"
 
 #define NUM_FORCED_MOVEMENTS 18
 #define NUM_ACRO_BIKE_COLLISIONS 5
@@ -1991,7 +1990,6 @@ static bool8 Fishing_StartEncounter(struct Task *task)
 
     if (task->tFrameCounter != 0)
     {
-        gFishingEncounter = TRUE;
         gPlayerAvatar.preventStep = FALSE;
         UnlockPlayerFieldControls();
         FishingWildEncounter(task->tFishingRod);
@@ -2030,7 +2028,6 @@ static bool8 Fishing_NoMon(struct Task *task)
 
 static bool8 Fishing_PutRodAway(struct Task *task)
 {
-    gFishingEncounter = FALSE;
     AlignFishingAnimationFrames();
     if (gSprites[gPlayerAvatar.spriteId].animEnded)
     {
