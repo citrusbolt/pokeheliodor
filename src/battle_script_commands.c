@@ -10134,7 +10134,7 @@ static void Cmd_handleballthrow(void)
                     ballMultiplier = 10;
                 break;
             case ITEM_DIVE_BALL:
-                if (GetCurrentMapType() == MAP_TYPE_UNDERWATER || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) || CanFish())
+                if (GetCurrentMapType() == MAP_TYPE_UNDERWATER || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) || gFishingEncounter)
 				{
                     ballMultiplier = 35;
 				}
