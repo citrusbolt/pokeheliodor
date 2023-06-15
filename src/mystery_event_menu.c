@@ -354,6 +354,15 @@ static void SerialCB_MultibootScreen(void)
     GameCubeMultiBoot_HandleSerialInterrupt(&gMultibootProgramStruct);
 }
 
+static const u16 sRedPal[]     = {RGB(31,  0,  0)};
+static const u16 sGreenPal[]   = {RGB( 0, 31,  0)};
+static const u16 sBluePal[]    = {RGB( 0,  0, 31)};
+static const u16 sYellowPal[]  = {RGB(31, 31,  0)};
+static const u16 sMagentaPal[] = {RGB(31,  0, 31)};
+static const u16 sCyanPal[]    = {RGB( 0, 31, 31)};
+static const u16 sWhitePal[]   = {RGB(31, 31, 31)};
+static const u16 sBlackPal[]   = {RGB( 0,  0,  0)};
+
 static void CB2_MultibootMenu(void)
 {
 	switch (gMain.state)
@@ -374,6 +383,7 @@ static void CB2_MultibootMenu(void)
         }
         break;
     case 2:
+        LoadPalette(sBlackPal, 0, sizeof(sRedPal));
         if (!IsTextPrinterActive(0))
         {
             gMain.state++;
@@ -391,15 +401,20 @@ static void CB2_MultibootMenu(void)
         GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         break;
     case 142:
+        LoadPalette(sRedPal, 0, sizeof(sRedPal));
         GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         if (gMultibootProgramStruct.gcmb_field_2 != 1)
             gMain.state++;
         break;
+        //161 works for Box, 143 works for Colo (and Box?)
     case 161:
+        LoadPalette(sGreenPal, 0, sizeof(sRedPal));
         if (gMultibootProgramStruct.gcmb_field_2 != 0)
         {
+            LoadPalette(sBluePal, 0, sizeof(sRedPal));
             if (gMultibootProgramStruct.gcmb_field_2 == 2)
             {
+                LoadPalette(sMagentaPal, 0, sizeof(sRedPal));
                 // check the multiboot ROM header game code to see if we already did this
                 if (*(u32 *)(EWRAM_START + 0xAC) == COLOSSEUM_GAME_CODE)
                 {
