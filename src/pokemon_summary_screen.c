@@ -1282,9 +1282,9 @@ static const struct SpriteTemplate sSpriteTemplate_GameIcons =
     .callback = SpriteCallbackDummy
 };
 
-static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u8 metLocation, u16 species, u32 tid)
+static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u8 metLocation, u8 metLevel, u16 species, u32 tid, u32 pid, bool8 isEgg)
 {
-    u8 trueOrigin;
+    u8 trueOrigin = 0xFF;
 
     if (versionModifier == DEV_SOLITAIRI && metGame != VERSION_PLATINUM)
     {
@@ -1292,12 +1292,58 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
     }
     else
     {
-        if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x2FAA9CBA)
+        if (species == SPECIES_PIKACHU && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x00007991)
+        {
+            trueOrigin = ORIGIN_GAME_COLOSSEUM;
+        }
+        else if (species == SPECIES_CELEBI && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x00007991)
+        {
+            trueOrigin = ORIGIN_GAME_COLOSSEUM;
+        }
+        else if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x2FAA9CBA)
         {
             trueOrigin = ORIGIN_GAME_CHANNEL;
         }
-        //Identify other events, probably won't be able to afford BoxRS Egg identification
-        else
+        else if (species == SPECIES_JIRACHI && METLOC_FATEFUL_ENCOUNTER && tid == 0x00004E4B)
+        {
+            trueOrigin = ORIGIN_GAME_COLOSSEUM;
+        }
+        else if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
+               && isEgg == TRUE
+               && metLocation == METLOC_FATEFUL_ENCOUNTER
+               && tid == 0)
+        {
+            trueOrigin = ORIGIN_GAME_BOX;
+        }
+        // Too expensive to ID hatched Box Eggs, is it worth a bit of mon data to tag Box Eggs when viewed so that we don't forget origin?
+        //else if ((species == SPECIES_SWABLU || species == SPECIES_ALTARIA
+        //       || species == SPECIES_ZIGZAGOON || species == SPECIES_LINOONE
+        //       || species == SPECIES_SKITTY || species == SPECIES_DELCATTY
+        //       || species == SPECIES_PICHU || species == SPECIES_PIKACHU || species == SPECIES_RAICHU)
+        //       && metLevel == 0)
+        //{
+        //    u16 pidTopHalf;
+        //    u16 pidBottomHalf;
+        //    u32 result = 0;
+        //    u32 currentTestFrame = 0;
+        //
+        //    do
+        //    {
+        //        pidTopHalf = (u32)((1103515245 * currentTestFrame + 24691)) >> 16;
+        //        pidBottomHalf = (u32)((1103515245 * (currentTestFrame + 1) + 24691)) >> 16;
+        //        
+        //        if ((pidTopHalf << 16 | pidBottomHalf) == pid)
+        //            result == 1;
+        //        if (currentTestFrame == 0xFFFFFFFF)
+        //            result == 2;
+        //        currentTestFrame++;
+        //    } while (result == 0);
+        //
+        //    if (result == 1)
+        //        trueOrigin = ORIGIN_GAME_BOX;
+        //}
+
+        if (trueOrigin == 0xFF)
         {
             switch (metGame)
             {
@@ -1537,7 +1583,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 18:
-        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID);
+        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.metLevel, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID, sMonSummaryScreen->summary.pid, sMonSummaryScreen->summary.isEgg);
         CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
         break;
@@ -2014,7 +2060,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
 	case 11:
-        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID);
+        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.metLevel, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID, sMonSummaryScreen->summary.pid, sMonSummaryScreen->summary.isEgg);
         CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
         break;
