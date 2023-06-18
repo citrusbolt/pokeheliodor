@@ -107,12 +107,12 @@ enum
     SPRITE_ARR_ID_MON_ICON,
     SPRITE_ARR_ID_STATUS,
     SPRITE_ARR_ID_ORIGIN,
+    SPRITE_ARR_ID_LANGLABEL,
     SPRITE_ARR_ID_TYPE, // 2 for mon types, 5 for move types(4 moves and 1 to learn)
     SPRITE_ARR_ID_MOVE_SELECTOR1 = SPRITE_ARR_ID_TYPE + 7,
     SPRITE_ARR_ID_MOVE_SELECTOR2 = SPRITE_ARR_ID_MOVE_SELECTOR1 + MOVE_SELECTOR_SPRITES_COUNT,
     SPRITE_ARR_ID_SPLIT = SPRITE_ARR_ID_MOVE_SELECTOR2 + MOVE_SELECTOR_SPRITES_COUNT,
-    SPRITE_ARR_ID_LANGLABEL = SPRITE_ARR_ID_SPLIT + 1,
-	SPRITE_ARR_ID_COUNT = SPRITE_ARR_ID_LANGLABEL + 1
+	SPRITE_ARR_ID_COUNT = SPRITE_ARR_ID_SPLIT + 1
 };
 
 #define TILE_EMPTY_HEART  109
@@ -525,6 +525,7 @@ static const u8 sMemoSpecialTextColor[] = _("{COLOR 14}{SHADOW 13}");
 #define TAG_SPLIT_ICONS     30004
 #define TAG_HEALTH_BAR      30005
 #define TAG_EXP_BAR         30006
+#define TAG_GAME_ICONS      30007
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -803,7 +804,7 @@ static const union AnimCmd *const sSpriteAnimTable_StatusCondition[] = {
 static const struct CompressedSpriteSheet sStatusIconsSpriteSheet =
 {
     .data = gStatusGfx_Icons,
-    .size = 0x380,
+    .size = 32 * 8 * 8 / 2,
     .tag = TAG_MON_STATUS
 };
 static const struct CompressedSpritePalette sStatusIconsSpritePalette =
@@ -1119,7 +1120,253 @@ static void DestroySplitIcon(void)
 }
 #endif
 
-// code
+enum {
+    ORIGIN_GAME_SAPPHIRE,
+    ORIGIN_GAME_RUBY,
+    ORIGIN_GAME_BOX,
+    ORIGIN_GAME_CHANNEL,
+    ORIGIN_GAME_COLOSSEUM,
+    ORIGIN_GAME_FIRERED,
+    ORIGIN_GAME_LEAFGREEN,
+    ORIGIN_GAME_EMERALD,
+    ORIGIN_GAME_XD,
+    //ORIGIN_GAME_DIAMOND,
+    //ORIGIN_GAME_PEARL,
+    ORIGIN_GAME_PLATINUM,
+    //ORIGIN_GAME_HEARTGOLD,
+    //ORIGIN_GAME_SOULSILVER,
+    ORIGIN_GAME_HELIODOR,
+    ORIGIN_GAME_COUNT
+};
+
+static const u16 sGameIcons_Pal[] = INCBIN_U16("graphics/summary_screen/game_icons.gbapal");
+static const u32 sGameIcons_Gfx[] = INCBIN_U32("graphics/summary_screen/game_icons.4bpp.lz");
+
+static const struct OamData sOamData_GameIcons =
+{
+    .size = SPRITE_SIZE(64x32),
+    .shape = SPRITE_SHAPE(64x32),
+    .priority = 0,
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_GameIcons =
+{
+    .data = sGameIcons_Gfx,
+    .size = 64 * 32 * ORIGIN_GAME_COUNT / 2,
+    .tag = TAG_GAME_ICONS,
+};
+
+static const struct SpritePalette sSpritePal_GameIcons =
+{
+    .data = sGameIcons_Pal,
+    .tag = TAG_GAME_ICONS
+};
+
+static const union AnimCmd sSpriteAnim_GameIconSapphire[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_SAPPHIRE * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconRuby[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_RUBY * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconBoxRS[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_BOX * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconChannel[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_CHANNEL * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconColo[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_COLOSSEUM * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconFireRed[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_FIRERED * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconLeafGreen[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_LEAFGREEN * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconEmerald[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_EMERALD * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconXD[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_XD * 32, 0),
+    ANIMCMD_END
+};
+
+//static const union AnimCmd sSpriteAnim_GameIconDiamond[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_DIAMOND * 32, 0),
+//    ANIMCMD_END
+//};
+//
+//static const union AnimCmd sSpriteAnim_GameIconPearl[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_PEARL * 32, 0),
+//    ANIMCMD_END
+//};
+
+static const union AnimCmd sSpriteAnim_GameIconPlatinum[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_PLATINUM * 32, 0),
+    ANIMCMD_END
+};
+
+//static const union AnimCmd sSpriteAnim_GameIconHeartGold[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_HEARTGOLD * 32, 0),
+//    ANIMCMD_END
+//};
+//
+//static const union AnimCmd sSpriteAnim_GameIconSoulSilver[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_SOULSILVER * 32, 0),
+//    ANIMCMD_END
+//};
+
+static const union AnimCmd sSpriteAnim_GameIconHeliodor[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_HELIODOR * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sSpriteAnimTable_GameIcons[] =
+{
+    sSpriteAnim_GameIconSapphire,
+    sSpriteAnim_GameIconRuby,
+    sSpriteAnim_GameIconBoxRS,
+    sSpriteAnim_GameIconChannel,
+    sSpriteAnim_GameIconColo,
+    sSpriteAnim_GameIconFireRed,
+    sSpriteAnim_GameIconLeafGreen,
+    sSpriteAnim_GameIconEmerald,
+    sSpriteAnim_GameIconXD,
+    //sSpriteAnim_GameIconDiamond,
+    //sSpriteAnim_GameIconPearl,
+    sSpriteAnim_GameIconPlatinum,
+    //sSpriteAnim_GameIconHeartGold,
+    //sSpriteAnim_GameIconSoulSilver,
+    sSpriteAnim_GameIconHeliodor,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_GameIcons =
+{
+    .tileTag = TAG_GAME_ICONS,
+    .paletteTag = TAG_GAME_ICONS,
+    .oam = &sOamData_GameIcons,
+    .anims = sSpriteAnimTable_GameIcons,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
+};
+
+static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u8 metLocation, u16 species, u32 tid)
+{
+    u8 trueOrigin;
+
+    if (versionModifier == DEV_SOLITAIRI && metGame != VERSION_PLATINUM)
+    {
+        trueOrigin = ORIGIN_GAME_HELIODOR;
+    }
+    else
+    {
+        if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x2FAA9CBA)
+        {
+            trueOrigin = ORIGIN_GAME_CHANNEL;
+        }
+        //Identify other events, probably won't be able to afford BoxRS Egg identification
+        else
+        {
+            switch (metGame)
+            {
+                case VERSION_SAPPHIRE:
+                    trueOrigin = ORIGIN_GAME_SAPPHIRE;
+                    break;
+                case VERSION_RUBY:
+                    trueOrigin = ORIGIN_GAME_RUBY;
+                    break;
+                case VERSION_FIRERED:
+                    trueOrigin = ORIGIN_GAME_FIRERED;
+                    break;
+                case VERSION_LEAFGREEN:
+                    trueOrigin = ORIGIN_GAME_LEAFGREEN;
+                    break;
+                case VERSION_EMERALD:
+                    trueOrigin = ORIGIN_GAME_EMERALD;
+                    break;
+                case VERSION_GAMECUBE:
+                    if (fatefulEncounter)
+                        trueOrigin = ORIGIN_GAME_XD;
+                    else
+                        trueOrigin = ORIGIN_GAME_COLOSSEUM;
+                    break;
+                //case VERSION_DIAMOND:
+                //    trueOrigin = ORIGIN_GAME_DIAMOND;
+                //    break;
+                //case VERSION_PEARL:
+                //    trueOrigin = ORIGIN_GAME_PEARL;
+                //    break;
+                case VERSION_PLATINUM:
+                    trueOrigin = ORIGIN_GAME_PLATINUM;
+                    break;
+                //case VERSION_HEARTGOLD:
+                //    trueOrigin = ORIGIN_GAME_HEARTGOLD;
+                //    break;
+                //case VERSION_SOULSILVER:
+                //    trueOrigin = ORIGIN_GAME_SOULSILVER;
+                //    break;
+                default:
+                    trueOrigin = 0xFF;
+                    break;
+            }
+        }
+    }
+
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] == 0xFF)
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] = CreateSprite(&sSpriteTemplate_GameIcons, 37, 48, 0);
+
+    if (trueOrigin == 0xFF || trueOrigin == ORIGIN_GAME_HELIODOR)
+    {
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].invisible = TRUE;
+        StartSpriteAnim(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]], ORIGIN_GAME_HELIODOR);
+    }
+    else
+    {
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].invisible = FALSE;
+        StartSpriteAnim(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]], trueOrigin);
+    }
+    return sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN];
+}
+
+static void DestroyGameIcon(void)
+{
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] != 0xFF)
+        DestroySprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]]);
+    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] = 0xFF;
+}
+
 void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void))
 {
     sMonSummaryScreen = AllocZeroed(sizeof(*sMonSummaryScreen));
@@ -1290,6 +1537,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 18:
+        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID);
         CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
         break;
@@ -1428,6 +1676,8 @@ static bool8 DecompressGraphics(void)
         break;
     case 8:
         LoadCompressedPalette(gMoveTypes_Pal, 0x1D0, 0x20);
+        LoadCompressedSpriteSheet(&sSpriteSheet_GameIcons);
+        LoadSpritePalette(&sSpritePal_GameIcons);
     #if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
         sMonSummaryScreen->switchCounter++;
         break;
@@ -1736,13 +1986,14 @@ static void Task_ChangeSummaryMon(u8 taskId)
         DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]]);
         break;
     case 3:
-		if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
+		if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM) != ITEM_NONE)
 			DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]]);
         break;
     case 4:
         FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
         break;
     case 5:
+        DestroyGameIcon();
         FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]]);
         break;
     case 6:
@@ -1763,6 +2014,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
 	case 11:
+        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID);
         CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
         break;
@@ -1968,6 +2220,7 @@ static void Task_SwitchToMoveDetails(u8 taskId)
             DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]]);
 			SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+            SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, TRUE);
             SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
 			StopPokemonAnimations();
 			sMonSummaryScreen->markingsSprite->x = 257;
@@ -2221,6 +2474,7 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 			PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+            SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
             SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, FALSE);
 
 			if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
@@ -3518,6 +3772,7 @@ static void PrintMoveDetails(u16 move)
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+    SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, TRUE);
     SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
 	sMonSummaryScreen->markingsSprite->x = 257;
 	sMonSummaryScreen->markingsSprite->y = 332;
@@ -3705,7 +3960,7 @@ static void HidePageSpecificSprites(void)
     // Keeps Pokémon, caught ball and status sprites visible.
     u8 i;
 
-    for (i = SPRITE_ARR_ID_ORIGIN; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
+    for (i = SPRITE_ARR_ID_LANGLABEL; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
     {
         if (sMonSummaryScreen->spriteIds[i] != SPRITE_NONE)
             SetSpriteInvisibility(i, TRUE);
@@ -4075,7 +4330,7 @@ static void CreateLangLabelSprite(struct Pokemon *mon)
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL] = AddLangLabelSprite(5502, 5502, lang);
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].callback = SpriteCallbackDummy;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].oam.priority = 0;
-        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].x = 76;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].x = 74;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].y = 51;
     }
 }
