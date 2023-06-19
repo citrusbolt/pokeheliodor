@@ -2016,12 +2016,7 @@ static void LoadObjectEventPalette(u16 paletteTag)
 {
     u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
 
-// FindObjectEventPaletteIndexByTag returns 0xFF on failure, not OBJ_EVENT_PAL_TAG_NONE.
-#ifdef BUGFIX
     if (i != 0xFF)
-#else
-    if (i != OBJ_EVENT_PAL_TAG_NONE)
-#endif
         LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
 }
 
