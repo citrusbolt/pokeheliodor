@@ -862,7 +862,7 @@ static void ApplyGlobalTintToPaletteSlot(u8 slot, u8 count)
 
 }
 
-void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u16 size)
+static void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u16 size)
 {
     u16 black = RGB_BLACK;
 
