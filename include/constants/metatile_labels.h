@@ -189,7 +189,11 @@
 
 // gTileset_Fortree
 #define METATILE_Fortree_BridgeOverGrass_Lowered           0x24F
+#define METATILE_Fortree_BridgeOverGrass_Lowered2          0x332
+#define METATILE_Fortree_BridgeOverGrass_Lowered3          0x333
 #define METATILE_Fortree_BridgeOverGrass_Raised            0x24E
+#define METATILE_Fortree_BridgeOverGrass_Raised2           0x330
+#define METATILE_Fortree_BridgeOverGrass_Raised3           0x331
 #define METATILE_Fortree_BridgeOverTrees_Lowered           0x257
 #define METATILE_Fortree_BridgeOverTrees_Raised            0x256
 #define METATILE_Fortree_LongGrass_Root                    0x208

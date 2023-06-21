@@ -3193,6 +3193,8 @@ extern const u8 gTrainerBackPic_RubySapphireBrendan[];
 extern const u8 gTrainerBackPic_RubySapphireMay[];
 extern const u8 gTrainerBackPic_Wally[];
 extern const u8 gTrainerBackPic_Steven[];
+extern const u8 gTrainerBackPic_EmeraldBrendan[];
+extern const u8 gTrainerBackPic_EmeraldMay[];
 extern const u8 gTrainerBackPic_Gold[];
 extern const u8 gTrainerBackPic_Kris[];
 
@@ -5368,5 +5370,13 @@ extern const u32 gSummaryScreenPageConditionTilemap[];
 extern const u8 gIntroGameBoyPlayer_Gfx[];
 extern const u8 gIntroGameBoyPlayer_Tilemap[];
 extern const u8 gIntroGameBoyPlayer_Pal[16];
+
+extern const u32 gSprite_LangLabelJpn[];
+extern const u32 gSprite_LangLabelEng[];
+extern const u32 gSprite_LangLabelFre[];
+extern const u32 gSprite_LangLabelIta[];
+extern const u32 gSprite_LangLabelGer[];
+extern const u32 gSprite_LangLabelSpa[];
+extern const u32 gSpritePalette_LangLabels[];
 
 #endif //GUARD_GRAPHICS_H

@@ -281,7 +281,7 @@ static const struct ListMenuTemplate sItemListMenu =
     .itemPrintFunc = BagMenu_ItemPrintCallback,
     .totalItems = 0,
     .maxShowed = 0,
-    .windowId = 0,
+    .windowId = WIN_ITEM_LIST,
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
@@ -1322,7 +1322,7 @@ static void PrintItemSoldAmount(int windowId, int numSold, int moneyEarned)
     ConvertIntToDecimalStringN(gStringVar1, numSold, STR_CONV_MODE_LEADING_ZEROS, numDigits);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
     AddTextPrinterParameterized(windowId, FONT_OPTION, gStringVar4, 0, 1, TEXT_SKIP_DRAW, 0);
-    PrintMoneyAmount(windowId, 38, 1, moneyEarned, 0);
+    PrintMoneyAmount(windowId, GetMoneyCoordinates(), 1, moneyEarned, 0);
 }
 
 static void Task_BagMenu_HandleInput(u8 taskId)

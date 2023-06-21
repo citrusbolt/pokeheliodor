@@ -40,6 +40,7 @@
 #define RESET_RTC_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_LEFT)
 #define BERRY_UPDATE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON)
 #define BUILD_INFO_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_DOWN)
+#define JP_TITLE_SCREEN_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_RIGHT)
 #define A_B_START_SELECT (A_BUTTON | B_BUTTON | START_BUTTON | SELECT_BUTTON)
 
 static void MainCB2(void);
@@ -563,8 +564,7 @@ void CB2_InitTitleScreen(void)
     {
     default:
     case 0:
-        if (Random() % 10 == 0)
-            gTitleScreenVariation = 1;
+        gTitleScreenVariation = gSaveBlock2Ptr->optionsJPTitleScreen;
         SetVBlankCallback(NULL);
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -820,6 +820,15 @@ static void Task_TitleScreenPhase3(u8 taskId)
         FadeOutBGM(4);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         SetMainCallback2(CB2_GoToBuildInfoScreen);
+    }
+    else if (JOY_HELD(JP_TITLE_SCREEN_BUTTON_COMBO) == JP_TITLE_SCREEN_BUTTON_COMBO)
+    {
+        if (gSaveBlock2Ptr->optionsJPTitleScreen == TRUE)
+            gSaveBlock2Ptr->optionsJPTitleScreen = FALSE;
+        else
+            gSaveBlock2Ptr->optionsJPTitleScreen = TRUE;
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_WHITEALPHA);
+        SetMainCallback2(CB2_GoToCopyrightScreen);
     }
     else if (JOY_HELD(BERRY_UPDATE_BUTTON_COMBO) == BERRY_UPDATE_BUTTON_COMBO)
     {
