@@ -1366,10 +1366,10 @@ static const u16 sHoennToNationalOrder[NUM_SPECIES - 1] =
 
 const struct SpindaSpot gSpindaSpotGraphics[] =
 {
-    {.x = 16, .y = 7, .image = INCBIN_U16("graphics/spinda_spots/spot_0.bin")},
-    {.x = 40, .y = 8, .image = INCBIN_U16("graphics/spinda_spots/spot_1.bin")},
-    {.x = 22, .y = 25, .image = INCBIN_U16("graphics/spinda_spots/spot_2.bin")},
-    {.x = 34, .y = 26, .image = INCBIN_U16("graphics/spinda_spots/spot_3.bin")}
+    {.x = 16, .y = 7, .image = INCBIN_U16("graphics/spinda_spots/spot_0.1bpp")},
+    {.x = 40, .y = 8, .image = INCBIN_U16("graphics/spinda_spots/spot_1.1bpp")},
+    {.x = 22, .y = 25, .image = INCBIN_U16("graphics/spinda_spots/spot_2.1bpp")},
+    {.x = 34, .y = 26, .image = INCBIN_U16("graphics/spinda_spots/spot_3.1bpp")}
 };
 
 #include "data/pokemon/item_effects.h"
@@ -2431,6 +2431,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u32 hId;
 	u32 lId;
 	u32 shinyValue;
+    bool32 otIdOverride = FALSE;
 	u16 rolls = 1;
 	
 	if (HasAllMons())
@@ -2547,6 +2548,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		otName[3] = 0xFF;
 		otGender = FEMALE;
 		otId = 0x00007991u; //31121:00000
+        otIdOverride = TRUE;
 		metLocation = METLOC_FATEFUL_ENCOUNTER;
 		language = LANGUAGE_JAPANESE;
 		version = VERSION_RUBY;
@@ -2595,6 +2597,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		otName[7] = 0xFF;
 		otGender = MALE;
 		otId = 0x00004E4Bu; //20043:00000
+        otIdOverride = TRUE;
 		metLocation = METLOC_FATEFUL_ENCOUNTER;
 		language = LANGUAGE_ENGLISH;
 		version = VERSION_RUBY;
@@ -2684,16 +2687,18 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		otName[7] = gSaveBlock2Ptr->playerName[7];
 		otGender = gSaveBlock2Ptr->playerGender;
 		language = gGameLanguage;
-		
+
 		//if (IsMonSapphireExclusive(species))
 		//{
 		//	version = VERSION_SAPPHIRE;
 		//	otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+        //otIdOverride = TRUE;
 		//}
 		//else if (IsMonRubyExclusive(species))
 		//{
 		//	version = VERSION_RUBY;
 		//	otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+        //otIdOverride = TRUE;
 		//}
 		//else if (IsMonRubySapphireExclusive(species))
 		//{
@@ -2702,6 +2707,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		//	else
 		//		version = VERSION_RUBY;
 		//	otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+        //otIdOverride = TRUE;
 		//}
 		//else if (IsMonFireRedExclusive(species))
 		//{
@@ -2788,7 +2794,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     {
         otId = fixedOtId;
     }
-    else // Player is the OT
+    else if (otIdOverride != TRUE) // Player is the OT
     {
         otId = gSaveBlock2Ptr->playerTrainerId[0]
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
@@ -3498,7 +3504,6 @@ void CalculateMonStats(struct Pokemon *mon)
 		}
         else if (currentHP != 0)
 		{
-            // BUG: currentHP is unintentionally able to become <= 0 after the instruction below. This causes the pomeg berry glitch.
             currentHP += newMaxHP - oldMaxHP;
 			if (currentHP <= 0)
 				currentHP = 1;

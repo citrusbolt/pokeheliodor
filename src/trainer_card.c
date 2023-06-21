@@ -384,66 +384,67 @@ static const u8 sTrainerCard5StarStatColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_CO
 static const u8 sTrainerCard5StarIDColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_3, TEXT_DYNAMIC_COLOR_4};
 static const u8 sTrainerCard5StarNameColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_2, TEXT_DYNAMIC_COLOR_1};
 static const u8 sTrainerCardHNameColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_5, TEXT_DYNAMIC_COLOR_6};
+static const u8 sTrainerCardEasyChatProfileColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 
 static const u8 sTrainerPicOffset[][GENDER_COUNT][2] =
 {
-    [CARD_LAYOUT_RS] = 
+    [CARD_LAYOUT_RS] =
     {
         [MALE]   = {0, 16},
         [FEMALE] = {0, 16}
     },
-	[CARD_LAYOUT_FRLG] = 
+	[CARD_LAYOUT_FRLG] =
     {
         [MALE]   = {13, 20},
         [FEMALE] = {13, 20}
     },
-    [CARD_LAYOUT_EMERALD] = 
+    [CARD_LAYOUT_EMERALD] =
     {
         [MALE]   = {1, 16},
         [FEMALE] = {1, 16}
     },
-    [CARD_LAYOUT_HELIODOR] = 
+    [CARD_LAYOUT_HELIODOR] =
     {
         [MALE]   = {13, 20},
         [FEMALE] = {13, 20}
     }
 };
 
-static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] = 
+static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
 {
-    [TRAINER_FRLG] = 
+    [TRAINER_FRLG] =
     {
-        [MALE]   = FACILITY_CLASS_RED, 
+        [MALE]   = FACILITY_CLASS_RED,
         [FEMALE] = FACILITY_CLASS_LEAF
-    }, 
-    [TRAINER_RS] = 
+    },
+    [TRAINER_RS] =
     {
-        [MALE]   = FACILITY_CLASS_RS_BRENDAN, 
+        [MALE]   = FACILITY_CLASS_RS_BRENDAN,
         [FEMALE] = FACILITY_CLASS_RS_MAY
-    }, 
-    [TRAINER_EMERALD] = 
+    },
+    [TRAINER_EMERALD] =
     {
-        [MALE]   = FACILITY_CLASS_E_BRENDAN, 
+        [MALE]   = FACILITY_CLASS_E_BRENDAN,
         [FEMALE] = FACILITY_CLASS_E_MAY
-    }, 
-    [TRAINER_HELIODOR] = 
+    },
+    [TRAINER_HELIODOR] =
     {
-        [MALE]   = FACILITY_CLASS_BRENDAN, 
+        [MALE]   = FACILITY_CLASS_BRENDAN,
         [FEMALE] = FACILITY_CLASS_MAY
     },
-    [TRAINER_CRYSTALDUST] = 
+    [TRAINER_CRYSTALDUST] =
     {
-        [MALE]   = FACILITY_CLASS_GOLD, 
+        [MALE]   = FACILITY_CLASS_GOLD,
         [FEMALE] = FACILITY_CLASS_KRIS
     },
-    [TRAINER_TEST] = 
+    [TRAINER_TEST] =
     {
-        [MALE]   = FACILITY_CLASS_WALLY, 
+        [MALE]   = FACILITY_CLASS_WALLY,
         [FEMALE] = FACILITY_CLASS_STEVEN
     }
 };
 
-static const u8 sTrainerClasses[][20] = {
+static const u8 sTrainerClasses[][21] = {
     _("Pokémon Trainer"),
     _("Beauty"),                // Gen 1
     _("Bird Keeper"),
@@ -494,6 +495,9 @@ static const u8 sTrainerClasses[][20] = {
     _("Lorekeeper"),            // ORAS
     _("Secret Base Expert"),
     _("Berry Master"),          // GO
+    _("Team Instinct"),
+    _("Team Mystic"),
+    _("Team Valor"),
     _("Aether Foundation"),     // SM
     _("Battle Legend"),
     _("Faller"),                // not official class
@@ -503,7 +507,8 @@ static const u8 sTrainerClasses[][20] = {
     _("Battle Master"),         // LGPE
     _("{STR_VAR_1} Master"),
     _("Grand Master"),
-    _("Team GO Rocket"),        // GO
+    _("GO Ultra Recon Squad"),  // GO
+    _("Team GO Rocket"),
     _("Team Break"),            // Masters
     _("Gym Challenger"),        // SwSh
     _("Macro Cosmos"),
@@ -1552,7 +1557,7 @@ static void PrintTimeOnCard(void)
     s32 width;
     u32 x, y, totalWidth;
 	u8 font;
-	
+
 	if (sData->cardLayout == CARD_LAYOUT_RS)
 	{
 		x = 16;
@@ -1734,10 +1739,10 @@ static void PrintProfilePhraseOnCard(void)
 		}
 		else
 		{
-			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, x, y1, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->easyChatProfile[0]);
-			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, GetStringWidth(font, sData->easyChatProfile[0], 0) + space + x, y1, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->easyChatProfile[1]);
-			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, x, y2, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->easyChatProfile[2]);
-			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, GetStringWidth(font, sData->easyChatProfile[2], 0) + space + x, y2, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->easyChatProfile[3]);
+			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, x, y1, sTrainerCardEasyChatProfileColors, TEXT_SKIP_DRAW, sData->easyChatProfile[0]);
+			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, GetStringWidth(font, sData->easyChatProfile[0], 0) + space + x, y1, sTrainerCardEasyChatProfileColors, TEXT_SKIP_DRAW, sData->easyChatProfile[1]);
+			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, x, y2, sTrainerCardEasyChatProfileColors, TEXT_SKIP_DRAW, sData->easyChatProfile[2]);
+			AddTextPrinterParameterized3(WIN_CARD_TEXT, font, GetStringWidth(font, sData->easyChatProfile[2], 0) + space + x, y2, sTrainerCardEasyChatProfileColors, TEXT_SKIP_DRAW, sData->easyChatProfile[3]);
 		}
     }
 }
@@ -3086,7 +3091,7 @@ static u8 GetSetCardType(void)
 				sData->stats[5] = CARD_STAT_BATTLE_POINTS;
 				return TRAINER_TEST;
 		}
-		
+
 		if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
 		{
 			if (sData->trainerCard.crystalDustVersion == VERSION_HEARTGOLD)

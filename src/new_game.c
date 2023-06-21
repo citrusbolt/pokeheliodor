@@ -105,6 +105,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsNickname = 0; // Give
     gSaveBlock2Ptr->optionsGBPRumble = FALSE;
     gSaveBlock2Ptr->optionsCartRumble = FALSE;
+    gSaveBlock2Ptr->optionsJPTitleScreen = FALSE;
 }
 
 static void ClearPokedexFlags(void)

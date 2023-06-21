@@ -222,7 +222,7 @@ static void CB2_InitWirelessCommunicationScreen(void)
     ChangeBgX(1, 0, BG_COORD_SET);
     ChangeBgY(1, 0, BG_COORD_SET);
     LoadPalette(sPalettes, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
-    Menu_LoadStdPalAt(0xF0);
+    Menu_LoadStdPalAt(BG_PLTT_ID(15));
     DynamicPlaceholderTextUtil_Reset();
     FillBgTilemapBufferRect(0, 0, 0, 0, 32, 32, 15);
     CopyBgTilemapBufferToVram(1);
@@ -392,13 +392,12 @@ static u32 CountPlayersInGroupAndGetActivity(struct RfuPlayer * player, u32 * gr
 
     for (i = 0; i < ARRAY_COUNT(sActivityGroupInfo); i++)
     {
-#ifdef UBFIX
         // GROUPTYPE_NONE is 0xFF, and shouldn't be used as an index into groupCounts.
         // In theory the only activity with this group type (ACTIVITY_SEARCH) wouldn't
         // satisfy the condition below, but not necessarily.
         if (group_type(i) == GROUPTYPE_NONE)
             continue;
-#endif
+
         if (activity == group_activity(i) && player->groupScheduledAnim == UNION_ROOM_SPAWN_IN)
         {
             if (group_players(i) == 0)

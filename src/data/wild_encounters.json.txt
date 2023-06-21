@@ -6,16 +6,16 @@
 {% if not existsIn(wild_encounter_field, "groups") %}
 ## for encounter_rate in wild_encounter_field.encounter_rates
 {% if loop.index == 0 %}
-#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} {{ encounter_rate }} {% else %}#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ subtract(loop.index, 1) }} + {{ encounter_rate }}{% endif %} {{ setVarInt(wild_encounter_field.type, loop.index) }}
+#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} {{ encounter_rate }} {% else %}#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ subtract(loop.index, 1) }} + {{ encounter_rate }}{% endif %} {{ setVarInt(wild_encounter_field.type, loop.index) }}
 ## endfor
-#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_TOTAL (ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ getVar(wild_encounter_field.type) }})
+#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_TOTAL (ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ getVar(wild_encounter_field.type) }})
 {% else %}
 ## for field_subgroup_key, field_subgroup_subarray in wild_encounter_field.groups
 ## for field_subgroup_index in field_subgroup_subarray
 {% if loop.index == 0 %}
-#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }} {% else %}#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar("previous_slot") }} + {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }}{% endif %}{{ setVarInt(concat(wild_encounter_field.type, field_subgroup_key), field_subgroup_index) }}{{ setVarInt("previous_slot", field_subgroup_index) }}
+#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }} {% else %}#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar("previous_slot") }} + {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }}{% endif %}{{ setVarInt(concat(wild_encounter_field.type, field_subgroup_key), field_subgroup_index) }}{{ setVarInt("previous_slot", field_subgroup_index) }}
 ## endfor
-#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_TOTAL (ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar(concat(wild_encounter_field.type, field_subgroup_key)) }})
+#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_TOTAL (ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar(concat(wild_encounter_field.type, field_subgroup_key)) }})
 ## endfor
 {% endif %}
 ## endfor
@@ -34,46 +34,6 @@ const struct WildPokemon {{ encounter.base_label }}_LandMons[] =
 
 const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsInfo = { {{encounter.land_mons.encounter_rate}}, {{ encounter.base_label }}_LandMons };
 {% endif %}
-{% if existsIn(encounter, "land_mons_ruby") %}
-const struct WildPokemon {{ encounter.base_label }}_LandMonsRuby[] =
-{
-## for wild_mon in encounter.land_mons_ruby.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsRubyInfo = { {{encounter.land_mons_ruby.encounter_rate}}, {{ encounter.base_label }}_LandMonsRuby };
-{% endif %}
-{% if existsIn(encounter, "land_mons_sapphire") %}
-const struct WildPokemon {{ encounter.base_label }}_LandMonsSapphire[] =
-{
-## for wild_mon in encounter.land_mons_sapphire.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsSapphireInfo = { {{encounter.land_mons_sapphire.encounter_rate}}, {{ encounter.base_label }}_LandMonsSapphire };
-{% endif %}
-{% if existsIn(encounter, "land_mons_firered") %}
-const struct WildPokemon {{ encounter.base_label }}_LandMonsFireRed[] =
-{
-## for wild_mon in encounter.land_mons_firered.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsFireRedInfo = { {{encounter.land_mons_firered.encounter_rate}}, {{ encounter.base_label }}_LandMonsFireRed };
-{% endif %}
-{% if existsIn(encounter, "land_mons_leafgreen") %}
-const struct WildPokemon {{ encounter.base_label }}_LandMonsLeafGreen[] =
-{
-## for wild_mon in encounter.land_mons_leafgreen.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsLeafGreenInfo = { {{encounter.land_mons_leafgreen.encounter_rate}}, {{ encounter.base_label }}_LandMonsLeafGreen };
-{% endif %}
 {% if existsIn(encounter, "water_mons") %}
 const struct WildPokemon {{ encounter.base_label }}_WaterMons[] =
 {
@@ -83,46 +43,6 @@ const struct WildPokemon {{ encounter.base_label }}_WaterMons[] =
 };
 
 const struct WildPokemonInfo {{ encounter.base_label }}_WaterMonsInfo = { {{encounter.water_mons.encounter_rate}}, {{ encounter.base_label }}_WaterMons };
-{% endif %}
-{% if existsIn(encounter, "water_mons_ruby") %}
-const struct WildPokemon {{ encounter.base_label }}_WaterMonsRuby[] =
-{
-## for wild_mon in encounter.water_mons_ruby.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_WaterMonsRubyInfo = { {{encounter.water_mons_ruby.encounter_rate}}, {{ encounter.base_label }}_WaterMonsRuby };
-{% endif %}
-{% if existsIn(encounter, "water_mons_sapphire") %}
-const struct WildPokemon {{ encounter.base_label }}_WaterMonsSapphire[] =
-{
-## for wild_mon in encounter.water_mons_sapphire.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_WaterMonsSapphireInfo = { {{encounter.water_mons_sapphire.encounter_rate}}, {{ encounter.base_label }}_WaterMonsSapphire };
-{% endif %}
-{% if existsIn(encounter, "water_mons_firered") %}
-const struct WildPokemon {{ encounter.base_label }}_WaterMonsFireRed[] =
-{
-## for wild_mon in encounter.water_mons_firered.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_WaterMonsFireRedInfo = { {{encounter.water_mons_firered.encounter_rate}}, {{ encounter.base_label }}_WaterMonsFireRed };
-{% endif %}
-{% if existsIn(encounter, "water_mons_leafgreen") %}
-const struct WildPokemon {{ encounter.base_label }}_WaterMonsLeafGreen[] =
-{
-## for wild_mon in encounter.water_mons_leafgreen.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_WaterMonsLeafGreenInfo = { {{encounter.water_mons_leafgreen.encounter_rate}}, {{ encounter.base_label }}_WaterMonsLeafGreen };
 {% endif %}
 {% if existsIn(encounter, "rock_smash_mons") %}
 const struct WildPokemon {{ encounter.base_label }}_RockSmashMons[] =
@@ -134,46 +54,6 @@ const struct WildPokemon {{ encounter.base_label }}_RockSmashMons[] =
 
 const struct WildPokemonInfo {{ encounter.base_label }}_RockSmashMonsInfo = { {{encounter.rock_smash_mons.encounter_rate}}, {{ encounter.base_label }}_RockSmashMons };
 {% endif %}
-{% if existsIn(encounter, "rock_smash_mons_ruby") %}
-const struct WildPokemon {{ encounter.base_label }}_RockSmashMonsRuby[] =
-{
-## for wild_mon in encounter.rock_smash_mons_ruby.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_RockSmashMonsRubyInfo = { {{encounter.rock_smash_mons_ruby.encounter_rate}}, {{ encounter.base_label }}_RockSmashMonsRuby };
-{% endif %}
-{% if existsIn(encounter, "rock_smash_mons_sapphire") %}
-const struct WildPokemon {{ encounter.base_label }}_RockSmashMonsSapphire[] =
-{
-## for wild_mon in encounter.rock_smash_mons_sapphire.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_RockSmashMonsSapphireInfo = { {{encounter.rock_smash_mons_sapphire.encounter_rate}}, {{ encounter.base_label }}_RockSmashMonsSapphire };
-{% endif %}
-{% if existsIn(encounter, "rock_smash_mons_firered") %}
-const struct WildPokemon {{ encounter.base_label }}_RockSmashMonsFireRed[] =
-{
-## for wild_mon in encounter.rock_smash_mons_firered.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_RockSmashMonsFireRedInfo = { {{encounter.rock_smash_mons_firered.encounter_rate}}, {{ encounter.base_label }}_RockSmashMonsFireRed };
-{% endif %}
-{% if existsIn(encounter, "rock_smash_mons_leafgreen") %}
-const struct WildPokemon {{ encounter.base_label }}_RockSmashMonsLeafGreen[] =
-{
-## for wild_mon in encounter.rock_smash_mons_leafgreen.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_RockSmashMonsLeafGreenInfo = { {{encounter.rock_smash_mons_leafgreen.encounter_rate}}, {{ encounter.base_label }}_RockSmashMonsLeafGreen };
-{% endif %}
 {% if existsIn(encounter, "fishing_mons") %}
 const struct WildPokemon {{ encounter.base_label }}_FishingMons[] =
 {
@@ -184,96 +64,6 @@ const struct WildPokemon {{ encounter.base_label }}_FishingMons[] =
 
 const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsInfo = { {{encounter.fishing_mons.encounter_rate}}, {{ encounter.base_label }}_FishingMons };
 {% endif %}
-{% if existsIn(encounter, "fishing_mons_ruby") %}
-const struct WildPokemon {{ encounter.base_label }}_FishingMonsRuby[] =
-{
-## for wild_mon in encounter.fishing_mons_ruby.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsRubyInfo = { {{encounter.fishing_mons_ruby.encounter_rate}}, {{ encounter.base_label }}_FishingMonsRuby };
-{% endif %}
-{% if existsIn(encounter, "fishing_mons_sapphire") %}
-const struct WildPokemon {{ encounter.base_label }}_FishingMonsSapphire[] =
-{
-## for wild_mon in encounter.fishing_mons_sapphire.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsSapphireInfo = { {{encounter.fishing_mons_sapphire.encounter_rate}}, {{ encounter.base_label }}_FishingMonsSapphire };
-{% endif %}
-{% if existsIn(encounter, "fishing_mons_firered") %}
-const struct WildPokemon {{ encounter.base_label }}_FishingMonsFireRed[] =
-{
-## for wild_mon in encounter.fishing_mons_firered.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsFireRedInfo = { {{encounter.fishing_mons_firered.encounter_rate}}, {{ encounter.base_label }}_FishingMonsFireRed };
-{% endif %}
-{% if existsIn(encounter, "fishing_mons_leafgreen") %}
-const struct WildPokemon {{ encounter.base_label }}_FishingMonsLeafGreen[] =
-{
-## for wild_mon in encounter.fishing_mons_leafgreen.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_FishingMonsLeafGreenInfo = { {{encounter.fishing_mons_leafgreen.encounter_rate}}, {{ encounter.base_label }}_FishingMonsLeafGreen };
-{% endif %}
-{% if existsIn(encounter, "puddle_mons") %}
-const struct WildPokemon {{ encounter.base_label }}_PuddleMons[] =
-{
-## for wild_mon in encounter.puddle_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsInfo = { {{encounter.puddle_mons.encounter_rate}}, {{ encounter.base_label }}_PuddleMons };
-{% endif %}
-{% if existsIn(encounter, "puddle_mons_ruby") %}
-const struct WildPokemon {{ encounter.base_label }}_PuddleMonsRuby[] =
-{
-## for wild_mon in encounter.puddle_mons_ruby.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsRubyInfo = { {{encounter.puddle_mons_ruby.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsRuby };
-{% endif %}
-{% if existsIn(encounter, "puddle_mons_sapphire") %}
-const struct WildPokemon {{ encounter.base_label }}_PuddleMonsSapphire[] =
-{
-## for wild_mon in encounter.puddle_mons_sapphire.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsSapphireInfo = { {{encounter.puddle_mons_sapphire.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsSapphire };
-{% endif %}
-{% if existsIn(encounter, "puddle_mons_firered") %}
-const struct WildPokemon {{ encounter.base_label }}_PuddleMonsFireRed[] =
-{
-## for wild_mon in encounter.puddle_mons_firered.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsFireRedInfo = { {{encounter.puddle_mons_firered.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsFireRed };
-{% endif %}
-{% if existsIn(encounter, "puddle_mons_leafgreen") %}
-const struct WildPokemon {{ encounter.base_label }}_PuddleMonsLeafGreen[] =
-{
-## for wild_mon in encounter.puddle_mons_leafgreen.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
-## endfor
-};
-
-const struct WildPokemonInfo {{ encounter.base_label }}_PuddleMonsLeafGreenInfo = { {{encounter.puddle_mons_leafgreen.encounter_rate}}, {{ encounter.base_label }}_PuddleMonsLeafGreen };
-{% endif %}
 ## endfor
 
 const struct WildPokemonHeader {{ wild_encounter_group.label }}[] =
@@ -283,60 +73,18 @@ const struct WildPokemonHeader {{ wild_encounter_group.label }}[] =
         .mapGroup = {% if wild_encounter_group.for_maps %}MAP_GROUP({{ removePrefix(encounter.map, "MAP_") }}){% else %}0{% endif %},
         .mapNum = {% if wild_encounter_group.for_maps %}MAP_NUM({{ removePrefix(encounter.map, "MAP_") }}){% else %}{{ loop.index1 }}{% endif %},
         .landMonsInfo = {% if existsIn(encounter, "land_mons") %}&{{ encounter.base_label }}_LandMonsInfo{% else %}NULL{% endif %},
-        .landMonsRubyInfo = {% if existsIn(encounter, "land_mons_ruby") %}&{{ encounter.base_label }}_LandMonsRubyInfo{% else %}NULL{% endif %},
-        .landMonsSapphireInfo = {% if existsIn(encounter, "land_mons_sapphire") %}&{{ encounter.base_label }}_LandMonsSapphireInfo{% else %}NULL{% endif %},
-        .landMonsFireRedInfo = {% if existsIn(encounter, "land_mons_firered") %}&{{ encounter.base_label }}_LandMonsFireRedInfo{% else %}NULL{% endif %},
-        .landMonsLeafGreenInfo = {% if existsIn(encounter, "land_mons_leafgreen") %}&{{ encounter.base_label }}_LandMonsLeafGreenInfo{% else %}NULL{% endif %},
         .waterMonsInfo = {% if existsIn(encounter, "water_mons") %}&{{ encounter.base_label }}_WaterMonsInfo{% else %}NULL{% endif %},
-        .waterMonsRubyInfo = {% if existsIn(encounter, "water_mons_ruby") %}&{{ encounter.base_label }}_WaterMonsRubyInfo{% else %}NULL{% endif %},
-        .waterMonsSapphireInfo = {% if existsIn(encounter, "water_mons_sapphire") %}&{{ encounter.base_label }}_WaterMonsSapphireInfo{% else %}NULL{% endif %},
-        .waterMonsFireRedInfo = {% if existsIn(encounter, "water_mons_firered") %}&{{ encounter.base_label }}_WaterMonsFireRedInfo{% else %}NULL{% endif %},
-        .waterMonsLeafGreenInfo = {% if existsIn(encounter, "water_mons_leafgreen") %}&{{ encounter.base_label }}_WaterMonsLeafGreenInfo{% else %}NULL{% endif %},
         .rockSmashMonsInfo = {% if existsIn(encounter, "rock_smash_mons") %}&{{ encounter.base_label }}_RockSmashMonsInfo{% else %}NULL{% endif %},
-        .rockSmashMonsRubyInfo = {% if existsIn(encounter, "rock_smash_mons_ruby") %}&{{ encounter.base_label }}_RockSmashMonsRubyInfo{% else %}NULL{% endif %},
-        .rockSmashMonsSapphireInfo = {% if existsIn(encounter, "rock_smash_mons_sapphire") %}&{{ encounter.base_label }}_RockSmashMonsSapphireInfo{% else %}NULL{% endif %},
-        .rockSmashMonsFireRedInfo = {% if existsIn(encounter, "rock_smash_mons_firered") %}&{{ encounter.base_label }}_RockSmashMonsFireRedInfo{% else %}NULL{% endif %},
-        .rockSmashMonsLeafGreenInfo = {% if existsIn(encounter, "rock_smash_mons_leafgreen") %}&{{ encounter.base_label }}_RockSmashMonsLeafGreenInfo{% else %}NULL{% endif %},
         .fishingMonsInfo = {% if existsIn(encounter, "fishing_mons") %}&{{ encounter.base_label }}_FishingMonsInfo{% else %}NULL{% endif %},
-        .fishingMonsRubyInfo = {% if existsIn(encounter, "fishing_mons_ruby") %}&{{ encounter.base_label }}_FishingMonsRubyInfo{% else %}NULL{% endif %},
-        .fishingMonsSapphireInfo = {% if existsIn(encounter, "fishing_mons_sapphire") %}&{{ encounter.base_label }}_FishingMonsSapphireInfo{% else %}NULL{% endif %},
-        .fishingMonsFireRedInfo = {% if existsIn(encounter, "fishing_mons_firered") %}&{{ encounter.base_label }}_FishingMonsFireRedInfo{% else %}NULL{% endif %},
-        .fishingMonsLeafGreenInfo = {% if existsIn(encounter, "fishing_mons_leafgreen") %}&{{ encounter.base_label }}_FishingMonsLeafGreenInfo{% else %}NULL{% endif %},
-        .puddleMonsInfo = {% if existsIn(encounter, "puddle_mons") %}&{{ encounter.base_label }}_PuddleMonsInfo{% else %}NULL{% endif %},
-        .puddleMonsRubyInfo = {% if existsIn(encounter, "puddle_mons_ruby") %}&{{ encounter.base_label }}_PuddleMonsRubyInfo{% else %}NULL{% endif %},
-        .puddleMonsSapphireInfo = {% if existsIn(encounter, "puddle_mons_sapphire") %}&{{ encounter.base_label }}_PuddleMonsSapphireInfo{% else %}NULL{% endif %},
-        .puddleMonsFireRedInfo = {% if existsIn(encounter, "puddle_mons_firered") %}&{{ encounter.base_label }}_PuddleMonsFireRedInfo{% else %}NULL{% endif %},
-        .puddleMonsLeafGreenInfo = {% if existsIn(encounter, "puddle_mons_leafgreen") %}&{{ encounter.base_label }}_PuddleMonsLeafGreenInfo{% else %}NULL{% endif %},
     },
 ## endfor
     {
         .mapGroup = MAP_GROUP(UNDEFINED),
         .mapNum = MAP_NUM(UNDEFINED),
         .landMonsInfo = NULL,
-        .landMonsRubyInfo = NULL,
-        .landMonsSapphireInfo = NULL,
-        .landMonsFireRedInfo = NULL,
-        .landMonsLeafGreenInfo = NULL,
         .waterMonsInfo = NULL,
-        .waterMonsRubyInfo = NULL,
-        .waterMonsSapphireInfo = NULL,
-        .waterMonsFireRedInfo = NULL,
-        .waterMonsLeafGreenInfo = NULL,
         .rockSmashMonsInfo = NULL,
-        .rockSmashMonsRubyInfo = NULL,
-        .rockSmashMonsSapphireInfo = NULL,
-        .rockSmashMonsFireRedInfo = NULL,
-        .rockSmashMonsLeafGreenInfo = NULL,
         .fishingMonsInfo = NULL,
-        .fishingMonsRubyInfo = NULL,
-        .fishingMonsSapphireInfo = NULL,
-        .fishingMonsFireRedInfo = NULL,
-        .fishingMonsLeafGreenInfo = NULL,
-        .puddleMonsInfo = NULL,
-        .puddleMonsRubyInfo = NULL,
-        .puddleMonsSapphireInfo = NULL,
-        .puddleMonsFireRedInfo = NULL,
-        .puddleMonsLeafGreenInfo = NULL,
     },
 };
 ## endfor

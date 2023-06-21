@@ -471,6 +471,12 @@ static void TryLowerFortreeBridge(s16 x, s16 y)
         case METATILE_Fortree_BridgeOverGrass_Raised:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Lowered);
             break;
+        case METATILE_Fortree_BridgeOverGrass_Raised2:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Lowered2);
+            break;
+        case METATILE_Fortree_BridgeOverGrass_Raised3:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Lowered3);
+            break;
         case METATILE_Fortree_BridgeOverTrees_Raised:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverTrees_Lowered);
             break;
@@ -487,6 +493,12 @@ static void TryRaiseFortreeBridge(s16 x, s16 y)
         {
         case METATILE_Fortree_BridgeOverGrass_Lowered:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Raised);
+            break;
+        case METATILE_Fortree_BridgeOverGrass_Lowered2:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Raised2);
+            break;
+        case METATILE_Fortree_BridgeOverGrass_Lowered3:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Raised3);
             break;
         case METATILE_Fortree_BridgeOverTrees_Lowered:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverTrees_Raised);
