@@ -15,6 +15,7 @@ enum {
     MON_DATA_OT_NAME,
     MON_DATA_MARKINGS,
     MON_DATA_CHECKSUM,
+    MON_DATA_FORM,
     MON_DATA_ENCRYPT_SEPARATOR,
     MON_DATA_SPECIES,
     MON_DATA_HELD_ITEM,
@@ -84,7 +85,6 @@ enum {
     MON_DATA_NATIONAL_RIBBON,
     MON_DATA_EARTH_RIBBON,
     MON_DATA_WORLD_RIBBON,
-    MON_DATA_UNUSED_RIBBONS,
     MON_DATA_MODERN_FATEFUL_ENCOUNTER,
     MON_DATA_KNOWN_MOVES,
     MON_DATA_RIBBON_COUNT,
@@ -97,9 +97,25 @@ enum {
     MON_DATA_VERSION_MODIFIER,
     MON_DATA_TITLE,
     MON_DATA_TITLE_STRING,
-    MON_DATA_FORM,
-    MON_DATA_SHINY_LEAVES,
-    MON_DATA_ENCOUNTER_TYPE
+};
+
+struct __attribute__((packed)) heliodor
+{
+    u16 unused;
+};
+
+// Not sure if this union approach would make sense as it could only really be used for immutables
+// (else a mon transferred from Heliodor to YC wouldn't be eligible to be minted)
+// and stuff like newBall and form are most likely going to be consistant between games anyway.
+// My original idea was to put nuzlocke, hypertraining, etc in a set of 4 flags after worldRibbon;
+// It probably makes sense to go back to that.
+
+struct __attribute__((packed)) yellowCross
+{
+    u16 nuzlockeDead:1;
+    u16 hyperTrained:1;
+    u16 mint:5;
+    u16 unused:9;
 };
 
 struct PokemonSubstruct0
@@ -111,7 +127,7 @@ struct PokemonSubstruct0
     u8 friendship;
 	u8 versionModifier;	//Used to identify mons originated from specific unoffical games
 	u8 title:6;		//"Active" Ribbon
-    u8 filler:2;
+    u8 unused:2;
 };
 
 struct PokemonSubstruct1
@@ -172,7 +188,7 @@ struct PokemonSubstruct3
  /* 0x0B */ u32 nationalRibbon:1;           // Given to purified Shadow Pokémon in Colosseum/XD.
  /* 0x0B */ u32 earthRibbon:1;              // Given to teams that have beaten Mt. Battle's 100-battle challenge in Colosseum/XD.
  /* 0x0B */ u32 worldRibbon:1;              // Distributed during Pokémon Festa '04 and '05 to tournament winners.
- /* 0x0B */ u32 unusedRibbons:4;            // Discarded in Gen 4.
+ /* 0x0B */ u32 newBall:4;
 
  // The functionality of this bit changed in FRLG:
  // In RS, this bit does nothing, is never set, & is accidentally unset when hatching Eggs.
@@ -210,19 +226,17 @@ struct BoxPokemon
     u8 isBadEgg:1;
     u8 hasSpecies:1;
     u8 isEgg:1;
-	u8 johtoBall:3;		//CrystalDust
-	u8 form:2;			//FireRed/LeafGreen DX
+	u8 form:5; // How crazy do we want to get with forms?
     u8 otName[PLAYER_NAME_LENGTH];
     u8 markings;
     u16 checksum;
-	u16 shinyLeafA:1;
-	u16 shinyLeafB:1;
-	u16 shinyLeafC:1;
-	u16 shinyLeafD:1;
-	u16 shinyLeafE:1;
-	u16 shinyCrown:1;
-	u16 encounterType:5;	//Gen 4 Encounter Type
-	u16 unknown:5;
+
+    union __attribute__((packed))
+    {
+        struct heliodor;
+        struct yellowCross;
+        u16 raw;
+    } specialData;
 
     union
     {

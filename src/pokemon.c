@@ -4335,7 +4335,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
     struct PokemonSubstruct3 *substruct3 = NULL;
 
     // Any field greater than MON_DATA_ENCRYPT_SEPARATOR is encrypted and must be treated as such
-    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR)
     {
         substruct0 = &(GetSubstruct(boxMon, boxMon->personality, 0)->type0);
         substruct1 = &(GetSubstruct(boxMon, boxMon->personality, 1)->type1);
@@ -4430,7 +4430,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = boxMon->checksum;
         break;
     case MON_DATA_ENCRYPT_SEPARATOR:
-        retVal = boxMon->unknown;
+        retVal = 0;
         break;
     case MON_DATA_SPECIES:
         retVal = boxMon->isBadEgg ? SPECIES_EGG : substruct0->species;
@@ -4588,9 +4588,6 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_WORLD_RIBBON:
         retVal = substruct3->worldRibbon;
         break;
-    case MON_DATA_UNUSED_RIBBONS:
-        retVal = substruct3->unusedRibbons;
-        break;
     case MON_DATA_MODERN_FATEFUL_ENCOUNTER:
         retVal = substruct3->modernFatefulEncounter;
         break;
@@ -4674,18 +4671,6 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
 	case MON_DATA_FORM:
 		retVal = boxMon->form;
 		break;
-	case MON_DATA_SHINY_LEAVES:
-		retVal = 0;
-		retVal &= boxMon->shinyLeafA << 5;
-		retVal &= boxMon->shinyLeafB << 4;
-		retVal &= boxMon->shinyLeafC << 3;
-		retVal &= boxMon->shinyLeafD << 2;
-		retVal &= boxMon->shinyLeafE << 1;
-		retVal &= boxMon->shinyCrown;
-		break;
-	case MON_DATA_ENCOUNTER_TYPE:
-		retVal = boxMon->encounterType;
-		break;
 	case MON_DATA_VERSION_MODIFIER:
 		retVal = substruct0->versionModifier;
 		break;
@@ -4702,7 +4687,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     }
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR)
         EncryptBoxMon(boxMon);
 
     return retVal;
@@ -4765,7 +4750,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     struct PokemonSubstruct2 *substruct2 = NULL;
     struct PokemonSubstruct3 *substruct3 = NULL;
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR)
     {
         substruct0 = &(GetSubstruct(boxMon, boxMon->personality, 0)->type0);
         substruct1 = &(GetSubstruct(boxMon, boxMon->personality, 1)->type1);
@@ -4825,7 +4810,6 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         SET16(boxMon->checksum);
         break;
     case MON_DATA_ENCRYPT_SEPARATOR:
-        SET16(boxMon->unknown);
         break;
     case MON_DATA_SPECIES:
     {
@@ -4999,9 +4983,6 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_WORLD_RIBBON:
         SET8(substruct3->worldRibbon);
         break;
-    case MON_DATA_UNUSED_RIBBONS:
-        SET8(substruct3->unusedRibbons);
-        break;
     case MON_DATA_MODERN_FATEFUL_ENCOUNTER:
         SET8(substruct3->modernFatefulEncounter);
         break;
@@ -5033,17 +5014,6 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 	case MON_DATA_FORM:
 		SET8(boxMon->form);
 		break;
-	case MON_DATA_SHINY_LEAVES:
-		boxMon->shinyLeafA = *data & 0x20u >> 5;
-		boxMon->shinyLeafB = *data & 0x10u >> 4;
-		boxMon->shinyLeafC = *data & 0x8u >> 3;
-		boxMon->shinyLeafD = *data & 0x4u >> 2;
-		boxMon->shinyLeafE = *data & 0x2u >> 1;
-		boxMon->shinyCrown = *data & 0x1u;
-		break;
-	case MON_DATA_ENCOUNTER_TYPE:
-		SET8(boxMon->encounterType);
-		break;
 	case MON_DATA_VERSION_MODIFIER:
 		SET8(substruct0->versionModifier);
 		break;
@@ -5054,7 +5024,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     }
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORM)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR)
     {
         boxMon->checksum = CalculateBoxMonChecksum(boxMon);
         EncryptBoxMon(boxMon);
@@ -8018,7 +7988,6 @@ u8 GivePorygon(void)
 	u8 location;
 	u16 item;
 	u16 checksum;
-	u8 encounterType;
 	
 	personality = 0xC8693992u;
 	ivs[0] = 31;
@@ -8037,7 +8006,6 @@ u8 GivePorygon(void)
 	location = 0x0C;
 	item = ITEM_UP_GRADE;
 	version = VERSION_PLATINUM;
-	encounterType = ENCOUNTER_TYPE_GIFT_PT;
 
 	CreateMon(&mon, SPECIES_PORYGON, 27, 32, TRUE, personality, OT_ID_PRESET, otId);
 	//CreateMon(&mon, SPECIES_PORYGON, 27, 32, 0, 0, OT_ID_PRESET, otId);
@@ -8053,7 +8021,6 @@ u8 GivePorygon(void)
 	SetMonData(&mon, MON_DATA_SPEED_IV, &ivs[3]);
 	SetMonData(&mon, MON_DATA_SPATK_IV, &ivs[4]);
 	SetMonData(&mon, MON_DATA_SPDEF_IV, &ivs[5]);
-	SetMonData(&mon, MON_DATA_ENCOUNTER_TYPE, &encounterType);
     CalculateMonStats(&mon);
     sentToPc = SendMonToPC(&mon);
     nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_PORYGON);
