@@ -51,8 +51,8 @@
 #define VERSION_LEGENDS_ARCEUS		47
 #define VERSION_BRILLIANT_DIAMOND	48
 #define VERSION_SHINING_PEARL		49
-#define VERSION_SCARLET				50 //Speculative
-#define VERSION_VIOLET				51 //Speculative
+#define VERSION_SCARLET				50
+#define VERSION_VIOLET				51
 
 //Version ID modifiers used for identifying unofficial games.
 //The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
@@ -60,7 +60,9 @@
 #define DEV_GAME_FREAK				0
 #define DEV_SOLITAIRI				1	//3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, and 12-1 for legality purposes
 #define DEV_SHINY_DRAGON_HUNTER		2	//4-2 is FireRed DX and 5-2 is LeafGreen DX
-#define DEV_SOLITAIRI_2				3	//4-3 is modified CrystalDust
+#define DEV_SOLITAIRI_2				3	//4-3 is modified CrystalDust //Once we drop CD, this will be reserved as DEV_ASPARAGUS_EDUARDO
+#define DEV_JAIZU                   4   //3-4 is Emerald Cross, 4-4 is Yellow Cross
+#define DEV_BOX_RS                  5   //Force this tag upon Box Eggs to track them once they are hatched
 #define DEV_TEST					255
 
 #define LANGUAGE_JAPANESE 1

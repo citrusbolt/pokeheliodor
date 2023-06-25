@@ -1290,6 +1290,10 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
     {
         trueOrigin = ORIGIN_GAME_HELIODOR;
     }
+    else if (versionModifier == DEV_BOX_RS)
+    {
+        trueOrigin = ORIGIN_GAME_BOX;
+    }
     else
     {
         if (species == SPECIES_PIKACHU && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x00007991)
@@ -1307,13 +1311,6 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
         else if (species == SPECIES_JIRACHI && METLOC_FATEFUL_ENCOUNTER && tid == 0x00004E4B)
         {
             trueOrigin = ORIGIN_GAME_COLOSSEUM;
-        }
-        else if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
-               && isEgg == TRUE
-               && metLocation == METLOC_FATEFUL_ENCOUNTER
-               && tid == 0)
-        {
-            trueOrigin = ORIGIN_GAME_BOX;
         }
         // Too expensive to ID hatched Box Eggs, is it worth a bit of mon data to tag Box Eggs when viewed so that we don't forget origin?
         //else if ((species == SPECIES_SWABLU || species == SPECIES_ALTARIA
@@ -1742,15 +1739,53 @@ static bool8 DecompressGraphics(void)
 
 static void CopyMonToSummaryStruct(struct Pokemon *mon)
 {
+    u16 species;
+    bool8 isEgg;
+    u8 metLocation, versionModifier;
+    u32 tid;
+
     if (!sMonSummaryScreen->isBoxMon)
     {
-        struct Pokemon *partyMon = sMonSummaryScreen->monList.mons;
-        *mon = partyMon[sMonSummaryScreen->curMonIndex];
+        struct Pokemon *partyMon = &sMonSummaryScreen->monList.mons[sMonSummaryScreen->curMonIndex];
+
+        species = GetMonData(partyMon, MON_DATA_SPECIES);
+        isEgg = GetMonData(partyMon, MON_DATA_IS_EGG);
+        metLocation = GetMonData(partyMon, MON_DATA_MET_LOCATION);
+        tid = GetMonData(partyMon, MON_DATA_OT_ID);
+        versionModifier = GetMonData(partyMon, MON_DATA_VERSION_MODIFIER);
+
+        if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
+               && isEgg == TRUE
+               && metLocation == METLOC_FATEFUL_ENCOUNTER
+               && tid == 0
+               && versionModifier == DEV_GAME_FREAK)
+        {
+            versionModifier = DEV_BOX_RS;
+            SetMonData(partyMon, MON_DATA_VERSION_MODIFIER, &versionModifier);
+        }
+
+        *mon = *partyMon;
     }
     else
     {
-        struct BoxPokemon *boxMon = sMonSummaryScreen->monList.boxMons;
-        BoxMonToMon(&boxMon[sMonSummaryScreen->curMonIndex], mon);
+        struct BoxPokemon *boxMon = &sMonSummaryScreen->monList.boxMons[sMonSummaryScreen->curMonIndex];
+        species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
+        isEgg = GetBoxMonData(boxMon, MON_DATA_IS_EGG);
+        metLocation = GetBoxMonData(boxMon, MON_DATA_MET_LOCATION);
+        tid = GetBoxMonData(boxMon, MON_DATA_OT_ID);
+        versionModifier = GetBoxMonData(boxMon, MON_DATA_VERSION_MODIFIER);
+
+        if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
+               && isEgg == TRUE
+               && metLocation == METLOC_FATEFUL_ENCOUNTER
+               && tid == 0
+               && versionModifier == DEV_GAME_FREAK)
+        {
+            versionModifier = DEV_BOX_RS;
+            SetBoxMonData(boxMon, MON_DATA_VERSION_MODIFIER, &versionModifier);
+        }
+
+        BoxMonToMon(boxMon, mon);
     }
 }
 
