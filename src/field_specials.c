@@ -3727,7 +3727,8 @@ static void Task_DeoxysRockInteraction(u8 taskId)
 static void ChangeDeoxysRockLevel(u8 rockLevel)
 {
     u8 objectEventId;
-    LoadPalette(&sDeoxysRockPalettes[rockLevel], OBJ_PLTT_ID(10), PLTT_SIZEOF(4));
+
+    LoadPalette(&sDeoxysRockPalettes[rockLevel], OBJ_PLTT_ID(IndexOfSpritePaletteTag(0x111F /*OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE*/)), PLTT_SIZEOF(4));
     TryGetObjectEventIdByLocalIdAndMap(LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
 
     if (rockLevel == 0)
