@@ -312,8 +312,8 @@ static const s16 sEggShardVelocities[][2] =
 static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
 {
     u16 species;
-    u32 personality, pokerus;
-    u8 i, friendship, language, gameMet, markings, isModernFatefulEncounter, versionModifier;
+    u32 personality, pokerus, tid;
+    u8 i, friendship, language, gameMet, markings, isModernFatefulEncounter, versionModifier, metLocation;
     u16 moves[MAX_MON_MOVES];
     u32 ivs[NUM_STATS];
 
@@ -327,10 +327,17 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
     for (i = 0; i < NUM_STATS; i++)
         ivs[i] = GetMonData(egg, MON_DATA_HP_IV + i);
 
+    versionModifier = GetMonData(egg, MON_DATA_VERSION_MODIFIER);
+    metLocation = GetMonData(egg, MON_DATA_MET_LOCATION);
+    tid = GetMonData(egg, MON_DATA_OT_ID);
+
+    if (versionModifier == DEV_GAME_FREAK && metLocation == 0xFF && tid == 0
+    && (species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU))
+        versionModifier = DEV_BOX_RS;
+
     // The language is initially read from the Egg but is later overwritten below
     language = GetMonData(egg, MON_DATA_LANGUAGE);
     gameMet = GetMonData(egg, MON_DATA_MET_GAME);
-    versionModifier = GetMonData(egg, MON_DATA_VERSION_MODIFIER);
     markings = GetMonData(egg, MON_DATA_MARKINGS);
     pokerus = GetMonData(egg, MON_DATA_POKERUS);
     isModernFatefulEncounter = GetMonData(egg, MON_DATA_MODERN_FATEFUL_ENCOUNTER);

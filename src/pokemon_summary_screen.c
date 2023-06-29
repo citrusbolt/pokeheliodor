@@ -1312,33 +1312,13 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
         {
             trueOrigin = ORIGIN_GAME_COLOSSEUM;
         }
-        // Too expensive to ID hatched Box Eggs, is it worth a bit of mon data to tag Box Eggs when viewed so that we don't forget origin?
-        //else if ((species == SPECIES_SWABLU || species == SPECIES_ALTARIA
-        //       || species == SPECIES_ZIGZAGOON || species == SPECIES_LINOONE
-        //       || species == SPECIES_SKITTY || species == SPECIES_DELCATTY
-        //       || species == SPECIES_PICHU || species == SPECIES_PIKACHU || species == SPECIES_RAICHU)
-        //       && metLevel == 0)
-        //{
-        //    u16 pidTopHalf;
-        //    u16 pidBottomHalf;
-        //    u32 result = 0;
-        //    u32 currentTestFrame = 0;
-        //
-        //    do
-        //    {
-        //        pidTopHalf = (u32)((1103515245 * currentTestFrame + 24691)) >> 16;
-        //        pidBottomHalf = (u32)((1103515245 * (currentTestFrame + 1) + 24691)) >> 16;
-        //        
-        //        if ((pidTopHalf << 16 | pidBottomHalf) == pid)
-        //            result == 1;
-        //        if (currentTestFrame == 0xFFFFFFFF)
-        //            result == 2;
-        //        currentTestFrame++;
-        //    } while (result == 0);
-        //
-        //    if (result == 1)
-        //        trueOrigin = ORIGIN_GAME_BOX;
-        //}
+        else if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
+               && isEgg == TRUE
+               && metLocation == METLOC_FATEFUL_ENCOUNTER
+               && tid == 0)
+        {
+            trueOrigin = ORIGIN_GAME_BOX;
+        }
 
         if (trueOrigin == 0xFF)
         {
@@ -1739,53 +1719,15 @@ static bool8 DecompressGraphics(void)
 
 static void CopyMonToSummaryStruct(struct Pokemon *mon)
 {
-    u16 species;
-    bool8 isEgg;
-    u8 metLocation, versionModifier;
-    u32 tid;
-
     if (!sMonSummaryScreen->isBoxMon)
     {
-        struct Pokemon *partyMon = &sMonSummaryScreen->monList.mons[sMonSummaryScreen->curMonIndex];
-
-        species = GetMonData(partyMon, MON_DATA_SPECIES);
-        isEgg = GetMonData(partyMon, MON_DATA_IS_EGG);
-        metLocation = GetMonData(partyMon, MON_DATA_MET_LOCATION);
-        tid = GetMonData(partyMon, MON_DATA_OT_ID);
-        versionModifier = GetMonData(partyMon, MON_DATA_VERSION_MODIFIER);
-
-        if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
-               && isEgg == TRUE
-               && metLocation == METLOC_FATEFUL_ENCOUNTER
-               && tid == 0
-               && versionModifier == DEV_GAME_FREAK)
-        {
-            versionModifier = DEV_BOX_RS;
-            SetMonData(partyMon, MON_DATA_VERSION_MODIFIER, &versionModifier);
-        }
-
-        *mon = *partyMon;
+        struct Pokemon *partyMon = sMonSummaryScreen->monList.mons;
+        *mon = partyMon[sMonSummaryScreen->curMonIndex];
     }
     else
     {
-        struct BoxPokemon *boxMon = &sMonSummaryScreen->monList.boxMons[sMonSummaryScreen->curMonIndex];
-        species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
-        isEgg = GetBoxMonData(boxMon, MON_DATA_IS_EGG);
-        metLocation = GetBoxMonData(boxMon, MON_DATA_MET_LOCATION);
-        tid = GetBoxMonData(boxMon, MON_DATA_OT_ID);
-        versionModifier = GetBoxMonData(boxMon, MON_DATA_VERSION_MODIFIER);
-
-        if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
-               && isEgg == TRUE
-               && metLocation == METLOC_FATEFUL_ENCOUNTER
-               && tid == 0
-               && versionModifier == DEV_GAME_FREAK)
-        {
-            versionModifier = DEV_BOX_RS;
-            SetBoxMonData(boxMon, MON_DATA_VERSION_MODIFIER, &versionModifier);
-        }
-
-        BoxMonToMon(boxMon, mon);
+        struct BoxPokemon *boxMon = sMonSummaryScreen->monList.boxMons;
+        BoxMonToMon(&boxMon[sMonSummaryScreen->curMonIndex], mon);
     }
 }
 
