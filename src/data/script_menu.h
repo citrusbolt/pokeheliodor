@@ -23,11 +23,11 @@ static const struct MenuAction MultichoiceList_ContestInfo[] =
 
 static const struct MenuAction MultichoiceList_ContestType[] =
 {
-    {gText_CoolnessContest},
-    {gText_BeautyContest},
-    {gText_CutenessContest},
-    {gText_SmartnessContest},
-    {gText_ToughnessContest},
+    {gText_CoolnessContestMenu},
+    {gText_BeautyContestMenu},
+    {gText_CutenessContestMenu},
+    {gText_SmartnessContestMenu},
+    {gText_ToughnessContestMenu},
     {gText_Exit},
 };
 

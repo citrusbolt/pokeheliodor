@@ -1426,7 +1426,7 @@ LilycoveCity_ContestLobby_Text_ExplainContests:
 
 LilycoveCity_ContestLobby_Text_ExplainContestTypes:
 	.string "There are five kinds of Contests.\p"
-	.string "COOL, BEAUTY, CUTE, Smart, and\n"
+	.string "Cool, Beauty, Cute, Smart, and\n"
 	.string "Tough are the five categories.\p"
 	.string "Choose the Contest that is right for\n"
 	.string "the Pokémon you plan to enter.$"
@@ -1434,7 +1434,7 @@ LilycoveCity_ContestLobby_Text_ExplainContestTypes:
 LilycoveCity_ContestLobby_Text_ExplainContestRanks:
 	.string "There are four ranks of Pokémon\n"
 	.string "Contests.\p"
-	.string "NORMAL, SUPER, Hyper, and Master\n"
+	.string "Normal, Super, Hyper, and Master\n"
 	.string "are the four ranks.\p"
 	.string "In the Normal Rank, any Pokémon may\n"
 	.string "enter.\p"
@@ -1695,28 +1695,28 @@ LilycoveCity_ContestLobby_Text_PleaseDecideLinkLeader:
 	.string "Please decide which of you will\n"
 	.string "become the Group Leader.\p"
 	.string "The other players must then choose\n"
-	.string "“JOIN Group.”$"
+	.string "“JOIN GROUP.”$"
 
 LilycoveCity_ContestLobby_Text_PlayerAt4PCounterUseGMode:
 	.string "At least one player has entered using\n"
 	.string "the 4-player reception counter.\p"
 	.string "There must be four players connected\n"
-	.string "using a Gba Game Link cable.\p"
+	.string "using a GBA Game Link cable.\p"
 	.string "When the four players are ready,\n"
-	.string "select G-MODE (GLOBAL MODE),\l"
+	.string "select G-MODE (Global Mode),\l"
 	.string "then register to enter again, please.$"
 
 LilycoveCity_ContestLobby_Text_ExplainLinkContest:
 	.string "This is a Contest for two to four\n"
 	.string "players linked using a Wireless\l"
-	.string "Adapter or a Gba Game Link cable.\p"
+	.string "Adapter or a GBA Game Link cable.\p"
 	.string "Participants are first asked to choose\n"
 	.string "the mode they wish to enter.\p"
 	.string "There are two different modes.\p"
-	.string "E-MODE (EMERALD MODE) is for\n"
+	.string "E-MODE (Emerald Mode) is for\n"
 	.string "two to four players, each with a\l"
 	.string "Pokémon Heliodor or Emerald Game Pak.\p"
-	.string "G-MODE (GLOBAL MODE) is only for\n"
+	.string "G-MODE (Global Mode) is only for\n"
 	.string "four players, each with a Pokémon\l"
 	.string "Heliodor, Emerald, Ruby,\l"
 	.string "or Sapphire Game Pak.\p"
@@ -1729,14 +1729,14 @@ LilycoveCity_ContestLobby_Text_ExplainLinkContest:
 	.string "the usual manner.$"
 
 LilycoveCity_ContestLobby_Text_ExplainEMode:
-	.string "In E-MODE (EMERALD MODE),\n"
+	.string "In E-MODE (Emerald Mode),\n"
 	.string "a Link Contest can be held with\l"
 	.string "two to four players. Each player must\l"
 	.string "have a Pokémon Heliodor\l"
 	.string "or Emerald Game Pak.\p"
 	.string "The players must be linked with each\n"
 	.string "other using Wireless Adapters or\l"
-	.string "Gba Game Link cables.\p"
+	.string "GBA Game Link cables.\p"
 	.string "If there are fewer than four players,\n"
 	.string "Trainers in the hall will join to fill\l"
 	.string "the 4-player Contest lineup.\p"
@@ -1744,9 +1744,9 @@ LilycoveCity_ContestLobby_Text_ExplainEMode:
 	.string "available in Pokémon Ruby or Sapphire.$"
 
 LilycoveCity_ContestLobby_Text_ExplainGMode:
-	.string "G-MODE (GLOBAL MODE) is specifically\n"
+	.string "G-MODE (Global Mode) is specifically\n"
 	.string "for four players who are linked using\l"
-	.string "Gba Game Link cables.\p"
+	.string "GBA Game Link cables.\p"
 	.string "Each player must have a\n"
 	.string "Pokémon Heliodor, Emerald,\l"
 	.string "Ruby, or Sapphire Game Pak.\p"
@@ -1761,7 +1761,7 @@ LilycoveCity_ContestLobby_Text_NoWirelessAdapterInGMode:
 	.string "G-MODE does not function\n"
 	.string "with Wireless Adapters.\p"
 	.string "Please select E-MODE or try\n"
-	.string "again using a Gba Game Link cable.$"
+	.string "again using a GBA Game Link cable.$"
 
 LilycoveCity_ContestLobby_Text_WhichContestMode:
 	.string "Which Contest Mode would you like\n"

@@ -49,7 +49,7 @@ EventScript_PowerPurchase_Exit::
 	end
 
 EventScript_PowerPurchase_Text_WhichPower:
-	.string "Which H-POWER would you\n"
+	.string "Which H-Power would you\n"
 	.string "to activate?{PAUSE 24}$"
 
 EventScript_PowerPurchase_Text_ConfirmPurchase:
