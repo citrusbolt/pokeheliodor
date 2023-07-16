@@ -451,6 +451,9 @@ $(OBJEVENTGFXDIR)/people/emerald/named/winona.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/emerald/special/bard.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
+$(OBJEVENTGFXDIR)/people/emerald/special/contest_judge.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
 $(OBJEVENTGFXDIR)/people/emerald/special/giddy.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
@@ -520,9 +523,6 @@ $(OBJEVENTGFXDIR)/people/emerald/cameraman.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/emerald/camper.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 4
-
-$(OBJEVENTGFXDIR)/people/emerald/contest_judge.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/emerald/cook.4bpp: %.4bpp: %.png
