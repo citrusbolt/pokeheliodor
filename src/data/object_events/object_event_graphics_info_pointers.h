@@ -232,8 +232,8 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Leaf;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Deoxys;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BirthIslandStone;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Brandon;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RubySapphireBrendan;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RubySapphireMay;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanRS;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayRS;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Lugia;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HoOh;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Bard;
@@ -249,8 +249,12 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Raikou;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Entei;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Suicune;
 
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldBrendan;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EmeraldMay;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanRed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayRed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanBlue;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayBlue;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanGreen;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayGreen;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gold;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Kris;
 
@@ -494,8 +498,8 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_DEOXYS] =                   &gObjectEventGraphicsInfo_Deoxys,
     [OBJ_EVENT_GFX_DEOXYS_TRIANGLE] =          &gObjectEventGraphicsInfo_BirthIslandStone,
     [OBJ_EVENT_GFX_BRANDON] =                  &gObjectEventGraphicsInfo_Brandon,
-    [OBJ_EVENT_GFX_LINK_RS_BRENDAN] =          &gObjectEventGraphicsInfo_RubySapphireBrendan,
-    [OBJ_EVENT_GFX_LINK_RS_MAY] =              &gObjectEventGraphicsInfo_RubySapphireMay,
+    [OBJ_EVENT_GFX_LINK_RS_BRENDAN] =          &gObjectEventGraphicsInfo_BrendanRS,
+    [OBJ_EVENT_GFX_LINK_RS_MAY] =              &gObjectEventGraphicsInfo_MayRS,
     [OBJ_EVENT_GFX_HOOH] =                     &gObjectEventGraphicsInfo_HoOh,
     [OBJ_EVENT_GFX_LUGIA] =                    &gObjectEventGraphicsInfo_Lugia,
     [OBJ_EVENT_GFX_ARTICUNO] =                 &gObjectEventGraphicsInfo_Articuno,
@@ -505,8 +509,8 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_RAIKOU] =                   &gObjectEventGraphicsInfo_Raikou,
     [OBJ_EVENT_GFX_ENTEI] =                    &gObjectEventGraphicsInfo_Entei,
     [OBJ_EVENT_GFX_SUICUNE] =                  &gObjectEventGraphicsInfo_Suicune,
-    [OBJ_EVENT_GFX_LINK_E_BRENDAN] =           &gObjectEventGraphicsInfo_EmeraldBrendan,
-    [OBJ_EVENT_GFX_LINK_E_MAY] =               &gObjectEventGraphicsInfo_EmeraldMay,
+    [OBJ_EVENT_GFX_LINK_E_BRENDAN] =           &gObjectEventGraphicsInfo_BrendanGreen,
+    [OBJ_EVENT_GFX_LINK_E_MAY] =               &gObjectEventGraphicsInfo_MayGreen,
     [OBJ_EVENT_GFX_LINK_GOLD] =                &gObjectEventGraphicsInfo_Gold,
     [OBJ_EVENT_GFX_LINK_KRIS] =                &gObjectEventGraphicsInfo_Kris,
     [OBJ_EVENT_GFX_WOMAN_6] =                  &gObjectEventGraphicsInfo_WomanRS7,

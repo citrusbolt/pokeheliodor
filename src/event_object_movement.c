@@ -425,13 +425,13 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_UNUSED                  0x111A
 #define OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW        0x111B
 #define OBJ_EVENT_PAL_TAG_POOCHYENA               0x111C
-#define OBJ_EVENT_PAL_TAG_RED_LEAF                0x111D
+#define OBJ_EVENT_PAL_TAG_RED                     0x111D
 #define OBJ_EVENT_PAL_TAG_DEOXYS                  0x111E
 #define OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE      0x111F
 #define OBJ_EVENT_PAL_TAG_HO_OH                   0x1120
 #define OBJ_EVENT_PAL_TAG_LUGIA                   0x1121
-#define OBJ_EVENT_PAL_TAG_RS_BRENDAN              0x1122
-#define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x1122
+#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x1123
 #define OBJ_EVENT_PAL_TAG_ARTICUNO                0x1124
 #define OBJ_EVENT_PAL_TAG_ZAPDOS                  0x1125
 #define OBJ_EVENT_PAL_TAG_MOLTRES                 0x1126
@@ -439,8 +439,8 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_RAIKOU                  0x1128
 #define OBJ_EVENT_PAL_TAG_ENTEI                   0x1129
 #define OBJ_EVENT_PAL_TAG_SUICUNE                 0x112A
-#define OBJ_EVENT_PAL_TAG_E_BRENDAN               0x112B
-#define OBJ_EVENT_PAL_TAG_E_MAY                   0x112C
+#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x112B
+#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x112C
 #define OBJ_EVENT_PAL_TAG_GOLD                    0x112D
 #define OBJ_EVENT_PAL_TAG_KRIS                    0x112E
 #define OBJ_EVENT_PAL_TAG_BARD                    0x112F
@@ -448,6 +448,11 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_TRADER                  0x1131
 #define OBJ_EVENT_PAL_TAG_STORYTELLER             0x1132
 #define OBJ_EVENT_PAL_TAG_GIDDY                   0x1133
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1134
+#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1135
+#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x1136
+#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x1137
+#define OBJ_EVENT_PAL_TAG_LEAF                    0x1138
 #define OBJ_EVENT_PAL_TAG_REFLECTION              0x1400
 #define OBJ_EVENT_PAL_TAG_UNIQUE                  0x11FF
 #define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
@@ -478,13 +483,13 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Groudon,                   OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION},
     {gObjectEventPal_SubmarineShadow,           OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW},
     {gObjectEventPal_Poochyena,                 OBJ_EVENT_PAL_TAG_POOCHYENA},
-    {gObjectEventPal_Red,                       OBJ_EVENT_PAL_TAG_RED_LEAF},
+    {gObjectEventPal_Red,                       OBJ_EVENT_PAL_TAG_RED},
     {gObjectEventPal_Deoxys,                    OBJ_EVENT_PAL_TAG_DEOXYS},
     {gObjectEventPal_BirthIslandStone,          OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
     {gObjectEventPal_HoOh,                      OBJ_EVENT_PAL_TAG_HO_OH},
     {gObjectEventPal_Lugia,                     OBJ_EVENT_PAL_TAG_LUGIA},
-    {gObjectEventPal_RubySapphireBrendan,       OBJ_EVENT_PAL_TAG_RS_BRENDAN},
-    {gObjectEventPal_RubySapphireMay,           OBJ_EVENT_PAL_TAG_RS_MAY},
+    {gObjectEventPal_BrendanRS,                 OBJ_EVENT_PAL_TAG_BRENDAN_RS},
+    {gObjectEventPal_MayRS,                     OBJ_EVENT_PAL_TAG_MAY_RS},
     {gObjectEventPal_Articuno,                  OBJ_EVENT_PAL_TAG_ARTICUNO},
     {gObjectEventPal_Zapdos,                    OBJ_EVENT_PAL_TAG_ZAPDOS},
     {gObjectEventPal_Moltres,                   OBJ_EVENT_PAL_TAG_MOLTRES},
@@ -492,8 +497,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Raikou,                    OBJ_EVENT_PAL_TAG_RAIKOU},
     {gObjectEventPal_Entei,                     OBJ_EVENT_PAL_TAG_ENTEI},
     {gObjectEventPal_Suicune,                   OBJ_EVENT_PAL_TAG_SUICUNE},
-    {gObjectEventPal_EmeraldBrendan,            OBJ_EVENT_PAL_TAG_E_BRENDAN},
-    {gObjectEventPal_EmeraldMay,                OBJ_EVENT_PAL_TAG_E_MAY},
+    {gObjectEventPal_BrendanGreen,              OBJ_EVENT_PAL_TAG_BRENDAN_GREEN},
+    {gObjectEventPal_MayGreen,                  OBJ_EVENT_PAL_TAG_MAY_GREEN},
     {gObjectEventPal_Gold,                      OBJ_EVENT_PAL_TAG_GOLD},
     {gObjectEventPal_Kris,                      OBJ_EVENT_PAL_TAG_KRIS},
     {gObjectEventPal_MauvilleOldManBard,        OBJ_EVENT_PAL_TAG_BARD},
@@ -501,6 +506,11 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_MauvilleOldManTrader,      OBJ_EVENT_PAL_TAG_TRADER},
     {gObjectEventPal_MauvilleOldManStoryteller, OBJ_EVENT_PAL_TAG_STORYTELLER},
     {gObjectEventPal_MauvilleOldManGiddy,       OBJ_EVENT_PAL_TAG_GIDDY},
+    {gObjectEventPal_BrendanRed,                OBJ_EVENT_PAL_TAG_BRENDAN_RED},
+    {gObjectEventPal_MayRed,                    OBJ_EVENT_PAL_TAG_MAY_RED},
+    {gObjectEventPal_BrendanBlue,               OBJ_EVENT_PAL_TAG_BRENDAN_BLUE},
+    {gObjectEventPal_MayBlue,                   OBJ_EVENT_PAL_TAG_MAY_BLUE},
+    {gObjectEventPal_Leaf,                      OBJ_EVENT_PAL_TAG_LEAF},
     {gObjectEventPal_Generic1,                  OBJ_EVENT_PAL_TAG_GENERIC_1},
     {gObjectEventPal_Generic2,                  OBJ_EVENT_PAL_TAG_GENERIC_2},
     {gObjectEventPal_Generic3,                  OBJ_EVENT_PAL_TAG_GENERIC_3},
@@ -744,8 +754,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Deoxys,                    OW_PAL(OBJ_EVENT_GFX_DEOXYS)},
     {gObjectEventPal_BirthIslandStone,          OW_PAL(OBJ_EVENT_GFX_DEOXYS_TRIANGLE)},
     {gObjectEventPal_Brandon,                   OW_PAL(OBJ_EVENT_GFX_BRANDON)},
-    {gObjectEventPal_RubySapphireBrendan,       OW_PAL(OBJ_EVENT_GFX_LINK_RS_BRENDAN)},
-    {gObjectEventPal_RubySapphireMay,           OW_PAL(OBJ_EVENT_GFX_LINK_RS_MAY)},
+    {gObjectEventPal_BrendanRS,                 OW_PAL(OBJ_EVENT_GFX_LINK_RS_BRENDAN)},
+    {gObjectEventPal_MayRS,                     OW_PAL(OBJ_EVENT_GFX_LINK_RS_MAY)},
     {gObjectEventPal_Lugia,                     OW_PAL(OBJ_EVENT_GFX_LUGIA)},
     {gObjectEventPal_HoOh,                      OW_PAL(OBJ_EVENT_GFX_HOOH)},
     {gObjectEventPal_Articuno,                  OW_PAL(OBJ_EVENT_GFX_ARTICUNO)},
@@ -755,8 +765,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Raikou,                    OW_PAL(OBJ_EVENT_GFX_RAIKOU)},
     {gObjectEventPal_Entei,                     OW_PAL(OBJ_EVENT_GFX_ENTEI)},
     {gObjectEventPal_Suicune,                   OW_PAL(OBJ_EVENT_GFX_SUICUNE)},
-    {gObjectEventPal_EmeraldBrendan,            OW_PAL(OBJ_EVENT_GFX_LINK_E_BRENDAN)},
-    {gObjectEventPal_EmeraldMay,                OW_PAL(OBJ_EVENT_GFX_LINK_E_MAY)},
+    {gObjectEventPal_BrendanGreen,              OW_PAL(OBJ_EVENT_GFX_LINK_E_BRENDAN)},
+    {gObjectEventPal_MayGreen,                  OW_PAL(OBJ_EVENT_GFX_LINK_E_MAY)},
     {gObjectEventPal_Gold,                      OW_PAL(OBJ_EVENT_GFX_LINK_GOLD)},
     {gObjectEventPal_Kris,                      OW_PAL(OBJ_EVENT_GFX_LINK_KRIS)},
     {gObjectEventPal_WomanRS7,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_6)},

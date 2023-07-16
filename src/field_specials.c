@@ -636,10 +636,10 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
             switch (graphicsId)
             {
             case OBJ_EVENT_GFX_LINK_RS_BRENDAN:
-                LoadPalette(gObjectEventPal_RubySapphireBrendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+                LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_RS_MAY:
-                LoadPalette(gObjectEventPal_RubySapphireMay, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+                LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL:
                 LoadPalette(gObjectEventPal_Brendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
@@ -648,10 +648,10 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
                 LoadPalette(gObjectEventPal_May, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_E_BRENDAN:
-                LoadPalette(gObjectEventPal_EmeraldBrendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+                LoadPalette(gObjectEventPal_BrendanGreen, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_E_MAY:
-                LoadPalette(gObjectEventPal_EmeraldMay, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+                LoadPalette(gObjectEventPal_MayGreen, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_GOLD:
                 LoadPalette(gObjectEventPal_Gold, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
@@ -660,10 +660,10 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
                 LoadPalette(gObjectEventPal_Kris, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_WALLY:
-                LoadPalette(gObjectEventPal_RubySapphireBrendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             case OBJ_EVENT_GFX_STEVEN:
-                LoadPalette(gObjectEventPal_RubySapphireMay, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             }
         }
