@@ -139,7 +139,7 @@ static void SpawnObjectEventOnReturnToField(u8, s16, s16);
 static void SetPlayerAvatarObjectEventIdAndObjectId(u8, u8);
 static void ResetObjectEventFldEffData(struct ObjectEvent *);
 static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *);
-static u8 FindObjectEventPaletteIndexByTag(u16);
+static u32 FindObjectEventPaletteIndexByTag(u16);
 static void _PatchObjectPalette(u16, u8);
 static bool8 ObjectEventDoesElevationMatch(struct ObjectEvent *, u8);
 static void SpriteCB_CameraObject(struct Sprite *);
@@ -400,22 +400,19 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 };
 
 #define OBJ_EVENT_PAL_TAG_BRENDAN                 0x1100
-#define OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION      0x1101
+#define OBJ_EVENT_PAL_TAG_MAY                     0x1101
 #define OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION       0x1102
-#define OBJ_EVENT_PAL_TAG_NPC_1                   0x1103
-#define OBJ_EVENT_PAL_TAG_NPC_2                   0x1104
-#define OBJ_EVENT_PAL_TAG_NPC_3                   0x1105
-#define OBJ_EVENT_PAL_TAG_NPC_4                   0x1106
-#define OBJ_EVENT_PAL_TAG_NPC_1_REFLECTION        0x1107
-#define OBJ_EVENT_PAL_TAG_NPC_2_REFLECTION        0x1108
-#define OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION        0x1109
-#define OBJ_EVENT_PAL_TAG_NPC_4_REFLECTION        0x110A
-#define OBJ_EVENT_PAL_TAG_QUINTY_PLUMP            0x110B
-#define OBJ_EVENT_PAL_TAG_QUINTY_PLUMP_REFLECTION 0x110C
+#define OBJ_EVENT_PAL_TAG_GENERIC_1               0x1103
+#define OBJ_EVENT_PAL_TAG_GENERIC_2               0x1104
+#define OBJ_EVENT_PAL_TAG_GENERIC_3               0x1105
+#define OBJ_EVENT_PAL_TAG_GENERIC_4               0x1106
+#define OBJ_EVENT_PAL_TAG_GENERIC_5               0x1107
+#define OBJ_EVENT_PAL_TAG_GENERIC_6               0x1108
+#define OBJ_EVENT_PAL_TAG_GENERIC_7               0x1109
+#define OBJ_EVENT_PAL_TAG_GENERIC_8               0x110A
 #define OBJ_EVENT_PAL_TAG_TRUCK                   0x110D
 #define OBJ_EVENT_PAL_TAG_VIGOROTH                0x110E
 #define OBJ_EVENT_PAL_TAG_ZIGZAGOON               0x110F
-#define OBJ_EVENT_PAL_TAG_MAY                     0x1110
 #define OBJ_EVENT_PAL_TAG_MAY_REFLECTION          0x1111
 #define OBJ_EVENT_PAL_TAG_MOVING_BOX              0x1112
 #define OBJ_EVENT_PAL_TAG_CABLE_CAR               0x1113
@@ -446,11 +443,16 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_E_MAY                   0x112C
 #define OBJ_EVENT_PAL_TAG_GOLD                    0x112D
 #define OBJ_EVENT_PAL_TAG_KRIS                    0x112E
-#define OBJ_EVENT_PAL_TAG_SCOTT                   0x112F
-#define OBJ_EVENT_PAL_TAG_WOMAN_1                 0x1130
-#define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
+#define OBJ_EVENT_PAL_TAG_BARD                    0x112F
+#define OBJ_EVENT_PAL_TAG_HIPSTER                 0x1130
+#define OBJ_EVENT_PAL_TAG_TRADER                  0x1131
+#define OBJ_EVENT_PAL_TAG_STORYTELLER             0x1132
+#define OBJ_EVENT_PAL_TAG_GIDDY                   0x1133
+#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1300
+#define OBJ_EVENT_PAL_TAG_UNIQUE                  0x11FF
+#define OBJ_EVENT_PAL_TAG_NONE                    0x13FF
 
-#define OW_PAL(gfxId) (gfxId + 0x1100)
+#define OW_PAL(gfxId) (gfxId + 0x1200)
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
 #include "data/field_effects/field_effect_object_template_pointers.h"
@@ -461,6 +463,52 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/object_event_graphics_info.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
+    {gObjectEventPal_Brendan,                   OBJ_EVENT_PAL_TAG_BRENDAN},
+    {gObjectEventPal_May,                       OBJ_EVENT_PAL_TAG_MAY},
+    {gObjectEventPal_BridgeReflection,          OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION},
+    {gObjectEventPal_Truck,                     OBJ_EVENT_PAL_TAG_TRUCK},
+    {gObjectEventPal_Vigoroth,                  OBJ_EVENT_PAL_TAG_VIGOROTH},
+    {gObjectEventPal_Zigzagoon,                 OBJ_EVENT_PAL_TAG_ZIGZAGOON},
+    {gObjectEventPal_MovingBox,                 OBJ_EVENT_PAL_TAG_MOVING_BOX},
+    {gObjectEventPal_CableCar,                  OBJ_EVENT_PAL_TAG_CABLE_CAR},
+    {gObjectEventPal_SSTidal,                   OBJ_EVENT_PAL_TAG_SSTIDAL},
+    {gObjectEventPal_Kyogre,                    OBJ_EVENT_PAL_TAG_KYOGRE},
+    {gObjectEventPal_Kyogre,                    OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION},
+    {gObjectEventPal_Groudon,                   OBJ_EVENT_PAL_TAG_GROUDON},
+    {gObjectEventPal_Groudon,                   OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION},
+    {gObjectEventPal_SubmarineShadow,           OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW},
+    {gObjectEventPal_Poochyena,                 OBJ_EVENT_PAL_TAG_POOCHYENA},
+    {gObjectEventPal_Red,                       OBJ_EVENT_PAL_TAG_RED_LEAF},
+    {gObjectEventPal_Deoxys,                    OBJ_EVENT_PAL_TAG_DEOXYS},
+    {gObjectEventPal_BirthIslandStone,          OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
+    {gObjectEventPal_HoOh,                      OBJ_EVENT_PAL_TAG_HO_OH},
+    {gObjectEventPal_Lugia,                     OBJ_EVENT_PAL_TAG_LUGIA},
+    {gObjectEventPal_RubySapphireBrendan,       OBJ_EVENT_PAL_TAG_RS_BRENDAN},
+    {gObjectEventPal_RubySapphireMay,           OBJ_EVENT_PAL_TAG_RS_MAY},
+    {gObjectEventPal_Articuno,                  OBJ_EVENT_PAL_TAG_ARTICUNO},
+    {gObjectEventPal_Zapdos,                    OBJ_EVENT_PAL_TAG_ZAPDOS},
+    {gObjectEventPal_Moltres,                   OBJ_EVENT_PAL_TAG_MOLTRES},
+    {gObjectEventPal_Mewtwo,                    OBJ_EVENT_PAL_TAG_MEWTWO},
+    {gObjectEventPal_Raikou,                    OBJ_EVENT_PAL_TAG_RAIKOU},
+    {gObjectEventPal_Entei,                     OBJ_EVENT_PAL_TAG_ENTEI},
+    {gObjectEventPal_Suicune,                   OBJ_EVENT_PAL_TAG_SUICUNE},
+    {gObjectEventPal_EmeraldBrendan,            OBJ_EVENT_PAL_TAG_E_BRENDAN},
+    {gObjectEventPal_EmeraldMay,                OBJ_EVENT_PAL_TAG_E_MAY},
+    {gObjectEventPal_Gold,                      OBJ_EVENT_PAL_TAG_GOLD},
+    {gObjectEventPal_Kris,                      OBJ_EVENT_PAL_TAG_KRIS},
+    {gObjectEventPal_MauvilleOldManBard,        OBJ_EVENT_PAL_TAG_BARD},
+    {gObjectEventPal_MauvilleOldManHipster,     OBJ_EVENT_PAL_TAG_HIPSTER},
+    {gObjectEventPal_MauvilleOldManTrader,      OBJ_EVENT_PAL_TAG_TRADER},
+    {gObjectEventPal_MauvilleOldManStoryteller, OBJ_EVENT_PAL_TAG_STORYTELLER},
+    {gObjectEventPal_MauvilleOldManGiddy,       OBJ_EVENT_PAL_TAG_GIDDY},
+    {gObjectEventPal_Generic1,                  OBJ_EVENT_PAL_TAG_GENERIC_1},
+    {gObjectEventPal_Generic2,                  OBJ_EVENT_PAL_TAG_GENERIC_2},
+    {gObjectEventPal_Generic3,                  OBJ_EVENT_PAL_TAG_GENERIC_3},
+    {gObjectEventPal_Generic4,                  OBJ_EVENT_PAL_TAG_GENERIC_4},
+    {gObjectEventPal_Generic5,                  OBJ_EVENT_PAL_TAG_GENERIC_5},
+    {gObjectEventPal_Generic6,                  OBJ_EVENT_PAL_TAG_GENERIC_6},
+    {gObjectEventPal_Generic7,                  OBJ_EVENT_PAL_TAG_GENERIC_7},
+    {gObjectEventPal_Generic8,                  OBJ_EVENT_PAL_TAG_GENERIC_8},
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_NORMAL)},
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_MACH_BIKE)},
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_SURFING)},
@@ -502,7 +550,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_SchoolKidM,                OW_PAL(OBJ_EVENT_GFX_SCHOOL_KID_M)},
     {gObjectEventPal_Maniac,                    OW_PAL(OBJ_EVENT_GFX_MANIAC)},
     {gObjectEventPal_HexManiac,                 OW_PAL(OBJ_EVENT_GFX_HEX_MANIAC)},
-    {gObjectEventPal_Npc3,                      OW_PAL(OBJ_EVENT_GFX_RAYQUAZA_STILL)},
+    {gObjectEventPal_Generic3,                      OW_PAL(OBJ_EVENT_GFX_RAYQUAZA_STILL)},
     {gObjectEventPal_SwimmerM,                  OW_PAL(OBJ_EVENT_GFX_SWIMMER_M)},
     {gObjectEventPal_SwimmerF,                  OW_PAL(OBJ_EVENT_GFX_SWIMMER_F)},
     {gObjectEventPal_BlackBelt,                 OW_PAL(OBJ_EVENT_GFX_BLACK_BELT)},
@@ -521,10 +569,10 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_CyclingTriathleteF,        OW_PAL(OBJ_EVENT_GFX_CYCLING_TRIATHLETE_F)},
     {gObjectEventPal_Nurse,                     OW_PAL(OBJ_EVENT_GFX_NURSE)},
     {gObjectEventPal_ItemBall,                  OW_PAL(OBJ_EVENT_GFX_ITEM_BALL)},
-    {gObjectEventPal_Npc1,                      OW_PAL(OBJ_EVENT_GFX_BERRY_TREE)},
-    {gObjectEventPal_Npc1,                      OW_PAL(OBJ_EVENT_GFX_BERRY_TREE_EARLY_STAGES)},
-    {gObjectEventPal_Npc1,                      OW_PAL(OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES)},
-    {gObjectEventPal_Npc1,                      OW_PAL(OBJ_EVENT_GFX_BRENDAN_ACRO_BIKE)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BERRY_TREE)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BERRY_TREE_EARLY_STAGES)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BRENDAN_ACRO_BIKE)},
     {gObjectEventPal_ProfBirch,                 OW_PAL(OBJ_EVENT_GFX_PROF_BIRCH)},
     {gObjectEventPal_Man4,                      OW_PAL(OBJ_EVENT_GFX_MAN_4)},
     {gObjectEventPal_Man5,                      OW_PAL(OBJ_EVENT_GFX_MAN_5)},
@@ -572,8 +620,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_RIVAL_MAY_SURFING)},
     {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_RIVAL_MAY_FIELD_MOVE)},
     {gObjectEventPal_Cameraman,                 OW_PAL(OBJ_EVENT_GFX_CAMERAMAN)},
-    {gObjectEventPal_PlayerUnderwater,          OW_PAL(OBJ_EVENT_GFX_BRENDAN_UNDERWATER)},
-    {gObjectEventPal_PlayerUnderwater,          OW_PAL(OBJ_EVENT_GFX_MAY_UNDERWATER)},
+    {gObjectEventPal_BrendanUnderwater,         OW_PAL(OBJ_EVENT_GFX_BRENDAN_UNDERWATER)},
+    {gObjectEventPal_MayUnderwater,             OW_PAL(OBJ_EVENT_GFX_MAY_UNDERWATER)},
     {gObjectEventPal_MovingBox,                 OW_PAL(OBJ_EVENT_GFX_MOVING_BOX)},
     {gObjectEventPal_CableCar,                  OW_PAL(OBJ_EVENT_GFX_CABLE_CAR)},
     {gObjectEventPal_Scientist2,                OW_PAL(OBJ_EVENT_GFX_SCIENTIST_2)},
@@ -597,7 +645,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Wallace,                   OW_PAL(OBJ_EVENT_GFX_WALLACE)},
     {gObjectEventPal_Steven,                    OW_PAL(OBJ_EVENT_GFX_STEVEN)},
     {gObjectEventPal_Wally,                     OW_PAL(OBJ_EVENT_GFX_WALLY)},
-    {gObjectEventPal_RubySapphireLittleBoy,     OW_PAL(OBJ_EVENT_GFX_LITTLE_BOY_3)},
+    {gObjectEventPal_LittleBoyRS,               OW_PAL(OBJ_EVENT_GFX_LITTLE_BOY_3)},
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_FISHING)},
     {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_FISHING)},
     {gObjectEventPal_HotSpringsOldWoman,        OW_PAL(OBJ_EVENT_GFX_HOT_SPRINGS_OLD_WOMAN)},
@@ -648,8 +696,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_BigRegirockDoll,           OW_PAL(OBJ_EVENT_GFX_BIG_REGIROCK_DOLL)},
     {gObjectEventPal_BigRegiceDoll,             OW_PAL(OBJ_EVENT_GFX_BIG_REGICE_DOLL)},
     {gObjectEventPal_BigRegisteelDoll,          OW_PAL(OBJ_EVENT_GFX_BIG_REGISTEEL_DOLL)},
-    {gObjectEventPal_Npc2,                      OW_PAL(OBJ_EVENT_GFX_LATIAS)},
-    {gObjectEventPal_Npc1,                      OW_PAL(OBJ_EVENT_GFX_LATIOS)},
+    {gObjectEventPal_Generic2,                  OW_PAL(OBJ_EVENT_GFX_LATIAS)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_LATIOS)},
     {gObjectEventPal_GameboyKid,                OW_PAL(OBJ_EVENT_GFX_GAMEBOY_KID)},
     {gObjectEventPal_ContestJudge,              OW_PAL(OBJ_EVENT_GFX_CONTEST_JUDGE)},
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_WATERING)},
@@ -661,9 +709,9 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Kyogre,                    OW_PAL(OBJ_EVENT_GFX_KYOGRE_FRONT)},
     {gObjectEventPal_Groudon,                   OW_PAL(OBJ_EVENT_GFX_GROUDON_FRONT)},
     {gObjectEventPal_Fossil,                    OW_PAL(OBJ_EVENT_GFX_FOSSIL)},
-    {gObjectEventPal_Npc2,                      OW_PAL(OBJ_EVENT_GFX_REGIROCK)},
-    {gObjectEventPal_Npc3,                      OW_PAL(OBJ_EVENT_GFX_REGICE)},
-    {gObjectEventPal_Npc4,                      OW_PAL(OBJ_EVENT_GFX_REGISTEEL)},
+    {gObjectEventPal_Generic2,                  OW_PAL(OBJ_EVENT_GFX_REGIROCK)},
+    {gObjectEventPal_Generic3,                  OW_PAL(OBJ_EVENT_GFX_REGICE)},
+    {gObjectEventPal_Generic4,                  OW_PAL(OBJ_EVENT_GFX_REGISTEEL)},
     {gObjectEventPal_Skitty,                    OW_PAL(OBJ_EVENT_GFX_SKITTY)},
     {gObjectEventPal_Kecleon,                   OW_PAL(OBJ_EVENT_GFX_KECLEON)},
     {gObjectEventPal_Kyogre,                    OW_PAL(OBJ_EVENT_GFX_KYOGRE_ASLEEP)},
@@ -673,7 +721,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Pikachu,                   OW_PAL(OBJ_EVENT_GFX_PIKACHU)},
     {gObjectEventPal_Azumarill,                 OW_PAL(OBJ_EVENT_GFX_AZUMARILL)},
     {gObjectEventPal_Wingull,                   OW_PAL(OBJ_EVENT_GFX_WINGULL)},
-    {gObjectEventPal_Npc3,                      OW_PAL(OBJ_EVENT_GFX_KECLEON_BRIDGE_SHADOW)},
+    {gObjectEventPal_Generic3,                  OW_PAL(OBJ_EVENT_GFX_KECLEON_BRIDGE_SHADOW)},
     {gObjectEventPal_TuberMSwimming,            OW_PAL(OBJ_EVENT_GFX_TUBER_M_SWIMMING)},
     {gObjectEventPal_Azurill,                   OW_PAL(OBJ_EVENT_GFX_AZURILL)},
     {gObjectEventPal_Mom,                       OW_PAL(OBJ_EVENT_GFX_MOM)},
@@ -711,6 +759,12 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_EmeraldMay,                OW_PAL(OBJ_EVENT_GFX_LINK_E_MAY)},
     {gObjectEventPal_Gold,                      OW_PAL(OBJ_EVENT_GFX_LINK_GOLD)},
     {gObjectEventPal_Kris,                      OW_PAL(OBJ_EVENT_GFX_LINK_KRIS)},
+    {gObjectEventPal_WomanRS7,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_6)},
+    {gObjectEventPal_WomanRS8,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_7)},
+    {gObjectEventPal_HikerBackpack,             OW_PAL(OBJ_EVENT_GFX_HIKER_2)},
+    {gObjectEventPal_TMBall,             OW_PAL(OBJ_EVENT_GFX_TM_BALL)},
+    
+    {gObjectEventPal_Reflection,                OBJ_EVENT_PAL_TAG_REFLECTION},
     {NULL,                                      TAG_NONE}
 };
 
@@ -1445,11 +1499,17 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
     objectEvent = &gObjectEvents[objectEventId];
     graphicsInfo = GetObjectEventGraphicsInfo(objectEvent->graphicsId);
     
-    if (OW_PAL(objectEvent->graphicsId) != TAG_NONE)
+    if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
         LoadObjectEventPalette(OW_PAL(objectEvent->graphicsId));
         PatchObjectPalette(OW_PAL(objectEvent->graphicsId), IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)));
         UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)), COLOR_MAP_CONTRAST);
+    }
+    else
+    {
+        LoadObjectEventPalette(graphicsInfo->paletteTag);
+        PatchObjectPalette(graphicsInfo->paletteTag, IndexOfSpritePaletteTag(graphicsInfo->paletteTag));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), COLOR_MAP_CONTRAST);
     }
 
     if (objectEvent->movementType == MOVEMENT_TYPE_INVISIBLE)
@@ -1550,7 +1610,12 @@ static void CopyObjectGraphicsInfoToSpriteTemplate(u16 graphicsId, void (*callba
     const struct ObjectEventGraphicsInfo *graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
 
     spriteTemplate->tileTag = graphicsInfo->tileTag;
-    spriteTemplate->paletteTag = OW_PAL(graphicsId);
+
+    if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
+        spriteTemplate->paletteTag = OW_PAL(graphicsId);
+    else
+        spriteTemplate->paletteTag = graphicsInfo->paletteTag;
+
     spriteTemplate->oam = graphicsInfo->oam;
     spriteTemplate->anims = graphicsInfo->anims;
     spriteTemplate->images = graphicsInfo->images;
@@ -1579,8 +1644,7 @@ u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *),
 
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, callback, spriteTemplate, &subspriteTables);
-    if (OW_PAL(graphicsId) != TAG_NONE)
-        LoadObjectEventPalette(OW_PAL(graphicsId));
+    LoadObjectEventPalette(spriteTemplate->paletteTag);
 
     spriteId = CreateSprite(spriteTemplate, x, y, subpriority);
     Free(spriteTemplate);
@@ -1612,7 +1676,8 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, SpriteCB_VirtualObject, &spriteTemplate, &subspriteTables);
-    *(u16 *)&spriteTemplate.paletteTag = OW_PAL(graphicsId);
+    LoadObjectEventPalette(spriteTemplate.paletteTag);
+
     x += MAP_OFFSET;
     y += MAP_OFFSET;
     SetSpritePosToOffsetMapCoords(&x, &y, 8, 16);
@@ -1623,13 +1688,13 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
         sprite->centerToCornerVecX = -(graphicsInfo->width >> 1);
         sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
         sprite->y += sprite->centerToCornerVecY;
-        sprite->oam.paletteNum = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(spriteTemplate.paletteTag);
 
         sprite->coordOffsetEnabled = TRUE;
         sprite->sVirtualObjId = virtualObjId;
         sprite->sVirtualObjElev = elevation;
         
-        PatchObjectPalette(OW_PAL(graphicsId), sprite->oam.paletteNum);
+        PatchObjectPalette(spriteTemplate.paletteTag, sprite->oam.paletteNum);
 
         if (subspriteTables != NULL)
         {
@@ -1729,7 +1794,6 @@ void SpawnObjectEventsOnReturnToField(s16 x, s16 y)
 static void SpawnObjectEventOnReturnToField(u8 objectEventId, s16 x, s16 y)
 {
     u8 i;
-    u8 paletteSlot;
     struct Sprite *sprite;
     struct ObjectEvent *objectEvent;
     struct SpriteTemplate spriteTemplate;
@@ -1750,11 +1814,17 @@ static void SpawnObjectEventOnReturnToField(u8 objectEventId, s16 x, s16 y)
     CopyObjectGraphicsInfoToSpriteTemplate_WithMovementType(objectEvent->graphicsId, objectEvent->movementType, &spriteTemplate, &subspriteTables);
     spriteTemplate.images = &spriteFrameImage;
 
-    if (spriteTemplate.paletteTag != TAG_NONE)
+    if (spriteTemplate.paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
         LoadObjectEventPalette(OW_PAL(objectEvent->graphicsId));
         PatchObjectPalette(OW_PAL(objectEvent->graphicsId), IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)));
         UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)), COLOR_MAP_CONTRAST);
+    }
+    else
+    {
+        LoadObjectEventPalette(spriteTemplate.paletteTag);
+        PatchObjectPalette(spriteTemplate.paletteTag, IndexOfSpritePaletteTag(spriteTemplate.paletteTag));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate.paletteTag), COLOR_MAP_CONTRAST);
     }
 
     i = CreateSprite(&spriteTemplate, 0, 0, 0);
@@ -1815,9 +1885,18 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     sprite = &gSprites[objectEvent->spriteId];
-    paletteSlot = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
     
-    PatchObjectPalette(OW_PAL(graphicsId), paletteSlot);
+    if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
+    {
+        paletteSlot = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        PatchObjectPalette(OW_PAL(graphicsId), paletteSlot);
+    }
+    else
+    {
+        paletteSlot = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
+    }
+
     sprite->oam.shape = graphicsInfo->oam->shape;
     sprite->oam.size = graphicsInfo->oam->size;
     sprite->images = graphicsInfo->images;
@@ -1993,7 +2072,7 @@ void FreeAndReserveObjectSpritePalettes(void)
 
 void LoadObjectEventPalette(u16 paletteTag)
 {
-    u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
+    u32 i = FindObjectEventPaletteIndexByTag(paletteTag);
 
     if (i != 0xFF)
         LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
@@ -2004,7 +2083,7 @@ static void LoadObjectEventPaletteSet(u16 *paletteTags)
 {
     u8 i;
 
-    for (i = 0; paletteTags[i] != OBJ_EVENT_PAL_TAG_NONE; i++)
+    for (i = 0; paletteTags[i] != TAG_NONE; i++)
         LoadObjectEventPalette(paletteTags[i]);
 }
 
@@ -2013,14 +2092,13 @@ static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *spritePalette
 {
     if (IndexOfSpritePaletteTag(spritePalette->tag) != 0xFF)
         return 0xFF;
-
     return LoadSpritePalette(spritePalette);
 }
 
 void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
 {
     // paletteTag is assumed to exist in sObjectEventSpritePalettes
-    u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
+    u32 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
 
     LoadPaletteDayNight(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
 }
@@ -2035,11 +2113,11 @@ void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)
     }
 }
 
-static u8 FindObjectEventPaletteIndexByTag(u16 tag)
+static u32 FindObjectEventPaletteIndexByTag(u16 tag)
 {
-    u8 i;
+    u32 i;
 
-    for (i = 0; sObjectEventSpritePalettes[i].tag != OBJ_EVENT_PAL_TAG_NONE; i++)
+    for (i = 0; sObjectEventSpritePalettes[i].tag != TAG_NONE; i++)
     {
         if (sObjectEventSpritePalettes[i].tag == tag)
             return i;
@@ -8546,7 +8624,10 @@ void SetVirtualObjectGraphics(u8 virtualObjId, u16 graphicsId)
 
         sprite->oam = *graphicsInfo->oam;
         sprite->oam.tileNum = tileNum;
-        sprite->oam.paletteNum = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
+            sprite->oam.paletteNum = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        else
+            sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
         sprite->images = graphicsInfo->images;
 
         if (graphicsInfo->subspriteTables == NULL)

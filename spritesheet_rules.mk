@@ -2,60 +2,60 @@ OBJEVENTGFXDIR := graphics/object_events/pics
 FLDEFFGFXDIR := graphics/field_effects/pics
 NEW_OWDIR := graphics/object_events
 
-$(OBJEVENTGFXDIR)/people/brendan/walking.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/running.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/running.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/field_move.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/field_move.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/surfing.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/mach_bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/mach_bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/acro_bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/acro_bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/fishing.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/fishing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/watering.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/watering.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/brendan/underwater.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/brendan/underwater.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 
 
-$(OBJEVENTGFXDIR)/people/may/walking.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/running.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/running.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/field_move.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/field_move.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/surfing.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/mach_bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/mach_bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/acro_bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/acro_bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/fishing.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/fishing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/watering.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/watering.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/may/underwater.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/heroes/may/underwater.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 
@@ -105,7 +105,10 @@ $(OBJEVENTGFXDIR)/pokemon/kirlia.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/pokemon/kyogre.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/pokemon/latias_latios.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/pokemon/latias.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(OBJEVENTGFXDIR)/pokemon/latios.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/pokemon/lugia.4bpp: %.4bpp: %.png
@@ -570,7 +573,7 @@ $(OBJEVENTGFXDIR)/people/emerald/hiker.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/emerald/hot_springs_old_woman.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/emerald/emerald/lass.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/emerald/lass.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/emerald/little_boy.4bpp: %.4bpp: %.png

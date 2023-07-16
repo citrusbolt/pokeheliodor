@@ -96,7 +96,11 @@ static void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct 
     }
     else
     {
-        LoadSpecialReflectionPalette(reflectionSprite);
+        LoadObjectEventPalette(0x1300);
+        PatchObjectPalette(0x1300, IndexOfSpritePaletteTag(0x1300));
+        reflectionSprite->oam.paletteNum = IndexOfSpritePaletteTag(0x1300);
+        UpdatePaletteColorMapType(reflectionSprite->oam.paletteNum, COLOR_MAP_DARK_CONTRAST);
+        UpdateSpritePaletteWithWeather(reflectionSprite->oam.paletteNum);
     }
 }
 

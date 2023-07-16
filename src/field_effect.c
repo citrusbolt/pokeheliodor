@@ -826,6 +826,7 @@ void FieldEffectScript_LoadFadedPaletteNoTint(u8 **script)
 {
     struct SpritePalette *palette = (struct SpritePalette *)FieldEffectScript_ReadWord(script);
     LoadSpritePalette(palette);
+    DebugPrintf("%x %x", palette->tag, IndexOfSpritePaletteTag(palette->tag));
     UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(palette->tag));
     (*script) += 4;
 }
