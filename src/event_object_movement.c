@@ -448,9 +448,9 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_TRADER                  0x1131
 #define OBJ_EVENT_PAL_TAG_STORYTELLER             0x1132
 #define OBJ_EVENT_PAL_TAG_GIDDY                   0x1133
-#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1300
+#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1400
 #define OBJ_EVENT_PAL_TAG_UNIQUE                  0x11FF
-#define OBJ_EVENT_PAL_TAG_NONE                    0x13FF
+#define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
 
 #define OW_PAL(gfxId) (gfxId + 0x1200)
 
@@ -550,7 +550,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_SchoolKidM,                OW_PAL(OBJ_EVENT_GFX_SCHOOL_KID_M)},
     {gObjectEventPal_Maniac,                    OW_PAL(OBJ_EVENT_GFX_MANIAC)},
     {gObjectEventPal_HexManiac,                 OW_PAL(OBJ_EVENT_GFX_HEX_MANIAC)},
-    {gObjectEventPal_Generic3,                      OW_PAL(OBJ_EVENT_GFX_RAYQUAZA_STILL)},
+    {gObjectEventPal_Generic3,                  OW_PAL(OBJ_EVENT_GFX_RAYQUAZA_STILL)},
     {gObjectEventPal_SwimmerM,                  OW_PAL(OBJ_EVENT_GFX_SWIMMER_M)},
     {gObjectEventPal_SwimmerF,                  OW_PAL(OBJ_EVENT_GFX_SWIMMER_F)},
     {gObjectEventPal_BlackBelt,                 OW_PAL(OBJ_EVENT_GFX_BLACK_BELT)},
@@ -762,7 +762,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_WomanRS7,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_6)},
     {gObjectEventPal_WomanRS8,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_7)},
     {gObjectEventPal_HikerBackpack,             OW_PAL(OBJ_EVENT_GFX_HIKER_2)},
-    {gObjectEventPal_TMBall,             OW_PAL(OBJ_EVENT_GFX_TM_BALL)},
+    {gObjectEventPal_TMBall,                    OW_PAL(OBJ_EVENT_GFX_TM_BALL)},
     
     {gObjectEventPal_Reflection,                OBJ_EVENT_PAL_TAG_REFLECTION},
     {NULL,                                      TAG_NONE}
@@ -1498,7 +1498,7 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
 
     objectEvent = &gObjectEvents[objectEventId];
     graphicsInfo = GetObjectEventGraphicsInfo(objectEvent->graphicsId);
-    
+
     if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
         LoadObjectEventPalette(OW_PAL(objectEvent->graphicsId));
@@ -2074,7 +2074,7 @@ void LoadObjectEventPalette(u16 paletteTag)
 {
     u32 i = FindObjectEventPaletteIndexByTag(paletteTag);
 
-    if (i != 0xFF)
+    if (i != 0xFFFF)
         LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
 }
 
@@ -2122,7 +2122,7 @@ static u32 FindObjectEventPaletteIndexByTag(u16 tag)
         if (sObjectEventSpritePalettes[i].tag == tag)
             return i;
     }
-    return 0xFF;
+    return 0xFFFF;
 }
 
 // Unused

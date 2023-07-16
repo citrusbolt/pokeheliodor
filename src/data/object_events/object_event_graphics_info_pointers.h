@@ -512,7 +512,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_WOMAN_6] =                  &gObjectEventGraphicsInfo_WomanRS7,
     [OBJ_EVENT_GFX_WOMAN_7] =                  &gObjectEventGraphicsInfo_WomanRS8,
     [OBJ_EVENT_GFX_HIKER_2] =                  &gObjectEventGraphicsInfo_HikerBackpack,
-    [OBJ_EVENT_GFX_TM_BALL] =                &gObjectEventGraphicsInfo_TMBall,
+    [OBJ_EVENT_GFX_TM_BALL] =                  &gObjectEventGraphicsInfo_TMBall,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

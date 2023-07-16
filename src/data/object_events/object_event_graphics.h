@@ -494,7 +494,7 @@ const u16 gObjectEventPal_Red[] = INCBIN_U16("graphics/object_events/pics/people
 const u32 gObjectEventPic_Leaf[] = INCBIN_U32("graphics/object_events/pics/people/link/leaf.4bpp");
 const u16 gObjectEventPal_Leaf[] = INCBIN_U16("graphics/object_events/pics/people/link/leaf.gbapal");
 const u32 gObjectEventPic_Deoxys[] = INCBIN_U32("graphics/object_events/pics/pokemon/deoxys.4bpp");
-const u16 gObjectEventPal_Deoxys[] = INCBIN_U16("graphics/object_events/palettes/deoxys.gbapal");
+const u16 gObjectEventPal_Deoxys[] = INCBIN_U16("graphics/object_events/pics/pokemon/deoxys.gbapal");
 const u32 gObjectEventPic_BirthIslandStone[] = INCBIN_U32("graphics/object_events/pics/misc/birth_island_stone.4bpp");
 const u16 gObjectEventPal_BirthIslandStone[] = INCBIN_U16("graphics/object_events/pics/misc/birth_island_stone.gbapal");
 const u32 gObjectEventPic_Brandon[] = INCBIN_U32("graphics/object_events/pics/people/emerald/named/brandon.4bpp");
@@ -502,25 +502,25 @@ const u16 gObjectEventPal_Brandon[] = INCBIN_U16("graphics/object_events/pics/pe
 
 
 const u32 gObjectEventPic_Lugia[] = INCBIN_U32("graphics/object_events/pics/pokemon/lugia.4bpp");
-const u16 gObjectEventPal_Lugia[] = INCBIN_U16("graphics/object_events/palettes/lugia.gbapal");
+const u16 gObjectEventPal_Lugia[] = INCBIN_U16("graphics/object_events/pics/pokemon/lugia.gbapal");
 const u32 gObjectEventPic_HoOh[] = INCBIN_U32("graphics/object_events/pics/pokemon/ho_oh.4bpp");
-const u16 gObjectEventPal_HoOh[] = INCBIN_U16("graphics/object_events/palettes/ho_oh.gbapal");
+const u16 gObjectEventPal_HoOh[] = INCBIN_U16("graphics/object_events/pics/pokemon/ho_oh.gbapal");
 
 
 const u32 gObjectEventPic_Articuno[] = INCBIN_U32("graphics/object_events/pics/pokemon/articuno.4bpp");
-const u16 gObjectEventPal_Articuno[] = INCBIN_U16("graphics/object_events/palettes/articuno.gbapal");
+const u16 gObjectEventPal_Articuno[] = INCBIN_U16("graphics/object_events/pics/pokemon/articuno.gbapal");
 const u32 gObjectEventPic_Zapdos[] = INCBIN_U32("graphics/object_events/pics/pokemon/zapdos.4bpp");
-const u16 gObjectEventPal_Zapdos[] = INCBIN_U16("graphics/object_events/palettes/zapdos.gbapal");
+const u16 gObjectEventPal_Zapdos[] = INCBIN_U16("graphics/object_events/pics/pokemon/zapdos.gbapal");
 const u32 gObjectEventPic_Moltres[] = INCBIN_U32("graphics/object_events/pics/pokemon/moltres.4bpp");
-const u16 gObjectEventPal_Moltres[] = INCBIN_U16("graphics/object_events/palettes/moltres.gbapal");
+const u16 gObjectEventPal_Moltres[] = INCBIN_U16("graphics/object_events/pics/pokemon/moltres.gbapal");
 const u32 gObjectEventPic_Mewtwo[] = INCBIN_U32("graphics/object_events/pics/pokemon/mewtwo.4bpp");
-const u16 gObjectEventPal_Mewtwo[] = INCBIN_U16("graphics/object_events/palettes/mewtwo.gbapal");
+const u16 gObjectEventPal_Mewtwo[] = INCBIN_U16("graphics/object_events/pics/pokemon/mewtwo.gbapal");
 const u32 gObjectEventPic_Raikou[] = INCBIN_U32("graphics/object_events/pics/pokemon/raikou.4bpp");
-const u16 gObjectEventPal_Raikou[] = INCBIN_U16("graphics/object_events/palettes/raikou.gbapal");
+const u16 gObjectEventPal_Raikou[] = INCBIN_U16("graphics/object_events/pics/pokemon/raikou.gbapal");
 const u32 gObjectEventPic_Entei[] = INCBIN_U32("graphics/object_events/pics/pokemon/entei.4bpp");
-const u16 gObjectEventPal_Entei[] = INCBIN_U16("graphics/object_events/palettes/entei.gbapal");
+const u16 gObjectEventPal_Entei[] = INCBIN_U16("graphics/object_events/pics/pokemon/entei.gbapal");
 const u32 gObjectEventPic_Suicune[] = INCBIN_U32("graphics/object_events/pics/pokemon/suicune.4bpp");
-const u16 gObjectEventPal_Suicune[] = INCBIN_U16("graphics/object_events/palettes/suicune.gbapal");
+const u16 gObjectEventPal_Suicune[] = INCBIN_U16("graphics/object_events/pics/pokemon/suicune.gbapal");
 const u16 gObjectEventPal_EmeraldBrendan[] = INCBIN_U16("graphics/object_events/palettes/emerald_brendan.gbapal");
 const u16 gObjectEventPal_EmeraldMay[] = INCBIN_U16("graphics/object_events/palettes/emerald_may.gbapal");
 const u32 gObjectEventPic_Gold[] = INCBIN_U32("graphics/object_events/pics/people/link/gold.4bpp");
