@@ -775,6 +775,12 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_TMBall,                    OW_PAL(OBJ_EVENT_GFX_TM_BALL)},
     {gObjectEventPal_Seagallop,                 OW_PAL(OBJ_EVENT_GFX_SEAGALLOP)},
     {gObjectEventPal_SSAnne,                    OW_PAL(OBJ_EVENT_GFX_SS_ANNE)},
+    {gObjectEventPal_YahooHost,                 OW_PAL(OBJ_EVENT_GFX_YAHOO_HOST)},
+    {gObjectEventPal_YahooLittleGirl,           OW_PAL(OBJ_EVENT_GFX_YAHOO_LITTLE_GIRL)},
+    {gObjectEventPal_YahooReceptionistBrown,    OW_PAL(OBJ_EVENT_GFX_YAHOO_RECEPTIONIST_BROWN)},
+    {gObjectEventPal_YahooReceptionistSilver,   OW_PAL(OBJ_EVENT_GFX_YAHOO_RECEPTIONIST_SILVER)},
+    {gObjectEventPal_YahooScoutF,               OW_PAL(OBJ_EVENT_GFX_YAHOO_SCOUT_F)},
+    {gObjectEventPal_YahooScoutM,               OW_PAL(OBJ_EVENT_GFX_YAHOO_SCOUT_M)},
     
     {gObjectEventPal_Reflection,                OBJ_EVENT_PAL_TAG_REFLECTION},
     {NULL,                                      TAG_NONE}

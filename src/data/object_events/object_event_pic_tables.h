@@ -3441,3 +3441,75 @@ static const struct SpriteFrameImage sPicTable_TownMap[] = {
 static const struct SpriteFrameImage sPicTable_WoodenSign[] = {
     overworld_frame(gObjectEventPic_WoodenSign, 2, 2, 0),
 };
+
+static const struct SpriteFrameImage sPicTable_YahooHost[] = {
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 0),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 1),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 2),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 0),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 0),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 1),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 1),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 2),
+    overworld_frame(gObjectEventPic_YahooHost, 2, 4, 2),
+};
+
+static const struct SpriteFrameImage sPicTable_YahooLittleGirl[] = {
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 0),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 1),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 2),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 3),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 4),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 5),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 6),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 7),
+    overworld_frame(gObjectEventPic_YahooLittleGirl, 2, 2, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_YahooReceptionistBrown[] = {
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 0),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 1),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 2),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 3),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 4),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 5),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 6),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 7),
+    overworld_frame(gObjectEventPic_YahooReceptionistBrown, 2, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_YahooReceptionistSilver[] = {
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 0),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 1),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 2),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 3),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 4),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 5),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 6),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 7),
+    overworld_frame(gObjectEventPic_YahooReceptionistSilver, 2, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_YahooScoutF[] = {
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 0),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 1),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 2),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 3),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 4),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 5),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 6),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 7),
+    overworld_frame(gObjectEventPic_YahooScoutF, 2, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_YahooScoutM[] = {
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 0),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 1),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 2),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 3),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 4),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 5),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 6),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 7),
+    overworld_frame(gObjectEventPic_YahooScoutM, 2, 4, 8),
+};

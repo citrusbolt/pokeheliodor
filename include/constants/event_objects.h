@@ -343,10 +343,14 @@
 #define OBJ_EVENT_GFX_SS_ANNE                    338
 #define OBJ_EVENT_GFX_TOWN_MAP                   339
 #define OBJ_EVENT_GFX_WOODEN_SIGN                340
-#define OBJ_EVENT_GFX_LAPRAS_DOLL                341
-#define OBJ_EVENT_GFX_MEW_DOLL                   342
+#define OBJ_EVENT_GFX_YAHOO_HOST                 341
+#define OBJ_EVENT_GFX_YAHOO_LITTLE_GIRL          342
+#define OBJ_EVENT_GFX_YAHOO_RECEPTIONIST_BROWN   343
+#define OBJ_EVENT_GFX_YAHOO_RECEPTIONIST_SILVER  344
+#define OBJ_EVENT_GFX_YAHOO_SCOUT_F              345
+#define OBJ_EVENT_GFX_YAHOO_SCOUT_M              346
 
-#define NUM_OBJ_EVENT_GFX                        341
+#define NUM_OBJ_EVENT_GFX                        347
 
 
 // These are dynamic object gfx ids.

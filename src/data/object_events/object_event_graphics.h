@@ -634,6 +634,18 @@ const u32 gObjectEventPic_TownMap[] = INCBIN_U32("graphics/object_events/pics/mi
 const u32 gObjectEventPic_WoodenSign[] = INCBIN_U32("graphics/object_events/pics/misc/wooden_sign.4bpp");
 
 
+const u32 gObjectEventPic_YahooHost[] = INCBIN_U32("graphics/object_events/pics/people/yahoo/host.4bpp");
+const u16 gObjectEventPal_YahooHost[] = INCBIN_U16("graphics/object_events/pics/people/yahoo/host.gbapal");
+const u32 gObjectEventPic_YahooLittleGirl[] = INCBIN_U32("graphics/object_events/pics/people/yahoo/little_girl.4bpp");
+const u16 gObjectEventPal_YahooLittleGirl[] = INCBIN_U16("graphics/object_events/pics/people/yahoo/little_girl.gbapal");
+const u32 gObjectEventPic_YahooReceptionistBrown[] = INCBIN_U32("graphics/object_events/pics/people/yahoo/receptionist_brown.4bpp");
+const u16 gObjectEventPal_YahooReceptionistBrown[] = INCBIN_U16("graphics/object_events/pics/people/yahoo/receptionist_brown.gbapal");
+const u32 gObjectEventPic_YahooReceptionistSilver[] = INCBIN_U32("graphics/object_events/pics/people/yahoo/receptionist_silver.4bpp");
+const u16 gObjectEventPal_YahooReceptionistSilver[] = INCBIN_U16("graphics/object_events/pics/people/yahoo/receptionist_silver.gbapal");
+const u32 gObjectEventPic_YahooScoutF[] = INCBIN_U32("graphics/object_events/pics/people/yahoo/scout_f.4bpp");
+const u16 gObjectEventPal_YahooScoutF[] = INCBIN_U16("graphics/object_events/pics/people/yahoo/scout_f.gbapal");
+const u32 gObjectEventPic_YahooScoutM[] = INCBIN_U32("graphics/object_events/pics/people/yahoo/scout_m.4bpp");
+const u16 gObjectEventPal_YahooScoutM[] = INCBIN_U16("graphics/object_events/pics/people/yahoo/scout_m.gbapal");
 
 
 
