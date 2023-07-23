@@ -3381,3 +3381,63 @@ static const struct SpriteFrameImage sPicTable_MomFRLG[] = {
     overworld_frame(gObjectEventPic_MomFRLG, 2, 4, 2),
     overworld_frame(gObjectEventPic_MomFRLG, 2, 4, 2),
 };
+
+static const struct SpriteFrameImage sPicTable_Clipboard[] = {
+    overworld_frame(gObjectEventPic_Clipboard, 2, 2, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_GymSign[] = {
+    overworld_frame(gObjectEventPic_GymSign, 2, 4, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_OldAmber[] = {
+    overworld_frame(gObjectEventPic_OldAmber, 2, 2, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_Pokedex[] = {
+    overworld_frame(gObjectEventPic_Pokedex, 2, 2, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_Ruby[] = {
+    overworld_frame(gObjectEventPic_Ruby, 2, 2, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_Sapphire[] = {
+    overworld_frame(gObjectEventPic_Sapphire, 2, 2, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_Seagallop[] = {
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+    overworld_frame(gObjectEventPic_Seagallop, 4, 16, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_Sign[] = {
+    overworld_frame(gObjectEventPic_Sign, 2, 2, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_SSAnne[] = {
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+    overworld_frame(gObjectEventPic_SSAnne, 8, 16, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_TownMap[] = {
+    overworld_frame(gObjectEventPic_TownMap, 2, 2, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_WoodenSign[] = {
+    overworld_frame(gObjectEventPic_WoodenSign, 2, 2, 0),
+};

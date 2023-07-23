@@ -339,6 +339,17 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Woman3FRLG;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_WorkerF;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_WorkerM;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_YoungsterFRLG;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Clipboard;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GymSign;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldAmber;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Pokedex;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Ruby;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sapphire;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Seagallop;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sign;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TownMap;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_WoodenSign;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -670,6 +681,17 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_WORKER_F] =                 &gObjectEventGraphicsInfo_WorkerF,
     [OBJ_EVENT_GFX_WORKER_M] =                 &gObjectEventGraphicsInfo_WorkerM,
     [OBJ_EVENT_GFX_YOUNGSTER_FRLG] =           &gObjectEventGraphicsInfo_YoungsterFRLG,
+    [OBJ_EVENT_GFX_CLIPBOARD] =                &gObjectEventGraphicsInfo_Clipboard,
+    [OBJ_EVENT_GFX_GYM_SIGN] =                 &gObjectEventGraphicsInfo_GymSign,
+    [OBJ_EVENT_GFX_OLD_AMBER] =                &gObjectEventGraphicsInfo_OldAmber,
+    [OBJ_EVENT_GFX_POKEDEX] =                  &gObjectEventGraphicsInfo_Pokedex,
+    [OBJ_EVENT_GFX_RUBY] =                     &gObjectEventGraphicsInfo_Ruby,
+    [OBJ_EVENT_GFX_SAPPHIRE] =                 &gObjectEventGraphicsInfo_Sapphire,
+    [OBJ_EVENT_GFX_SEAGALLOP] =                &gObjectEventGraphicsInfo_Seagallop,
+    [OBJ_EVENT_GFX_SIGN] =                     &gObjectEventGraphicsInfo_Sign,
+    [OBJ_EVENT_GFX_SS_ANNE] =                  &gObjectEventGraphicsInfo_SSAnne,
+    [OBJ_EVENT_GFX_TOWN_MAP] =                 &gObjectEventGraphicsInfo_TownMap,
+    [OBJ_EVENT_GFX_WOODEN_SIGN] =              &gObjectEventGraphicsInfo_WoodenSign,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

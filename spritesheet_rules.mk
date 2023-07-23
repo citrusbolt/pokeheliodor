@@ -947,3 +947,9 @@ $(OBJEVENTGFXDIR)/people/frlg/worker_m.4bpp: %.4bpp: %.png
 
 $(OBJEVENTGFXDIR)/people/frlg/youngster.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(OBJEVENTGFXDIR)/misc/ss_anne.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 4
+
+$(OBJEVENTGFXDIR)/misc/town_map.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 2

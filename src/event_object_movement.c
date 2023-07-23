@@ -773,6 +773,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_WomanRS8,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_7)},
     {gObjectEventPal_HikerBackpack,             OW_PAL(OBJ_EVENT_GFX_HIKER_2)},
     {gObjectEventPal_TMBall,                    OW_PAL(OBJ_EVENT_GFX_TM_BALL)},
+    {gObjectEventPal_Seagallop,                 OW_PAL(OBJ_EVENT_GFX_SEAGALLOP)},
+    {gObjectEventPal_SSAnne,                    OW_PAL(OBJ_EVENT_GFX_SS_ANNE)},
     
     {gObjectEventPal_Reflection,                OBJ_EVENT_PAL_TAG_REFLECTION},
     {NULL,                                      TAG_NONE}

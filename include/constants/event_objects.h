@@ -332,8 +332,21 @@
 #define OBJ_EVENT_GFX_WOMAN_2_FRLG               327
 #define OBJ_EVENT_GFX_WOMAN_3_FRLG               328
 #define OBJ_EVENT_GFX_YOUNGSTER_FRLG             329
+#define OBJ_EVENT_GFX_CLIPBOARD                  330
+#define OBJ_EVENT_GFX_GYM_SIGN                   331
+#define OBJ_EVENT_GFX_OLD_AMBER                  332
+#define OBJ_EVENT_GFX_POKEDEX                    333
+#define OBJ_EVENT_GFX_RUBY                       334
+#define OBJ_EVENT_GFX_SAPPHIRE                   335
+#define OBJ_EVENT_GFX_SEAGALLOP                  336
+#define OBJ_EVENT_GFX_SIGN                       337
+#define OBJ_EVENT_GFX_SS_ANNE                    338
+#define OBJ_EVENT_GFX_TOWN_MAP                   339
+#define OBJ_EVENT_GFX_WOODEN_SIGN                340
+#define OBJ_EVENT_GFX_LAPRAS_DOLL                341
+#define OBJ_EVENT_GFX_MEW_DOLL                   342
 
-#define NUM_OBJ_EVENT_GFX                        330
+#define NUM_OBJ_EVENT_GFX                        341
 
 
 // These are dynamic object gfx ids.

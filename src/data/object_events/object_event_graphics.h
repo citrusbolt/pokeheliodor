@@ -619,6 +619,25 @@ const u32 gObjectEventPic_WorkerM[] = INCBIN_U32("graphics/object_events/pics/pe
 const u32 gObjectEventPic_YoungsterFRLG[] = INCBIN_U32("graphics/object_events/pics/people/frlg/youngster.4bpp");
 
 
+const u32 gObjectEventPic_Clipboard[] = INCBIN_U32("graphics/object_events/pics/misc/clipboard.4bpp");
+const u32 gObjectEventPic_GymSign[] = INCBIN_U32("graphics/object_events/pics/misc/gym_sign.4bpp");
+const u32 gObjectEventPic_OldAmber[] = INCBIN_U32("graphics/object_events/pics/misc/old_amber.4bpp");
+const u32 gObjectEventPic_Pokedex[] = INCBIN_U32("graphics/object_events/pics/misc/pokedex.4bpp");
+const u32 gObjectEventPic_Ruby[] = INCBIN_U32("graphics/object_events/pics/misc/ruby.4bpp");
+const u32 gObjectEventPic_Sapphire[] = INCBIN_U32("graphics/object_events/pics/misc/sapphire.4bpp");
+const u32 gObjectEventPic_Seagallop[] = INCBIN_U32("graphics/object_events/pics/misc/seagallop.4bpp");
+const u16 gObjectEventPal_Seagallop[] = INCBIN_U16("graphics/object_events/pics/misc/seagallop.gbapal");
+const u32 gObjectEventPic_Sign[] = INCBIN_U32("graphics/object_events/pics/misc/sign.4bpp");
+const u32 gObjectEventPic_SSAnne[] = INCBIN_U32("graphics/object_events/pics/misc/ss_anne.4bpp");
+const u16 gObjectEventPal_SSAnne[] = INCBIN_U16("graphics/object_events/pics/misc/ss_anne.gbapal");
+const u32 gObjectEventPic_TownMap[] = INCBIN_U32("graphics/object_events/pics/misc/town_map.4bpp");
+const u32 gObjectEventPic_WoodenSign[] = INCBIN_U32("graphics/object_events/pics/misc/wooden_sign.4bpp");
+
+
+
+
+
+
 const u16 gObjectEventPal_Reflection[] = INCBIN_U16("graphics/object_events/reflection.gbapal");
 
 const u32 gFieldEffectObjectPic_Sparkle[] = INCBIN_U32("graphics/field_effects/pics/sparkle.4bpp");
