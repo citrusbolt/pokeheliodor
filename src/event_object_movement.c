@@ -523,7 +523,6 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_MACH_BIKE)},
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_SURFING)},
     {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE)},
-    {gObjectEventPal_Npc1Reflection,            OW_PAL(OBJ_EVENT_GFX_QUINTY_PLUMP)},
     {gObjectEventPal_NinjaBoy,                  OW_PAL(OBJ_EVENT_GFX_NINJA_BOY)},
     {gObjectEventPal_Twin,                      OW_PAL(OBJ_EVENT_GFX_TWIN)},
     {gObjectEventPal_Boy1,                      OW_PAL(OBJ_EVENT_GFX_BOY_1)},
