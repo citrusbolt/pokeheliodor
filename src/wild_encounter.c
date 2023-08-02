@@ -1737,10 +1737,11 @@ void FishingWildEncounter(u8 rod)
 		else
 			species = GenerateFishingWildMon(gWildMonHeaders[GetCurrentMapWildMonHeaderId()].fishingMonsInfo, rod);
     }
-    IncrementGameStat(GAME_STAT_FISHING_CAPTURES);
+    IncrementGameStat(GAME_STAT_FISHING_ENCOUNTERS);
     SetPokemonAnglerSpecies(species);
 	if (IsMonShiny(&gEnemyParty[0]))
 		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+    gFishingEncounter = TRUE;
     BattleSetup_StartWildBattle();
 }
 

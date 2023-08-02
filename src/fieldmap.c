@@ -26,7 +26,7 @@ struct ConnectionFlags
     u8 east:1;
 };
 
-EWRAM_DATA static u16 sBackupMapData[MAX_MAP_DATA_SIZE] = {0};
+EWRAM_DATA static u16 ALIGNED(4) sBackupMapData[MAX_MAP_DATA_SIZE] = {0};
 EWRAM_DATA struct MapHeader gMapHeader = {0};
 EWRAM_DATA struct Camera gCamera = {0};
 EWRAM_DATA static struct ConnectionFlags sMapConnectionFlags = {0};
@@ -862,7 +862,7 @@ static void ApplyGlobalTintToPaletteSlot(u8 slot, u8 count)
 
 }
 
-void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u16 size)
+static void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u16 size)
 {
     u16 black = RGB_BLACK;
 

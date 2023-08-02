@@ -7,5 +7,6 @@ void CreatePokemartMenu(const u16 *);
 void CreateDecorationShop1Menu(const u16 *);
 void CreateDecorationShop2Menu(const u16 *);
 void CB2_ExitSellMenu(void);
+u16 GetMoneyCoordinates(void);
 
 #endif // GUARD_SHOP_H

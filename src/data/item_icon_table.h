@@ -440,3 +440,13 @@ const u32 *const gBallIconTable[][2] =
 	{gBallIcon_Dream, gBallIconPalette_Dream},
 	{gBallIcon_Beast, gBallIconPalette_Beast},
 };
+
+const u32 *const gLangLabelTable[][2] =
+{
+    [LANGUAGE_JAPANESE] = {gSprite_LangLabelJpn, gSpritePalette_LangLabels},
+    [LANGUAGE_ENGLISH]  = {gSprite_LangLabelEng, gSpritePalette_LangLabels},
+    [LANGUAGE_FRENCH]   = {gSprite_LangLabelFre, gSpritePalette_LangLabels},
+    [LANGUAGE_ITALIAN]  = {gSprite_LangLabelIta, gSpritePalette_LangLabels},
+    [LANGUAGE_GERMAN]   = {gSprite_LangLabelGer, gSpritePalette_LangLabels},
+    [LANGUAGE_SPANISH]  = {gSprite_LangLabelSpa, gSpritePalette_LangLabels},
+};

@@ -242,6 +242,7 @@ EWRAM_DATA u16 gMoveToLearn = 0;
 EWRAM_DATA u8 gBattleMonForms[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u8 gMaxPartyLevel = 1;
 EWRAM_DATA bool8 gSkipNickname = FALSE;
+EWRAM_DATA bool8 gFishingEncounter = FALSE;
 
 void (*gPreBattleCallback1)(void);
 void (*gBattleMainFunc)(void);
@@ -5418,6 +5419,7 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
 {
     if (!gPaletteFade.active)
     {
+        gFishingEncounter = FALSE;
         ResetSpriteData();
         if (gLeveledUpInBattle == 0 || (gBattleOutcome != B_OUTCOME_WON && gBattleOutcome != B_OUTCOME_CAUGHT))
         {

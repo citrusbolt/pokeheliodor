@@ -20,7 +20,6 @@
 #define BLOCK_CROSS_JUMP asm("");
 
 // to help in decompiling
-#define asm_comment(x) asm volatile("@ -- " x " -- ")
 #define asm_unified(x) asm(".syntax unified\n" x "\n.syntax divided")
 #define NAKED __attribute__((naked))
 
@@ -133,6 +132,13 @@
 
 // Converts a string to a compound literal, essentially making it a pointer to const u8
 #define COMPOUND_STRING(str) (const u8[]) _(str)
+
+// This returns the number of arguments passed to it (up to 8).
+#define NARG_8(...) NARG_8_(_, ##__VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+#define NARG_8_(_, a, b, c, d, e, f, g, h, N, ...) N
+
+#define CAT(a, b) CAT_(a, b)
+#define CAT_(a, b) a ## b
 
 // This produces an error at compile-time if expr is zero.
 // It looks like file.c:line: size of array `id' is negative
@@ -510,7 +516,8 @@ struct SaveBlock2
              u16 optionsNickname:1;
              u16 optionsGBPRumble:1;
              u16 optionsCartRumble:1;
-             u16 optionsUnused:9;
+             u16 optionsJPTitleScreen:1;
+             u16 optionsUnused:8;
     /*0x18*/ struct Pokedex pokedex;
 	/*0x90*/ u16 lastUsedBall;
 	/*0x92*/ u16 powerPoints;
@@ -848,7 +855,7 @@ struct WaldaPhrase
 struct TrainerNameRecord
 {
     u32 trainerId;
-    u8 trainerName[PLAYER_NAME_LENGTH + 1];
+    u8 ALIGNED(2) trainerName[PLAYER_NAME_LENGTH + 1];
 };
 
 struct TrainerHillSave

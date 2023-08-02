@@ -19,6 +19,7 @@
 #include "party_menu.h"
 #include "pokeball.h"
 #include "pokemon.h"
+#include "pokemon_summary_screen.h"
 #include "random.h"
 #include "recorded_battle.h"
 #include "reshow_battle_screen.h"
@@ -35,7 +36,8 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "constants/rgb.h"
-#include "rumble.h"
+#include "graphics.h"
+#include "menu.h"
 
 static void PlayerHandleGetMonData(void);
 static void PlayerHandleSetMonData(void);
@@ -120,6 +122,7 @@ static void DoSwitchOutAnimation(void);
 static void PlayerDoMoveAnimation(void);
 static void Task_StartSendOutAnim(u8);
 static void EndDrawPartyStatusSummary(void);
+static void MoveSelectionDisplayTypeAndSplitIcons(u8);
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
@@ -188,6 +191,8 @@ static const u8 sTargetIdentities[MAX_BATTLERS_COUNT] = {B_POSITION_PLAYER_LEFT,
 static const u8 sUnused[] = {0x48, 0x48, 0x20, 0x5a, 0x50, 0x50, 0x50, 0x58};
 
 u8 sTrainerPicId;
+static const u16 sSplitIcons_Pal[] = INCBIN_U16("graphics/battle_interface/split_icons_battle.gbapal");
+static const u8 sSplitIcons_Gfx[] = INCBIN_U8("graphics/battle_interface/split_icons_battle.4bpp");
 
 void BattleControllerDummy(void)
 {
@@ -1530,6 +1535,7 @@ static void MoveSelectionDisplayPpNumber(void)
 static void MoveSelectionDisplayMoveType(void)
 {
     u8 *txtPtr;
+    u8 type;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
 
     txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
@@ -1546,18 +1552,20 @@ static void MoveSelectionDisplayMoveType(void)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV) & 1) << 4)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 1) << 5);
 
-        u8 type = (15 * typeBits) / 63 + 1;
+        type = (15 * typeBits) / 63 + 1;
         if (type >= TYPE_MYSTERY)
             type++;
         type |= 0xC0;
-        StringCopy(txtPtr, gTypeNames[type & 0x3F]);
+        type &= 0x3F;
     }
     else
     {
-        StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
+        type = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type;
     }
 
-    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    //StringCopy(txtPtr, gTypeNames[type]);
+    //BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    MoveSelectionDisplayTypeAndSplitIcons(type);
 }
 
 static void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
@@ -2349,7 +2357,7 @@ static void PlayerHandleDrawTrainerPic(void)
 				trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_WALLY;
 				break;
 		}
-		
+
 		if (!foundMatch)
 		{
 			if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRERED
@@ -2457,7 +2465,7 @@ static void PlayerHandleTrainerSlide(void)
 				trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_WALLY;
 				break;
 		}
-		
+
 		if (!foundMatch)
 		{
 			if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_FIRERED
@@ -3250,4 +3258,23 @@ static void PlayerHandleEndLinkBattle(void)
 
 static void PlayerCmdEnd(void)
 {
+}
+
+static void MoveSelectionDisplayTypeAndSplitIcons(u8 type)
+{
+	struct ChooseMoveStruct *moveInfo;
+	u32 moveCategory;
+	moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][MAX_BATTLERS_COUNT]);
+    moveCategory = GetBattleMoveCategory(moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]);
+
+    ListMenuLoadStdPalAt(BG_PLTT_ID(12), 1);
+	LoadPalette(sSplitIcons_Pal, 10 * 0x10, 0x20);
+    PutWindowTilemap(B_WIN_PSS_ICON);
+	PutWindowTilemap(B_WIN_MOVE_TYPE);
+    FillWindowPixelBuffer(B_WIN_MOVE_TYPE, PIXEL_FILL(15));
+    FillWindowPixelBuffer(B_WIN_PSS_ICON, PIXEL_FILL(7));
+	BlitBitmapToWindow(B_WIN_PSS_ICON, sSplitIcons_Gfx + 0x80 * moveCategory, 0, 0, 16, 16);
+    BlitMenuInfoIcon(B_WIN_MOVE_TYPE, gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type + 1, 16, 3);
+	CopyWindowToVram(B_WIN_MOVE_TYPE, COPYWIN_FULL);
+	CopyWindowToVram(B_WIN_PSS_ICON, COPYWIN_FULL);
 }

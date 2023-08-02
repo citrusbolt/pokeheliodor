@@ -3193,6 +3193,8 @@ extern const u8 gTrainerBackPic_RubySapphireBrendan[];
 extern const u8 gTrainerBackPic_RubySapphireMay[];
 extern const u8 gTrainerBackPic_Wally[];
 extern const u8 gTrainerBackPic_Steven[];
+extern const u8 gTrainerBackPic_EmeraldBrendan[];
+extern const u8 gTrainerBackPic_EmeraldMay[];
 extern const u8 gTrainerBackPic_Gold[];
 extern const u8 gTrainerBackPic_Kris[];
 
@@ -4028,7 +4030,7 @@ extern const u32 gIntroGroudon_Gfx[];
 extern const u32 gIntroGroudon_Tilemap[];
 extern const u32 gIntroLegendBg_Gfx[];
 extern const u32 gIntroGroudonBg_Tilemap[];
-extern const u8 gIntro3Bg_Pal[0x200];
+extern const u8 ALIGNED(2) gIntro3Bg_Pal[0x200];
 extern const u32 gIntroKyogre_Gfx[];
 extern const u32 gIntroKyogre_Tilemap[];
 extern const u32 gIntroKyogreBg_Tilemap[];
@@ -5164,17 +5166,21 @@ extern const u32 gPokenavOptions_Gfx[];
 extern const u16 gPokenavOptions_Pal[];
 
 // Battle Factory Screen
-extern const u8 gFrontierFactorySelectMenu_Gfx[];
-extern const u8 gFrontierFactorySelectMenu_Tilemap[];
+extern const u16 gFrontierFactorySelectMenu_Gfx[];
+extern const u16 gFrontierFactorySelectMenu_Tilemap[];
 extern const u16 gFrontierFactorySelectMenu_Pal[];
 
 // Object event pals
 extern const u16 gObjectEventPal_Brendan[];
 extern const u16 gObjectEventPal_May[];
-extern const u16 gObjectEventPal_RubySapphireBrendan[];
-extern const u16 gObjectEventPal_RubySapphireMay[];
-extern const u16 gObjectEventPal_EmeraldBrendan[];
-extern const u16 gObjectEventPal_EmeraldMay[];
+extern const u16 gObjectEventPal_BrendanRS[];
+extern const u16 gObjectEventPal_MayRS[];
+extern const u16 gObjectEventPal_BrendanRed[];
+extern const u16 gObjectEventPal_MayRed[];
+extern const u16 gObjectEventPal_BrendanBlue[];
+extern const u16 gObjectEventPal_MayBlue[];
+extern const u16 gObjectEventPal_BrendanGreen[];
+extern const u16 gObjectEventPal_MayGreen[];
 extern const u16 gObjectEventPal_Gold[];
 extern const u16 gObjectEventPal_Kris[];
 
@@ -5368,5 +5374,13 @@ extern const u32 gSummaryScreenPageConditionTilemap[];
 extern const u8 gIntroGameBoyPlayer_Gfx[];
 extern const u8 gIntroGameBoyPlayer_Tilemap[];
 extern const u8 gIntroGameBoyPlayer_Pal[16];
+
+extern const u32 gSprite_LangLabelJpn[];
+extern const u32 gSprite_LangLabelEng[];
+extern const u32 gSprite_LangLabelFre[];
+extern const u32 gSprite_LangLabelIta[];
+extern const u32 gSprite_LangLabelGer[];
+extern const u32 gSprite_LangLabelSpa[];
+extern const u32 gSpritePalette_LangLabels[];
 
 #endif //GUARD_GRAPHICS_H

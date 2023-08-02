@@ -10,6 +10,8 @@
 // EWRAM vars
 EWRAM_DATA u8 *gItemIconDecompressionBuffer = NULL;
 EWRAM_DATA u8 *gItemIcon4x4Buffer = NULL;
+EWRAM_DATA u8 *gLangLabelBuffer = NULL;
+EWRAM_DATA u8 *gLangLabelDecompressionBuffer = NULL;
 
 // const rom data
 #include "data/item_icon_table.h"
@@ -42,6 +44,23 @@ static const struct OamData sOamData_BallIcon =
     .x = 0,
     .matrixNum = 0,
     .size = SPRITE_SIZE(16x16),
+    .tileNum = 0,
+    .priority = 1,
+    .paletteNum = 2,
+    .affineParam = 0
+};
+
+static const struct OamData sOamData_LangLabel =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = 0,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x32),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(32x32),
     .tileNum = 0,
     .priority = 1,
     .paletteNum = 2,
@@ -81,6 +100,17 @@ const struct SpriteTemplate gBallIconSpriteTemplate =
     .callback = SpriteCallbackDummy,
 };
 
+const struct SpriteTemplate gLangLabelSpriteTemplate =
+{
+    .tileTag = 0,
+    .paletteTag = 0,
+    .oam = &sOamData_LangLabel,
+    .anims = sSpriteAnimTable_ItemIcon,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
 // code
 bool8 AllocItemIconTemporaryBuffers(void)
 {
@@ -95,6 +125,16 @@ bool8 AllocItemIconTemporaryBuffers(void)
         return FALSE;
     }
 
+    gLangLabelDecompressionBuffer = Alloc(0x240);
+    if (gLangLabelDecompressionBuffer == NULL)
+        return FALSE;
+
+    gLangLabelBuffer = AllocZeroed(0x400);
+    if (gLangLabelBuffer == NULL)
+    {
+        Free(gLangLabelDecompressionBuffer);
+        return FALSE;
+    }
     return TRUE;
 }
 
@@ -102,6 +142,8 @@ void FreeItemIconTemporaryBuffers(void)
 {
     Free(gItemIconDecompressionBuffer);
     Free(gItemIcon4x4Buffer);
+    Free(gLangLabelDecompressionBuffer);
+    Free(gLangLabelBuffer);
 }
 
 void CopyItemIconPicTo4x4Buffer(const void *src, void *dest)
@@ -234,6 +276,42 @@ u8 AddBallIconSprite(u16 tilesTag, u16 paletteTag, u8 ballId)
         FreeItemIconTemporaryBuffers();
         Free(spriteTemplate);
 
+        return spriteId;
+    }
+}
+
+u8 AddLangLabelSprite(u16 tilesTag, u16 paletteTag, u8 lang)
+{
+    if (!AllocItemIconTemporaryBuffers())
+    {
+        return MAX_SPRITES;
+    }
+    else
+    {
+        u8 spriteId;
+        struct SpriteSheet spriteSheet;
+        struct CompressedSpritePalette spritePalette;
+        struct SpriteTemplate *spriteTemplate;
+
+        if (lang > ARRAY_COUNT(gLangLabelTable) - 1)
+            lang = 0;
+
+        LZDecompressWram(gLangLabelTable[lang][0], gLangLabelDecompressionBuffer);
+        CpuCopy16(gLangLabelDecompressionBuffer, gLangLabelBuffer, 0x400);
+        spriteSheet.data = gLangLabelBuffer;
+        spriteSheet.size = 0x400;
+        spriteSheet.tag = tilesTag;
+        LoadSpriteSheet(&spriteSheet);
+        spritePalette.data = gLangLabelTable[lang][1];
+        spritePalette.tag = paletteTag;
+        LoadCompressedSpritePalette(&spritePalette);
+        spriteTemplate = Alloc(sizeof(*spriteTemplate));
+        CpuCopy16(&gLangLabelSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
+        spriteTemplate->tileTag = tilesTag;
+        spriteTemplate->paletteTag = paletteTag;
+        spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
+        FreeItemIconTemporaryBuffers();
+        Free(spriteTemplate);
         return spriteId;
     }
 }

@@ -21,6 +21,7 @@
 #include "trig.h"
 #include "window.h"
 #include "constants/map_types.h"
+#include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
 
@@ -227,38 +228,38 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
     [B_WIN_PP] = {
         .bg = 0,
         .tilemapLeft = 21,
-        .tilemapTop = 55,
+        .tilemapTop = 57,
         .width = 4,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0290,
     },
-    [B_WIN_DUMMY] = {
+    [B_WIN_PSS_ICON] = {
         .bg = 0,
         .tilemapLeft = 21,
-        .tilemapTop = 57,
-        .width = 0,
-        .height = 0,
-        .paletteNum = 5,
+        .tilemapTop = 55,
+        .width = 2,
+        .height = 2,
+        .paletteNum = 10,
         .baseBlock = 0x0298,
     },
     [B_WIN_PP_REMAINING] = {
         .bg = 0,
         .tilemapLeft = 25,
-        .tilemapTop = 55,
+        .tilemapTop = 57,
         .width = 4,
         .height = 2,
         .paletteNum = 5,
-        .baseBlock = 0x0298,
+        .baseBlock = 0x02A2,
     },
     [B_WIN_MOVE_TYPE] = {
         .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 57,
-        .width = 8,
+        .tilemapLeft = 23,
+        .tilemapTop = 55,
+        .width = 6,
         .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x02a0,
+        .paletteNum = 12,
+        .baseBlock = 0x02AA,
     },
     [B_WIN_SWITCH_PROMPT] = {
         .bg = 0,
@@ -448,38 +449,38 @@ static const struct WindowTemplate sBattleArenaWindowTemplates[] =
     [B_WIN_PP] = {
         .bg = 0,
         .tilemapLeft = 21,
-        .tilemapTop = 55,
+        .tilemapTop = 57,
         .width = 4,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0290,
     },
-    [B_WIN_DUMMY] = {
+    [B_WIN_PSS_ICON] = {
         .bg = 0,
         .tilemapLeft = 21,
-        .tilemapTop = 57,
-        .width = 0,
-        .height = 0,
-        .paletteNum = 5,
+        .tilemapTop = 55,
+        .width = 2,
+        .height = 2,
+        .paletteNum = 10,
         .baseBlock = 0x0298,
     },
     [B_WIN_PP_REMAINING] = {
         .bg = 0,
         .tilemapLeft = 25,
-        .tilemapTop = 55,
+        .tilemapTop = 57,
         .width = 4,
         .height = 2,
         .paletteNum = 5,
-        .baseBlock = 0x0298,
+        .baseBlock = 0x02A2,
     },
     [B_WIN_MOVE_TYPE] = {
         .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 57,
-        .width = 8,
+        .tilemapLeft = 23,
+        .tilemapTop = 55,
+        .width = 6,
         .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x02a0,
+        .paletteNum = 12,
+        .baseBlock = 0x02AA,
     },
     [B_WIN_SWITCH_PROMPT] = {
         .bg = 0,
@@ -1071,7 +1072,7 @@ void InitLinkBattleVsScreen(u8 taskId)
         break;
     case 1:
         palId = AllocSpritePalette(TAG_VS_LETTERS);
-        gPlttBufferUnfaded[palId * 16 + 0x10F] = gPlttBufferFaded[palId * 16 + 0x10F] = 0x7FFF;
+        gPlttBufferUnfaded[OBJ_PLTT_ID(palId) + 15] = gPlttBufferFaded[OBJ_PLTT_ID(palId) + 15] = RGB_WHITE;
         gBattleStruct->linkBattleVsSpriteId_V = CreateSprite(&sVsLetter_V_SpriteTemplate, 111, 80, 0);
         gBattleStruct->linkBattleVsSpriteId_S = CreateSprite(&sVsLetter_S_SpriteTemplate, 129, 80, 0);
         gSprites[gBattleStruct->linkBattleVsSpriteId_V].invisible = TRUE;
