@@ -363,6 +363,7 @@
 #define TRAINER_CLASS_PIKE_QUEEN     0x3f
 #define TRAINER_CLASS_PYRAMID_KING   0x40
 #define TRAINER_CLASS_RS_PROTAG      0x41
+#define TRAINER_CLASS_COUNT          0x42
 
 #define TRAINER_ENCOUNTER_MUSIC_MALE         0 // standard male encounter music
 #define TRAINER_ENCOUNTER_MUSIC_FEMALE       1 // standard female encounter music
@@ -384,7 +385,12 @@
 // All trainer parties specify the IV, level, and species for each Pokémon in the
 // party. Some trainer parties also specify held items and custom moves for each
 // Pokémon.
-#define F_TRAINER_PARTY_CUSTOM_MOVESET (1 << 0)
-#define F_TRAINER_PARTY_HELD_ITEM      (1 << 1)
+#define F_TRAINER_PARTY_CUSTOM_MOVESET        (1 << 0)
+#define F_TRAINER_PARTY_HELD_ITEM             (1 << 1)
+#define F_TRAINER_PARTY_EVERYTHING_CUSTOMIZED (1 << 3)
+
+// Trainer party defines
+#define TRAINER_MON_MALE    1
+#define TRAINER_MON_FEMALE  2
 
 #endif  // GUARD_TRAINERS_H
