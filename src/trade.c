@@ -2811,7 +2811,7 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         else
             HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], species, personality);
 
-        LoadCompressedUniqueSpritePalette(GetMonSpritePalStruct(mon), species, personality, GetMonData(mon));
+        LoadCompressedUniqueSpritePalette(GetMonSpritePalStruct(mon), species, personality, IsMonShiny(mon));
         sTradeAnim->monSpecies[whichParty] = species;
         sTradeAnim->monPersonalities[whichParty] = personality;
         break;
