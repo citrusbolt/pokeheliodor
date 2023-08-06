@@ -340,7 +340,7 @@ EventScript_CancelHeadbutt::
 
 Text_WantToHeadbutt:
 	.string "It's a moderately sized tree.\n"
-	.string "Would you like to use HEADBUTT?$"
+	.string "Would you like to use Headbutt?$"
 
 Text_CantHeadbutt:
 	.string "There's a large, formidable tree.\n"
