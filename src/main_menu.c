@@ -2512,7 +2512,7 @@ static void MainMenu_FormatSavegameText(void)
 
 static void MainMenu_FormatSavegameLocation(void)
 {
-	GetMapNameGeneric(gStringVar4, GetCurrentRegionMapSectionId());
+	GetMapName(gStringVar4, GetCurrentRegionMapSectionId(), 0);
     AddTextPrinterParameterized3(2, FONT_OPTION, GetStringRightAlignXOffset(1, gStringVar4, 0xD0), 1, sTextColor_MenuInfo, -1, gStringVar4);
 }
 
