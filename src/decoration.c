@@ -339,6 +339,9 @@ static const struct {
     [DECORSHAPE_2x4] = {SPRITE_SHAPE(32x64), SPRITE_SIZE(32x64), 128, 54},
     [DECORSHAPE_3x3] = {SPRITE_SHAPE(64x64), SPRITE_SIZE(64x64), 144, 70},
     [DECORSHAPE_3x2] = {SPRITE_SHAPE(64x32), SPRITE_SIZE(64x32), 144, 70},
+    [DECORSHAPE_2x2C] = {SPRITE_SHAPE(32x32), SPRITE_SIZE(32x32), 128, 70},
+    [DECORSHAPE_1x2C] = {SPRITE_SHAPE(16x32), SPRITE_SIZE(16x32), 120, 70},
+    [DECORSHAPE_3x3C] = {SPRITE_SHAPE(64x64), SPRITE_SIZE(64x64), 144, 70},
 };
 
 static const union AnimCmd sDecorSelectorAnimCmd0[] =
@@ -422,7 +425,7 @@ static const u8 sDecorationSlideElevation[] =
 };
 
 static const u16 sDecorShapeSizes[] = {
-    0x04, 0x08, 0x10, 0x20, 0x10, 0x08, 0x10, 0x20, 0x40, 0x20
+    0x04, 0x08, 0x10, 0x20, 0x10, 0x08, 0x10, 0x20, 0x40, 0x20, 0x10, 0x08, 0x40
 };
 
 static const u16 sBrendanPalette[] = INCBIN_U16("graphics/decorations/brendan.gbapal");
@@ -1250,9 +1253,11 @@ void ShowDecorationOnMap(u16 mapX, u16 mapY, u16 decoration)
         ShowDecorationOnMap_(mapX, mapY, 4, 2, decoration);
         break;
     case DECORSHAPE_2x2:
+    case DECORSHAPE_2x2C:
         ShowDecorationOnMap_(mapX, mapY, 2, 2, decoration);
         break;
     case DECORSHAPE_1x2:
+    case DECORSHAPE_1x2C:
         ShowDecorationOnMap_(mapX, mapY, 1, 2, decoration);
         break;
     case DECORSHAPE_1x3: // unused
@@ -1262,6 +1267,7 @@ void ShowDecorationOnMap(u16 mapX, u16 mapY, u16 decoration)
         ShowDecorationOnMap_(mapX, mapY, 2, 4, decoration);
         break;
     case DECORSHAPE_3x3:
+    case DECORSHAPE_3x3C:
         ShowDecorationOnMap_(mapX, mapY, 3, 3, decoration);
         break;
     case DECORSHAPE_3x2:
@@ -1393,7 +1399,7 @@ static void SetUpPlacingDecorationPlayerAvatar(u8 taskId, struct PlaceDecoration
     u8 x;
 
     x = 16 * (u8)gTasks[taskId].tDecorWidth + sDecorationMovementInfo[data->decoration->shape].cameraX - 8 * ((u8)gTasks[taskId].tDecorWidth - 1);
-    if (data->decoration->shape == DECORSHAPE_3x1 || data->decoration->shape == DECORSHAPE_3x3 || data->decoration->shape == DECORSHAPE_3x2)
+    if (data->decoration->shape == DECORSHAPE_3x1 || data->decoration->shape == DECORSHAPE_3x3 || data->decoration->shape == DECORSHAPE_3x2 || data->decoration->shape == DECORSHAPE_3x3C)
         x -= 8;
 
     if (gSaveBlock2Ptr->playerGender == MALE)
@@ -1427,10 +1433,12 @@ static void SetUpDecorationShape(u8 taskId)
             gTasks[taskId].tDecorHeight = 2;
             break;
         case DECORSHAPE_2x2:
+        case DECORSHAPE_2x2C:
             gTasks[taskId].tDecorWidth = 2;
             gTasks[taskId].tDecorHeight = 2;
             break;
         case DECORSHAPE_1x2:
+        case DECORSHAPE_1x2C:
             gTasks[taskId].tDecorWidth = 1;
             gTasks[taskId].tDecorHeight = 2;
             break;
@@ -1444,6 +1452,7 @@ static void SetUpDecorationShape(u8 taskId)
             gTasks[taskId].tDecorHeight = 4;
             break;
         case DECORSHAPE_3x3:
+        case DECORSHAPE_3x3C:
             gTasks[taskId].tDecorWidth = 3;
             gTasks[taskId].tDecorHeight = 3;
             break;
@@ -1599,7 +1608,7 @@ static bool8 CanPlaceDecoration(u8 taskId, const struct Decoration *decoration)
         {
             curX = gTasks[taskId].tCursorX + j;
             behaviorAt = MapGridGetMetatileBehaviorAt(curX, curY);
-            if (decoration->shape == DECORSHAPE_1x2)
+            if (decoration->shape == DECORSHAPE_1x2 || decoration->shape == DECORSHAPE_1x2C)
             {
                 if (!MetatileBehavior_HoldsLargeDecoration(behaviorAt))
                     return FALSE;
@@ -2037,7 +2046,10 @@ static u8 gpu_pal_decompress_alloc_tag_and_upload(struct PlaceDecorationGraphics
     SetDecorSelectionMetatiles(data);
     SetDecorSelectionBoxOamAttributes(data->decoration->shape);
     SetDecorSelectionBoxTiles(data);
-    CopyPalette(data->palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(data->decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
+    if (data->decoration->shape == DECORSHAPE_2x2C || data->decoration->shape == DECORSHAPE_1x2C || data->decoration->shape == DECORSHAPE_3x3C)
+        CopyPalette(data->palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(data->decoration->tiles[0] * NUM_TILES_PER_METATILE) + 11] >> 12);
+    else
+        CopyPalette(data->palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(data->decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
     LoadSpritePalette(&sSpritePal_PlaceDecoration);
     return CreateSprite(&sDecorationSelectorSpriteTemplate, 0, 0, 0);
 }
@@ -2093,7 +2105,10 @@ static u8 AddDecorationIconObjectFromObjectEvent(u16 tilesTag, u16 paletteTag, u
         SetDecorSelectionMetatiles(&sPlaceDecorationGraphicsDataBuffer);
         SetDecorSelectionBoxOamAttributes(sPlaceDecorationGraphicsDataBuffer.decoration->shape);
         SetDecorSelectionBoxTiles(&sPlaceDecorationGraphicsDataBuffer);
-        CopyPalette(sPlaceDecorationGraphicsDataBuffer.palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(sPlaceDecorationGraphicsDataBuffer.decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
+        if (sPlaceDecorationGraphicsDataBuffer.decoration->shape == DECORSHAPE_2x2C || sPlaceDecorationGraphicsDataBuffer.decoration->shape == DECORSHAPE_1x2C || sPlaceDecorationGraphicsDataBuffer.decoration->shape == DECORSHAPE_3x3C)
+            CopyPalette(sPlaceDecorationGraphicsDataBuffer.palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(sPlaceDecorationGraphicsDataBuffer.decoration->tiles[0] * NUM_TILES_PER_METATILE) + 11] >> 12);
+        else
+            CopyPalette(sPlaceDecorationGraphicsDataBuffer.palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(sPlaceDecorationGraphicsDataBuffer.decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
         sheet.data = sPlaceDecorationGraphicsDataBuffer.image;
         sheet.size = sDecorShapeSizes[sPlaceDecorationGraphicsDataBuffer.decoration->shape] * TILE_SIZE_4BPP;
         sheet.tag = tilesTag;
@@ -2446,6 +2461,21 @@ static void SetDecorRearrangementShape(u8 decor, struct DecorRearrangementDataBu
     {
         data->width = 3;
         data->height = 2;
+    }
+    else if (gDecorations[decor].shape == DECORSHAPE_2x2C)
+    {
+        data->width = 2;
+        data->height = 2;
+    }
+    else if (gDecorations[decor].shape == DECORSHAPE_1x2C)
+    {
+        data->width = 1;
+        data->height = 2;
+    }
+    else if (gDecorations[decor].shape == DECORSHAPE_3x3C)
+    {
+        data->width = 3;
+        data->height = 3;
     }
 }
 

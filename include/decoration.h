@@ -25,6 +25,9 @@ enum DecorationShape
     DECORSHAPE_2x4,
     DECORSHAPE_3x3,
     DECORSHAPE_3x2,
+    DECORSHAPE_2x2C,
+    DECORSHAPE_1x2C,
+    DECORSHAPE_3x3C
 };
 
 enum DecorationCategory
