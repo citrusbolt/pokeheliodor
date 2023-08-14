@@ -6,6 +6,7 @@
 #include "sound.h"
 #include "sprite.h"
 #include "constants/songs.h"
+#include "field_weather.h"
 
 #define ROTATING_GATE_TILE_TAG 0x1300
 #define ROTATING_GATE_PUZZLE_MAX 12
@@ -460,7 +461,7 @@ static const union AffineAnimCmd *const sSpriteAffineAnimTable_RotatingGate[] =
 static const struct SpriteTemplate sSpriteTemplate_RotatingGateLarge =
 {
     .tileTag = ROTATING_GATE_TILE_TAG,
-    .paletteTag = TAG_NONE,
+    .paletteTag = 0x1103, // OBJ_EVENT_PAL_TAG_GENERIC_1
     .oam = &sOamData_RotatingGateLarge,
     .anims = sSpriteAnimTable_RotatingGateLarge,
     .images = NULL,
@@ -471,7 +472,7 @@ static const struct SpriteTemplate sSpriteTemplate_RotatingGateLarge =
 static const struct SpriteTemplate sSpriteTemplate_RotatingGateRegular =
 {
     .tileTag = ROTATING_GATE_TILE_TAG,
-    .paletteTag = TAG_NONE,
+    .paletteTag = 0x1103, // OBJ_EVENT_PAL_TAG_GENERIC_1
     .oam = &sOamData_RotatingGateRegular,
     .anims = sSpriteAnimTable_RotatingGateRegular,
     .images = NULL,
@@ -736,6 +737,10 @@ static u8 RotatingGate_CreateGate(u8 gateId, s16 deltaX, s16 deltaY)
         template = sSpriteTemplate_RotatingGateLarge;
 
     template.tileTag = gate->shape + ROTATING_GATE_TILE_TAG;
+
+    LoadObjectEventPalette(template.paletteTag);
+    PatchObjectPalette(template.paletteTag, IndexOfSpritePaletteTag(template.paletteTag));
+    UpdatePaletteColorMapType(IndexOfSpritePaletteTag(template.paletteTag), COLOR_MAP_CONTRAST);
 
     spriteId = CreateSprite(&template, 0, 0, 0x94);
     if (spriteId == MAX_SPRITES)

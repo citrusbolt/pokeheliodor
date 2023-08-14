@@ -30,6 +30,7 @@
 #include "constants/mauville_old_man.h"
 #include "constants/trainer_types.h"
 #include "constants/union_room.h"
+#include "field_weather.h"
 
 // this file was known as evobjmv.c in Game Freak's original source
 
@@ -76,8 +77,6 @@ static u8 setup##_callback(struct ObjectEvent *objectEvent, struct Sprite *sprit
     return 0;\
 }
 
-static EWRAM_DATA u8 sCurrentReflectionType = 0;
-static EWRAM_DATA u16 sCurrentSpecialObjectPaletteTag = 0;
 static EWRAM_DATA struct LockedAnimObjectEvents *sLockedAnimObjectEvents = {0};
 
 static void MoveCoordsInDirection(u32, s16 *, s16 *, s16, s16);
@@ -135,13 +134,12 @@ static void UpdateObjectEventVisibility(struct ObjectEvent *, struct Sprite *);
 static void MakeSpriteTemplateFromObjectEventTemplate(const struct ObjectEventTemplate *, struct SpriteTemplate *, const struct SubspriteTable **);
 static void GetObjectEventMovingCameraOffset(s16 *, s16 *);
 static const struct ObjectEventTemplate *GetObjectEventTemplateByLocalIdAndMap(u8, u8, u8);
-static void LoadObjectEventPalette(u16);
 static void RemoveObjectEventIfOutsideView(struct ObjectEvent *);
 static void SpawnObjectEventOnReturnToField(u8, s16, s16);
 static void SetPlayerAvatarObjectEventIdAndObjectId(u8, u8);
 static void ResetObjectEventFldEffData(struct ObjectEvent *);
 static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *);
-static u8 FindObjectEventPaletteIndexByTag(u16);
+static u32 FindObjectEventPaletteIndexByTag(u16);
 static void _PatchObjectPalette(u16, u8);
 static bool8 ObjectEventDoesElevationMatch(struct ObjectEvent *, u8);
 static void SpriteCB_CameraObject(struct Sprite *);
@@ -168,21 +166,6 @@ static bool8 IsElevationMismatchAt(u8, s16, s16);
 static bool8 AreElevationsCompatible(u8, u8);
 
 static const struct SpriteFrameImage sPicTable_PechaBerryTree[];
-
-const u8 gReflectionEffectPaletteMap[16] = {
-        [PALSLOT_PLAYER]                 = PALSLOT_PLAYER_REFLECTION,
-        [PALSLOT_PLAYER_REFLECTION]      = PALSLOT_PLAYER_REFLECTION,
-        [PALSLOT_NPC_1]                  = PALSLOT_NPC_1_REFLECTION,
-        [PALSLOT_NPC_2]                  = PALSLOT_NPC_2_REFLECTION,
-        [PALSLOT_NPC_3]                  = PALSLOT_NPC_3_REFLECTION,
-        [PALSLOT_NPC_4]                  = PALSLOT_NPC_4_REFLECTION,
-        [PALSLOT_NPC_1_REFLECTION]       = PALSLOT_NPC_1_REFLECTION,
-        [PALSLOT_NPC_2_REFLECTION]       = PALSLOT_NPC_2_REFLECTION,
-        [PALSLOT_NPC_3_REFLECTION]       = PALSLOT_NPC_3_REFLECTION,
-        [PALSLOT_NPC_4_REFLECTION]       = PALSLOT_NPC_4_REFLECTION,
-        [PALSLOT_NPC_SPECIAL]            = PALSLOT_NPC_SPECIAL_REFLECTION,
-        [PALSLOT_NPC_SPECIAL_REFLECTION] = PALSLOT_NPC_SPECIAL_REFLECTION
-};
 
 static const struct SpriteTemplate sCameraSpriteTemplate = {
     .tileTag = 0,
@@ -417,22 +400,19 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 };
 
 #define OBJ_EVENT_PAL_TAG_BRENDAN                 0x1100
-#define OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION      0x1101
+#define OBJ_EVENT_PAL_TAG_MAY                     0x1101
 #define OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION       0x1102
-#define OBJ_EVENT_PAL_TAG_NPC_1                   0x1103
-#define OBJ_EVENT_PAL_TAG_NPC_2                   0x1104
-#define OBJ_EVENT_PAL_TAG_NPC_3                   0x1105
-#define OBJ_EVENT_PAL_TAG_NPC_4                   0x1106
-#define OBJ_EVENT_PAL_TAG_NPC_1_REFLECTION        0x1107
-#define OBJ_EVENT_PAL_TAG_NPC_2_REFLECTION        0x1108
-#define OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION        0x1109
-#define OBJ_EVENT_PAL_TAG_NPC_4_REFLECTION        0x110A
-#define OBJ_EVENT_PAL_TAG_QUINTY_PLUMP            0x110B
-#define OBJ_EVENT_PAL_TAG_QUINTY_PLUMP_REFLECTION 0x110C
+#define OBJ_EVENT_PAL_TAG_GENERIC_1               0x1103
+#define OBJ_EVENT_PAL_TAG_GENERIC_2               0x1104
+#define OBJ_EVENT_PAL_TAG_GENERIC_3               0x1105
+#define OBJ_EVENT_PAL_TAG_GENERIC_4               0x1106
+#define OBJ_EVENT_PAL_TAG_GENERIC_5               0x1107
+#define OBJ_EVENT_PAL_TAG_GENERIC_6               0x1108
+#define OBJ_EVENT_PAL_TAG_GENERIC_7               0x1109
+#define OBJ_EVENT_PAL_TAG_GENERIC_8               0x110A
 #define OBJ_EVENT_PAL_TAG_TRUCK                   0x110D
 #define OBJ_EVENT_PAL_TAG_VIGOROTH                0x110E
 #define OBJ_EVENT_PAL_TAG_ZIGZAGOON               0x110F
-#define OBJ_EVENT_PAL_TAG_MAY                     0x1110
 #define OBJ_EVENT_PAL_TAG_MAY_REFLECTION          0x1111
 #define OBJ_EVENT_PAL_TAG_MOVING_BOX              0x1112
 #define OBJ_EVENT_PAL_TAG_CABLE_CAR               0x1113
@@ -445,13 +425,13 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_UNUSED                  0x111A
 #define OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW        0x111B
 #define OBJ_EVENT_PAL_TAG_POOCHYENA               0x111C
-#define OBJ_EVENT_PAL_TAG_RED_LEAF                0x111D
+#define OBJ_EVENT_PAL_TAG_RED                     0x111D
 #define OBJ_EVENT_PAL_TAG_DEOXYS                  0x111E
 #define OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE      0x111F
 #define OBJ_EVENT_PAL_TAG_HO_OH                   0x1120
 #define OBJ_EVENT_PAL_TAG_LUGIA                   0x1121
-#define OBJ_EVENT_PAL_TAG_RS_BRENDAN              0x1122
-#define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x1122
+#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x1123
 #define OBJ_EVENT_PAL_TAG_ARTICUNO                0x1124
 #define OBJ_EVENT_PAL_TAG_ZAPDOS                  0x1125
 #define OBJ_EVENT_PAL_TAG_MOLTRES                 0x1126
@@ -459,11 +439,25 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_RAIKOU                  0x1128
 #define OBJ_EVENT_PAL_TAG_ENTEI                   0x1129
 #define OBJ_EVENT_PAL_TAG_SUICUNE                 0x112A
-#define OBJ_EVENT_PAL_TAG_E_BRENDAN               0x112B
-#define OBJ_EVENT_PAL_TAG_E_MAY                   0x112C
+#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x112B
+#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x112C
 #define OBJ_EVENT_PAL_TAG_GOLD                    0x112D
 #define OBJ_EVENT_PAL_TAG_KRIS                    0x112E
-#define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
+#define OBJ_EVENT_PAL_TAG_BARD                    0x112F
+#define OBJ_EVENT_PAL_TAG_HIPSTER                 0x1130
+#define OBJ_EVENT_PAL_TAG_TRADER                  0x1131
+#define OBJ_EVENT_PAL_TAG_STORYTELLER             0x1132
+#define OBJ_EVENT_PAL_TAG_GIDDY                   0x1133
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1134
+#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1135
+#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x1136
+#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x1137
+#define OBJ_EVENT_PAL_TAG_LEAF                    0x1138
+#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1400
+#define OBJ_EVENT_PAL_TAG_UNIQUE                  0x11FF
+#define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
+
+#define OW_PAL(gfxId) (gfxId + 0x1200)
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
 #include "data/field_effects/field_effect_object_template_pointers.h"
@@ -474,234 +468,321 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/object_event_graphics_info.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
-    {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
-    {gObjectEventPal_Npc2,                  OBJ_EVENT_PAL_TAG_NPC_2},
-    {gObjectEventPal_Npc3,                  OBJ_EVENT_PAL_TAG_NPC_3},
-    {gObjectEventPal_Npc4,                  OBJ_EVENT_PAL_TAG_NPC_4},
-    {gObjectEventPal_Npc1Reflection,        OBJ_EVENT_PAL_TAG_NPC_1_REFLECTION},
-    {gObjectEventPal_Npc2Reflection,        OBJ_EVENT_PAL_TAG_NPC_2_REFLECTION},
-    {gObjectEventPal_Npc3Reflection,        OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION},
-    {gObjectEventPal_Npc4Reflection,        OBJ_EVENT_PAL_TAG_NPC_4_REFLECTION},
-    {gObjectEventPal_Brendan,               OBJ_EVENT_PAL_TAG_BRENDAN},
-    {gObjectEventPal_BrendanReflection,     OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION},
-    {gObjectEventPal_BridgeReflection,      OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION},
-    {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
-    {gObjectEventPal_QuintyPlump,           OBJ_EVENT_PAL_TAG_QUINTY_PLUMP},
-    {gObjectEventPal_QuintyPlumpReflection, OBJ_EVENT_PAL_TAG_QUINTY_PLUMP_REFLECTION},
-    {gObjectEventPal_Truck,                 OBJ_EVENT_PAL_TAG_TRUCK},
-    {gObjectEventPal_Vigoroth,              OBJ_EVENT_PAL_TAG_VIGOROTH},
-    {gObjectEventPal_EnemyZigzagoon,        OBJ_EVENT_PAL_TAG_ZIGZAGOON},
-    {gObjectEventPal_May,                   OBJ_EVENT_PAL_TAG_MAY},
-    {gObjectEventPal_MayReflection,         OBJ_EVENT_PAL_TAG_MAY_REFLECTION},
-    {gObjectEventPal_MovingBox,             OBJ_EVENT_PAL_TAG_MOVING_BOX},
-    {gObjectEventPal_CableCar,              OBJ_EVENT_PAL_TAG_CABLE_CAR},
-    {gObjectEventPal_SSTidal,               OBJ_EVENT_PAL_TAG_SSTIDAL},
-    {gObjectEventPal_Kyogre,                OBJ_EVENT_PAL_TAG_KYOGRE},
-    {gObjectEventPal_KyogreReflection,      OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION},
-    {gObjectEventPal_Groudon,               OBJ_EVENT_PAL_TAG_GROUDON},
-    {gObjectEventPal_GroudonReflection,     OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION},
-    {gObjectEventPal_SubmarineShadow,       OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW},
-    {gObjectEventPal_Poochyena,             OBJ_EVENT_PAL_TAG_POOCHYENA},
-    {gObjectEventPal_RedLeaf,               OBJ_EVENT_PAL_TAG_RED_LEAF},
-    {gObjectEventPal_Deoxys,                OBJ_EVENT_PAL_TAG_DEOXYS},
-    {gObjectEventPal_BirthIslandStone,      OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
-    {gObjectEventPal_HoOh,                  OBJ_EVENT_PAL_TAG_HO_OH},
-    {gObjectEventPal_Lugia,                 OBJ_EVENT_PAL_TAG_LUGIA},
-    {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
-    {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
-    {gObjectEventPal_Articuno,              OBJ_EVENT_PAL_TAG_ARTICUNO},
-    {gObjectEventPal_Zapdos,                OBJ_EVENT_PAL_TAG_ZAPDOS},
-    {gObjectEventPal_Moltres,               OBJ_EVENT_PAL_TAG_MOLTRES},
-    {gObjectEventPal_Mewtwo,                OBJ_EVENT_PAL_TAG_MEWTWO},
-    {gObjectEventPal_Raikou,                OBJ_EVENT_PAL_TAG_RAIKOU},
-    {gObjectEventPal_Entei,                 OBJ_EVENT_PAL_TAG_ENTEI},
-    {gObjectEventPal_Suicune,               OBJ_EVENT_PAL_TAG_SUICUNE},
-    {gObjectEventPal_EmeraldBrendan,        OBJ_EVENT_PAL_TAG_E_BRENDAN},
-    {gObjectEventPal_EmeraldMay,            OBJ_EVENT_PAL_TAG_E_MAY},
-    {gObjectEventPal_Gold,                  OBJ_EVENT_PAL_TAG_GOLD},
-    {gObjectEventPal_Kris,                  OBJ_EVENT_PAL_TAG_KRIS},
-    {NULL,                                  OBJ_EVENT_PAL_TAG_NONE}, 
-};
-
-static const u16 sReflectionPaletteTags_Brendan[] = {
-    OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-    OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-    OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-    OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-};
-
-static const u16 sReflectionPaletteTags_May[] = {
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
-};
-
-static const u16 sReflectionPaletteTags_PlayerUnderwater[] = {
-    OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
-    OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
-    OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
-    OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
-};
-
-static const struct PairedPalettes sPlayerReflectionPaletteSets[] = {
-    {OBJ_EVENT_PAL_TAG_BRENDAN,           sReflectionPaletteTags_Brendan},
-    {OBJ_EVENT_PAL_TAG_MAY,               sReflectionPaletteTags_May},
-    {OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER, sReflectionPaletteTags_PlayerUnderwater},
-    {OBJ_EVENT_PAL_TAG_NONE,              NULL},
-};
-
-static const u16 sReflectionPaletteTags_QuintyPlump[] = {
-    OBJ_EVENT_PAL_TAG_QUINTY_PLUMP_REFLECTION,
-    OBJ_EVENT_PAL_TAG_QUINTY_PLUMP_REFLECTION,
-    OBJ_EVENT_PAL_TAG_QUINTY_PLUMP_REFLECTION,
-    OBJ_EVENT_PAL_TAG_QUINTY_PLUMP_REFLECTION,
-};
-
-static const u16 sReflectionPaletteTags_Truck[] = {
-    OBJ_EVENT_PAL_TAG_TRUCK,
-    OBJ_EVENT_PAL_TAG_TRUCK,
-    OBJ_EVENT_PAL_TAG_TRUCK,
-    OBJ_EVENT_PAL_TAG_TRUCK,
-};
-
-static const u16 sReflectionPaletteTags_VigorothMover[] = {
-    OBJ_EVENT_PAL_TAG_VIGOROTH,
-    OBJ_EVENT_PAL_TAG_VIGOROTH,
-    OBJ_EVENT_PAL_TAG_VIGOROTH,
-    OBJ_EVENT_PAL_TAG_VIGOROTH,
-};
-
-static const u16 sReflectionPaletteTags_MovingBox[] = {
-    OBJ_EVENT_PAL_TAG_MOVING_BOX,
-    OBJ_EVENT_PAL_TAG_MOVING_BOX,
-    OBJ_EVENT_PAL_TAG_MOVING_BOX,
-    OBJ_EVENT_PAL_TAG_MOVING_BOX,
-};
-
-static const u16 sReflectionPaletteTags_CableCar[] = {
-    OBJ_EVENT_PAL_TAG_CABLE_CAR,
-    OBJ_EVENT_PAL_TAG_CABLE_CAR,
-    OBJ_EVENT_PAL_TAG_CABLE_CAR,
-    OBJ_EVENT_PAL_TAG_CABLE_CAR,
-};
-
-static const u16 sReflectionPaletteTags_SSTidal[] = {
-    OBJ_EVENT_PAL_TAG_SSTIDAL,
-    OBJ_EVENT_PAL_TAG_SSTIDAL,
-    OBJ_EVENT_PAL_TAG_SSTIDAL,
-    OBJ_EVENT_PAL_TAG_SSTIDAL,
-};
-
-static const u16 sReflectionPaletteTags_SubmarineShadow[] = {
-    OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW,
-    OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW,
-    OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW,
-    OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW,
-};
-
-static const u16 sReflectionPaletteTags_Kyogre[] = {
-    OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION,
-    OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION,
-    OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION,
-    OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION,
-};
-
-static const u16 sReflectionPaletteTags_Groudon[] = {
-    OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION,
-    OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION,
-    OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION,
-    OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION,
-};
-
-static const u16 sReflectionPaletteTags_Npc3[] = { // Only used by the Route 120 bridge Kecleon
-    OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-    OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-    OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-    OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-};
-
-static const u16 sReflectionPaletteTags_RedLeaf[] = {
-    OBJ_EVENT_PAL_TAG_RED_LEAF,
-    OBJ_EVENT_PAL_TAG_RED_LEAF,
-    OBJ_EVENT_PAL_TAG_RED_LEAF,
-    OBJ_EVENT_PAL_TAG_RED_LEAF,
-};
-
-static const struct PairedPalettes sSpecialObjectReflectionPaletteSets[] = {
-    {OBJ_EVENT_PAL_TAG_BRENDAN,          sReflectionPaletteTags_Brendan},
-    {OBJ_EVENT_PAL_TAG_MAY,              sReflectionPaletteTags_May},
-    {OBJ_EVENT_PAL_TAG_QUINTY_PLUMP,     sReflectionPaletteTags_QuintyPlump},
-    {OBJ_EVENT_PAL_TAG_TRUCK,            sReflectionPaletteTags_Truck},
-    {OBJ_EVENT_PAL_TAG_VIGOROTH,         sReflectionPaletteTags_VigorothMover},
-    {OBJ_EVENT_PAL_TAG_MOVING_BOX,       sReflectionPaletteTags_MovingBox},
-    {OBJ_EVENT_PAL_TAG_CABLE_CAR,        sReflectionPaletteTags_CableCar},
-    {OBJ_EVENT_PAL_TAG_SSTIDAL,          sReflectionPaletteTags_SSTidal},
-    {OBJ_EVENT_PAL_TAG_KYOGRE,           sReflectionPaletteTags_Kyogre},
-    {OBJ_EVENT_PAL_TAG_GROUDON,          sReflectionPaletteTags_Groudon},
-    {OBJ_EVENT_PAL_TAG_NPC_3,            sReflectionPaletteTags_Npc3},
-    {OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW, sReflectionPaletteTags_SubmarineShadow},
-    {OBJ_EVENT_PAL_TAG_RED_LEAF,         sReflectionPaletteTags_RedLeaf},
-    {OBJ_EVENT_PAL_TAG_NONE,             NULL},
-};
-
-static const u16 sObjectPaletteTags0[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-    [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
-    [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
-    [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
-    [PALSLOT_NPC_4]             = OBJ_EVENT_PAL_TAG_NPC_4,
-    [PALSLOT_NPC_1_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_1_REFLECTION,
-    [PALSLOT_NPC_2_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_2_REFLECTION,
-    [PALSLOT_NPC_3_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-    [PALSLOT_NPC_4_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_4_REFLECTION,
-};
-
-static const u16 sObjectPaletteTags1[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-    [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
-    [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
-    [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
-    [PALSLOT_NPC_4]             = OBJ_EVENT_PAL_TAG_NPC_4,
-    [PALSLOT_NPC_1_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_1_REFLECTION,
-    [PALSLOT_NPC_2_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_2_REFLECTION,
-    [PALSLOT_NPC_3_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-    [PALSLOT_NPC_4_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_4_REFLECTION,
-};
-
-static const u16 sObjectPaletteTags2[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-    [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
-    [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
-    [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
-    [PALSLOT_NPC_4]             = OBJ_EVENT_PAL_TAG_NPC_4,
-    [PALSLOT_NPC_1_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_1_REFLECTION,
-    [PALSLOT_NPC_2_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_2_REFLECTION,
-    [PALSLOT_NPC_3_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-    [PALSLOT_NPC_4_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_4_REFLECTION,
-};
-
-static const u16 sObjectPaletteTags3[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
-    [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
-    [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
-    [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
-    [PALSLOT_NPC_4]             = OBJ_EVENT_PAL_TAG_NPC_4,
-    [PALSLOT_NPC_1_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_1_REFLECTION,
-    [PALSLOT_NPC_2_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_2_REFLECTION,
-    [PALSLOT_NPC_3_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_3_REFLECTION,
-    [PALSLOT_NPC_4_REFLECTION]  = OBJ_EVENT_PAL_TAG_NPC_4_REFLECTION,
-};
-
-static const u16 *const sObjectPaletteTagSets[] = {
-    sObjectPaletteTags0,
-    sObjectPaletteTags1,
-    sObjectPaletteTags2,
-    sObjectPaletteTags3,
+    {gObjectEventPal_Brendan,                   OBJ_EVENT_PAL_TAG_BRENDAN},
+    {gObjectEventPal_May,                       OBJ_EVENT_PAL_TAG_MAY},
+    {gObjectEventPal_BridgeReflection,          OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION},
+    {gObjectEventPal_Truck,                     OBJ_EVENT_PAL_TAG_TRUCK},
+    {gObjectEventPal_Vigoroth,                  OBJ_EVENT_PAL_TAG_VIGOROTH},
+    {gObjectEventPal_Zigzagoon,                 OBJ_EVENT_PAL_TAG_ZIGZAGOON},
+    {gObjectEventPal_MovingBox,                 OBJ_EVENT_PAL_TAG_MOVING_BOX},
+    {gObjectEventPal_CableCar,                  OBJ_EVENT_PAL_TAG_CABLE_CAR},
+    {gObjectEventPal_SSTidal,                   OBJ_EVENT_PAL_TAG_SSTIDAL},
+    {gObjectEventPal_Kyogre,                    OBJ_EVENT_PAL_TAG_KYOGRE},
+    {gObjectEventPal_Kyogre,                    OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION},
+    {gObjectEventPal_Groudon,                   OBJ_EVENT_PAL_TAG_GROUDON},
+    {gObjectEventPal_Groudon,                   OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION},
+    {gObjectEventPal_SubmarineShadow,           OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW},
+    {gObjectEventPal_Poochyena,                 OBJ_EVENT_PAL_TAG_POOCHYENA},
+    {gObjectEventPal_Red,                       OBJ_EVENT_PAL_TAG_RED},
+    {gObjectEventPal_Deoxys,                    OBJ_EVENT_PAL_TAG_DEOXYS},
+    {gObjectEventPal_BirthIslandStone,          OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
+    {gObjectEventPal_HoOh,                      OBJ_EVENT_PAL_TAG_HO_OH},
+    {gObjectEventPal_Lugia,                     OBJ_EVENT_PAL_TAG_LUGIA},
+    {gObjectEventPal_BrendanRS,                 OBJ_EVENT_PAL_TAG_BRENDAN_RS},
+    {gObjectEventPal_MayRS,                     OBJ_EVENT_PAL_TAG_MAY_RS},
+    {gObjectEventPal_Articuno,                  OBJ_EVENT_PAL_TAG_ARTICUNO},
+    {gObjectEventPal_Zapdos,                    OBJ_EVENT_PAL_TAG_ZAPDOS},
+    {gObjectEventPal_Moltres,                   OBJ_EVENT_PAL_TAG_MOLTRES},
+    {gObjectEventPal_Mewtwo,                    OBJ_EVENT_PAL_TAG_MEWTWO},
+    {gObjectEventPal_Raikou,                    OBJ_EVENT_PAL_TAG_RAIKOU},
+    {gObjectEventPal_Entei,                     OBJ_EVENT_PAL_TAG_ENTEI},
+    {gObjectEventPal_Suicune,                   OBJ_EVENT_PAL_TAG_SUICUNE},
+    {gObjectEventPal_BrendanGreen,              OBJ_EVENT_PAL_TAG_BRENDAN_GREEN},
+    {gObjectEventPal_MayGreen,                  OBJ_EVENT_PAL_TAG_MAY_GREEN},
+    {gObjectEventPal_Gold,                      OBJ_EVENT_PAL_TAG_GOLD},
+    {gObjectEventPal_Kris,                      OBJ_EVENT_PAL_TAG_KRIS},
+    {gObjectEventPal_MauvilleOldManBard,        OBJ_EVENT_PAL_TAG_BARD},
+    {gObjectEventPal_MauvilleOldManHipster,     OBJ_EVENT_PAL_TAG_HIPSTER},
+    {gObjectEventPal_MauvilleOldManTrader,      OBJ_EVENT_PAL_TAG_TRADER},
+    {gObjectEventPal_MauvilleOldManStoryteller, OBJ_EVENT_PAL_TAG_STORYTELLER},
+    {gObjectEventPal_MauvilleOldManGiddy,       OBJ_EVENT_PAL_TAG_GIDDY},
+    {gObjectEventPal_BrendanRed,                OBJ_EVENT_PAL_TAG_BRENDAN_RED},
+    {gObjectEventPal_MayRed,                    OBJ_EVENT_PAL_TAG_MAY_RED},
+    {gObjectEventPal_BrendanBlue,               OBJ_EVENT_PAL_TAG_BRENDAN_BLUE},
+    {gObjectEventPal_MayBlue,                   OBJ_EVENT_PAL_TAG_MAY_BLUE},
+    {gObjectEventPal_Leaf,                      OBJ_EVENT_PAL_TAG_LEAF},
+    {gObjectEventPal_Generic1,                  OBJ_EVENT_PAL_TAG_GENERIC_1},
+    {gObjectEventPal_Generic2,                  OBJ_EVENT_PAL_TAG_GENERIC_2},
+    {gObjectEventPal_Generic3,                  OBJ_EVENT_PAL_TAG_GENERIC_3},
+    {gObjectEventPal_Generic4,                  OBJ_EVENT_PAL_TAG_GENERIC_4},
+    {gObjectEventPal_Generic5,                  OBJ_EVENT_PAL_TAG_GENERIC_5},
+    {gObjectEventPal_Generic6,                  OBJ_EVENT_PAL_TAG_GENERIC_6},
+    {gObjectEventPal_Generic7,                  OBJ_EVENT_PAL_TAG_GENERIC_7},
+    {gObjectEventPal_Generic8,                  OBJ_EVENT_PAL_TAG_GENERIC_8},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_NORMAL)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_MACH_BIKE)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_SURFING)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE)},
+    {gObjectEventPal_NinjaBoy,                  OW_PAL(OBJ_EVENT_GFX_NINJA_BOY)},
+    {gObjectEventPal_Twin,                      OW_PAL(OBJ_EVENT_GFX_TWIN)},
+    {gObjectEventPal_Boy1,                      OW_PAL(OBJ_EVENT_GFX_BOY_1)},
+    {gObjectEventPal_Girl1,                     OW_PAL(OBJ_EVENT_GFX_GIRL_1)},
+    {gObjectEventPal_Boy2,                      OW_PAL(OBJ_EVENT_GFX_BOY_2)},
+    {gObjectEventPal_Girl2,                     OW_PAL(OBJ_EVENT_GFX_GIRL_2)},
+    {gObjectEventPal_LittleBoy,                 OW_PAL(OBJ_EVENT_GFX_LITTLE_BOY)},
+    {gObjectEventPal_LittleGirl,                OW_PAL(OBJ_EVENT_GFX_LITTLE_GIRL)},
+    {gObjectEventPal_Boy3,                      OW_PAL(OBJ_EVENT_GFX_BOY_3)},
+    {gObjectEventPal_Girl3,                     OW_PAL(OBJ_EVENT_GFX_GIRL_3)},
+    {gObjectEventPal_RichBoy,                   OW_PAL(OBJ_EVENT_GFX_RICH_BOY)},
+    {gObjectEventPal_Woman1,                    OW_PAL(OBJ_EVENT_GFX_WOMAN_1)},
+    {gObjectEventPal_FatMan,                    OW_PAL(OBJ_EVENT_GFX_FAT_MAN)},
+    {gObjectEventPal_PokefanF,                  OW_PAL(OBJ_EVENT_GFX_POKEFAN_F)},
+    {gObjectEventPal_Man1,                      OW_PAL(OBJ_EVENT_GFX_MAN_1)},
+    {gObjectEventPal_Woman2,                    OW_PAL(OBJ_EVENT_GFX_WOMAN_2)},
+    {gObjectEventPal_ExpertM,                   OW_PAL(OBJ_EVENT_GFX_EXPERT_M)},
+    {gObjectEventPal_ExpertF,                   OW_PAL(OBJ_EVENT_GFX_EXPERT_F)},
+    {gObjectEventPal_Man2,                      OW_PAL(OBJ_EVENT_GFX_MAN_2)},
+    {gObjectEventPal_Woman3,                    OW_PAL(OBJ_EVENT_GFX_WOMAN_3)},
+    {gObjectEventPal_PokefanM,                  OW_PAL(OBJ_EVENT_GFX_POKEFAN_M)},
+    {gObjectEventPal_Woman4,                    OW_PAL(OBJ_EVENT_GFX_WOMAN_4)},
+    {gObjectEventPal_Cook,                      OW_PAL(OBJ_EVENT_GFX_COOK)},
+    {gObjectEventPal_Cook,                      OW_PAL(OBJ_EVENT_GFX_LINK_RECEPTIONIST)},
+    {gObjectEventPal_OldMan,                    OW_PAL(OBJ_EVENT_GFX_OLD_MAN)},
+    {gObjectEventPal_OldWoman,                  OW_PAL(OBJ_EVENT_GFX_OLD_WOMAN)},
+    {gObjectEventPal_Camper,                    OW_PAL(OBJ_EVENT_GFX_CAMPER)},
+    {gObjectEventPal_Picnicker,                 OW_PAL(OBJ_EVENT_GFX_PICNICKER)},
+    {gObjectEventPal_Man3,                      OW_PAL(OBJ_EVENT_GFX_MAN_3)},
+    {gObjectEventPal_Woman5,                    OW_PAL(OBJ_EVENT_GFX_WOMAN_5)},
+    {gObjectEventPal_Youngster,                 OW_PAL(OBJ_EVENT_GFX_YOUNGSTER)},
+    {gObjectEventPal_BugCatcher,                OW_PAL(OBJ_EVENT_GFX_BUG_CATCHER)},
+    {gObjectEventPal_PsychicM,                  OW_PAL(OBJ_EVENT_GFX_PSYCHIC_M)},
+    {gObjectEventPal_SchoolKidM,                OW_PAL(OBJ_EVENT_GFX_SCHOOL_KID_M)},
+    {gObjectEventPal_Maniac,                    OW_PAL(OBJ_EVENT_GFX_MANIAC)},
+    {gObjectEventPal_HexManiac,                 OW_PAL(OBJ_EVENT_GFX_HEX_MANIAC)},
+    {gObjectEventPal_Generic3,                  OW_PAL(OBJ_EVENT_GFX_RAYQUAZA_STILL)},
+    {gObjectEventPal_SwimmerM,                  OW_PAL(OBJ_EVENT_GFX_SWIMMER_M)},
+    {gObjectEventPal_SwimmerF,                  OW_PAL(OBJ_EVENT_GFX_SWIMMER_F)},
+    {gObjectEventPal_BlackBelt,                 OW_PAL(OBJ_EVENT_GFX_BLACK_BELT)},
+    {gObjectEventPal_Beauty,                    OW_PAL(OBJ_EVENT_GFX_BEAUTY)},
+    {gObjectEventPal_Scientist1,                OW_PAL(OBJ_EVENT_GFX_SCIENTIST_1)},
+    {gObjectEventPal_Lass,                      OW_PAL(OBJ_EVENT_GFX_LASS)},
+    {gObjectEventPal_Gentleman,                 OW_PAL(OBJ_EVENT_GFX_GENTLEMAN)},
+    {gObjectEventPal_Sailor,                    OW_PAL(OBJ_EVENT_GFX_SAILOR)},
+    {gObjectEventPal_Fisherman,                 OW_PAL(OBJ_EVENT_GFX_FISHERMAN)},
+    {gObjectEventPal_RunningTriathleteM,        OW_PAL(OBJ_EVENT_GFX_RUNNING_TRIATHLETE_M)},
+    {gObjectEventPal_RunningTriathleteF,        OW_PAL(OBJ_EVENT_GFX_RUNNING_TRIATHLETE_F)},
+    {gObjectEventPal_TuberF,                    OW_PAL(OBJ_EVENT_GFX_TUBER_F)},
+    {gObjectEventPal_TuberM,                    OW_PAL(OBJ_EVENT_GFX_TUBER_M)},
+    {gObjectEventPal_Hiker,                     OW_PAL(OBJ_EVENT_GFX_HIKER)},
+    {gObjectEventPal_CyclingTriathleteM,        OW_PAL(OBJ_EVENT_GFX_CYCLING_TRIATHLETE_M)},
+    {gObjectEventPal_CyclingTriathleteF,        OW_PAL(OBJ_EVENT_GFX_CYCLING_TRIATHLETE_F)},
+    {gObjectEventPal_Nurse,                     OW_PAL(OBJ_EVENT_GFX_NURSE)},
+    {gObjectEventPal_ItemBall,                  OW_PAL(OBJ_EVENT_GFX_ITEM_BALL)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BERRY_TREE)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BERRY_TREE_EARLY_STAGES)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_BRENDAN_ACRO_BIKE)},
+    {gObjectEventPal_ProfBirch,                 OW_PAL(OBJ_EVENT_GFX_PROF_BIRCH)},
+    {gObjectEventPal_Man4,                      OW_PAL(OBJ_EVENT_GFX_MAN_4)},
+    {gObjectEventPal_Man5,                      OW_PAL(OBJ_EVENT_GFX_MAN_5)},
+    {gObjectEventPal_ReporterM,                 OW_PAL(OBJ_EVENT_GFX_REPORTER_M)},
+    {gObjectEventPal_ReporterF,                 OW_PAL(OBJ_EVENT_GFX_REPORTER_F)},
+    {gObjectEventPal_MauvilleOldManBard,        OW_PAL(OBJ_EVENT_GFX_BARD)},
+    {gObjectEventPal_Anabel,                    OW_PAL(OBJ_EVENT_GFX_ANABEL)},
+    {gObjectEventPal_Tucker,                    OW_PAL(OBJ_EVENT_GFX_TUCKER)},
+    {gObjectEventPal_Greta,                     OW_PAL(OBJ_EVENT_GFX_GRETA)},
+    {gObjectEventPal_Spenser,                   OW_PAL(OBJ_EVENT_GFX_SPENSER)},
+    {gObjectEventPal_Noland,                    OW_PAL(OBJ_EVENT_GFX_NOLAND)},
+    {gObjectEventPal_Lucy,                      OW_PAL(OBJ_EVENT_GFX_LUCY)},
+    {gObjectEventPal_UnusedNatuDoll,            OW_PAL(OBJ_EVENT_GFX_UNUSED_NATU_DOLL)},
+    {gObjectEventPal_UnusedMagnemiteDoll,       OW_PAL(OBJ_EVENT_GFX_UNUSED_MAGNEMITE_DOLL)},
+    {gObjectEventPal_UnusedSquirtleDoll,        OW_PAL(OBJ_EVENT_GFX_UNUSED_SQUIRTLE_DOLL)},
+    {gObjectEventPal_UnusedWooperDoll,          OW_PAL(OBJ_EVENT_GFX_UNUSED_WOOPER_DOLL)},
+    {gObjectEventPal_UnusedPikachuDoll,         OW_PAL(OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL)},
+    {gObjectEventPal_UnusedPorygon2Doll,        OW_PAL(OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL)},
+    {gObjectEventPal_CuttableTree,              OW_PAL(OBJ_EVENT_GFX_CUTTABLE_TREE)},
+    {gObjectEventPal_MartEmployee,              OW_PAL(OBJ_EVENT_GFX_MART_EMPLOYEE)},
+    {gObjectEventPal_RooftopSaleWoman,          OW_PAL(OBJ_EVENT_GFX_ROOFTOP_SALE_WOMAN)},
+    {gObjectEventPal_Teala,                     OW_PAL(OBJ_EVENT_GFX_TEALA)},
+    {gObjectEventPal_BreakableRock,             OW_PAL(OBJ_EVENT_GFX_BREAKABLE_ROCK)},
+    {gObjectEventPal_PushableBoulder,           OW_PAL(OBJ_EVENT_GFX_PUSHABLE_BOULDER)},
+    {gObjectEventPal_MrBrineysBoat,             OW_PAL(OBJ_EVENT_GFX_MR_BRINEYS_BOAT)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_NORMAL)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_MACH_BIKE)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_ACRO_BIKE)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_SURFING)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_FIELD_MOVE)},
+    {gObjectEventPal_Truck,                     OW_PAL(OBJ_EVENT_GFX_TRUCK)},
+    {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_CARRYING_BOX)},
+    {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_FACING_AWAY)},
+    {gObjectEventPal_BirchsBag,                 OW_PAL(OBJ_EVENT_GFX_BIRCHS_BAG)},
+    {gObjectEventPal_EnemyZigzagoon,            OW_PAL(OBJ_EVENT_GFX_ZIGZAGOON_1)},
+    {gObjectEventPal_Artist,                    OW_PAL(OBJ_EVENT_GFX_ARTIST)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_RIVAL_BRENDAN_MACH_BIKE)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_RIVAL_BRENDAN_ACRO_BIKE)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_RIVAL_BRENDAN_SURFING)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_RIVAL_BRENDAN_FIELD_MOVE)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_RIVAL_MAY_NORMAL)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_RIVAL_MAY_MACH_BIKE)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_RIVAL_MAY_ACRO_BIKE)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_RIVAL_MAY_SURFING)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_RIVAL_MAY_FIELD_MOVE)},
+    {gObjectEventPal_Cameraman,                 OW_PAL(OBJ_EVENT_GFX_CAMERAMAN)},
+    {gObjectEventPal_BrendanUnderwater,         OW_PAL(OBJ_EVENT_GFX_BRENDAN_UNDERWATER)},
+    {gObjectEventPal_MayUnderwater,             OW_PAL(OBJ_EVENT_GFX_MAY_UNDERWATER)},
+    {gObjectEventPal_MovingBox,                 OW_PAL(OBJ_EVENT_GFX_MOVING_BOX)},
+    {gObjectEventPal_CableCar,                  OW_PAL(OBJ_EVENT_GFX_CABLE_CAR)},
+    {gObjectEventPal_Scientist2,                OW_PAL(OBJ_EVENT_GFX_SCIENTIST_2)},
+    {gObjectEventPal_DevonEmployee,             OW_PAL(OBJ_EVENT_GFX_DEVON_EMPLOYEE)},
+    {gObjectEventPal_AquaMemberM,               OW_PAL(OBJ_EVENT_GFX_AQUA_MEMBER_M)},
+    {gObjectEventPal_AquaMemberF,               OW_PAL(OBJ_EVENT_GFX_AQUA_MEMBER_F)},
+    {gObjectEventPal_MagmaMemberM,              OW_PAL(OBJ_EVENT_GFX_MAGMA_MEMBER_M)},
+    {gObjectEventPal_MagmaMemberF,              OW_PAL(OBJ_EVENT_GFX_MAGMA_MEMBER_F)},
+    {gObjectEventPal_Sidney,                    OW_PAL(OBJ_EVENT_GFX_SIDNEY)},
+    {gObjectEventPal_Phoebe,                    OW_PAL(OBJ_EVENT_GFX_PHOEBE)},
+    {gObjectEventPal_Glacia,                    OW_PAL(OBJ_EVENT_GFX_GLACIA)},
+    {gObjectEventPal_Drake,                     OW_PAL(OBJ_EVENT_GFX_DRAKE)},
+    {gObjectEventPal_Roxanne,                   OW_PAL(OBJ_EVENT_GFX_ROXANNE)},
+    {gObjectEventPal_Brawly,                    OW_PAL(OBJ_EVENT_GFX_BRAWLY)},
+    {gObjectEventPal_Wattson,                   OW_PAL(OBJ_EVENT_GFX_WATTSON)},
+    {gObjectEventPal_Flannery,                  OW_PAL(OBJ_EVENT_GFX_FLANNERY)},
+    {gObjectEventPal_Norman,                    OW_PAL(OBJ_EVENT_GFX_NORMAN)},
+    {gObjectEventPal_Winona,                    OW_PAL(OBJ_EVENT_GFX_WINONA)},
+    {gObjectEventPal_Liza,                      OW_PAL(OBJ_EVENT_GFX_LIZA)},
+    {gObjectEventPal_Tate,                      OW_PAL(OBJ_EVENT_GFX_TATE)},
+    {gObjectEventPal_Wallace,                   OW_PAL(OBJ_EVENT_GFX_WALLACE)},
+    {gObjectEventPal_Steven,                    OW_PAL(OBJ_EVENT_GFX_STEVEN)},
+    {gObjectEventPal_Wally,                     OW_PAL(OBJ_EVENT_GFX_WALLY)},
+    {gObjectEventPal_LittleBoyRS,               OW_PAL(OBJ_EVENT_GFX_LITTLE_BOY_3)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_FISHING)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_FISHING)},
+    {gObjectEventPal_HotSpringsOldWoman,        OW_PAL(OBJ_EVENT_GFX_HOT_SPRINGS_OLD_WOMAN)},
+    {gObjectEventPal_SSTidal,                   OW_PAL(OBJ_EVENT_GFX_SS_TIDAL)},
+    {gObjectEventPal_SubmarineShadow,           OW_PAL(OBJ_EVENT_GFX_SUBMARINE_SHADOW)},
+    {gObjectEventPal_PichuDoll,                 OW_PAL(OBJ_EVENT_GFX_PICHU_DOLL)},
+    {gObjectEventPal_PikachuDoll,               OW_PAL(OBJ_EVENT_GFX_PIKACHU_DOLL)},
+    {gObjectEventPal_MarillDoll,                OW_PAL(OBJ_EVENT_GFX_MARILL_DOLL)},
+    {gObjectEventPal_TogepiDoll,                OW_PAL(OBJ_EVENT_GFX_TOGEPI_DOLL)},
+    {gObjectEventPal_CyndaquilDoll,             OW_PAL(OBJ_EVENT_GFX_CYNDAQUIL_DOLL)},
+    {gObjectEventPal_ChikoritaDoll,             OW_PAL(OBJ_EVENT_GFX_CHIKORITA_DOLL)},
+    {gObjectEventPal_TotodileDoll,              OW_PAL(OBJ_EVENT_GFX_TOTODILE_DOLL)},
+    {gObjectEventPal_JigglypuffDoll,            OW_PAL(OBJ_EVENT_GFX_JIGGLYPUFF_DOLL)},
+    {gObjectEventPal_MeowthDoll,                OW_PAL(OBJ_EVENT_GFX_MEOWTH_DOLL)},
+    {gObjectEventPal_ClefairyDoll,              OW_PAL(OBJ_EVENT_GFX_CLEFAIRY_DOLL)},
+    {gObjectEventPal_DittoDoll,                 OW_PAL(OBJ_EVENT_GFX_DITTO_DOLL)},
+    {gObjectEventPal_SmoochumDoll,              OW_PAL(OBJ_EVENT_GFX_SMOOCHUM_DOLL)},  
+    {gObjectEventPal_TreeckoDoll,               OW_PAL(OBJ_EVENT_GFX_TREECKO_DOLL)},
+    {gObjectEventPal_TorchicDoll,               OW_PAL(OBJ_EVENT_GFX_TORCHIC_DOLL)},
+    {gObjectEventPal_MudkipDoll,                OW_PAL(OBJ_EVENT_GFX_MUDKIP_DOLL)},
+    {gObjectEventPal_DuskullDoll,               OW_PAL(OBJ_EVENT_GFX_DUSKULL_DOLL)},
+    {gObjectEventPal_WynautDoll,                OW_PAL(OBJ_EVENT_GFX_WYNAUT_DOLL)},
+    {gObjectEventPal_BaltoyDoll,                OW_PAL(OBJ_EVENT_GFX_BALTOY_DOLL)},
+    {gObjectEventPal_KecleonDoll,               OW_PAL(OBJ_EVENT_GFX_KECLEON_DOLL)},
+    {gObjectEventPal_AzurillDoll,               OW_PAL(OBJ_EVENT_GFX_AZURILL_DOLL)},
+    {gObjectEventPal_SkittyDoll,                OW_PAL(OBJ_EVENT_GFX_SKITTY_DOLL)},
+    {gObjectEventPal_SwabluDoll,                OW_PAL(OBJ_EVENT_GFX_SWABLU_DOLL)},
+    {gObjectEventPal_GulpinDoll,                OW_PAL(OBJ_EVENT_GFX_GULPIN_DOLL)},
+    {gObjectEventPal_LotadDoll,                 OW_PAL(OBJ_EVENT_GFX_LOTAD_DOLL)},
+    {gObjectEventPal_SeedotDoll,                OW_PAL(OBJ_EVENT_GFX_SEEDOT_DOLL)},
+    {gObjectEventPal_PikaCushion,               OW_PAL(OBJ_EVENT_GFX_PIKA_CUSHION)},
+    {gObjectEventPal_RoundCushion,              OW_PAL(OBJ_EVENT_GFX_ROUND_CUSHION)},
+    {gObjectEventPal_KissCushion,               OW_PAL(OBJ_EVENT_GFX_KISS_CUSHION)},
+    {gObjectEventPal_ZigzagCushion,             OW_PAL(OBJ_EVENT_GFX_ZIGZAG_CUSHION)},
+    {gObjectEventPal_SpinCushion,               OW_PAL(OBJ_EVENT_GFX_SPIN_CUSHION)},
+    {gObjectEventPal_DiamondCushion,            OW_PAL(OBJ_EVENT_GFX_DIAMOND_CUSHION)},
+    {gObjectEventPal_BallCushion,               OW_PAL(OBJ_EVENT_GFX_BALL_CUSHION)},
+    {gObjectEventPal_GrassCushion,              OW_PAL(OBJ_EVENT_GFX_GRASS_CUSHION)},
+    {gObjectEventPal_FireCushion,               OW_PAL(OBJ_EVENT_GFX_FIRE_CUSHION)},
+    {gObjectEventPal_WaterCushion,              OW_PAL(OBJ_EVENT_GFX_WATER_CUSHION)},
+    {gObjectEventPal_BigSnorlaxDoll,            OW_PAL(OBJ_EVENT_GFX_BIG_SNORLAX_DOLL)},
+    {gObjectEventPal_BigRhydonDoll,             OW_PAL(OBJ_EVENT_GFX_BIG_RHYDON_DOLL)},
+    {gObjectEventPal_BigLaprasDoll,             OW_PAL(OBJ_EVENT_GFX_BIG_LAPRAS_DOLL)},
+    {gObjectEventPal_BigVenusaurDoll,           OW_PAL(OBJ_EVENT_GFX_BIG_VENUSAUR_DOLL)},
+    {gObjectEventPal_BigCharizardDoll,          OW_PAL(OBJ_EVENT_GFX_BIG_CHARIZARD_DOLL)},
+    {gObjectEventPal_BigBlastoiseDoll,          OW_PAL(OBJ_EVENT_GFX_BIG_BLASTOISE_DOLL)},
+    {gObjectEventPal_BigWailmerDoll,            OW_PAL(OBJ_EVENT_GFX_BIG_WAILMER_DOLL)},
+    {gObjectEventPal_BigRegirockDoll,           OW_PAL(OBJ_EVENT_GFX_BIG_REGIROCK_DOLL)},
+    {gObjectEventPal_BigRegiceDoll,             OW_PAL(OBJ_EVENT_GFX_BIG_REGICE_DOLL)},
+    {gObjectEventPal_BigRegisteelDoll,          OW_PAL(OBJ_EVENT_GFX_BIG_REGISTEEL_DOLL)},
+    {gObjectEventPal_Generic2,                  OW_PAL(OBJ_EVENT_GFX_LATIAS)},
+    {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_LATIOS)},
+    {gObjectEventPal_GameboyKid,                OW_PAL(OBJ_EVENT_GFX_GAMEBOY_KID)},
+    {gObjectEventPal_ContestJudge,              OW_PAL(OBJ_EVENT_GFX_CONTEST_JUDGE)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_WATERING)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_WATERING)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_BRENDAN_DECORATING)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_MAY_DECORATING)},
+    {gObjectEventPal_Archie,                    OW_PAL(OBJ_EVENT_GFX_ARCHIE)},
+    {gObjectEventPal_Maxie,                     OW_PAL(OBJ_EVENT_GFX_MAXIE)},
+    {gObjectEventPal_Kyogre,                    OW_PAL(OBJ_EVENT_GFX_KYOGRE_FRONT)},
+    {gObjectEventPal_Groudon,                   OW_PAL(OBJ_EVENT_GFX_GROUDON_FRONT)},
+    {gObjectEventPal_Fossil,                    OW_PAL(OBJ_EVENT_GFX_FOSSIL)},
+    {gObjectEventPal_Generic2,                  OW_PAL(OBJ_EVENT_GFX_REGIROCK)},
+    {gObjectEventPal_Generic3,                  OW_PAL(OBJ_EVENT_GFX_REGICE)},
+    {gObjectEventPal_Generic4,                  OW_PAL(OBJ_EVENT_GFX_REGISTEEL)},
+    {gObjectEventPal_Skitty,                    OW_PAL(OBJ_EVENT_GFX_SKITTY)},
+    {gObjectEventPal_Kecleon,                   OW_PAL(OBJ_EVENT_GFX_KECLEON)},
+    {gObjectEventPal_Kyogre,                    OW_PAL(OBJ_EVENT_GFX_KYOGRE_ASLEEP)},
+    {gObjectEventPal_Groudon,                   OW_PAL(OBJ_EVENT_GFX_GROUDON_ASLEEP)},
+    {gObjectEventPal_Rayquaza,                  OW_PAL(OBJ_EVENT_GFX_RAYQUAZA)},
+    {gObjectEventPal_Zigzagoon,                 OW_PAL(OBJ_EVENT_GFX_ZIGZAGOON_2)},
+    {gObjectEventPal_Pikachu,                   OW_PAL(OBJ_EVENT_GFX_PIKACHU)},
+    {gObjectEventPal_Azumarill,                 OW_PAL(OBJ_EVENT_GFX_AZUMARILL)},
+    {gObjectEventPal_Wingull,                   OW_PAL(OBJ_EVENT_GFX_WINGULL)},
+    {gObjectEventPal_Generic3,                  OW_PAL(OBJ_EVENT_GFX_KECLEON_BRIDGE_SHADOW)},
+    {gObjectEventPal_TuberMSwimming,            OW_PAL(OBJ_EVENT_GFX_TUBER_M_SWIMMING)},
+    {gObjectEventPal_Azurill,                   OW_PAL(OBJ_EVENT_GFX_AZURILL)},
+    {gObjectEventPal_Mom,                       OW_PAL(OBJ_EVENT_GFX_MOM)},
+    {gObjectEventPal_Brendan,                   OW_PAL(OBJ_EVENT_GFX_LINK_BRENDAN)},
+    {gObjectEventPal_May,                       OW_PAL(OBJ_EVENT_GFX_LINK_MAY)},
+    {gObjectEventPal_Juan,                      OW_PAL(OBJ_EVENT_GFX_JUAN)},
+    {gObjectEventPal_Scott,                     OW_PAL(OBJ_EVENT_GFX_SCOTT)},
+    {gObjectEventPal_Poochyena,                 OW_PAL(OBJ_EVENT_GFX_POOCHYENA)},
+    {gObjectEventPal_Kyogre,                    OW_PAL(OBJ_EVENT_GFX_KYOGRE_SIDE)},
+    {gObjectEventPal_Groudon,                   OW_PAL(OBJ_EVENT_GFX_GROUDON_SIDE)},
+    {gObjectEventPal_MysteryEventDeliveryman,   OW_PAL(OBJ_EVENT_GFX_MYSTERY_GIFT_MAN)},
+    {gObjectEventPal_Statue,                    OW_PAL(OBJ_EVENT_GFX_TRICK_HOUSE_STATUE)},
+    {gObjectEventPal_Kirlia,                    OW_PAL(OBJ_EVENT_GFX_KIRLIA)},
+    {gObjectEventPal_Dusclops,                  OW_PAL(OBJ_EVENT_GFX_DUSCLOPS)},
+    {gObjectEventPal_UnionRoomAttendant,        OW_PAL(OBJ_EVENT_GFX_UNION_ROOM_NURSE)},
+    {gObjectEventPal_Sudowoodo,                 OW_PAL(OBJ_EVENT_GFX_SUDOWOODO)},
+    {gObjectEventPal_Mew,                       OW_PAL(OBJ_EVENT_GFX_MEW)},
+    {gObjectEventPal_Red,                       OW_PAL(OBJ_EVENT_GFX_RED)},
+    {gObjectEventPal_Leaf,                      OW_PAL(OBJ_EVENT_GFX_LEAF)},
+    {gObjectEventPal_Deoxys,                    OW_PAL(OBJ_EVENT_GFX_DEOXYS)},
+    {gObjectEventPal_BirthIslandStone,          OW_PAL(OBJ_EVENT_GFX_DEOXYS_TRIANGLE)},
+    {gObjectEventPal_Brandon,                   OW_PAL(OBJ_EVENT_GFX_BRANDON)},
+    {gObjectEventPal_BrendanRS,                 OW_PAL(OBJ_EVENT_GFX_LINK_RS_BRENDAN)},
+    {gObjectEventPal_MayRS,                     OW_PAL(OBJ_EVENT_GFX_LINK_RS_MAY)},
+    {gObjectEventPal_Lugia,                     OW_PAL(OBJ_EVENT_GFX_LUGIA)},
+    {gObjectEventPal_HoOh,                      OW_PAL(OBJ_EVENT_GFX_HOOH)},
+    {gObjectEventPal_Articuno,                  OW_PAL(OBJ_EVENT_GFX_ARTICUNO)},
+    {gObjectEventPal_Zapdos,                    OW_PAL(OBJ_EVENT_GFX_ZAPDOS)},
+    {gObjectEventPal_Moltres,                   OW_PAL(OBJ_EVENT_GFX_MOLTRES)},
+    {gObjectEventPal_Mewtwo,                    OW_PAL(OBJ_EVENT_GFX_MEWTWO)},
+    {gObjectEventPal_Raikou,                    OW_PAL(OBJ_EVENT_GFX_RAIKOU)},
+    {gObjectEventPal_Entei,                     OW_PAL(OBJ_EVENT_GFX_ENTEI)},
+    {gObjectEventPal_Suicune,                   OW_PAL(OBJ_EVENT_GFX_SUICUNE)},
+    {gObjectEventPal_BrendanGreen,              OW_PAL(OBJ_EVENT_GFX_LINK_E_BRENDAN)},
+    {gObjectEventPal_MayGreen,                  OW_PAL(OBJ_EVENT_GFX_LINK_E_MAY)},
+    {gObjectEventPal_Gold,                      OW_PAL(OBJ_EVENT_GFX_LINK_GOLD)},
+    {gObjectEventPal_Kris,                      OW_PAL(OBJ_EVENT_GFX_LINK_KRIS)},
+    {gObjectEventPal_WomanRS7,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_6)},
+    {gObjectEventPal_WomanRS8,                  OW_PAL(OBJ_EVENT_GFX_WOMAN_7)},
+    {gObjectEventPal_HikerBackpack,             OW_PAL(OBJ_EVENT_GFX_HIKER_2)},
+    {gObjectEventPal_TMBall,                    OW_PAL(OBJ_EVENT_GFX_TM_BALL)},
+    {gObjectEventPal_Seagallop,                 OW_PAL(OBJ_EVENT_GFX_SEAGALLOP)},
+    {gObjectEventPal_SSAnne,                    OW_PAL(OBJ_EVENT_GFX_SS_ANNE)},
+    {gObjectEventPal_YahooHost,                 OW_PAL(OBJ_EVENT_GFX_YAHOO_HOST)},
+    {gObjectEventPal_YahooLittleGirl,           OW_PAL(OBJ_EVENT_GFX_YAHOO_LITTLE_GIRL)},
+    {gObjectEventPal_YahooReceptionistBrown,    OW_PAL(OBJ_EVENT_GFX_YAHOO_RECEPTIONIST_BROWN)},
+    {gObjectEventPal_YahooReceptionistSilver,   OW_PAL(OBJ_EVENT_GFX_YAHOO_RECEPTIONIST_SILVER)},
+    {gObjectEventPal_YahooScoutF,               OW_PAL(OBJ_EVENT_GFX_YAHOO_SCOUT_F)},
+    {gObjectEventPal_YahooScoutM,               OW_PAL(OBJ_EVENT_GFX_YAHOO_SCOUT_M)},
+    
+    {gObjectEventPal_Reflection,                OBJ_EVENT_PAL_TAG_REFLECTION},
+    {NULL,                                      TAG_NONE}
 };
 
 #include "data/object_events/berry_tree_graphics_tables.h"
@@ -1399,10 +1480,14 @@ void RemoveObjectEventByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup)
 
 static void RemoveObjectEventInternal(struct ObjectEvent *objectEvent)
 {
+    u8 paletteNum;
     struct SpriteFrameImage image;
+
     image.size = GetObjectEventGraphicsInfo(objectEvent->graphicsId)->size;
     gSprites[objectEvent->spriteId].images = &image;
+    paletteNum = gSprites[objectEvent->spriteId].oam.paletteNum;
     DestroySprite(&gSprites[objectEvent->spriteId]);
+    FieldEffectFreePaletteIfUnused(paletteNum);
 }
 
 void RemoveAllObjectEventsExceptPlayer(void)
@@ -1419,7 +1504,6 @@ void RemoveAllObjectEventsExceptPlayer(void)
 static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEventTemplate, struct SpriteTemplate *spriteTemplate, u8 mapNum, u8 mapGroup, s16 cameraX, s16 cameraY)
 {
     u8 spriteId;
-    u8 paletteSlot;
     u8 objectEventId;
     struct Sprite *sprite;
     struct ObjectEvent *objectEvent;
@@ -1431,25 +1515,23 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
 
     objectEvent = &gObjectEvents[objectEventId];
     graphicsInfo = GetObjectEventGraphicsInfo(objectEvent->graphicsId);
-    paletteSlot = graphicsInfo->paletteSlot;
-    if (paletteSlot == PALSLOT_PLAYER)
+
+    if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
-        LoadPlayerObjectReflectionPalette(graphicsInfo->paletteTag, paletteSlot);
+        LoadObjectEventPalette(OW_PAL(objectEvent->graphicsId));
+        PatchObjectPalette(OW_PAL(objectEvent->graphicsId), IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)), COLOR_MAP_CONTRAST);
     }
-    else if (paletteSlot == PALSLOT_NPC_SPECIAL)
+    else
     {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, paletteSlot);
-    }
-    else if (paletteSlot >= 16)
-    {
-        paletteSlot -= 16;
-        _PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
+        LoadObjectEventPalette(graphicsInfo->paletteTag);
+        PatchObjectPalette(graphicsInfo->paletteTag, IndexOfSpritePaletteTag(graphicsInfo->paletteTag));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), COLOR_MAP_CONTRAST);
     }
 
     if (objectEvent->movementType == MOVEMENT_TYPE_INVISIBLE)
         objectEvent->invisible = TRUE;
 
-    *(u16 *)&spriteTemplate->paletteTag = TAG_NONE;
     spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
     if (spriteId == MAX_SPRITES)
     {
@@ -1463,7 +1545,6 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
     sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
     sprite->x += 8;
     sprite->y += 16 + sprite->centerToCornerVecY;
-    sprite->oam.paletteNum = paletteSlot;
     sprite->coordOffsetEnabled = TRUE;
     sprite->sObjEventId = objectEventId;
     objectEvent->spriteId = spriteId;
@@ -1546,7 +1627,12 @@ static void CopyObjectGraphicsInfoToSpriteTemplate(u16 graphicsId, void (*callba
     const struct ObjectEventGraphicsInfo *graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
 
     spriteTemplate->tileTag = graphicsInfo->tileTag;
-    spriteTemplate->paletteTag = graphicsInfo->paletteTag;
+
+    if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
+        spriteTemplate->paletteTag = OW_PAL(graphicsId);
+    else
+        spriteTemplate->paletteTag = graphicsInfo->paletteTag;
+
     spriteTemplate->oam = graphicsInfo->oam;
     spriteTemplate->anims = graphicsInfo->anims;
     spriteTemplate->images = graphicsInfo->images;
@@ -1575,8 +1661,7 @@ u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *),
 
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, callback, spriteTemplate, &subspriteTables);
-    if (spriteTemplate->paletteTag != TAG_NONE)
-        LoadObjectEventPalette(spriteTemplate->paletteTag);
+    LoadObjectEventPalette(spriteTemplate->paletteTag);
 
     spriteId = CreateSprite(spriteTemplate, x, y, subpriority);
     Free(spriteTemplate);
@@ -1608,7 +1693,8 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, SpriteCB_VirtualObject, &spriteTemplate, &subspriteTables);
-    *(u16 *)&spriteTemplate.paletteTag = TAG_NONE;
+    LoadObjectEventPalette(spriteTemplate.paletteTag);
+
     x += MAP_OFFSET;
     y += MAP_OFFSET;
     SetSpritePosToOffsetMapCoords(&x, &y, 8, 16);
@@ -1619,17 +1705,13 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
         sprite->centerToCornerVecX = -(graphicsInfo->width >> 1);
         sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
         sprite->y += sprite->centerToCornerVecY;
-        sprite->oam.paletteNum = graphicsInfo->paletteSlot;
-        if (sprite->oam.paletteNum >= 16)
-            sprite->oam.paletteNum -= 16;
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(spriteTemplate.paletteTag);
 
         sprite->coordOffsetEnabled = TRUE;
         sprite->sVirtualObjId = virtualObjId;
         sprite->sVirtualObjElev = elevation;
-        if (graphicsInfo->paletteSlot == PALSLOT_NPC_SPECIAL)
-            LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-        else if (graphicsInfo->paletteSlot >= 16)
-            _PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot | 0xf0);
+        
+        PatchObjectPalette(spriteTemplate.paletteTag, sprite->oam.paletteNum);
 
         if (subspriteTables != NULL)
         {
@@ -1729,7 +1811,6 @@ void SpawnObjectEventsOnReturnToField(s16 x, s16 y)
 static void SpawnObjectEventOnReturnToField(u8 objectEventId, s16 x, s16 y)
 {
     u8 i;
-    u8 paletteSlot;
     struct Sprite *sprite;
     struct ObjectEvent *objectEvent;
     struct SpriteTemplate spriteTemplate;
@@ -1750,22 +1831,18 @@ static void SpawnObjectEventOnReturnToField(u8 objectEventId, s16 x, s16 y)
     CopyObjectGraphicsInfoToSpriteTemplate_WithMovementType(objectEvent->graphicsId, objectEvent->movementType, &spriteTemplate, &subspriteTables);
     spriteTemplate.images = &spriteFrameImage;
 
-    *(u16 *)&spriteTemplate.paletteTag = TAG_NONE;
-    paletteSlot = graphicsInfo->paletteSlot;
-    if (paletteSlot == PALSLOT_PLAYER)
+    if (spriteTemplate.paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
-        LoadPlayerObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+        LoadObjectEventPalette(OW_PAL(objectEvent->graphicsId));
+        PatchObjectPalette(OW_PAL(objectEvent->graphicsId), IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(objectEvent->graphicsId)), COLOR_MAP_CONTRAST);
     }
-    else if (paletteSlot == PALSLOT_NPC_SPECIAL)
+    else
     {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+        LoadObjectEventPalette(spriteTemplate.paletteTag);
+        PatchObjectPalette(spriteTemplate.paletteTag, IndexOfSpritePaletteTag(spriteTemplate.paletteTag));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate.paletteTag), COLOR_MAP_CONTRAST);
     }
-    else if (paletteSlot >= 16)
-    {
-        paletteSlot -= 16;
-        _PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
-    }
-    *(u16 *)&spriteTemplate.paletteTag = TAG_NONE;
 
     i = CreateSprite(&spriteTemplate, 0, 0, 0);
     if (i != MAX_SPRITES)
@@ -1785,7 +1862,6 @@ static void SpawnObjectEventOnReturnToField(u8 objectEventId, s16 x, s16 y)
         if (subspriteTables != NULL)
             SetSubspriteTables(sprite, subspriteTables);
 
-        sprite->oam.paletteNum = paletteSlot;
         sprite->coordOffsetEnabled = TRUE;
         sprite->sObjEventId = objectEventId;
         objectEvent->spriteId = i;
@@ -1826,20 +1902,18 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     sprite = &gSprites[objectEvent->spriteId];
-    paletteSlot = graphicsInfo->paletteSlot;
-    if (paletteSlot == PALSLOT_PLAYER)
+    
+    if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
-        PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+        paletteSlot = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        PatchObjectPalette(OW_PAL(graphicsId), paletteSlot);
     }
-    else if (paletteSlot == PALSLOT_NPC_SPECIAL)
+    else
     {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+        paletteSlot = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
     }
-    else if (paletteSlot >= 16)
-    {
-        paletteSlot -= 16;
-        _PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
-    }
+
     sprite->oam.shape = graphicsInfo->oam->shape;
     sprite->oam.size = graphicsInfo->oam->size;
     sprite->images = graphicsInfo->images;
@@ -1905,9 +1979,10 @@ static void SetBerryTreeGraphics(struct ObjectEvent *objectEvent, struct Sprite 
         if (berryId > ITEM_TO_BERRY(LAST_BERRY_INDEX))
             berryId = 0;
 
+        LoadObjectEventPalette(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
         ObjectEventSetGraphicsId(objectEvent, gBerryTreeObjectEventGraphicsIdTablePointers[berryId][berryStage]);
         sprite->images = gBerryTreePicTablePointers[berryId];
-        sprite->oam.paletteNum = gBerryTreePaletteSlotTablePointers[berryId][berryStage];
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
         StartSpriteAnim(sprite, berryStage);
     }
 }
@@ -2012,11 +2087,11 @@ void FreeAndReserveObjectSpritePalettes(void)
     gReservedSpritePaletteCount = OBJ_PALSLOT_COUNT;
 }
 
-static void LoadObjectEventPalette(u16 paletteTag)
+void LoadObjectEventPalette(u16 paletteTag)
 {
-    u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
+    u32 i = FindObjectEventPaletteIndexByTag(paletteTag);
 
-    if (i != 0xFF)
+    if (i != 0xFFFF)
         LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
 }
 
@@ -2025,7 +2100,7 @@ static void LoadObjectEventPaletteSet(u16 *paletteTags)
 {
     u8 i;
 
-    for (i = 0; paletteTags[i] != OBJ_EVENT_PAL_TAG_NONE; i++)
+    for (i = 0; paletteTags[i] != TAG_NONE; i++)
         LoadObjectEventPalette(paletteTags[i]);
 }
 
@@ -2034,14 +2109,13 @@ static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *spritePalette
 {
     if (IndexOfSpritePaletteTag(spritePalette->tag) != 0xFF)
         return 0xFF;
-
     return LoadSpritePalette(spritePalette);
 }
 
 void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
 {
     // paletteTag is assumed to exist in sObjectEventSpritePalettes
-    u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
+    u32 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
 
     LoadPaletteDayNight(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
 }
@@ -2056,52 +2130,16 @@ void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)
     }
 }
 
-static u8 FindObjectEventPaletteIndexByTag(u16 tag)
+static u32 FindObjectEventPaletteIndexByTag(u16 tag)
 {
-    u8 i;
+    u32 i;
 
-    for (i = 0; sObjectEventSpritePalettes[i].tag != OBJ_EVENT_PAL_TAG_NONE; i++)
+    for (i = 0; sObjectEventSpritePalettes[i].tag != TAG_NONE; i++)
     {
         if (sObjectEventSpritePalettes[i].tag == tag)
             return i;
     }
-    return 0xFF;
-}
-
-void LoadPlayerObjectReflectionPalette(u16 tag, u8 slot)
-{
-    u8 i;
-
-    PatchObjectPalette(tag, slot);
-    for (i = 0; sPlayerReflectionPaletteSets[i].tag != OBJ_EVENT_PAL_TAG_NONE; i++)
-    {
-        if (sPlayerReflectionPaletteSets[i].tag == tag)
-        {
-            PatchObjectPalette(sPlayerReflectionPaletteSets[i].data[sCurrentReflectionType], gReflectionEffectPaletteMap[slot]);
-            return;
-        }
-    }
-}
-
-void LoadSpecialObjectReflectionPalette(u16 tag, u8 slot)
-{
-    u8 i;
-
-    sCurrentSpecialObjectPaletteTag = tag;
-    PatchObjectPalette(tag, slot);
-    for (i = 0; sSpecialObjectReflectionPaletteSets[i].tag != OBJ_EVENT_PAL_TAG_NONE; i++)
-    {
-        if (sSpecialObjectReflectionPaletteSets[i].tag == tag)
-        {
-            PatchObjectPalette(sSpecialObjectReflectionPaletteSets[i].data[sCurrentReflectionType], gReflectionEffectPaletteMap[slot]);
-            return;
-        }
-    }
-}
-
-static void _PatchObjectPalette(u16 tag, u8 slot)
-{
-    PatchObjectPalette(tag, slot);
+    return 0xFFFF;
 }
 
 // Unused
@@ -2529,37 +2567,6 @@ void OverrideSecretBaseDecorationSpriteScript(u8 localId, u8 mapNum, u8 mapGroup
             break;
         }
     }
-}
-
-void InitObjectEventPalettes(u8 reflectionType)
-{
-    FreeAndReserveObjectSpritePalettes();
-    sCurrentSpecialObjectPaletteTag = OBJ_EVENT_PAL_TAG_NONE;
-    sCurrentReflectionType = reflectionType;
-    if (reflectionType == 1)
-    {
-        PatchObjectPaletteRange(sObjectPaletteTagSets[sCurrentReflectionType], PALSLOT_PLAYER, PALSLOT_NPC_4 + 1);
-        gReservedSpritePaletteCount = 8;
-    }
-    else
-    {
-        PatchObjectPaletteRange(sObjectPaletteTagSets[sCurrentReflectionType], PALSLOT_PLAYER, PALSLOT_NPC_4_REFLECTION + 1);
-    }
-}
-
-u16 GetObjectPaletteTag(u8 palSlot)
-{
-    u8 i;
-
-    if (palSlot < PALSLOT_NPC_SPECIAL)
-        return sObjectPaletteTagSets[sCurrentReflectionType][palSlot];
-
-    for (i = 0; sSpecialObjectReflectionPaletteSets[i].tag != OBJ_EVENT_PAL_TAG_NONE; i++)
-    {
-        if (sSpecialObjectReflectionPaletteSets[i].tag == sCurrentSpecialObjectPaletteTag)
-            return sSpecialObjectReflectionPaletteSets[i].data[sCurrentReflectionType];
-    }
-    return OBJ_EVENT_PAL_TAG_NONE;
 }
 
 movement_type_empty_callback(MovementType_None)
@@ -8634,7 +8641,10 @@ void SetVirtualObjectGraphics(u8 virtualObjId, u16 graphicsId)
 
         sprite->oam = *graphicsInfo->oam;
         sprite->oam.tileNum = tileNum;
-        sprite->oam.paletteNum = graphicsInfo->paletteSlot;
+        if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
+            sprite->oam.paletteNum = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        else
+            sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
         sprite->images = graphicsInfo->images;
 
         if (graphicsInfo->subspriteTables == NULL)

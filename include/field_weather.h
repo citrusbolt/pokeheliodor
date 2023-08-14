@@ -14,9 +14,16 @@ enum {
     GFXTAG_BUBBLE,
     GFXTAG_RAIN,
 };
+
 enum {
     PALTAG_WEATHER = TAG_WEATHER_START,
     PALTAG_WEATHER_2
+};
+
+enum {
+    COLOR_MAP_NONE,
+    COLOR_MAP_DARK_CONTRAST,
+    COLOR_MAP_CONTRAST,
 };
 
 #define NUM_WEATHER_COLOR_MAPS 19
@@ -154,7 +161,7 @@ void FadeScreen(u8 mode, s8 delay);
 bool8 IsWeatherNotFadingIn(void);
 void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex);
 void ApplyWeatherColorMapToPal(u8 paletteIndex);
-void LoadCustomWeatherSpritePalette(const u16 *palette);
+void LoadCustomWeatherSpritePalette(const struct SpritePalette *palette);
 void ResetDroughtWeatherPaletteLoading(void);
 bool8 LoadDroughtWeatherPalettes(void);
 void DroughtStateInit(void);
@@ -230,5 +237,7 @@ void SetWeather(u32 weather);
 void DoCurrentWeather(void);
 void UpdateWeatherPerDay(u16 increment);
 void ResumePausedWeather(void);
+
+void UpdatePaletteColorMapType(u8 index, u8 colorMapType);
 
 #endif // GUARD_WEATHER_H

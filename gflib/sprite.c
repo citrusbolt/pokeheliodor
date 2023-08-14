@@ -1612,7 +1612,7 @@ u8 LoadSpritePaletteDayNight(const struct SpritePalette *palette)
     else
     {
         sSpritePaletteTags[index] = palette->tag;
-        DoLoadSpritePaletteDayNight(palette->data, index * 16);
+        DoLoadSpritePaletteDayNight(palette->data, PLTT_ID(index));
         return index;
     }
 }
@@ -1633,9 +1633,9 @@ u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u16 species, u32
     else
     {
         sSpritePaletteTags[index] = palette->tag;
-        DoLoadSpritePalette(palette->data, index * 16);
-		UniquePalette(index * 16 + 0x100, species, personality, isShiny);
-        CpuCopy32(gPlttBufferFaded + index * 16 + 0x100, gPlttBufferUnfaded + index * 16 + 0x100, 32);
+        DoLoadSpritePalette(palette->data, PLTT_ID(index));
+		UniquePalette(OBJ_PLTT_ID(index), species, personality, isShiny);
+        CpuCopy32(gPlttBufferFaded + OBJ_PLTT_ID(index), gPlttBufferUnfaded + OBJ_PLTT_ID(index), 32);
         return index;
     }
 }
@@ -1656,8 +1656,8 @@ u8 LoadEggSpritePalette(const struct SpritePalette *palette1, const struct Sprit
     else
     {
         sSpritePaletteTags[index] = palette1->tag;
-        DoLoadSpriteShortPalette(palette1->data, index * 16);
-        DoLoadSpriteShortPalette(palette2->data, index * 16 + 8);
+        DoLoadSpriteShortPalette(palette1->data, PLTT_ID(index));
+        DoLoadSpriteShortPalette(palette2->data, PLTT_ID(index) + 8);
         return index;
     }
 }
@@ -1677,7 +1677,7 @@ void DoLoadSpritePalette(const u16 *src, u16 paletteOffset)
 
 void DoLoadSpriteShortPalette(const u16 *src, u16 paletteOffset)
 {
-    LoadPalette(src, paletteOffset + 0x100, 16);
+    LoadPalette(src, paletteOffset + OBJ_PLTT_OFFSET, 16);
 }
 
 u8 AllocSpritePalette(u16 tag)

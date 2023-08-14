@@ -1290,6 +1290,10 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
     {
         trueOrigin = ORIGIN_GAME_HELIODOR;
     }
+    else if (versionModifier == DEV_BOX_RS)
+    {
+        trueOrigin = ORIGIN_GAME_BOX;
+    }
     else
     {
         if (species == SPECIES_PIKACHU && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x00007991)
@@ -1315,33 +1319,6 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
         {
             trueOrigin = ORIGIN_GAME_BOX;
         }
-        // Too expensive to ID hatched Box Eggs, is it worth a bit of mon data to tag Box Eggs when viewed so that we don't forget origin?
-        //else if ((species == SPECIES_SWABLU || species == SPECIES_ALTARIA
-        //       || species == SPECIES_ZIGZAGOON || species == SPECIES_LINOONE
-        //       || species == SPECIES_SKITTY || species == SPECIES_DELCATTY
-        //       || species == SPECIES_PICHU || species == SPECIES_PIKACHU || species == SPECIES_RAICHU)
-        //       && metLevel == 0)
-        //{
-        //    u16 pidTopHalf;
-        //    u16 pidBottomHalf;
-        //    u32 result = 0;
-        //    u32 currentTestFrame = 0;
-        //
-        //    do
-        //    {
-        //        pidTopHalf = (u32)((1103515245 * currentTestFrame + 24691)) >> 16;
-        //        pidBottomHalf = (u32)((1103515245 * (currentTestFrame + 1) + 24691)) >> 16;
-        //        
-        //        if ((pidTopHalf << 16 | pidBottomHalf) == pid)
-        //            result == 1;
-        //        if (currentTestFrame == 0xFFFFFFFF)
-        //            result == 2;
-        //        currentTestFrame++;
-        //    } while (result == 0);
-        //
-        //    if (result == 1)
-        //        trueOrigin = ORIGIN_GAME_BOX;
-        //}
 
         if (trueOrigin == 0xFF)
         {

@@ -216,8 +216,8 @@ EventScript_CardTerminal_Text_Updated:
 
 EventScript_CardTerminal_Text_DotCode_Apply:
 	.string "Would you like to apply\n"
-	.string "an e-Readear dot code?$"
+	.string "an e-Reader dot code?$"
 
 EventScript_CardTerminal_Text_DotCode_Remove:
 	.string "Would you like to remove\n"
-	.string "your e-Readear dot code?$"
+	.string "your e-Reader dot code?$"
