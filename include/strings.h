@@ -329,6 +329,9 @@ extern const u8 gText_YesNo[];
 // main menu/birch speech text
 extern const u8 gText_SaveFileErased[];
 extern const u8 gText_SaveFileCorrupted[];
+extern const u8 gText_SaveFileConvertRS[];
+extern const u8 gText_SaveFileConvertNo[];
+extern const u8 gText_SaveFileConvertE[];
 extern const u8 gJPText_No1MSubCircuit[];
 extern const u8 gText_BatteryRunDry[];
 extern const u8 gText_MainMenuNewGame[];

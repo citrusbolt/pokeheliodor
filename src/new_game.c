@@ -231,6 +231,8 @@ void NewGameInitData(void)
 	for (i = 0; i < 6; i++)
 		gSaveBlock1Ptr->trainerCardStickers[i] = 0;
     gSaveBlock1Ptr->trainerClass = 0;
+
+    gSaveBlock1Ptr->saveMagic = 27;
 	
 	VarSet(VAR_SAVE_VER, 6);
 }

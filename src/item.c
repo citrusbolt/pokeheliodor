@@ -16,10 +16,13 @@
 #include "constants/hold_effects.h"
 #include "pokedex.h"
 #include "pokeball.h"
+#include "other_saves.h"
+#include "convert_save.h"
 
 static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count);
 static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count);
 void ItemId_GetHoldEffectParam_Script();
+static void AddItemWhileConverting(struct SaveBlock1 *nlSaveBlock1Ptr, u16 itemId, u16 quantity);
 
 EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
 EWRAM_DATA struct ItemSlot gBagTMHMPocket[BAG_TMHM_COUNT] = {0};
@@ -109,12 +112,12 @@ static const u16 sKeyItems[] = {
 // code
 u16 GetBagItemQuantity(u16 *quantity)
 {
-    return gSaveBlock2Ptr->encryptionKey ^ *quantity;
+    return *quantity;
 }
 
 static void SetBagItemQuantity(u16 *quantity, u16 newValue)
 {
-    *quantity =  newValue ^ gSaveBlock2Ptr->encryptionKey;
+    *quantity =  newValue;
 }
 
 static u16 GetPCItemQuantity(u16 *quantity)
@@ -1261,5 +1264,274 @@ void LoadFakePockets(void)
     {
         if (sKeyItems[gSaveBlock1Ptr->bagPocket_KeyItems[i]] != ITEM_NONE)
             AddBagItem(sKeyItems[gSaveBlock1Ptr->bagPocket_KeyItems[i]], 1);
+    }
+}
+
+static void AddItemWhileConverting(struct SaveBlock1 *nlSaveBlock1Ptr, u16 itemId, u16 quantity)
+{
+    u32 i, j;
+    bool32 placedKeyItem = FALSE;
+
+    switch (ItemId_GetPocket(itemId))
+    {
+        case POCKET_NONE:
+        default:
+            for (i = 0; i < PC_ITEMS_COUNT; i++)
+            {
+                if (nlSaveBlock1Ptr->pcItems[i].itemId == itemId)
+                {
+                    nlSaveBlock1Ptr->pcItems[i].quantity += quantity;
+                    break;
+                }
+                else if (nlSaveBlock1Ptr->pcItems[i].itemId == ITEM_NONE)
+                {
+                    nlSaveBlock1Ptr->pcItems[i].itemId = itemId;
+                    nlSaveBlock1Ptr->pcItems[i].quantity = quantity;
+                    break;
+                }
+            }
+            break;
+        case POCKET_ITEMS:
+            for (i = 0; i < BAG_ITEMS_COUNT; i++)
+            {
+                if (nlSaveBlock1Ptr->bagPocket_Items[i].itemId == itemId)
+                {
+                    nlSaveBlock1Ptr->bagPocket_Items[i].quantity += quantity;
+                    break;
+                }
+                else if (nlSaveBlock1Ptr->bagPocket_Items[i].itemId == ITEM_NONE)
+                {
+                    nlSaveBlock1Ptr->bagPocket_Items[i].itemId = itemId;
+                    nlSaveBlock1Ptr->bagPocket_Items[i].quantity = quantity;
+                    break;
+                }
+            }
+            break;
+        case POCKET_MEDICINE:
+            for (i = 0; i < BAG_MEDICINE_COUNT; i++)
+            {
+                if (nlSaveBlock1Ptr->bagPocket_Medicine[i].itemId == itemId)
+                {
+                    nlSaveBlock1Ptr->bagPocket_Medicine[i].quantity += quantity;
+                    break;
+                }
+                else if (nlSaveBlock1Ptr->bagPocket_Medicine[i].itemId == ITEM_NONE)
+                {
+                    nlSaveBlock1Ptr->bagPocket_Medicine[i].itemId = itemId;
+                    nlSaveBlock1Ptr->bagPocket_Medicine[i].quantity = quantity;
+                    break;
+                }
+            }
+            break;
+        case POCKET_POKE_BALLS:
+            for (i = 0; i < BAG_POKEBALLS_COUNT; i++)
+            {
+                if (nlSaveBlock1Ptr->bagPocket_PokeBalls[i].itemId == itemId)
+                {
+                    nlSaveBlock1Ptr->bagPocket_PokeBalls[i].quantity += quantity;
+                    break;
+                }
+                else if (nlSaveBlock1Ptr->bagPocket_PokeBalls[i].itemId == ITEM_NONE)
+                {
+                    nlSaveBlock1Ptr->bagPocket_PokeBalls[i].itemId = itemId;
+                    nlSaveBlock1Ptr->bagPocket_PokeBalls[i].quantity = quantity;
+                    break;
+                }
+            }
+            break;
+        case POCKET_BATTLE_ITEMS:
+            for (i = 0; i < BAG_BATTLEITEMS_COUNT; i++)
+            {
+                if (nlSaveBlock1Ptr->bagPocket_BattleItems[i].itemId == itemId)
+                {
+                    nlSaveBlock1Ptr->bagPocket_BattleItems[i].quantity += quantity;
+                    break;
+                }
+                else if (nlSaveBlock1Ptr->bagPocket_BattleItems[i].itemId == ITEM_NONE)
+                {
+                    nlSaveBlock1Ptr->bagPocket_BattleItems[i].itemId = itemId;
+                    nlSaveBlock1Ptr->bagPocket_BattleItems[i].quantity = quantity;
+                    break;
+                }
+            }
+            break;
+        case POCKET_TREASURES:
+            for (i = 0; i < BAG_TREASURES_COUNT; i++)
+            {
+                if (nlSaveBlock1Ptr->bagPocket_Treasures[i].itemId == itemId)
+                {
+                    nlSaveBlock1Ptr->bagPocket_Treasures[i].quantity += quantity;
+                    break;
+                }
+                else if (nlSaveBlock1Ptr->bagPocket_Treasures[i].itemId == ITEM_NONE)
+                {
+                    nlSaveBlock1Ptr->bagPocket_Treasures[i].itemId = itemId;
+                    nlSaveBlock1Ptr->bagPocket_Treasures[i].quantity = quantity;
+                    break;
+                }
+            }
+            break;
+        case POCKET_KEY_ITEMS:
+            for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+            {
+                if (nlSaveBlock1Ptr->bagPocket_KeyItems[i] == ITEM_NONE)
+                {
+                    for (j = 1; j < sizeof(sKeyItems); j++)
+                    {
+                        if (sKeyItems[j] == itemId)
+                        {
+                            nlSaveBlock1Ptr->bagPocket_KeyItems[i] = j;
+                            placedKeyItem = TRUE;
+                            break;
+                        }
+                    }
+                    if (placedKeyItem)
+                        break;
+                }
+            }
+            break;
+        case POCKET_TM_HM:
+            if (itemId >= ITEM_TM01 && itemId <= ITEM_TM50)
+                nlSaveBlock1Ptr->bagPocket_TM[itemId - ITEM_TM01] = quantity;
+            else if (itemId == ITEM_HM01)
+                nlSaveBlock1Ptr->bagPocket_HM01 = 1;
+            else if (itemId == ITEM_HM02)
+                nlSaveBlock1Ptr->bagPocket_HM02 = 1;
+            else if (itemId == ITEM_HM03)
+                nlSaveBlock1Ptr->bagPocket_HM03 = 1;
+            else if (itemId == ITEM_HM04)
+                nlSaveBlock1Ptr->bagPocket_HM04 = 1;
+            else if (itemId == ITEM_HM05)
+                nlSaveBlock1Ptr->bagPocket_HM05 = 1;
+            else if (itemId == ITEM_HM06)
+                nlSaveBlock1Ptr->bagPocket_HM06 = 1;
+            else if (itemId == ITEM_HM07)
+                nlSaveBlock1Ptr->bagPocket_HM07 = 1;
+            else if (itemId == ITEM_HM08)
+                nlSaveBlock1Ptr->bagPocket_HM08 = 1;
+            break;
+        case POCKET_BERRIES:
+            if (itemId >= FIRST_BERRY_INDEX && itemId <= LAST_BERRY_INDEX)
+                nlSaveBlock1Ptr->bagPocket_Berries[itemId - FIRST_BERRY_INDEX] = quantity;
+            break;
+        case POCKET_MAIL:
+            if (itemId >= FIRST_MAIL_INDEX && itemId <= LAST_MAIL_INDEX)
+                nlSaveBlock1Ptr->bagPocket_Mail[itemId - FIRST_MAIL_INDEX] = quantity;
+            break;
+    }
+}
+
+void TransferItemsToNewPockets(struct SaveBlock1 *nlSaveBlock1Ptr, u8 saveType)
+{
+    u32 i;
+    u16 itemId, quantity;
+    u8 keyItemId;
+    struct RubySapphireSaveBlock1 *rsSaveBlock1Ptr = (struct RubySapphireSaveBlock1 *)gSaveBlock1Ptr;
+    struct PreNLSaveBlock1 *preNLSaveBlock1Ptr = (struct PreNLSaveBlock1 *)gSaveBlock1Ptr;
+    struct PreNLSaveBlock2 *preNLSaveBlock2Ptr = (struct PreNLSaveBlock2 *)gSaveBlock2Ptr;
+
+    if (saveType == SAVE_TYPE_E)
+    {
+        for (i = 0; i < BAG_ITEMS_COUNT_PRENL; i++)
+        {
+            if (preNLSaveBlock1Ptr->bagPocket_Items[i].itemId != ITEM_NONE && (preNLSaveBlock1Ptr->bagPocket_Items[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey) > 0)
+            {
+                itemId = preNLSaveBlock1Ptr->bagPocket_Items[i].itemId;
+                quantity = preNLSaveBlock1Ptr->bagPocket_Items[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_KEYITEMS_COUNT_PRENL; i++)
+        {
+            if (preNLSaveBlock1Ptr->bagPocket_KeyItems[i].itemId != ITEM_NONE && (preNLSaveBlock1Ptr->bagPocket_KeyItems[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey) > 0)
+            {
+                itemId = preNLSaveBlock1Ptr->bagPocket_KeyItems[i].itemId;
+                quantity = preNLSaveBlock1Ptr->bagPocket_KeyItems[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_POKEBALLS_COUNT_PRENL; i++)
+        {
+            if (preNLSaveBlock1Ptr->bagPocket_PokeBalls[i].itemId != ITEM_NONE && (preNLSaveBlock1Ptr->bagPocket_PokeBalls[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey) > 0)
+            {
+                itemId = preNLSaveBlock1Ptr->bagPocket_PokeBalls[i].itemId;
+                quantity = preNLSaveBlock1Ptr->bagPocket_PokeBalls[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_TMHM_COUNT_PRENL; i++)
+        {
+            if (preNLSaveBlock1Ptr->bagPocket_TMHM[i].itemId != ITEM_NONE && (preNLSaveBlock1Ptr->bagPocket_TMHM[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey) > 0)
+            {
+                itemId = preNLSaveBlock1Ptr->bagPocket_TMHM[i].itemId;
+                quantity = preNLSaveBlock1Ptr->bagPocket_TMHM[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_BERRIES_COUNT_PRENL; i++)
+        {
+            if (preNLSaveBlock1Ptr->bagPocket_Berries[i].itemId != ITEM_NONE && (preNLSaveBlock1Ptr->bagPocket_Berries[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey) > 0)
+            {
+                itemId = preNLSaveBlock1Ptr->bagPocket_Berries[i].itemId;
+                quantity = preNLSaveBlock1Ptr->bagPocket_Berries[i].quantity ^ preNLSaveBlock2Ptr->encryptionKey;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < BAG_ITEMS_COUNT_RS; i++)
+        {
+            if (rsSaveBlock1Ptr->bagPocket_Items[i].itemId != ITEM_NONE && rsSaveBlock1Ptr->bagPocket_Items[i].quantity > 0)
+            {
+                itemId = rsSaveBlock1Ptr->bagPocket_Items[i].itemId;
+                quantity = rsSaveBlock1Ptr->bagPocket_Items[i].quantity;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_KEYITEMS_COUNT_RS; i++)
+        {
+            if (rsSaveBlock1Ptr->bagPocket_KeyItems[i].itemId != ITEM_NONE && rsSaveBlock1Ptr->bagPocket_KeyItems[i].quantity > 0)
+            {
+                itemId = rsSaveBlock1Ptr->bagPocket_KeyItems[i].itemId;
+                quantity = rsSaveBlock1Ptr->bagPocket_KeyItems[i].quantity;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_POKEBALLS_COUNT_RS; i++)
+        {
+            if (rsSaveBlock1Ptr->bagPocket_PokeBalls[i].itemId != ITEM_NONE && rsSaveBlock1Ptr->bagPocket_PokeBalls[i].quantity > 0)
+            {
+                itemId = rsSaveBlock1Ptr->bagPocket_PokeBalls[i].itemId;
+                quantity = rsSaveBlock1Ptr->bagPocket_PokeBalls[i].quantity;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_TMHM_COUNT_RS; i++)
+        {
+            if (rsSaveBlock1Ptr->bagPocket_TMHM[i].itemId != ITEM_NONE && rsSaveBlock1Ptr->bagPocket_TMHM[i].quantity > 0)
+            {
+                itemId = rsSaveBlock1Ptr->bagPocket_TMHM[i].itemId;
+                quantity = rsSaveBlock1Ptr->bagPocket_TMHM[i].quantity;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
+
+        for (i = 0; i < BAG_BERRIES_COUNT_RS; i++)
+        {
+            if (rsSaveBlock1Ptr->bagPocket_Berries[i].itemId != ITEM_NONE && rsSaveBlock1Ptr->bagPocket_Berries[i].quantity > 0)
+            {
+                itemId = rsSaveBlock1Ptr->bagPocket_Berries[i].itemId;
+                quantity = rsSaveBlock1Ptr->bagPocket_Berries[i].quantity;
+                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+            }
+        }
     }
 }

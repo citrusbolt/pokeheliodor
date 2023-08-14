@@ -29,11 +29,14 @@
 
 #define NUM_HOF_SECTORS 2
 
-#define SAVE_STATUS_EMPTY    0
-#define SAVE_STATUS_OK       1
-#define SAVE_STATUS_CORRUPT  2
-#define SAVE_STATUS_NO_FLASH 4
-#define SAVE_STATUS_ERROR    0xFF
+#define SAVE_STATUS_EMPTY       0
+#define SAVE_STATUS_OK          1
+#define SAVE_STATUS_CORRUPT     2
+#define SAVE_STATUS_NO_FLASH    4
+#define SAVE_STATUS_RS          5
+#define SAVE_STATUS_NO_CONVERT  6
+#define SAVE_STATUS_E           7
+#define SAVE_STATUS_ERROR       0xFF
 
 // Special sector id value for certain save functions to
 // indicate that no specific sector should be used.

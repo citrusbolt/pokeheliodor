@@ -9,6 +9,8 @@
 #include "trainer_hill.h"
 #include "event_data.h"
 #include "malloc.h"
+#include "convert_save.h"
+#include "item.h"
 
 /*
 Need to look into
@@ -956,15 +958,22 @@ static const u16 sRSFlagsToNLFlags[] = {
 u8 DetectSaveType(void)
 {
     u32 i;
+    u8 *rawBlock1 = (u8 *)gSaveBlock1Ptr;
     u8 *rawBlock2 = (u8 *)gSaveBlock2Ptr;
+
+    if (rawBlock1[0x31] == 27)
+        return SAVE_TYPE_NL;
+
+    if (rawBlock2[0xAC] == 1 && rawBlock2[0xAD] == 0 && rawBlock2[0xAE] == 0 && rawBlock2[0xAF] == 0)
+        return SAVE_TYPE_FRLG;
 
     for (i = 0x890; i < 0xF2C; i++)
     {
         if (rawBlock2[i] != 0)
-            return 1; // E
+            return SAVE_TYPE_E;
     }
 
-    return 2; // RS
+    return SAVE_TYPE_RS; // Split R/S detection post-game
 }
 
 u8 ConvertSaveFileFromRSToNL(void)
@@ -976,16 +985,16 @@ u8 ConvertSaveFileFromRSToNL(void)
     struct RubySapphireSaveBlock2 *rsSaveBlock2Ptr = (struct RubySapphireSaveBlock2 *)gSaveBlock2Ptr;
 
     memcpy(nlSaveBlock1Ptr, rsSaveBlock1Ptr, 0x560); // Save block structure is the same all the way until the Bag
-    memcpy(nlSaveBlock1Ptr->bagPocket_Items, rsSaveBlock1Ptr->bagPocket_Items, sizeof(rsSaveBlock1Ptr->bagPocket_Items));
-    //memcpy(nlSaveBlock1Ptr->bagPocket_KeyItems, rsSaveBlock1Ptr->bagPocket_KeyItems, sizeof(rsSaveBlock1Ptr->bagPocket_KeyItems));
-    memcpy(nlSaveBlock1Ptr->bagPocket_PokeBalls, rsSaveBlock1Ptr->bagPocket_PokeBalls, sizeof(rsSaveBlock1Ptr->bagPocket_PokeBalls));
-    //memcpy(nlSaveBlock1Ptr->bagPocket_TMHM, rsSaveBlock1Ptr->bagPocket_TMHM, sizeof(rsSaveBlock1Ptr->bagPocket_TMHM));
-    //memcpy(nlSaveBlock1Ptr->bagPocket_Berries, rsSaveBlock1Ptr->bagPocket_Berries, sizeof(rsSaveBlock1Ptr->bagPocket_Berries));
+
     memcpy(nlSaveBlock1Ptr->pokeblocks, rsSaveBlock1Ptr->pokeblocks, 0xA28); // This whole chunk is identical (although offset) until the flags
     // Convert flags and vars
     memcpy(nlSaveBlock1Ptr->gameStats, rsSaveBlock1Ptr->gameStats, sizeof(rsSaveBlock1Ptr->gameStats));
 
-    memcpy(nlSaveBlock1Ptr->berryTrees, rsSaveBlock1Ptr->berryTrees, 0x1994); // This whole chunk is identical (although offset) until the day care
+    memcpy(nlSaveBlock1Ptr->berryTrees, rsSaveBlock1Ptr->berryTrees, 0xA40);
+
+    TransferItemsToNewPockets(nlSaveBlock1Ptr, SAVE_TYPE_E);
+
+    memcpy(nlSaveBlock1Ptr->playerRoomDecorations, rsSaveBlock1Ptr->playerRoomDecorations, 0x914);
 
     memcpy(&nlSaveBlock1Ptr->daycare.mons[0].mon, &rsSaveBlock1Ptr->daycare.mons[0], sizeof(rsSaveBlock1Ptr->daycare.mons[0]));
     memcpy(&nlSaveBlock1Ptr->daycare.mons[0].mail, &rsSaveBlock1Ptr->daycare.misc.mail[0], sizeof(rsSaveBlock1Ptr->daycare.misc.mail[0]));
@@ -1023,6 +1032,8 @@ u8 ConvertSaveFileFromRSToNL(void)
     FREE_AND_SET_NULL(nlSaveBlock1Ptr);
     FREE_AND_SET_NULL(nlSaveBlock2Ptr);
 
+    LoadFakePockets();
+
     //Do some clean initializations like new game
     
     gSaveBlock2Ptr->frontier.opponentNames[0][0] = 0xFF;
@@ -1039,4 +1050,43 @@ u8 ConvertSaveFileFromRSToNL(void)
     ResetTrainerHillResults();
 	VarSet(VAR_SAVE_VER, 6);
     
+}
+
+u8 ConvertSaveFileFromEToNL(void)
+{
+    u32 i;
+    struct SaveBlock1 *nlSaveBlock1Ptr = AllocZeroed(sizeof(struct SaveBlock1));
+    struct SaveBlock2 *nlSaveBlock2Ptr = AllocZeroed(sizeof(struct SaveBlock2));
+    struct PreNLSaveBlock1 *preNLSaveBlock1Ptr = (struct PreNLSaveBlock1 *)gSaveBlock1Ptr;
+    struct PreNLSaveBlock2 *preNLSaveBlock2Ptr = (struct PreNLSaveBlock2 *)gSaveBlock2Ptr;
+
+    memcpy(nlSaveBlock1Ptr, preNLSaveBlock1Ptr, 0x235);
+    nlSaveBlock1Ptr->saveMagic = 27;
+    memcpy(nlSaveBlock1Ptr->playerParty, preNLSaveBlock1Ptr->playerParty, 0x328);
+    nlSaveBlock1Ptr->money = preNLSaveBlock1Ptr->money ^ preNLSaveBlock2Ptr->encryptionKey;
+    nlSaveBlock1Ptr->coins = preNLSaveBlock1Ptr->coins ^ preNLSaveBlock2Ptr->encryptionKey;
+
+    TransferItemsToNewPockets(nlSaveBlock1Ptr, SAVE_TYPE_E);
+
+    memcpy(nlSaveBlock1Ptr->pokeblocks, preNLSaveBlock1Ptr->pokeblocks, sizeof(struct Pokeblock) * POKEBLOCKS_COUNT);
+    memcpy(nlSaveBlock1Ptr->berryBlenderRecords, preNLSaveBlock1Ptr->berryBlenderRecords, 0x6);
+    memcpy(&nlSaveBlock1Ptr->trainerRematchStepCounter, &preNLSaveBlock1Ptr->trainerRematchStepCounter, 0x10D4);
+
+    for (i = 0; i < NUM_USED_GAME_STATS; i++)
+        nlSaveBlock1Ptr->gameStats[i] = preNLSaveBlock1Ptr->gameStats[i] ^ preNLSaveBlock2Ptr->encryptionKey;
+
+    memcpy(nlSaveBlock1Ptr->secretBases, preNLSaveBlock1Ptr->secretBases, sizeof(struct SecretBase) * SECRET_BASES_COUNT); // Do we need to select specific ones to preserve?
+    memcpy(nlSaveBlock1Ptr->playerRoomDecorations, preNLSaveBlock1Ptr->playerRoomDecorations, 0x166C);
+
+    memcpy(gSaveBlock1Ptr, nlSaveBlock1Ptr, sizeof(struct SaveBlock1));
+
+    memcpy(nlSaveBlock2Ptr, preNLSaveBlock2Ptr, sizeof(struct PreNLSaveBlock2));
+    nlSaveBlock2Ptr->berryCrush.berryPowderAmount= preNLSaveBlock2Ptr->berryCrush.berryPowderAmount ^ preNLSaveBlock2Ptr->encryptionKey;
+
+    memcpy(gSaveBlock2Ptr, nlSaveBlock2Ptr, sizeof(struct SaveBlock2));
+
+    FREE_AND_SET_NULL(nlSaveBlock1Ptr);
+    FREE_AND_SET_NULL(nlSaveBlock2Ptr);
+
+    LoadFakePockets();
 }

@@ -85,5 +85,6 @@ u8 ItemId_GetSecondaryId(u16 itemId);
 
 void SaveFakePockets(void);
 void LoadFakePockets(void);
+void TransferItemsToNewPockets(struct SaveBlock1 *nlSaveBlock1Ptr, u8 saveType);
 
 #endif // GUARD_ITEM_H

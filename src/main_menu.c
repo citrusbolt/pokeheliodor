@@ -752,6 +752,41 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                 gTasks[taskId].tMenuType = HAS_NO_SAVED_GAME;
                 gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
                 break;
+            case SAVE_STATUS_RS:
+                CreateMainMenuErrorWindow(gText_SaveFileConvertRS);
+                ConvertSaveFileFromRSToNL();
+                gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
+                if (IsMysteryGiftEnabled() && !IsMysteryEventEnabled())
+                    tMenuType = HAS_MYSTERY_GIFT;
+                else if (!IsMysteryGiftEnabled() && IsMysteryEventEnabled())
+                    tMenuType = HAS_MYSTERY_EVENTS;
+                else if (IsMysteryGiftEnabled() && IsMysteryEventEnabled())
+                    tMenuType = HAS_MYSTERY_GIFT_AND_EVENTS;
+                else if (FlagGet(FLAG_SYS_POKEDEX_GET))
+                    tMenuType = HAS_GCN_LINK;
+                else
+                    tMenuType = HAS_SAVED_GAME;
+                break;
+            case SAVE_STATUS_NO_CONVERT:
+                CreateMainMenuErrorWindow(gText_SaveFileConvertNo);
+                tMenuType = HAS_NO_SAVED_GAME;
+                gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
+                break;
+            case SAVE_STATUS_E:
+                CreateMainMenuErrorWindow(gText_SaveFileConvertE);
+                ConvertSaveFileFromEToNL();
+                gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
+                if (IsMysteryGiftEnabled() && !IsMysteryEventEnabled())
+                    tMenuType = HAS_MYSTERY_GIFT;
+                else if (!IsMysteryGiftEnabled() && IsMysteryEventEnabled())
+                    tMenuType = HAS_MYSTERY_EVENTS;
+                else if (IsMysteryGiftEnabled() && IsMysteryEventEnabled())
+                    tMenuType = HAS_MYSTERY_GIFT_AND_EVENTS;
+                else if (FlagGet(FLAG_SYS_POKEDEX_GET))
+                    tMenuType = HAS_GCN_LINK;
+                else
+                    tMenuType = HAS_SAVED_GAME;
+                break;
         }
         if (gGameBoyPlayerDetected && gSaveBlock2Ptr->optionsGBPRumble)
         {
@@ -2686,10 +2721,6 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
-    MgbaPrintf(3, "%x", DetectSaveType());
-    if (DetectSaveType() == 2)
-        ConvertSaveFileFromRSToNL();
-    
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
 		gSaveBlock1Ptr->trainerCardLayout = 3;

@@ -298,14 +298,14 @@ void SavePlayerBag(void)
 
 void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey)
 {
-    *hWord ^= gSaveBlock2Ptr->encryptionKey;
-    *hWord ^= newKey;
+    //*hWord ^= gSaveBlock2Ptr->encryptionKey;
+    //*hWord ^= newKey;
 }
 
 void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey)
 {
-    *word ^= gSaveBlock2Ptr->encryptionKey;
-    *word ^= newKey;
+    //*word ^= gSaveBlock2Ptr->encryptionKey;
+    //*word ^= newKey;
 }
 
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey)

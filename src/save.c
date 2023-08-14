@@ -12,6 +12,7 @@
 #include "trainer_hill.h"
 #include "link.h"
 #include "constants/game_stat.h"
+#include "convert_save.h"
 
 static u16 CalculateChecksum(void *, u16);
 static bool8 ReadFlashSector(u8, struct SaveSector *);
@@ -477,6 +478,21 @@ static u8 TryLoadSaveSlot(u16 sectorId, struct SaveSectorLocation *locations)
     {
         status = GetSaveValidStatus(locations);
         CopySaveSlotData(FULL_SAVE_SLOT, locations);
+    }
+
+    switch (DetectSaveType())
+    {
+        case SAVE_TYPE_RS:
+            status = SAVE_STATUS_RS;
+            break;
+        case SAVE_TYPE_E:
+            status = SAVE_STATUS_E;
+            break;
+        case SAVE_TYPE_NL:
+            break;
+        default:
+            status = SAVE_STATUS_NO_CONVERT;
+            break;
     }
 
     return status;
