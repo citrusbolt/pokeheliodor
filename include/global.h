@@ -1112,6 +1112,13 @@ struct SaveBlock1
 
 extern struct SaveBlock1* gSaveBlock1Ptr;
 
+struct SaveBlock3
+{
+    u8 data[2000];
+};
+
+extern struct SaveBlock3 *gSaveBlock3Ptr;
+
 struct MapPosition
 {
     s16 x;

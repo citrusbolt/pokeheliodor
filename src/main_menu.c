@@ -2721,6 +2721,7 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
+    DebugPrintf("%x, %x", gSaveBlock3Ptr->data[0], gSaveBlock3Ptr->data[1999]);
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
 		gSaveBlock1Ptr->trainerCardLayout = 3;

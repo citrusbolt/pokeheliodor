@@ -744,6 +744,7 @@ u8 HandleSavingData(u8 saveType)
         // Write the full save slot first
         CopyPartyAndObjectsToSave();
         WriteSaveSectorOrSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
+        TryWriteSpecialSaveSector(SECTOR_ID_TRAINER_HILL, (u8 *)gSaveBlock3Ptr);
 
         // Save the Hall of Fame
         tempAddr = gDecompressionBuffer;
@@ -754,6 +755,8 @@ u8 HandleSavingData(u8 saveType)
     default:
         CopyPartyAndObjectsToSave();
         WriteSaveSectorOrSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
+        TryWriteSpecialSaveSector(SECTOR_ID_TRAINER_HILL, (u8 *)gSaveBlock3Ptr);
+
         break;
     case SAVE_LINK:
     case SAVE_EREADER: // Dummied, now duplicate of SAVE_LINK
@@ -764,6 +767,8 @@ u8 HandleSavingData(u8 saveType)
             HandleReplaceSector(i, gRamSaveSectorLocations);
         for(i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
             WriteSectorSignatureByte_NoOffset(i, gRamSaveSectorLocations);
+        TryWriteSpecialSaveSector(SECTOR_ID_TRAINER_HILL, (u8 *)gSaveBlock3Ptr);
+
         break;
     case SAVE_OVERWRITE_DIFFERENT_FILE:
         // Erase Hall of Fame
@@ -773,6 +778,8 @@ u8 HandleSavingData(u8 saveType)
         // Overwrite save slot
         CopyPartyAndObjectsToSave();
         WriteSaveSectorOrSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
+        TryWriteSpecialSaveSector(SECTOR_ID_TRAINER_HILL, (u8 *)gSaveBlock3Ptr);
+
         break;
     }
     gTrainerHillVBlankCounter = backupVar;
@@ -870,6 +877,11 @@ bool8 WriteSaveBlock1Sector(void)
         HandleReplaceSectorAndVerify(gIncrementalSectorId + 1, gRamSaveSectorLocations);
         WriteSectorSignatureByte(sectorId, gRamSaveSectorLocations);
     }
+    else if (sectorId == SECTOR_ID_SAVEBLOCK1_END + 1)
+    {
+        DebugPrintf("Saved block 3", NULL);
+        TryWriteSpecialSaveSector(SECTOR_ID_TRAINER_HILL, (u8 *)gSaveBlock3Ptr);
+    }
     else
     {
         // Beyond SaveBlock1, don't write the sector.
@@ -901,6 +913,7 @@ u8 LoadGameSave(u8 saveType)
     case SAVE_NORMAL:
     default:
         status = TryLoadSaveSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
+        TryReadSpecialSaveSector(SECTOR_ID_TRAINER_HILL, (u8 *)gSaveBlock3Ptr);
         CopyPartyAndObjectsFromSave();
         gSaveFileStatus = status;
         gGameContinueCallback = 0;
@@ -946,6 +959,8 @@ u32 TryReadSpecialSaveSector(u8 sector, u8 *dst)
     s32 size;
     u8 *savData;
 
+    DebugPrintf("reading special", NULL);
+
     if (sector != SECTOR_ID_TRAINER_HILL && sector != SECTOR_ID_RECORDED_BATTLE)
         return SAVE_STATUS_ERROR;
 
@@ -968,6 +983,8 @@ u32 TryWriteSpecialSaveSector(u8 sector, u8 *src)
     s32 size;
     u8 *savData;
     void *savDataBuffer;
+
+    DebugPrintf("saving special", NULL);
 
     if (sector != SECTOR_ID_TRAINER_HILL && sector != SECTOR_ID_RECORDED_BATTLE)
         return SAVE_STATUS_ERROR;
@@ -1071,3 +1088,10 @@ void Task_LinkFullSave(u8 taskId)
 #undef tState
 #undef tTimer
 #undef tPartialSave
+
+void TestSaveBlock3(void)
+{
+    gSaveBlock3Ptr->data[0] = 0x88;
+    gSaveBlock3Ptr->data[1999] = 0xEE;
+    DebugPrintf("Wrote %x and %x", gSaveBlock3Ptr->data[0], gSaveBlock3Ptr->data[1999]);
+}
