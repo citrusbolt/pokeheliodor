@@ -4693,6 +4693,9 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
 		else
 			retVal = GetTitleString2(data, substruct0->title);
 		break;
+	case MON_DATA_BLOCK_BOX_RS:
+		retVal = boxMon->blockBoxRS;
+		break;
     default:
         break;
     }
@@ -5031,6 +5034,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 		break;
 	case MON_DATA_TITLE:
 		SET8(substruct0->title);
+		break;
+	case MON_DATA_BLOCK_BOX_RS:
+		SET8(boxMon->blockBoxRS);
 		break;
     default:
         break;

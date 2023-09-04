@@ -16,6 +16,7 @@ enum {
     MON_DATA_MARKINGS,
     MON_DATA_CHECKSUM,
     MON_DATA_FORM,
+    MON_DATA_BLOCK_BOX_RS,
     MON_DATA_ENCRYPT_SEPARATOR,
     MON_DATA_SPECIES,
     MON_DATA_HELD_ITEM,
@@ -226,7 +227,8 @@ struct BoxPokemon
     u8 isBadEgg:1;
     u8 hasSpecies:1;
     u8 isEgg:1;
-	u8 form:5; // How crazy do we want to get with forms?
+    u8 blockBoxRS:1; // Unfortunately, Colosseum and XD do not check for this field
+	u8 form:4; // How crazy do we want to get with forms?
     u8 otName[PLAYER_NAME_LENGTH];
     u8 markings;
     u16 checksum;
