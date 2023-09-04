@@ -161,6 +161,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
         u8 ppBonuses;
         u8 sanity;
 		bool8 fatefulEncounter;
+		bool8 nationalRibbon;
 		u8 versionModifier;
         u8 OTName[17];
         u32 OTID;
@@ -388,19 +389,19 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
-        .width = 10,
-        .height = 4,
+        .width = 11,
+        .height = 5,
         .paletteNum = 2,
         .baseBlock = 1,
     },
     [PSS_LABEL_PANE_LEFT_BOTTOM] = {
         .bg = 0,
-        .tilemapLeft = 3,
+        .tilemapLeft = 0,
         .tilemapTop = 16,
-        .width = 8,
+        .width = 11,
         .height = 5,
         .paletteNum = 2,
-        .baseBlock = 44,
+        .baseBlock = 59,
     },
     [PSS_LABEL_PANE_LEFT_MOVE] = {
         .bg = 0,
@@ -409,7 +410,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 14,
         .height = 16,
         .paletteNum = 2,
-        .baseBlock = 418,
+        .baseBlock = 448,
     },
     [PSS_LABEL_PANE_RIGHT] = {
         .bg = 0,
@@ -418,7 +419,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 19,
         .height = 18,
         .paletteNum = 2,
-        .baseBlock = 76,
+        .baseBlock = 106,
     },
     [PSS_LABEL_PANE_RIGHT_HP] = {
         .bg = 0,
@@ -427,7 +428,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 19,
         .height = 3,
         .paletteNum = 2,
-        .baseBlock = 76,
+        .baseBlock = 106,
     },
     [PSS_LABEL_PANE_RIGHT_SMALL] = {
         .bg = 0,
@@ -436,7 +437,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 19,
         .height = 15,
         .paletteNum = 2,
-        .baseBlock = 152,
+        .baseBlock = 182,
     },
     [PSS_LABEL_PANE_RIGHT_BOTTOM] = {
         .bg = 0,
@@ -445,7 +446,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 19,
         .height = 6,
         .paletteNum = 2,
-        .baseBlock = 684,
+        .baseBlock = 711,
     },
     [PSS_LABEL_PANE_TITLE] = {
         .bg = 0,
@@ -454,7 +455,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 19,
         .height = 2,
         .paletteNum = 2,
-        .baseBlock = 644,
+        .baseBlock = 674,
     },
     [PSS_LABEL_WINDOW_END] = DUMMY_WIN_TEMPLATE
 };
@@ -525,7 +526,8 @@ static const u8 sMemoSpecialTextColor[] = _("{COLOR 14}{SHADOW 13}");
 #define TAG_SPLIT_ICONS     30004
 #define TAG_HEALTH_BAR      30005
 #define TAG_EXP_BAR         30006
-#define TAG_GAME_ICONS      30007
+// 30006 & 30007 are used for HP bar
+#define TAG_GAME_ICONS      30008
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -948,11 +950,14 @@ static const u32 * const sPageTilemaps[] =
 	gSummaryScreenPageConditionTilemap
 };
 
+const u8 sText_Male[] = _("{SUM_MALE}");
+const u8 sText_Female[] = _("{SUM_FEMALE}");
 const u8 sText_Shiny[] = _("{SUM_SHINY}");
 const u8 sText_Pokerus[] = _("{SUM_IMMUNE}");
 const u8 sText_Fateful[] = _("{SUM_FATEFUL}");
 const u8 sText_NatureUp[] = _("{SUM_UP}");
 const u8 sText_NatureDown[] = _("{SUM_DOWN}");
+const u8 sText_Purified[] = _("{SUM_PURIFIED}");
 const u8 sText_OTName[] = _("OT");
 const u8 sText_OTID[] = _("ID No.");
 const u8 sText_HP[] = _("HP");
@@ -1368,7 +1373,7 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
     }
 
     if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] == 0xFF)
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] = CreateSprite(&sSpriteTemplate_GameIcons, 37, 48, 0);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] = CreateSprite(&sSpriteTemplate_GameIcons, 37, 51, 0);
 
     if (trueOrigin == 0xFF || trueOrigin == ORIGIN_GAME_HELIODOR)
     {
@@ -1593,7 +1598,7 @@ static bool8 LoadGraphics(void)
 			SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
 			StopPokemonAnimations();
-			sMonSummaryScreen->markingsSprite->x = 257;
+			sMonSummaryScreen->markingsSprite->x = 266;
 			sMonSummaryScreen->markingsSprite->y = 332;
 		}
 		gMain.state++;
@@ -1825,6 +1830,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
 		sum->fatefulEncounter = GetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER);
+		sum->nationalRibbon = GetMonData(mon, MON_DATA_NATIONAL_RIBBON);
 		if (sum->isEgg)
 		{
 			sMonSummaryScreen->minPageIndex = PSS_PAGE_MEMO;
@@ -2246,7 +2252,7 @@ static void Task_SwitchToMoveDetails(u8 taskId)
             SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, TRUE);
             SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
 			StopPokemonAnimations();
-			sMonSummaryScreen->markingsSprite->x = 257;
+			sMonSummaryScreen->markingsSprite->x = 266;
 			sMonSummaryScreen->markingsSprite->y = 332;
 			ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
 			ScheduleBgCopyTilemapToVram(0);
@@ -2504,7 +2510,7 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 				SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, FALSE);
 
 			CreateSetStatusSprite();
-			sMonSummaryScreen->markingsSprite->x = 57;
+			sMonSummaryScreen->markingsSprite->x = 66;
 			sMonSummaryScreen->markingsSprite->y = 132;
 			PrintInfoBar(sMonSummaryScreen->currPageIndex, FALSE);
 			data[0]++;
@@ -2892,34 +2898,36 @@ static void PrintNotEggInfo(void)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
 	GetMonNickname(mon, gStringVar1);
-    PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 20, 2, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 23, 5, 0, 1);
 	StringCopy(gStringVar1, gText_LevelSymbol);
 	ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
 	StringAppend(gStringVar1, gStringVar2);
-	PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 6, 18, 0, 0);
+	PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 6, 21, 0, 0);
 
 	if (summary->species2 != SPECIES_NIDORAN_M && summary->species2 != SPECIES_NIDORAN_F)
     {
         switch (GetMonGender(mon))
         {
         case MON_MALE:
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_MaleSymbol, 71, 19, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Male, 76, 22, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
             break;
         case MON_FEMALE:
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gText_FemaleSymbol, 71, 19, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
+            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Female, 76, 22, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
             break;
         }
     }
 	if (IsMonShiny(mon))
-		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Shiny, 62, 18, 0, PSS_COLOR_SHINY_STARS);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Shiny, 67, 21, 0, PSS_COLOR_SHINY_STARS);
 	#if CONFIG_FATEFUL_ENCOUNTER_MARK
 	if (summary->fatefulEncounter)
-		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Fateful, 52, 18, 0, PSS_COLOR_FATEFUL_TRIANGLE);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Fateful, 57, 21, 0, PSS_COLOR_FATEFUL_TRIANGLE);
 	if (!CheckPartyPokerus(mon, 0) && CheckPartyHasHadPokerus(mon, 0))
-		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Pokerus, 43, 18, 0, PSS_COLOR_POKERUS_CURED);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Pokerus, 47, 21, 0, PSS_COLOR_POKERUS_CURED);
+    if (summary->nationalRibbon)
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Purified, 37, 21, 0, PSS_COLOR_POKERUS_CURED);
 	#else
 	if (!CheckPartyPokerus(mon, 0) && CheckPartyHasHadPokerus(mon, 0))
-		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Pokerus, 52, 18, 0, PSS_COLOR_POKERUS_CURED);
+		PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, sText_Pokerus, 57, 21, 0, PSS_COLOR_POKERUS_CURED);
 	#endif
 
 	if (sMonSummaryScreen->summary.item == ITEM_NONE)
@@ -2927,8 +2935,8 @@ static void PrintNotEggInfo(void)
     else
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
 
-	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
-	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, FONT_SMALL, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, sText_HeldItem);
+	x = GetStringCenterAlignXOffset(0, gStringVar1, 84);
+	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, FONT_SMALL, 33, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, sText_HeldItem);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, FONT_SMALL, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
 }
 
@@ -2937,12 +2945,12 @@ static void PrintEggInfo(void)
 	u8 x;
 
     GetMonNickname(&sMonSummaryScreen->currentMon, gStringVar1);
-    PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 20, 2, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_PANE_LEFT_TOP, gStringVar1, 23, 5, 0, 1);
 	if (sMonSummaryScreen->summary.item == ITEM_NONE)
         StringCopy(gStringVar1, sText_None);
     else
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
-	x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
+	x = GetStringCenterAlignXOffset(0, gStringVar1, 84);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, FONT_SMALL, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, sText_HeldItem);
 	AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, FONT_SMALL, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
 }
@@ -3797,7 +3805,7 @@ static void PrintMoveDetails(u16 move)
 	SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
     SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, TRUE);
     SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
-	sMonSummaryScreen->markingsSprite->x = 257;
+	sMonSummaryScreen->markingsSprite->x = 266;
 	sMonSummaryScreen->markingsSprite->y = 332;
     FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
 
@@ -4300,7 +4308,7 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon)
     if (sprite != NULL)
     {
         StartSpriteAnim(sprite, GetMonData(mon, MON_DATA_MARKINGS));
-        sMonSummaryScreen->markingsSprite->x = 57;
+        sMonSummaryScreen->markingsSprite->x = 66;
         sMonSummaryScreen->markingsSprite->y = 132;
         sMonSummaryScreen->markingsSprite->oam.priority = 1;
     }
@@ -4315,15 +4323,15 @@ static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon)
 
 static void CreateCaughtBallSprite(struct Pokemon *mon)
 {
-    u8 ball = ItemIdToBallId(GetMonData(mon, MON_DATA_POKEBALL));
+    u16 ball = GetMonData(mon, MON_DATA_POKEBALL);
 
 	FreeSpriteTilesByTag(5500);
 	FreeSpritePaletteByTag(5500);
-	sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = AddBallIconSprite(5500, 5500, ball);
+	sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = AddItemIconSprite(5500, 5500, ball);
 	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].callback = SpriteCallbackDummy;
 	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].oam.priority = 0;
-	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].x = 12;
-	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].y = 11;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].x = 17;
+	gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].y = 16;
 }
 
 static void CreateHeldItemSprite(struct Pokemon *mon)
@@ -4337,8 +4345,8 @@ static void CreateHeldItemSprite(struct Pokemon *mon)
 		sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM] = AddItemIconSprite(5501, 5501, item);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].callback = SpriteCallbackDummy;
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].oam.priority = 0;
-		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].x = 16;
-		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].y = 153;
+		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].x = 17;
+		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].y = 142;
 	}
 }
 
@@ -4354,7 +4362,7 @@ static void CreateLangLabelSprite(struct Pokemon *mon)
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].callback = SpriteCallbackDummy;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].oam.priority = 0;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].x = 74;
-        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].y = 51;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].y = 54;
     }
 }
 
@@ -4364,7 +4372,7 @@ static void CreateSetStatusSprite(void)
     u8 statusAnim;
 
     if (*spriteId == SPRITE_NONE)
-        *spriteId = CreateSprite(&sSpriteTemplate_StatusCondition, 20, 132, 0);
+        *spriteId = CreateSprite(&sSpriteTemplate_StatusCondition, 39, 132, 0);
 
     statusAnim = GetMonAilment(&sMonSummaryScreen->currentMon);
     if (statusAnim != 0)

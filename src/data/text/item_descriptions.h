@@ -437,32 +437,32 @@ static const u8 sHeartScaleDesc[] = _(
 
 // Mail
 static const u8 sOrangeMailDesc[] = _(
-    "A Zigzagoon-print\n"
+    "A ZIGZAGOON-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
 static const u8 sHarborMailDesc[] = _(
-    "A Wingull-print\n"
+    "A WINGULL-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
 static const u8 sGlitterMailDesc[] = _(
-    "A Pikachu-print\n"
+    "A PIKACHU-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
 static const u8 sMechMailDesc[] = _(
-    "A Magnemite-print\n"
+    "A MAGNEMITE-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
 static const u8 sWoodMailDesc[] = _(
-    "A Slakoth-print\n"
+    "A SLAKOTH-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
 static const u8 sWaveMailDesc[] = _(
-    "A Wailmer-print\n"
+    "A WAILMER-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
@@ -472,12 +472,12 @@ static const u8 sBeadMailDesc[] = _(
     "holding Pokémon.");
 
 static const u8 sShadowMailDesc[] = _(
-    "A Duskull-print\n"
+    "A DUSKULL-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
 static const u8 sTropicMailDesc[] = _(
-    "A Bellossom-print\n"
+    "A BELLOSSOM-print\n"
     "Mail to be held by\n"
     "a Pokémon.");
 
@@ -1558,7 +1558,7 @@ static const u8 sDuskBallDesc[] = _(
 
 static const u8 sHealBallDesc[] = _(
     "A remedial Ball that\n"
-    "restores the caught\n"
+    "restores caught\n"
     "Pokémon's HP.");
 
 static const u8 sQuickBallDesc[] = _(
@@ -1818,7 +1818,7 @@ static const u8 sHisuiOriginBallDesc[] = _(
 
 static const u8 sStrangeBallDesc[] = _(
     "An odd Ball of\n"
-    "mysterious origin");
+    "mysterious origin.");
 
 // Heliodor Set 1
 static const u8 sPowerPadDesc[] = _(
