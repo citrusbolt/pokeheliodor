@@ -130,21 +130,6 @@ static void SetPCItemQuantity(u16 *quantity, u16 newValue)
     *quantity = newValue;
 }
 
-void ApplyNewEncryptionKeyToBagItems(u32 newKey)
-{
-    u32 pocket, item;
-    for (pocket = 0; pocket < POCKETS_COUNT; pocket++)
-    {
-        for (item = 0; item < gBagPockets[pocket].capacity; item++)
-            ApplyNewEncryptionKeyToHword(&(gBagPockets[pocket].itemSlots[item].quantity), newKey);
-    }
-}
-
-void ApplyNewEncryptionKeyToBagItems_(u32 newKey) // really GF?
-{
-    ApplyNewEncryptionKeyToBagItems(newKey);
-}
-
 void SetBagItemsPointers(void)
 {
     gBagPockets[ITEMS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_Items;

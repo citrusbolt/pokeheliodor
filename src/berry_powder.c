@@ -137,12 +137,6 @@ void SetBerryPowder(u32 *powder, u32 amount)
     *powder = amount;
 }
 
-void ApplyNewEncryptionKeyToBerryPowder(u32 encryptionKey)
-{
-    u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
-    ApplyNewEncryptionKeyToWord(powder, encryptionKey);
-}
-
 static bool8 HasEnoughBerryPowder_(u32 cost)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;

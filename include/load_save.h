@@ -52,7 +52,5 @@ void CopyPartyAndObjectsToSave(void);
 void CopyPartyAndObjectsFromSave(void);
 void LoadPlayerBag(void);
 void SavePlayerBag(void);
-void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey);
-void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey);
 
 #endif // GUARD_LOAD_SAVE_H

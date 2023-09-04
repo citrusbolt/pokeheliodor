@@ -461,14 +461,6 @@ void SetGameStat(u8 index, u32 value)
         gSaveBlock1Ptr->gameStats[index] = value;
 }
 
-void ApplyNewEncryptionKeyToGameStats(u32 newKey)
-{
-    u8 i;
-
-    for (i = 0; i < NUM_GAME_STATS; i++)
-        ApplyNewEncryptionKeyToWord(&gSaveBlock1Ptr->gameStats[i], newKey);
-}
-
 void LoadObjEventTemplatesFromHeader(void)
 {
     // Clear map object templates

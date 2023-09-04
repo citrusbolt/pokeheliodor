@@ -164,7 +164,6 @@ void NewGameInitData(void)
         RtcReset();
 
     gDifferentSaveFile = TRUE;
-    gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
     ZeroEnemyPartyMons();
     ResetPokedex();
