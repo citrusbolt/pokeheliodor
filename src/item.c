@@ -1042,7 +1042,7 @@ static u16 SanitizeItemId(u16 itemId)
 
 const u8 *ItemId_GetName(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].name;
+    return gItemNames[SanitizeItemId(itemId)];
 }
 
 // Unused

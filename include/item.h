@@ -7,24 +7,23 @@ typedef void (*ItemUseFunc)(u8);
 
 struct Item
 {
-    u8 name[ITEM_NAME_LENGTH];
-    u8 namePlural[ITEM_NAME_LENGTH];
-    u8 nameClassified[ITEM_CLASSIFIED_NAME_LENGTH];
-    u8 nameClassifiedPlural[ITEM_CLASSIFIED_NAME_LENGTH];
-    u16 itemId;
-    u16 price;
-    u8 holdEffect;
-    u8 holdEffectParam;
-    const u8 *description;
-    bool8 blockHolding;
-    u8 pocket;
-    u8 sortId;
-    u8 type;
-    ItemUseFunc fieldUseFunc;
-    u8 battleUsage;
-    ItemUseFunc battleUseFunc;
-    u8 secondaryId;
-};
+/* 0x00 */  u8 gameCubeName[14];
+/* 0x0E */  u16 itemId;
+/* 0x10 */  u16 price;
+/* 0x12 */  u8 holdEffect;
+/* 0x13 */  u8 holdEffectParam;
+/* 0x14 */  const u8 *description;
+/* 0x18 */  bool8 blockHolding;
+/* 0x19 */  u8 sortId;
+/* 0x1A */  u8 pocket;
+/* 0x1B */  u8 type;
+/* 0x1C */  ItemUseFunc fieldUseFunc;
+/* 0x20 */  u8 battleUsage;
+/* 0x21 */  u8 padding1[3];
+/* 0x24 */  ItemUseFunc battleUseFunc;
+/* 0x28 */  u8 secondaryId;
+/* 0x29 */  u8 padding2[3];
+}; // size: 0x2C
 
 struct BagPocket
 {

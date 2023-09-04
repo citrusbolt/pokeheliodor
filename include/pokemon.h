@@ -343,6 +343,7 @@ struct SpeciesInfo
  /* 0x0A */ u16 evYield_Speed:2;
  /* 0x0B */ u16 evYield_SpAttack:2;
  /* 0x0B */ u16 evYield_SpDefense:2;
+            u16 padding1:4;
  /* 0x0C */ u16 itemCommon;
  /* 0x0E */ u16 itemRare;
  /* 0x10 */ u8 genderRatio;
@@ -354,12 +355,13 @@ struct SpeciesInfo
  /* 0x18 */ u8 safariZoneFleeRate;
  /* 0x19 */ u8 bodyColor : 7;
             u8 noFlip : 1;
- /* 0x20 */ u8 hasFRLGSprite:1;
+ /* 0x1A */ u8 hasFRLGSprite:1;
             u8 hasDPSprite:1;
             u8 hasHGSSSprite:1;
             u8 hasBWSprite:1;
             u8 spriteFiller:4;
-};
+ /* 0x1B */ u8 padding2;
+}; //Size: 0x1C
 
 struct BattleMove
 {

@@ -2,6 +2,8 @@
 #define GUARD_DATA_H
 
 #include "constants/moves.h"
+#include "constants/items.h"
+#include "constants/abilities.h"
 
 #define SPECIES_SHINY_TAG 500
 
@@ -176,6 +178,11 @@ extern const u8 gTrainerClassNames[][13];
 extern const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
 extern const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1];
 extern const u8 gEasyChatMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1];
+
+extern const u8 gGameCubeMoveNames[MOVES_COUNT][13];
+extern const u8 gItemNames[ITEMS_COUNT][ITEM_NAME_LENGTH];
+extern const u8 gGameCubeAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1];
+extern const u8 *const gGameCubeAbilityDescriptionPointers[ABILITIES_COUNT];
 
 extern const struct CompressedSpritePalette gEgg1PaletteTable[];
 extern const struct CompressedSpritePalette gEgg2PaletteTable[];
