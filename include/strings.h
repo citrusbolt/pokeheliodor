@@ -3349,6 +3349,8 @@ extern const u8 gText_EventTicketSentTo[];
 extern const u8 gText_EonTicket[];
 extern const u8 gText_MysticTicket[];
 extern const u8 gText_AuroraTicket[];
+extern const u8 gText_MovedToFreeSpace[];
+extern const u8 gText_ReturnedFromFreeSpace[];
 
 // Naming Screen
 extern const u8 gText_MoveOkBack[];

@@ -245,6 +245,11 @@ static void ItemMenu_Deselect(u8 taskId);
 
 static void ItemMenu_Reconfigure(u8 taskId);
 
+static void ItemMenu_Move(u8 taskId);
+static void TryMoveItemToFreeSpace(u8 taskId);
+static void ItemMenu_Return(u8 taskId);
+static void Task_RemoveItemFromFreeSpace(u8 taskId);
+
 static const struct BgTemplate sBgTemplates_ItemMenu[] =
 {
     {
@@ -312,8 +317,8 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_TOSS]              = {gMenuText_Toss,            ItemMenu_Toss},
     [ACTION_REGISTER]          = {gMenuText_Register,        ItemMenu_Register},
     [ACTION_GIVE]              = {gMenuText_Give,            ItemMenu_Give},
-    [ACTION_MOVE]              = {gMenuText_MoveToFreeSpace, ItemMenu_Cancel},
-    [ACTION_RETURN]            = {gMenuText_ReturnToPocket,  ItemMenu_Cancel},
+    [ACTION_MOVE]              = {gMenuText_MoveToFreeSpace, ItemMenu_Move},
+    [ACTION_RETURN]            = {gMenuText_ReturnToPocket,  ItemMenu_Return},
     [ACTION_CANCEL]            = {gText_Cancel2,             ItemMenu_Cancel},
     [ACTION_BATTLE_USE]        = {gMenuText_Use,             ItemMenu_UseInBattle},
     [ACTION_CHECK]             = {gMenuText_Check,           ItemMenu_UseOutOfBattle},
@@ -3497,4 +3502,161 @@ static void ItemMenu_Reconfigure(u8 taskId)
 	ScheduleBgCopyTilemapToVram(0);
     BagMenu_PrintCursor(data[0], 0);
 	ReturnToItemList(taskId);
+}
+
+static void ItemMenu_Move(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    RemoveContextWindow();
+    TryMoveItemToFreeSpace(taskId);
+}
+
+static void TryMoveItemToFreeSpace(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    tItemCount = tQuantity;
+
+    FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
+    if (AddPCItem(gSpecialVar_ItemId, tQuantity) == TRUE)
+    {
+        // Successfully moved
+        CopyItemName(gSpecialVar_ItemId, gStringVar1);
+        ConvertIntToDecimalStringN(gStringVar2, tQuantity, STR_CONV_MODE_LEFT_ALIGN, MAX_ITEM_DIGITS);
+        StringExpandPlaceholders(gStringVar4, gText_MovedToFreeSpace);
+        BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
+        gTasks[taskId].func = Task_RemoveItemFromBag;
+        UpdatePocketItemList(FREESPACE_POCKET);
+        UpdatePocketListPosition(FREESPACE_POCKET);
+        LoadBagItemListBuffers(FREESPACE_POCKET);
+    }
+    else
+    {
+        // No room to move
+        BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gText_NoRoomForItems, 3, 1, 0, 0, 0, COLORID_NORMAL);
+        gTasks[taskId].func = WaitDepositErrorMessage;
+    }
+}
+
+static void ItemMenu_Return(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    tItemCount = tQuantity;
+
+    RemoveContextWindow();
+    FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
+    if (AddBagItem(gSpecialVar_ItemId, tQuantity) == TRUE)
+    {
+        // Item withdrawn
+        CopyItemName(gSpecialVar_ItemId, gStringVar1);
+        ConvertIntToDecimalStringN(gStringVar2, tQuantity, STR_CONV_MODE_LEFT_ALIGN, MAX_ITEM_DIGITS);
+        StringExpandPlaceholders(gStringVar4, gText_ReturnedFromFreeSpace);
+        BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
+        gTasks[taskId].func = Task_RemoveItemFromFreeSpace;
+        UpdatePocketItemList(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
+        UpdatePocketListPosition(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
+        LoadBagItemListBuffers(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
+    }
+    else
+    {
+        // No room to move
+        BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gText_NoRoomForItems, 3, 1, 0, 0, 0, COLORID_NORMAL);
+        gTasks[taskId].func = WaitDepositErrorMessage;
+    }
+}
+
+static bool8 RemoveFreeSpaceItem(u16 itemId, u16 count)
+{
+    u8 pocket;
+    u8 var;
+    u16 ownedCount;
+    struct BagPocket *itemPocket;
+    u8 i;
+    u16 totalQuantity = 0;
+
+    if (ItemId_GetPocket(itemId) == POCKET_NONE || itemId == ITEM_NONE)
+        return FALSE;
+
+
+    pocket = FREESPACE_POCKET;
+    itemPocket = &gBagPockets[pocket];
+
+    for (i = 0; i < itemPocket->capacity; i++)
+    {
+        if (itemPocket->itemSlots[i].itemId == itemId)
+            totalQuantity += GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
+    }
+
+    if (totalQuantity < count)
+        return FALSE;   // We don't have enough of the item
+
+    var = GetItemListPosition(pocket);
+    if (itemPocket->capacity > var
+     && itemPocket->itemSlots[var].itemId == itemId)
+    {
+        ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[var].quantity);
+        if (ownedCount >= count)
+        {
+            itemPocket->itemSlots[var].quantity = ownedCount - count;
+            count = 0;
+        }
+        else
+        {
+            count -= ownedCount;
+            itemPocket->itemSlots[var].quantity = 0;
+        }
+
+        if (GetBagItemQuantity(&itemPocket->itemSlots[var].quantity) == 0)
+            itemPocket->itemSlots[var].itemId = ITEM_NONE;
+
+        if (count == 0)
+            return TRUE;
+    }
+
+    for (i = 0; i < itemPocket->capacity; i++)
+    {
+        if (itemPocket->itemSlots[i].itemId == itemId)
+        {
+            ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
+            if (ownedCount >= count)
+            {
+                itemPocket->itemSlots[i].quantity = ownedCount - count;
+                count = 0;
+            }
+            else
+            {
+                count -= ownedCount;
+                itemPocket->itemSlots[i].quantity = 0;
+            }
+
+            if (GetBagItemQuantity(&itemPocket->itemSlots[i].quantity) == 0)
+                itemPocket->itemSlots[i].itemId = ITEM_NONE;
+
+            if (count == 0)
+                return TRUE;
+        }
+    }
+    return TRUE;
+}
+
+static void Task_RemoveItemFromFreeSpace(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
+    u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
+
+    if (JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        RemoveFreeSpaceItem(gSpecialVar_ItemId, tItemCount);
+        DestroyListMenuTask(tListTaskId, scrollPos, cursorPos);
+        UpdatePocketItemList(gBagPosition.pocket);
+        UpdatePocketListPosition(gBagPosition.pocket);
+        LoadBagItemListBuffers(gBagPosition.pocket);
+        tListTaskId = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
+        ScheduleBgCopyTilemapToVram(0);
+        ReturnToItemList(taskId);
+    }
 }
