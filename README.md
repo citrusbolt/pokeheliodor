@@ -2,7 +2,7 @@
 
 [***Discord Link***](https://discord.gg/zsZEsa5q7D)
 
-This is a modification of Pokémon Emerald intended to be a massive upgrade comprehensive source of Pokémon, items, and moves to be transferred to official games while also being a greatly enjoyable game to play standalone for players not intererested in complex software ecologies.
+This is a modification of Pokémon Emerald intended to be a massive upgrade and comprehensive source of Pokémon, items, and moves to be transferred to official games while also being a greatly enjoyable game to play standalone for players not intererested in complex software ecologies.
 
 The highest design priorities are 100% compatibility in terms of:
 * Multiplayer
