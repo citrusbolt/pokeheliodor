@@ -36,9 +36,14 @@ GAME_CODE   := BPEE
 MAKER_CODE  := 01
 REVISION    := 0
 MODERN      ?= 0
+DEV_BUILD   ?= 1
 
 ifneq ($(filter modern, $(MAKECMDGOALS)),)
   MODERN := 1
+endif
+
+ifneq ($(filter release, $(MAKECMDGOALS)),)
+  DEV_BUILD := 0
 endif
 
 # use arm-none-eabi-cpp for macOS
@@ -134,7 +139,7 @@ LIBPATH := -L "$(dir $(shell $(PATH_MODERNCC) -mthumb -print-file-name=libgcc.a)
 LIB := $(LIBPATH) -lc -lnosys -lgcc -L../../libagbsyscall -lagbsyscall
 endif
 
-CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DBUILD_REPO_BRANCH=$(BUILD_REPO_BRANCH) -DBUILD_VERSION=$(BUILD_VERSION) -DBUILD_TIME=$(BUILD_TIME) -DBUILD_DIRTY=$(BUILD_DIRTY)
+CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DBUILD_REPO_BRANCH=$(BUILD_REPO_BRANCH) -DBUILD_VERSION=$(BUILD_VERSION) -DBUILD_TIME=$(BUILD_TIME) -DBUILD_DIRTY=$(BUILD_DIRTY) -DDEV_BUILD=$(DEV_BUILD)
 ifneq ($(MODERN),1)
 CPPFLAGS += -I tools/agbcc/include -I tools/agbcc -nostdinc -undef
 endif
@@ -173,7 +178,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald flash flash-delta merge-check
+.PHONY: all rom clean tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald flash flash-delta merge-check release
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -181,7 +186,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch flash flash-delta merge-check,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch flash flash-delta merge-check release,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -525,6 +530,8 @@ else
 		mv $(FLASH_ROM_NAME) $(LASTFLASHED_ROM_NAME); \
 	fi
 endif
+
+release: patch
 
 libagbsyscall:
 	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)
