@@ -268,23 +268,23 @@ static const u16 sTestAvatarGfxIds[] = {OBJ_EVENT_GFX_WALLY, OBJ_EVENT_GFX_STEVE
 
 static const u16 sUnknownAvatarGfxIds[2][8] = {
     [MALE] = {
-        OBJ_EVENT_GFX_MAN_3, 
-        OBJ_EVENT_GFX_BLACK_BELT, 
-        OBJ_EVENT_GFX_CAMPER, 
-        OBJ_EVENT_GFX_YOUNGSTER, 
-        OBJ_EVENT_GFX_PSYCHIC_M, 
-        OBJ_EVENT_GFX_BUG_CATCHER, 
-        OBJ_EVENT_GFX_MAN_4, 
+        OBJ_EVENT_GFX_MAN_3,
+        OBJ_EVENT_GFX_BLACK_BELT,
+        OBJ_EVENT_GFX_CAMPER,
+        OBJ_EVENT_GFX_YOUNGSTER,
+        OBJ_EVENT_GFX_PSYCHIC_M,
+        OBJ_EVENT_GFX_BUG_CATCHER,
+        OBJ_EVENT_GFX_MAN_4,
         OBJ_EVENT_GFX_MAN_5
     },
     [FEMALE] = {
-        OBJ_EVENT_GFX_WOMAN_5, 
-        OBJ_EVENT_GFX_HEX_MANIAC, 
-        OBJ_EVENT_GFX_PICNICKER, 
-        OBJ_EVENT_GFX_LASS, 
-        OBJ_EVENT_GFX_LASS, 
-        OBJ_EVENT_GFX_GIRL_3, 
-        OBJ_EVENT_GFX_WOMAN_2, 
+        OBJ_EVENT_GFX_WOMAN_5,
+        OBJ_EVENT_GFX_HEX_MANIAC,
+        OBJ_EVENT_GFX_PICNICKER,
+        OBJ_EVENT_GFX_LASS,
+        OBJ_EVENT_GFX_LASS,
+        OBJ_EVENT_GFX_GIRL_3,
+        OBJ_EVENT_GFX_WOMAN_2,
         OBJ_EVENT_GFX_BEAUTY
     }
 };
@@ -649,26 +649,42 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         }
     }
 
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
+    {
+        if (FlagGet(FLAG_SYS_AUTORUN))
+            PlayerWalkFaster(direction);
+        else
+            PlayerWalkFast(direction);
+        return;
+    }
+
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
     {
-        if (heldKeys & B_BUTTON)
-			PlayerWalkFaster(direction);
-		else
-			PlayerWalkFast(direction);
+        if ((heldKeys & B_BUTTON) && FlagGet(FLAG_SYS_AUTORUN))
+            PlayerWalkFast(direction);
+        else if ((heldKeys & B_BUTTON) && !FlagGet(FLAG_SYS_AUTORUN))
+            PlayerWalkFaster(direction);
+        else if (!(heldKeys & B_BUTTON) && FlagGet(FLAG_SYS_AUTORUN))
+            PlayerWalkFaster(direction);
+        else
+            PlayerWalkFast(direction);
 		return;
 	}
 
-    if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER) && (heldKeys & B_BUTTON) && FlagGet(FLAG_SYS_B_DASH)
+    if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER) && (heldKeys & B_BUTTON || FlagGet(FLAG_SYS_AUTORUN)) && FlagGet(FLAG_SYS_B_DASH)
      && IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior) == 0)
     {
-        PlayerRun(direction);
-        gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_DASH;
+        if (heldKeys & B_BUTTON && FlagGet(FLAG_SYS_AUTORUN))
+        {
+            PlayerWalkNormal(direction);
+        }
+        else
+        {
+            PlayerRun(direction);
+            gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_DASH;
+        }
         return;
     }
-	else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
-	{
-		PlayerWalkFast(direction);
-	}
     else
     {
         PlayerWalkNormal(direction);
