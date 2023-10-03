@@ -189,18 +189,11 @@ u16 ChooseMoveAndTargetInBattlePalace(void)
             // Count the number of move groups for which the battler has at least 2 usable moves.
             // This is a roundabout way to determine if there is a move group that should be
             // preferred, because it has multiple move options and the others do not.
-            // The condition intended to check the total for the Support group is accidentally
-            // checking the Defense total, and is never true. As a result the preferences for
-            // random move selection here will skew away from the Support move group.
             if ((numMovesPerGroup & 0xF) >= 2)
                 numMultipleMoveGroups++;
             if ((numMovesPerGroup & (0xF << 4)) >= (2 << 4))
                 numMultipleMoveGroups++;
-#ifdef BUGFIX
             if ((numMovesPerGroup & (0xF << 8)) >= (2 << 8))
-#else
-            if ((numMovesPerGroup & (0xF << 4)) >= (2 << 8))
-#endif
                 numMultipleMoveGroups++;
 
 
@@ -224,18 +217,11 @@ u16 ChooseMoveAndTargetInBattlePalace(void)
                 // The battler has just 1 move group with multiple move options to choose from.
                 // Choose a move randomly from this group.
 
-                // Same bug as the previous set of conditions (the condition for Support is never true).
-                // This bug won't cause a softlock below, because if Support is the only group with multiple
-                // moves then it won't have been counted, and the 'numMultipleMoveGroups == 0' above will be true.
                 if ((numMovesPerGroup & 0xF) >= 2)
                     randSelectGroup = PALACE_MOVE_GROUP_ATTACK;
                 if ((numMovesPerGroup & (0xF << 4)) >= (2 << 4))
                     randSelectGroup = PALACE_MOVE_GROUP_DEFENSE;
-#ifdef BUGFIX
                 if ((numMovesPerGroup & (0xF << 8)) >= (2 << 8))
-#else
-                if ((numMovesPerGroup & (0xF << 4)) >= (2 << 8))
-#endif
                     randSelectGroup = PALACE_MOVE_GROUP_SUPPORT;
 
                 do
