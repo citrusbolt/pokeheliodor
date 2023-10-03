@@ -989,9 +989,9 @@ void SetEnigmaBerry(u8 *src)
     u8 *dest = (u8 *)&gSaveBlock1Ptr->enigmaBerry;
     u8 *destDesc = (u8*)&gSaveBlock1Ptr->enigmaBerryDesc;
 
-    for (i = 0; i < 0x530; i++)
+    for (i = 0; i < 0x52C; i++)
 	{
-		if ((i >= 0x000 && i < 0x01B) || (i >= 0x516))
+		if (i < 0x01C || i >= 0x516)
 		{
 			dest[j] = src[i];
 			j++;

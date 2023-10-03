@@ -312,8 +312,8 @@ static const s16 sEggShardVelocities[][2] =
 static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
 {
     u16 species;
-    u32 personality, pokerus;
-    u8 i, friendship, language, gameMet, markings, isModernFatefulEncounter;
+    u32 personality, pokerus, tid;
+    u8 i, friendship, language, gameMet, markings, isModernFatefulEncounter, versionModifier, metLocation;
     u16 moves[MAX_MON_MOVES];
     u32 ivs[NUM_STATS];
 
@@ -326,6 +326,14 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
 
     for (i = 0; i < NUM_STATS; i++)
         ivs[i] = GetMonData(egg, MON_DATA_HP_IV + i);
+
+    versionModifier = GetMonData(egg, MON_DATA_VERSION_MODIFIER);
+    metLocation = GetMonData(egg, MON_DATA_MET_LOCATION);
+    tid = GetMonData(egg, MON_DATA_OT_ID);
+
+    if (versionModifier == DEV_GAME_FREAK && metLocation == 0xFF && tid == 0
+    && (species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU))
+        versionModifier = DEV_BOX_RS;
 
     // The language is initially read from the Egg but is later overwritten below
     language = GetMonData(egg, MON_DATA_LANGUAGE);
@@ -345,6 +353,7 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
     language = GAME_LANGUAGE;
     SetMonData(temp, MON_DATA_LANGUAGE, &language);
     SetMonData(temp, MON_DATA_MET_GAME, &gameMet);
+    SetMonData(temp, MON_DATA_VERSION_MODIFIER, &versionModifier);
     SetMonData(temp, MON_DATA_MARKINGS, &markings);
 
     friendship = 120;
@@ -402,7 +411,7 @@ void ScriptHatchMon(void)
 
 static bool8 _CheckDaycareMonReceivedMail(struct DayCare *daycare, u8 daycareId)
 {
-    u8 nickname[32];
+    u8 nickname[max(32, POKEMON_NAME_BUFFER_SIZE)];
     struct DaycareMon *daycareMon = &daycare->mons[daycareId];
 
     GetBoxMonNickname(&daycareMon->mon, nickname);
@@ -794,7 +803,7 @@ static void SpriteCB_Egg_Shake3(struct Sprite *sprite)
     {
         if (++sprite->sTimer > 38)
         {
-            u16 species;
+            u16 UNUSED species;
             sprite->callback = SpriteCB_Egg_WaitHatch;
             sprite->sTimer = 0;
             species = GetMonData(&gPlayerParty[sEggHatchData->eggPartyId], MON_DATA_SPECIES);
