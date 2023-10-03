@@ -96,7 +96,6 @@ The highest design priorities are 100% compatibility in terms of:
 * If one of the new roaming Pokémon is caught in Pokémon Emerald, it will not have the correct origin game ID.
   * If you are swapping your save file between versions, only capture roaming Pokémon while playing Pokémon Heliodor.
 
-<<<<<<< HEAD
 If you encounter any other issues, especially relating to the three compatibility principles above, please let me know.
 
 ## Instructions
