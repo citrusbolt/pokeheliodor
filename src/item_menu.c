@@ -122,7 +122,7 @@ struct ListBuffer1 {
 };
 
 struct ListBuffer2 {
-    s8 name[MAX_POCKET_ITEMS][ITEM_NAME_LENGTH + 10];
+    u8 name[MAX_POCKET_ITEMS][ITEM_NAME_LENGTH + 10];
 };
 
 struct TempWallyBag {
@@ -150,7 +150,7 @@ static void PrepareTMHMMoveWindow(void);
 static bool8 IsWallysBag(void);
 static void Task_WallyTutorialBagMenu(u8);
 static void Task_BagMenu_HandleInput(u8);
-static void GetItemName(s8 *, u16);
+static void GetItemName(u8 *, u16);
 static void PrintItemDescription(int);
 static void BagMenu_PrintCursorAtPos(u8, u8);
 static void BagMenu_Print(u8, u8, const u8 *, u8, u8, u8, u8, u8, u8);
@@ -313,31 +313,31 @@ static const u8 sMenuText_R[] = _("R BUTTON");
 static const u8 sMenuText_Reconfigure[] = _("RECONFIGURE");
 
 static const struct MenuAction sItemMenuActions[] = {
-    [ACTION_USE]               = {gMenuText_Use,             ItemMenu_UseOutOfBattle},
-    [ACTION_TOSS]              = {gMenuText_Toss,            ItemMenu_Toss},
-    [ACTION_REGISTER]          = {gMenuText_Register,        ItemMenu_Register},
-    [ACTION_GIVE]              = {gMenuText_Give,            ItemMenu_Give},
-    [ACTION_MOVE]              = {gMenuText_MoveToFreeSpace, ItemMenu_Move},
-    [ACTION_RETURN]            = {gMenuText_ReturnToPocket,  ItemMenu_Return},
-    [ACTION_CANCEL]            = {gText_Cancel2,             ItemMenu_Cancel},
-    [ACTION_BATTLE_USE]        = {gMenuText_Use,             ItemMenu_UseInBattle},
-    [ACTION_CHECK]             = {gMenuText_Check,           ItemMenu_UseOutOfBattle},
-    [ACTION_WALK]              = {gMenuText_Walk,            ItemMenu_UseOutOfBattle},
-    [ACTION_DESELECT]          = {gMenuText_Deselect,        ItemMenu_Deselect},
-    [ACTION_CHECK_TAG]         = {gMenuText_CheckTag,        ItemMenu_CheckTag},
-    [ACTION_CONFIRM]           = {gMenuText_Confirm,         Task_FadeAndCloseBagMenu},
-    [ACTION_SHOW]              = {gMenuText_Show,            ItemMenu_Show},
-    [ACTION_GIVE_FAVOR_LADY]   = {gMenuText_Give2,           ItemMenu_GiveFavorLady},
-    [ACTION_CONFIRM_QUIZ_LADY] = {gMenuText_Confirm,         ItemMenu_ConfirmQuizLady},
-    [ACTION_BY_NAME]           = {sMenuText_ByName,          ItemMenu_SortByName},
-    [ACTION_BY_TYPE]           = {sMenuText_ByType,          ItemMenu_SortByType},
-    [ACTION_BY_AMOUNT]         = {sMenuText_ByAmount,        ItemMenu_SortByAmount},
-    [ACTION_BY_NUMBER]         = {sMenuText_ByNumber,        ItemMenu_SortByNumber},
-    [ACTION_SELECT_BUTTON]     = {sMenuText_Select,          ItemMenu_RegisterSelect},
-    [ACTION_L_BUTTON]          = {sMenuText_L,               ItemMenu_RegisterL},
-    [ACTION_R_BUTTON]          = {sMenuText_R,               ItemMenu_RegisterR},
-	[ACTION_RECONFIGURE]       = {sMenuText_Reconfigure,     ItemMenu_Reconfigure},
-    [ACTION_DUMMY]             = {gText_EmptyString2,        NULL}
+    [ACTION_USE]               = {gMenuText_Use,             {ItemMenu_UseOutOfBattle}},
+    [ACTION_TOSS]              = {gMenuText_Toss,            {ItemMenu_Toss}},
+    [ACTION_REGISTER]          = {gMenuText_Register,        {ItemMenu_Register}},
+    [ACTION_GIVE]              = {gMenuText_Give,            {ItemMenu_Give}},
+    [ACTION_MOVE]              = {gMenuText_MoveToFreeSpace, {ItemMenu_Move}},
+    [ACTION_RETURN]            = {gMenuText_ReturnToPocket,  {ItemMenu_Return}},
+    [ACTION_CANCEL]            = {gText_Cancel2,             {ItemMenu_Cancel}},
+    [ACTION_BATTLE_USE]        = {gMenuText_Use,             {ItemMenu_UseInBattle}},
+    [ACTION_CHECK]             = {gMenuText_Check,           {ItemMenu_UseOutOfBattle}},
+    [ACTION_WALK]              = {gMenuText_Walk,            {ItemMenu_UseOutOfBattle}},
+    [ACTION_DESELECT]          = {gMenuText_Deselect,        {ItemMenu_Deselect}},
+    [ACTION_CHECK_TAG]         = {gMenuText_CheckTag,        {ItemMenu_CheckTag}},
+    [ACTION_CONFIRM]           = {gMenuText_Confirm,         {Task_FadeAndCloseBagMenu}},
+    [ACTION_SHOW]              = {gMenuText_Show,            {ItemMenu_Show}},
+    [ACTION_GIVE_FAVOR_LADY]   = {gMenuText_Give2,           {ItemMenu_GiveFavorLady}},
+    [ACTION_CONFIRM_QUIZ_LADY] = {gMenuText_Confirm,         {ItemMenu_ConfirmQuizLady}},
+    [ACTION_BY_NAME]           = {sMenuText_ByName,          {ItemMenu_SortByName}},
+    [ACTION_BY_TYPE]           = {sMenuText_ByType,          {ItemMenu_SortByType}},
+    [ACTION_BY_AMOUNT]         = {sMenuText_ByAmount,        {ItemMenu_SortByAmount}},
+    [ACTION_BY_NUMBER]         = {sMenuText_ByNumber,        {ItemMenu_SortByNumber}},
+    [ACTION_SELECT_BUTTON]     = {sMenuText_Select,          {ItemMenu_RegisterSelect}},
+    [ACTION_L_BUTTON]          = {sMenuText_L,               {ItemMenu_RegisterL}},
+    [ACTION_R_BUTTON]          = {sMenuText_R,               {ItemMenu_RegisterR}},
+	[ACTION_RECONFIGURE]       = {sMenuText_Reconfigure,     {ItemMenu_Reconfigure}},
+    [ACTION_DUMMY]             = {gText_EmptyString2,        {NULL}}
 };
 
 // these are all 2D arrays with a width of 2 but are represented as 1D arrays
@@ -1066,7 +1066,7 @@ static void LoadBagItemListBuffers(u8 pocketId)
     gMultiuseListMenuTemplate.maxShowed = gBagMenu->numShownItems[pocketId];
 }
 
-static void GetItemName(s8 *dest, u16 itemId)
+static void GetItemName(u8 *dest, u16 itemId)
 {
     switch (gBagPosition.pocket)
     {
@@ -2667,8 +2667,7 @@ static void BagMenu_Print(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top
     AddTextPrinterParameterized4(windowId, fontId, left, top, letterSpacing, lineSpacing, sFontColorTable[colorIndex], speed, str);
 }
 
-// Unused
-static u8 BagMenu_GetWindowId(u8 windowType)
+static u8 UNUSED BagMenu_GetWindowId(u8 windowType)
 {
     return gBagMenu->windowIds[windowType];
 }
