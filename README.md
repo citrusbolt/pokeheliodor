@@ -2,32 +2,30 @@
 
 [***Discord Link***](https://discord.gg/zsZEsa5q7D)
 
-This is a modification of Pokémon Emerald intended to be an interpretation of the "definitive" Generation 3 Hoenn concept while still fitting firmly within the official game ecology.
+This is a modification of Pokémon Emerald intended to be a massive upgrade and comprehensive source of Pokémon, items, and moves to be transferred to official games while also being a greatly enjoyable game to play standalone for players not intererested in complex software ecologies.
 
 The highest design priorities are 100% compatibility in terms of:
 * Multiplayer
   * No changes made should interfere with any link capability with Pokémon Ruby, Pokémon Sapphire, Pokémon FireRed, Pokémon LeafGreen, Pokémon Emerald, Pokémon Box Ruby & Sapphire, Pokémon Colosseum, or Pokémon XD: Gale of Darkness.
 * Inter-generational Transfer
-  * Every Pokémon obtained should completely be legal (indistinguishable from a Pokémon obtained in an official game, using [***PKHeX***](https://github.com/kwsch/PKHeX)'s legality checker as the reference as opposed to Game Freak's) once transferred to a Generation 4 game, with one outlier.
-  * The exception to this will technically be illegal until it enters a Generation 7 game, but there should be no issues transferring it through Poké Transporter to Pokémon Bank.
+  * Every Pokémon obtained should be completely legal (indistinguishable from a Pokémon obtained in an official game, using [***PKHeX***](https://github.com/kwsch/PKHeX)'s legality checker as the reference as opposed to Game Freak's) once transferred to a Generation 4 game, with one outlier.
+  * The exception to this will technically be illegal until it enters a Generation 7 game (assuming no Ribbons are obtained for it that are "before its time"), but there should be no issues transferring it through Poké Transporter to Pokémon Bank.
 * Save Files
-  * There should be no (significant) issues importing your save file from Pokémon Emerald to Pokémon Heliodor and vice versa.
-  * This allows Pokémon Heliodor to, in effect, be treated similar to an expansion pack in which if a player has already completed Pokémon Emerald, this can be used to "unlock" extra content/features for that playthrough.
+  * There should be no issues importing your save file from Pokémon Ruby, Pokémon Sapphire, or Pokémon Emerald to Pokémon Heliodor.
+  * This allows Pokémon Heliodor to, in effect, be treated similar to an expansion pack in which if a player has already completed one of the Generation 3 Hoenn games, this can be used to "unlock" extra content/features for that playthrough.
 
 
 ### Changes
 
 * All 386 Pokémon available within Generation 3 are obtainable.
   * Pokémon not normally found in Pokémon Emerald are generated with different game IDs, languages, and pseudo-random number generation methods to replicate the encounters in which they can normally be found in other games.
-  * This includes new wild encounter tables post-National Dex acquisition, additional gifts, in-game trades, and an extended roamer quest.
-    * If importing a save file from Pokémon Emerald after capturing/defeating the roaming Latias/Latios, speak to the new NPC at the Weather Institute to force the next roamer to initialize.
-* An egg incubator is available for use that relies upon the real-time clock instead of the step counter.
-* All tutor moves found in Generation 3 games are available for purchase at the Battle Frontier.
-* Moves learned by level-up exclusively in Pokémon FireRed and Pokémon LeafGreen are added to the learnsets.
-* Evolution items and Kanto-exclusive held items are available for purchase at the Battle Frontier.
-* The remainder of the Kanto-exclusive items are available at the Lilycove Department Store.
+* An Egg Incubator is available for use that relies upon the real-time clock instead of the step counter.
+* Pokémon are able to learn every move they would be capable of learning in Generations 3, 4, and 5 one way or another.
+* All items are available and are not finite.
+  * Many items from newer games have also been added.
 * For Pokémon Colosseum and Pokémon XD: Gale of Darkness players, Poké Coupons that have been transferred to the cartridge can be used to purchase rare items.
   * Poké Coupons can also be obtained by trading in Battle Points at the Battle Frontier.
+* Rumble functionality has been added, both for cartridges housing the appropriate hardware as well as when playing on the Nintendo Game Boy Player.
 * e-Reader functionality has been restored with version and language restrictions removed.
   * The Legendary Titan dolls can be obtained without issue.
   * e-Card berries can be obtained, although Japanese berries will (obviously) have text errors.
@@ -35,35 +33,27 @@ The highest design priorities are 100% compatibility in terms of:
   * The Eon Ticket can be obtained, but the event text is slightly garbled.
     * The Eon Ticket can also be obtained during normal gameplay after defeating the Elite Four for the first time.
   * Ruby/Sapphire e-Card trainers can be battled in Sootopolis.
-* The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colosseum, Pokémon XD: Gale of Darkness, as well as [***Pokémon CrystalDust***](https://github.com/Sierraffinity/CrystalDust).
+* The Pokémon summary screen now shows correct information for all locations in Pokémon Ruby, Pokémon Sapphire, Pokémon Colosseum, and Pokémon XD: Gale of Darkness.
 * Breeding mechanics have been changed.
   * Both parents can now pass down Nature and moves.
   * The "Masuda Method" is implemented.
   * A bug affecting IV inheritance has been fixed.
-* If the first member of the party is holding a Scope Lens, only Pokémon of that species will be found in the wild as long as that species is available at that location.
-  * There is a 2% chance of failure for this effect.
 * Methods to aid in obtaining Shiny Pokémon have been added.
   * As mentioned above, the [***Masuda Method***](https://bulbapedia.bulbagarden.net/wiki/Masuda_method) is implemented.
-  * Once the National Dex has been completed, [***Shiny Charm***](https://bulbapedia.bulbagarden.net/wiki/Shiny_Charm) functionality is activated. (no item needs to be obtained for any of the Charm effects)
-  * Successively encountering the same species of Pokémon will increase the odds of encountering a Shiny Pokémon.
-* Once the Hoenn Dex has been completed, [***Oval Charm***](https://bulbapedia.bulbagarden.net/wiki/Oval_Charm) functionality is activated.
-* Once the Elite Four has been defeated, [***Exp. Charm***](https://bulbapedia.bulbagarden.net/wiki/Exp._Charm) functionality is activated.
-  * Catch rates are also boosted by 50% at this point.
-* Net Ball, Dive Ball, and Repeat Ball mechanics have been updated to match the changes made in Generation 7.
-* If any member of the party holds an Exp. Share, the whole party receives experience points from battle.
+  * The [***Shiny Charm***](https://bulbapedia.bulbagarden.net/wiki/Shiny_Charm) has been added.
+  * Successively encountering the same species of Pokémon in succession will increase the odds of encountering a Shiny Pokémon.
+* Many mechanics have been updated to match the changes made in newer games.
 * Legendary Pokémon (and Sudowoodo) that have been defeated without being caught will respawn when the Elite Four is defeated.
   * The respawn will only trigger if the Pokémon is not registered as "caught" in the Pokédex, so trading over a legendary Pokémon will interfere with this.
   * Roaming Pokémon will respawn instantly somewhere in the region when knocked out.
-  * After every 10 Elite Four victories, all Legendary and Mythical Pokémon (and Sudowoodo) will respawn whether they've been captured or not.
+  * After every 10 Elite Four victories, all Legendary and Mythical Pokémon (and Sudowoodo) will respawn regardless of whether they have been caught.
 * The clock offset can be changed by pressing 'B', 'Left', and 'Select' on the title screen.
 * Secret Power, Cut, Surf, Strength, Rock Smash, Waterfall, and Dive can be used as long as one of the party members is capable of learning the move.
   * The respective badge is still required.
 * EVs are capped at 252 per stat instead of 255.
   * The cap on EVs able to be earned through vitamins has been removed as well.
-* The battle and summary screens report the correct type and base power for Hidden Power.
 * Many encounter mechanics have been modified.
 * Catching a Pokémon yields experience points.
-* All TMs are purchasable.
 * HM moves can be forgotten without the use of the Move Deleter.
 * Trade evolutions can be triggered be leveling up in the Union Room.
   * The Union Room can be entered without the Wireless Adapter connected.
@@ -76,10 +66,13 @@ The highest design priorities are 100% compatibility in terms of:
 * Eggs are colored based on the Type(s) of the Pokémon inside.
 * A system similar to Pass/O/Rotom Power has been added and can be accessed through the Power Pad, a Key Item found in the Bag by default.
 * The Trainer Card can be customized at a terminal in Pokémon Centers.
-    * When linking with Pokémon Ruby, Sapphire, FireRed, and LeafGreen other player's Trainer Cards are displayed as they are in the player's game.
-* Numerous aspects of the graphical style have been changed.
-* Event tickets can be shared with other players via Mystery Gift and Record Mixing.
+    * When linking with Pokémon Ruby, Pokémon Sapphire, Pokémon FireRed, and Pokémon LeafGreen other player's Trainer Cards are displayed exactly as they are in the player's game.
+* Numerous aspects of the graphical style including text, interfaces, tiles, and sprites have been changed.
+* Event tickets can be shared with other players of Pokémon Ruby, Pokémon Sapphire, Pokémon FireRed, Pokémon LeafGreen, Pokémon Emerald, and Pokémon Heliodor via Mystery Gift and Record Mixing.
+* Units of measurement can be displayed in Metric.
+* Text box frame color and font are customizable.
 * The real-time clock effects the world visually.
+* The option to skip giving a nickname to newly obtained Pokémon has been added.
 * Trading restrictions with all Generation 3 games besides Pokémon XD: Gale of Darkness have been removed.
 * A Premier Ball can be obtained as a gift for every 10 Poké Balls (of any kind) purchased at the Poké Mart.
 * After a Repel's effect wears off, and if the player has more Repels in their Bag, they will be asked if they would like to use another immediately without having to go into the menu.
@@ -87,17 +80,6 @@ The highest design priorities are 100% compatibility in terms of:
 * The Bag inventory can be sorted.
 * Two more Key Items can be registered to 'L' and 'R' to be used in the field.
 * Numerous small features and graphics have been changed/added and bugs have been fixed.
-
-## Known Issues
-
-* If the game is saved on a map that has contains a new NPC and transferred to Pokémon Emerald, the game will freeze if the now-invisible NPC is spoken to.
-  * This should not be a big deal, since leaving the map removes the issue, so it seems unlikely major progress can be lost this way.
-* If an e-Card berry is obtained, the description text will be offset by a variable amount when viewed in Pokémon Emerald.  The berry's actual functionality should be unaffected, however.
-* If one of the new roaming Pokémon is caught in Pokémon Emerald, it will not have the correct origin game ID.
-  * If you are swapping your save file between versions, only capture roaming Pokémon while playing Pokémon Heliodor.
-
-<<<<<<< HEAD
-If you encounter any other issues, especially relating to the three compatibility principles above, please let me know.
 
 ## Instructions
 
@@ -113,14 +95,24 @@ For more detailed compilation instructions, see [INSTALL.md](docs/INSTALL.md).
 
 * Alistair: FRLG-styled tilesets
 * AsparagusEduardo: Modified white out penalty
+* Avatar: NPC OW Sprites
+* veontrainer: NPC OW Sprites
 * Buffel Salt: Give NPCs different Poké Balls based on Class; Stop Berry Trees from dying
+* Delta231: NPC OW sprites
 * DizzyEgg: Repel renewal prompt; Double wild encounters
+* Farore: NPC OW sprites
 * ghoulslash: Item sorting in Bag; Additional item registration slots; Poké Ball quick-use function
-* hyo: FRLG-styled Player Character OW sprites
+* hyo: FRLG-styled Player Character OW sprites and NPC OW sprites
 * ipatix: Improved audio mixer
 * Jaizu: Partnered to design new Summary Screen; inserting FRLG-styled OW sprites and tilesets
+* kalarie: NPC OW sprites
 * LOuroboros: Headbutt event script
-* Poffin_Case: FRLG-styled NPC OW sprites
+* m.vit: NPC OW sprites
+* MrDollSteak: NPC OW sprites
+* Robloxmaster342: NPC OW sprites
+* Spherical_Ice: NPC OW sprites
+* Ulithium_Dragon: NPC OW Sprites
+* Poffin_Case: FRLG-styled Hoenn NPC OW sprites
 * Sierraffinity: RTC-based environmental tinting system; translated e-Reader strings; time-based Nurse greetings
 
 ## Special Thanks
