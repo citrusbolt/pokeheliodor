@@ -356,7 +356,7 @@ static void HandleInputChooseAction(void)
 	}
 }
 
-static void UnusedEndBounceEffect(void)
+static void UNUSED UnusedEndBounceEffect(void)
 {
     EndBounceEffect(gActiveBattler, BOUNCE_HEALTHBOX);
     EndBounceEffect(gActiveBattler, BOUNCE_MON);
@@ -653,7 +653,7 @@ static void HandleInputChooseMove(void)
     }
 }
 
-static u32 HandleMoveInputUnused(void)
+static u32 UNUSED HandleMoveInputUnused(void)
 {
     u32 var = 0;
 
@@ -1669,7 +1669,7 @@ static u32 CopyPlayerMonData(u8 monId, u8 *dst)
 {
     struct BattlePokemon battleMon;
     struct MovePpInfo moveData;
-    u8 nickname[20];
+    u8 nickname[POKEMON_NAME_BUFFER_SIZE];
     u8 *src;
     s16 data16;
     u32 data32;
