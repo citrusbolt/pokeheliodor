@@ -8407,8 +8407,19 @@ void PutGiftMonItemInBag(void)
 
 bool8 CanSpeciesLearnAnyTMHM(u16 species)
 {
-	if (species == SPECIES_EGG || (gTMHMLearnsets[species].as_u32s[0] == 0 && gTMHMLearnsets[species].as_u32s[1] == 0))
+    u32 i;
+
+	if (species == SPECIES_EGG)
+    {
 		return FALSE;
-	else
-		return TRUE;
+    }
+    else
+    {
+        for (i = 0; i < sizeof(struct TMHMLearnset) / sizeof(u32); i++)
+        {
+            if (gTMHMLearnsets[species].as_u32s[i] != 0)
+                return TRUE;
+        }
+		return FALSE;
+    }
 }

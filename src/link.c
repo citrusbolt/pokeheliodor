@@ -1347,8 +1347,6 @@ bool8 DoesLinkPlayerCountMatchSaved(void)
 
 void ClearSavedLinkPlayers(void)
 {
-    int i;
-
     memset(sSavedLinkPlayers, 0, sizeof(sSavedLinkPlayers));
 }
 

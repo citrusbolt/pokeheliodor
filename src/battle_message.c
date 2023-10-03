@@ -3072,7 +3072,6 @@ static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
     u32 srcID = 1;
     u32 value = 0;
     u8 nickname[POKEMON_NAME_LENGTH + 1];
-	u8 title;
     u16 hword;
 
     *dst = EOS;
@@ -3180,7 +3179,7 @@ static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
             break;
         case B_BUFF_MON_TITLE:
             if (GetBattlerSide(src[srcID + 1]) == B_SIDE_PLAYER)
-               sTitleSwitch = GetMonData(&gPlayerParty[src[srcID + 2]], MON_DATA_TITLE_STRING, gStringVar2);
+                sTitleSwitch = GetMonData(&gPlayerParty[src[srcID + 2]], MON_DATA_TITLE_STRING, gStringVar2);
             else
                 sTitleSwitch = GetMonData(&gEnemyParty[src[srcID + 2]], MON_DATA_TITLE_STRING, gStringVar2);
             StringGet_Nickname(dst);
