@@ -98,7 +98,11 @@ static void VBlankCB(void)
 
 #include "data/text/build_info.h"
 
+#if DEV_BUILD
+const u8 sText_BuildInfoHeader[] = _("! Version Info !");
+#else
 const u8 sText_BuildInfoHeader[] = _("- Version Info -");
+#endif
 const u8 sText_BuildVersion[] = _("Build Version:");
 const u8 sText_SaveVersion[] = _("Save Version:");
 
