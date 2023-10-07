@@ -7601,6 +7601,8 @@ static void Cmd_givepaydaymoney(void)
     {
         gBattlescriptCurrInstr++;
     }
+
+    gBattleCommunication[MULTIUSE_STATE] = 0;
 }
 
 static void Cmd_setlightscreen(void)
@@ -9827,142 +9829,240 @@ static void Cmd_pickup(void)
     u8 ability;
 	u8 activationTrigger = 1;
     u8 nickname[POKEMON_NAME_LENGTH * 2];
-    u32 index = 0;
-    u32 count = 0;
-    u32 pickupSuccess = 0;
 
-	if (gPowerType == POWER_ITEM && gPowerTime > 0)
-	{
-		switch (gPowerLevel)
-		{
-			case 1:
-				activationTrigger = 2;
-				break;
-			case 2:
-				activationTrigger = 5;
-				break;
-			case 3:
-				activationTrigger = 10;
-				break;
-		}
-	}
-
-    if (InBattlePike())
+    switch (gBattleCommunication[MULTIUSE_STATE])
     {
-
-    }
-    else if (InBattlePyramid())
-    {
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
-            heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
-
-            if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
-                ability = gSpeciesInfo[species].abilities[1];
-            else
-                ability = gSpeciesInfo[species].abilities[0];
-
-            if (ability == ABILITY_PICKUP
-                && species != SPECIES_NONE
-                && species != SPECIES_EGG
-                && heldItem == ITEM_NONE
-                && (Random() % 10) < activationTrigger)
+        case 0:
+            if (gPowerType == POWER_ITEM && gPowerTime > 0)
             {
-                heldItem = GetBattlePyramidPickupItemId();
-                SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &heldItem);
-                pickupSuccess++;
-                index = i;
-            }
-        }
-    }
-    else
-    {
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
-            heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
-
-            if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
-                ability = gSpeciesInfo[species].abilities[1];
-            else
-                ability = gSpeciesInfo[species].abilities[0];
-
-            if (ability == ABILITY_PICKUP
-                && species != SPECIES_NONE
-                && species != SPECIES_EGG
-                && heldItem == ITEM_NONE
-                && (Random() % 10) < activationTrigger)
-            {
-                s32 j;
-                s32 rand = Random() % 100;
-                u8 lvlDivBy10 = (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) - 1) / 10;
-                if (lvlDivBy10 > 9)
-                    lvlDivBy10 = 9;
-
-                for (j = 0; j < (int)ARRAY_COUNT(sPickupProbabilities); j++)
+                switch (gPowerLevel)
                 {
-					if (gPowerType == POWER_ITEM && gPowerLevel == 3 && gPowerTime > 0)
-					{
-						if (sPickupProbabilities[j] > rand)
-						{
-							if (j == 0)
-								SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (rand % 1)]);
-							else
-								SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + 8 - j]);
-                            pickupSuccess++;
-                            index = i;
-							break;
-						}
-						else if (rand == 99 || rand == 98)
-						{
-							SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10]);
-                            pickupSuccess++;
-                            index = i;
-							break;
-						}
-					}
-					else
-					{
-						if (sPickupProbabilities[j] > rand)
-						{
-							SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + j]);
-                            pickupSuccess++;
-                            index = i;
-							break;
-						}
-						else if (rand == 99 || rand == 98)
-						{
-							SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (99 - rand)]);
-                            pickupSuccess++;
-                            index = i;
-							break;
-						}
-					}
+                    case 1:
+                        activationTrigger = 2;
+                        break;
+                    case 2:
+                        activationTrigger = 5;
+                        break;
+                    case 3:
+                        activationTrigger = 10;
+                        break;
                 }
             }
-        }
-    }
 
-    if(pickupSuccess == 1) // only one Pokemon has picked something up, print solo message
-    {
-        GetMonData(&gPlayerParty[index], MON_DATA_NICKNAME, nickname);
-        StringCopy_Nickname(gBattleTextBuff1, nickname);
-        if(CheckPickupItemNeedsAn(GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM)))
-            StringCopy(gBattleTextBuff2, (u8 *)gText_An);
-        else
-            StringCopy(gBattleTextBuff2, (u8 *)gText_A);
-        CopyItemName(GetMonData(&gPlayerParty[index], MON_DATA_HELD_ITEM), gBattleTextBuff3);
-        BattleScriptPush(gBattlescriptCurrInstr + 1);
-        gBattlescriptCurrInstr = BattleScript_PickedUpItemSolo;
+            if (InBattlePike())
+            {
+
+            }
+            else if (InBattlePyramid())
+            {
+                for (i = 0; i < PARTY_SIZE; i++)
+                {
+                    species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
+                    heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
+
+                    if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
+                        ability = gSpeciesInfo[species].abilities[1];
+                    else
+                        ability = gSpeciesInfo[species].abilities[0];
+
+                    if (ability == ABILITY_PICKUP
+                        && species != SPECIES_NONE
+                        && species != SPECIES_EGG
+                        && heldItem == ITEM_NONE
+                        && (Random() % 10) < activationTrigger)
+                    {
+                        heldItem = GetBattlePyramidPickupItemId();
+                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &heldItem);
+                        gBattleScripting.pickupFlags |= 1 << i;
+                    }
+                }
+            }
+            else
+            {
+                for (i = 0; i < PARTY_SIZE; i++)
+                {
+                    species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
+                    heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
+
+                    if (GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM))
+                        ability = gSpeciesInfo[species].abilities[1];
+                    else
+                        ability = gSpeciesInfo[species].abilities[0];
+
+                    if (ability == ABILITY_PICKUP
+                        && species != SPECIES_NONE
+                        && species != SPECIES_EGG
+                        && heldItem == ITEM_NONE
+                        && (Random() % 10) < activationTrigger)
+                    {
+                        s32 j;
+                        s32 rand = Random() % 100;
+                        u8 lvlDivBy10 = (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) - 1) / 10;
+                        if (lvlDivBy10 > 9)
+                            lvlDivBy10 = 9;
+
+                        for (j = 0; j < (int)ARRAY_COUNT(sPickupProbabilities); j++)
+                        {
+                            if (gPowerType == POWER_ITEM && gPowerLevel == 3 && gPowerTime > 0)
+                            {
+                                if (sPickupProbabilities[j] > rand)
+                                {
+                                    if (j == 0)
+                                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (rand % 1)]);
+                                    else
+                                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + 8 - j]);
+                                    gBattleScripting.pickupFlags |= 1 << i;
+                                    break;
+                                }
+                                else if (rand == 99 || rand == 98)
+                                {
+                                    SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10]);
+                                    gBattleScripting.pickupFlags |= 1 << i;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                if (sPickupProbabilities[j] > rand)
+                                {
+                                    SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + j]);
+                                    gBattleScripting.pickupFlags |= 1 << i;
+                                    break;
+                                }
+                                else if (rand == 99 || rand == 98)
+                                {
+                                    SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (99 - rand)]);
+                                    gBattleScripting.pickupFlags |= 1 << i;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        gBattleCommunication[MULTIUSE_STATE]++;
+        // fall through
+    case 1:
+        if (gBattleControllerExecFlags == 0)
+        {
+            if (gBattleScripting.pickupFlags)
+            {
+                for (i = 0; i < PARTY_SIZE; i++)
+                {
+                    if ((gBattleScripting.pickupFlags >> i) & 1)
+                    {
+                        gBattleScripting.pickupFlags &= ~(1 << i);
+                        GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, nickname);
+                        StringCopy_Nickname(gBattleTextBuff1, nickname);
+                        if(CheckPickupItemNeedsAn(GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM)))
+                            StringCopy(gBattleTextBuff2, (u8 *)gText_An);
+                        else
+                            StringCopy(gBattleTextBuff2, (u8 *)gText_A);
+                        CopyItemName(GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM), gBattleTextBuff3);
+                        if (CheckBagHasSpace(GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM), 1))
+                        {
+                            PrepareStringBattle(STRINGID_PICKUP_ASK, 0);
+                            gBattleCommunication[MULTIUSE_STATE] = 3;
+                        }
+                        else
+                        {
+                            PrepareStringBattle(STRINGID_PICKUP, 0);
+                            gBattleCommunication[MULTIUSE_STATE]++;
+                        }
+                        gBattleScripting.currentPickupMon = i;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                gBattleCommunication[MULTIUSE_STATE] = 8;
+            }
+        }
+        break;
+    case 2:
+        if (gBattleControllerExecFlags == 0)
+        {
+            gBattleCommunication[MULTIUSE_STATE] = 1;
+        }
+        break;
+    case 3:
+        if (gBattleControllerExecFlags == 0)
+        {
+            gBattleCommunication[MULTIUSE_STATE]++;
+        }
+        break;
+    case 4:
+        if (gBattleControllerExecFlags == 0)
+        {
+            HandleBattleWindow(YESNOBOX_X_Y, 0);
+            BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xC);
+            gBattleCommunication[CURSOR_POSITION] = 0;
+            BattleCreateYesNoCursorAt(0);
+            gBattleCommunication[MULTIUSE_STATE]++;
+        }
+        break;
+    case 5:
+        if (gBattleControllerExecFlags == 0)
+        {
+            if (JOY_NEW(DPAD_UP) && gBattleCommunication[CURSOR_POSITION] != 0)
+            {
+                PlaySE(SE_SELECT);
+                BattleDestroyYesNoCursorAt(gBattleCommunication[CURSOR_POSITION]);
+                gBattleCommunication[CURSOR_POSITION] = 0;
+                BattleCreateYesNoCursorAt(0);
+            }
+            if (JOY_NEW(DPAD_DOWN) && gBattleCommunication[CURSOR_POSITION] == 0)
+            {
+                PlaySE(SE_SELECT);
+                BattleDestroyYesNoCursorAt(gBattleCommunication[CURSOR_POSITION]);
+                gBattleCommunication[CURSOR_POSITION] = 1;
+                BattleCreateYesNoCursorAt(1);
+            }
+            if (JOY_NEW(A_BUTTON))
+            {
+                PlaySE(SE_SELECT);
+                HandleBattleWindow(YESNOBOX_X_Y, WINDOW_CLEAR);
+
+                if (gBattleCommunication[CURSOR_POSITION] == 0)
+                    gBattleCommunication[MULTIUSE_STATE]++;
+                else
+                    gBattleCommunication[MULTIUSE_STATE] = 1;
+            }
+            else if (JOY_NEW(B_BUTTON))
+            {
+                PlaySE(SE_SELECT);
+                HandleBattleWindow(YESNOBOX_X_Y, WINDOW_CLEAR);
+                gBattleCommunication[MULTIUSE_STATE] = 1;
+            }
+        }
+        break;
+    case 6:
+        if (gBattleControllerExecFlags == 0)
+        {
+            heldItem = GetMonData(&gPlayerParty[gBattleScripting.currentPickupMon], MON_DATA_HELD_ITEM);
+            AddBagItem(heldItem, 1);
+            heldItem = ITEM_NONE;
+            SetMonData(&gPlayerParty[gBattleScripting.currentPickupMon], MON_DATA_HELD_ITEM, &heldItem);
+            PrepareStringBattle(STRINGID_PICKUP_PUT_AWAY, 0);
+            gBattleCommunication[MULTIUSE_STATE]++;
+        }
+        break;
+    case 7:
+        if (gBattleControllerExecFlags == 0)
+        {
+            gBattleCommunication[MULTIUSE_STATE] = 1;
+        }
+        break;
+    case 8:
+        if (gBattleControllerExecFlags == 0)
+        {
+            gBattleCommunication[MULTIUSE_STATE] = 0;
+            gBattlescriptCurrInstr++;
+        }
+        break;
     }
-    else if(pickupSuccess > 1) // multiple Pokemon have picked something up, print multi message
-    {
-        BattleScriptPush(gBattlescriptCurrInstr + 1);
-        gBattlescriptCurrInstr = BattleScript_PickedUpItem;
-    }
-    else
-        gBattlescriptCurrInstr++;
 }
 
 static void Cmd_docastformchangeanimation(void)
@@ -10626,7 +10726,7 @@ static void Cmd_trytakecaughtmonitem(void)
     switch (gBattleCommunication[MULTIUSE_STATE])
     {
     case 0:
-        HandleBattleWindow(0x18, 8, 0x1D, 0xD, 0);
+        HandleBattleWindow(YESNOBOX_X_Y, 0);
         BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xC);
         gBattleCommunication[MULTIUSE_STATE]++;
         gBattleCommunication[CURSOR_POSITION] = 0;

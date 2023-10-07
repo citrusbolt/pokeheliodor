@@ -3333,7 +3333,8 @@ static void BattleStartClearSetData(void)
     gIntroSlideFlags = 0;
     gBattleScripting.animTurn = 0;
     gBattleScripting.animTargetsHit = 0;
-	gBattleScripting.catchSuccess = FALSE;
+    gBattleScripting.catchSuccess = FALSE;
+    gBattleScripting.pickupFlags = FALSE;
     gLeveledUpInBattle = 0;
     gAbsentBattlerFlags = 0;
     gBattleStruct->runTries = 0;

@@ -687,8 +687,9 @@ static const u8 sText_TwoInGameTrainersDefeated[];
 static const u8 sText_Trainer2LoseText[];
 static const u8 sText_QuestionRunFromShiny[];
 
-static const u8 sText_MonPickedUpItem[] = _("Your POKéMON picked\nup some items!");
-static const u8 sText_MonPickedUpItemSolo[] = _("{B_BUFF1} picked up {B_BUFF2} {B_BUFF3}!");
+static const u8 sText_MonPickedUpItem[] = _("{B_BUFF1} found {B_BUFF2} {B_BUFF3}!\p");
+static const u8 sText_MonPickedUpItemAsk[] = _("{B_BUFF1} found {B_BUFF2} {B_BUFF3}!\nWould you like to place it in your Bag?\p");
+static const u8 sText_MonPickedUpItemPutAway[] = _("You placed the {B_BUFF3}\nin your Bag.\p");
 
 const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_START] =
 {
@@ -1068,7 +1069,8 @@ const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_S
     [STRINGID_PKMNRECOVEREDPROBLEM - BATTLESTRINGS_TABLE_START] = sText_PkmnRecoveredXProblem,
     [STRINGID_QUESTIONRUNSHINY - BATTLESTRINGS_TABLE_START] = sText_QuestionRunFromShiny,
     [STRINGID_PICKUP - BATTLESTRINGS_TABLE_START] = sText_MonPickedUpItem,
-    [STRINGID_PICKUPSOLO - BATTLESTRINGS_TABLE_START] = sText_MonPickedUpItemSolo,
+    [STRINGID_PICKUP_ASK - BATTLESTRINGS_TABLE_START] = sText_MonPickedUpItemAsk,
+    [STRINGID_PICKUP_PUT_AWAY - BATTLESTRINGS_TABLE_START] = sText_MonPickedUpItemPutAway,
 };
 
 const u16 gMissStringIds[] =

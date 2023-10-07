@@ -224,7 +224,5 @@ extern const u8 BattleScript_ActionGetNear[];
 extern const u8 BattleScript_ActionThrowPokeblock[];
 extern const u8 BattleScript_FriendshipRecover[];
 extern const u8 BattleScript_AskIfWantsToRunFromShiny[];
-extern const u8 BattleScript_PickedUpItem[];
-extern const u8 BattleScript_PickedUpItemSolo[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

@@ -4580,12 +4580,3 @@ BattleScript_AskIfWantsToRunFromShiny::
 	forfeityesnobox BS_ATTACKER
 	endselectionscript
 
-BattleScript_PickedUpItem::
-	printstring STRINGID_PICKUP
-	waitmessage 0x40
-	return
-
-BattleScript_PickedUpItemSolo::
-	printstring STRINGID_PICKUPSOLO
-	waitmessage 0x40
-	return
