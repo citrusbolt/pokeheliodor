@@ -687,6 +687,9 @@ static const u8 sText_TwoInGameTrainersDefeated[];
 static const u8 sText_Trainer2LoseText[];
 static const u8 sText_QuestionRunFromShiny[];
 
+static const u8 sText_MonPickedUpItem[] = _("Your POKéMON picked\nup some items!");
+static const u8 sText_MonPickedUpItemSolo[] = _("{B_BUFF1} picked up {B_BUFF2} {B_BUFF3}!");
+
 const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_START] =
 {
     [STRINGID_TRAINER1LOSETEXT - BATTLESTRINGS_TABLE_START] = sText_Trainer1LoseText,
@@ -1064,6 +1067,8 @@ const u8 * const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_S
     [STRINGID_ITEMTAKEN - BATTLESTRINGS_TABLE_START] = sText_ItemTaken,
     [STRINGID_PKMNRECOVEREDPROBLEM - BATTLESTRINGS_TABLE_START] = sText_PkmnRecoveredXProblem,
     [STRINGID_QUESTIONRUNSHINY - BATTLESTRINGS_TABLE_START] = sText_QuestionRunFromShiny,
+    [STRINGID_PICKUP - BATTLESTRINGS_TABLE_START] = sText_MonPickedUpItem,
+    [STRINGID_PICKUPSOLO - BATTLESTRINGS_TABLE_START] = sText_MonPickedUpItemSolo,
 };
 
 const u16 gMissStringIds[] =
@@ -2330,7 +2335,7 @@ void BufferStringBattle(u16 stringID)
 				}
                 else
 				{
-					
+
 					if (GetTitleString(gStringVar3, gEnemyParty[gBattlerPartyIndexes[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)]]))
 						stringPtr = sText_LinkTrainerSentOutPkmnTitle;
 					else
@@ -2370,7 +2375,7 @@ void BufferStringBattle(u16 stringID)
 		if (gBattleTextBuff2[0] == B_BUFF_PLACEHOLDER_BEGIN)
             ExpandBattleTextBuffPlaceholders(gBattleTextBuff2, gStringVar3);
 		gBattleTextBuff2[0] = 0;
-		
+
         if (GetBattlerSide(gBattleScripting.battler) == B_SIDE_PLAYER)
         {
             if (*(&gBattleStruct->hpScale) == 0 || gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
@@ -3396,7 +3401,7 @@ bool8 GetTitleString(u8 *dest, struct Pokemon mon)
 	u8 nickname[12];
 	u8 titleId = GetMonData(&mon, MON_DATA_TITLE);
 	GetMonData(&mon, MON_DATA_NICKNAME, nickname);
-	
+
 	if (titleId == 0 || titleId > 32)
 	{
 		return FALSE;
