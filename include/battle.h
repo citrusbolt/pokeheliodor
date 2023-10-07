@@ -514,7 +514,9 @@ struct BattleScripting
     u8 windowsType; // B_WIN_TYPE_*
     u8 multiplayerId;
     u8 specialTrainerBattleType;
-	bool8 catchSuccess;
+    bool8 catchSuccess;
+    u8 pickupFlags;
+    u8 currentPickupMon;
 };
 
 struct BattleSpriteInfo

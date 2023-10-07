@@ -4579,3 +4579,4 @@ BattleScript_AskIfWantsToRunFromShiny::
 	printselectionstring STRINGID_QUESTIONRUNSHINY
 	forfeityesnobox BS_ATTACKER
 	endselectionscript
+
