@@ -635,10 +635,10 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
             switch (graphicsId)
             {
             case OBJ_EVENT_GFX_LINK_RS_BRENDAN:
-                LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+                LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_RS_MAY:
-                LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+                LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL:
                 LoadPalette(gObjectEventPal_Brendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
@@ -659,10 +659,10 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
                 LoadPalette(gObjectEventPal_Kris, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_WALLY:
-                LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             case OBJ_EVENT_GFX_STEVEN:
-                LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             }
         }
