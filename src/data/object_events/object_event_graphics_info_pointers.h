@@ -1,3 +1,9 @@
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTree;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTreeEarlyStages;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTreeLateStages;
+
+
+
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BallCushion;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DiamondCushion;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_FireCushion;
@@ -210,8 +216,8 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BugCatcher_
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Camper_FRLG;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Channeler;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Chef;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CoolTrainerF;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CoolTrainerM;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CooltrainerF;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CooltrainerM;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_FatMan_FRLG;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Fisherman_FRLG;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GameBoyKid_FRLG;
@@ -554,21 +560,6 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zigzagoon;
 
 
 
-
-
-
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTree;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTreeEarlyStages;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BerryTreeLateStages;
-
-
-
-
-
-
-
-
-
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =            &gObjectEventGraphicsInfo_Brendan,
     [OBJ_EVENT_GFX_BRENDAN_MACH_BIKE] =         &gObjectEventGraphicsInfo_BrendanMachBike,
@@ -850,8 +841,8 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_CAMPER_FRLG] =               &gObjectEventGraphicsInfo_Camper_FRLG,
     [OBJ_EVENT_GFX_CHANNELER] =                 &gObjectEventGraphicsInfo_Channeler,
     [OBJ_EVENT_GFX_CHEF] =                      &gObjectEventGraphicsInfo_Chef,
-    [OBJ_EVENT_GFX_COOL_TRAINER_F] =            &gObjectEventGraphicsInfo_CoolTrainerF,
-    [OBJ_EVENT_GFX_COOL_TRAINER_M] =            &gObjectEventGraphicsInfo_CoolTrainerM,
+    [OBJ_EVENT_GFX_COOL_TRAINER_F] =            &gObjectEventGraphicsInfo_CooltrainerF,
+    [OBJ_EVENT_GFX_COOL_TRAINER_M] =            &gObjectEventGraphicsInfo_CooltrainerM,
     [OBJ_EVENT_GFX_FAT_MAN_FRLG] =              &gObjectEventGraphicsInfo_FatMan_FRLG,
     [OBJ_EVENT_GFX_FISHERMAN_FRLG] =            &gObjectEventGraphicsInfo_Fisherman_FRLG,
     [OBJ_EVENT_GFX_GAMEBOY_KID_FRLG] =          &gObjectEventGraphicsInfo_GameBoyKid_FRLG,
