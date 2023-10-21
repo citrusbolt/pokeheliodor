@@ -1045,7 +1045,8 @@ struct SaveBlock1
     /*0x1A9C*/ struct SecretBase secretBases[SECRET_BASES_COUNT];
                struct ItemSlot bagPocket_Medicine[BAG_MEDICINE_COUNT];
                struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT];
-               u8 freeSpaceFromSecretBases[1240];
+               u8 gcnDexFlags[NUM_DEX_FLAG_BYTES];
+               u8 freeSpaceFromSecretBases[1188];
     /*0x271C*/ u8 playerRoomDecorations[DECOR_MAX_PLAYERS_HOUSE];
     /*0x2728*/ u8 playerRoomDecorationPositions[DECOR_MAX_PLAYERS_HOUSE];
     /*0x2734*/ u8 decorationDesks[10];
