@@ -182,6 +182,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		u8 spatkEV;
 		u8 spdefEV;
 		u8 speedEV;
+        u8 trueOrigin;
     } summary;
 	u16 bgTilemapBufferPage[0x400];
 	u16 bgTilemapBufferBG[0x400];
@@ -1380,6 +1381,8 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].invisible = FALSE;
         StartSpriteAnim(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]], trueOrigin);
     }
+
+    sMonSummaryScreen->summary.trueOrigin = trueOrigin;
     return sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN];
 }
 
@@ -2495,7 +2498,8 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 			PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
-            SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
+            if (sMonSummaryScreen->summary.trueOrigin != 0xFF && sMonSummaryScreen->summary.trueOrigin != ORIGIN_GAME_HELIODOR)
+                SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
             SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, FALSE);
 
 			if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
