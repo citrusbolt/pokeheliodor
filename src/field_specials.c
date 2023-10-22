@@ -559,9 +559,9 @@ void SpawnLinkPartnerObjectEvent(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == 0)
-							linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+							linkSpriteId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
 						else
-							linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+							linkSpriteId = OBJ_EVENT_GFX_MAY_NORMAL;
 					}
 					break;
 				case DEV_SOLITAIRI_2:
@@ -616,8 +616,8 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
     adjustedPaletteNum = paletteNum + 6;
     if (graphicsId == OBJ_EVENT_GFX_LINK_RS_BRENDAN ||
         graphicsId == OBJ_EVENT_GFX_LINK_RS_MAY ||
-        graphicsId == OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL ||
-        graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL ||
+        graphicsId == OBJ_EVENT_GFX_BRENDAN_NORMAL ||
+        graphicsId == OBJ_EVENT_GFX_MAY_NORMAL ||
         graphicsId == OBJ_EVENT_GFX_LINK_E_BRENDAN ||
         graphicsId == OBJ_EVENT_GFX_LINK_E_MAY ||
         graphicsId == OBJ_EVENT_GFX_LINK_GOLD ||
@@ -640,10 +640,10 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
             case OBJ_EVENT_GFX_LINK_RS_MAY:
                 LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL:
+            case OBJ_EVENT_GFX_BRENDAN_NORMAL:
                 LoadPalette(gObjectEventPal_Brendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_RIVAL_MAY_NORMAL:
+            case OBJ_EVENT_GFX_MAY_NORMAL:
                 LoadPalette(gObjectEventPal_May, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_LINK_E_BRENDAN:
@@ -3016,7 +3016,7 @@ void SetBattleTowerLinkPlayerGfx(void)
 					if (gLinkPlayers[i].gender == MALE)
 						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
 					else
-						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_MAY_NORMAL);
 				}
 				break;
 			case DEV_SHINY_DRAGON_HUNTER:

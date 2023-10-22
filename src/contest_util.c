@@ -2499,9 +2499,9 @@ void SetLinkContestPlayerGfx(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == MALE)
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
 						else
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_NORMAL;
 					}
 					break;
 				case DEV_TEST:
