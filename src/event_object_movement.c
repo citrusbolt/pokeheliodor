@@ -399,66 +399,6 @@ const u8 gInitialMovementTypeFacingDirections[] = {
     [MOVEMENT_TYPE_WALK_SLOWLY_IN_PLACE_RIGHT] = DIR_EAST,
 };
 
-#define OBJ_EVENT_PAL_TAG_BRENDAN                 0x1100
-#define OBJ_EVENT_PAL_TAG_MAY                     0x1101
-#define OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION       0x1102
-#define OBJ_EVENT_PAL_TAG_GENERIC_1               0x1103
-#define OBJ_EVENT_PAL_TAG_GENERIC_2               0x1104
-#define OBJ_EVENT_PAL_TAG_GENERIC_3               0x1105
-#define OBJ_EVENT_PAL_TAG_GENERIC_4               0x1106
-#define OBJ_EVENT_PAL_TAG_GENERIC_5               0x1107
-#define OBJ_EVENT_PAL_TAG_GENERIC_6               0x1108
-#define OBJ_EVENT_PAL_TAG_GENERIC_7               0x1109
-#define OBJ_EVENT_PAL_TAG_GENERIC_8               0x110A
-#define OBJ_EVENT_PAL_TAG_TRUCK                   0x110D
-#define OBJ_EVENT_PAL_TAG_VIGOROTH                0x110E
-#define OBJ_EVENT_PAL_TAG_ZIGZAGOON               0x110F
-#define OBJ_EVENT_PAL_TAG_MAY_REFLECTION          0x1111
-#define OBJ_EVENT_PAL_TAG_MOVING_BOX              0x1112
-#define OBJ_EVENT_PAL_TAG_CABLE_CAR               0x1113
-#define OBJ_EVENT_PAL_TAG_SSTIDAL                 0x1114
-#define OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER       0x1115
-#define OBJ_EVENT_PAL_TAG_KYOGRE                  0x1116
-#define OBJ_EVENT_PAL_TAG_KYOGRE_REFLECTION       0x1117
-#define OBJ_EVENT_PAL_TAG_GROUDON                 0x1118
-#define OBJ_EVENT_PAL_TAG_GROUDON_REFLECTION      0x1119
-#define OBJ_EVENT_PAL_TAG_UNUSED                  0x111A
-#define OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW        0x111B
-#define OBJ_EVENT_PAL_TAG_POOCHYENA               0x111C
-#define OBJ_EVENT_PAL_TAG_RED                     0x111D
-#define OBJ_EVENT_PAL_TAG_DEOXYS                  0x111E
-#define OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE      0x111F
-#define OBJ_EVENT_PAL_TAG_HO_OH                   0x1120
-#define OBJ_EVENT_PAL_TAG_LUGIA                   0x1121
-#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x1122
-#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x1123
-#define OBJ_EVENT_PAL_TAG_ARTICUNO                0x1124
-#define OBJ_EVENT_PAL_TAG_ZAPDOS                  0x1125
-#define OBJ_EVENT_PAL_TAG_MOLTRES                 0x1126
-#define OBJ_EVENT_PAL_TAG_MEWTWO                  0x1127
-#define OBJ_EVENT_PAL_TAG_RAIKOU                  0x1128
-#define OBJ_EVENT_PAL_TAG_ENTEI                   0x1129
-#define OBJ_EVENT_PAL_TAG_SUICUNE                 0x112A
-#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x112B
-#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x112C
-#define OBJ_EVENT_PAL_TAG_GOLD                    0x112D
-#define OBJ_EVENT_PAL_TAG_KRIS                    0x112E
-#define OBJ_EVENT_PAL_TAG_BARD                    0x112F
-#define OBJ_EVENT_PAL_TAG_HIPSTER                 0x1130
-#define OBJ_EVENT_PAL_TAG_TRADER                  0x1131
-#define OBJ_EVENT_PAL_TAG_STORYTELLER             0x1132
-#define OBJ_EVENT_PAL_TAG_GIDDY                   0x1133
-#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1134
-#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1135
-#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x1136
-#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x1137
-#define OBJ_EVENT_PAL_TAG_LEAF                    0x1138
-#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1400
-#define OBJ_EVENT_PAL_TAG_UNIQUE                  0x11FF
-#define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
-
-#define OW_PAL(gfxId) (gfxId + 0x1200)
-
 #include "data/object_events/object_event_graphics_info_pointers.h"
 #include "data/field_effects/field_effect_object_template_pointers.h"
 #include "data/object_events/object_event_pic_tables.h"
@@ -468,22 +408,6 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/object_event_graphics_info.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
-    {gObjectEventPal_Brendan,                   OBJ_EVENT_PAL_TAG_BRENDAN},
-    {gObjectEventPal_May,                       OBJ_EVENT_PAL_TAG_MAY},
-    {gObjectEventPal_BridgeReflection,          OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION},
-    {gObjectEventPal_Brendan_RS,                 OBJ_EVENT_PAL_TAG_BRENDAN_RS},
-    {gObjectEventPal_May_RS,                     OBJ_EVENT_PAL_TAG_MAY_RS},
-    {gObjectEventPal_BrendanGreen,              OBJ_EVENT_PAL_TAG_BRENDAN_GREEN},
-    {gObjectEventPal_MayGreen,                  OBJ_EVENT_PAL_TAG_MAY_GREEN},
-    {gObjectEventPal_Bard,                      OBJ_EVENT_PAL_TAG_BARD},
-    {gObjectEventPal_Hipster,                   OBJ_EVENT_PAL_TAG_HIPSTER},
-    {gObjectEventPal_Trader,                    OBJ_EVENT_PAL_TAG_TRADER},
-    {gObjectEventPal_Storyteller,               OBJ_EVENT_PAL_TAG_STORYTELLER},
-    {gObjectEventPal_Giddy,                     OBJ_EVENT_PAL_TAG_GIDDY},
-    {gObjectEventPal_BrendanRed,                OBJ_EVENT_PAL_TAG_BRENDAN_RED},
-    {gObjectEventPal_MayRed,                    OBJ_EVENT_PAL_TAG_MAY_RED},
-    {gObjectEventPal_BrendanBlue,               OBJ_EVENT_PAL_TAG_BRENDAN_BLUE},
-    {gObjectEventPal_MayBlue,                   OBJ_EVENT_PAL_TAG_MAY_BLUE},
     {gObjectEventPal_Generic1,                  OBJ_EVENT_PAL_TAG_GENERIC_1},
     {gObjectEventPal_Generic2,                  OBJ_EVENT_PAL_TAG_GENERIC_2},
     {gObjectEventPal_Generic3,                  OBJ_EVENT_PAL_TAG_GENERIC_3},
@@ -492,6 +416,25 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Generic6,                  OBJ_EVENT_PAL_TAG_GENERIC_6},
     {gObjectEventPal_Generic7,                  OBJ_EVENT_PAL_TAG_GENERIC_7},
     {gObjectEventPal_Generic8,                  OBJ_EVENT_PAL_TAG_GENERIC_8},
+    {gObjectEventPal_Reflection,                OBJ_EVENT_PAL_TAG_REFLECTION},
+    {gObjectEventPal_BridgeReflection,          OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION},
+    {gObjectEventPal_Bard,                      OBJ_EVENT_PAL_TAG_BARD},
+    {gObjectEventPal_Hipster,                   OBJ_EVENT_PAL_TAG_HIPSTER},
+    {gObjectEventPal_Trader,                    OBJ_EVENT_PAL_TAG_TRADER},
+    {gObjectEventPal_Storyteller,               OBJ_EVENT_PAL_TAG_STORYTELLER},
+    {gObjectEventPal_Giddy,                     OBJ_EVENT_PAL_TAG_GIDDY},
+    {gObjectEventPal_Brendan,                   OBJ_EVENT_PAL_TAG_BRENDAN},
+    {gObjectEventPal_May,                       OBJ_EVENT_PAL_TAG_MAY},
+    {gObjectEventPal_BrendanUnderwater,         OBJ_EVENT_PAL_TAG_BRENDAN_UNDERWATER},
+    {gObjectEventPal_MayUnderwater,             OBJ_EVENT_PAL_TAG_MAY_UNDERWATER},
+    {gObjectEventPal_Brendan_RS,                OBJ_EVENT_PAL_TAG_BRENDAN_RS},
+    {gObjectEventPal_May_RS,                    OBJ_EVENT_PAL_TAG_MAY_RS},
+    {gObjectEventPal_BrendanGreen,              OBJ_EVENT_PAL_TAG_BRENDAN_GREEN},
+    {gObjectEventPal_MayGreen,                  OBJ_EVENT_PAL_TAG_MAY_GREEN},
+    {gObjectEventPal_BrendanRed,                OBJ_EVENT_PAL_TAG_BRENDAN_RED},
+    {gObjectEventPal_MayRed,                    OBJ_EVENT_PAL_TAG_MAY_RED},
+    {gObjectEventPal_BrendanBlue,               OBJ_EVENT_PAL_TAG_BRENDAN_BLUE},
+    {gObjectEventPal_MayBlue,                   OBJ_EVENT_PAL_TAG_MAY_BLUE},
     {gObjectEventPal_ProfBirch,                 OW_PAL(OBJ_EVENT_GFX_PROF_BIRCH)},
     {gObjectEventPal_Anabel,                    OW_PAL(OBJ_EVENT_GFX_ANABEL)},
     {gObjectEventPal_Tucker,                    OW_PAL(OBJ_EVENT_GFX_TUCKER)},
@@ -521,7 +464,6 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Steven,                    OW_PAL(OBJ_EVENT_GFX_STEVEN)},
     {gObjectEventPal_Wally,                     OW_PAL(OBJ_EVENT_GFX_WALLY)},
     {gObjectEventPal_SSTidal,                   OW_PAL(OBJ_EVENT_GFX_SS_TIDAL)},
-    {gObjectEventPal_SubmarineShadow,           OW_PAL(OBJ_EVENT_GFX_SUBMARINE_SHADOW)},
     {gObjectEventPal_Generic2,                  OW_PAL(OBJ_EVENT_GFX_LATIAS)},
     {gObjectEventPal_Generic1,                  OW_PAL(OBJ_EVENT_GFX_LATIOS)},
     {gObjectEventPal_Archie,                    OW_PAL(OBJ_EVENT_GFX_ARCHIE)},
@@ -548,8 +490,6 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_YahooReceptionistSilver,   OW_PAL(OBJ_EVENT_GFX_YAHOO_RECEPTIONIST_SILVER)},
     {gObjectEventPal_YahooScoutF,               OW_PAL(OBJ_EVENT_GFX_YAHOO_SCOUT_F)},
     {gObjectEventPal_YahooScoutM,               OW_PAL(OBJ_EVENT_GFX_YAHOO_SCOUT_M)},
-    
-    {gObjectEventPal_Reflection,                OBJ_EVENT_PAL_TAG_REFLECTION},
     {NULL,                                      TAG_NONE}
 };
 
@@ -1852,7 +1792,7 @@ void SetObjectEventSpritePosByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup, 
 void FreeAndReserveObjectSpritePalettes(void)
 {
     FreeAllSpritePalettes();
-    gReservedSpritePaletteCount = OBJ_PALSLOT_COUNT;
+    gReservedSpritePaletteCount = 12;
 }
 
 void LoadObjectEventPalette(u16 paletteTag)

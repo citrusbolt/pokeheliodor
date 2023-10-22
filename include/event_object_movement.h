@@ -3,27 +3,37 @@
 
 #include "constants/event_object_movement.h"
 
-// Palette slots for overworld NPCs.
-// The same standard set of palettes for overworld objects are normally always loaded at the same
-// time while walking around the overworld. The only exceptions are the palettes for the player and
-// the "special" NPC, which can be swapped out. This also means that e.g. two "special" NPCs
-// with competing palettes cannot be properly loaded at the same time.
-enum {
-    PALSLOT_PLAYER,
-    PALSLOT_PLAYER_REFLECTION,
-    PALSLOT_NPC_1,
-    PALSLOT_NPC_2,
-    PALSLOT_NPC_3,
-    PALSLOT_NPC_4,
-    PALSLOT_NPC_1_REFLECTION,
-    PALSLOT_NPC_2_REFLECTION,
-    PALSLOT_NPC_3_REFLECTION,
-    PALSLOT_NPC_4_REFLECTION,
-    PALSLOT_NPC_SPECIAL,
-    PALSLOT_NPC_SPECIAL_REFLECTION,
-    OBJ_PALSLOT_COUNT
-    // the remaining sprite palette slots (12-15) are used by field effects, the interface, etc.
-};
+#define OBJ_EVENT_PAL_TAG_UNIQUE                  0x1100
+#define OBJ_EVENT_PAL_TAG_GENERIC_1               0x1101
+#define OBJ_EVENT_PAL_TAG_GENERIC_2               0x1102
+#define OBJ_EVENT_PAL_TAG_GENERIC_3               0x1103
+#define OBJ_EVENT_PAL_TAG_GENERIC_4               0x1104
+#define OBJ_EVENT_PAL_TAG_GENERIC_5               0x1105
+#define OBJ_EVENT_PAL_TAG_GENERIC_6               0x1106
+#define OBJ_EVENT_PAL_TAG_GENERIC_7               0x1107
+#define OBJ_EVENT_PAL_TAG_GENERIC_8               0x1108
+#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1109
+#define OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION       0x110A
+#define OBJ_EVENT_PAL_TAG_BARD                    0x110B
+#define OBJ_EVENT_PAL_TAG_HIPSTER                 0x110C
+#define OBJ_EVENT_PAL_TAG_TRADER                  0x110D
+#define OBJ_EVENT_PAL_TAG_STORYTELLER             0x110E
+#define OBJ_EVENT_PAL_TAG_GIDDY                   0x110F
+#define OBJ_EVENT_PAL_TAG_BRENDAN                 0x1110
+#define OBJ_EVENT_PAL_TAG_MAY                     0x1111
+#define OBJ_EVENT_PAL_TAG_BRENDAN_UNDERWATER      0x1112
+#define OBJ_EVENT_PAL_TAG_MAY_UNDERWATER          0x1113
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x1114
+#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x1115
+#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x1116
+#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x1117
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1118
+#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1119
+#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x111A
+#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x111B
+#define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
+
+#define OW_PAL(gfxId) (gfxId + 0x1200)
 
 enum SpinnerRunnerFollowPatterns
 {

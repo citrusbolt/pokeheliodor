@@ -14,8 +14,6 @@
 #include "constants/songs.h"
 #include "palette.h"
 
-#define OBJ_EVENT_PAL_TAG_NONE 0x11FF // duplicate of define in event_object_movement.c
-
 static void UpdateObjectReflectionSprite(struct Sprite *);
 static void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite *sprite);
 static void UpdateGrassFieldEffectSubpriority(struct Sprite *, u8, u8);
@@ -71,8 +69,6 @@ static s16 GetReflectionVerticalOffset(struct ObjectEvent *objectEvent)
     return GetObjectEventGraphicsInfo(objectEvent->graphicsId)->height - 2;
 }
 
-#define OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION 0x1102
-
 static void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite *reflectionSprite)
 {
     u8 bridgeType;
@@ -96,9 +92,9 @@ static void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct 
     }
     else
     {
-        LoadObjectEventPalette(0x1400); // OBJ_EVENT_PAL_TAG_REFLECTION
-        PatchObjectPalette(0x1400, IndexOfSpritePaletteTag(0x1400));
-        reflectionSprite->oam.paletteNum = IndexOfSpritePaletteTag(0x1400);
+        LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_REFLECTION);
+        PatchObjectPalette(OBJ_EVENT_PAL_TAG_REFLECTION, IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_REFLECTION));
+        reflectionSprite->oam.paletteNum = IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_REFLECTION);
         UpdatePaletteColorMapType(reflectionSprite->oam.paletteNum, COLOR_MAP_DARK_CONTRAST);
         UpdateSpritePaletteWithWeather(reflectionSprite->oam.paletteNum);
     }

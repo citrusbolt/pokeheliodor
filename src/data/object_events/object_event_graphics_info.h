@@ -1148,7 +1148,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Statue = {
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SubmarineShadow = {
-    .paletteTag = OBJ_EVENT_PAL_TAG_UNIQUE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_GENERIC_1,
     .size = 1408,
     .width = 88,
     .height = 32,
@@ -3610,7 +3610,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanSurfing = {
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanUnderwater = {
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
+    .paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_UNDERWATER,
     .size = 512,
     .width = 32,
     .height = 32,
@@ -3806,7 +3806,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MaySurfing = {
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayUnderwater = {
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
+    .paletteTag = OBJ_EVENT_PAL_TAG_MAY_UNDERWATER,
     .size = 512,
     .width = 32,
     .height = 32,
@@ -6848,7 +6848,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Fearow = {
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GroudonAsleep = {
-    .paletteTag = OBJ_EVENT_PAL_TAG_GROUDON,
+    .paletteTag = OBJ_EVENT_PAL_TAG_GENERIC_3,
     .size = 512,
     .width = 32,
     .height = 32,
@@ -6998,7 +6998,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Kirlia = {
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_KyogreAsleep = {
-    .paletteTag = OBJ_EVENT_PAL_TAG_KYOGRE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_GENERIC_4,
     .size = 512,
     .width = 32,
     .height = 32,

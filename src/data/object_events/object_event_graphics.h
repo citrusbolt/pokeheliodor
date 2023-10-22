@@ -119,7 +119,6 @@ const u32 gObjectEventPic_SSTidal[] = INCBIN_U32("graphics/object_events/pics/mi
 const u16 gObjectEventPal_SSTidal[] = INCBIN_U16("graphics/object_events/pics/misc/ss_tidal.gbapal");
 const u32 gObjectEventPic_Statue[] = INCBIN_U32("graphics/object_events/pics/misc/statue.4bpp");
 const u32 gObjectEventPic_SubmarineShadow[] = INCBIN_U32("graphics/object_events/pics/misc/submarine_shadow.4bpp");
-const u16 gObjectEventPal_SubmarineShadow[] = INCBIN_U16("graphics/object_events/pics/misc/submarine_shadow.gbapal");
 const u32 gObjectEventPic_TMBall[] = INCBIN_U32("graphics/object_events/pics/misc/tm_ball.4bpp");
 const u16 gObjectEventPal_TMBall[] = INCBIN_U16("graphics/object_events/pics/misc/tm_ball.gbapal");
 const u32 gObjectEventPic_TownMap[] = INCBIN_U32("graphics/object_events/pics/misc/town_map.4bpp");
