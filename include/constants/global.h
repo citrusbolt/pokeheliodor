@@ -61,7 +61,7 @@
 #define DEV_SOLITAIRI				1	//3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, and 12-1 for legality purposes
 #define DEV_SHINY_DRAGON_HUNTER		2	//4-2 is FireRed DX and 5-2 is LeafGreen DX
 #define DEV_SOLITAIRI_2				3	//4-3 is modified CrystalDust //Once we drop CD, this will be reserved as DEV_ASPARAGUS_EDUARDO
-#define DEV_JAIZU                   4   //3-4 is Emerald Cross, 4-4 is Yellow Cross
+#define DEV_JAIZU                   4   //3-4 is Emerald Cross, 4-4 is Recharged Yellow
 #define DEV_BOX_RS                  5   //Force this tag upon Box Eggs to track them once they are hatched
 #define DEV_TEST					255
 
