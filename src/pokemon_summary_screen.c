@@ -1305,7 +1305,7 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
         {
             trueOrigin = ORIGIN_GAME_COLOSSEUM;
         }
-        else if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x2FAA9CBA)
+        else if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && (tid & 0xFFFF) == 0x9CBA)
         {
             trueOrigin = ORIGIN_GAME_CHANNEL;
         }
