@@ -163,6 +163,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		bool8 fatefulEncounter;
 		bool8 nationalRibbon;
 		u8 versionModifier;
+        u8 mintNature;
         u8 OTName[17];
         u32 OTID;
 		u8 sheen;
@@ -1770,7 +1771,8 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
     case 2:
         if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == SUMMARY_MODE_BOX || sMonSummaryScreen->handleDeoxys == TRUE)
         {
-            sum->nature = GetNature(mon);
+            sum->nature = GetTrueNature(mon);
+            sum->mintNature = GetNature(mon);
             sum->currentHP = GetMonData(mon, MON_DATA_HP);
             sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
             sum->atk = GetMonData(mon, MON_DATA_ATK);
@@ -1781,7 +1783,8 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         }
         else
         {
-            sum->nature = GetNature(mon);
+            sum->nature = GetTrueNature(mon);
+            sum->mintNature = GetNature(mon);
             sum->currentHP = GetMonData(mon, MON_DATA_HP);
             sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
             sum->atk = GetMonData(mon, MON_DATA_ATK2);
@@ -3528,7 +3531,7 @@ static void PrintSkillsPage(void)
     u16 *dst;
 	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
 	struct PokeSummary *summary = &sMonSummaryScreen->summary;
-	const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.nature];
+	const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.mintNature];
 
 	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
 

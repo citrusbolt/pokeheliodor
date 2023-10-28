@@ -3252,14 +3252,39 @@ void ConvertPokemonToBattleTowerPokemon(struct Pokemon *mon, struct BattleTowerP
     dest->spAttackEV = GetMonData(mon, MON_DATA_SPATK_EV, NULL);
     dest->spDefenseEV = GetMonData(mon, MON_DATA_SPDEF_EV, NULL);
     dest->friendship = GetMonData(mon, MON_DATA_FRIENDSHIP, NULL);
-    dest->hpIV = GetMonData(mon, MON_DATA_HP_IV, NULL);
-    dest->attackIV = GetMonData(mon, MON_DATA_ATK_IV, NULL);
-    dest->defenseIV = GetMonData(mon, MON_DATA_DEF_IV, NULL);
-    dest->speedIV  = GetMonData(mon, MON_DATA_SPEED_IV, NULL);
-    dest->spAttackIV  = GetMonData(mon, MON_DATA_SPATK_IV, NULL);
-    dest->spDefenseIV  = GetMonData(mon, MON_DATA_SPDEF_IV, NULL);
+    
+    if (GetMonData(mon, MON_DATA_HP_HT))
+        dest->hpIV = 31;
+    else
+        dest->hpIV = GetMonData(mon, MON_DATA_HP_IV, NULL);
+
+    if (GetMonData(mon, MON_DATA_ATK_HT))
+        dest->attackIV = 31;
+    else
+        dest->attackIV = GetMonData(mon, MON_DATA_ATK_IV, NULL);
+
+    if (GetMonData(mon, MON_DATA_DEF_HT))
+        dest->defenseIV = 31;
+    else
+        dest->defenseIV = GetMonData(mon, MON_DATA_DEF_IV, NULL);
+
+    if (GetMonData(mon, MON_DATA_SPEED_HT))
+        dest->speedIV = 31;
+    else
+        dest->speedIV  = GetMonData(mon, MON_DATA_SPEED_IV, NULL);
+
+    if (GetMonData(mon, MON_DATA_SPATK_HT))
+        dest->spAttackIV = 31;
+    else
+        dest->spAttackIV  = GetMonData(mon, MON_DATA_SPATK_IV, NULL);
+
+    if (GetMonData(mon, MON_DATA_SPDEF_HT))
+        dest->spDefenseIV = 31;
+    else
+        dest->spDefenseIV  = GetMonData(mon, MON_DATA_SPDEF_IV, NULL);
+
     dest->abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM, NULL);
-    dest->personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+    dest->personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL); // How do we want to handle mints here?
     GetMonData(mon, MON_DATA_NICKNAME, dest->nickname);
 }
 
@@ -3337,7 +3362,11 @@ static u16 GetDeoxysStat(struct Pokemon *mon, s32 statId)
     if (gBattleTypeFlags & BATTLE_TYPE_LINK_IN_BATTLE || GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_DEOXYS)
         return 0;
 
-    ivVal = GetMonData(mon, MON_DATA_HP_IV + statId, NULL);
+    if (GetMonData(mon, MON_DATA_HP_HT + statId))
+        ivVal = 31;
+    else
+        ivVal = GetMonData(mon, MON_DATA_HP_IV + statId, NULL);
+
     evVal = GetMonData(mon, MON_DATA_HP_EV + statId, NULL);
     statValue = ((sDeoxysBaseStats[statId] * 2 + ivVal + evVal / 4) * mon->level) / 100 + 5;
     nature = GetNature(mon);
@@ -3472,6 +3501,24 @@ void CalculateMonStats(struct Pokemon *mon)
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     s32 level = GetLevelFromMonExp(mon);
     s32 newMaxHP;
+
+    if (GetMonData(mon, MON_DATA_HP_HT, NULL))
+        hpIV = 31;
+
+    if (GetMonData(mon, MON_DATA_ATK_HT, NULL))
+        attackIV = 31;
+
+    if (GetMonData(mon, MON_DATA_DEF_HT, NULL))
+        defenseIV = 31;
+
+    if (GetMonData(mon, MON_DATA_SPEED_HT, NULL))
+        speedIV = 31;
+
+    if (GetMonData(mon, MON_DATA_SPATK_HT, NULL))
+        spAttackIV = 31;
+
+    if (GetMonData(mon, MON_DATA_SPDEF_HT, NULL))
+        spDefenseIV = 31;
 
     SetMonData(mon, MON_DATA_LEVEL, &level);
 
@@ -6251,9 +6298,66 @@ u8 *UseStatIncreaseItem(u16 itemId)
     return gDisplayedStringBattle;
 }
 
+u8 GetTrueNature(struct Pokemon *mon)
+{
+    return GetMonData(mon, MON_DATA_PERSONALITY) % NUM_NATURES;
+}
+
 u8 GetNature(struct Pokemon *mon)
 {
-    return GetMonData(mon, MON_DATA_PERSONALITY, 0) % NUM_NATURES;
+    if (GetMonData(mon, MON_DATA_MINT) == MINT_NONE)
+    {
+        return GetMonData(mon, MON_DATA_PERSONALITY) % NUM_NATURES;
+    }
+    else
+    {
+        switch (GetMonData(mon, MON_DATA_MINT))
+        {
+            case MINT_LONELY:
+                return NATURE_LONELY;
+            case MINT_ADAMANT:
+                return NATURE_ADAMANT;
+            case MINT_NAUGHTY:
+                return NATURE_NAUGHTY;
+            case MINT_BRAVE:
+                return NATURE_BRAVE;
+            case MINT_BOLD:
+                return NATURE_BOLD;
+            case MINT_IMPISH:
+                return NATURE_IMPISH;
+            case MINT_LAX:
+                return NATURE_LAX;
+            case MINT_RELAXED:
+                return NATURE_RELAXED;
+            case MINT_MODEST:
+                return NATURE_MODEST;
+            case MINT_MILD:
+                return NATURE_MILD;
+            case MINT_RASH:
+                return NATURE_RASH;
+            case MINT_QUIET:
+                return NATURE_QUIET;
+            case MINT_CALM:
+                return NATURE_CALM;
+            case MINT_GENTLE:
+                return NATURE_GENTLE;
+            case MINT_CAREFUL:
+                return NATURE_CAREFUL;
+            case MINT_SASSY:
+                return NATURE_SASSY;
+            case MINT_TIMID:
+                return NATURE_TIMID;
+            case MINT_HASTY:
+                return NATURE_HASTY;
+            case MINT_JOLLY:
+                return NATURE_JOLLY;
+            case MINT_NAIVE:
+                return NATURE_NAIVE;
+            case MINT_SERIOUS:
+            default:
+                return NATURE_SERIOUS;
+        }
+    }
 }
 
 u8 GetNatureFromPersonality(u32 personality)
@@ -7366,7 +7470,7 @@ bool8 IsMonSpriteNotFlipped(u16 species)
 
 s8 GetMonFlavorRelation(struct Pokemon *mon, u8 flavor)
 {
-    u8 nature = GetNature(mon);
+    u8 nature = GetTrueNature(mon);
     return gPokeblockFlavorCompatibilityTable[nature * FLAVOR_COUNT + flavor];
 }
 
