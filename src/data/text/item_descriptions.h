@@ -1747,6 +1747,16 @@ static const u8 sBeastBallDesc[] = _(
     "that does not work\n"
     "well on Pokémon.");
 
+static const u8 sBottleCapDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sGoldBottleCapDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
 // Let's Go, Pikachu!/Let's Go, Eevee!
 static const u8 sClothingTrunkDesc[] = _(
     "A case used to\n"
@@ -1793,6 +1803,111 @@ static const u8 sExpCandyXLDesc[] = _(
     "Grants a very large\n"
     "amount of Exp.\n"
     "Points to a Pokémon.");
+
+static const u8 sLonelyMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sAdamantMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sNaughtyMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sBraveMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sBoldMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sImpishMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sLaxMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sRelaxedMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sModestMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sMildMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sRashMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sQuietMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sCalmMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sGentleMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sCarefulMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sSassyMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sTimidMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sHastyMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sJollyMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sNaiveMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
+
+static const u8 sSeriousMintDesc[] = _(
+    "A special Ball\n"
+    "that does not work\n"
+    "well on Pokémon.");
 
 static const u8 sCatchingCharmDesc[] = _(
     "A charm to increase\n"

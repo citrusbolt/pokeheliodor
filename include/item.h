@@ -10,7 +10,7 @@ typedef void (*ItemUseFunc)(u8);
 struct Item
 {
 /* 0x00 */  u8 gameCubeName[14];
-/* 0x0E */  u16 itemId;
+/* 0x0E */  u16 unused;
 /* 0x10 */  u16 price;
 /* 0x12 */  u8 holdEffect;
 /* 0x13 */  u8 holdEffectParam;

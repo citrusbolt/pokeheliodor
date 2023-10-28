@@ -291,4 +291,27 @@
 #define ENCOUNTER_ROAMER  2
 #define ENCOUNTER_SWARM   3
 
+#define MINT_NONE       0
+#define MINT_LONELY     1
+#define MINT_ADAMANT    2
+#define MINT_NAUGHTY    3
+#define MINT_BRAVE      4
+#define MINT_BOLD       5
+#define MINT_IMPISH     6
+#define MINT_LAX        7
+#define MINT_RELAXED    8
+#define MINT_MODEST     9
+#define MINT_MILD       10
+#define MINT_RASH       11
+#define MINT_QUIET      12
+#define MINT_CALM       13
+#define MINT_GENTLE     14
+#define MINT_CAREFUL    15
+#define MINT_SASSY      16
+#define MINT_TIMID      17
+#define MINT_HASTY      18
+#define MINT_JOLLY      19
+#define MINT_NAIVE      20
+#define MINT_SERIOUS    21
+
 #endif // GUARD_CONSTANTS_POKEMON_H
