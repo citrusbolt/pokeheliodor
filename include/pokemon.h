@@ -15,6 +15,7 @@ enum {
     MON_DATA_OT_NAME,
     MON_DATA_MARKINGS,
     MON_DATA_CHECKSUM,
+    MON_DATA_MINT,
     MON_DATA_FORM,
     MON_DATA_BLOCK_BOX_RS,
     MON_DATA_ENCRYPT_SEPARATOR,
@@ -86,6 +87,7 @@ enum {
     MON_DATA_NATIONAL_RIBBON,
     MON_DATA_EARTH_RIBBON,
     MON_DATA_WORLD_RIBBON,
+    MON_DATA_HYPER_TRAINED,
     MON_DATA_MODERN_FATEFUL_ENCOUNTER,
     MON_DATA_KNOWN_MOVES,
     MON_DATA_RIBBON_COUNT,
@@ -98,25 +100,6 @@ enum {
     MON_DATA_VERSION_MODIFIER,
     MON_DATA_TITLE,
     MON_DATA_TITLE_STRING,
-};
-
-struct __attribute__((packed)) heliodor
-{
-    u16 unused;
-};
-
-// Not sure if this union approach would make sense as it could only really be used for immutables
-// (else a mon transferred from Heliodor to YC wouldn't be eligible to be minted)
-// and stuff like newBall and form are most likely going to be consistant between games anyway.
-// My original idea was to put nuzlocke, hypertraining, etc in a set of 4 flags after worldRibbon;
-// It probably makes sense to go back to that.
-
-struct __attribute__((packed)) yellowCross
-{
-    u16 nuzlockeDead:1;
-    u16 hyperTrained:1;
-    u16 mint:5;
-    u16 unused:9;
 };
 
 struct PokemonSubstruct0
@@ -189,7 +172,8 @@ struct PokemonSubstruct3
  /* 0x0B */ u32 nationalRibbon:1;           // Given to purified Shadow Pokémon in Colosseum/XD.
  /* 0x0B */ u32 earthRibbon:1;              // Given to teams that have beaten Mt. Battle's 100-battle challenge in Colosseum/XD.
  /* 0x0B */ u32 worldRibbon:1;              // Distributed during Pokémon Festa '04 and '05 to tournament winners.
- /* 0x0B */ u32 newBall:4;
+ /* 0x0B */ u32 unusedRibbons:3;
+ /* 0x0B */ u32 hyperTrained:1;
 
  // The functionality of this bit changed in FRLG:
  // In RS, this bit does nothing, is never set, & is accidentally unset when hatching Eggs.
@@ -227,18 +211,14 @@ struct BoxPokemon
     u8 isBadEgg:1;
     u8 hasSpecies:1;
     u8 isEgg:1;
-    u8 blockBoxRS:1; // Unfortunately, Colosseum and XD do not check for this field
-	u8 form:4; // How crazy do we want to get with forms?
+    u8 blockBoxRS:1; // Unfortunately, Colosseum and XD do not check for this field; we're using this to track dead Pokémon in Nuzlocke mode in Jaizu games
+	u8 newBall:4;
     u8 otName[PLAYER_NAME_LENGTH];
     u8 markings;
     u16 checksum;
-
-    union __attribute__((packed))
-    {
-        struct heliodor;
-        struct yellowCross;
-        u16 raw;
-    } specialData;
+    u16 mint:5;
+    u16 form:4;
+    u16 unused:7;
 
     union
     {

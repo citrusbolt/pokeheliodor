@@ -4686,24 +4686,30 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->worldRibbon << 26);
         }
         break;
-	case MON_DATA_FORM:
-		retVal = boxMon->form;
-		break;
-	case MON_DATA_VERSION_MODIFIER:
-		retVal = substruct0->versionModifier;
-		break;
-	case MON_DATA_TITLE:
-		retVal = substruct0->title;
-		break;
-	case MON_DATA_TITLE_STRING:
-		if ((boxMon->nickname[1] >= 0x16 && boxMon->nickname[1] <= 0x2B) || (boxMon->nickname[1] >= 0xD5 && boxMon->nickname[1] <= 0xEE))
-			retVal = GetTitleString3(data, substruct0->title);
-		else
-			retVal = GetTitleString2(data, substruct0->title);
-		break;
-	case MON_DATA_BLOCK_BOX_RS:
-		retVal = boxMon->blockBoxRS;
-		break;
+    case MON_DATA_FORM:
+        retVal = boxMon->form;
+        break;
+    case MON_DATA_VERSION_MODIFIER:
+        retVal = substruct0->versionModifier;
+        break;
+    case MON_DATA_TITLE:
+        retVal = substruct0->title;
+        break;
+    case MON_DATA_TITLE_STRING:
+        if ((boxMon->nickname[1] >= 0x16 && boxMon->nickname[1] <= 0x2B) || (boxMon->nickname[1] >= 0xD5 && boxMon->nickname[1] <= 0xEE))
+            retVal = GetTitleString3(data, substruct0->title);
+        else
+            retVal = GetTitleString2(data, substruct0->title);
+        break;
+    case MON_DATA_BLOCK_BOX_RS:
+        retVal = boxMon->blockBoxRS;
+        break;
+    case MON_DATA_MINT:
+        retVal = boxMon->mint;
+        break;
+    case MON_DATA_HYPER_TRAINED:
+        retVal = substruct3->hyperTrained;
+        break;
     default:
         break;
     }
@@ -5034,18 +5040,24 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
 		}
         break;
     }
-	case MON_DATA_FORM:
-		SET8(boxMon->form);
-		break;
-	case MON_DATA_VERSION_MODIFIER:
-		SET8(substruct0->versionModifier);
-		break;
-	case MON_DATA_TITLE:
-		SET8(substruct0->title);
-		break;
-	case MON_DATA_BLOCK_BOX_RS:
-		SET8(boxMon->blockBoxRS);
-		break;
+    case MON_DATA_FORM:
+        SET8(boxMon->form);
+        break;
+    case MON_DATA_VERSION_MODIFIER:
+        SET8(substruct0->versionModifier);
+        break;
+    case MON_DATA_TITLE:
+        SET8(substruct0->title);
+        break;
+    case MON_DATA_BLOCK_BOX_RS:
+        SET8(boxMon->blockBoxRS);
+        break;
+    case MON_DATA_MINT:
+        SET8(boxMon->mint);
+        break;
+    case MON_DATA_HYPER_TRAINED:
+        SET8(substruct3->hyperTrained);
+        break;
     default:
         break;
     }
