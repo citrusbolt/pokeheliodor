@@ -4707,8 +4707,23 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_MINT:
         retVal = boxMon->mint;
         break;
-    case MON_DATA_HYPER_TRAINED:
-        retVal = substruct3->hyperTrained;
+    case MON_DATA_HP_HT:
+        retVal = boxMon->hyperTrainedHP;
+        break;
+    case MON_DATA_ATK_HT:
+        retVal = boxMon->hyperTrainedAttack;
+        break;
+    case MON_DATA_DEF_HT:
+        retVal = boxMon->hyperTrainedDefense;
+        break;
+    case MON_DATA_SPEED_HT:
+        retVal = boxMon->hyperTrainedSpeed;
+        break;
+    case MON_DATA_SPATK_HT:
+        retVal = boxMon->hyperTrainedSpAttack;
+        break;
+    case MON_DATA_SPDEF_HT:
+        retVal = boxMon->hyperTrainedSpDefense;
         break;
     default:
         break;
@@ -5055,9 +5070,24 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_MINT:
         SET8(boxMon->mint);
         break;
-    case MON_DATA_HYPER_TRAINED:
-        SET8(substruct3->hyperTrained);
         break;
+    case MON_DATA_HP_HT:
+        SET8(boxMon->hyperTrainedHP);
+        break;
+    case MON_DATA_ATK_HT:
+        SET8(boxMon->hyperTrainedAttack);
+        break;
+    case MON_DATA_DEF_HT:
+        SET8(boxMon->hyperTrainedDefense);
+        break;
+    case MON_DATA_SPEED_HT:
+        SET8(boxMon->hyperTrainedSpeed);
+        break;
+    case MON_DATA_SPATK_HT:
+        SET8(boxMon->hyperTrainedSpAttack);
+        break;
+    case MON_DATA_SPDEF_HT:
+        SET8(boxMon->hyperTrainedSpDefense);
     default:
         break;
     }

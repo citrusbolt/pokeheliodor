@@ -12,12 +12,18 @@ enum {
     MON_DATA_SANITY_IS_BAD_EGG,
     MON_DATA_SANITY_HAS_SPECIES,
     MON_DATA_SANITY_IS_EGG,
+    MON_DATA_BLOCK_BOX_RS,
     MON_DATA_OT_NAME,
     MON_DATA_MARKINGS,
     MON_DATA_CHECKSUM,
     MON_DATA_MINT,
     MON_DATA_FORM,
-    MON_DATA_BLOCK_BOX_RS,
+    MON_DATA_HP_HT,
+    MON_DATA_ATK_HT,
+    MON_DATA_DEF_HT,
+    MON_DATA_SPEED_HT,
+    MON_DATA_SPATK_HT,
+    MON_DATA_SPDEF_HT,
     MON_DATA_ENCRYPT_SEPARATOR,
     MON_DATA_SPECIES,
     MON_DATA_HELD_ITEM,
@@ -87,7 +93,6 @@ enum {
     MON_DATA_NATIONAL_RIBBON,
     MON_DATA_EARTH_RIBBON,
     MON_DATA_WORLD_RIBBON,
-    MON_DATA_HYPER_TRAINED,
     MON_DATA_MODERN_FATEFUL_ENCOUNTER,
     MON_DATA_KNOWN_MOVES,
     MON_DATA_RIBBON_COUNT,
@@ -109,8 +114,8 @@ struct PokemonSubstruct0
     u32 experience;
     u8 ppBonuses;
     u8 friendship;
-	u8 versionModifier;	//Used to identify mons originated from specific unoffical games
-	u8 title:6;		//"Active" Ribbon
+    u8 versionModifier;	//Used to identify mons originated from specific unoffical games
+    u8 title:6;		//"Active" Ribbon
     u8 unused:2;
 };
 
@@ -172,8 +177,7 @@ struct PokemonSubstruct3
  /* 0x0B */ u32 nationalRibbon:1;           // Given to purified Shadow Pokémon in Colosseum/XD.
  /* 0x0B */ u32 earthRibbon:1;              // Given to teams that have beaten Mt. Battle's 100-battle challenge in Colosseum/XD.
  /* 0x0B */ u32 worldRibbon:1;              // Distributed during Pokémon Festa '04 and '05 to tournament winners.
- /* 0x0B */ u32 unusedRibbons:3;
- /* 0x0B */ u32 hyperTrained:1;
+ /* 0x0B */ u32 unusedRibbons:4;
 
  // The functionality of this bit changed in FRLG:
  // In RS, this bit does nothing, is never set, & is accidentally unset when hatching Eggs.
@@ -212,13 +216,19 @@ struct BoxPokemon
     u8 hasSpecies:1;
     u8 isEgg:1;
     u8 blockBoxRS:1; // Unfortunately, Colosseum and XD do not check for this field; we're using this to track dead Pokémon in Nuzlocke mode in Jaizu games
-	u8 newBall:4;
+    u8 newBall:4;
     u8 otName[PLAYER_NAME_LENGTH];
     u8 markings;
     u16 checksum;
     u16 mint:5;
     u16 form:4;
-    u16 unused:7;
+    u16 hyperTrainedHP:1;
+    u16 hyperTrainedAttack:1;
+    u16 hyperTrainedDefense:1;
+    u16 hyperTrainedSpeed:1;
+    u16 hyperTrainedSpAttack:1;
+    u16 hyperTrainedSpDefense:1;
+    u16 unused:1;
 
     union
     {
