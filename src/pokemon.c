@@ -4394,6 +4394,8 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
 {
     s32 i;
     u32 retVal = 0;
+    u32 pokeball = 0;
+    u32 newBall = 0;
     struct PokemonSubstruct0 *substruct0 = NULL;
     struct PokemonSubstruct1 *substruct1 = NULL;
     struct PokemonSubstruct2 *substruct2 = NULL;
@@ -4573,8 +4575,122 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = substruct3->metGame;
         break;
     case MON_DATA_POKEBALL:
-        retVal = substruct3->pokeball;
+    {
+        pokeball = substruct3->pokeball;
+        newBall = boxMon->newBall;
+
+        if (newBall == 0)
+        {
+            retVal = pokeball;
+        }
+        else
+        {
+            switch (pokeball)
+            {
+                case BALL_MASTER:
+                    if (newBall == 1)
+                        retVal = BALL_CHERISH;
+                    else if (newBall == 2)
+                        retVal = BALL_HISUI_ORIGIN;
+                    else
+                        retVal = BALL_MASTER;
+                    break;
+                case BALL_ULTRA:
+                    if (newBall == 1)
+                        retVal = BALL_LEVEL;
+                    else if (newBall == 2)
+                        retVal = BALL_HEAVY;
+                    else if (newBall == 3)
+                        retVal = BALL_MOON;
+                    else if (newBall == 4)
+                        retVal = BALL_BEAST;
+                    else if (newBall == 5)
+                        retVal = BALL_HISUI_ULTRA;
+                    else if (newBall == 6)
+                        retVal = BALL_HISUI_HEAVY;
+                    else if (newBall == 7)
+                        retVal = BALL_HISUI_LEADEN;
+                    else if (newBall == 8)
+                        retVal = BALL_HISUI_GIGATON;
+                    else
+                        retVal = BALL_ULTRA;
+                    break;
+                case BALL_GREAT:
+                    if (newBall == 1)
+                        retVal = BALL_QUICK;
+                    else if (newBall == 2)
+                        retVal = BALL_HISUI_GREAT;
+                    else if (newBall == 3)
+                        retVal = BALL_HISUI_FEATHER;
+                    else if (newBall == 4)
+                        retVal = BALL_HISUI_WING;
+                    else if (newBall == 5)
+                        retVal = BALL_HISUI_JET;
+                    else
+                        retVal = BALL_GREAT;
+                    break;
+                case BALL_POKE:
+                    if (newBall == 1)
+                        retVal = BALL_HEAL;
+                    else if (newBall == 2)
+                        retVal = BALL_LOVE;
+                    else if (newBall == 3)
+                        retVal = BALL_SPORT;
+                    else if (newBall == 4)
+                        retVal = BALL_DREAM;
+                    else if (newBall == 5)
+                        retVal = BALL_HISUI_POKE;
+                    else
+                        retVal = BALL_POKE;
+                    break;
+                case BALL_SAFARI:
+                    retVal = BALL_SAFARI;
+                    break;
+                case BALL_NET:
+                    if (newBall == 1)
+                        retVal = BALL_LURE;
+                    else
+                        retVal = BALL_NET;
+                    break;
+                case BALL_DIVE:
+                     retVal = BALL_DIVE;
+                    break;
+                case BALL_NEST:
+                    if (newBall == 1)
+                        retVal = BALL_DUSK;
+                    else
+                        retVal = BALL_NEST;
+                    break;
+                case BALL_REPEAT:
+                    if (newBall == 1)
+                        retVal = BALL_FAST;
+                    else
+                        retVal = BALL_REPEAT;
+                    break;
+                case BALL_TIMER:
+                    retVal = BALL_TIMER;
+                    break;
+                case BALL_LUXURY:
+                    if (newBall == 1)
+                        retVal = BALL_FRIEND;
+                    else
+                        retVal = BALL_LUXURY;
+                    break;
+                case BALL_PREMIER:
+                    if (newBall == 1)
+                        retVal = BALL_PARK;
+                    else if (newBall == 2)
+                        retVal = BALL_STRANGE;
+                    else
+                        retVal = BALL_PREMIER;
+                    break;
+                default:
+                    retVal = BALL_POKE;
+                    break;
+            }
+        }
         break;
+    }
     case MON_DATA_OT_GENDER:
         retVal = substruct3->otGender;
         break;
@@ -4989,6 +5105,162 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_POKEBALL:
     {
         u8 pokeball = *data;
+
+        switch (pokeball)
+        {
+            default:
+                substruct3->pokeball = BALL_NONE;
+                boxMon->newBall = 0;
+                break;
+            case BALL_MASTER:
+                substruct3->pokeball = BALL_MASTER;
+                boxMon->newBall = 0;
+                break;
+            case BALL_ULTRA:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 0;
+                break;
+            case BALL_GREAT:
+                substruct3->pokeball = BALL_GREAT;
+                boxMon->newBall = 0;
+                break;
+            case BALL_POKE:
+                substruct3->pokeball = BALL_POKE;
+                boxMon->newBall = 0;
+                break;
+            case BALL_SAFARI:
+                substruct3->pokeball = BALL_SAFARI;
+                boxMon->newBall = 0;
+                break;
+            case BALL_NET:
+                substruct3->pokeball = BALL_NET;
+                boxMon->newBall = 0;
+                break;
+            case BALL_DIVE:
+                substruct3->pokeball = BALL_DIVE;
+                boxMon->newBall = 0;
+                break;
+            case BALL_NEST:
+                substruct3->pokeball = BALL_NEST;
+                boxMon->newBall = 0;
+                break;
+            case BALL_REPEAT:
+                substruct3->pokeball = BALL_TIMER;
+                boxMon->newBall = 0;
+                break;
+            case BALL_LUXURY:
+                substruct3->pokeball = BALL_LUXURY;
+                boxMon->newBall = 0;
+                break;
+            case BALL_PREMIER:
+                substruct3->pokeball = BALL_PREMIER;
+                boxMon->newBall = 0;
+                break;
+            case BALL_DUSK:
+                substruct3->pokeball = BALL_NEST;
+                boxMon->newBall = 1;
+                break;
+            case BALL_HEAL:
+                substruct3->pokeball = BALL_POKE;
+                boxMon->newBall = 1;
+                break;
+            case BALL_QUICK:
+                substruct3->pokeball = BALL_GREAT;
+                boxMon->newBall = 1;
+                break;
+            case BALL_CHERISH:
+                substruct3->pokeball = BALL_MASTER;
+                boxMon->newBall = 1;
+                break;
+            case BALL_FAST:
+                substruct3->pokeball = BALL_REPEAT;
+                boxMon->newBall = 1;
+                break;
+            case BALL_LEVEL:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 1;
+                break;
+            case BALL_LURE:
+                substruct3->pokeball = BALL_NET;
+                boxMon->newBall = 1;
+                break;
+            case BALL_HEAVY:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 2;
+                break;
+            case BALL_LOVE:
+                substruct3->pokeball = BALL_POKE;
+                boxMon->newBall = 2;
+                break;
+            case BALL_FRIEND:
+                substruct3->pokeball = BALL_LUXURY;
+                boxMon->newBall = 1;
+                break;
+            case BALL_MOON:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 3;
+                break;
+            case BALL_SPORT:
+                substruct3->pokeball = BALL_POKE;
+                boxMon->newBall = 3;
+                break;
+            case BALL_PARK:
+                substruct3->pokeball = BALL_PREMIER;
+                boxMon->newBall = 1;
+                break;
+            case BALL_DREAM:
+                substruct3->pokeball = BALL_POKE;
+                boxMon->newBall = 4;
+                break;
+            case BALL_BEAST:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 4;
+                break;
+            case BALL_STRANGE:
+                substruct3->pokeball = BALL_PREMIER;
+                boxMon->newBall = 2;
+                break;
+            case BALL_HISUI_POKE:
+                substruct3->pokeball = BALL_POKE;
+                boxMon->newBall = 5;
+                break;
+            case BALL_HISUI_GREAT:
+                substruct3->pokeball = BALL_GREAT;
+                boxMon->newBall = 2;
+                break;
+            case BALL_HISUI_ULTRA:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 5;
+                break;
+            case BALL_HISUI_FEATHER:
+                substruct3->pokeball = BALL_GREAT;
+                boxMon->newBall = 3;
+                break;
+            case BALL_HISUI_WING:
+                substruct3->pokeball = BALL_GREAT;
+                boxMon->newBall = 4;
+                break;
+            case BALL_HISUI_JET:
+                substruct3->pokeball = BALL_GREAT;
+                boxMon->newBall = 5;
+                break;
+            case BALL_HISUI_HEAVY:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 6;
+                break;
+            case BALL_HISUI_LEADEN:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 7;
+                break;
+            case BALL_HISUI_GIGATON:
+                substruct3->pokeball = BALL_ULTRA;
+                boxMon->newBall = 8;
+                break;
+            case BALL_HISUI_ORIGIN:
+                substruct3->pokeball = BALL_MASTER;
+                boxMon->newBall = 2;
+                break;
+        }
         substruct3->pokeball = pokeball;
         break;
     }
