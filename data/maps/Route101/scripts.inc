@@ -215,6 +215,7 @@ Route101_EventScript_Boy::
 	end
 
 Route101_EventScript_RouteSign::
+    special LoadTestFile
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
 	end
 
@@ -297,6 +298,8 @@ Route101_Text_WildPokemonInTallGrass:
 	.string "to go into the tall grass and search.$"
 
 Route101_Text_RouteSign:
+	.string "{STR_VAR_1}\n"
+	.string "{STR_VAR_2}\p"
 	.string "Route 101\n"
 	.string "{UP_ARROW} Oldale Town$"
 

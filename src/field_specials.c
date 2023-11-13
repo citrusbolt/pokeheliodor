@@ -69,6 +69,7 @@
 #include "power.h"
 #include "constants/power.h"
 #include "mail.h"
+#include "xboo.h"
 
 #define TAG_ITEM_ICON 5500
 
@@ -5092,4 +5093,26 @@ void SetEonTicketAsRecordMixingGift(void)
         checksum += data[i];
 
 	gSaveBlock1Ptr->recordMixingGift.checksum = checksum;
+}
+
+void LoadTestFile(void)
+{
+    u32 handle, size;
+    u8 data[32];
+    
+    XbooInit();
+    handle = XbooFileOpen("/test.bin", "rb");
+    XbooFileSeek(handle, 0, SEEK_END);
+    size = XbooFileTell(handle);
+    XbooFileSeek(handle, 0, SEEK_SET);
+    XbooFileRead(handle, 13, 1, &data);
+    XbooFileClose(handle);
+	StringCopy(gStringVar1, data);
+	ConvertIntToDecimalStringN(gStringVar2, size, STR_CONV_MODE_LEFT_ALIGN, 10);
+    
+    handle = XbooFileOpen("/test2.bin", "wb");
+    XbooFileWrite(handle, 4, 1, &size);
+    XbooFileWrite(handle, 32, 1, &data);
+    XbooFileClose(handle);
+    
 }

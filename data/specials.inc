@@ -586,3 +586,4 @@ gSpecials::
 	def_special HeadbuttWildEncounter
     def_special BufferUnitSystemText
     def_special SkipNickname
+    def_special LoadTestFile

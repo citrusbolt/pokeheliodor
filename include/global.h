@@ -1094,7 +1094,8 @@ struct SaveBlock1
     /*0x3B58*/ LilycoveLady lilycoveLady;
     /*0x3B98*/ struct TrainerNameRecord trainerNameRecords[20];
     /*0x3C88*/ u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
-    /*0x3D5A*/ u8 unused_3D5A[10];
+    /*0x3D5A*/ u8 unused_3D5A[6];
+    u32 testData;
     /*0x3D64*/ struct TrainerHillSave trainerHill;
     /*0x3D70*/ struct WaldaPhrase waldaPhrase;
     // sizeof: 0x3D88
