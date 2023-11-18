@@ -524,9 +524,11 @@ static const u8 sMemoSpecialTextColor[] = _("{COLOR 14}{SHADOW 13}");
 #define TAG_MOVE_TYPES      30002
 #define TAG_MON_MARKINGS    30003
 #define TAG_SPLIT_ICONS     30004
-#define TAG_HEALTH_BAR      30005
-#define TAG_EXP_BAR         30006
-#define TAG_GAME_ICONS      30007
+#define TAG_EXP_BAR         30005
+#define TAG_HEALTH_BAR_GREEN    30006
+#define TAG_HEALTH_BAR_ORANGE   30007
+#define TAG_HEALTH_BAR_RED      30008
+#define TAG_GAME_ICONS          30009
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -1575,11 +1577,11 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 20:
-        CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
+        CreateHealthBarSprites(TAG_HEALTH_BAR_GREEN, TAG_HEALTH_BAR_GREEN);
         gMain.state++;
         break;
     case 21:
-        CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
+        CreateExpBarSprites(TAG_EXP_BAR, TAG_EXP_BAR);
         gMain.state++;
     case 22:
         CreateSetStatusSprite();
@@ -4557,7 +4559,7 @@ static void ConfigureHealthBarSprites(void)
     }
 
     for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
-        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(TAG_HEALTH_BAR) + hpBarPalOffset;
+        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(TAG_HEALTH_BAR_GREEN) + hpBarPalOffset;
 
     if (curHp == maxHp)
     {
