@@ -317,7 +317,7 @@
       "flag": "FLAG_HIDE_ROUTE_104_WHITE_HERB_FLORIST"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TWIN_1",
+      "graphics_id": "OBJ_EVENT_GFX_TWIN_RSE",
       "x": 27,
       "y": 15,
       "elevation": 3,
@@ -330,7 +330,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TWIN_1",
+      "graphics_id": "OBJ_EVENT_GFX_TWIN_RSE",
       "x": 28,
       "y": 15,
       "elevation": 3,
@@ -382,7 +382,7 @@
       "flag": "FLAG_ITEM_ROUTE_104_POKE_BALL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER_1",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER_HGSS",
       "x": 18,
       "y": 67,
       "elevation": 3,

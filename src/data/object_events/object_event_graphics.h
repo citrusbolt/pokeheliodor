@@ -404,6 +404,7 @@ const u16 gObjectEventPal_MayBlue[] = INCBIN_U16("graphics/object_events/pics/pe
 const u16 gObjectEventPal_MayGreen[] = INCBIN_U16("graphics/object_events/pics/people/hyo/may/green.gbapal");
 
 const u32 gObjectEventPic_Wes[] = INCBIN_U32("graphics/object_events/pics/people/hyo/wes.4bpp");
+const u16 gObjectEventPal_Wes[] = INCBIN_U16("graphics/object_events/pics/people/hyo/wes.gbapal");
 
 
 const u32 gObjectEventPic_AromaLady_FRLG[] = INCBIN_U32("graphics/object_events/pics/people/kalarie/aroma_lady_frlg.4bpp");
@@ -680,10 +681,10 @@ const u16 gObjectEventPal_RuinManiac_RSE[] = INCBIN_U16("graphics/object_events/
 
 const u32 gObjectEventPic_PokeKid_DPPt[] = INCBIN_U32("graphics/object_events/pics/people/ulithium_dragon/poke_kid_dppt.4bpp");
 const u16 gObjectEventPal_PokeKid_DPPt[] = INCBIN_U16("graphics/object_events/pics/people/ulithium_dragon/poke_kid_dppt.gbapal");
-const u32 gObjectEventPic_PsychicM_DPPt[] = INCBIN_U32("graphics/object_events/pics/people/ulithium_dragon/psychic_f_dppt.4bpp");
-const u16 gObjectEventPal_PsychicM_DPPt[] = INCBIN_U16("graphics/object_events/pics/people/ulithium_dragon/psychic_f_dppt.gbapal");
-const u32 gObjectEventPic_PsychicF_DPPt[] = INCBIN_U32("graphics/object_events/pics/people/ulithium_dragon/psychic_m_dppt.4bpp");
-const u16 gObjectEventPal_PsychicF_DPPt[] = INCBIN_U16("graphics/object_events/pics/people/ulithium_dragon/psychic_m_dppt.gbapal");
+const u32 gObjectEventPic_PsychicF_DPPt[] = INCBIN_U32("graphics/object_events/pics/people/ulithium_dragon/psychic_f_dppt.4bpp");
+const u16 gObjectEventPal_PsychicF_DPPt[] = INCBIN_U16("graphics/object_events/pics/people/ulithium_dragon/psychic_f_dppt.gbapal");
+const u32 gObjectEventPic_PsychicM_DPPt[] = INCBIN_U32("graphics/object_events/pics/people/ulithium_dragon/psychic_m_dppt.4bpp");
+const u16 gObjectEventPal_PsychicM_DPPt[] = INCBIN_U16("graphics/object_events/pics/people/ulithium_dragon/psychic_m_dppt.gbapal");
 const u32 gObjectEventPic_Twin_DPPt[] = INCBIN_U32("graphics/object_events/pics/people/ulithium_dragon/twin_dppt.4bpp");
 const u16 gObjectEventPal_Twin_DPPt[] = INCBIN_U16("graphics/object_events/pics/people/ulithium_dragon/twin_dppt.gbapal");
 const u32 gObjectEventPic_Twin_HGSS[] = INCBIN_U32("graphics/object_events/pics/people/ulithium_dragon/twin_hgss.4bpp");

@@ -6415,7 +6415,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RuinManiac_FRLG = 
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
     .anims = sAnimTable_Standard,
-    .images = sPicTable_AromaLady_FRLG,
+    .images = sPicTable_RuinManiac_FRLG,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
 
