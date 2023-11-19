@@ -182,7 +182,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_1",
       "x": 27,
       "y": 51,
       "elevation": 3,
@@ -195,7 +195,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_1",
       "x": 36,
       "y": 45,
       "elevation": 3,
@@ -312,7 +312,7 @@
       "flag": "FLAG_ITEM_ROUTE_120_FULL_HEAL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
+      "graphics_id": "OBJ_EVENT_GFX_BEAUTY_1",
       "x": 14,
       "y": 92,
       "elevation": 5,
@@ -338,7 +338,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_HIKER_1",
       "x": 9,
       "y": 60,
       "elevation": 3,
@@ -455,7 +455,7 @@
       "flag": "FLAG_TEMP_12"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 10,
       "y": 72,
       "elevation": 3,
@@ -468,7 +468,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 19,
       "y": 28,
       "elevation": 3,

@@ -445,7 +445,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Truck,                     OW_PAL(OBJ_EVENT_GFX_TRUCK)},
     {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_CARRYING_BOX)},
     {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_FACING_AWAY)},
-    {gObjectEventPal_EnemyZigzagoon,            OW_PAL(OBJ_EVENT_GFX_ZIGZAGOON_1)},
+    {gObjectEventPal_EnemyZigzagoon,            OW_PAL(OBJ_EVENT_GFX_ENEMY_ZIGZAGOON)},
     {gObjectEventPal_MovingBox,                 OW_PAL(OBJ_EVENT_GFX_MOVING_BOX)},
     {gObjectEventPal_CableCar,                  OW_PAL(OBJ_EVENT_GFX_CABLE_CAR)},
     {gObjectEventPal_Sidney,                    OW_PAL(OBJ_EVENT_GFX_SIDNEY)},
@@ -476,8 +476,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Poochyena,                 OW_PAL(OBJ_EVENT_GFX_POOCHYENA)},
     {gObjectEventPal_Red,                       OW_PAL(OBJ_EVENT_GFX_RED)},
     {gObjectEventPal_Leaf,                      OW_PAL(OBJ_EVENT_GFX_LEAF)},
-    {gObjectEventPal_DeoxysS,                   OW_PAL(OBJ_EVENT_GFX_DEOXYS)},
-    {gObjectEventPal_BirthIslandStone,          OW_PAL(OBJ_EVENT_GFX_DEOXYS_TRIANGLE)},
+    {gObjectEventPal_DeoxysS,                   OW_PAL(OBJ_EVENT_GFX_DEOXYS_SPEED)},
+    {gObjectEventPal_BirthIslandStone,          OW_PAL(OBJ_EVENT_GFX_BIRTH_ISLAND_STONE)},
     {gObjectEventPal_Brandon,                   OW_PAL(OBJ_EVENT_GFX_BRANDON)},
     {gObjectEventPal_Lugia,                     OW_PAL(OBJ_EVENT_GFX_LUGIA)},
     {gObjectEventPal_HoOh,                      OW_PAL(OBJ_EVENT_GFX_HOOH)},
@@ -1709,7 +1709,7 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
     }
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
-        graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
+        graphicsId = OBJ_EVENT_GFX_NINJA_BOY_1;
 
     return gObjectEventGraphicsInfoPointers[graphicsId];
 }

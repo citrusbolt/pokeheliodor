@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
+      "graphics_id": "OBJ_EVENT_GFX_BEAUTY_1",
       "x": 8,
       "y": 10,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_PATRONS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR_1",
       "x": 4,
       "y": 12,
       "elevation": 3,
@@ -41,7 +41,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_PATRONS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
+      "graphics_id": "OBJ_EVENT_GFX_FAT_MAN_1",
       "x": 1,
       "y": 12,
       "elevation": 3,

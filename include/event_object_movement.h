@@ -23,14 +23,14 @@
 #define OBJ_EVENT_PAL_TAG_MAY                     0x1111
 #define OBJ_EVENT_PAL_TAG_BRENDAN_UNDERWATER      0x1112
 #define OBJ_EVENT_PAL_TAG_MAY_UNDERWATER          0x1113
-#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x1114
-#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x1115
-#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x1116
-#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x1117
-#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1118
-#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1119
-#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x111A
-#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x111B
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1114
+#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1115
+#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x1116
+#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x1117
+#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x1118
+#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x1119
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x111A
+#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x111B
 #define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
 
 #define OW_PAL(gfxId) (gfxId + 0x1200)

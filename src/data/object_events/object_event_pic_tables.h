@@ -125,6 +125,10 @@ static const struct SpriteFrameImage sPicTable_LotadDoll[] = {
     obj_frame_tiles(gObjectEventPic_LotadDoll),
 };
 
+static const struct SpriteFrameImage sPicTable_MagnemiteDoll[] = {
+    obj_frame_tiles(gObjectEventPic_MagnemiteDoll),
+};
+
 static const struct SpriteFrameImage sPicTable_MarillDoll[] = {
     obj_frame_tiles(gObjectEventPic_MarillDoll),
 };
@@ -141,12 +145,20 @@ static const struct SpriteFrameImage sPicTable_MudkipDoll[] = {
     obj_frame_tiles(gObjectEventPic_MudkipDoll),
 };
 
+static const struct SpriteFrameImage sPicTable_NatuDoll[] = {
+    obj_frame_tiles(gObjectEventPic_NatuDoll),
+};
+
 static const struct SpriteFrameImage sPicTable_PichuDoll[] = {
     obj_frame_tiles(gObjectEventPic_PichuDoll),
 };
 
 static const struct SpriteFrameImage sPicTable_PikachuDoll[] = {
     obj_frame_tiles(gObjectEventPic_PikachuDoll),
+};
+
+static const struct SpriteFrameImage sPicTable_Porygon2Doll[] = {
+    obj_frame_tiles(gObjectEventPic_Porygon2Doll),
 };
 
 static const struct SpriteFrameImage sPicTable_SeedotDoll[] = {
@@ -159,6 +171,10 @@ static const struct SpriteFrameImage sPicTable_SkittyDoll[] = {
 
 static const struct SpriteFrameImage sPicTable_SmoochumDoll[] = {
     obj_frame_tiles(gObjectEventPic_SmoochumDoll),
+};
+
+static const struct SpriteFrameImage sPicTable_SquirtleDoll[] = {
+    obj_frame_tiles(gObjectEventPic_SquirtleDoll),
 };
 
 static const struct SpriteFrameImage sPicTable_SwabluDoll[] = {
@@ -181,28 +197,12 @@ static const struct SpriteFrameImage sPicTable_TreeckoDoll[] = {
     obj_frame_tiles(gObjectEventPic_TreeckoDoll),
 };
 
-static const struct SpriteFrameImage sPicTable_UnusedNatuDoll[] = {
-    obj_frame_tiles(gObjectEventPic_UnusedNatuDoll),
-};
-
-static const struct SpriteFrameImage sPicTable_UnusedMagnemiteDoll[] = {
-    obj_frame_tiles(gObjectEventPic_UnusedMagnemiteDoll),
-};
-
-static const struct SpriteFrameImage sPicTable_UnusedSquirtleDoll[] = {
-    obj_frame_tiles(gObjectEventPic_UnusedSquirtleDoll),
-};
-
-static const struct SpriteFrameImage sPicTable_UnusedWooperDoll[] = {
-    obj_frame_tiles(gObjectEventPic_UnusedWooperDoll),
-};
-
 static const struct SpriteFrameImage sPicTable_UnusedPikachuDoll[] = {
     obj_frame_tiles(gObjectEventPic_UnusedPikachuDoll),
 };
 
-static const struct SpriteFrameImage sPicTable_UnusedPorygon2Doll[] = {
-    obj_frame_tiles(gObjectEventPic_UnusedPorygon2Doll),
+static const struct SpriteFrameImage sPicTable_WooperDoll[] = {
+    obj_frame_tiles(gObjectEventPic_WooperDoll),
 };
 
 static const struct SpriteFrameImage sPicTable_WynautDoll[] = {
@@ -584,17 +584,17 @@ static const struct SpriteFrameImage sPicTable_AceTrainerM_HGSS[] = {
     overworld_frame(gObjectEventPic_AceTrainerM_HGSS, 2, 4, 9),
 };
 
-static const struct SpriteFrameImage sPicTable_AceTrainerMSnow_HGSS[] = {
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 0),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 1),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 2),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 3),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 4),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 5),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 6),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 7),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 8),
-    overworld_frame(gObjectEventPic_AceTrainerMSnow_HGSS, 2, 4, 9),
+static const struct SpriteFrameImage sPicTable_AceTrainerMSnow_DPPt[] = {
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 0),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 1),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 2),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 3),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 4),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 5),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 6),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 7),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 8),
+    overworld_frame(gObjectEventPic_AceTrainerMSnow_DPPt, 2, 4, 9),
 };
 
 static const struct SpriteFrameImage sPicTable_BaldingMan_HGSS[] = {

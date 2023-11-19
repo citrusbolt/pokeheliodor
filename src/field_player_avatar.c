@@ -258,39 +258,39 @@ static const u16 sPlayerAvatarGfxIds[][2] =
 
 static const u16 sFRLGAvatarGfxIds[] = {OBJ_EVENT_GFX_RED, OBJ_EVENT_GFX_LEAF};
 
-static const u16 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_RS_BRENDAN, OBJ_EVENT_GFX_LINK_RS_MAY};
+static const u16 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_BRENDAN_RS, OBJ_EVENT_GFX_MAY_RS};
 
-static const u16 sEmeraldAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_E_BRENDAN, OBJ_EVENT_GFX_LINK_E_MAY};
+static const u16 sEmeraldAvatarGfxIds[] = {OBJ_EVENT_GFX_BRENDAN_GREEN, OBJ_EVENT_GFX_MAY_GREEN};
 
-static const u16 sCDAvatarGfxIds[] = {OBJ_EVENT_GFX_LINK_GOLD, OBJ_EVENT_GFX_LINK_KRIS};
+static const u16 sCDAvatarGfxIds[] = {OBJ_EVENT_GFX_GOLD, OBJ_EVENT_GFX_KRIS};
 
 static const u16 sTestAvatarGfxIds[] = {OBJ_EVENT_GFX_WALLY, OBJ_EVENT_GFX_STEVEN};
 
 static const u16 sUnknownAvatarGfxIds[2][8] = {
     [MALE] = {
         OBJ_EVENT_GFX_MAN_3, 
-        OBJ_EVENT_GFX_BLACK_BELT, 
-        OBJ_EVENT_GFX_CAMPER, 
-        OBJ_EVENT_GFX_YOUNGSTER, 
-        OBJ_EVENT_GFX_PSYCHIC_M, 
-        OBJ_EVENT_GFX_BUG_CATCHER, 
+        OBJ_EVENT_GFX_BLACK_BELT_1, 
+        OBJ_EVENT_GFX_CAMPER_1, 
+        OBJ_EVENT_GFX_YOUNGSTER_1, 
+        OBJ_EVENT_GFX_PSYCHIC_M_1, 
+        OBJ_EVENT_GFX_BUG_CATCHER_1, 
         OBJ_EVENT_GFX_MAN_4, 
         OBJ_EVENT_GFX_MAN_5
     },
     [FEMALE] = {
         OBJ_EVENT_GFX_WOMAN_5, 
-        OBJ_EVENT_GFX_HEX_MANIAC, 
-        OBJ_EVENT_GFX_PICNICKER, 
-        OBJ_EVENT_GFX_LASS, 
-        OBJ_EVENT_GFX_LASS, 
+        OBJ_EVENT_GFX_HEX_MANIAC_1, 
+        OBJ_EVENT_GFX_PICNICKER_1, 
+        OBJ_EVENT_GFX_LASS_1, 
+        OBJ_EVENT_GFX_LASS_1, 
         OBJ_EVENT_GFX_GIRL_3, 
         OBJ_EVENT_GFX_WOMAN_2, 
-        OBJ_EVENT_GFX_BEAUTY
+        OBJ_EVENT_GFX_BEAUTY_1
     }
 };
 
 
-static const u8 sPlayerAvatarGfxToStateFlag[GENDER_COUNT][5][2] =
+static const u16 sPlayerAvatarGfxToStateFlag[GENDER_COUNT][5][2] =
 {
     [MALE] =
     {

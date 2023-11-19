@@ -159,19 +159,19 @@ static const struct YesNoFuncTable sDeleteRegistryYesNoFuncs =
     .noFunc = DeleteRegistry_No,
 };
 
-static const u8 sSecretBaseOwnerGfxIds[10] =
+static const u16 sSecretBaseOwnerGfxIds[10] =
 {
     // Male
-    OBJ_EVENT_GFX_YOUNGSTER,
-    OBJ_EVENT_GFX_BUG_CATCHER,
-    OBJ_EVENT_GFX_RICH_BOY,
-    OBJ_EVENT_GFX_CAMPER,
+    OBJ_EVENT_GFX_YOUNGSTER_1,
+    OBJ_EVENT_GFX_BUG_CATCHER_1,
+    OBJ_EVENT_GFX_RICH_BOY_1,
+    OBJ_EVENT_GFX_CAMPER_1,
     OBJ_EVENT_GFX_MAN_3,
     // Female
-    OBJ_EVENT_GFX_LASS,
+    OBJ_EVENT_GFX_LASS_1,
     OBJ_EVENT_GFX_GIRL_3,
     OBJ_EVENT_GFX_WOMAN_2,
-    OBJ_EVENT_GFX_PICNICKER,
+    OBJ_EVENT_GFX_PICNICKER_1,
     OBJ_EVENT_GFX_WOMAN_5,
 };
 

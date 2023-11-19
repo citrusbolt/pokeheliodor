@@ -2518,16 +2518,16 @@ void SetLinkContestPlayerGfx(void)
 				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
 				{
 					if (gLinkPlayers[i].gender == MALE)
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_RS;
 					else
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_RS;
 				}
 				else
 				{
 					if (gLinkPlayers[i].gender == MALE)
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_BRENDAN;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_GREEN;
 					else
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_MAY;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_GREEN;
 				}
 			}
         }

@@ -41,7 +41,7 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1",
       "x": 34,
       "y": 25,
       "elevation": 1,
@@ -54,7 +54,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1",
       "x": 61,
       "y": 74,
       "elevation": 1,
@@ -67,7 +67,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F_1",
       "x": 49,
       "y": 45,
       "elevation": 1,
@@ -80,7 +80,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F_1",
       "x": 7,
       "y": 23,
       "elevation": 1,
@@ -93,7 +93,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1",
       "x": 58,
       "y": 58,
       "elevation": 1,
@@ -145,7 +145,7 @@
       "flag": "FLAG_ITEM_ROUTE_124_YELLOW_SHARD"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F_1",
       "x": 18,
       "y": 44,
       "elevation": 1,
@@ -158,7 +158,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TUBER_M_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_TUBER_M_1_SWIMMING",
       "x": 17,
       "y": 44,
       "elevation": 1,
@@ -171,7 +171,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1",
       "x": 7,
       "y": 29,
       "elevation": 1,
@@ -184,7 +184,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F_1",
       "x": 69,
       "y": 74,
       "elevation": 1,
