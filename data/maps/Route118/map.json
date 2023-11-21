@@ -70,7 +70,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_BIRD_KEEPER_RSE",
       "x": 64,
       "y": 10,
       "elevation": 3,
@@ -200,7 +200,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_2",
+      "graphics_id": "OBJ_EVENT_GFX_AROMA_LADY_FRLG",
       "x": 7,
       "y": 12,
       "elevation": 3,
@@ -226,7 +226,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_BIRD_KEEPER_RSE",
       "x": 56,
       "y": 7,
       "elevation": 3,
@@ -252,7 +252,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_GUITARIST_RSE",
       "x": 17,
       "y": 11,
       "elevation": 3,
@@ -291,7 +291,7 @@
       "flag": "FLAG_ITEM_ROUTE_118_HYPER_POTION"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER_1",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER_HGSS",
       "x": 7,
       "y": 7,
       "elevation": 3,

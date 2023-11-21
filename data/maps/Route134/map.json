@@ -26,7 +26,7 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_2_SWIMMING",
       "x": 49,
       "y": 9,
       "elevation": 1,
@@ -52,7 +52,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
+      "graphics_id": "OBJ_EVENT_GFX_DRAGON_TAMER_RSE",
       "x": 41,
       "y": 23,
       "elevation": 3,
@@ -65,7 +65,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_BIRD_KEEPER_RSE",
       "x": 24,
       "y": 23,
       "elevation": 3,
@@ -78,7 +78,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT_1",
+      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT_FRLG",
       "x": 49,
       "y": 16,
       "elevation": 3,
@@ -91,7 +91,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_F_RSE",
       "x": 43,
       "y": 23,
       "elevation": 1,
@@ -104,7 +104,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SAILOR_1",
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR_2",
       "x": 24,
       "y": 30,
       "elevation": 3,
@@ -117,7 +117,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GIRL_3",
+      "graphics_id": "OBJ_EVENT_GFX_BATTLE_GIRL_RSE",
       "x": 50,
       "y": 16,
       "elevation": 3,
@@ -130,7 +130,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SAILOR_1",
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR_2",
       "x": 63,
       "y": 14,
       "elevation": 3,

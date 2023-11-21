@@ -12,7 +12,7 @@
   "allow_running": true,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": null,
+  "connections": 0,
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
@@ -184,7 +184,7 @@
       "flag": "FLAG_TEMP_1F"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_M_RSE",
       "x": 37,
       "y": 12,
       "elevation": 3,
@@ -197,7 +197,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_F_RSE",
       "x": 26,
       "y": 16,
       "elevation": 3,
@@ -210,7 +210,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_F_RSE",
       "x": 5,
       "y": 21,
       "elevation": 3,
@@ -236,7 +236,7 @@
       "flag": "FLAG_TEMP_15"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_TM_BALL",
       "x": 42,
       "y": 8,
       "elevation": 4,
@@ -262,7 +262,7 @@
       "flag": "FLAG_ITEM_VICTORY_ROAD_B1F_FULL_RESTORE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_M_RSE",
       "x": 14,
       "y": 16,
       "elevation": 3,
@@ -275,7 +275,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_F_RSE",
       "x": 14,
       "y": 20,
       "elevation": 3,
@@ -339,6 +339,10 @@
       "dest_warp_id": "3"
     }
   ],
-  "coord_events": [],
-  "bg_events": []
+  "coord_events": [
+
+  ],
+  "bg_events": [
+
+  ]
 }

@@ -4434,7 +4434,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Twin_FRLG = {
     .oam = &gObjectEventBaseOam_16x16,
     .subspriteTables = sOamTables_16x16,
     .anims = sAnimTable_Standard,
-    .images = sPicTable_AromaLady_FRLG,
+    .images = sPicTable_Twin_FRLG,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
 

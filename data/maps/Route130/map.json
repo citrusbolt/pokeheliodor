@@ -26,7 +26,7 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_2_SWIMMING",
       "x": 70,
       "y": 21,
       "elevation": 1,
@@ -65,7 +65,7 @@
       "flag": "FLAG_TEMP_HIDE_MIRAGE_ISLAND_BERRY_TREE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_2_SWIMMING",
       "x": 7,
       "y": 30,
       "elevation": 1,

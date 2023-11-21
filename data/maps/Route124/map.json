@@ -41,7 +41,7 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_2_SWIMMING",
       "x": 34,
       "y": 25,
       "elevation": 1,
@@ -54,7 +54,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_2_SWIMMING",
       "x": 61,
       "y": 74,
       "elevation": 1,
@@ -93,7 +93,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_2_SWIMMING",
       "x": 58,
       "y": 58,
       "elevation": 1,
@@ -158,7 +158,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TUBER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_TUBER_M_2_SWIMMING",
       "x": 17,
       "y": 44,
       "elevation": 1,
@@ -171,7 +171,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_1_SWIMMING",
+      "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M_2_SWIMMING",
       "x": 7,
       "y": 29,
       "elevation": 1,

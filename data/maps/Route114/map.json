@@ -52,7 +52,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER_1",
+      "graphics_id": "OBJ_EVENT_GFX_HIKER_RSE",
       "x": 15,
       "y": 65,
       "elevation": 7,
@@ -65,7 +65,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER_1",
+      "graphics_id": "OBJ_EVENT_GFX_HIKER_RSE",
       "x": 30,
       "y": 72,
       "elevation": 5,
@@ -78,7 +78,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER_1",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_HGSS",
       "x": 22,
       "y": 50,
       "elevation": 3,
@@ -91,7 +91,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_1",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 19,
       "y": 35,
       "elevation": 3,
@@ -104,7 +104,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MANIAC",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_RSE",
       "x": 20,
       "y": 56,
       "elevation": 3,
@@ -234,7 +234,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_KINDLER_RSE",
       "x": 30,
       "y": 58,
       "elevation": 5,
@@ -299,7 +299,7 @@
       "flag": "FLAG_TEMP_15"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_LASS_1",
+      "graphics_id": "OBJ_EVENT_GFX_LASS_HGSS",
       "x": 24,
       "y": 44,
       "elevation": 3,
@@ -325,7 +325,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_1",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 28,
       "y": 20,
       "elevation": 3,
@@ -338,7 +338,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_1",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 26,
       "y": 72,
       "elevation": 5,
