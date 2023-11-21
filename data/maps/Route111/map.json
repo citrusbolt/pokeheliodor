@@ -44,7 +44,7 @@
       "flag": "FLAG_HIDE_ROUTE_111_VICTOR_WINSTRATE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_POKEFAN_F",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_FAN_F_1",
       "x": 13,
       "y": 113,
       "elevation": 0,
@@ -57,7 +57,7 @@
       "flag": "FLAG_HIDE_ROUTE_111_VICTORIA_WINSTRATE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_LASS",
+      "graphics_id": "OBJ_EVENT_GFX_LASS_1",
       "x": 13,
       "y": 113,
       "elevation": 0,
@@ -70,7 +70,7 @@
       "flag": "FLAG_HIDE_ROUTE_111_VIVI_WINSTRATE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_EXPERT_F",
+      "graphics_id": "OBJ_EVENT_GFX_EXPERT_F_1",
       "x": 13,
       "y": 113,
       "elevation": 0,
@@ -83,7 +83,7 @@
       "flag": "FLAG_HIDE_ROUTE_111_VICKY_WINSTRATE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 28,
       "y": 51,
       "elevation": 3,
@@ -135,7 +135,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_HGSS",
       "x": 29,
       "y": 37,
       "elevation": 3,
@@ -148,7 +148,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_RUIN_MANIAC_RSE",
       "x": 27,
       "y": 69,
       "elevation": 3,
@@ -161,7 +161,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_HGSS",
       "x": 21,
       "y": 47,
       "elevation": 3,
@@ -174,7 +174,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 32,
       "y": 66,
       "elevation": 3,
@@ -252,7 +252,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_TM_BALL",
       "x": 33,
       "y": 104,
       "elevation": 3,
@@ -382,7 +382,7 @@
       "flag": "FLAG_TEMP_13"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 10,
       "y": 82,
       "elevation": 3,
@@ -395,7 +395,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_HGSS",
       "x": 11,
       "y": 71,
       "elevation": 3,
@@ -408,7 +408,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
+      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT_FRLG",
       "x": 32,
       "y": 29,
       "elevation": 3,
@@ -421,7 +421,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_F_RSE",
       "x": 11,
       "y": 11,
       "elevation": 3,
@@ -434,7 +434,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
+      "graphics_id": "OBJ_EVENT_GFX_COOL_TRAINER_M_RSE",
       "x": 9,
       "y": 27,
       "elevation": 3,
@@ -473,7 +473,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_HGSS",
       "x": 26,
       "y": 132,
       "elevation": 3,
@@ -486,7 +486,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_2",
+      "graphics_id": "OBJ_EVENT_GFX_AROMA_LADY_FRLG",
       "x": 20,
       "y": 132,
       "elevation": 3,
@@ -499,7 +499,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 19,
       "y": 121,
       "elevation": 3,
@@ -512,7 +512,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_KINDLER_RSE",
       "x": 16,
       "y": 119,
       "elevation": 3,
@@ -525,7 +525,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_RUIN_MANIAC_RSE",
       "x": 29,
       "y": 77,
       "elevation": 3,
@@ -538,7 +538,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 22,
       "y": 77,
       "elevation": 3,
@@ -551,7 +551,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_HGSS",
       "x": 37,
       "y": 77,
       "elevation": 3,
@@ -577,7 +577,7 @@
       "flag": "FLAG_ITEM_ROUTE_111_ELIXIR"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_HIKER_1",
       "x": 14,
       "y": 56,
       "elevation": 3,
@@ -616,7 +616,7 @@
       "flag": "FLAG_HIDE_ROUTE_111_PLAYER_DESCENT"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
+      "graphics_id": "OBJ_EVENT_GFX_FAT_MAN_1",
       "x": 19,
       "y": 101,
       "elevation": 3,

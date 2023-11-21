@@ -2499,9 +2499,9 @@ void SetLinkContestPlayerGfx(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == MALE)
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
 						else
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_NORMAL;
 					}
 					break;
 				case DEV_TEST:
@@ -2518,16 +2518,16 @@ void SetLinkContestPlayerGfx(void)
 				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
 				{
 					if (gLinkPlayers[i].gender == MALE)
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_RS;
 					else
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_RS;
 				}
 				else
 				{
 					if (gLinkPlayers[i].gender == MALE)
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_BRENDAN;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_GREEN;
 					else
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_E_MAY;
+						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_GREEN;
 				}
 			}
         }
@@ -2573,9 +2573,9 @@ void LoadLinkContestPlayerPalettes(void)
 				case DEV_TEST:
 					foundMatch = TRUE;
 					if (gLinkPlayers[i].gender == MALE)
-						LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+						LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
 					else
-						LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+						LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
 					break;
 			}
 			
@@ -2584,9 +2584,9 @@ void LoadLinkContestPlayerPalettes(void)
 				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
 				{
 					if (gLinkPlayers[i].gender == MALE)
-                        LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                        LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
 					else
-                        LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                        LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
 				}
 				else
 				{
