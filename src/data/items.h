@@ -5117,7 +5117,7 @@ const struct Item gItems[] =
         .sortId = 75,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
-        .secondaryId = MINT_GENTLE,
+        .secondaryId = MINT_CALM,
     },
 
     [ITEM_GENTLE_MINT] =
@@ -5171,7 +5171,7 @@ const struct Item gItems[] =
     [ITEM_HASTY_MINT] =
     {
         .price = 20000,
-        .description = sLonelyMintDesc,
+        .description = sHastyMintDesc,
         .blockHolding = TRUE,
         .pocket = POCKET_ITEMS,
         .sortId = 75,
