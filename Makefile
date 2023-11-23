@@ -258,6 +258,7 @@ subrepos/agbcc/agbcc:
 rom: $(ROM)
 
 merge-check: all
+	sha1sum $(ROM_NAME)
 
 clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 
