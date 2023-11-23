@@ -646,7 +646,7 @@ void HandleAction_NothingIsFainted(void)
     gCurrentTurnActionNumber++;
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
     gHitMarker &= ~(HITMARKER_DESTINYBOND | HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_ATTACKSTRING_PRINTED
-                    | HITMARKER_NO_PPDEDUCT | HITMARKER_IGNORE_SAFEGUARD | HITMARKER_IGNORE_ON_AIR
+                    | HITMARKER_NO_PPDEDUCT | HITMARKER_STATUS_ABILITY_EFFECT | HITMARKER_IGNORE_ON_AIR
                     | HITMARKER_IGNORE_UNDERGROUND | HITMARKER_IGNORE_UNDERWATER | HITMARKER_PASSIVE_DAMAGE
                     | HITMARKER_OBEYS | HITMARKER_WAKE_UP_CLEAR | HITMARKER_SYNCHRONISE_EFFECT
                     | HITMARKER_CHARGING | HITMARKER_NEVER_SET);
@@ -659,7 +659,7 @@ void HandleAction_ActionFinished(void)
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
     SpecialStatusesClear();
     gHitMarker &= ~(HITMARKER_DESTINYBOND | HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_ATTACKSTRING_PRINTED
-                    | HITMARKER_NO_PPDEDUCT | HITMARKER_IGNORE_SAFEGUARD | HITMARKER_IGNORE_ON_AIR
+                    | HITMARKER_NO_PPDEDUCT | HITMARKER_STATUS_ABILITY_EFFECT | HITMARKER_IGNORE_ON_AIR
                     | HITMARKER_IGNORE_UNDERGROUND | HITMARKER_IGNORE_UNDERWATER | HITMARKER_PASSIVE_DAMAGE
                     | HITMARKER_OBEYS | HITMARKER_WAKE_UP_CLEAR | HITMARKER_SYNCHRONISE_EFFECT
                     | HITMARKER_CHARGING | HITMARKER_NEVER_SET);
@@ -1446,7 +1446,7 @@ u8 DoBattlerEndTurnEffects(void)
 {
     u8 effect = 0;
 
-    gHitMarker |= (HITMARKER_GRUDGE | HITMARKER_SKIP_DMG_TRACK);
+    gHitMarker |= (HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
     while (gBattleStruct->turnEffectsBattlerId < gBattlersCount && gBattleStruct->turnEffectsTracker <= ENDTURN_BATTLER_COUNT)
     {
         gActiveBattler = gBattlerAttacker = gBattlerByTurnOrder[gBattleStruct->turnEffectsBattlerId];
@@ -1764,13 +1764,13 @@ u8 DoBattlerEndTurnEffects(void)
                 return effect;
         }
     }
-    gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_SKIP_DMG_TRACK);
+    gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
     return 0;
 }
 
 bool8 HandleWishPerishSongOnTurnEnd(void)
 {
-    gHitMarker |= (HITMARKER_GRUDGE | HITMARKER_SKIP_DMG_TRACK);
+    gHitMarker |= (HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
 
     switch (gBattleStruct->wishPerishSongState)
     {
@@ -1799,7 +1799,7 @@ bool8 HandleWishPerishSongOnTurnEnd(void)
                 gBattlerTarget = gActiveBattler;
                 gBattlerAttacker = gWishFutureKnock.futureSightAttacker[gActiveBattler];
                 gBattleMoveDamage = gWishFutureKnock.futureSightDmg[gActiveBattler];
-                gSpecialStatuses[gBattlerTarget].dmg = 0xFFFF;
+                gSpecialStatuses[gBattlerTarget].shellBellDmg = IGNORE_SHELL_BELL;
                 BattleScriptExecute(BattleScript_MonTookFutureAttack);
 
                 if (gWishFutureKnock.futureSightCounter[gActiveBattler] == 0
@@ -1870,7 +1870,7 @@ bool8 HandleWishPerishSongOnTurnEnd(void)
         break;
     }
 
-    gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_SKIP_DMG_TRACK);
+    gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
 
     return FALSE;
 }
@@ -2215,11 +2215,11 @@ u8 AtkCanceller_UnableToUseMove(void)
                 {
                     // This is removed in FRLG and Emerald for some reason
                     //gBattleMons[gBattlerAttacker].status2 &= ~STATUS2_MULTIPLETURNS;
-                    if (gTakenDmg[gBattlerAttacker])
+                    if (gBideDmg[gBattlerAttacker])
                     {
                         gCurrentMove = MOVE_BIDE;
-                        *bideDmg = gTakenDmg[gBattlerAttacker] * 2;
-                        gBattlerTarget = gTakenDmgByBattler[gBattlerAttacker];
+                        *bideDmg = gBideDmg[gBattlerAttacker] * 2;
+                        gBattlerTarget = gBideTarget[gBattlerAttacker];
                         if (gAbsentBattlerFlags & gBitTable[gBattlerTarget])
                             gBattlerTarget = GetMoveTarget(MOVE_BIDE, MOVE_TARGET_SELECTED + 1);
                         gBattlescriptCurrInstr = BattleScript_BideAttack;
@@ -2794,7 +2794,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     gBattleCommunication[MOVE_EFFECT_BYTE] += MOVE_EFFECT_AFFECTS_USER;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_ApplySecondaryEffect;
-                    gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+                    gHitMarker |= HITMARKER_STATUS_ABILITY_EFFECT;
                     effect++;
                 }
                 break;
@@ -2809,7 +2809,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_POISON;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_ApplySecondaryEffect;
-                    gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+                    gHitMarker |= HITMARKER_STATUS_ABILITY_EFFECT;
                     effect++;
                 }
                 break;
@@ -2824,7 +2824,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_PARALYSIS;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_ApplySecondaryEffect;
-                    gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+                    gHitMarker |= HITMARKER_STATUS_ABILITY_EFFECT;
                     effect++;
                 }
                 break;
@@ -2839,7 +2839,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_ApplySecondaryEffect;
-                    gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+                    gHitMarker |= HITMARKER_STATUS_ABILITY_EFFECT;
                     effect++;
                 }
                 break;
@@ -2975,7 +2975,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 gBattleScripting.battler = gBattlerTarget;
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_SynchronizeActivates;
-                gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+                gHitMarker |= HITMARKER_STATUS_ABILITY_EFFECT;
                 effect++;
             }
             break;
@@ -2991,7 +2991,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 gBattleScripting.battler = gBattlerAttacker;
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_SynchronizeActivates;
-                gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+                gHitMarker |= HITMARKER_STATUS_ABILITY_EFFECT;
                 effect++;
             }
             break;
@@ -3781,8 +3781,8 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 break;
             case HOLD_EFFECT_SHELL_BELL:
                 if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
-                    && gSpecialStatuses[gBattlerTarget].dmg != 0
-                    && gSpecialStatuses[gBattlerTarget].dmg != 0xFFFF
+                    && gSpecialStatuses[gBattlerTarget].shellBellDmg != 0
+                    && gSpecialStatuses[gBattlerTarget].shellBellDmg != IGNORE_SHELL_BELL
                     && gBattlerAttacker != gBattlerTarget
                     && gBattleMons[gBattlerAttacker].hp != gBattleMons[gBattlerAttacker].maxHP
                     && gBattleMons[gBattlerAttacker].hp != 0)
@@ -3790,10 +3790,10 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                     gLastUsedItem = atkItem;
                     gPotentialItemEffectBattler = gBattlerAttacker;
                     gBattleScripting.battler = gBattlerAttacker;
-                    gBattleMoveDamage = (gSpecialStatuses[gBattlerTarget].dmg / atkHoldEffectParam) * -1;
+                    gBattleMoveDamage = (gSpecialStatuses[gBattlerTarget].shellBellDmg / atkHoldEffectParam) * -1;
                     if (gBattleMoveDamage == 0)
                         gBattleMoveDamage = -1;
-                    gSpecialStatuses[gBattlerTarget].dmg = 0;
+                    gSpecialStatuses[gBattlerTarget].shellBellDmg = 0;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_ItemHealHP_Ret;
                     effect++;

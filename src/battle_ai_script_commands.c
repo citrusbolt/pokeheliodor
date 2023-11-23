@@ -1475,7 +1475,13 @@ static void Cmd_get_highest_type_effectiveness(void)
 
         if (gCurrentMove != MOVE_NONE)
         {
+            // TypeCalc does not assign to gMoveResultFlags, Cmd_typecalc does
+            // This makes the check for gMoveResultFlags below always fail
+#ifdef BUGFIX
+            gMoveResultFlags = TypeCalc(gCurrentMove, sBattler_AI, gBattlerTarget);
+#else
             TypeCalc(gCurrentMove, sBattler_AI, gBattlerTarget);
+#endif
 
             if (gBattleMoveDamage == 120) // Super effective STAB.
                 gBattleMoveDamage = AI_EFFECTIVENESS_x2;
@@ -1510,7 +1516,16 @@ static void Cmd_if_type_effectiveness(void)
     gBattleMoveDamage = AI_EFFECTIVENESS_x1;
     gCurrentMove = AI_THINKING_STRUCT->moveConsidered;
 
+    // TypeCalc does not assign to gMoveResultFlags, Cmd_typecalc does
+    // This makes the check for gMoveResultFlags below always fail
+    // This is how you get the "dual non-immunity" glitch, where AI 
+    // will use ineffective moves on immune pokémon if the second type
+    // has a non-neutral, non-immune effectiveness
+#ifdef BUGFIX
+    gMoveResultFlags = TypeCalc(gCurrentMove, sBattler_AI, gBattlerTarget);
+#else
     TypeCalc(gCurrentMove, sBattler_AI, gBattlerTarget);
+#endif
 
     if (gBattleMoveDamage == 120) // Super effective STAB.
         gBattleMoveDamage = AI_EFFECTIVENESS_x2;
