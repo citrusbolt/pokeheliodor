@@ -228,10 +228,10 @@ static void ItemMenu_SortByName(u8 taskId);
 static void SortBagItems(u8 taskId);
 static void Task_SortFinish(u8 taskId);
 static void SortItemsInBag(u8 pocket, u8 type);
-static void MergeSort(struct ItemSlot* array, u32 low, u32 high, s8 (*comparator)(struct ItemSlot*, struct ItemSlot*));
-static void Merge(struct ItemSlot* array, u32 low, u32 mid, u32 high, s8 (*comparator)(struct ItemSlot*, struct ItemSlot*));
-static s8 CompareItemsByType(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
-static s8 CompareItemsByName(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
+static void MergeSort(struct ItemSlot* array, u32 low, u32 high, s8 (*comparator)(u16 item1, u16 item2));
+static void Merge(struct ItemSlot* array, u32 low, u32 mid, u32 high, s8 (*comparator)(u16 item1, u16 item2));
+static s8 CompareItemsByType(u16 item1, u16 item2);
+static s8 CompareItemsByName(u16 item1, u16 item2);
 //register item
 static void ItemMenu_RegisterSelect(u8 taskId);
 static void ItemMenu_RegisterL(u8 taskId);
@@ -2935,7 +2935,6 @@ static void SortItemsInBag(u8 pocket, u8 type)
 {
     struct ItemSlot* itemMem;
     u16 itemAmount;
-    s8 (*func)(struct ItemSlot*, struct ItemSlot*);
 
     switch (pocket)
     {
@@ -2959,6 +2958,10 @@ static void SortItemsInBag(u8 pocket, u8 type)
             itemMem = gSaveBlock1Ptr->bagPocket_Treasures;
             itemAmount = BAG_TREASURES_COUNT;
             break;
+        case KEYITEMS_POCKET:
+            itemMem = gBagPockets[KEYITEMS_POCKET].itemSlots;
+            itemAmount = BAG_KEYITEMS_COUNT;
+            break;
         default:
             return;
     }
@@ -2975,7 +2978,7 @@ static void SortItemsInBag(u8 pocket, u8 type)
     }
 }
 
-static void MergeSort(struct ItemSlot* array, u32 low, u32 high, s8 (*comparator)(struct ItemSlot*, struct ItemSlot*))
+static void MergeSort(struct ItemSlot* array, u32 low, u32 high, s8 (*comparator)(u16 item1, u16 item2))
 {
     u32 mid;
 
@@ -2988,7 +2991,7 @@ static void MergeSort(struct ItemSlot* array, u32 low, u32 high, s8 (*comparator
     Merge(array, low, mid, high, comparator); //Merge results.
 }
 
-static void Merge(struct ItemSlot* array, u32 low, u32 mid, u32 high, s8 (*comparator)(struct ItemSlot*, struct ItemSlot*))
+static void Merge(struct ItemSlot* array, u32 low, u32 mid, u32 high, s8 (*comparator)(u16 item1, u16 item2))
 {
     u32 i = low;
     u32 j = mid + 1;
@@ -3004,42 +3007,40 @@ static void Merge(struct ItemSlot* array, u32 low, u32 mid, u32 high, s8 (*compa
             array[k] = aux[j++];
         else if (j > high)
             array[k] = aux[i++];
-        else if (comparator(&aux[j], &aux[i]) < 0)
+        else if (comparator(aux[j].itemId, aux[i].itemId) < 0)
             array[k] = aux[j++];
         else
             array[k] = aux[i++];
     }
 }
 
-static s8 CompareItemsByType(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2)
+static s8 CompareItemsByType(u16 item1, u16 item2)
 {
     //Null items go last
-    u8 type1 = (itemSlot1->itemId == ITEM_NONE) ? 0xFF : ItemId_GetSortId(itemSlot1->itemId);
-    u8 type2 = (itemSlot2->itemId == ITEM_NONE) ? 0xFF : ItemId_GetSortId(itemSlot2->itemId);
+    u16 type1 = (item1 == ITEM_NONE) ? 0xFF : ItemId_GetSortId(item1);
+    u16 type2 = (item2 == ITEM_NONE) ? 0xFF : ItemId_GetSortId(item2);
 
     if (type1 < type2)
         return -1;
     else if (type1 > type2)
         return 1;
 
-    if (itemSlot1->itemId == ITEM_NONE)
+    if (item1 == ITEM_NONE)
         return 1;
-    else if (itemSlot2->itemId == ITEM_NONE)
+    else if (item2 == ITEM_NONE)
         return -1;
 
-    if (itemSlot2->itemId < itemSlot1->itemId)
+    if (item2 < item1)
         return 1;
-    else if (itemSlot2->itemId > itemSlot1->itemId)
+    else if (item2 > item1)
         return -1;
     else
         return 0;
 }
 
-static s8 CompareItemsByName(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2)
+static s8 CompareItemsByName(u16 item1, u16 item2)
 {
-    u16 item1 = itemSlot1->itemId;
-    u16 item2 = itemSlot2->itemId;
-    int i;
+    u32 i;
     const u8 *name1;
     const u8 *name2;
 
