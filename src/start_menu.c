@@ -240,8 +240,25 @@ static const struct WindowTemplate sSaveInfoWindowTemplate = {
     .baseBlock = 8
 };
 
-static const struct WindowTemplate sCurrentTime24WindowTemplate = {0, 1, 17, 4, 2, 0xF, 48};
-static const struct WindowTemplate sCurrentTimeWindowTemplate = {0, 1, 17, 7, 2, 0xF, 48};
+static const struct WindowTemplate sCurrentTime24WindowTemplate = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 17,
+    .width = 4,
+    .height = 2,
+    .paletteNum = 0xF,
+    .baseBlock = 0x38
+ };
+ 
+static const struct WindowTemplate sCurrentTimeWindowTemplate = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 17,
+    .width = 7,
+    .height = 2,
+    .paletteNum = 0xF,
+    .baseBlock = 0x38
+ };
 
 // Local functions
 static void BuildStartMenuActions(void);
