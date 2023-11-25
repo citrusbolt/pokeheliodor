@@ -30,6 +30,8 @@
 #include "constants/region_map_sections.h"
 #include "constants/songs.h"
 
+#define NUM_BG_PAL_SLOTS 8
+
 // All windows displayed in the frontier pass.
 enum
 {
@@ -770,7 +772,7 @@ static bool32 InitFrontierPass(void)
         CopyBgTilemapBufferToVram(2);
         break;
     case 8:
-        LoadPalette(gFrontierPassBg_Pal[0], 0, 13 * PLTT_SIZE_4BPP);
+        LoadPalette(gFrontierPassBg_Pal, 0, NUM_BG_PAL_SLOTS * PLTT_SIZE_4BPP);
         LoadPalette(gFrontierPassBg_Pal[1 + sPassData->trainerStars], BG_PLTT_ID(1), PLTT_SIZE_4BPP);
         LoadPalette(GetTextWindowPalette(0), BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         DrawFrontierPassBg();
@@ -1411,7 +1413,7 @@ static bool32 InitFrontierMap(void)
     case 5:
         if (FreeTempTileDataBuffersIfPossible())
             return FALSE;
-        LoadPalette(gFrontierPassBg_Pal[0], BG_PLTT_ID(0), 13 * PLTT_SIZE_4BPP);
+        LoadPalette(gFrontierPassBg_Pal, BG_PLTT_ID(0), NUM_BG_PAL_SLOTS * PLTT_SIZE_4BPP);
         LoadPalette(GetTextWindowPalette(0), BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         CopyToBgTilemapBuffer(2, sMapScreen_Tilemap, 0, 0);
         CopyBgTilemapBufferToVram(2);

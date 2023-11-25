@@ -29,6 +29,10 @@ const u8 gWeatherAshTiles[] = INCBIN_U8("graphics/weather/ash.4bpp");
 const u8 gWeatherRainTiles[] = INCBIN_U8("graphics/weather/rain.4bpp");
 const u8 gWeatherSandstormTiles[] = INCBIN_U8("graphics/weather/sandstorm.4bpp");
 
+const struct SpritePalette sFogSpritePalette = {gFogPalette, 0x1201};
+const struct SpritePalette sCloudsSpritePalette = {gCloudsWeatherPalette, 0x1207};
+const struct SpritePalette sSandstormSpritePalette = {gSandstormWeatherPalette, 0x1204};
+
 //------------------------------------------------------------------------------
 // WEATHER_SUNNY_CLOUDS
 //------------------------------------------------------------------------------
@@ -84,7 +88,7 @@ static const union AnimCmd *const sCloudSpriteAnimCmds[] =
 static const struct SpriteTemplate sCloudSpriteTemplate =
 {
     .tileTag = GFXTAG_CLOUD,
-    .paletteTag = PALTAG_WEATHER_2,
+    .paletteTag = 0x1207,
     .oam = &sCloudSpriteOamData,
     .anims = sCloudSpriteAnimCmds,
     .images = NULL,
@@ -180,7 +184,7 @@ static void CreateCloudSprites(void)
         return;
 
     LoadSpriteSheet(&sCloudSpriteSheet);
-    LoadCustomWeatherSpritePalette(gCloudsWeatherPalette);
+    LoadCustomWeatherSpritePalette(&sCloudsSpritePalette);
     for (i = 0; i < NUM_CLOUD_SPRITES; i++)
     {
         spriteId = CreateSprite(&sCloudSpriteTemplate, 0, 0, 0xFF);
@@ -213,7 +217,7 @@ static void DestroyCloudSprites(void)
             DestroySprite(gWeatherPtr->sprites.s1.cloudSprites[i]);
     }
 
-    FreeSpriteTilesByTag(GFXTAG_CLOUD);
+    FreeSpriteTilesByTag(0x1207);
     gWeatherPtr->cloudSpritesCreated = FALSE;
 }
 
@@ -878,7 +882,7 @@ static const union AnimCmd *const sSnowflakeAnimCmds[] =
 static const struct SpriteTemplate sSnowflakeSpriteTemplate =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = PALTAG_WEATHER,
+    .paletteTag = 0x1201,
     .oam = &sSnowflakeSpriteOamData,
     .anims = sSnowflakeAnimCmds,
     .images = sSnowflakeSpriteImages,
@@ -1615,7 +1619,7 @@ static const union AnimCmd *const sAshSpriteAnimCmds[] =
 static const struct SpriteTemplate sAshSpriteTemplate =
 {
     .tileTag = GFXTAG_ASH,
-    .paletteTag = PALTAG_WEATHER,
+    .paletteTag = 0x1201,
     .oam = &sAshSpriteOamData,
     .anims = sAshSpriteAnimCmds,
     .images = NULL,
@@ -1636,6 +1640,7 @@ static void CreateAshSprites(void)
 
     if (!gWeatherPtr->ashSpritesCreated)
     {
+        LoadCustomWeatherSpritePalette(&sFogSpritePalette);
         for (i = 0; i < NUM_ASH_SPRITES; i++)
         {
             spriteId = CreateSpriteAtEnd(&sAshSpriteTemplate, 0, 0, 0x4E);
@@ -1832,7 +1837,7 @@ static const union AnimCmd *const sFogDiagonalSpriteAnimCmds[] =
 static const struct SpriteTemplate sFogDiagonalSpriteTemplate =
 {
     .tileTag = GFXTAG_FOG_D,
-    .paletteTag = PALTAG_WEATHER,
+    .paletteTag = 0x1201,
     .oam = &sFogDiagonalSpriteOamData,
     .anims = sFogDiagonalSpriteAnimCmds,
     .images = NULL,
@@ -1854,6 +1859,7 @@ static void CreateFogDiagonalSprites(void)
     {
         fogDiagonalSpriteSheet = sFogDiagonalSpriteSheet;
         LoadSpriteSheet(&fogDiagonalSpriteSheet);
+        LoadCustomWeatherSpritePalette(&sFogSpritePalette);
         for (i = 0; i < NUM_FOG_DIAGONAL_SPRITES; i++)
         {
             spriteId = CreateSpriteAtEnd(&sFogDiagonalSpriteTemplate, 0, (i / 5) * 64, 0xFF);
@@ -2079,7 +2085,7 @@ static const union AnimCmd *const sSandstormSpriteAnimCmds[] =
 static const struct SpriteTemplate sSandstormSpriteTemplate =
 {
     .tileTag = GFXTAG_SANDSTORM,
-    .paletteTag = PALTAG_WEATHER_2,
+    .paletteTag = 0x1204,
     .oam = &sSandstormSpriteOamData,
     .anims = sSandstormSpriteAnimCmds,
     .images = NULL,
@@ -2112,7 +2118,7 @@ static void CreateSandstormSprites(void)
     if (!gWeatherPtr->sandstormSpritesCreated)
     {
         LoadSpriteSheet(&sSandstormSpriteSheet);
-        LoadCustomWeatherSpritePalette(gSandstormWeatherPalette);
+        LoadCustomWeatherSpritePalette(&sSandstormSpritePalette);
         for (i = 0; i < NUM_SANDSTORM_SPRITES; i++)
         {
             spriteId = CreateSpriteAtEnd(&sSandstormSpriteTemplate, 0, (i / 5) * 64, 1);
@@ -2408,8 +2414,7 @@ static void UpdateBubbleSprite(struct Sprite *sprite)
 
 //------------------------------------------------------------------------------
 
-// Unused function.
-static void UnusedSetCurrentAbnormalWeather(u32 weather, u32 unknown)
+static void UNUSED UnusedSetCurrentAbnormalWeather(u32 weather, u32 unknown)
 {
     sCurrentAbnormalWeather = weather;
     sUnusedWeatherRelated = unknown;

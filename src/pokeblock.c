@@ -215,12 +215,12 @@ const u8 *const gPokeblockNames[] =
 
 static const struct MenuAction sPokeblockMenuActions[] =
 {
-    [PKBL_USE_ON_FIELD]  = {gMenuText_Use, PokeblockAction_UseOnField},
-    [PKBL_TOSS]          = {gMenuText_Toss, PokeblockAction_Toss},
-    [PKBL_CANCEL]        = {gText_Cancel2, PokeblockAction_Cancel},
-    [PKBL_USE_IN_BATTLE] = {gMenuText_Use, PokeblockAction_UseInBattle},
-    [PKBL_USE_ON_FEEDER] = {gMenuText_Use, PokeblockAction_UseOnPokeblockFeeder},
-    [PKBL_GIVE_TO_LADY]  = {gMenuText_Give2, PokeblockAction_GiveToContestLady},
+    [PKBL_USE_ON_FIELD]  = {gMenuText_Use, {PokeblockAction_UseOnField}},
+    [PKBL_TOSS]          = {gMenuText_Toss, {PokeblockAction_Toss}},
+    [PKBL_CANCEL]        = {gText_Cancel2, {PokeblockAction_Cancel}},
+    [PKBL_USE_IN_BATTLE] = {gMenuText_Use, {PokeblockAction_UseInBattle}},
+    [PKBL_USE_ON_FEEDER] = {gMenuText_Use, {PokeblockAction_UseOnPokeblockFeeder}},
+    [PKBL_GIVE_TO_LADY]  = {gMenuText_Give2, {PokeblockAction_GiveToContestLady}},
 };
 
 static const u8 sActionsOnField[] = {PKBL_USE_ON_FIELD, PKBL_TOSS, PKBL_CANCEL};
@@ -765,7 +765,7 @@ static void DrawPokeblockInfo(s32 pkblId)
     struct Pokeblock *pokeblock;
     u16 rectTilemapSrc[2];
 
-    FillWindowPixelBuffer(7, PIXEL_FILL(0));
+    FillWindowPixelBuffer(WIN_FEEL, PIXEL_FILL(0));
 
     if (pkblId != LIST_CANCEL)
     {
@@ -802,7 +802,7 @@ static void DrawPokeblockInfo(s32 pkblId)
         for (i = 0; i < FLAVOR_COUNT; i++)
             CopyToBgTilemapBufferRect(2, rectTilemapSrc, (i / 3 * 6) + 1, (i % 3 * 2) + 13, 1, 2);
 
-        CopyWindowToVram(7, COPYWIN_GFX);
+        CopyWindowToVram(WIN_FEEL, COPYWIN_GFX);
     }
 
     ScheduleBgCopyTilemapToVram(0);

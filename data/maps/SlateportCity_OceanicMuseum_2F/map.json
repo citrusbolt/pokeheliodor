@@ -67,7 +67,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_2F_AQUA_GRUNT_2"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
+      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
       "x": 12,
       "y": 7,
       "elevation": 3,
@@ -80,7 +80,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_MUSEUM_POPULATION"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_POKEFAN_F",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_FAN_F_1",
       "x": 9,
       "y": 6,
       "elevation": 3,
@@ -93,7 +93,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_MUSEUM_POPULATION"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 1,
       "y": 3,
       "elevation": 3,

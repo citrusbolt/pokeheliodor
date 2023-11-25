@@ -201,7 +201,7 @@ static const u8 sDoorAnimPalettes_Pacifidlog[] = {9, 9, 9, 9, 9, 9, 9, 9};
 static const u8 sDoorAnimPalettes_SootopolisPeakedRoof[] = {6, 6, 6, 6, 6, 6, 6, 6};
 static const u8 sDoorAnimPalettes_Sootopolis[] = {6, 6, 6, 6, 6, 6, 6, 6};
 static const u8 sDoorAnimPalettes_Dewford[] = {12, 12, 12, 12, 12, 12, 12, 12};
-static const u8 sDoorAnimPalettes_Slateport[] = {6, 6, 1, 1, 1, 1, 1, 1};
+static const u8 sDoorAnimPalettes_Slateport[] = {1, 1, 1, 1, 1, 1, 1, 1};
 static const u8 sDoorAnimPalettes_Mauville[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_Verdanturf[] = {6, 6, 5, 5, 5, 5, 5, 5};
 static const u8 sDoorAnimPalettes_LilycoveWooden[] = {5, 5, 5, 5, 5, 5, 5, 5};
@@ -249,7 +249,7 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_Petalburg_Door_Oldale,                        DOOR_SOUND_NORMAL,  0, sDoorAnimTiles_Oldale, sDoorAnimPalettes_Oldale},
     {METATILE_Mauville_Door,                                DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Mauville, sDoorAnimPalettes_Mauville},
     {METATILE_Mauville_Door_Verdanturf,                     DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Verdanturf, sDoorAnimPalettes_Verdanturf},
-    {METATILE_Slateport_Door,                               DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Slateport, sDoorAnimPalettes_Slateport},
+    {METATILE_Slateport_Door,                               DOOR_SOUND_NORMAL,  0, sDoorAnimTiles_Slateport, sDoorAnimPalettes_Slateport},
     {METATILE_Dewford_Door,                                 DOOR_SOUND_NORMAL,  0, sDoorAnimTiles_Dewford, sDoorAnimPalettes_Dewford},
     {METATILE_General_Door_Contest,                         DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_Contest, sDoorAnimPalettes_Contest},
     {METATILE_Lilycove_Door,                                DOOR_SOUND_NORMAL,  0, sDoorAnimTiles_Lilycove, sDoorAnimPalettes_Lilycove},
@@ -433,7 +433,7 @@ static bool32 AnimateDoorFrame(struct DoorGraphics *gfx, struct DoorAnimFrame *f
 
 static void Task_AnimateDoor(u8 taskId)
 {
-    u16 *data = gTasks[taskId].data;
+    u16 *data = (u16*) gTasks[taskId].data;
     struct DoorAnimFrame *frames = (struct DoorAnimFrame *)(tFramesHi << 16 | tFramesLo);
     struct DoorGraphics *gfx = (struct DoorGraphics *)(tGfxHi << 16 | tGfxLo);
 
@@ -535,8 +535,8 @@ static s8 GetDoorSoundType(const struct DoorGraphics *gfx, u32 x, u32 y)
         return gfx->sound;
 }
 
-// Unused. Debug? Same as FieldAnimateDoorOpen but doesnt return or check if metatile is actually a door
-static void Debug_FieldAnimateDoorOpen(u32 x, u32 y)
+// Debug? Same as FieldAnimateDoorOpen but doesnt return or check if metatile is actually a door
+static void UNUSED Debug_FieldAnimateDoorOpen(u32 x, u32 y)
 {
     StartDoorOpenAnimation(sDoorAnimGraphicsTable, x, y);
 }

@@ -18,6 +18,7 @@
 #include "constants/event_object_movement.h"
 #include "constants/field_effects.h"
 #include "constants/trainer_types.h"
+#include "field_weather.h"
 
 // this file's functions
 static u8 CheckTrainer(u8 objectEventId);
@@ -133,19 +134,19 @@ static const struct SpriteFrameImage sSpriteImageTable_ExclamationQuestionMark[]
 {
     {
         .data = sEmotion_ExclamationMarkGfx,
-        .size = 0x80
+        .size = sizeof(sEmotion_ExclamationMarkGfx)
     },
     {
         .data = sEmotion_QuestionMarkGfx,
-        .size = 0x80
+        .size = sizeof(sEmotion_QuestionMarkGfx)
     },
     {
         .data = sEmotion_DoubleExclamationMarkGfx,
-        .size = 0x80
+        .size = sizeof(sEmotion_DoubleExclamationMarkGfx)
     },
     {
         .data = sEmotion_XGfx,
-        .size = 0x80
+        .size = sizeof(sEmotion_XGfx)
     }
 };
 
@@ -153,7 +154,7 @@ static const struct SpriteFrameImage sSpriteImageTable_HeartIcon[] =
 {
     {
         .data = sEmotion_HeartGfx,
-        .size = 0x80
+        .size = sizeof(sEmotion_HeartGfx)
     }
 };
 
@@ -192,7 +193,7 @@ static const union AnimCmd *const sSpriteAnimTable_Icons[] =
 static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = TAG_NONE,
+    .paletteTag = 0x1103,   // OBJ_EVENT_PAL_TAG_GENERIC_1
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
     .images = sSpriteImageTable_ExclamationQuestionMark,
@@ -203,7 +204,7 @@ static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 static const struct SpriteTemplate sSpriteTemplate_HeartIcon =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
+    .paletteTag = 0x1103,   // OBJ_EVENT_PAL_TAG_GENERIC_1
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
     .images = sSpriteImageTable_HeartIcon,
@@ -651,7 +652,7 @@ static void Task_SetBuriedTrainerMovement(u8 taskId)
     struct Task *task = &gTasks[taskId];
     struct ObjectEvent *objEvent;
 
-    LoadWordFromTwoHalfwords(&task->tObjEvent, (u32 *)&objEvent);
+    LoadWordFromTwoHalfwords((u16*) &task->tObjEvent, (u32 *)&objEvent);
     if (!task->data[7])
     {
         ObjectEventClearHeldMovement(objEvent);
@@ -673,7 +674,7 @@ static void Task_SetBuriedTrainerMovement(u8 taskId)
 // Called when a buried Trainer has the reveal_trainer movement applied, from direct interaction
 void SetBuriedTrainerMovement(struct ObjectEvent *objEvent)
 {
-    StoreWordInTwoHalfwords(&gTasks[CreateTask(Task_SetBuriedTrainerMovement, 0)].tObjEvent, (u32)objEvent);
+    StoreWordInTwoHalfwords((u16*) &gTasks[CreateTask(Task_SetBuriedTrainerMovement, 0)].tObjEvent, (u32)objEvent);
 }
 
 void DoTrainerApproach(void)
@@ -713,13 +714,13 @@ void TryPrepareSecondApproachingTrainer(void)
 #define sLocalId    data[0]
 #define sMapNum     data[1]
 #define sMapGroup   data[2]
-#define sData3      data[3]
-#define sData4      data[4]
+#define sYVelocity  data[3]
+#define sYOffset    data[4]
 #define sFldEffId   data[7]
 
 u8 FldEff_ExclamationMarkIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x53);
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
@@ -742,12 +743,7 @@ u8 FldEff_HeartIcon(void)
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
-    {
-        struct Sprite *sprite = &gSprites[spriteId];
-
-        SetIconSpriteData(sprite, FLDEFF_HEART_ICON, 0);
-        sprite->oam.paletteNum = 2;
-    }
+        SetIconSpriteData(&gSprites[spriteId], FLDEFF_HEART_ICON, 0);
 
     return 0;
 }
@@ -780,7 +776,7 @@ static void SetIconSpriteData(struct Sprite *sprite, u16 fldEffId, u8 spriteAnim
     sprite->sLocalId = gFieldEffectArguments[0];
     sprite->sMapNum = gFieldEffectArguments[1];
     sprite->sMapGroup = gFieldEffectArguments[2];
-    sprite->sData3 = -5;
+    sprite->sYVelocity = -5;
     sprite->sFldEffId = fldEffId;
 
     StartSpriteAnim(sprite, spriteAnimNum);
@@ -798,23 +794,23 @@ static void SpriteCB_TrainerIcons(struct Sprite *sprite)
     else
     {
         struct Sprite *objEventSprite = &gSprites[gObjectEvents[objEventId].spriteId];
-        sprite->sData4 += sprite->sData3;
+        sprite->sYOffset += sprite->sYVelocity;
         sprite->x = objEventSprite->x;
         sprite->y = objEventSprite->y - 16;
         sprite->x2 = objEventSprite->x2;
-        sprite->y2 = objEventSprite->y2 + sprite->sData4;
-        if (sprite->sData4)
-            sprite->sData3++;
+        sprite->y2 = objEventSprite->y2 + sprite->sYOffset;
+        if (sprite->sYOffset)
+            sprite->sYVelocity++;
         else
-            sprite->sData3 = 0;
+            sprite->sYVelocity = 0;
     }
 }
 
 #undef sLocalId
 #undef sMapNum
 #undef sMapGroup
-#undef sData3
-#undef sData4
+#undef sYVelocity
+#undef sYOffset
 #undef sFldEffId
 
 u8 GetCurrentApproachingTrainerObjectEventId(void)

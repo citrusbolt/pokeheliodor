@@ -55,10 +55,11 @@
 #define CONFIG_CAN_FORGET_HM_MOVES                      TRUE
 #define CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP    TRUE
 #define CONFIG_PHYSICAL_SPECIAL_SPLIT                   FALSE	// Takes precendence over CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
-#define CONFIG_SHOW_ICONS_FOR_OLD_SPLIT                 FALSE
+#define CONFIG_SHOW_ICONS_FOR_OLD_SPLIT                 TRUE
 #define CONFIG_EXPANDED_MET_LOCATIONS                   TRUE
 #define CONFIG_TRUST_OUTSIDERS                          TRUE
 #define CONFIG_SHOW_HIDDEN_POWER_STATS                  TRUE
+#define CONFIG_SHOW_FRIENDSHIP_MOVE_STATS               TRUE
 #define CONFIG_DECAPITALIZE_TITLE_STRINGS               FALSE
 #define CONFIG_DECAPITALIZE_STRINGS                     TRUE
 #define CONFIG_FATEFUL_ENCOUNTER_MARK                   TRUE
@@ -106,6 +107,7 @@ enum
     SPRITE_ARR_ID_MON_ICON,
     SPRITE_ARR_ID_STATUS,
     SPRITE_ARR_ID_ORIGIN,
+    SPRITE_ARR_ID_LANGLABEL,
     SPRITE_ARR_ID_TYPE, // 2 for mon types, 5 for move types(4 moves and 1 to learn)
     SPRITE_ARR_ID_MOVE_SELECTOR1 = SPRITE_ARR_ID_TYPE + 7,
     SPRITE_ARR_ID_MOVE_SELECTOR2 = SPRITE_ARR_ID_MOVE_SELECTOR1 + MOVE_SELECTOR_SPRITES_COUNT,
@@ -180,6 +182,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		u8 spatkEV;
 		u8 spdefEV;
 		u8 speedEV;
+        u8 trueOrigin;
     } summary;
 	u16 bgTilemapBufferPage[0x400];
 	u16 bgTilemapBufferBG[0x400];
@@ -309,6 +312,7 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon);
 static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon);
 static void CreateCaughtBallSprite(struct Pokemon *mon);
 static void CreateHeldItemSprite(struct Pokemon *mon);
+static void CreateLangLabelSprite(struct Pokemon *mon);
 static void CreateSetStatusSprite(void);
 static void CreateMoveSelectorSprites(u8 idArrayStart);
 static void SpriteCB_MoveSelector(struct Sprite *sprite);
@@ -520,8 +524,11 @@ static const u8 sMemoSpecialTextColor[] = _("{COLOR 14}{SHADOW 13}");
 #define TAG_MOVE_TYPES      30002
 #define TAG_MON_MARKINGS    30003
 #define TAG_SPLIT_ICONS     30004
-#define TAG_HEALTH_BAR      30005
-#define TAG_EXP_BAR         30006
+#define TAG_EXP_BAR         30005
+#define TAG_HEALTH_BAR_GREEN    30006
+#define TAG_HEALTH_BAR_ORANGE   30007
+#define TAG_HEALTH_BAR_RED      30008
+#define TAG_GAME_ICONS          30009
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -673,32 +680,6 @@ static const struct SpriteTemplate sSpriteTemplate_MoveTypes =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallbackDummy
 };
-static const u8 sMoveTypeToOamPaletteNum[NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT] =
-{
-    [TYPE_NORMAL] = 13,
-    [TYPE_FIGHTING] = 13,
-    [TYPE_FLYING] = 14,
-    [TYPE_POISON] = 14,
-    [TYPE_GROUND] = 13,
-    [TYPE_ROCK] = 13,
-    [TYPE_BUG] = 15,
-    [TYPE_GHOST] = 14,
-    [TYPE_STEEL] = 13,
-    [TYPE_MYSTERY] = 15,
-    [TYPE_FIRE] = 13,
-    [TYPE_WATER] = 14,
-    [TYPE_GRASS] = 15,
-    [TYPE_ELECTRIC] = 13,
-    [TYPE_PSYCHIC] = 14,
-    [TYPE_ICE] = 14,
-    [TYPE_DRAGON] = 15,
-    [TYPE_DARK] = 13,
-    [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_COOL] = 13,
-    [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_BEAUTY] = 14,
-    [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_CUTE] = 14,
-    [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_SMART] = 15,
-    [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_TOUGH] = 13,
-};
 static const struct OamData sOamData_MoveSelector =
 {
     .y = 0,
@@ -826,7 +807,7 @@ static const union AnimCmd *const sSpriteAnimTable_StatusCondition[] = {
 static const struct CompressedSpriteSheet sStatusIconsSpriteSheet =
 {
     .data = gStatusGfx_Icons,
-    .size = 0x380,
+    .size = 32 * 8 * 8 / 2,
     .tag = TAG_MON_STATUS
 };
 static const struct CompressedSpritePalette sStatusIconsSpritePalette =
@@ -1142,7 +1123,278 @@ static void DestroySplitIcon(void)
 }
 #endif
 
-// code
+enum {
+    ORIGIN_GAME_SAPPHIRE,
+    ORIGIN_GAME_RUBY,
+    ORIGIN_GAME_BOX,
+    ORIGIN_GAME_CHANNEL,
+    ORIGIN_GAME_COLOSSEUM,
+    ORIGIN_GAME_FIRERED,
+    ORIGIN_GAME_LEAFGREEN,
+    ORIGIN_GAME_EMERALD,
+    ORIGIN_GAME_XD,
+    //ORIGIN_GAME_DIAMOND,
+    //ORIGIN_GAME_PEARL,
+    ORIGIN_GAME_PLATINUM,
+    //ORIGIN_GAME_HEARTGOLD,
+    //ORIGIN_GAME_SOULSILVER,
+    ORIGIN_GAME_HELIODOR,
+    ORIGIN_GAME_COUNT
+};
+
+static const u16 sGameIcons_Pal[] = INCBIN_U16("graphics/summary_screen/game_icons.gbapal");
+static const u32 sGameIcons_Gfx[] = INCBIN_U32("graphics/summary_screen/game_icons.4bpp.lz");
+
+static const struct OamData sOamData_GameIcons =
+{
+    .size = SPRITE_SIZE(64x32),
+    .shape = SPRITE_SHAPE(64x32),
+    .priority = 0,
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_GameIcons =
+{
+    .data = sGameIcons_Gfx,
+    .size = 64 * 32 * ORIGIN_GAME_COUNT / 2,
+    .tag = TAG_GAME_ICONS,
+};
+
+static const struct SpritePalette sSpritePal_GameIcons =
+{
+    .data = sGameIcons_Pal,
+    .tag = TAG_GAME_ICONS
+};
+
+static const union AnimCmd sSpriteAnim_GameIconSapphire[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_SAPPHIRE * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconRuby[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_RUBY * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconBoxRS[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_BOX * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconChannel[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_CHANNEL * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconColo[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_COLOSSEUM * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconFireRed[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_FIRERED * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconLeafGreen[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_LEAFGREEN * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconEmerald[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_EMERALD * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GameIconXD[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_XD * 32, 0),
+    ANIMCMD_END
+};
+
+//static const union AnimCmd sSpriteAnim_GameIconDiamond[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_DIAMOND * 32, 0),
+//    ANIMCMD_END
+//};
+//
+//static const union AnimCmd sSpriteAnim_GameIconPearl[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_PEARL * 32, 0),
+//    ANIMCMD_END
+//};
+
+static const union AnimCmd sSpriteAnim_GameIconPlatinum[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_PLATINUM * 32, 0),
+    ANIMCMD_END
+};
+
+//static const union AnimCmd sSpriteAnim_GameIconHeartGold[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_HEARTGOLD * 32, 0),
+//    ANIMCMD_END
+//};
+//
+//static const union AnimCmd sSpriteAnim_GameIconSoulSilver[] =
+//{
+//    ANIMCMD_FRAME(ORIGIN_GAME_SOULSILVER * 32, 0),
+//    ANIMCMD_END
+//};
+
+static const union AnimCmd sSpriteAnim_GameIconHeliodor[] =
+{
+    ANIMCMD_FRAME(ORIGIN_GAME_HELIODOR * 32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sSpriteAnimTable_GameIcons[] =
+{
+    sSpriteAnim_GameIconSapphire,
+    sSpriteAnim_GameIconRuby,
+    sSpriteAnim_GameIconBoxRS,
+    sSpriteAnim_GameIconChannel,
+    sSpriteAnim_GameIconColo,
+    sSpriteAnim_GameIconFireRed,
+    sSpriteAnim_GameIconLeafGreen,
+    sSpriteAnim_GameIconEmerald,
+    sSpriteAnim_GameIconXD,
+    //sSpriteAnim_GameIconDiamond,
+    //sSpriteAnim_GameIconPearl,
+    sSpriteAnim_GameIconPlatinum,
+    //sSpriteAnim_GameIconHeartGold,
+    //sSpriteAnim_GameIconSoulSilver,
+    sSpriteAnim_GameIconHeliodor,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_GameIcons =
+{
+    .tileTag = TAG_GAME_ICONS,
+    .paletteTag = TAG_GAME_ICONS,
+    .oam = &sOamData_GameIcons,
+    .anims = sSpriteAnimTable_GameIcons,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
+};
+
+static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u8 metLocation, u8 metLevel, u16 species, u32 tid, u32 pid, bool8 isEgg)
+{
+    u8 trueOrigin = 0xFF;
+
+    if (versionModifier == DEV_SOLITAIRI && metGame != VERSION_PLATINUM)
+    {
+        trueOrigin = ORIGIN_GAME_HELIODOR;
+    }
+    else if (versionModifier == DEV_BOX_RS)
+    {
+        trueOrigin = ORIGIN_GAME_BOX;
+    }
+    else
+    {
+        if (species == SPECIES_PIKACHU && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x00007991)
+        {
+            trueOrigin = ORIGIN_GAME_COLOSSEUM;
+        }
+        else if (species == SPECIES_CELEBI && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x00007991)
+        {
+            trueOrigin = ORIGIN_GAME_COLOSSEUM;
+        }
+        else if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && (tid & 0xFFFF) == 0x9CBA)
+        {
+            trueOrigin = ORIGIN_GAME_CHANNEL;
+        }
+        else if (species == SPECIES_JIRACHI && METLOC_FATEFUL_ENCOUNTER && tid == 0x00004E4B)
+        {
+            trueOrigin = ORIGIN_GAME_COLOSSEUM;
+        }
+        else if ((species == SPECIES_SWABLU || species == SPECIES_ZIGZAGOON || species == SPECIES_SKITTY || species == SPECIES_PICHU)
+               && isEgg == TRUE
+               && metLocation == METLOC_FATEFUL_ENCOUNTER
+               && tid == 0)
+        {
+            trueOrigin = ORIGIN_GAME_BOX;
+        }
+
+        if (trueOrigin == 0xFF)
+        {
+            switch (metGame)
+            {
+                case VERSION_SAPPHIRE:
+                    trueOrigin = ORIGIN_GAME_SAPPHIRE;
+                    break;
+                case VERSION_RUBY:
+                    trueOrigin = ORIGIN_GAME_RUBY;
+                    break;
+                case VERSION_FIRERED:
+                    trueOrigin = ORIGIN_GAME_FIRERED;
+                    break;
+                case VERSION_LEAFGREEN:
+                    trueOrigin = ORIGIN_GAME_LEAFGREEN;
+                    break;
+                case VERSION_EMERALD:
+                    trueOrigin = ORIGIN_GAME_EMERALD;
+                    break;
+                case VERSION_GAMECUBE:
+                    if (fatefulEncounter)
+                        trueOrigin = ORIGIN_GAME_XD;
+                    else
+                        trueOrigin = ORIGIN_GAME_COLOSSEUM;
+                    break;
+                //case VERSION_DIAMOND:
+                //    trueOrigin = ORIGIN_GAME_DIAMOND;
+                //    break;
+                //case VERSION_PEARL:
+                //    trueOrigin = ORIGIN_GAME_PEARL;
+                //    break;
+                case VERSION_PLATINUM:
+                    trueOrigin = ORIGIN_GAME_PLATINUM;
+                    break;
+                //case VERSION_HEARTGOLD:
+                //    trueOrigin = ORIGIN_GAME_HEARTGOLD;
+                //    break;
+                //case VERSION_SOULSILVER:
+                //    trueOrigin = ORIGIN_GAME_SOULSILVER;
+                //    break;
+                default:
+                    trueOrigin = 0xFF;
+                    break;
+            }
+        }
+    }
+
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] == 0xFF)
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] = CreateSprite(&sSpriteTemplate_GameIcons, 37, 48, 0);
+
+    if (trueOrigin == 0xFF || trueOrigin == ORIGIN_GAME_HELIODOR)
+    {
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].invisible = TRUE;
+        StartSpriteAnim(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]], ORIGIN_GAME_HELIODOR);
+    }
+    else
+    {
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].invisible = FALSE;
+        StartSpriteAnim(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]], trueOrigin);
+    }
+
+    sMonSummaryScreen->summary.trueOrigin = trueOrigin;
+    return sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN];
+}
+
+static void DestroyGameIcon(void)
+{
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] != 0xFF)
+        DestroySprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]]);
+    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN] = 0xFF;
+}
+
 void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void))
 {
     sMonSummaryScreen = AllocZeroed(sizeof(*sMonSummaryScreen));
@@ -1271,7 +1523,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 9:
-        if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) != 0)
+        if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) != FALSE)
             gMain.state++;
         break;
     case 10:
@@ -1313,28 +1565,33 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 18:
+        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.metLevel, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID, sMonSummaryScreen->summary.pid, sMonSummaryScreen->summary.isEgg);
+        CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
+        gMain.state++;
+        break;
+    case 19:
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
         break;
-    case 19:
-        CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
+    case 20:
+        CreateHealthBarSprites(TAG_HEALTH_BAR_GREEN, TAG_HEALTH_BAR_GREEN);
         gMain.state++;
         break;
-    case 20:
-        CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
-        gMain.state++;
     case 21:
+        CreateExpBarSprites(TAG_EXP_BAR, TAG_EXP_BAR);
+        gMain.state++;
+    case 22:
         CreateSetStatusSprite();
         gMain.state++;
         break;
-    case 22:
+    case 23:
         SetTypeIcons();
         gMain.state++;
         break;
-	case 23:
+	case 24:
 		if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
 		{
 			SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
@@ -1346,7 +1603,7 @@ static bool8 LoadGraphics(void)
 		}
 		gMain.state++;
 		break;
-    case 24:
+    case 25:
         if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
 		{
 			LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
@@ -1369,11 +1626,11 @@ static bool8 LoadGraphics(void)
 		}
         gMain.state++;
         break;
-    case 25:
+    case 26:
         BlendPalettes(PALETTES_ALL, 16, 0);
         gMain.state++;
         break;
-    case 26:
+    case 27:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         gPaletteFade.bufferTransferDisabled = 0;
         gMain.state++;
@@ -1446,7 +1703,9 @@ static bool8 DecompressGraphics(void)
         sMonSummaryScreen->switchCounter++;
         break;
     case 8:
-        LoadCompressedPalette(gMoveTypes_Pal, 0x1D0, 0x60);
+        LoadCompressedPalette(gMoveTypes_Pal, 0x1D0, 0x20);
+        LoadCompressedSpriteSheet(&sSpriteSheet_GameIcons);
+        LoadSpritePalette(&sSpritePal_GameIcons);
     #if CONFIG_PHYSICAL_SPECIAL_SPLIT || CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
         sMonSummaryScreen->switchCounter++;
         break;
@@ -1486,7 +1745,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
     {
     case 0:
         sum->species = GetMonData(mon, MON_DATA_SPECIES);
-        sum->species2 = GetMonData(mon, MON_DATA_SPECIES2);
+        sum->species2 = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
         sum->exp = GetMonData(mon, MON_DATA_EXP);
         sum->level = GetMonData(mon, MON_DATA_LEVEL);
         sum->abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM);
@@ -1570,7 +1829,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
-		sum->fatefulEncounter = GetMonData(mon, MON_DATA_EVENT_LEGAL);
+		sum->fatefulEncounter = GetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER);
 		if (sum->isEgg)
 		{
 			sMonSummaryScreen->minPageIndex = PSS_PAGE_MEMO;
@@ -1755,67 +2014,76 @@ static void Task_ChangeSummaryMon(u8 taskId)
         DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]]);
         break;
     case 3:
-		if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
+		if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM) != ITEM_NONE)
 			DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]]);
         break;
     case 4:
         FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
         break;
     case 5:
+        DestroyGameIcon();
+        FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]]);
+        break;
+    case 6:
         CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
         sMonSummaryScreen->switchCounter = 0;
         break;
-    case 6:
+    case 7:
         if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) == FALSE)
             return;
         break;
-    case 7:
+    case 8:
         RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 8:
+    case 9:
         CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         break;
-    case 9:
+    case 10:
         CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
         break;
-	case 10:
+	case 11:
+        ShowGameIcon(sMonSummaryScreen->summary.metGame, sMonSummaryScreen->summary.versionModifier, sMonSummaryScreen->summary.fatefulEncounter, sMonSummaryScreen->summary.metLocation, sMonSummaryScreen->summary.metLevel, sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.OTID, sMonSummaryScreen->summary.pid, sMonSummaryScreen->summary.isEgg);
+        CreateLangLabelSprite(&sMonSummaryScreen->currentMon);
+        gMain.state++;
+        break;
+    case 12:
 		FreeMonIconPalettes();
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
 		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
-    case 11:
+    case 13:
         CreateSetStatusSprite();
         data[1] = 0;
         break;
-    case 12:
+    case 14:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &data[1]);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] == SPRITE_NONE)
             return;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 1;
         data[1] = 0;
         break;
-    case 13:
+    case 15:
         ConfigureHealthBarSprites();
         break;
-    case 14:
+    case 16:
         ConfigureExpBarSprites();
         break;
-    case 15:
+    case 17:
         SetTypeIcons();
         break;
-    case 16:
+    case 18:
         PrintMonInfo();
         break;
-    case 17:
+    case 19:
         PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
         break;
-    case 18:
+    case 20:
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
-        if (MenuHelpers_ShouldWaitForLinkRecv() == 0)
+        if (MenuHelpers_ShouldWaitForLinkRecv() == FALSE)
         {
             data[0] = 0;
             gTasks[taskId].func = Task_HandleInput;
@@ -1980,6 +2248,8 @@ static void Task_SwitchToMoveDetails(u8 taskId)
             DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]]);
 			SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 			SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+            SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, TRUE);
+            SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
 			StopPokemonAnimations();
 			sMonSummaryScreen->markingsSprite->x = 257;
 			sMonSummaryScreen->markingsSprite->y = 332;
@@ -2012,7 +2282,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (MenuHelpers_ShouldWaitForLinkRecv() != 1)
+    if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2118,9 +2388,7 @@ static void Task_SwitchPageInMoveSelect(u8 taskId)
             data[0]++;
             break;
         case 4:
-            if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES)
-                PrintMoveDetails(sMonSummaryScreen->newMove);
-            else
+            if (sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
             PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
             data[0]++;
@@ -2137,7 +2405,7 @@ static bool8 HasMoreThanOneMove(void)
     u8 i;
     for (i = 1; i < MAX_MON_MOVES; i++)
     {
-        if (sMonSummaryScreen->summary.moves[i] != 0)
+        if (sMonSummaryScreen->summary.moves[i] != MOVE_NONE)
             return TRUE;
     }
     return FALSE;
@@ -2164,7 +2432,7 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
             break;
         }
         move = sMonSummaryScreen->summary.moves[newMoveIndex];
-        if (move != 0)
+        if (move != MOVE_NONE)
             break;
     }
     ScheduleBgCopyTilemapToVram(1);
@@ -2232,6 +2500,9 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 			PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+            if (sMonSummaryScreen->summary.trueOrigin != 0xFF && sMonSummaryScreen->summary.trueOrigin != ORIGIN_GAME_HELIODOR)
+                SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
+            SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, FALSE);
 
 			if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
 				SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, FALSE);
@@ -2724,7 +2995,7 @@ static void SetTypeSpritePosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 {
     struct Sprite *sprite = &gSprites[sMonSummaryScreen->spriteIds[spriteArrayId]];
     StartSpriteAnim(sprite, typeId);
-    sprite->oam.paletteNum = sMoveTypeToOamPaletteNum[typeId];
+    sprite->oam.paletteNum = 13;
     sprite->x = x + 16;
     sprite->y = y + 8;
     SetSpriteInvisibility(spriteArrayId, FALSE);
@@ -3157,7 +3428,7 @@ static void BufferEggMemo(void)
 	BufferEggState();
 
 	#if CONFIG_EXPANDED_MET_LOCATIONS
-	if (sMonSummaryScreen->summary.sanity != 1)
+	if (sMonSummaryScreen->summary.sanity != TRUE)
 	{
 		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
@@ -3213,7 +3484,7 @@ static void BufferEggMemo(void)
 		text = gText_TrainerMemo_BadEgg;
 	}
 	#else
-	if (sMonSummaryScreen->summary.sanity != 1)
+	if (sMonSummaryScreen->summary.sanity != TRUE)
 	{
 		if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
 		{
@@ -3492,7 +3763,7 @@ static void PrintContestMoves(void)
     PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
 }
 
-static u8 GetBattleMoveCategory(u16 move)
+u8 GetBattleMoveCategory(u16 move)
 {
 	if (gBattleMoves[move].power == 0)
 	{
@@ -3523,10 +3794,13 @@ static void PrintMoveDetails(u16 move)
 	u32 heartRow1, heartRow2;
 	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
 	struct PokeSummary *summary = &sMonSummaryScreen->summary;
+    u8 monFriendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
 
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+    SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, TRUE);
+    SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, TRUE);
 	sMonSummaryScreen->markingsSprite->x = 257;
 	sMonSummaryScreen->markingsSprite->y = 332;
     FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
@@ -3563,6 +3837,14 @@ static void PrintMoveDetails(u16 move)
 
 				ConvertIntToDecimalStringN(gStringVar1, powerForHiddenPower, STR_CONV_MODE_RIGHT_ALIGN, 3);
 			}
+            else if (move == MOVE_RETURN && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, (10 * monFriendship / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+            }
+            else if (move == MOVE_FRUSTRATION && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, (10 * (MAX_FRIENDSHIP - monFriendship) / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+            }
 			else
 			{
 				if (gBattleMoves[move].power < 2)
@@ -3705,7 +3987,7 @@ static void HidePageSpecificSprites(void)
     // Keeps Pokémon, caught ball and status sprites visible.
     u8 i;
 
-    for (i = SPRITE_ARR_ID_ORIGIN; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
+    for (i = SPRITE_ARR_ID_LANGLABEL; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
     {
         if (sMonSummaryScreen->spriteIds[i] != SPRITE_NONE)
             SetSpriteInvisibility(i, TRUE);
@@ -4064,6 +4346,22 @@ static void CreateHeldItemSprite(struct Pokemon *mon)
 	}
 }
 
+static void CreateLangLabelSprite(struct Pokemon *mon)
+{
+    u8 lang = GetMonData(mon, MON_DATA_LANGUAGE);
+
+    if (lang != GAME_LANGUAGE && !sMonSummaryScreen->summary.isEgg)
+    {
+        FreeSpriteTilesByTag(5502);
+        FreeSpritePaletteByTag(5502);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL] = AddLangLabelSprite(5502, 5502, lang);
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].callback = SpriteCallbackDummy;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].oam.priority = 0;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].x = 74;
+        gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_LANGLABEL]].y = 51;
+    }
+}
+
 static void CreateSetStatusSprite(void)
 {
     u8 *spriteId = &sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_STATUS];
@@ -4261,7 +4559,7 @@ static void ConfigureHealthBarSprites(void)
     }
 
     for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
-        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(TAG_HEALTH_BAR) + hpBarPalOffset;
+        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(TAG_HEALTH_BAR_GREEN) + hpBarPalOffset;
 
     if (curHp == maxHp)
     {
@@ -4548,7 +4846,7 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 
 static u8 *GetMapNameHoennKanto(u8 *dest, u16 regionMapId)
 {
-	if (regionMapId < MAPSEC_NONE && gRegionMapEntries[regionMapId].name != 0)
+	if (regionMapId < MAPSEC_NONE && gRegionMapEntries[regionMapId].name != NULL)
 	{
 		StringCopy(dest, gRegionMapEntries[regionMapId].name);
 	}
@@ -4560,7 +4858,7 @@ static u8 *GetMapNameHoennKanto(u8 *dest, u16 regionMapId)
 
 static u8 *GetMapNameJohto(u8 *dest, u16 regionMapId)
 {
-	if (regionMapId < MAPSEC_NONE && gJohtoMapNamePointers[regionMapId] != 0)
+	if (regionMapId < MAPSEC_NONE && gJohtoMapNamePointers[regionMapId] != NULL)
 	{
 		StringCopy(dest, gJohtoMapNamePointers[regionMapId]);
 	}
@@ -4572,7 +4870,7 @@ static u8 *GetMapNameJohto(u8 *dest, u16 regionMapId)
 
 static u8 *GetMapNameSinnoh(u8 *dest, u16 regionMapId)
 {
-	if (regionMapId < MAPSEC_NONE && gSinnohMapNamePointers[regionMapId] != 0)
+	if (regionMapId < MAPSEC_NONE && gSinnohMapNamePointers[regionMapId] != NULL)
 	{
 		StringCopy(dest, gSinnohMapNamePointers[regionMapId]);
 	}
@@ -5011,7 +5309,7 @@ static u8 *GetMapNameOrre(u8 *dest, u16 regionMapId, bool8 isXD)
 		}
 	}
 
-	if (regionMapId < ORRE_MAPSEC_END && gOrreMapNamePointers[regionMapId] != 0)
+	if (regionMapId < ORRE_MAPSEC_END && gOrreMapNamePointers[regionMapId] != NULL)
 	{
 		StringCopy(dest, gOrreMapNamePointers[regionMapId]);
 	}

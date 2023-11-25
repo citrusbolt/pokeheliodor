@@ -14,6 +14,7 @@ EventScript_CardTerminal_Menu:
 	case 2, EventScript_CardTerminal_IconTint
 	case 3, EventScript_CardTerminal_Stat1
 	case 4, EventScript_CardTerminal_DotCode
+	case 5, EventScript_CardTerminal_Exit
 	case MULTI_B_PRESSED, EventScript_CardTerminal_Exit
 	end
 
@@ -216,8 +217,8 @@ EventScript_CardTerminal_Text_Updated:
 
 EventScript_CardTerminal_Text_DotCode_Apply:
 	.string "Would you like to apply\n"
-	.string "an e-Readear dot code?$"
+	.string "an e-Reader dot code?$"
 
 EventScript_CardTerminal_Text_DotCode_Remove:
 	.string "Would you like to remove\n"
-	.string "your e-Readear dot code?$"
+	.string "your e-Reader dot code?$"

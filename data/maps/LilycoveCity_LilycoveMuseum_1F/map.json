@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
+      "graphics_id": "OBJ_EVENT_GFX_BEAUTY_1",
       "x": 5,
       "y": 12,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
+      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN_1",
       "x": 16,
       "y": 2,
       "elevation": 3,
@@ -41,7 +41,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_MUSEUM_CURATOR"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SCHOOL_KID_M",
+      "graphics_id": "OBJ_EVENT_GFX_SCHOOL_KID_M_1",
       "x": 13,
       "y": 7,
       "elevation": 3,
@@ -67,7 +67,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 2,
       "y": 8,
       "elevation": 3,
@@ -119,7 +119,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_MUSEUM_PATRON_4"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
+      "graphics_id": "OBJ_EVENT_GFX_FAT_MAN_1",
       "x": 2,
       "y": 2,
       "elevation": 3,
@@ -132,7 +132,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_MUSEUM_TOURISTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M",
+      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M_1",
       "x": 6,
       "y": 2,
       "elevation": 3,

@@ -16,15 +16,12 @@
 #include "constants/hold_effects.h"
 #include "pokedex.h"
 
-// this file's functions
 static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count);
 static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count);
 void ItemId_GetHoldEffectParam_Script();
 
-// EWRAM variables
 EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
 
-// rodata
 #include "data/text/item_descriptions.h"
 #include "data/items.h"
 
@@ -104,12 +101,23 @@ void CopyItemName(u16 itemId, u8 *dst)
 
 void CopyItemNameHandlePlural(u16 itemId, u8 *dst, u32 quantity)
 {
+    u8 *txtPtr;
+
     if (itemId == ITEM_POKE_BALL)
     {
         if (quantity < 2)
             StringCopy(dst, ItemId_GetName(ITEM_POKE_BALL));
         else
             StringCopy(dst, gText_PokeBalls);
+    }
+    else if (itemId == ITEM_ENIGMA_BERRY)
+    {
+        txtPtr = StringCopy(dst, GetBerryInfo(ITEM_TO_BERRY(ITEM_ENIGMA_BERRY))->name);
+        *txtPtr = CHAR_SPACE;
+        if (quantity < 2)
+            StringCopy(txtPtr + 1, gText_Berry);
+        else
+            StringCopy(txtPtr + 1, gText_Berries);
     }
     else
     {

@@ -264,8 +264,8 @@
 #define STRINGID_ITAPPEAREDCAUGHT           264
 #define STRINGID_AARGHALMOSTHADIT           265
 #define STRINGID_SHOOTSOCLOSE               266
-#define STRINGID_GOTCHAPKMNCAUGHT           267
-#define STRINGID_GOTCHAPKMNCAUGHT2          268
+#define STRINGID_GOTCHAPKMNCAUGHTPLAYER     267
+#define STRINGID_GOTCHAPKMNCAUGHTWALLY      268
 #define STRINGID_GIVENICKNAMECAPTURED       269
 #define STRINGID_PKMNSENTTOPC               270
 #define STRINGID_PKMNDATAADDEDTODEX         271
@@ -384,8 +384,11 @@
 #define STRINGID_ITEMTAKEN                  384
 #define STRINGID_PKMNRECOVEREDPROBLEM       385
 #define STRINGID_QUESTIONRUNSHINY           386
+#define STRINGID_PICKUP                     387
+#define STRINGID_PICKUP_ASK                 388
+#define STRINGID_PICKUP_PUT_AWAY            389
 
-#define BATTLESTRINGS_COUNT                 387
+#define BATTLESTRINGS_COUNT                 390
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,

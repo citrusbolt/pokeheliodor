@@ -101,6 +101,9 @@ static const struct PacifidlogMetatileOffsets sFloatingBridgeMetatileOffsets[] =
 };
 
 // Each element corresponds to a y coordinate row in the sootopolis gym 1F map.
+// The rows with ice each have a temp var used to track the ice steps. Each bit in the var
+// represents whether ice at that x coordinate (starting from the left edge) has been visited.
+// This method of tracking steps will break if the ice puzzle is more than 16 map spaces wide.
 static const u16 sSootopolisGymIceRowVars[] =
 {
     0,
@@ -173,7 +176,7 @@ static void Task_RunTimeBasedEvents(u8 taskId)
     if (!ArePlayerFieldControlsLocked())
     {
         RunTimeBasedEvents(data);
-        UpdateAmbientCry(&tAmbientCryState, &tAmbientCryDelay);
+        UpdateAmbientCry(&tAmbientCryState, (u16*) &tAmbientCryDelay);
     }
 
     if (tForceTimeUpdate)
@@ -471,6 +474,12 @@ static void TryLowerFortreeBridge(s16 x, s16 y)
         case METATILE_Fortree_BridgeOverGrass_Raised:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Lowered);
             break;
+        case METATILE_Fortree_BridgeOverGrass_Raised2:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Lowered2);
+            break;
+        case METATILE_Fortree_BridgeOverGrass_Raised3:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Lowered3);
+            break;
         case METATILE_Fortree_BridgeOverTrees_Raised:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverTrees_Lowered);
             break;
@@ -487,6 +496,12 @@ static void TryRaiseFortreeBridge(s16 x, s16 y)
         {
         case METATILE_Fortree_BridgeOverGrass_Lowered:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Raised);
+            break;
+        case METATILE_Fortree_BridgeOverGrass_Lowered2:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Raised2);
+            break;
+        case METATILE_Fortree_BridgeOverGrass_Lowered3:
+            MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverGrass_Raised3);
             break;
         case METATILE_Fortree_BridgeOverTrees_Lowered:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverTrees_Raised);

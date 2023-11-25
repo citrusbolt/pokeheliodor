@@ -51,8 +51,8 @@
 #define VERSION_LEGENDS_ARCEUS		47
 #define VERSION_BRILLIANT_DIAMOND	48
 #define VERSION_SHINING_PEARL		49
-#define VERSION_SCARLET				50 //Speculative
-#define VERSION_VIOLET				51 //Speculative
+#define VERSION_SCARLET				50
+#define VERSION_VIOLET				51
 
 //Version ID modifiers used for identifying unofficial games.
 //The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
@@ -60,7 +60,9 @@
 #define DEV_GAME_FREAK				0
 #define DEV_SOLITAIRI				1	//3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, and 12-1 for legality purposes
 #define DEV_SHINY_DRAGON_HUNTER		2	//4-2 is FireRed DX and 5-2 is LeafGreen DX
-#define DEV_SOLITAIRI_2				3	//4-3 is modified CrystalDust
+#define DEV_SOLITAIRI_2				3	//4-3 is modified CrystalDust //Once we drop CD, this will be reserved as DEV_ASPARAGUS_EDUARDO
+#define DEV_JAIZU                   4   //3-4 is Emerald Cross, 4-4 is Recharged Yellow
+#define DEV_BOX_RS                  5   //Force this tag upon Box Eggs to track them once they are hatched
 #define DEV_TEST					255
 
 #define LANGUAGE_JAPANESE 1
@@ -93,7 +95,6 @@
 #define OBJECT_EVENTS_COUNT 16
 #define MAIL_COUNT (10 + PARTY_SIZE)
 #define SECRET_BASES_COUNT 20
-#define TV_SHOWS_COUNT 25
 #define POKE_NEWS_COUNT 16
 #define PC_ITEMS_COUNT 50
 #define BAG_ITEMS_COUNT 30
@@ -128,6 +129,7 @@
 
 #define TRAINER_ID_LENGTH 4
 #define MAX_MON_MOVES 4
+#define ALL_MOVES_MASK ((1 << MAX_MON_MOVES) - 1)
 
 #define CONTESTANT_COUNT 4
 #define CONTEST_CATEGORY_COOL     0
@@ -140,6 +142,7 @@
 // string lengths
 #define ITEM_NAME_LENGTH 14
 #define POKEMON_NAME_LENGTH 10
+#define POKEMON_NAME_BUFFER_SIZE max(20, POKEMON_NAME_LENGTH + 1) // Frequently used buffer size. Larger than necessary
 #define PLAYER_NAME_LENGTH 7
 #define MAIL_WORDS_COUNT 9
 #define EASY_CHAT_BATTLE_WORDS_COUNT 6

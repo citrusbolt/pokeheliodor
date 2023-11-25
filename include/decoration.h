@@ -25,6 +25,9 @@ enum DecorationShape
     DECORSHAPE_2x4,
     DECORSHAPE_3x3,
     DECORSHAPE_3x2,
+    DECORSHAPE_2x2C,
+    DECORSHAPE_1x2C,
+    DECORSHAPE_3x3C
 };
 
 enum DecorationCategory
@@ -53,8 +56,8 @@ struct Decoration
 };
 
 extern const struct Decoration gDecorations[];
-extern EWRAM_DATA u8 *gCurDecorationItems;
-extern EWRAM_DATA u8 gCurDecorationIndex;
+extern u8 *gCurDecorationItems;
+extern u8 gCurDecorationIndex;
 
 void InitDecorationContextItems(void);
 void DoSecretBaseDecorationMenu(u8 taskId);

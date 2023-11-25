@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_TEALA",
+      "graphics_id": "OBJ_EVENT_GFX_TEALA_1",
       "x": 6,
       "y": 5,
       "elevation": 3,
@@ -93,7 +93,7 @@
       "flag": "FLAG_HIDE_APPRENTICE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TEALA",
+      "graphics_id": "OBJ_EVENT_GFX_TEALA_1",
       "x": 10,
       "y": 5,
       "elevation": 3,
@@ -106,7 +106,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TEALA",
+      "graphics_id": "OBJ_EVENT_GFX_TEALA_1",
       "x": 14,
       "y": 5,
       "elevation": 3,
@@ -119,7 +119,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TEALA",
+      "graphics_id": "OBJ_EVENT_GFX_TEALA_1",
       "x": 18,
       "y": 5,
       "elevation": 3,

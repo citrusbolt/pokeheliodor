@@ -1,3 +1,4 @@
+#include "config.h"
 #include "constants/battle.h"
 #include "constants/battle_ai.h"
 #include "constants/abilities.h"
@@ -6,6 +7,7 @@
 #include "constants/battle_move_effects.h"
 #include "constants/hold_effects.h"
 #include "constants/pokemon.h"
+	.include "asm/macros.inc"
 	.include "asm/macros/battle_ai_script.inc"
 	.include "constants/constants.inc"
 
@@ -1099,15 +1101,18 @@ AI_CV_AttackDown3:
 	score -2
 AI_CV_AttackDown4:
 	get_target_type1
-	if_in_bytes AI_CV_AttackDown_UnknownTypeList, AI_CV_AttackDown_End
+	if_in_bytes AI_CV_AttackDown_PhysicalTypeList, AI_CV_AttackDown_End
 	get_target_type2
-	if_in_bytes AI_CV_AttackDown_UnknownTypeList, AI_CV_AttackDown_End
+	if_in_bytes AI_CV_AttackDown_PhysicalTypeList, AI_CV_AttackDown_End
 	if_random_less_than 50, AI_CV_AttackDown_End
 	score -2
 AI_CV_AttackDown_End:
 	end
 
-AI_CV_AttackDown_UnknownTypeList:
+@ If the target is not of any type in this list then using the move may be discouraged.
+@ It seems likely this was meant to be "discourage reducing the target's attack if they're
+@ not a physical type", but they've left out Flying, Poison, and Ghost.
+AI_CV_AttackDown_PhysicalTypeList:
 	.byte TYPE_NORMAL
 	.byte TYPE_FIGHTING
 	.byte TYPE_GROUND
@@ -3155,6 +3160,7 @@ AI_HPAware_DiscouragedEffectsWhenTargetLowHP:
 AI_TrySunnyDayStart:
 	if_target_is_ally AI_TryOnAlly
 	if_not_effect EFFECT_SUNNY_DAY, AI_TrySunnyDayStart_End
+@ funcResult has not been set in this script yet, below call is nonsense
 	if_equal FALSE, AI_TrySunnyDayStart_End
 	is_first_turn_for AI_USER
 	if_equal FALSE, AI_TrySunnyDayStart_End

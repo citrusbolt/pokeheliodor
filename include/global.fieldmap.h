@@ -51,10 +51,10 @@ struct MapLayout
 {
     /*0x00*/ s32 width;
     /*0x04*/ s32 height;
-    /*0x08*/ u16 *border;
-    /*0x0C*/ u16 *map;
-    /*0x10*/ struct Tileset *primaryTileset;
-    /*0x14*/ struct Tileset *secondaryTileset;
+    /*0x08*/ const u16 *border;
+    /*0x0C*/ const u16 *map;
+    /*0x10*/ const struct Tileset *primaryTileset;
+    /*0x14*/ const struct Tileset *secondaryTileset;
 };
 
 struct BackupMapLayout
@@ -67,7 +67,7 @@ struct BackupMapLayout
 struct ObjectEventTemplate
 {
     /*0x00*/ u8 localId;
-    /*0x01*/ u8 inConnection; // Leftover from FRLG
+    /*0x01*/ u8 kind; // Always OBJ_KIND_NORMAL in Emerald.
     /*0x02*/ u16 graphicsId;
     /*0x04*/ s16 x;
     /*0x06*/ s16 y;
@@ -98,7 +98,7 @@ struct CoordEvent
     u8 elevation;
     u16 trigger;
     u16 index;
-    u8 *script;
+    const u8 *script;
 };
 
 struct BgEvent
@@ -107,7 +107,7 @@ struct BgEvent
     u8 elevation;
     u8 kind; // The "kind" field determines how to access bgUnion union below.
     union {
-        u8 *script;
+        const u8 *script;
         struct {
             u16 item;
             u16 hiddenItemId;
@@ -122,10 +122,10 @@ struct MapEvents
     u8 warpCount;
     u8 coordEventCount;
     u8 bgEventCount;
-    struct ObjectEventTemplate *objectEvents;
-    struct WarpEvent *warps;
-    struct CoordEvent *coordEvents;
-    struct BgEvent *bgEvents;
+    const struct ObjectEventTemplate *objectEvents;
+    const struct WarpEvent *warps;
+    const struct CoordEvent *coordEvents;
+    const struct BgEvent *bgEvents;
 };
 
 struct MapConnection
@@ -139,7 +139,7 @@ struct MapConnection
 struct MapConnections
 {
     s32 count;
-    struct MapConnection *connections;
+    const struct MapConnection *connections;
 };
 
 struct MapHeader
@@ -226,22 +226,18 @@ struct ObjectEvent
 
 struct ObjectEventGraphicsInfo
 {
-    /*0x00*/ u16 tileTag;
-    /*0x02*/ u16 paletteTag;
-    /*0x04*/ u16 reflectionPaletteTag;
-    /*0x06*/ u16 size;
-    /*0x08*/ s16 width;
-    /*0x0A*/ s16 height;
-    /*0x0C*/ u8 paletteSlot:4;
-             u8 shadowSize:2;
-             u8 inanimate:1;
-             u8 disableReflectionPaletteLoad:1;
-    /*0x0D*/ u8 tracks;
-    /*0x10*/ const struct OamData *oam;
-    /*0x14*/ const struct SubspriteTable *subspriteTables;
-    /*0x18*/ const union AnimCmd *const *anims;
-    /*0x1C*/ const struct SpriteFrameImage *images;
-    /*0x20*/ const union AffineAnimCmd *const *affineAnims;
+    u16 paletteTag;
+    u16 size;
+    s16 width;
+    s16 height;
+    u8 shadowSize:2;
+    u8 inanimate:1;
+    u8 tracks;
+    const struct OamData *oam;
+    const struct SubspriteTable *subspriteTables;
+    const union AnimCmd *const *anims;
+    const struct SpriteFrameImage *images;
+    const union AffineAnimCmd *const *affineAnims;
 };
 
 enum {

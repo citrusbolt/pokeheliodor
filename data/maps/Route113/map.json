@@ -31,7 +31,7 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 66,
       "y": 12,
       "elevation": 3,
@@ -44,7 +44,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
+      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN_1",
       "x": 36,
       "y": 10,
       "elevation": 3,
@@ -57,7 +57,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER_HGSS",
       "x": 62,
       "y": 8,
       "elevation": 3,
@@ -70,7 +70,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER_HGSS",
       "x": 21,
       "y": 11,
       "elevation": 3,
@@ -122,7 +122,7 @@
       "flag": "FLAG_ITEM_ROUTE_113_SUPER_REPEL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 29,
       "y": 6,
       "elevation": 3,
@@ -135,7 +135,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 71,
       "y": 2,
       "elevation": 3,
@@ -148,7 +148,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TWIN",
+      "graphics_id": "OBJ_EVENT_GFX_TWIN_RSE",
       "x": 45,
       "y": 6,
       "elevation": 3,
@@ -161,7 +161,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_TWIN",
+      "graphics_id": "OBJ_EVENT_GFX_TWIN_RSE",
       "x": 46,
       "y": 6,
       "elevation": 3,
@@ -187,7 +187,7 @@
       "flag": "FLAG_ITEM_ROUTE_113_HYPER_POTION"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MANIAC",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_RSE",
       "x": 75,
       "y": 3,
       "elevation": 3,
@@ -200,7 +200,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_HGSS",
       "x": 71,
       "y": 4,
       "elevation": 3,
@@ -213,7 +213,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_PICNICKER_HGSS",
       "x": 7,
       "y": 6,
       "elevation": 3,
@@ -226,7 +226,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_BIRD_KEEPER_RSE",
       "x": 7,
       "y": 13,
       "elevation": 3,
@@ -450,8 +450,8 @@
       "x": 22,
       "y": 5,
       "elevation": 3,
-      "item": "ITEM_TM32",
-      "flag": "FLAG_HIDDEN_ITEM_ROUTE_113_TM32"
+      "item": "ITEM_TM_DOUBLE_TEAM",
+      "flag": "FLAG_HIDDEN_ITEM_ROUTE_113_TM_DOUBLE_TEAM"
     },
     {
       "type": "hidden_item",

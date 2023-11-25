@@ -9,7 +9,7 @@ const u8 gText_MatchCallRuinManiac_Andres_Intro1[] = _("I am searching for under
 const u8 gText_MatchCallRuinManiac_Andres_Intro2[] = _("ruins and relics.");
 
 const u8 gText_MatchCallRuinManiac_Dusty_Strategy[] = _("Overwhelm with power!");
-const u8 gText_MatchCallRuinManiac_Dusty_Pokemon[] = _("Craggy ROCK Pokémon.");
+const u8 gText_MatchCallRuinManiac_Dusty_Pokemon[] = _("Craggy Rock Pokémon.");
 const u8 gText_MatchCallRuinManiac_Dusty_Intro1[] = _("In search of ancient lore,");
 const u8 gText_MatchCallRuinManiac_Dusty_Intro2[] = _("I travel the world.");
 

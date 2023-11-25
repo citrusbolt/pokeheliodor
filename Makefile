@@ -23,7 +23,7 @@ LD := $(PREFIX)ld
 # note: the makefile must be set up so MODERNCC is never called
 # if MODERN=0
 MODERNCC := $(PREFIX)gcc
-PATH_MODERNCC := PATH=$(TOOLCHAIN)/bin:PATH $(MODERNCC)
+PATH_MODERNCC := PATH="$(PATH)" $(MODERNCC)
 
 ifeq ($(OS),Windows_NT)
 EXE := .exe
@@ -36,9 +36,14 @@ GAME_CODE   := BPEE
 MAKER_CODE  := 01
 REVISION    := 0
 MODERN      ?= 0
+DEV_BUILD   ?= 1
 
 ifneq ($(filter modern, $(MAKECMDGOALS)),)
   MODERN := 1
+endif
+
+ifneq ($(filter release, $(MAKECMDGOALS)),)
+  DEV_BUILD := 0
 endif
 
 # use arm-none-eabi-cpp for macOS
@@ -62,6 +67,8 @@ ROM_NAME := heliodor.gba
 ELF_NAME := $(ROM_NAME:.gba=.elf)
 MAP_NAME := $(ROM_NAME:.gba=.map)
 PATCH_NAME := $(ROM_NAME:.gba=.bps)
+LASTFLASHED_ROM_NAME := $(ROM_NAME:.gba=_lastflashed.gba)
+FLASH_ROM_NAME := $(LASTFLASHED_ROM_NAME:.gba=.delta.gba)
 OBJ_DIR_NAME := build/heliodor
 
 MODERN_ROM_NAME := $(ROM_NAME:.gba=_modern.gba)
@@ -105,6 +112,17 @@ BUILD_DIRTY := $(shell if [ -n "$$(git status --porcelain)" ]; then \
 		echo "FALSE"; \
 	fi)
 
+MERGE_CHECK := 0
+
+ifneq ($(filter merge-check, $(MAKECMDGOALS)),)
+MERGE_CHECK := 1
+endif
+
+ifeq ($(MERGE_CHECK),1)
+BUILD_TIME := \"0\"
+BUILD_DIRTY := FALSE
+endif
+
 ifeq ($(MODERN),0)
 CC1             := tools/agbcc/bin/agbcc$(EXE)
 override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm -g
@@ -121,7 +139,7 @@ LIBPATH := -L "$(dir $(shell $(PATH_MODERNCC) -mthumb -print-file-name=libgcc.a)
 LIB := $(LIBPATH) -lc -lnosys -lgcc -L../../libagbsyscall -lagbsyscall
 endif
 
-CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DBUILD_REPO_BRANCH=$(BUILD_REPO_BRANCH) -DBUILD_VERSION=$(BUILD_VERSION) -DBUILD_TIME=$(BUILD_TIME) -DBUILD_DIRTY=$(BUILD_DIRTY)
+CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DBUILD_REPO_BRANCH=$(BUILD_REPO_BRANCH) -DBUILD_VERSION=$(BUILD_VERSION) -DBUILD_TIME=$(BUILD_TIME) -DBUILD_DIRTY=$(BUILD_DIRTY) -DDEV_BUILD=$(DEV_BUILD)
 ifneq ($(MODERN),1)
 CPPFLAGS += -I tools/agbcc/include -I tools/agbcc -nostdinc -undef
 endif
@@ -141,7 +159,10 @@ JSONPROC := tools/jsonproc/jsonproc$(EXE)
 
 PERL := perl
 
-TOOLDIRS := $(filter-out tools/agbcc tools/binutils,$(wildcard tools/*))
+FLASHGBX := python3 -m FlashGBX
+
+# Inclusive list. If you don't want a tool to be built, don't add it here.
+TOOLDIRS := tools/aif2pcm tools/bin2c tools/gbafix tools/gbagfx tools/jsonproc tools/mapjson tools/mid2agb tools/preproc tools/ramscrgen tools/rsfont tools/scaninc
 TOOLBASE = $(TOOLDIRS:tools/%=%)
 TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
@@ -157,7 +178,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald
+.PHONY: all rom clean tidy tools mostlyclean clean-tools $(TOOLDIRS) libagbsyscall modern tidymodern tidynonmodern patch clean-emerald emerald flash flash-delta merge-check release
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -165,7 +186,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 # Disable dependency scanning for clean/tidy/tools
 # Use a separate minimal makefile for speed
 # Since we don't need to reload most of this makefile
-ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all rom modern libagbsyscall syms emerald data/mb_berry_fix.gba patch flash flash-delta merge-check release,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) -f make_tools.mk)
 else
 NODEP ?= 1
@@ -235,6 +256,9 @@ subrepos/agbcc/agbcc:
 	cd subrepos/agbcc; ./build.sh
 
 rom: $(ROM)
+
+merge-check: all
+	sha1sum $(ROM_NAME)
 
 clean: mostlyclean clean-tools clean-emerald clean-berry-fix
 
@@ -479,6 +503,36 @@ ifeq ($(MODERN),0)
 else
 	subrepos/flips/flips --manifest=patch.xml pokeemerald.gba $(MODERN_ROM_NAME) $(MODERN_PATCH_NAME)
 endif
+
+flash: all
+ifeq ($(MODERN),0)
+	$(FLASHGBX) --cli --mode agb --action flash-rom $(ROM_NAME)
+	@cp $(ROM_NAME) $(LASTFLASHED_ROM_NAME)
+else
+	$(FLASHGBX) --cli --mode agb --action flash-rom $(MODERN_ROM_NAME)
+	@cp $(MODERN_ROM_NAME) $(LASTFLASHED_ROM_NAME)
+endif
+
+flash-delta: all
+ifeq ($(MODERN),0)
+	@if diff -q $(ROM_NAME) $(LASTFLASHED_ROM_NAME) > /dev/null; then \
+		echo "No change detected since (alleged) last flash."; \
+	else \
+		cp $(ROM_NAME) $(FLASH_ROM_NAME); \
+		$(FLASHGBX) --cli --mode agb --action flash-rom $(FLASH_ROM_NAME); \
+		mv $(FLASH_ROM_NAME) $(LASTFLASHED_ROM_NAME); \
+	fi
+else
+	@if diff -q $(MODERN_ROM_NAME) $(LASTFLASHED_ROM_NAME) > /dev/null; then \
+		echo "No change detected since (alleged) last flash."; \
+	else \
+		cp $(MODERN_ROM_NAME) $(FLASH_ROM_NAME); \
+		$(FLASHGBX) --cli --mode agb --action flash-rom $(FLASH_ROM_NAME); \
+		mv $(FLASH_ROM_NAME) $(LASTFLASHED_ROM_NAME); \
+	fi
+endif
+
+release: patch
 
 libagbsyscall:
 	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)

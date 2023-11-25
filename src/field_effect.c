@@ -37,6 +37,7 @@
 #define subsprite_table(ptr) {.subsprites = ptr, .subspriteCount = (sizeof ptr) / (sizeof(struct Subsprite))}
 
 EWRAM_DATA s32 gFieldEffectArguments[8] = {0};
+EWRAM_DATA u16 gReflectionPaletteBuffer[0x10] = {0};
 
 // Static type declarations
 
@@ -232,6 +233,12 @@ static void CreateDeoxysRockFragments(struct Sprite *);
 static void SpriteCB_DeoxysRockFragment(struct Sprite *sprite);
 
 static void Task_MoveDeoxysRock(u8 taskId);
+
+static void Task_FldEffUseVsSeeker(u8 taskId);
+static void UseVsSeekerEffect_1(struct Task *task);
+static void UseVsSeekerEffect_2(struct Task *task);
+static void UseVsSeekerEffect_3(struct Task *task);
+static void UseVsSeekerEffect_4(struct Task *task);
 
 // Static RAM declarations
 
@@ -809,6 +816,7 @@ void FieldEffectScript_LoadFadedPalette(u8 **script)
 {
     struct SpritePalette *palette = (struct SpritePalette *)FieldEffectScript_ReadWord(script);
     LoadSpritePaletteDayNight(palette);
+    UpdatePaletteColorMapType(IndexOfSpritePaletteTag(palette->tag), COLOR_MAP_DARK_CONTRAST);
     UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(palette->tag));
     (*script) += 4;
 }
@@ -942,7 +950,7 @@ u8 CreateTrainerSprite(u8 trainerSpriteID, s16 x, s16 y, u8 subpriority, u8 *buf
     return CreateSprite(&spriteTemplate, x, y, subpriority);
 }
 
-void LoadTrainerGfx_TrainerCard(u8 gender, u16 palOffset, u8 *dest)
+static void UNUSED LoadTrainerGfx_TrainerCard(u8 gender, u16 palOffset, u8 *dest)
 {
     LZDecompressVram(gTrainerFrontPicTable[gender].data, dest);
     LoadCompressedPalette(gTrainerFrontPicPaletteTable[gender].data, palOffset, PLTT_SIZE_4BPP);
@@ -1232,14 +1240,14 @@ static void PokeballGlowEffect_Flash1(struct Sprite *sprite)
             sprite->data[3]++;
     }
     phase = (sprite->sCounter + 3) & 3;
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x108, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 8, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
     phase = (sprite->sCounter + 2) & 3;
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x106, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 6, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
     phase = (sprite->sCounter + 1) & 3;
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x102, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 2, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
     phase = sprite->sCounter;
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x105, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x103, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 5, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 3, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
     if (sprite->data[3] > 2)
     {
         sprite->sState++;
@@ -1263,19 +1271,17 @@ static void PokeballGlowEffect_Flash2(struct Sprite *sprite)
         }
     }
     phase = sprite->sCounter;
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x108, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x106, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x102, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x105, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW) << 4) + 0x103, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 8, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 6, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 2, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 5, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_POKEBALL_GLOW)) + 3, sPokeballGlowReds[phase], sPokeballGlowGreens[phase], sPokeballGlowBlues[phase]);
 }
 
 static void PokeballGlowEffect_WaitAfterFlash(struct Sprite *sprite)
 {
     if ((--sprite->sTimer) == 0)
-    {
         sprite->sState++;
-    }
 }
 
 static void PokeballGlowEffect_Dummy(struct Sprite *sprite)
@@ -2459,7 +2465,7 @@ static void TeleportWarpOutFieldEffect_SpinExit(struct Task *task)
     {
         sprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
     }
-    if (task->data[4] >= 0xa8)
+    if (task->data[4] >= DISPLAY_HEIGHT + 8)
     {
         task->tState++;
         TryFadeOutOldMapMusic();
@@ -2653,7 +2659,7 @@ static void FieldMoveShowMonOutdoorsEffect_Init(struct Task *task)
 {
     task->data[11] = REG_WININ;
     task->data[12] = REG_WINOUT;
-    StoreWordInTwoHalfwords(&task->data[13], (u32)gMain.vblankCallback);
+    StoreWordInTwoHalfwords((u16*) &task->data[13], (u32)gMain.vblankCallback);
     task->tWinHoriz = WIN_RANGE(DISPLAY_WIDTH, DISPLAY_WIDTH + 1);
     task->tWinVert = WIN_RANGE(DISPLAY_HEIGHT / 2, DISPLAY_HEIGHT / 2 + 1);
     task->tWinIn = WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR;
@@ -3156,10 +3162,13 @@ u8 FldEff_RayquazaSpotlight(void)
 
 u8 FldEff_NPCFlyOut(void)
 {
-    u8 spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);
-    struct Sprite *sprite = &gSprites[spriteId];
+    u8 spriteId;
+    struct Sprite *sprite;
 
-    sprite->oam.paletteNum = 0;
+    LoadFieldEffectPalette(FLDEFFOBJ_BIRD);
+    spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);
+    sprite = &gSprites[spriteId];
+
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_NPCFlyOut;
     sprite->data[1] = gFieldEffectArguments[0];
@@ -3339,9 +3348,10 @@ static u8 CreateFlyBirdSprite(void)
 {
     u8 spriteId;
     struct Sprite *sprite;
+
+    LoadFieldEffectPalette(FLDEFFOBJ_BIRD);
     spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
     sprite = &gSprites[spriteId];
-    sprite->oam.paletteNum = 0;
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_FlyBirdLeaveBall;
     return spriteId;
@@ -3873,26 +3883,38 @@ static void SpriteCB_DeoxysRockFragment(struct Sprite *sprite)
         DestroySprite(sprite);
 }
 
+// Task data for Task_MoveDeoxysRock
+#define tState      data[0]
+#define tSpriteId   data[1]
+#define tTargetX    data[2]
+#define tTargetY    data[3]
+#define tCurX       data[4]
+#define tCurY       data[5]
+#define tVelocityX  data[6]
+#define tVelocityY  data[7]
+#define tMoveSteps  data[8]
+#define tObjEventId data[9]
+
 bool8 FldEff_MoveDeoxysRock(struct Sprite *sprite)
 {
-    u8 objectEventIdBuffer;
-    if (!TryGetObjectEventIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2], &objectEventIdBuffer))
+    u8 objectEventId;
+    if (!TryGetObjectEventIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2], &objectEventId))
     {
         struct ObjectEvent *object;
         int xPos, yPos;
         u8 taskId;
-        object = &gObjectEvents[objectEventIdBuffer];
+        object = &gObjectEvents[objectEventId];
         xPos = object->currentCoords.x - MAP_OFFSET;
         yPos = object->currentCoords.y - MAP_OFFSET;
         xPos = (gFieldEffectArguments[3] - xPos) * 16;
         yPos = (gFieldEffectArguments[4] - yPos) * 16;
         ShiftObjectEventCoords(object, gFieldEffectArguments[3] + MAP_OFFSET, gFieldEffectArguments[4] + MAP_OFFSET);
         taskId = CreateTask(Task_MoveDeoxysRock, 80);
-        gTasks[taskId].data[1] = object->spriteId;
-        gTasks[taskId].data[2] = gSprites[object->spriteId].x + xPos;
-        gTasks[taskId].data[3] = gSprites[object->spriteId].y + yPos;
-        gTasks[taskId].data[8] = gFieldEffectArguments[5];
-        gTasks[taskId].data[9] = objectEventIdBuffer;
+        gTasks[taskId].tSpriteId = object->spriteId;
+        gTasks[taskId].tTargetX = gSprites[object->spriteId].x + xPos;
+        gTasks[taskId].tTargetY = gSprites[object->spriteId].y + yPos;
+        gTasks[taskId].tMoveSteps = gFieldEffectArguments[5];
+        gTasks[taskId].tObjEventId = objectEventId;
     }
     return FALSE;
 }
@@ -3900,29 +3922,30 @@ bool8 FldEff_MoveDeoxysRock(struct Sprite *sprite)
 static void Task_MoveDeoxysRock(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    struct Sprite *sprite = &gSprites[data[1]];
-    switch (data[0])
+    struct Sprite *sprite = &gSprites[tSpriteId];
+    switch (tState)
     {
         case 0:
-            data[4] = sprite->x << 4;
-            data[5] = sprite->y << 4;
-            data[6] = SAFE_DIV(data[2] * 16 - data[4], data[8]);
-            data[7] = SAFE_DIV(data[3] * 16 - data[5], data[8]);
-            data[0]++;
+            tCurX = sprite->x << 4;
+            tCurY = sprite->y << 4;
+            tVelocityX = SAFE_DIV(tTargetX * 16 - tCurX, tMoveSteps);
+            tVelocityY = SAFE_DIV(tTargetY * 16 - tCurY, tMoveSteps);
+            tState++;
+            // fallthrough
         case 1:
-            if (data[8] != 0)
+            if (tMoveSteps != 0)
             {
-                data[8]--;
-                data[4] += data[6];
-                data[5] += data[7];
-                sprite->x = data[4] >> 4;
-                sprite->y = data[5] >> 4;
+                tMoveSteps--;
+                tCurX += tVelocityX;
+                tCurY += tVelocityY;
+                sprite->x = tCurX >> 4;
+                sprite->y = tCurY >> 4;
             }
             else
             {
-                struct ObjectEvent *object = &gObjectEvents[data[9]];
-                sprite->x = data[2];
-                sprite->y = data[3];
+                struct ObjectEvent *object = &gObjectEvents[tObjEventId];
+                sprite->x = tTargetX;
+                sprite->y = tTargetY;
                 ShiftStillObjectEventCoords(object);
                 object->triggerGroundEffectsOnStop = TRUE;
                 FieldEffectActiveListRemove(FLDEFF_MOVE_DEOXYS_ROCK);
@@ -3931,12 +3954,6 @@ static void Task_MoveDeoxysRock(u8 taskId)
             break;
     }
 }
-
-static void Task_FldEffUseVsSeeker(u8 taskId);
-static void UseVsSeekerEffect_1(struct Task *task);
-static void UseVsSeekerEffect_2(struct Task *task);
-static void UseVsSeekerEffect_3(struct Task *task);
-static void UseVsSeekerEffect_4(struct Task *task);
 
 static void (*const sUseVsSeekerEffectFuncs[])(struct Task *task) = {
     UseVsSeekerEffect_1,
@@ -4001,3 +4018,13 @@ static void UseVsSeekerEffect_4(struct Task *task)
         DestroyTask(FindTaskIdByFunc(Task_FldEffUseVsSeeker));
     }
 }
+#undef tState
+#undef tSpriteId
+#undef tTargetX
+#undef tTargetY
+#undef tCurX
+#undef tCurY
+#undef tVelocityX
+#undef tVelocityY
+#undef tMoveSteps
+#undef tObjEventId

@@ -47,6 +47,8 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 
+#define TAG_SCROLL_ARROW 5112
+
 // Values for registryStatus
 enum {
     UNREGISTERED,
@@ -157,19 +159,19 @@ static const struct YesNoFuncTable sDeleteRegistryYesNoFuncs =
     .noFunc = DeleteRegistry_No,
 };
 
-static const u8 sSecretBaseOwnerGfxIds[10] =
+static const u16 sSecretBaseOwnerGfxIds[10] =
 {
     // Male
-    OBJ_EVENT_GFX_YOUNGSTER,
-    OBJ_EVENT_GFX_BUG_CATCHER,
-    OBJ_EVENT_GFX_RICH_BOY,
-    OBJ_EVENT_GFX_CAMPER,
+    OBJ_EVENT_GFX_YOUNGSTER_1,
+    OBJ_EVENT_GFX_BUG_CATCHER_1,
+    OBJ_EVENT_GFX_RICH_BOY_1,
+    OBJ_EVENT_GFX_CAMPER_1,
     OBJ_EVENT_GFX_MAN_3,
     // Female
-    OBJ_EVENT_GFX_LASS,
+    OBJ_EVENT_GFX_LASS_1,
     OBJ_EVENT_GFX_GIRL_3,
     OBJ_EVENT_GFX_WOMAN_2,
-    OBJ_EVENT_GFX_PICNICKER,
+    OBJ_EVENT_GFX_PICNICKER_1,
     OBJ_EVENT_GFX_WOMAN_5,
 };
 
@@ -985,7 +987,7 @@ static void FinalizeRegistryMenu(u8 taskId)
 static void AddRegistryMenuScrollArrows(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    tArrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 188, 12, 148, tNumBases - tMaxShownItems, 0x13f8, 0x13f8, &tScrollOffset);
+    tArrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 188, 12, 148, tNumBases - tMaxShownItems, TAG_SCROLL_ARROW, TAG_SCROLL_ARROW, &tScrollOffset);
 }
 
 static void HandleRegistryMenuInput(u8 taskId)

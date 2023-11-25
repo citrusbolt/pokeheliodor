@@ -103,7 +103,9 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsFont = 3; // HGSS
     gSaveBlock2Ptr->optionsPartyBox = 1; // Automatic
     gSaveBlock2Ptr->optionsNickname = 0; // Give
-    gSaveBlock2Ptr->optionsRumble = 0;
+    gSaveBlock2Ptr->optionsGBPRumble = FALSE;
+    gSaveBlock2Ptr->optionsCartRumble = FALSE;
+    gSaveBlock2Ptr->optionsJPTitleScreen = FALSE;
 }
 
 static void ClearPokedexFlags(void)

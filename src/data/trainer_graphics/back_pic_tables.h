@@ -17,22 +17,68 @@ const struct MonCoords gTrainerBackPicCoords[] =
 // this table goes functionally unused, since none of these pics are compressed
 // and the place they would get extracted to gets overwritten later anyway
 // the casts are so they'll play nice with the strict struct definition
-#define TRAINER_BACK_SPRITE(trainerPic, sprite, size) [TRAINER_BACK_PIC_##trainerPic] = {(const u32 *)sprite, size, TRAINER_BACK_PIC_##trainerPic}
-
 const struct CompressedSpriteSheet gTrainerBackPicTable[] =
 {
-    TRAINER_BACK_SPRITE(BRENDAN, gTrainerBackPic_Brendan, 0x2000),
-    TRAINER_BACK_SPRITE(MAY, gTrainerBackPic_May, 0x2000),
-    TRAINER_BACK_SPRITE(RED, gTrainerBackPic_Red, 0x2800),
-    TRAINER_BACK_SPRITE(LEAF, gTrainerBackPic_Leaf, 0x2800),
-    TRAINER_BACK_SPRITE(RUBY_SAPPHIRE_BRENDAN, gTrainerBackPic_RubySapphireBrendan, 0x2000),
-    TRAINER_BACK_SPRITE(RUBY_SAPPHIRE_MAY, gTrainerBackPic_RubySapphireMay, 0x2000),
-    TRAINER_BACK_SPRITE(WALLY, gTrainerBackPic_Wally, 0x2000),
-    TRAINER_BACK_SPRITE(STEVEN, gTrainerBackPic_Steven, 0x2000),
-    TRAINER_BACK_SPRITE(EMERALD_BRENDAN, gTrainerBackPic_Brendan, 0x2000),
-    TRAINER_BACK_SPRITE(EMERALD_MAY, gTrainerBackPic_May, 0x2000),
-    TRAINER_BACK_SPRITE(GOLD, gTrainerBackPic_Gold, 0x2000),
-    TRAINER_BACK_SPRITE(KRIS, gTrainerBackPic_Kris, 0x2000),
+    [TRAINER_BACK_PIC_BRENDAN] = {
+        .data = (const u32 *)gTrainerBackPic_Brendan,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Brendan),
+        .tag = TRAINER_BACK_PIC_BRENDAN,
+    },
+    [TRAINER_BACK_PIC_MAY] = {
+        .data = (const u32 *)gTrainerBackPic_May,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_May),
+        .tag = TRAINER_BACK_PIC_MAY,
+    },
+    [TRAINER_BACK_PIC_RED] = {
+        .data = (const u32 *)gTrainerBackPic_Red,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Red),
+        .tag = TRAINER_BACK_PIC_RED,
+    },
+    [TRAINER_BACK_PIC_LEAF] = {
+        .data = (const u32 *)gTrainerBackPic_Leaf,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Leaf),
+        .tag = TRAINER_BACK_PIC_LEAF,
+    },
+    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN] = {
+        .data = (const u32 *)gTrainerBackPic_RubySapphireBrendan,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RubySapphireBrendan),
+        .tag = TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN,
+    },
+    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY] = {
+        .data = (const u32 *)gTrainerBackPic_RubySapphireMay,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RubySapphireMay),
+        .tag = TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY,
+    },
+    [TRAINER_BACK_PIC_WALLY] = {
+        .data = (const u32 *)gTrainerBackPic_Wally,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Wally),
+        .tag = TRAINER_BACK_PIC_WALLY,
+    },
+    [TRAINER_BACK_PIC_STEVEN] = {
+        .data = (const u32 *)gTrainerBackPic_Steven,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Steven),
+        .tag = TRAINER_BACK_PIC_STEVEN,
+    },
+    [TRAINER_BACK_PIC_EMERALD_BRENDAN] = {
+        .data = (const u32 *)gTrainerBackPic_EmeraldBrendan,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_EmeraldBrendan),
+        .tag = TRAINER_BACK_PIC_EMERALD_BRENDAN,
+    },
+    [TRAINER_BACK_PIC_EMERALD_MAY] = {
+        .data = (const u32 *)gTrainerBackPic_EmeraldMay,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_EmeraldMay),
+        .tag = TRAINER_BACK_PIC_EMERALD_MAY,
+    },
+    [TRAINER_BACK_PIC_GOLD] = {
+        .data = (const u32 *)gTrainerBackPic_Gold,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Gold),
+        .tag = TRAINER_BACK_PIC_GOLD,
+    },
+    [TRAINER_BACK_PIC_KRIS] = {
+        .data = (const u32 *)gTrainerBackPic_Kris,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Kris),
+        .tag = TRAINER_BACK_PIC_KRIS,
+    },
 };
 
 #define TRAINER_BACK_PAL(trainerPic, pal) [TRAINER_BACK_PIC_##trainerPic] = {pal, TRAINER_BACK_PIC_##trainerPic}

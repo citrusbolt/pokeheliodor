@@ -12,10 +12,10 @@
   "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": null,
+  "connections": 0,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_HEX_MANIAC",
+      "graphics_id": "OBJ_EVENT_GFX_HEX_MANIAC_RSE",
       "x": 6,
       "y": 3,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_TM_BALL",
       "x": 6,
       "y": 9,
       "elevation": 3,
@@ -37,11 +37,11 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "MtPyre_6F_EventScript_ItemTM30",
-      "flag": "FLAG_ITEM_MT_PYRE_6F_TM30"
+      "script": "MtPyre_6F_EventScript_ItemTMShadowBall",
+      "flag": "FLAG_ITEM_MT_PYRE_6F_TM_SHADOW_BALL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M",
+      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M_RSE",
       "x": 10,
       "y": 3,
       "elevation": 3,
@@ -70,6 +70,10 @@
       "dest_warp_id": "2"
     }
   ],
-  "coord_events": [],
-  "bg_events": []
+  "coord_events": [
+
+  ],
+  "bg_events": [
+
+  ]
 }

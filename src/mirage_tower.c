@@ -8,6 +8,7 @@
 #include "gpu_regs.h"
 #include "menu.h"
 #include "random.h"
+#include "palette.h"
 #include "palette_util.h"
 #include "script.h"
 #include "sound.h"
@@ -18,6 +19,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/metatile_labels.h"
+#include "constants/field_effects.h"
 
 struct MirageTowerPulseBlend
 {
@@ -74,13 +76,14 @@ static void Task_FossilFallAndSink(u8);
 static void SpriteCB_FallingFossil(struct Sprite *);
 static void UpdateDisintegrationEffect(u8 *, u16, u8, u8, u8);
 
-static const u8 sBlankTile_Gfx[32] = {0};
+static const u8 ALIGNED(2) sBlankTile_Gfx[32] = {0};
 static const u8 sMirageTower_Gfx[] = INCBIN_U8("graphics/misc/mirage_tower.4bpp");
 static const u16 sMirageTowerTilemap[] = INCBIN_U16("graphics/misc/mirage_tower.bin");
 static const u16 sFossil_Pal[] = INCBIN_U16("graphics/object_events/pics/misc/fossil.gbapal"); // Unused
 static const u8 sFossil_Gfx[] = INCBIN_U8("graphics/object_events/pics/misc/fossil.4bpp"); // Duplicate of gObjectEventPic_Fossil
 static const u8 sMirageTowerCrumbles_Gfx[] = INCBIN_U8("graphics/misc/mirage_tower_crumbles.4bpp");
 static const u16 sMirageTowerCrumbles_Palette[] = INCBIN_U16("graphics/misc/mirage_tower_crumbles.gbapal");
+static const struct SpritePalette sSpritePalette_Crumbles = {sMirageTowerCrumbles_Palette, FLDEFF_PAL_TAG_FALLING_SAND};
 
 static const s16 sCeilingCrumblePositions[][3] =
 {
@@ -163,7 +166,7 @@ static const struct SpriteTemplate sSpriteTemplate_FallingFossil =
 
 const struct PulseBlendSettings gMirageTowerPulseBlendSettings = {
     .blendColor = RGB(27, 25, 16),
-    .paletteOffset = 0x61,
+    .paletteOffset = BG_PLTT_ID(6) + 1,
     .numColors = 15,
     .delay = 5,
     .numFadeCycles = -1,
@@ -438,7 +441,7 @@ void DoMirageTowerCeilingCrumble(void)
 
 static void WaitCeilingCrumble(u8 taskId)
 {
-    u16 *data = gTasks[taskId].data;
+    u16 *data = (u16*)gTasks[taskId].data;
     data[1]++;
     // Either wait 1000 frames, or until all 16 crumble sprites and the one screen-shake task are completed.
     if (data[1] == 1000 || data[0] == 17)
@@ -461,14 +464,14 @@ static void CreateCeilingCrumbleSprites(void)
     {
         spriteId = CreateSprite(&sSpriteTemplate_CeilingCrumbleLarge, sCeilingCrumblePositions[i][0] + 120, sCeilingCrumblePositions[i][1], 8);
         gSprites[spriteId].oam.priority = 0;
-        gSprites[spriteId].oam.paletteNum = 0;
+        gSprites[spriteId].oam.paletteNum = LoadSpritePalette(&sSpritePalette_Crumbles);;
         gSprites[spriteId].data[0] = i;
     }
     for (i = 0; i < 8; i++)
     {
         spriteId = CreateSprite(&sSpriteTemplate_CeilingCrumbleSmall, sCeilingCrumblePositions[i][0] + 115, sCeilingCrumblePositions[i][1] - 3, 8);
         gSprites[spriteId].oam.priority = 0;
-        gSprites[spriteId].oam.paletteNum = 0;
+        gSprites[spriteId].oam.paletteNum = LoadSpritePalette(&sSpritePalette_Crumbles);;
         gSprites[spriteId].data[0] = i;
     }
 }
@@ -698,6 +701,8 @@ static void Task_FossilFallAndSink(u8 taskId)
             struct SpriteTemplate fossilTemplate = sSpriteTemplate_FallingFossil;
             fossilTemplate.images = sFallingFossil->frameImage;
             sFallingFossil->spriteId = CreateSprite(&fossilTemplate, 128, -16, 1);
+            LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_GENERIC_8);
+            gSprites[sFallingFossil->spriteId].oam.paletteNum = IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_GENERIC_8);
             gSprites[sFallingFossil->spriteId].centerToCornerVecX = 0;
             gSprites[sFallingFossil->spriteId].data[0] = gSprites[sFallingFossil->spriteId].x;
             gSprites[sFallingFossil->spriteId].data[1] = 1;

@@ -708,7 +708,7 @@
 #define R_BUTTON        0x0100
 #define L_BUTTON        0x0200
 #define KEYS_MASK       0x03FF
-#define KEY_INTR_ENABLE 0x0400
+#define KEY_INTR_ENABLE 0x4000
 #define KEY_OR_INTR     0x0000
 #define KEY_AND_INTR    0x8000
 #define DPAD_ANY        ((DPAD_RIGHT | DPAD_LEFT | DPAD_UP | DPAD_DOWN))
@@ -777,6 +777,7 @@
 
 #define GPIO_PORT_DATA        (*(vu16 *)0x80000C4)
 #define GPIO_PORT_DIRECTION   (*(vu16 *)0x80000C6)
+#define GPIO_PORT_READ_ENABLE (*(vu16 *)0x80000C8)
 
 typedef void (*fnptr)(void);
 #define REG_ISR_MAIN         *(fnptr*)(0x03007FFC)

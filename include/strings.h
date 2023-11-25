@@ -3017,6 +3017,12 @@ extern const u8 gText_CutenessContest[];
 extern const u8 gText_SmartnessContest[];
 extern const u8 gText_ToughnessContest[];
 
+extern const u8 gText_CoolnessContestMenu[];
+extern const u8 gText_BeautyContestMenu[];
+extern const u8 gText_CutenessContestMenu[];
+extern const u8 gText_SmartnessContestMenu[];
+extern const u8 gText_ToughnessContestMenu[];
+
 // Pokenav Match Call
 extern const u8 gText_CallCantBeMadeHere[];
 extern const u8 gText_NumberRegistered[];
@@ -3346,5 +3352,8 @@ extern const u8 gText_YourName[];
 extern const u8 gText_BoxName[];
 extern const u8 gText_PkmnsNickname[];
 extern const u8 gText_TellHimTheWords[];
+
+extern const u8 gText_An[];
+extern const u8 gText_A[];
 
 #endif // GUARD_STRINGS_H

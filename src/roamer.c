@@ -346,7 +346,7 @@ void CreateRoamerMonInstance(void)
     SetMonData(mon, MON_DATA_SMART, &ROAMER->smart);
     SetMonData(mon, MON_DATA_TOUGH, &ROAMER->tough);
 	if (ROAMER->species == SPECIES_LUGIA || ROAMER->species == SPECIES_HO_OH)
-		SetMonData(mon, MON_DATA_EVENT_LEGAL, &fatefulEncounter);
+		SetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, &fatefulEncounter);
 }
 
 bool8 TryStartRoamerEncounter(void)

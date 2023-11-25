@@ -549,8 +549,8 @@ static const u8 sUnsharedColumns[MAX_RFU_PLAYERS][MAX_RFU_PLAYERS] =
 };
 
 // Duplicate and unused gfx. Feel free to remove.
-static const u32 sDuplicateGfx[] = INCBIN_U32("graphics/dodrio_berry_picking/bg.gbapal",
-                                     "graphics/dodrio_berry_picking/tree_border.gbapal",
+static const u32 sDuplicateGfx[] = INCBIN_U32("graphics/dodrio_berry_picking/tree_border.gbapal",
+                                     "graphics/dodrio_berry_picking/bg.gbapal",
                                      "graphics/dodrio_berry_picking/dodrio.gbapal",
                                      "graphics/dodrio_berry_picking/shiny.gbapal",
                                      "graphics/dodrio_berry_picking/status.gbapal",
@@ -2825,9 +2825,8 @@ static void GetScoreResults(struct DodrioGame_ScoreResults *dst, u8 playerId)
     *dst = sGame->scoreResults[playerId];
 }
 
-// Unused
 // Returns where the specified player's score ranks, 0 being first (highest score)
-static u8 GetScoreRanking(u8 playerId)
+static u8 UNUSED GetScoreRanking(u8 playerId)
 {
     u8 i, ranking = 0;
     u8 numPlayers = sGame->numPlayers;
@@ -2897,7 +2896,7 @@ void IsDodrioInParty(void)
     for (i = 0; i < PARTY_SIZE; i++)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_HAS_SPECIES)
-            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2) == SPECIES_DODRIO)
+            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG) == SPECIES_DODRIO)
         {
             gSpecialVar_Result = TRUE;
             return;
@@ -3059,12 +3058,12 @@ static const u8 *const sDebug_PlayerNames[] =
     sText_Digits
 };
 
-static void Debug_UpdateNumPlayers(void)
+static void UNUSED Debug_UpdateNumPlayers(void)
 {
     sGame->numPlayers = GetLinkPlayerCount();
 }
 
-static void Debug_SetPlayerNamesAndResults(void)
+static void UNUSED Debug_SetPlayerNamesAndResults(void)
 {
     u8 i, playerId;
 
@@ -3577,8 +3576,8 @@ static const u8 sUnsharedColumns_Duplicate[MAX_RFU_PLAYERS][MAX_RFU_PLAYERS] =
     {1, 3, 5, 6, 9},
 };
 
-static const u16 sBg_Pal[]                  = INCBIN_U16("graphics/dodrio_berry_picking/bg.gbapal",
-                                                         "graphics/dodrio_berry_picking/tree_border.gbapal");
+static const u16 sBg_Pal[]                  = INCBIN_U16("graphics/dodrio_berry_picking/tree_border.gbapal",
+                                                         "graphics/dodrio_berry_picking/bg.gbapal");
 static const u16 sDodrioNormal_Pal[]        = INCBIN_U16("graphics/dodrio_berry_picking/dodrio.gbapal");
 static const u16 sDodrioShiny_Pal[]         = INCBIN_U16("graphics/dodrio_berry_picking/shiny.gbapal");
 static const u16 sStatus_Pal[]              = INCBIN_U16("graphics/dodrio_berry_picking/status.gbapal");
@@ -4242,8 +4241,7 @@ static void SetBerryAnim(u16 id, u8 animNum)
     StartSpriteAnim(&gSprites[*sBerrySpriteIds[id]], animNum);
 }
 
-// Unused
-static void UnusedSetSpritePos(u8 spriteId)
+static void UNUSED UnusedSetSpritePos(u8 spriteId)
 {
     gSprites[spriteId].x = 20 * spriteId + 50;
     gSprites[spriteId].y = 50;
@@ -4465,8 +4463,7 @@ static void InitGameGfx(struct DodrioGame_Gfx *ptr)
     SetGfxFunc(LoadGfx);
 }
 
-// Unused
-static void FreeAllWindowBuffers_(void)
+static void UNUSED FreeAllWindowBuffers_(void)
 {
     FreeAllWindowBuffers();
 }

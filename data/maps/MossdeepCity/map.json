@@ -31,7 +31,7 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR_1",
       "x": 38,
       "y": 12,
       "elevation": 5,
@@ -44,7 +44,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M",
+      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M_1",
       "x": 50,
       "y": 34,
       "elevation": 5,
@@ -57,7 +57,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_POKEFAN_F",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_FAN_F_1",
       "x": 32,
       "y": 12,
       "elevation": 5,
@@ -70,7 +70,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY_1",
       "x": 26,
       "y": 21,
       "elevation": 5,
@@ -213,7 +213,7 @@
       "flag": "FLAG_HIDE_MOSSDEEP_CITY_TEAM_MAGMA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
+      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT_1",
       "x": 19,
       "y": 25,
       "elevation": 3,
@@ -239,7 +239,7 @@
       "flag": "FLAG_HIDE_MOSSDEEP_CITY_SCOTT"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
+      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT_1",
       "x": 31,
       "y": 29,
       "elevation": 3,

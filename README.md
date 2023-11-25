@@ -14,6 +14,7 @@ The highest design priorities are 100% compatibility in terms of:
   * There should be no (significant) issues importing your save file from Pokémon Emerald to Pokémon Heliodor and vice versa.
   * This allows Pokémon Heliodor to, in effect, be treated similar to an expansion pack in which if a player has already completed Pokémon Emerald, this can be used to "unlock" extra content/features for that playthrough.
 
+<<<<<<< HEAD
 
 ### Changes
 
@@ -134,3 +135,6 @@ For more detailed compilation instructions, see [INSTALL.md](docs/INSTALL.md).
 * Project Pokémon
 * Serebii
 * ShinyDragonHunter
+=======
+For contacts and other pret projects, see [pret.github.io](https://pret.github.io/).
+>>>>>>> pret/master
