@@ -800,15 +800,14 @@ const u16 gObjectEventPal_Generic5[] = INCBIN_U16("graphics/object_events/palett
 const u16 gObjectEventPal_Generic6[] = INCBIN_U16("graphics/object_events/palettes/generic_6.gbapal");
 const u16 gObjectEventPal_Generic7[] = INCBIN_U16("graphics/object_events/palettes/generic_7.gbapal");
 const u16 gObjectEventPal_Generic8[] = INCBIN_U16("graphics/object_events/palettes/generic_8.gbapal");
+const u16 gObjectEventPal_Tree1[] = INCBIN_U16("graphics/object_events/palettes/tree_1.gbapal");
+const u16 gObjectEventPal_Tree2[] = INCBIN_U16("graphics/object_events/palettes/tree_2.gbapal");
+const u16 gObjectEventPal_Tree3[] = INCBIN_U16("graphics/object_events/palettes/tree_3.gbapal");
+const u16 gObjectEventPal_Tree4[] = INCBIN_U16("graphics/object_events/palettes/tree_4.gbapal");
 
 const u16 gObjectEventPal_Reflection[] = INCBIN_U16("graphics/object_events/palettes/reflection.gbapal");
 
-
 const u32 gFieldEffectObjectPic_Sparkle[] = INCBIN_U32("graphics/field_effects/pics/sparkle.4bpp");
-
-
-
-
 
 const u32 gFieldEffectObjectPic_SurfBlob[] = INCBIN_U32("graphics/field_effects/pics/surf_blob.4bpp");
 const u32 gFieldEffectObjectPic_ShadowSmall[] = INCBIN_U32("graphics/field_effects/pics/shadow_small.4bpp");
@@ -852,10 +851,3 @@ const u32 gFieldEffectObjectPic_Bubbles[] = INCBIN_U32("graphics/field_effects/p
 const u32 gFieldEffectObjectPic_SmallSparkle[] = INCBIN_U32("graphics/field_effects/pics/small_sparkle.4bpp");
 const u16 gFieldEffectPal_SmallSparkle[] = INCBIN_U16("graphics/field_effects/palettes/small_sparkle.gbapal");
 const u32 gFieldEffectObjectPic_Bird[] = INCBIN_U32("graphics/field_effects/pics/bird.4bpp");
-
-
-
-
-
-
-

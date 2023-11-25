@@ -31,6 +31,10 @@
 #define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x1119
 #define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x111A
 #define OBJ_EVENT_PAL_TAG_MAY_RS                  0x111B
+#define OBJ_EVENT_PAL_TAG_TREE_1                  0x111C
+#define OBJ_EVENT_PAL_TAG_TREE_2                  0x111D
+#define OBJ_EVENT_PAL_TAG_TREE_3                  0x111E
+#define OBJ_EVENT_PAL_TAG_TREE_4                  0x111F
 #define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
 
 #define OW_PAL(gfxId) (gfxId + 0x1200)
