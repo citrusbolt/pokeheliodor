@@ -2024,3 +2024,5 @@ const u8 gText_EventTicketSentTo[] = _("The Event Ticket has been sent\nto {STR_
 const u8 gText_EonTicket[] = _("EON TICKET");
 const u8 gText_MysticTicket[] = _("MYSTIC TICKET");
 const u8 gText_AuroraTicket[] = _("AURORA TICKET");
+const u8 gText_An[] = _("an");
+const u8 gText_A[] = _("a");

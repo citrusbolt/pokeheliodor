@@ -19,6 +19,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/metatile_labels.h"
+#include "constants/field_effects.h"
 
 struct MirageTowerPulseBlend
 {
@@ -82,6 +83,7 @@ static const u16 sFossil_Pal[] = INCBIN_U16("graphics/object_events/pics/misc/fo
 static const u8 sFossil_Gfx[] = INCBIN_U8("graphics/object_events/pics/misc/fossil.4bpp"); // Duplicate of gObjectEventPic_Fossil
 static const u8 sMirageTowerCrumbles_Gfx[] = INCBIN_U8("graphics/misc/mirage_tower_crumbles.4bpp");
 static const u16 sMirageTowerCrumbles_Palette[] = INCBIN_U16("graphics/misc/mirage_tower_crumbles.gbapal");
+static const struct SpritePalette sSpritePalette_Crumbles = {sMirageTowerCrumbles_Palette, FLDEFF_PAL_TAG_FALLING_SAND};
 
 static const s16 sCeilingCrumblePositions[][3] =
 {
@@ -462,14 +464,14 @@ static void CreateCeilingCrumbleSprites(void)
     {
         spriteId = CreateSprite(&sSpriteTemplate_CeilingCrumbleLarge, sCeilingCrumblePositions[i][0] + 120, sCeilingCrumblePositions[i][1], 8);
         gSprites[spriteId].oam.priority = 0;
-        gSprites[spriteId].oam.paletteNum = 0;
+        gSprites[spriteId].oam.paletteNum = LoadSpritePalette(&sSpritePalette_Crumbles);;
         gSprites[spriteId].data[0] = i;
     }
     for (i = 0; i < 8; i++)
     {
         spriteId = CreateSprite(&sSpriteTemplate_CeilingCrumbleSmall, sCeilingCrumblePositions[i][0] + 115, sCeilingCrumblePositions[i][1] - 3, 8);
         gSprites[spriteId].oam.priority = 0;
-        gSprites[spriteId].oam.paletteNum = 0;
+        gSprites[spriteId].oam.paletteNum = LoadSpritePalette(&sSpritePalette_Crumbles);;
         gSprites[spriteId].data[0] = i;
     }
 }
@@ -699,6 +701,8 @@ static void Task_FossilFallAndSink(u8 taskId)
             struct SpriteTemplate fossilTemplate = sSpriteTemplate_FallingFossil;
             fossilTemplate.images = sFallingFossil->frameImage;
             sFallingFossil->spriteId = CreateSprite(&fossilTemplate, 128, -16, 1);
+            LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_GENERIC_8);
+            gSprites[sFallingFossil->spriteId].oam.paletteNum = IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_GENERIC_8);
             gSprites[sFallingFossil->spriteId].centerToCornerVecX = 0;
             gSprites[sFallingFossil->spriteId].data[0] = gSprites[sFallingFossil->spriteId].x;
             gSprites[sFallingFossil->spriteId].data[1] = 1;

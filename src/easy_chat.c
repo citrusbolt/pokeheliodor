@@ -231,7 +231,7 @@ enum {
     PALTAG_TRIANGLE_CURSOR,
     PALTAG_RECTANGLE_CURSOR,
     PALTAG_MISC_UI,
-    PALTAG_RS_INTERVIEW_FRAME,  
+    PALTAG_RS_INTERVIEW_FRAME,
 };
 
 enum {
@@ -241,7 +241,7 @@ enum {
     GFXTAG_START_SELECT_BUTTONS,
     GFXTAG_MODE_WINDOW,
     GFXTAG_RS_INTERVIEW_FRAME,
-    GFXTAG_BUTTON_WINDOW,  
+    GFXTAG_BUTTON_WINDOW,
 };
 
 
@@ -5050,7 +5050,7 @@ static void TryAddInterviewObjectEvents(void)
 
     // Add object for player (facing right)
     spriteId = CreateObjectGraphicsSprite(
-        gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL : OBJ_EVENT_GFX_RIVAL_MAY_NORMAL,
+        gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_BRENDAN_NORMAL : OBJ_EVENT_GFX_MAY_NORMAL,
         SpriteCallbackDummy,
         52,
         40,

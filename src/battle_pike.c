@@ -267,49 +267,49 @@ static const struct PikeWildMon *const *const sWildMons[2] =
 static const struct PikeRoomNPC sNPCTable[] =
 {
     {
-        .graphicsId = OBJ_EVENT_GFX_POKEFAN_F,
+        .graphicsId = OBJ_EVENT_GFX_POKE_FAN_F_1,
         .speechId1 = 3,
         .speechId2 = 5,
         .speechId3 = 6
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_NINJA_BOY,
+        .graphicsId = OBJ_EVENT_GFX_NINJA_BOY_1,
         .speechId1 = 13,
         .speechId2 = 32,
         .speechId3 = 37
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_FAT_MAN,
+        .graphicsId = OBJ_EVENT_GFX_FAT_MAN_1,
         .speechId1 = 8,
         .speechId2 = 11,
         .speechId3 = 12
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_BUG_CATCHER,
+        .graphicsId = OBJ_EVENT_GFX_BUG_CATCHER_1,
         .speechId1 = 34,
         .speechId2 = 30,
         .speechId3 = 33
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_EXPERT_M,
+        .graphicsId = OBJ_EVENT_GFX_EXPERT_M_1,
         .speechId1 = 0,
         .speechId2 = 0,
         .speechId3 = 0
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_OLD_WOMAN,
+        .graphicsId = OBJ_EVENT_GFX_OLD_WOMAN_1,
         .speechId1 = 1,
         .speechId2 = 1,
         .speechId3 = 1
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_BLACK_BELT,
+        .graphicsId = OBJ_EVENT_GFX_BLACK_BELT_1,
         .speechId1 = 22,
         .speechId2 = 23,
         .speechId3 = 27
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_HIKER,
+        .graphicsId = OBJ_EVENT_GFX_HIKER_1,
         .speechId1 = 8,
         .speechId2 = 22,
         .speechId3 = 31
@@ -327,7 +327,7 @@ static const struct PikeRoomNPC sNPCTable[] =
         .speechId3 = 17
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_CYCLING_TRIATHLETE_M,
+        .graphicsId = OBJ_EVENT_GFX_TRIATHLETE_M_1_CYCLING,
         .speechId1 = 30,
         .speechId2 = 20,
         .speechId3 = 36
@@ -339,19 +339,19 @@ static const struct PikeRoomNPC sNPCTable[] =
         .speechId3 = 25
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_SCHOOL_KID_M,
+        .graphicsId = OBJ_EVENT_GFX_SCHOOL_KID_M_1,
         .speechId1 = 23,
         .speechId2 = 38,
         .speechId3 = 26
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_FISHERMAN,
+        .graphicsId = OBJ_EVENT_GFX_FISHERMAN_1,
         .speechId1 = 23,
         .speechId2 = 30,
         .speechId3 = 11
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_LASS,
+        .graphicsId = OBJ_EVENT_GFX_LASS_1,
         .speechId1 = 15,
         .speechId2 = 19,
         .speechId3 = 14
@@ -363,7 +363,7 @@ static const struct PikeRoomNPC sNPCTable[] =
         .speechId3 = 26
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_RUNNING_TRIATHLETE_M,
+        .graphicsId = OBJ_EVENT_GFX_TRIATHLETE_M_1_RUNNING,
         .speechId1 = 37,
         .speechId2 = 12,
         .speechId3 = 32
@@ -381,31 +381,31 @@ static const struct PikeRoomNPC sNPCTable[] =
         .speechId3 = 4
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_LITTLE_BOY,
+        .graphicsId = OBJ_EVENT_GFX_LITTLE_BOY_1,
         .speechId1 = 41,
         .speechId2 = 37,
         .speechId3 = 35
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_TUBER_F,
+        .graphicsId = OBJ_EVENT_GFX_TUBER_F_1,
         .speechId1 = 39,
         .speechId2 = 14,
         .speechId3 = 13
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_GENTLEMAN,
+        .graphicsId = OBJ_EVENT_GFX_GENTLEMAN_1,
         .speechId1 = 10,
         .speechId2 = 7,
         .speechId3 = 9
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_LITTLE_GIRL,
+        .graphicsId = OBJ_EVENT_GFX_LITTLE_GIRL_1,
         .speechId1 = 40,
         .speechId2 = 20,
         .speechId3 = 16
     },
     {
-        .graphicsId = OBJ_EVENT_GFX_RUNNING_TRIATHLETE_F,
+        .graphicsId = OBJ_EVENT_GFX_TRIATHLETE_F_1_RUNNING,
         .speechId1 = 18,
         .speechId2 = 13,
         .speechId3 = 21
@@ -576,7 +576,7 @@ static void SetupRoomObjectEvents(void)
         objGfx1 = (u16)(GetNPCRoomGraphicsId());
         break;
     case PIKE_ROOM_STATUS:
-        objGfx1 = OBJ_EVENT_GFX_GENTLEMAN;
+        objGfx1 = OBJ_EVENT_GFX_GENTLEMAN_1;
         if (sStatusMon == PIKE_STATUSMON_DUSCLOPS)
             objGfx2 = OBJ_EVENT_GFX_DUSCLOPS;
         else
@@ -584,7 +584,7 @@ static void SetupRoomObjectEvents(void)
         setObjGfx2 = TRUE;
         break;
     case PIKE_ROOM_HEAL_PART:
-        objGfx1 = OBJ_EVENT_GFX_GENTLEMAN;
+        objGfx1 = OBJ_EVENT_GFX_GENTLEMAN_1;
         break;
     case PIKE_ROOM_WILD_MONS:
         setObjGfx1 = FALSE;

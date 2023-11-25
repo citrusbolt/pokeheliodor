@@ -14,6 +14,7 @@ EventScript_CardTerminal_Menu:
 	case 2, EventScript_CardTerminal_IconTint
 	case 3, EventScript_CardTerminal_Stat1
 	case 4, EventScript_CardTerminal_DotCode
+	case 5, EventScript_CardTerminal_Exit
 	case MULTI_B_PRESSED, EventScript_CardTerminal_Exit
 	end
 

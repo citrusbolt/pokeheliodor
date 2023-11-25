@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
+      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN_1",
       "x": 10,
       "y": 8,
       "elevation": 3,
@@ -41,7 +41,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_MUSEUM_PATRON_2"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M",
+      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M_1",
       "x": 7,
       "y": 3,
       "elevation": 3,
@@ -54,7 +54,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_MUSEUM_TOURISTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_RICH_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_RICH_BOY_1",
       "x": 14,
       "y": 6,
       "elevation": 3,

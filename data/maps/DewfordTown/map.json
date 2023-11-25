@@ -39,7 +39,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M",
+      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M_1",
       "x": 12,
       "y": 9,
       "elevation": 3,
@@ -52,7 +52,7 @@
       "flag": "FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
+      "graphics_id": "OBJ_EVENT_GFX_FISHERMAN_1",
       "x": 12,
       "y": 14,
       "elevation": 3,
