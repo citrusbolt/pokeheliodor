@@ -48,7 +48,7 @@
 #define FLAG_GOT_HELIX_FOSSIL 0x23
 #define FLAG_GOT_DOME_FOSSIL 0x24
 #define FLAG_GOT_OLD_AMBER   0x25
-#define FLAG_ROAMER_QUEST    0x26 // Set if Sapphire is in inventory when roamer quest is started.  Helps keep track of which Lati should be at Southern Island as well as stops Articuno from being skipped if Sapphire is obtained after catching Latios 
+#define FLAG_ROAMER_QUEST    0x26 // Set if Sapphire is in inventory when roamer quest is started.  Helps keep track of which Lati should be at Southern Island as well as stops Articuno from being skipped if Sapphire is obtained after catching Latios
 #define FLAG_HIDE_ZAPDOS     0x27
 #define FLAG_DEFEATED_ZAPDOS   0x28
 #define FLAG_HIDE_WEATHER_INSTITUTE_2F_SCIENTIST_R 0x29
@@ -1398,7 +1398,7 @@
 #define FLAG_SYS_SAFARI_MODE                        (SYSTEM_FLAGS + 0x2C)
 #define FLAG_SYS_CRUISE_MODE                        (SYSTEM_FLAGS + 0x2D)
 
-#define FLAG_UNUSED_0x88E                           (SYSTEM_FLAGS + 0x2E) // Unused Flag
+#define FLAG_SYS_AUTORUN                            (SYSTEM_FLAGS + 0x2E) // Unused Flag
 #define FLAG_UNUSED_0x88F                           (SYSTEM_FLAGS + 0x2F) // Unused Flag
 
 #define FLAG_SYS_TV_HOME                            (SYSTEM_FLAGS + 0x30)

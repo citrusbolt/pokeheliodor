@@ -41,11 +41,11 @@ SouthernIsland_Interior_EventScript_SetUpPlayerGfx::
 	end
 
 SouthernIsland_Interior_EventScript_SetBrendanGfx::
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BRENDAN_NORMAL
 	return
 
 SouthernIsland_Interior_EventScript_SetMayGfx::
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MAY_NORMAL
 	return
 
 SouthernIsland_Interior_EventScript_TryLatiEncounter::

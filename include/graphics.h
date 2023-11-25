@@ -5298,8 +5298,8 @@ extern const u16 gFrontierFactoryMenu_Pal[];
 // Object event pals
 extern const u16 gObjectEventPal_Brendan[];
 extern const u16 gObjectEventPal_May[];
-extern const u16 gObjectEventPal_BrendanRS[];
-extern const u16 gObjectEventPal_MayRS[];
+extern const u16 gObjectEventPal_Brendan_RS[];
+extern const u16 gObjectEventPal_May_RS[];
 extern const u16 gObjectEventPal_BrendanRed[];
 extern const u16 gObjectEventPal_MayRed[];
 extern const u16 gObjectEventPal_BrendanBlue[];

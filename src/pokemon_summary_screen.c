@@ -184,6 +184,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		u8 spatkEV;
 		u8 spdefEV;
 		u8 speedEV;
+        u8 trueOrigin;
     } summary;
 	u16 bgTilemapBufferPage[0x400];
 	u16 bgTilemapBufferBG[0x400];
@@ -520,15 +521,16 @@ static const u8 sMemoNatureTextColor[] = _("{COLOR 5}{SHADOW 6}");
 static const u8 sMemoMiscTextColor[] = _("{COLOR 7}{SHADOW 8}");
 static const u8 sMemoSpecialTextColor[] = _("{COLOR 14}{SHADOW 13}");
 
-#define TAG_MOVE_SELECTOR   30000
-#define TAG_MON_STATUS      30001
-#define TAG_MOVE_TYPES      30002
-#define TAG_MON_MARKINGS    30003
-#define TAG_SPLIT_ICONS     30004
-#define TAG_HEALTH_BAR      30005
-#define TAG_EXP_BAR         30006
-// 30006 & 30007 are used for HP bar
-#define TAG_GAME_ICONS      30008
+#define TAG_MOVE_SELECTOR       30000
+#define TAG_MON_STATUS          30001
+#define TAG_MOVE_TYPES          30002
+#define TAG_MON_MARKINGS        30003
+#define TAG_SPLIT_ICONS         30004
+#define TAG_EXP_BAR             30005
+#define TAG_HEALTH_BAR_GREEN    30006
+#define TAG_HEALTH_BAR_ORANGE   30007
+#define TAG_HEALTH_BAR_RED      30008
+#define TAG_GAME_ICONS          30009
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -1310,7 +1312,7 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
         {
             trueOrigin = ORIGIN_GAME_COLOSSEUM;
         }
-        else if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && tid == 0x2FAA9CBA)
+        else if (species == SPECIES_JIRACHI && metLocation == METLOC_FATEFUL_ENCOUNTER && (tid & 0xFFFF) == 0x9CBA)
         {
             trueOrigin = ORIGIN_GAME_CHANNEL;
         }
@@ -1386,6 +1388,8 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]].invisible = FALSE;
         StartSpriteAnim(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN]], trueOrigin);
     }
+
+    sMonSummaryScreen->summary.trueOrigin = trueOrigin;
     return sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ORIGIN];
 }
 
@@ -1578,11 +1582,11 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 20:
-        CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
+        CreateHealthBarSprites(TAG_HEALTH_BAR_GREEN, TAG_HEALTH_BAR_GREEN);
         gMain.state++;
         break;
     case 21:
-        CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
+        CreateExpBarSprites(TAG_EXP_BAR, TAG_EXP_BAR);
         gMain.state++;
     case 22:
         CreateSetStatusSprite();
@@ -2504,7 +2508,8 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
 			PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
 			PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
-            SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
+            if (sMonSummaryScreen->summary.trueOrigin != 0xFF && sMonSummaryScreen->summary.trueOrigin != ORIGIN_GAME_HELIODOR)
+                SetSpriteInvisibility(SPRITE_ARR_ID_ORIGIN, FALSE);
             SetSpriteInvisibility(SPRITE_ARR_ID_LANGLABEL, FALSE);
 
 			if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
@@ -4564,7 +4569,7 @@ static void ConfigureHealthBarSprites(void)
     }
 
     for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
-        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(TAG_HEALTH_BAR) + hpBarPalOffset;
+        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(TAG_HEALTH_BAR_GREEN) + hpBarPalOffset;
 
     if (curHp == maxHp)
     {

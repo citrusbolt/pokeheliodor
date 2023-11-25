@@ -68,6 +68,8 @@ BattleScript_PrintCaughtMonInfo::
 	printstring STRINGID_GOTCHAPKMNCAUGHTPLAYER
 	setbyte sGIVEEXP_STATE, 0x0
 	getexp BS_TARGET
+	givepaydaymoney
+	pickup
 	trysetcaughtmondexflags BattleScript_TryNicknameCaughtMon
 	printstring STRINGID_PKMNDATAADDEDTODEX
 	waitstate

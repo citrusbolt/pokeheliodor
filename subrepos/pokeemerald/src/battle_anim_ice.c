@@ -1005,7 +1005,7 @@ void AnimTask_HazeScrollingFog(u8 taskId)
     GetBattleAnimBg1Data(&animBg);
     LoadBgTiles(animBg.bgId, gWeatherFogHorizontalTiles, 0x800, animBg.tilesOffset);
     AnimLoadCompressedBgTilemapHandleContest(&animBg, gBattleAnimFogTilemap, FALSE);
-    LoadPalette(&gFogPalette, animBg.paletteId * 16, 32);
+    LoadPalette(&gFogPalette, BG_PLTT_ID(animBg.paletteId), PLTT_SIZE_4BPP);
 
     gTasks[taskId].func = AnimTask_HazeScrollingFog_Step;
 }
@@ -1110,7 +1110,7 @@ void AnimTask_MistBallFog(u8 taskId)
     GetBattleAnimBg1Data(&animBg);
     LoadBgTiles(animBg.bgId, gWeatherFogHorizontalTiles, 0x800, animBg.tilesOffset);
     AnimLoadCompressedBgTilemapHandleContest(&animBg, gBattleAnimFogTilemap, FALSE);
-    LoadPalette(&gFogPalette, animBg.paletteId * 16, 32);
+    LoadPalette(&gFogPalette, BG_PLTT_ID(animBg.paletteId), PLTT_SIZE_4BPP);
 
     gTasks[taskId].data[15] = -1;
     gTasks[taskId].func = AnimTask_MistBallFog_Step;
@@ -1305,11 +1305,11 @@ static void MovePoisonGasCloud(struct Sprite *sprite)
             sprite->data[3] = sprite->y += sprite->y2;
             sprite->data[4] = sprite->y + 4;
             if (IsContest())
-                sprite->data[2] = -0x10;
+                sprite->data[2] = -16;
             else if (GET_BATTLER_SIDE2(gBattleAnimTarget) != B_SIDE_PLAYER)
-                sprite->data[2] = 0x100;
+                sprite->data[2] = DISPLAY_WIDTH + 16;
             else
-                sprite->data[2] = -0x10;
+                sprite->data[2] = -16;
 
             sprite->data[7]++;
             sprite->x2 = sprite->y2 = 0;

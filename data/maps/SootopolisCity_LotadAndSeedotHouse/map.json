@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
+      "graphics_id": "OBJ_EVENT_GFX_FISHERMAN_1",
       "x": 2,
       "y": 4,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_HIKER_1",
       "x": 5,
       "y": 4,
       "elevation": 3,

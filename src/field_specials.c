@@ -559,9 +559,9 @@ void SpawnLinkPartnerObjectEvent(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == 0)
-							linkSpriteId = OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL;
+							linkSpriteId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
 						else
-							linkSpriteId = OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;
+							linkSpriteId = OBJ_EVENT_GFX_MAY_NORMAL;
 					}
 					break;
 				case DEV_SOLITAIRI_2:
@@ -569,9 +569,9 @@ void SpawnLinkPartnerObjectEvent(void)
 					{
 						foundMatch = TRUE;
 						if (gLinkPlayers[i].gender == 0)
-							linkSpriteId = OBJ_EVENT_GFX_LINK_GOLD;
+							linkSpriteId = OBJ_EVENT_GFX_GOLD;
 						else
-							linkSpriteId = OBJ_EVENT_GFX_LINK_KRIS;
+							linkSpriteId = OBJ_EVENT_GFX_KRIS;
 					}
 					break;
 				case DEV_TEST:
@@ -588,16 +588,16 @@ void SpawnLinkPartnerObjectEvent(void)
 				if ((u8)gLinkPlayers[i].version == VERSION_RUBY || (u8)gLinkPlayers[i].version == VERSION_SAPPHIRE)
 				{
 					if (gLinkPlayers[i].gender == 0)
-						linkSpriteId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+						linkSpriteId = OBJ_EVENT_GFX_BRENDAN_RS;
 					else
-						linkSpriteId = OBJ_EVENT_GFX_LINK_RS_MAY;
+						linkSpriteId = OBJ_EVENT_GFX_MAY_RS;
 				}
 				else
 				{
 					if (gLinkPlayers[i].gender == 0)
-						linkSpriteId = OBJ_EVENT_GFX_LINK_E_BRENDAN;
+						linkSpriteId = OBJ_EVENT_GFX_BRENDAN_GREEN;
 					else
-						linkSpriteId = OBJ_EVENT_GFX_LINK_E_MAY;
+						linkSpriteId = OBJ_EVENT_GFX_MAY_GREEN;
 				}
 			}
             SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + MAP_OFFSET, coordOffsets[j][1] + y + MAP_OFFSET, 0);
@@ -614,14 +614,14 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
     u8 adjustedPaletteNum;
     // Note: This temp var is necessary; paletteNum += 6 doesn't match.
     adjustedPaletteNum = paletteNum + 6;
-    if (graphicsId == OBJ_EVENT_GFX_LINK_RS_BRENDAN ||
-        graphicsId == OBJ_EVENT_GFX_LINK_RS_MAY ||
-        graphicsId == OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL ||
-        graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL ||
-        graphicsId == OBJ_EVENT_GFX_LINK_E_BRENDAN ||
-        graphicsId == OBJ_EVENT_GFX_LINK_E_MAY ||
-        graphicsId == OBJ_EVENT_GFX_LINK_GOLD ||
-        graphicsId == OBJ_EVENT_GFX_LINK_KRIS ||
+    if (graphicsId == OBJ_EVENT_GFX_BRENDAN_RS ||
+        graphicsId == OBJ_EVENT_GFX_MAY_RS ||
+        graphicsId == OBJ_EVENT_GFX_BRENDAN_NORMAL ||
+        graphicsId == OBJ_EVENT_GFX_MAY_NORMAL ||
+        graphicsId == OBJ_EVENT_GFX_BRENDAN_GREEN ||
+        graphicsId == OBJ_EVENT_GFX_MAY_GREEN ||
+        graphicsId == OBJ_EVENT_GFX_GOLD ||
+        graphicsId == OBJ_EVENT_GFX_KRIS ||
         graphicsId == OBJ_EVENT_GFX_WALLY ||
         graphicsId == OBJ_EVENT_GFX_STEVEN)
     {
@@ -634,35 +634,35 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
 
             switch (graphicsId)
             {
-            case OBJ_EVENT_GFX_LINK_RS_BRENDAN:
-                LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+            case OBJ_EVENT_GFX_BRENDAN_RS:
+                LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_LINK_RS_MAY:
-                LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
+            case OBJ_EVENT_GFX_MAY_RS:
+                LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL:
+            case OBJ_EVENT_GFX_BRENDAN_NORMAL:
                 LoadPalette(gObjectEventPal_Brendan, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_RIVAL_MAY_NORMAL:
+            case OBJ_EVENT_GFX_MAY_NORMAL:
                 LoadPalette(gObjectEventPal_May, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_LINK_E_BRENDAN:
+            case OBJ_EVENT_GFX_BRENDAN_GREEN:
                 LoadPalette(gObjectEventPal_BrendanGreen, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_LINK_E_MAY:
+            case OBJ_EVENT_GFX_MAY_GREEN:
                 LoadPalette(gObjectEventPal_MayGreen, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_LINK_GOLD:
+            case OBJ_EVENT_GFX_GOLD:
                 LoadPalette(gObjectEventPal_Gold, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
-            case OBJ_EVENT_GFX_LINK_KRIS:
+            case OBJ_EVENT_GFX_KRIS:
                 LoadPalette(gObjectEventPal_Kris, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);
                 break;
             case OBJ_EVENT_GFX_WALLY:
-                LoadPalette(gObjectEventPal_BrendanRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             case OBJ_EVENT_GFX_STEVEN:
-                LoadPalette(gObjectEventPal_MayRS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
+                LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(adjustedPaletteNum), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
                 break;
             }
         }
@@ -3016,7 +3016,7 @@ void SetBattleTowerLinkPlayerGfx(void)
 					if (gLinkPlayers[i].gender == MALE)
 						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
 					else
-						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL);
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_MAY_NORMAL);
 				}
 				break;
 			case DEV_SHINY_DRAGON_HUNTER:
@@ -3042,9 +3042,9 @@ void SetBattleTowerLinkPlayerGfx(void)
 				{
 					foundMatch = TRUE;
 					if (gLinkPlayers[i].gender == MALE)
-						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_GOLD);
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_GOLD);
 					else
-						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_KRIS);
+						VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_KRIS);
 				}
 				break;
 			case DEV_TEST:
@@ -3060,11 +3060,11 @@ void SetBattleTowerLinkPlayerGfx(void)
 		{
 			if (gLinkPlayers[i].gender == MALE)
 			{
-				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_E_BRENDAN);
+				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_GREEN);
 			}
 			else
 			{
-				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LINK_E_MAY);
+				VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_MAY_GREEN);
 			}
 		}
     }
@@ -3728,7 +3728,7 @@ static void ChangeDeoxysRockLevel(u8 rockLevel)
 {
     u8 objectEventId;
 
-    LoadPalette(&sDeoxysRockPalettes[rockLevel], OBJ_PLTT_ID(IndexOfSpritePaletteTag(0x12E9 /*OW_PAL(OBJ_EVENT_GFX_DEOXYS_TRIANGLE)*/)), PLTT_SIZEOF(4));
+    LoadPalette(&sDeoxysRockPalettes[rockLevel], OBJ_PLTT_ID(IndexOfSpritePaletteTag(OW_PAL(OBJ_EVENT_GFX_BIRTH_ISLAND_STONE))), PLTT_SIZEOF(4));
     TryGetObjectEventIdByLocalIdAndMap(LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
 
     if (rockLevel == 0)

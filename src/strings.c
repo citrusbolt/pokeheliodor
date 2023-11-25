@@ -2041,3 +2041,5 @@ const u8 gText_MysticTicket[] = _("MYSTIC TICKET");
 const u8 gText_AuroraTicket[] = _("AURORA TICKET");
 const u8 gText_MovedToFreeSpace[] = _("The {STR_VAR_1}\nwas moved to\nthe Free Space.");
 const u8 gText_ReturnedFromFreeSpace[] = _("The {STR_VAR_1}\nwas returned to\nits Pocket.");
+const u8 gText_An[] = _("an");
+const u8 gText_A[] = _("a");

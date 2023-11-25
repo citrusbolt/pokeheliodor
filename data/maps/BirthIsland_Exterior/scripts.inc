@@ -14,7 +14,7 @@ BirthIsland_Exterior_OnReturnToField:
 
 BirthIsland_Exterior_OnTransition:
 	setflag FLAG_MAP_SCRIPT_CHECKED_DEOXYS
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BRENDAN_NORMAL
 	setvar VAR_DEOXYS_ROCK_STEP_COUNT, 0
 	setvar VAR_DEOXYS_ROCK_LEVEL, 0
 	call_if_set FLAG_BATTLED_DEOXYS, BirthIsland_Exterior_EventScript_HideDeoxysAndPuzzle

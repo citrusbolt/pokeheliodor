@@ -1,3 +1,4 @@
+#include "config.h"
 #include "constants/battle.h"
 #include "constants/battle_ai.h"
 #include "constants/abilities.h"
@@ -3159,6 +3160,7 @@ AI_HPAware_DiscouragedEffectsWhenTargetLowHP:
 AI_TrySunnyDayStart:
 	if_target_is_ally AI_TryOnAlly
 	if_not_effect EFFECT_SUNNY_DAY, AI_TrySunnyDayStart_End
+@ funcResult has not been set in this script yet, below call is nonsense
 	if_equal FALSE, AI_TrySunnyDayStart_End
 	is_first_turn_for AI_USER
 	if_equal FALSE, AI_TrySunnyDayStart_End

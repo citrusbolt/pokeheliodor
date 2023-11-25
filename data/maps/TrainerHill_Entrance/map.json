@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_TEALA",
+      "graphics_id": "OBJ_EVENT_GFX_TEALA_1",
       "x": 11,
       "y": 6,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NURSE",
+      "graphics_id": "OBJ_EVENT_GFX_NURSE_1",
       "x": 4,
       "y": 9,
       "elevation": 3,
@@ -41,7 +41,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MART_EMPLOYEE",
+      "graphics_id": "OBJ_EVENT_GFX_MART_EMPLOYEE_1",
       "x": 14,
       "y": 9,
       "elevation": 3,

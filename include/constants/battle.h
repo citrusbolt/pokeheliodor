@@ -168,7 +168,7 @@
 
 // Not really sure what a "hitmarker" is.
 #define HITMARKER_WAKE_UP_CLEAR         (1 << 4) // Cleared when waking up. Never set or checked.
-#define HITMARKER_SKIP_DMG_TRACK        (1 << 5)
+#define HITMARKER_IGNORE_BIDE           (1 << 5)
 #define HITMARKER_DESTINYBOND           (1 << 6)
 #define HITMARKER_NO_ANIMATIONS         (1 << 7)
 #define HITMARKER_IGNORE_SUBSTITUTE     (1 << 8)
@@ -176,7 +176,7 @@
 #define HITMARKER_ATTACKSTRING_PRINTED  (1 << 10)
 #define HITMARKER_NO_PPDEDUCT           (1 << 11)
 #define HITMARKER_SWAP_ATTACKER_TARGET  (1 << 12)
-#define HITMARKER_IGNORE_SAFEGUARD      (1 << 13)
+#define HITMARKER_STATUS_ABILITY_EFFECT (1 << 13)
 #define HITMARKER_SYNCHRONISE_EFFECT    (1 << 14)
 #define HITMARKER_RUN                   (1 << 15)
 #define HITMARKER_IGNORE_ON_AIR         (1 << 16)
@@ -307,6 +307,7 @@
 #define BATTLE_TERRAIN_CAVE         7
 #define BATTLE_TERRAIN_BUILDING     8
 #define BATTLE_TERRAIN_PLAIN        9
+#define BATTLE_TERRAIN_GYM         10
 
 #define B_WAIT_TIME_LONG  64
 #define B_WAIT_TIME_MED   48

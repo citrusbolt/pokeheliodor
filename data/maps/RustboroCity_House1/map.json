@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER_1",
       "x": 6,
       "y": 4,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_HIKER_1",
       "x": 9,
       "y": 2,
       "elevation": 3,

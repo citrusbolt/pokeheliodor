@@ -741,8 +741,8 @@ u8 GetFactoryMonFixedIV(u8 challengeNum, bool8 isLastBattle)
     u8 ivSet;
     bool8 useHigherIV = isLastBattle ? TRUE : FALSE;
 
-    if (challengeNum > 8)
-        ivSet = 7;
+    if (challengeNum >= ARRAY_COUNT(sFixedIVTable))
+        ivSet = ARRAY_COUNT(sFixedIVTable) - 1;
     else
         ivSet = challengeNum;
 
