@@ -43,3 +43,5 @@ prefabs.json
 data/mb_berry_fix.gba
 *.delta_*.json
 /heliodor-*.png
+*.bgr
+*.tpl.gz

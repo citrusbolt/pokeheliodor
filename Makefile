@@ -533,6 +533,9 @@ else
 endif
 
 release: patch
+	convert extras/border_3ds.png -rotate +90 border.bgr
+	tools/szs/wimgt ENCODE extras/border_gcn.png -o -x TPL -d frame.tpl
+	gzip frame.tpl
 
 libagbsyscall:
 	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)
