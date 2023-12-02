@@ -1585,7 +1585,7 @@ void UpdateClockDisplay(void)
 
 static void ShowCurrentPowerWindow(void)
 {
-	struct WindowTemplate CurrentPowerWindowTemplate = {0, 1, 13, 16, 2, 0xF, 63};
+	struct WindowTemplate CurrentPowerWindowTemplate = {0, 1, 13, 16, 2, 0xF, 0x47};
 	
 	FlagSet(FLAG_TEMP_6);
 	
