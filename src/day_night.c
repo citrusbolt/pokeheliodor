@@ -240,7 +240,7 @@ void ProcessImmediateTimeEvents(void)
                      gDNTintOverride[2] > 0)
             {
                 sDNSystemControl.prevTintPeriod = 0xFFFF; // invalidate current tint
-            
+
                 if (gDNTintOverride[0] == 0xFFFF) // signal to invalidate when turning off override
                 {
                     gDNTintOverride[0] = 0;
@@ -279,14 +279,17 @@ void ProcessImmediateTimeEvents(void)
             sDNSystemControl.retintPhase = 0;
             TintPalette_CustomToneWithCopy(gPlttBufferPreDN + (BG_PLTT_SIZE / 2), gPlttBufferUnfaded + (BG_PLTT_SIZE / 2), OBJ_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
             LoadPaletteOverrides();
-            
+
             if (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_IN &&
                 gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_OUT)
             {
                 CpuCopy16(gPlttBufferUnfaded, gPlttBufferFaded, PLTT_SIZE);
 
                 for (paletteIndex = 0; paletteIndex < 13; paletteIndex++)
+                {
                     ApplyWeatherColorMapToPal(paletteIndex);
+                    UpdateSpritePaletteWithWeather(paletteIndex);
+                }
             }
         }
     }
