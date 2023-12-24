@@ -416,9 +416,15 @@ void WaitForVBlank(void)
 {
     gMain.intrCheck &= ~INTR_FLAG_VBLANK;
 
-    //while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
-    //    ;
-	asm("swi 0x5");
+    if(!gWirelessCommType)
+    {
+        asm("swi 0x5");
+    }
+    else
+    {
+        while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
+            ;
+    }
 }
 
 void SetTrainerHillVBlankCounter(u32 *counter)

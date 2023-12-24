@@ -21,7 +21,6 @@ sound/**/*.bin
 sound/songs/midi/*.s
 tools/agbcc
 *.map
-*.ld
 *.bat
 *.dump
 *.sa*
@@ -44,3 +43,5 @@ data/mb_berry_fix.gba
 *.delta_*.json
 __pycache__
 /heliodor-*.png
+*.bgr
+*.tpl.gz

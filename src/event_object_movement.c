@@ -435,6 +435,10 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_MayRed,                    OBJ_EVENT_PAL_TAG_MAY_RED},
     {gObjectEventPal_BrendanBlue,               OBJ_EVENT_PAL_TAG_BRENDAN_BLUE},
     {gObjectEventPal_MayBlue,                   OBJ_EVENT_PAL_TAG_MAY_BLUE},
+    {gObjectEventPal_Tree1,                     OBJ_EVENT_PAL_TAG_TREE_1},
+    {gObjectEventPal_Tree2,                     OBJ_EVENT_PAL_TAG_TREE_2},
+    {gObjectEventPal_Tree3,                     OBJ_EVENT_PAL_TAG_TREE_3},
+    {gObjectEventPal_Tree4,                     OBJ_EVENT_PAL_TAG_TREE_4},
     {gObjectEventPal_BirthIslandStone,          OW_PAL(OBJ_EVENT_GFX_BIRTH_ISLAND_STONE)},
     {gObjectEventPal_CableCar,                  OW_PAL(OBJ_EVENT_GFX_CABLE_CAR)},
     {gObjectEventPal_MovingBox,                 OW_PAL(OBJ_EVENT_GFX_MOVING_BOX)},
@@ -1503,6 +1507,8 @@ u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *),
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, callback, spriteTemplate, &subspriteTables);
     LoadObjectEventPalette(spriteTemplate->paletteTag);
+    PatchObjectPalette(spriteTemplate->paletteTag, IndexOfSpritePaletteTag(spriteTemplate->paletteTag));
+    UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate->paletteTag), COLOR_MAP_CONTRAST);
 
     spriteId = CreateSprite(spriteTemplate, x, y, subpriority);
     Free(spriteTemplate);
@@ -1535,6 +1541,8 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, SpriteCB_VirtualObject, &spriteTemplate, &subspriteTables);
     LoadObjectEventPalette(spriteTemplate.paletteTag);
+    PatchObjectPalette(spriteTemplate.paletteTag, IndexOfSpritePaletteTag(spriteTemplate.paletteTag));
+    UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate.paletteTag), COLOR_MAP_CONTRAST);
 
     x += MAP_OFFSET;
     y += MAP_OFFSET;
@@ -1821,6 +1829,8 @@ static void SetBerryTreeGraphics(struct ObjectEvent *objectEvent, struct Sprite 
             berryId = 0;
 
         LoadObjectEventPalette(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
+        PatchObjectPalette(gBerryTreePaletteTagTablePointers[berryId][berryStage], IndexOfSpritePaletteTag(gBerryTreePaletteTagTablePointers[berryId][berryStage]));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(gBerryTreePaletteTagTablePointers[berryId][berryStage]), COLOR_MAP_CONTRAST);
         ObjectEventSetGraphicsId(objectEvent, gBerryTreeObjectEventGraphicsIdTablePointers[berryId][berryStage]);
         sprite->images = gBerryTreePicTablePointers[berryId];
         sprite->oam.paletteNum = IndexOfSpritePaletteTag(gBerryTreePaletteTagTablePointers[berryId][berryStage]);
