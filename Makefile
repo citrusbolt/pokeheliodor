@@ -285,8 +285,8 @@ mostlyclean: tidynonmodern tidymodern
 	find $(DATA_ASM_SUBDIR)/maps \( -iname 'connections.inc' -o -iname 'events.inc' -o -iname 'header.inc' \) -exec rm {} +
 	rm -f $(AUTO_GEN_TARGETS)
 	@$(MAKE) clean -C libagbsyscall
-	rm border.bgr
-	rm frame.tpl.gz
+	rm -f border.bgr
+	rm -f frame.tpl.gz
 
 clean-emerald:
 	@$(MAKE) clean -C subrepos/pokeemerald
