@@ -466,7 +466,7 @@ static const union AffineAnimCmd *const sSpriteAffineAnimTable_RotatingGate[] =
 static const struct SpriteTemplate sSpriteTemplate_RotatingGateLarge =
 {
     .tileTag = ROTATING_GATE_TILE_TAG,
-    .paletteTag = 0x1103, // OBJ_EVENT_PAL_TAG_GENERIC_1
+    .paletteTag = OBJ_EVENT_PAL_TAG_GENERIC_1,
     .oam = &sOamData_RotatingGateLarge,
     .anims = sSpriteAnimTable_RotatingGateLarge,
     .images = NULL,
@@ -477,7 +477,7 @@ static const struct SpriteTemplate sSpriteTemplate_RotatingGateLarge =
 static const struct SpriteTemplate sSpriteTemplate_RotatingGateRegular =
 {
     .tileTag = ROTATING_GATE_TILE_TAG,
-    .paletteTag = 0x1103, // OBJ_EVENT_PAL_TAG_GENERIC_1
+    .paletteTag = OBJ_EVENT_PAL_TAG_GENERIC_1,
     .oam = &sOamData_RotatingGateRegular,
     .anims = sSpriteAnimTable_RotatingGateRegular,
     .images = NULL,

@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/pret/pokeemerald
 	branch = master
-	commit = b302291bd3ef433c6eeed9a6940036d527ab13ae
-	parent = 928accbad2258c305ea20295b9c431552ebc9382
+	commit = 6385f0426d0ad48d46b63a433b38170e94dca0af
+	parent = 83417910759d013343a642800802d028882a4e74
 	method = merge
 	cmdver = 0.4.3

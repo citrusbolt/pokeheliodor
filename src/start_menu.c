@@ -240,8 +240,35 @@ static const struct WindowTemplate sSaveInfoWindowTemplate = {
     .baseBlock = 8
 };
 
-static const struct WindowTemplate sCurrentTime24WindowTemplate = {0, 1, 17, 4, 2, 0xF, 48};
-static const struct WindowTemplate sCurrentTimeWindowTemplate = {0, 1, 17, 7, 2, 0xF, 48};
+static const struct WindowTemplate sCurrentTime24WindowTemplate = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 17,
+    .width = 4,
+    .height = 2,
+    .paletteNum = 0xF,
+    .baseBlock = 0x38
+ };
+
+static const struct WindowTemplate sCurrentTimeWindowTemplate = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 17,
+    .width = 7,
+    .height = 2,
+    .paletteNum = 0xF,
+    .baseBlock = 0x38
+ };
+
+static const struct WindowTemplate CurrentPowerWindowTemplate = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 17,
+    .width = 16,
+    .height = 2,
+    .paletteNum = 15,
+    .baseBlock = 0x47
+};
 
 // Local functions
 static void BuildStartMenuActions(void);
@@ -668,7 +695,7 @@ static bool8 HandleStartMenuInput(void)
         HideStartMenu();
         return TRUE;
     }
-	
+
 	if (JOY_NEW(R_BUTTON))
 	{
 		PlaySE(SE_SELECT);
@@ -732,7 +759,7 @@ static bool8 StartMenuPokeNavCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
-        SetMainCallback2(CB2_InitPokeNav);  // Display PokeNav
+        SetMainCallback2(CB2_InitPokeNav);  // Display PokéNav
 
         return TRUE;
     }
@@ -1419,7 +1446,7 @@ static void ShowSaveInfoWindow(void)
 
     if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
     {
-        // Print pokedex count
+        // Print Pokédex count
         yOffset += 16;
         AddTextPrinterParameterized(sSaveInfoWindowId, FONT_OPTION, gText_SavingPokedex, 0, yOffset, TEXT_SKIP_DRAW, NULL);
         BufferSaveMenuText(SAVE_MENU_CAUGHT, gStringVar4, color);
@@ -1490,6 +1517,9 @@ static void ShowCurrentTimeWindow(void)
 		sCurrentTimeWindowId = AddWindow(&sCurrentTime24WindowTemplate);
 	else
 		sCurrentTimeWindowId = AddWindow(&sCurrentTimeWindowTemplate);
+    if (gPowerTime > 0 && gPowerLevel > 0 && gPowerType != POWER_NONE)
+        SetWindowAttribute(sCurrentTimeWindowId, WINDOW_TILEMAP_TOP, 13);
+
 	PutWindowTilemap(sCurrentTimeWindowId);
 	DrawStdWindowFrame(sCurrentTimeWindowId, FALSE);
 	FlagSet(FLAG_TEMP_5);
@@ -1568,58 +1598,57 @@ void UpdateClockDisplay(void)
 
 static void ShowCurrentPowerWindow(void)
 {
-	struct WindowTemplate CurrentPowerWindowTemplate = {0, 1, 13, 16, 2, 0xF, 63};
-	
 	FlagSet(FLAG_TEMP_6);
-	
+
+    sCurrentPowerWindowId = AddWindow(&CurrentPowerWindowTemplate);
+
 	switch (gPowerType)
 	{
 		case POWER_HATCH:
 			StringCopy(gStringVar1, gText_PowerHatch);
-			CurrentPowerWindowTemplate.width = 13;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 13);
 			break;
 		case POWER_BARGAIN:
 			StringCopy(gStringVar1, gText_PowerBargain);
-			CurrentPowerWindowTemplate.width = 14;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 14);
 			break;
 		case POWER_PRIZE:
 			StringCopy(gStringVar1, gText_PowerPrize);
-			CurrentPowerWindowTemplate.width = 13;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 13);
 			break;
 		case POWER_EXP:
 			StringCopy(gStringVar1, gText_PowerExp);
-			CurrentPowerWindowTemplate.width = 12;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 12);
 			break;
 		case POWER_CAPTURE:
 			StringCopy(gStringVar1, gText_PowerCapture);
-			CurrentPowerWindowTemplate.width = 14;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 14);
 			break;
 		case POWER_ENCOUNTER:
 			StringCopy(gStringVar1, gText_PowerEncounter);
-			CurrentPowerWindowTemplate.width = 16;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 16);
 			break;
 		case POWER_STEALTH:
 			StringCopy(gStringVar1, gText_PowerStealth);
-			CurrentPowerWindowTemplate.width = 14;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 14);
 			break;
 		case POWER_FRIEND:
 			StringCopy(gStringVar1, gText_PowerFriend);
-			CurrentPowerWindowTemplate.width = 13;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 13);
 			break;
 		case POWER_ITEM:
 			StringCopy(gStringVar1, gText_PowerItem);
-			CurrentPowerWindowTemplate.width = 15;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 15);
 			break;
 		case POWER_TRAINING:
 			StringCopy(gStringVar1, gText_PowerTraining);
 			break;
 		case POWER_LUCKY:
 			StringCopy(gStringVar1, gText_PowerLucky);
-			CurrentPowerWindowTemplate.width = 13;
+			SetWindowAttribute(sCurrentPowerWindowId, WINDOW_WIDTH, 13);
 			break;
 	}
 
-	sCurrentPowerWindowId = AddWindow(&CurrentPowerWindowTemplate);
 	PutWindowTilemap(sCurrentPowerWindowId);
 	DrawStdWindowFrame(sCurrentPowerWindowId, FALSE);
 	ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
@@ -1632,7 +1661,7 @@ static void ShowCurrentPowerWindow(void)
 void UpdatePowerDisplay(void)
 {
 	DoTimeBasedEvents();
-	
+
 	if (gPowerTime == 0 || gPowerLevel == 0 || gPowerType == 0)
 	{
 		FlagClear(FLAG_TEMP_6);
