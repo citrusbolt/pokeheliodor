@@ -1754,13 +1754,17 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
     
     if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
+        LoadObjectEventPalette(OW_PAL(graphicsId));
+        PatchObjectPalette(OW_PAL(graphicsId), IndexOfSpritePaletteTag(OW_PAL(graphicsId)));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(graphicsId)), COLOR_MAP_CONTRAST);
         paletteSlot = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
-        PatchObjectPalette(OW_PAL(graphicsId), paletteSlot);
     }
     else
     {
+        LoadObjectEventPalette(graphicsInfo->paletteTag);
+        PatchObjectPalette(graphicsInfo->paletteTag, IndexOfSpritePaletteTag(graphicsInfo->paletteTag));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), COLOR_MAP_CONTRAST);
         paletteSlot = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
-        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
     }
 
     sprite->oam.shape = graphicsInfo->oam->shape;
@@ -8486,9 +8490,19 @@ void SetVirtualObjectGraphics(u8 virtualObjId, u16 graphicsId)
         sprite->oam = *graphicsInfo->oam;
         sprite->oam.tileNum = tileNum;
         if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
+        {
+            LoadObjectEventPalette(OW_PAL(graphicsId));
+            PatchObjectPalette(OW_PAL(graphicsId), IndexOfSpritePaletteTag(OW_PAL(graphicsId)));
+            UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(graphicsId)), COLOR_MAP_CONTRAST);
             sprite->oam.paletteNum = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        }
         else
+        {
+            LoadObjectEventPalette(graphicsInfo->paletteTag);
+            PatchObjectPalette(graphicsInfo->paletteTag, IndexOfSpritePaletteTag(graphicsInfo->paletteTag));
+            UpdatePaletteColorMapType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), COLOR_MAP_CONTRAST);
             sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
+        }
         sprite->images = graphicsInfo->images;
 
         if (graphicsInfo->subspriteTables == NULL)
