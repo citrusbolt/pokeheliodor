@@ -42,6 +42,8 @@
 #include "new_game.h"
 #include "mystery_gift_menu.h"
 #include "roamer.h"
+#include "load_save.h"
+#include "constants/region_map_sections.h"
 
 /*
  * Main menu state machine
@@ -2513,7 +2515,10 @@ static void MainMenu_FormatSavegameText(void)
 
 static void MainMenu_FormatSavegameLocation(void)
 {
-	GetMapName(gStringVar4, GetCurrentRegionMapSectionId(), 0);
+    if (UseContinueGameWarp() == TRUE)
+        GetMapName(gStringVar4, MAPSEC_LITTLEROOT_TOWN, 0);
+    else
+        GetMapName(gStringVar4, GetCurrentRegionMapSectionId(), 0);
     AddTextPrinterParameterized3(2, FONT_OPTION, GetStringRightAlignXOffset(1, gStringVar4, 0xD0), 1, sTextColor_MenuInfo, -1, gStringVar4);
 }
 
