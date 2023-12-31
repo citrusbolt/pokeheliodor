@@ -836,7 +836,7 @@ static void BuyMenuDrawMapBg(void)
         {
             metatile = MapGridGetMetatileIdAt(x + i, y + j);
             if (BuyMenuCheckForOverlapWithMenuBg(i, j) == TRUE)
-                metatileLayerType = 0;
+                metatileLayerType = METATILE_LAYER_TYPE_NORMAL;
             else
                 metatileLayerType = METATILE_LAYER_TYPE_COVERED;
 
@@ -864,7 +864,7 @@ static void BuyMenuDrawMapMetatile(s16 x, s16 y, const u16 *src, u8 metatileLaye
     u16 offset1 = x * 2;
     u16 offset2 = y * 64;
 
-    if(metatileLayerType == 0)
+    if(metatileLayerType == METATILE_LAYER_TYPE_NORMAL)
     {
         BuyMenuDrawMapMetatileLayer(sShopData->tilemapBuffers[2], offset1, offset2, src + 0);
         BuyMenuDrawMapMetatileLayer(sShopData->tilemapBuffers[3], offset1, offset2, src + 4);
