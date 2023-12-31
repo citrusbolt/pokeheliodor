@@ -3952,12 +3952,17 @@ static void PrintNewMoveDetailsOrCancelText(void)
 
 static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2)
 {
-	u32 i;
+    u32 i;
 
-	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
+    FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
 
-	for (i = 0; i < MAX_MON_MOVES; i++)
-		PrintMoveNameAndPP(i);
+    for (i = 0; i < MAX_MON_MOVES; i++)
+        PrintMoveNameAndPP(i);
+
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, sText_Cancel, 64, 12, 0, 1);
+    ScheduleBgCopyTilemapToVram(0);
+    PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+    PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
 }
 
 static void ResetSpriteIds(void)
