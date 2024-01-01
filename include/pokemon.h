@@ -391,6 +391,50 @@ struct Evolution
 
 #define GET_SHINY_VALUE(otId, personality) (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality))
 
+
+enum
+{
+    PIDIV_METHOD_1,
+    PIDIV_METHOD_REVERSE_U,
+    PIDIV_METHOD_REVERSE_R,
+    PIDIV_METHOD_2,
+    PIDIV_METHOD_EGG,
+    PIDIV_METHOD_EGG_NATURE,
+    PIDIV_METHOD_EGG_GIFT,
+    PIDIV_METHOD_CXD,
+};
+
+enum
+{
+    GENERATE_SHINY_NORMAL,
+    GENERATE_SHINY_LOCKED,
+    GENERATE_SHINY_FORCED
+};
+
+struct PIDParameters
+{
+    u16 species;
+    u8 pidIVMethod;
+    u8 shinyLock;
+    u8 shinyRolls;
+    bool8 forceNature;
+    u8 nature;
+    bool8 forceGender;
+    u8 gender;
+    bool8 forceUnownLetter;
+    u8 unownLetter;
+};
+
+struct IVs
+{
+    u8 hp;
+    u8 atk;
+    u8 def;
+    u8 speed;
+    u8 spAtk;
+    u8 spDef;
+};
+
 extern u8 gPlayerPartyCount;
 extern struct Pokemon gPlayerParty[PARTY_SIZE];
 extern u8 gEnemyPartyCount;
@@ -416,10 +460,9 @@ void ZeroBoxMonData(struct BoxPokemon *boxMon);
 void ZeroMonData(struct Pokemon *mon);
 void ZeroPlayerPartyMons(void);
 void ZeroEnemyPartyMons(void);
+u32 GeneratePIDMaster(struct PIDParameters parameters, struct IVs *ivs);
 void CreateMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
 void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
-void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 nature);
-void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 gender, u8 nature, u8 unownLetter);
 void CreateMaleMon(struct Pokemon *mon, u16 species, u8 level);
 void CreateMonWithIVsPersonality(struct Pokemon *mon, u16 species, u8 level, u32 ivs, u32 personality);
 void CreateMonWithIVsOTID(struct Pokemon *mon, u16 species, u8 level, u8 *ivs, u32 otId);

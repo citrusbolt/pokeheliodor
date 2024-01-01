@@ -636,28 +636,64 @@ static void CreateWildMon(u16 species, u8 level, u8 partySlot)
 {
     bool32 checkCuteCharm;
     u8 version;
+    u32 personality;
+    struct PIDParameters parameters;
+    struct IVs ivs;
+
+    parameters.species = species;
+    parameters.pidIVMethod = PIDIV_METHOD_1;
+    parameters.shinyLock = GENERATE_SHINY_NORMAL;
+    parameters.shinyRolls = 1;
+    parameters.forceNature = TRUE;
+    parameters.nature = PickWildMonNature();
+    parameters.forceGender = FALSE;
+    parameters.gender = 0;
+    parameters.forceUnownLetter = FALSE;
+    parameters.unownLetter = 0;
 
     ZeroEnemyPartyMons();
-	checkCuteCharm = (gEncounterMode == ENCOUNTER_EMERALD);
-	
-	if (species == gLastEncounteredSpecies)
-	{
-		if (gChainStreak < 255)
-			gChainStreak++;
-	}
-	else
-	{
-		gChainStreak = 0;
-		gLastEncounteredSpecies = species;
-	}
+    checkCuteCharm = (gEncounterMode == ENCOUNTER_EMERALD);
+
+    if (gLastEncounteredSpecies == species)
+    {
+        if (gChainStreak < 255)
+            gChainStreak++;
+    }
+    else
+    {
+        gChainStreak = 0;
+        gLastEncounteredSpecies = species;
+    }
+
+    switch (gEncounterMode)
+    {
+        case ENCOUNTER_RUBY:
+            version = VERSION_RUBY;
+            break;
+        case ENCOUNTER_SAPPHIRE:
+            version = VERSION_SAPPHIRE;
+            break;
+        case ENCOUNTER_FIRERED:
+            version = VERSION_FIRERED;
+            break;
+        case ENCOUNTER_LEAFGREEN:
+            version = VERSION_LEAFGREEN;
+            break;
+        case ENCOUNTER_EMERALD:
+            version = VERSION_EMERALD;
+            break;
+        default:
+            version = VERSION_GAMECUBE;    // Shouldn't happen
+            break;
+    }
 
     switch (gSpeciesInfo[species].genderRatio)
     {
-    case MON_MALE:
-    case MON_FEMALE:
-    case MON_GENDERLESS:
-        checkCuteCharm = FALSE;
-        break;
+        case MON_MALE:
+        case MON_FEMALE:
+        case MON_GENDERLESS:
+            checkCuteCharm = FALSE;
+            break;
     }
 
     if (checkCuteCharm
@@ -667,93 +703,82 @@ static void CreateWildMon(u16 species, u8 level, u8 partySlot)
     {
         u16 leadingMonSpecies = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
         u32 leadingMonPersonality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
-        u8 gender = GetGenderFromSpeciesAndPersonality(leadingMonSpecies, leadingMonPersonality);
+
+        parameters.forceGender = TRUE;
+        parameters.gender = GetGenderFromSpeciesAndPersonality(leadingMonSpecies, leadingMonPersonality);
 
         // misses mon is genderless check, although no genderless mon can have cute charm as ability
-        if (gender == MON_FEMALE)
-            gender = MON_MALE;
+        if (parameters.gender == MON_FEMALE)
+            parameters.gender = MON_MALE;
         else
-            gender = MON_FEMALE;
-
-        CreateMonWithGenderNatureLetter(&gEnemyParty[partySlot], species, level, USE_RANDOM_IVS, gender, PickWildMonNature(), 0);
-        return;
+            parameters.gender = MON_FEMALE;
     }
 
-        switch (gEncounterMode)
-        {
-            case ENCOUNTER_RUBY:
-                version = VERSION_RUBY;
-                break;
-            case ENCOUNTER_SAPPHIRE:
-                version = VERSION_SAPPHIRE;
-                break;
-            case ENCOUNTER_FIRERED:
-                version = VERSION_FIRERED;
-                break;
-            case ENCOUNTER_LEAFGREEN:
-                version = VERSION_LEAFGREEN;
-                break;
-            case ENCOUNTER_EMERALD:
-                version = VERSION_EMERALD;
-                break;
-            default:
-                version = VERSION_GAMECUBE;    // Shouldn't happen
-                break;
-        }
-        
-    CreateMonWithNature(&gEnemyParty[partySlot], species, level, USE_RANDOM_IVS, PickWildMonNature());
+    personality = GeneratePIDMaster(parameters, &ivs);
+
+    CreateMon(&gEnemyParty[partySlot], species, level, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_HP_IV, &ivs.hp);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_ATK_IV, &ivs.atk);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_DEF_IV, &ivs.def);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_SPEED_IV, &ivs.speed);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_SPATK_IV, &ivs.spAtk);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_SPDEF_IV, &ivs.spDef);
     SetMonData(&gEnemyParty[partySlot], MON_DATA_MET_GAME, &version);
 }
 
-static void CreateWildUnown(u8 slot, u8 level)
+static void CreateWildUnown(u8 slot, u8 level, u8 partySlot)
 {
+    u8 version;
     u32 personality;
-	u8 chamber;
+    struct PIDParameters parameters;
+    struct IVs ivs;
+
+    parameters.species = SPECIES_UNOWN;
+    parameters.pidIVMethod = PIDIV_METHOD_REVERSE_U;
+    parameters.shinyLock = GENERATE_SHINY_NORMAL;
+    parameters.shinyRolls = 1;
+    parameters.forceNature = FALSE;
+    parameters.nature = 0;
+    parameters.forceGender = FALSE;
+    parameters.gender = 0;
+    parameters.forceUnownLetter = TRUE;
+    parameters.unownLetter = sUnownLetterSlots[(gSaveBlock1Ptr->location.mapNum - MAP_NUM(KANTO_SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)) % 6][slot];
 
     ZeroEnemyPartyMons();
-	
-	//chamber = (gSaveBlock1Ptr->location.mapNum - MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)) % 6;
-	chamber = VarGet(VAR_ALTERING_CAVE_WILD_SET) - 1;
-	personality = GenerateUnownPersonalityByLetter(sUnownLetterSlots[chamber][slot]);
-	CreateMon(&gEnemyParty[0], SPECIES_UNOWN, level, 32, TRUE, personality, FALSE, 0);
+
+    if (gLastEncounteredSpecies == SPECIES_UNOWN)
+    {
+        if (gChainStreak < 255)
+            gChainStreak++;
+    }
+    else
+    {
+        gChainStreak = 0;
+        gLastEncounteredSpecies = SPECIES_UNOWN;
+    }
+
+    switch (gEncounterMode)
+    {
+        case ENCOUNTER_LEAFGREEN:
+            version = VERSION_LEAFGREEN;
+            break;
+        default:
+            version = VERSION_FIRERED;
+            break;
+    }
+
+    personality = GeneratePIDMaster(parameters, &ivs);
+ 
+	CreateMon(&gEnemyParty[partySlot], SPECIES_UNOWN, level, USE_RANDOM_IVS, TRUE, personality, FALSE, 0);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_HP_IV, &ivs.hp);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_ATK_IV, &ivs.atk);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_DEF_IV, &ivs.def);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_SPEED_IV, &ivs.speed);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_SPATK_IV, &ivs.spAtk);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_SPDEF_IV, &ivs.spDef);
+    SetMonData(&gEnemyParty[partySlot], MON_DATA_MET_GAME, &version);
 }
 
-static u32 GenerateUnownPersonalityByLetter(u8 letter)
-{
-    u32 personality, shinyValue, otId;
-	u16 i = 0;
-	u8 rolls = 1;
-
-	if (HasAllMons())
-		rolls += SHINY_CHARM_REROLLS;
-	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-		rolls *= 2;
-
-    otId = gSaveBlock2Ptr->playerTrainerId[0]
-        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
-
-	do
-	{
-		do
-		{
-			personality = (Random() << 16) | Random(); //BACD_U: RNG method used for Unown in FRLG, testing shows results Unown as Method_2_Unown due to VBlank occuring between now and IV generation
-		} while (GetUnownLetterByPersonalityLoByte(personality) != letter);
-			
-		shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-		if (shinyValue < SHINY_ODDS)
-			break;
-		i++;
-	} while (i < rolls);
-
-    return personality;
-}
-
-static u8 GetUnownLetterByPersonalityLoByte(u32 personality)
-{
-    return (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 0x1C;
-}
 //TODO
 static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 flags)
 {
@@ -819,9 +844,7 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
         return FALSE;
 
 	if (wildMonInfo->wildPokemon[wildMonIndex].species == SPECIES_UNOWN)
-		CreateWildUnown(wildMonIndex, level);
-	else if (FlagGet(FLAG_UNOWN_RELEASED) && !FlagGet(FLAG_UNOWN_SETTLED) && Random() % 8 == 0)
-		CreateWildMon(SPECIES_UNOWN, 25, 0);
+		CreateWildUnown(wildMonIndex, level, 0);
 	else
 		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, 0);
     return TRUE;

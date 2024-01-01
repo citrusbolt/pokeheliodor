@@ -478,84 +478,51 @@ static s32 GetParentToInheritNature(struct DayCare *daycare)
 
 static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 {
-    u8 parent;
-	u32 personality;
-	u32 shinyValue, otId;
-    u16 i = 0;
-	u8 rolls = 1;
+    u32 parent;
+    u32 personality;
+    struct PIDParameters parameters;
 
-    SeedRng2(gMain.vblankCounter2);
+    parameters.species = SPECIES_NONE;
+    parameters.pidIVMethod = PIDIV_METHOD_EGG;
+    parameters.shinyLock = GENERATE_SHINY_NORMAL;
+    parameters.shinyRolls = 1;
+    parameters.forceNature = FALSE;
+    parameters.nature = 0;
+    parameters.forceGender = FALSE;
+    parameters.gender = 0;
+    parameters.forceUnownLetter = FALSE;
+    parameters.unownLetter = 0;
+
     parent = GetParentToInheritNature(daycare);
 
-	if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
-		rolls += MASUDA_METHOD_REROLLS;
-	if (HasAllMons())
-		rolls += SHINY_CHARM_REROLLS;
-	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-		rolls *= 2;
-
-    otId = gSaveBlock2Ptr->playerTrainerId[0]
-        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+    if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
+        parameters.shinyRolls += MASUDA_METHOD_REROLLS;
+    if (HasAllMons())
+        parameters.shinyRolls += SHINY_CHARM_REROLLS;
+    if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+        parameters.shinyRolls *= 2;
 
     // don't inherit nature
     if (parent > 1)
     {
-		do
-		{
-			personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
-			shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-			if (shinyValue < SHINY_ODDS)
-				break;
-			i++;
-		} while (i < rolls);
-
-        daycare->offspringPersonality = personality;
+        personality = GeneratePIDMaster(parameters, NULL);
     }
     // inherit nature
     else
     {
-        u8 wantedNature = GetNatureFromPersonality(GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_PERSONALITY, NULL));
-		u16 j = 0;
-		i = 0;
-
-		do
-		{
-			do
-			{
-				personality = (Random2() << 16) | (Random());
-				if (wantedNature == GetNatureFromPersonality(personality) && personality != 0)
-					break; // found a personality with the same nature
-				i++;
-			} while (i <= 0xFFFF);
-			shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-			if (shinyValue < SHINY_ODDS)
-				break;
-			j++;
-		} while (j < rolls);
-
-        daycare->offspringPersonality = personality;
+        parameters.pidIVMethod = PIDIV_METHOD_EGG_NATURE;
+        parameters.forceNature = TRUE;
+        parameters.nature = GetNatureFromPersonality(GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_PERSONALITY, NULL));
+        personality = GeneratePIDMaster(parameters, NULL);
     }
 
-    FlagSet(FLAG_PENDING_DAYCARE_EGG);
-}
-
-// Functionally unused
-static void _TriggerPendingDaycareMaleEgg(struct DayCare *daycare)
-{
-    daycare->offspringPersonality = (Random()) | (EGG_GENDER_MALE);
+    daycare->offspringPersonality = personality;
     FlagSet(FLAG_PENDING_DAYCARE_EGG);
 }
 
 void TriggerPendingDaycareEgg(void)
 {
     _TriggerPendingDaycareEgg(&gSaveBlock1Ptr->daycare);
-}
-
-static void UNUSED TriggerPendingDaycareMaleEgg(void)
-{
-    _TriggerPendingDaycareMaleEgg(&gSaveBlock1Ptr->daycare);
 }
 
 // Removes the selected index from the given IV list and shifts the remaining
@@ -917,33 +884,45 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
 {
     u8 metLevel, language, metLocation, isEgg;
     u16 ball;
-	u32 personality, shinyValue, otId;
-	u16 i = 0;
-	u8 rolls = 1;
-	
-	if (HasAllMons())
-		rolls += SHINY_CHARM_REROLLS;
-	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-		rolls *= 2;
+    u32 personality;
+    struct PIDParameters parameters;
+    struct IVs ivs;
 
-    otId = gSaveBlock2Ptr->playerTrainerId[0]
-        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+    parameters.species = SPECIES_NONE;
+    parameters.shinyLock = GENERATE_SHINY_NORMAL;
+    parameters.shinyRolls = 1;
+    parameters.forceNature = FALSE;
+    parameters.nature = 0;
+    parameters.forceGender = FALSE;
+    parameters.gender = 0;
+    parameters.forceUnownLetter = FALSE;
+    parameters.unownLetter = 0;
 
-	do
-	{
-		personality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
-		shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-		if (shinyValue < SHINY_ODDS)
-			break;
-		i++;
-	} while (i < rolls);
-	
-	if (species == SPECIES_WYNAUT)
-		CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
-	else
-		CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+    if (HasAllMons())
+        parameters.shinyRolls += SHINY_CHARM_REROLLS;
+    if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+        parameters.shinyRolls *= 2;
+
+
+    if (species == SPECIES_WYNAUT)
+    {
+        parameters.pidIVMethod = PIDIV_METHOD_1;
+        personality = GeneratePIDMaster(parameters, &ivs);
+    }
+    else
+    {
+        parameters.pidIVMethod = PIDIV_METHOD_EGG_GIFT;
+        personality = GeneratePIDMaster(parameters, &ivs);
+    }
+
+    CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+    SetMonData(mon, MON_DATA_HP_IV, &ivs.hp);
+    SetMonData(mon, MON_DATA_ATK_IV, &ivs.atk);
+    SetMonData(mon, MON_DATA_DEF_IV, &ivs.def);
+    SetMonData(mon, MON_DATA_SPEED_IV, &ivs.speed);
+    SetMonData(mon, MON_DATA_SPATK_IV, &ivs.spAtk);
+    SetMonData(mon, MON_DATA_SPDEF_IV, &ivs.spDef);
+
     metLevel = 0;
     ball = ITEM_POKE_BALL;
     language = LANGUAGE_JAPANESE;
@@ -952,7 +931,8 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
     SetMonData(mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].eggCycles);
     SetMonData(mon, MON_DATA_MET_LEVEL, &metLevel);
     SetMonData(mon, MON_DATA_LANGUAGE, &language);
-	SetMonData(mon, MON_DATA_MET_GAME, &gGameVersion);
+    SetMonData(mon, MON_DATA_MET_GAME, &gGameVersion);
+
     if (setHotSpringsLocation)
     {
         metLocation = METLOC_SPECIAL_EGG;
@@ -1710,284 +1690,267 @@ void HatchEggInIncubator()
 
 void GiveEventEgg(void)
 {
-	struct Pokemon mon;
-	u16 species, iv1, iv2, value;
-	u32 personality, shinyValue, otId;
-	u8 metLevel = 0;
-	u16 ball = ITEM_POKE_BALL;
-	u8 language = LANGUAGE_JAPANESE;
-	u8 metLocation = METLOC_FATEFUL_ENCOUNTER;
-	bool8 isEgg = TRUE;
-	u8 version = gGameVersion;
-	bool8 isFRLG = FALSE;
-	bool8 fatefulEncounter = TRUE;
-	u16 move0 = 0;
-	u16 move1 = 0;
-	u16 move2 = 0;
-	u16 move3 = 0;
-	u16 i = 0;
-	u8 rolls = 1;
-	
-	if (gSpecialVar_0x8004 > 28)
-		gSpecialVar_0x8004 = Random() % 29;
-	
-	switch (gSpecialVar_0x8004)
-	{
-		case 0:		//Egg Pokémon Present Eggs
-			species = SPECIES_ODDISH;
-			move0 = MOVE_ABSORB;
-			move1 = MOVE_LEECH_SEED;
-			isFRLG = TRUE;
-			break;
-		case 1:
-			species = SPECIES_MEOWTH;
-			move0 = MOVE_SCRATCH;
-			move1 = MOVE_GROWL;
-			move2 = MOVE_PETAL_DANCE;
-			isFRLG = TRUE;
-			break;
-		case 2:
-			species = SPECIES_POLIWAG;
-			move0 = MOVE_BUBBLE;
-			move1 = MOVE_SWEET_KISS;
-			isFRLG = TRUE;
-			break;
-		case 3:
-			species = SPECIES_BELLSPROUT;
-			move0 = MOVE_VINE_WHIP;
-			move1 = MOVE_TEETER_DANCE;
-			isFRLG = TRUE;
-			break;
-		case 4:		//PokéPark Eggs
-			species = SPECIES_PSYDUCK;
-			move0 = MOVE_WATER_SPORT;
-			move1 = MOVE_SCRATCH;
-			move2 = MOVE_TAIL_WHIP;
-			move3 = MOVE_MUD_SPORT;
-			break;
-		case 5:
-			species = SPECIES_PICHU;
-			move0 = MOVE_THUNDER_SHOCK;
-			move1 = MOVE_CHARM;
-			move2 = MOVE_FOLLOW_ME;
-			break;
-		case 6:
-			species = SPECIES_IGGLYBUFF;
-			move0 = MOVE_SING;
-			move1 = MOVE_CHARM;
-			move2 = MOVE_DEFENSE_CURL;
-			move3 = MOVE_TICKLE;
-			break;
-		case 7:
-			species = SPECIES_CORSOLA;
-			move0 = MOVE_TACKLE;
-			move1 = MOVE_MUD_SPORT;
-			break;
-		case 8:
-			species = SPECIES_TAILLOW;
-			move0 = MOVE_PECK;
-			move1 = MOVE_GROWL;
-			move2 = MOVE_FOCUS_ENERGY;
-			move3 = MOVE_FEATHER_DANCE;
-			break;
-		case 9:
-			species = SPECIES_SURSKIT;
-			move0 = MOVE_BUBBLE;
-			move1 = MOVE_MUD_SPORT;
-			break;
-		case 10:
-			species = SPECIES_WHISMUR;
-			move0 = MOVE_POUND;
-			move1 = MOVE_UPROAR;
-			move2 = MOVE_TEETER_DANCE;
-			break;
-		case 11:
-			species = SPECIES_SKITTY;
-			move0 = MOVE_GROWL;
-			move1 = MOVE_TACKLE;
-			move2 = MOVE_TAIL_WHIP;
-			move3 = MOVE_ROLLOUT;
-			break;
-		case 12:
-			species = SPECIES_PLUSLE;
-			move0 = MOVE_GROWL;
-			move1 = MOVE_THUNDER_WAVE;
-			move2 = MOVE_WATER_SPORT;
-			break;
-		case 13:
-			species = SPECIES_MINUN;
-			move0 = MOVE_GROWL;
-			move1 = MOVE_THUNDER_WAVE;
-			move2 = MOVE_MUD_SPORT;
-			break;
-		case 14:
-			species = SPECIES_SPOINK;
-			move0 = MOVE_SPLASH;
-			move1 = MOVE_UPROAR;
-			break;
-		case 15:
-			species = SPECIES_SPINDA;
-			move0 = MOVE_TACKLE;
-			move1 = MOVE_UPROAR;
-			move2 = MOVE_SING;
-			break;
-		case 16:
-			species = SPECIES_CACNEA;
-			move0 = MOVE_POISON_STING;
-			move1 = MOVE_LEER;
-			move2 = MOVE_ABSORB;
-			move3 = MOVE_ENCORE;
-			break;
-		case 17:
-			species = SPECIES_CORPHISH;
-			move0 = MOVE_BUBBLE;
-			move1 = MOVE_WATER_SPORT;
-			break;
-		case 18:
-			species = SPECIES_WYNAUT;
-			move0 = MOVE_SPLASH;
-			move1 = MOVE_CHARM;
-			move2 = MOVE_ENCORE;
-			move3 = MOVE_TICKLE;
-			break;
-		case 19:	//PCNY Wish Eggs
-			species = SPECIES_FARFETCHD;
-			move0 = MOVE_YAWN;
-			move1 = MOVE_WISH;
-			isFRLG = TRUE;
-			break;
-		case 20:
-			species = SPECIES_DROWZEE;
-			move0 = MOVE_BELLY_DRUM;
-			move1 = MOVE_WISH;
-			isFRLG = TRUE;
-			break;
-		case 21:
-			species = SPECIES_EXEGGCUTE;
-			move0 = MOVE_SWEET_SCENT;
-			move1 = MOVE_WISH;
-			isFRLG = TRUE;
-			break;
-		case 22:
-			species = SPECIES_LICKITUNG;
-			move0 = MOVE_HEAL_BELL;
-			move1 = MOVE_WISH;
-			isFRLG = TRUE;
-			break;
-		case 23:
-			species = SPECIES_CHANSEY;
-			move0 = MOVE_SWEET_SCENT;
-			move1 = MOVE_WISH;
-			isFRLG = TRUE;
-			break;
-		case 24:
-			species = SPECIES_KANGASKHAN;
-			move0 = MOVE_YAWN;
-			move1 = MOVE_WISH;
-			isFRLG = TRUE;
-			break;
-		case 25:	//Pokémon Box Ruby & Sapphire Eggs
-			species = SPECIES_SWABLU;
-			move0 = MOVE_PECK;
-			move1 = MOVE_GROWL;
-			move2 = MOVE_FALSE_SWIPE;
-			fatefulEncounter = FALSE;
-			break;
-		case 26:
-			species = SPECIES_ZIGZAGOON;
-			move0 = MOVE_TACKLE;
-			move1 = MOVE_GROWL;
-			move2 = MOVE_TAIL_WHIP;
-			move3 = MOVE_EXTREME_SPEED;
-			fatefulEncounter = FALSE;
-			break;
-		case 27:
-			species = SPECIES_SKITTY;
-			move0 = MOVE_TACKLE;
-			move1 = MOVE_GROWL;
-			move2 = MOVE_TAIL_WHIP;
-			move3 = MOVE_PAY_DAY;
-			fatefulEncounter = FALSE;
-			break;
-		case 28:
-			species = SPECIES_PICHU;
-			move0 = MOVE_THUNDER_SHOCK;
-			move1 = MOVE_CHARM;
-			move2 = MOVE_SURF;
-			fatefulEncounter = FALSE;
-			break;
-	}
-	
-	if (isFRLG)
-	{
-		if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
-			version = VERSION_LEAFGREEN;
-		else
-			version = VERSION_FIRERED;
-	}
-	
-	if (HasAllMons())
-		rolls += SHINY_CHARM_REROLLS;
-	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-		rolls *= 2;
+    struct Pokemon mon;
+    u16 species;
+    u32 personality;
+    struct PIDParameters parameters;
+    struct IVs ivs;
+    u8 metLevel = 0;
+    u16 ball = ITEM_POKE_BALL;
+    u8 language = LANGUAGE_JAPANESE;
+    u8 metLocation = METLOC_FATEFUL_ENCOUNTER;
+    bool8 isEgg = TRUE;
+    u8 version = gGameVersion;
+    bool8 isFRLG = FALSE;
+    bool8 fatefulEncounter = TRUE;
+    u16 move0 = 0;
+    u16 move1 = 0;
+    u16 move2 = 0;
+    u16 move3 = 0;
 
-	gDisableVBlankRNGAdvance = TRUE;
+    if (gSpecialVar_0x8004 > 28)
+        gSpecialVar_0x8004 = Random() % 29;
 
-    otId = gSaveBlock2Ptr->playerTrainerId[0]
-        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+    switch (gSpecialVar_0x8004)
+    {
+        case 0:		//Egg Pokémon Present Eggs
+            species = SPECIES_ODDISH;
+            move0 = MOVE_ABSORB;
+            move1 = MOVE_LEECH_SEED;
+            isFRLG = TRUE;
+            break;
+        case 1:
+            species = SPECIES_MEOWTH;
+            move0 = MOVE_SCRATCH;
+            move1 = MOVE_GROWL;
+            move2 = MOVE_PETAL_DANCE;
+            isFRLG = TRUE;
+            break;
+        case 2:
+            species = SPECIES_POLIWAG;
+            move0 = MOVE_BUBBLE;
+            move1 = MOVE_SWEET_KISS;
+            isFRLG = TRUE;
+            break;
+        case 3:
+            species = SPECIES_BELLSPROUT;
+            move0 = MOVE_VINE_WHIP;
+            move1 = MOVE_TEETER_DANCE;
+            isFRLG = TRUE;
+            break;
+        case 4:		//PokéPark Eggs
+            species = SPECIES_PSYDUCK;
+            move0 = MOVE_WATER_SPORT;
+            move1 = MOVE_SCRATCH;
+            move2 = MOVE_TAIL_WHIP;
+            move3 = MOVE_MUD_SPORT;
+            break;
+        case 5:
+            species = SPECIES_PICHU;
+            move0 = MOVE_THUNDER_SHOCK;
+            move1 = MOVE_CHARM;
+            move2 = MOVE_FOLLOW_ME;
+            break;
+        case 6:
+            species = SPECIES_IGGLYBUFF;
+            move0 = MOVE_SING;
+            move1 = MOVE_CHARM;
+            move2 = MOVE_DEFENSE_CURL;
+            move3 = MOVE_TICKLE;
+            break;
+        case 7:
+            species = SPECIES_CORSOLA;
+            move0 = MOVE_TACKLE;
+            move1 = MOVE_MUD_SPORT;
+            break;
+        case 8:
+            species = SPECIES_TAILLOW;
+            move0 = MOVE_PECK;
+            move1 = MOVE_GROWL;
+            move2 = MOVE_FOCUS_ENERGY;
+            move3 = MOVE_FEATHER_DANCE;
+            break;
+        case 9:
+            species = SPECIES_SURSKIT;
+            move0 = MOVE_BUBBLE;
+            move1 = MOVE_MUD_SPORT;
+            break;
+        case 10:
+            species = SPECIES_WHISMUR;
+            move0 = MOVE_POUND;
+            move1 = MOVE_UPROAR;
+            move2 = MOVE_TEETER_DANCE;
+            break;
+        case 11:
+            species = SPECIES_SKITTY;
+            move0 = MOVE_GROWL;
+            move1 = MOVE_TACKLE;
+            move2 = MOVE_TAIL_WHIP;
+            move3 = MOVE_ROLLOUT;
+            break;
+        case 12:
+            species = SPECIES_PLUSLE;
+            move0 = MOVE_GROWL;
+            move1 = MOVE_THUNDER_WAVE;
+            move2 = MOVE_WATER_SPORT;
+            break;
+        case 13:
+            species = SPECIES_MINUN;
+            move0 = MOVE_GROWL;
+            move1 = MOVE_THUNDER_WAVE;
+            move2 = MOVE_MUD_SPORT;
+            break;
+        case 14:
+            species = SPECIES_SPOINK;
+            move0 = MOVE_SPLASH;
+            move1 = MOVE_UPROAR;
+            break;
+        case 15:
+            species = SPECIES_SPINDA;
+            move0 = MOVE_TACKLE;
+            move1 = MOVE_UPROAR;
+            move2 = MOVE_SING;
+            break;
+        case 16:
+            species = SPECIES_CACNEA;
+            move0 = MOVE_POISON_STING;
+            move1 = MOVE_LEER;
+            move2 = MOVE_ABSORB;
+            move3 = MOVE_ENCORE;
+            break;
+        case 17:
+            species = SPECIES_CORPHISH;
+            move0 = MOVE_BUBBLE;
+            move1 = MOVE_WATER_SPORT;
+            break;
+        case 18:
+            species = SPECIES_WYNAUT;
+            move0 = MOVE_SPLASH;
+            move1 = MOVE_CHARM;
+            move2 = MOVE_ENCORE;
+            move3 = MOVE_TICKLE;
+            break;
+        case 19:	//PCNY Wish Eggs
+            species = SPECIES_FARFETCHD;
+            move0 = MOVE_YAWN;
+            move1 = MOVE_WISH;
+            isFRLG = TRUE;
+            break;
+        case 20:
+            species = SPECIES_DROWZEE;
+            move0 = MOVE_BELLY_DRUM;
+            move1 = MOVE_WISH;
+            isFRLG = TRUE;
+            break;
+        case 21:
+            species = SPECIES_EXEGGCUTE;
+            move0 = MOVE_SWEET_SCENT;
+            move1 = MOVE_WISH;
+            isFRLG = TRUE;
+            break;
+        case 22:
+            species = SPECIES_LICKITUNG;
+            move0 = MOVE_HEAL_BELL;
+            move1 = MOVE_WISH;
+            isFRLG = TRUE;
+            break;
+        case 23:
+            species = SPECIES_CHANSEY;
+            move0 = MOVE_SWEET_SCENT;
+            move1 = MOVE_WISH;
+            isFRLG = TRUE;
+            break;
+        case 24:
+            species = SPECIES_KANGASKHAN;
+            move0 = MOVE_YAWN;
+            move1 = MOVE_WISH;
+            isFRLG = TRUE;
+            break;
+        case 25:	//Pokémon Box Ruby & Sapphire Eggs
+            species = SPECIES_SWABLU;
+            move0 = MOVE_PECK;
+            move1 = MOVE_GROWL;
+            move2 = MOVE_FALSE_SWIPE;
+            fatefulEncounter = FALSE;
+            break;
+        case 26:
+            species = SPECIES_ZIGZAGOON;
+            move0 = MOVE_TACKLE;
+            move1 = MOVE_GROWL;
+            move2 = MOVE_TAIL_WHIP;
+            move3 = MOVE_EXTREME_SPEED;
+            fatefulEncounter = FALSE;
+            break;
+        case 27:
+            species = SPECIES_SKITTY;
+            move0 = MOVE_TACKLE;
+            move1 = MOVE_GROWL;
+            move2 = MOVE_TAIL_WHIP;
+            move3 = MOVE_PAY_DAY;
+            fatefulEncounter = FALSE;
+            break;
+        case 28:
+            species = SPECIES_PICHU;
+            move0 = MOVE_THUNDER_SHOCK;
+            move1 = MOVE_CHARM;
+            move2 = MOVE_SURF;
+            fatefulEncounter = FALSE;
+            break;
+    }
 
-	do
-	{
-		if (gSpecialVar_0x8004 < 25)
-		{
-			personality = Random32();					//ABDE - "Method 2"
-			Random();
-		}
-		else
-		{
-			personality = Random() << 16 | Random();	//BACD_U - "Reverse Method 1"
-		}
-		shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-		if (shinyValue < SHINY_ODDS)
-			break;
-		i++;
-	} while (i < rolls);
+    if (isFRLG)
+    {
+        if (CheckBagHasItem(ITEM_SAPPHIRE, 1))
+            version = VERSION_LEAFGREEN;
+        else
+            version = VERSION_FIRERED;
+    }
 
-	gDisableVBlankRNGAdvance = FALSE;
+    parameters.species = SPECIES_NONE;
 
-	iv1 = Random();
-	iv2 = Random();
-	
-	CreateMon(&mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
-	
-	value = iv1 & MAX_IV_MASK;
-	SetMonData(&mon, MON_DATA_HP_IV, &value);
-	value = (iv1 & (MAX_IV_MASK << 5)) >> 5;
-	SetMonData(&mon, MON_DATA_ATK_IV, &value);
-	value = (iv1 & (MAX_IV_MASK << 10)) >> 10;
-	SetMonData(&mon, MON_DATA_DEF_IV, &value);
-	value = iv2 & MAX_IV_MASK;
-	SetMonData(&mon, MON_DATA_SPEED_IV, &value);
-	value = (iv2 & (MAX_IV_MASK << 5)) >> 5;
-	SetMonData(&mon, MON_DATA_SPATK_IV, &value);
-	value = (iv2 & (MAX_IV_MASK << 10)) >> 10;
-	SetMonData(&mon, MON_DATA_SPDEF_IV, &value);
-	
-	SetMonData(&mon, MON_DATA_POKEBALL, &ball);
-	SetMonData(&mon, MON_DATA_NICKNAME, sJapaneseEggNickname);
-	SetMonData(&mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].eggCycles);
-	SetMonData(&mon, MON_DATA_MET_LEVEL, &metLevel);
-	SetMonData(&mon, MON_DATA_LANGUAGE, &language);
-	SetMonData(&mon, MON_DATA_MET_GAME, &version);
-	SetMonData(&mon, MON_DATA_MET_LOCATION, &metLocation);
-	SetMonData(&mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, &fatefulEncounter);
-	SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
-	SetMonMoveSlot(&mon, move0, 0);
-	SetMonMoveSlot(&mon, move1, 1);
-	SetMonMoveSlot(&mon, move2, 2);
-	SetMonMoveSlot(&mon, move3, 3);
-	
+    if (gSpecialVar_0x8004 < 25)
+        parameters.pidIVMethod = PIDIV_METHOD_2;
+    else
+        parameters.pidIVMethod = PIDIV_METHOD_REVERSE_U;
+
+    parameters.shinyLock = GENERATE_SHINY_NORMAL;
+    parameters.shinyRolls = 1;
+    parameters.forceNature = FALSE;
+    parameters.nature = 0;
+    parameters.forceGender = FALSE;
+    parameters.gender = 0;
+    parameters.forceUnownLetter = FALSE;
+    parameters.unownLetter = 0;
+
+    if (HasAllMons())
+        parameters.shinyRolls += SHINY_CHARM_REROLLS;
+    if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+        parameters.shinyRolls *= 2;
+
+    personality = GeneratePIDMaster(parameters, &ivs);
+
+    CreateMon(&mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+
+    SetMonData(&mon, MON_DATA_HP_IV, &ivs.hp);
+    SetMonData(&mon, MON_DATA_ATK_IV, &ivs.atk);
+    SetMonData(&mon, MON_DATA_DEF_IV, &ivs.def);
+    SetMonData(&mon, MON_DATA_SPEED_IV, &ivs.speed);
+    SetMonData(&mon, MON_DATA_SPATK_IV, &ivs.spAtk);
+    SetMonData(&mon, MON_DATA_SPDEF_IV, &ivs.spDef);
+
+    SetMonData(&mon, MON_DATA_POKEBALL, &ball);
+    SetMonData(&mon, MON_DATA_NICKNAME, sJapaneseEggNickname);
+    SetMonData(&mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].eggCycles);
+    SetMonData(&mon, MON_DATA_MET_LEVEL, &metLevel);
+    SetMonData(&mon, MON_DATA_LANGUAGE, &language);
+    SetMonData(&mon, MON_DATA_MET_GAME, &version);
+    SetMonData(&mon, MON_DATA_MET_LOCATION, &metLocation);
+    SetMonData(&mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, &fatefulEncounter);
+    SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
+    SetMonMoveSlot(&mon, move0, 0);
+    SetMonMoveSlot(&mon, move1, 1);
+    SetMonMoveSlot(&mon, move2, 2);
+    SetMonMoveSlot(&mon, move3, 3);
+
     gSpecialVar_Result = GiveMonToPlayer(&mon);
 }

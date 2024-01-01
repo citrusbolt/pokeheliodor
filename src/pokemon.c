@@ -2406,9 +2406,206 @@ void ZeroEnemyPartyMons(void)
         ZeroMonData(&gEnemyParty[i]);
 }
 
+static u32 GeneratePID(struct PIDParameters parameters)
+{
+    u32 pid, i;
+
+    if (parameters.pidIVMethod == PIDIV_METHOD_REVERSE_U)
+    {
+        pid = Random() << 16 | Random();
+    }
+    else if (parameters.pidIVMethod == PIDIV_METHOD_REVERSE_R)
+    {
+		SeedRng(gRngValue >> 16);
+		pid = Random() << 16 | Random();
+    }
+    else if (parameters.pidIVMethod == PIDIV_METHOD_2)
+    {
+		pid = Random32();
+        Random();
+    }
+    else if (parameters.pidIVMethod == PIDIV_METHOD_EGG)
+    {
+        SeedRng2(gMain.vblankCounter2);
+		pid = (Random2() << 16) | ((Random() % 0xfffe) + 1);
+    }
+    else if (parameters.pidIVMethod == PIDIV_METHOD_EGG_NATURE)
+    {
+        SeedRng2(gMain.vblankCounter2);
+		pid = (Random2() << 16) | (Random());
+    }
+    else if (parameters.pidIVMethod == PIDIV_METHOD_EGG_GIFT)
+    {
+        SeedRng2(gMain.vblankCounter2);
+		pid = (Random2() << 16) | ((Random() % 0xfffe) + 1);
+
+		for (i = 0; i < Random2(); i++)
+			Random();
+    }
+    else if (parameters.pidIVMethod == PIDIV_METHOD_CXD)
+    {
+		pid = (RandomCXD() << 16) | RandomCXD();
+    }
+    else
+    {
+        pid = Random32();
+    }
+
+    return pid;
+}
+
+static u32 GeneratePIDGenderNatureUnownLetter(struct PIDParameters parameters)
+{
+    u32 pid;
+
+    if (parameters.forceGender && parameters.forceNature && parameters.forceUnownLetter) // Never happens officially
+    {
+        do
+        {
+            pid = GeneratePID(parameters);
+        } while (GetNatureFromPersonality(pid) != parameters.nature
+              || GetGenderFromSpeciesAndPersonality(parameters.species, pid) != parameters.gender
+              || GET_UNOWN_LETTER(pid) != parameters.unownLetter);
+    }
+    else if (parameters.forceGender && parameters.forceNature)
+    {
+        do
+        {
+            pid = GeneratePID(parameters);
+        } while (GetNatureFromPersonality(pid) != parameters.nature
+              || GetGenderFromSpeciesAndPersonality(parameters.species, pid) != parameters.gender);
+    }
+    else if (parameters.forceNature)
+    {
+        do
+        {
+            pid = GeneratePID(parameters);
+        } while (GetNatureFromPersonality(pid) != parameters.nature);
+    }
+    else if (parameters.forceGender) // Never happens officially
+    {
+        do
+        {
+            pid = GeneratePID(parameters);
+        } while (GetGenderFromSpeciesAndPersonality(parameters.species, pid) != parameters.gender);
+    }
+    else if (parameters.forceUnownLetter)
+    {
+        do
+        {
+            pid = GeneratePID(parameters);
+        } while (GET_UNOWN_LETTER(pid) != parameters.unownLetter);
+    }
+    else if (parameters.forceGender && parameters.forceUnownLetter) // Never happens officially
+    {
+        do
+        {
+            pid = GeneratePID(parameters);
+        } while (GetGenderFromSpeciesAndPersonality(parameters.species, pid) != parameters.gender
+              || GET_UNOWN_LETTER(pid) != parameters.unownLetter);
+    }
+    else if (parameters.forceNature && parameters.forceUnownLetter) // Never happens officially
+    {
+        do
+        {
+            pid = GeneratePID(parameters);
+        } while (GetNatureFromPersonality(pid) != parameters.nature
+              || GET_UNOWN_LETTER(pid) != parameters.unownLetter);
+    }
+    else
+    {
+        pid = GeneratePID(parameters);
+    }
+
+    return pid;
+}
+
+u32 GeneratePIDMaster(struct PIDParameters parameters, struct IVs *ivs)
+{
+    u32 pid, i;
+    u16 iv1, iv2;
+    u32 tid = gSaveBlock2Ptr->playerTrainerId[0]
+           | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+           | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+           | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+    u32 rolls = parameters.shinyRolls;
+
+	gDisableVBlankRNGAdvance = TRUE;
+
+    if (parameters.pidIVMethod == PIDIV_METHOD_CXD)
+    {
+		SeedRngCXD(RtcGetSecondCount());
+		for (i = 0; i < Random(); i++)
+			RandomCXD();
+    }
+
+    if (parameters.shinyLock == GENERATE_SHINY_LOCKED)
+    {
+        do
+        {
+            if (parameters.pidIVMethod == PIDIV_METHOD_CXD && ivs != NULL)
+            {
+                iv1 = RandomCXD();
+                iv2 = RandomCXD();
+                RandomCXD();
+            }
+
+            pid = GeneratePIDGenderNatureUnownLetter(parameters);
+        } while (IsShinyOtIdPersonality(tid, pid));
+    }
+    else if (parameters.shinyLock == GENERATE_SHINY_FORCED)
+    {
+        do
+        {
+            if (parameters.pidIVMethod == PIDIV_METHOD_CXD && ivs != NULL)
+            {
+                iv1 = RandomCXD();
+                iv2 = RandomCXD();
+                RandomCXD();
+            }
+
+            pid = GeneratePIDGenderNatureUnownLetter(parameters);
+        } while (!IsShinyOtIdPersonality(tid, pid));
+    }
+    else
+    {
+        do
+        {
+            if (parameters.pidIVMethod == PIDIV_METHOD_CXD && ivs != NULL)
+            {
+                iv1 = RandomCXD();
+                iv2 = RandomCXD();
+                RandomCXD();
+            }
+
+            pid = GeneratePIDGenderNatureUnownLetter(parameters);
+            rolls--;
+        } while (IsShinyOtIdPersonality(tid, pid) && rolls > 0);
+    }
+
+    if (parameters.pidIVMethod != PIDIV_METHOD_CXD && ivs != NULL)
+    {
+        iv1 = Random();
+        iv2 = Random();
+    }
+
+    ivs->hp = iv1 & MAX_IV_MASK;
+    ivs->atk = (iv1 & (MAX_IV_MASK << 5)) >> 5;
+    ivs->def = (iv1 & (MAX_IV_MASK << 10)) >> 10;
+    ivs->speed = iv2 & MAX_IV_MASK;
+    ivs->spAtk = (iv2 & (MAX_IV_MASK << 5)) >> 5;
+    ivs->spDef = (iv2 & (MAX_IV_MASK << 10)) >> 10;
+
+	gDisableVBlankRNGAdvance = FALSE;
+
+    return pid;
+}
+
 void CreateMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
 {
     u32 mail;
+    struct PIDParameters parameters;
+
     ZeroMonData(mon);
     CreateBoxMon(&mon->box, species, level, fixedIV, hasFixedPersonality, fixedPersonality, otIdType, fixedOtId);
     SetMonData(mon, MON_DATA_LEVEL, &level);
@@ -2879,103 +3076,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     }
 
     GiveBoxMonInitialMoveset(boxMon);
-}
-
-void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 nature)
-{
-    u32 personality;
-	u32 shinyValue, otId;
-	u16 i = 0;
-	u16 rolls = 1;
-	
-	//if (HasAllMons())
-	//	rolls += SHINY_CHARM_REROLLS;
-	//if (species == gLastEncounteredSpecies)
-	//	rolls += gChainStreak;
-	//if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-	//	rolls *= 2;
-
-    otId = gSaveBlock2Ptr->playerTrainerId[0]
-        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
-
-	do
-	{
-		do
-		{
-			if (species == SPECIES_UNOWN)
-					personality = (Random() << 16) | Random();
-				else
-					personality = Random32();
-		}
-		while (nature != GetNatureFromPersonality(personality));
-		shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-		if (shinyValue < SHINY_ODDS)
-			break;
-		i++;
-	} while (i < rolls);
-
-    CreateMon(mon, species, level, fixedIV, TRUE, personality, OT_ID_PLAYER_ID, 0);
-}
-
-void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 gender, u8 nature, u8 unownLetter)
-{
-    u32 personality;
-	u32 shinyValue, otId;
-	u16 i = 0;
-	u16 rolls = 1;
-	
-	//if (HasAllMons())
-	//	rolls += SHINY_CHARM_REROLLS;
-	//if (species == gLastEncounteredSpecies)
-	//	rolls += gChainStreak;
-	//if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
-	//	rolls *= 2;
-
-    otId = gSaveBlock2Ptr->playerTrainerId[0]
-        | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-        | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-        | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
-
-    if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
-    {
-        u16 actualLetter;
-
-		do
-		{
-			do
-			{
-				if (species == SPECIES_UNOWN)
-					personality = (Random() << 16) | Random();
-				else
-					personality = Random32();
-				actualLetter = GET_UNOWN_LETTER(personality);
-			}
-			while (nature != GetNatureFromPersonality(personality) || gender != GetGenderFromSpeciesAndPersonality(species, personality) || actualLetter != unownLetter - 1);
-			shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-			if (shinyValue < SHINY_ODDS)
-				break;
-			i++;
-		} while (i < rolls);
-    }
-    else
-    {
-		do
-		{
-			do
-			{
-				personality = Random32();
-			}
-			while (nature != GetNatureFromPersonality(personality) || gender != GetGenderFromSpeciesAndPersonality(species, personality));
-			shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-			if (shinyValue < SHINY_ODDS)
-				break;
-			i++;
-		} while (i < rolls);
-    }
-
-    CreateMon(mon, species, level, fixedIV, TRUE, personality, OT_ID_PLAYER_ID, 0);
 }
 
 // This is only used to create Wally's Ralts.
