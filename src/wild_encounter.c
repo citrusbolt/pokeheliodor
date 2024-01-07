@@ -1064,9 +1064,9 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
             headerId = GetBattlePikeWildMonHeaderId();
             if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gBattlePikeWildMonHeaders[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gBattlePikeWildMonHeadersE[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
                 return FALSE;
-            else if (TryGenerateWildMon(gBattlePikeWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
+            else if (TryGenerateWildMon(gBattlePikeWildMonHeadersE[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
                 return FALSE;
             else if (!TryGenerateBattlePikeWildMon(TRUE))
                 return FALSE;
@@ -1079,9 +1079,9 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
             headerId = gSaveBlock2Ptr->frontier.curChallengeBattleNum;
             if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gBattlePyramidWildMonHeaders[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gBattlePyramidWildMonHeadersE[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
                 return FALSE;
-            else if (TryGenerateWildMon(gBattlePyramidWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
+            else if (TryGenerateWildMon(gBattlePyramidWildMonHeadersE[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
                 return FALSE;
 
             GenerateBattlePyramidWildMon();
@@ -3403,7 +3403,6 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
 		rolls *= 2;
-
 
     if (result == ENCOUNTER_SWARM)
     {

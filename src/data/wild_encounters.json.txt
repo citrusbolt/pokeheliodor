@@ -6,16 +6,16 @@
 {% if not existsIn(wild_encounter_field, "groups") %}
 ## for encounter_rate in wild_encounter_field.encounter_rates
 {% if loop.index == 0 %}
-#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} {{ encounter_rate }} {% else %}#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ subtract(loop.index, 1) }} + {{ encounter_rate }}{% endif %} {{ setVarInt(wild_encounter_field.type, loop.index) }}
+#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} {{ encounter_rate }} {% else %}#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ loop.index }} ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ subtract(loop.index, 1) }} + {{ encounter_rate }}{% endif %} {{ setVarInt(wild_encounter_field.type, loop.index) }}
 ## endfor
-#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_TOTAL (ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_SLOT_{{ getVar(wild_encounter_field.type) }})
+#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_TOTAL (ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_SLOT_{{ getVar(wild_encounter_field.type) }})
 {% else %}
 ## for field_subgroup_key, field_subgroup_subarray in wild_encounter_field.groups
 ## for field_subgroup_index in field_subgroup_subarray
 {% if loop.index == 0 %}
-#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }} {% else %}#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar("previous_slot") }} + {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }}{% endif %}{{ setVarInt(concat(wild_encounter_field.type, field_subgroup_key), field_subgroup_index) }}{{ setVarInt("previous_slot", field_subgroup_index) }}
+#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }} {% else %}#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ field_subgroup_index }} ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar("previous_slot") }} + {{ at(wild_encounter_field.encounter_rates, field_subgroup_index) }}{% endif %}{{ setVarInt(concat(wild_encounter_field.type, field_subgroup_key), field_subgroup_index) }}{{ setVarInt("previous_slot", field_subgroup_index) }}
 ## endfor
-#define ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_TOTAL (ENCOUNTER_CHANC_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar(concat(wild_encounter_field.type, field_subgroup_key)) }})
+#define ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_TOTAL (ENCOUNTER_CHANCE_{{ upper(wild_encounter_field.type) }}_{{ upper(field_subgroup_key) }}_SLOT_{{ getVar(concat(wild_encounter_field.type, field_subgroup_key)) }})
 ## endfor
 {% endif %}
 ## endfor
@@ -28,7 +28,7 @@
 const struct WildPokemon {{ encounter.base_label }}_LandMons[] =
 {
 ## for wild_mon in encounter.land_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 
@@ -38,7 +38,7 @@ const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsInfo = { {{encou
 const struct WildPokemon {{ encounter.base_label }}_WaterMons[] =
 {
 ## for wild_mon in encounter.water_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 
@@ -48,7 +48,7 @@ const struct WildPokemonInfo {{ encounter.base_label }}_WaterMonsInfo = { {{enco
 const struct WildPokemon {{ encounter.base_label }}_RockSmashMons[] =
 {
 ## for wild_mon in encounter.rock_smash_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 
@@ -58,7 +58,7 @@ const struct WildPokemonInfo {{ encounter.base_label }}_RockSmashMonsInfo = { {{
 const struct WildPokemon {{ encounter.base_label }}_FishingMons[] =
 {
 ## for wild_mon in encounter.fishing_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 
