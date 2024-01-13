@@ -1,6 +1,7 @@
 EventScript_PC::
 	lockall
 	setvar VAR_0x8004, PC_LOCATION_OTHER
+    setvar VAR_0x8005, FALSE
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
 	msgbox Text_BootUpPC, MSGBOX_DEFAULT
@@ -53,6 +54,7 @@ EventScript_AccessLanettesPC::
 	return
 
 EventScript_TurnOffPC::
+	goto_if_eq VAR_0x8005, TRUE, SecretBase_EventScript_PCShowMainMenu
 	setvar VAR_0x8004, PC_LOCATION_OTHER
 	playse SE_PC_OFF
 	special DoPCTurnOffEffect

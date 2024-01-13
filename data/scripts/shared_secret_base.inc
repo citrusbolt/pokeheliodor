@@ -48,6 +48,7 @@ SecretBase_EventScript_PCCancel::
 	end
 
 SecretBase_EventScript_PCMainMenuWithRegister::
+	goto_if_set FLAG_SECRET_BASE_PC_UPGRADED, SecretBase_EventScript_PCMainMenuWithRegisterUpgraded
 	multichoice 0, 0, MULTI_BASE_PC_WITH_REGISTRY, FALSE
 	switch VAR_RESULT
 	case 0, SecretBase_EventScript_PCDecorationMenu
@@ -57,13 +58,40 @@ SecretBase_EventScript_PCMainMenuWithRegister::
 	case MULTI_B_PRESSED, SecretBase_EventScript_PCTurnOff
 	end
 
+SecretBase_EventScript_PCMainMenuWithRegisterUpgraded::
+	multichoice 0, 0, MULTI_BASE_PC_WITH_REGISTRY_UPGRADED, FALSE
+	switch VAR_RESULT
+	case 0, SecretBase_EventScript_PCDecorationMenu
+	case 1, SecretBase_EventScript_NetworkPC
+	case 2, SecretBase_EventScript_PCPackUp
+	case 3, SecretBase_EventScript_PCRegistryMenu
+	case 4, SecretBase_EventScript_PCTurnOff
+	case MULTI_B_PRESSED, SecretBase_EventScript_PCTurnOff
+	end
+
 SecretBase_EventScript_PCMainMenuWithoutRegister::
+	goto_if_set FLAG_SECRET_BASE_PC_UPGRADED, SecretBase_EventScript_PCMainMenuWithoutRegisterUpgraded
 	multichoice 0, 0, MULTI_BASE_PC_NO_REGISTRY, FALSE
 	switch VAR_RESULT
 	case 0, SecretBase_EventScript_PCDecorationMenu
 	case 1, SecretBase_EventScript_PCPackUp
 	case 2, SecretBase_EventScript_PCTurnOff
 	case MULTI_B_PRESSED, SecretBase_EventScript_PCTurnOff
+	end
+
+SecretBase_EventScript_PCMainMenuWithoutRegisterUpgraded::
+	multichoice 0, 0, MULTI_BASE_PC_NO_REGISTRY_UPGRADED FALSE
+	switch VAR_RESULT
+	case 0, SecretBase_EventScript_PCDecorationMenu
+	case 1, SecretBase_EventScript_NetworkPC
+	case 2, SecretBase_EventScript_PCPackUp
+	case 3, SecretBase_EventScript_PCTurnOff
+	case MULTI_B_PRESSED, SecretBase_EventScript_PCTurnOff
+	end
+
+SecretBase_EventScript_NetworkPC::
+	setvar VAR_0x8005, TRUE
+	goto EventScript_PCMainMenu
 	end
 
 SecretBase_EventScript_PCPackUp::
@@ -95,6 +123,8 @@ SecretBase_EventScript_RecordMixingPC::
 	end
 
 SecretBase_EventScript_PCRegisterMenu::
+	special GetCurSecretBasePCUpgradeStatus
+	goto_if_eq VAR_RESULT, TRUE, SecretBase_EventScript_PCRegisterMenuUpgraded
 	message SecretBase_Text_WhatWouldYouLikeToDo
 	waitmessage
 	multichoice 0, 0, MULTI_REGISTER_MENU, FALSE
@@ -103,6 +133,19 @@ SecretBase_EventScript_PCRegisterMenu::
 	case 1, SecretBase_EventScript_PCRegistryMenu
 	case 2, SecretBase_EventScript_PCRegistryInfo
 	case 3, SecretBase_EventScript_PCTurnOff
+	case MULTI_B_PRESSED, SecretBase_EventScript_PCTurnOff
+	end
+
+SecretBase_EventScript_PCRegisterMenuUpgraded::
+	message SecretBase_Text_WhatWouldYouLikeToDo
+	waitmessage
+	multichoice 0, 0, MULTI_REGISTER_MENU_UPGRADED, FALSE
+	switch VAR_RESULT
+	case 0, SecretBase_EventScript_NetworkPC
+	case 1, SecretBase_EventScript_PCRegister
+	case 2, SecretBase_EventScript_PCRegistryMenu
+	case 3, SecretBase_EventScript_PCRegistryInfo
+	case 4, SecretBase_EventScript_PCTurnOff
 	case MULTI_B_PRESSED, SecretBase_EventScript_PCTurnOff
 	end
 
