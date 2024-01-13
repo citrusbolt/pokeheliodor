@@ -1342,7 +1342,7 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
                 case VERSION_EMERALD:
                     trueOrigin = ORIGIN_GAME_EMERALD;
                     break;
-                case VERSION_GAMECUBE:
+                case VERSION_COLOXD:
                     if (fatefulEncounter)
                         trueOrigin = ORIGIN_GAME_XD;
                     else
@@ -3134,7 +3134,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameJohto(metLocationString, sum->metLocation);
 		}
-		else if (sum->metGame == VERSION_GAMECUBE)
+		else if (sum->metGame == VERSION_COLOXD)
 		{
 			GetMapNameOrre(metLocationString, sum->metLocation, sum->fatefulEncounter);
 		}
@@ -3147,7 +3147,7 @@ static void BufferMonTrainerMemo(void)
 			GetMapNameHoennKanto(metLocationString, sum->metLocation);
 		}
 
-		if (sum->metGame == VERSION_GAMECUBE)
+		if (sum->metGame == VERSION_COLOXD)
 		{
 			if (sum->metLocation == METLOC_IN_GAME_TRADE)
             {
@@ -4837,7 +4837,7 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 		return REGION_JOHTO;
 	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
 		return REGION_SINNOH;
-	else if (originGame == VERSION_GAMECUBE)
+	else if (originGame == VERSION_COLOXD)
 		return REGION_ORRE;
 	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == MAPSEC_BIRTH_ISLAND || metLocation == MAPSEC_NAVEL_ROCK)
 		return REGION_KANTO;
