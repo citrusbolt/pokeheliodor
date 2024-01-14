@@ -2003,6 +2003,11 @@ static void Anim_GlowBlue(struct Sprite *sprite)
 
 static void Anim_GlowYellow(struct Sprite *sprite)
 {
+    HandleSetAffineData(sprite, 256, 256, 0);
+    sprite->x2 = 0;
+    sprite->y2 = 0;
+    ResetSpriteAfterAnim(sprite);
+
     GlowColor(RGB_YELLOW, 12, 2);
 }
 

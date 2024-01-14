@@ -2927,7 +2927,7 @@ static void SpriteCB_WildMonAnimate(struct Sprite *sprite)
 {
     if (!gPaletteFade.active)
     {
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1, TRUE);
     }
 }
 
@@ -3071,7 +3071,7 @@ void SpriteCB_OpponentMonFromBall(struct Sprite *sprite)
             if (HasTwoFramesAnimation(sprite->sSpeciesId))
                 StartSpriteAnim(sprite, 1);
         }
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1, FALSE);
     }
 }
 

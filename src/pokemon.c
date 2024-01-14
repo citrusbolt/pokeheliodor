@@ -7681,17 +7681,38 @@ static void Task_PokemonSummaryAnimateAfterDelay(u8 taskId)
     }
 }
 
-void BattleAnimateFrontSprite(struct Sprite *sprite, u16 species, bool8 noCry, u8 panMode)
+void BattleAnimateFrontSprite(struct Sprite *sprite, u16 species, bool8 noCry, u8 panMode, bool8 wildMon)
 {
+    u32 i, maxIVs = 0;
+
+    if (wildMon)
+    {
+        for (i = 0; i < 6; i++)
+        {
+            if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[sprite->data[2]]], MON_DATA_HP_IV + i) == MAX_PER_STAT_IVS)
+                maxIVs++;
+        }
+
+        if (maxIVs >= 2)
+            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, TRUE);
+        else
+            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+    }
     if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)))
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM);
+    {
+        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+    }
     else
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode);
+    {
+        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, FALSE);
+    }
 }
 
-void DoMonFrontSpriteAnimation(struct Sprite *sprite, u16 species, bool8 noCry, u8 panModeAnimFlag)
+void DoMonFrontSpriteAnimation(struct Sprite *sprite, u16 species, bool8 noCry, u8 panModeAnimFlag, bool8 highIVAnim)
 {
     s8 pan;
+    u8 taskId;
+
     switch (panModeAnimFlag & (u8)~SKIP_FRONT_ANIM) // Exclude anim flag to get pan mode
     {
     case 0:
@@ -7704,7 +7725,18 @@ void DoMonFrontSpriteAnimation(struct Sprite *sprite, u16 species, bool8 noCry, 
         pan = 0;
         break;
     }
-    if (panModeAnimFlag & SKIP_FRONT_ANIM)
+    if (highIVAnim)
+    {
+        PlayCry_ByMode(species, pan, CRY_MODE_HIGH_IVS);
+        if (HasTwoFramesAnimation(species))
+            StartSpriteAnim(sprite, 1);
+
+        taskId = CreateTask(Task_AnimateAfterDelay, 0);
+        STORE_PTR_IN_TASK(sprite, taskId, 0);
+        gTasks[taskId].sAnimId = ANIM_GLOW_YELLOW;
+        gTasks[taskId].sAnimDelay = 10;
+    }
+    else if (panModeAnimFlag & SKIP_FRONT_ANIM)
     {
         // No animation, only check if cry needs to be played
         if (!noCry)
@@ -7722,7 +7754,7 @@ void DoMonFrontSpriteAnimation(struct Sprite *sprite, u16 species, bool8 noCry, 
         if (sMonAnimationDelayTable[species - 1] != 0)
         {
             // Animation has delay, start delay task
-            u8 taskId = CreateTask(Task_AnimateAfterDelay, 0);
+            taskId = CreateTask(Task_AnimateAfterDelay, 0);
             STORE_PTR_IN_TASK(sprite, taskId, 0);
             gTasks[taskId].sAnimId = sMonFrontAnimIdsTable[species - 1];
             gTasks[taskId].sAnimDelay = sMonAnimationDelayTable[species - 1];
