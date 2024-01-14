@@ -4298,7 +4298,7 @@ extern const u32 gBattleAnimSpriteGfx_Orb[];
 extern const u32 gBattleAnimSpriteGfx_Sword[];
 extern const u32 gBattleAnimSpriteGfx_Seed[];
 extern const u32 gBattleAnimSpriteGfx_Explosion6[];
-//extern const u32 gBattleAnimSpriteGfx_PinkOrb[];
+extern const u32 gBattleAnimSpriteGfx_PinkOrb[];
 extern const u32 gBattleAnimSpriteGfx_Gust[];
 extern const u32 gBattleAnimSpriteGfx_IceCube[];
 extern const u32 gBattleAnimSpriteGfx_Spark2[];
