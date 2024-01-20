@@ -4,14 +4,16 @@ const struct MonCoords gTrainerBackPicCoords[] =
     [TRAINER_BACK_PIC_MAY] = {.size = 8, .y_offset = 4},
     [TRAINER_BACK_PIC_RED] = {.size = 8, .y_offset = 5},
     [TRAINER_BACK_PIC_LEAF] = {.size = 8, .y_offset = 5},
-    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN] = {.size = 8, .y_offset = 4},
-    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY] = {.size = 8, .y_offset = 4},
+    [TRAINER_BACK_PIC_RS_BRENDAN] = {.size = 8, .y_offset = 4},
+    [TRAINER_BACK_PIC_RS_MAY] = {.size = 8, .y_offset = 4},
     [TRAINER_BACK_PIC_WALLY] = {.size = 8, .y_offset = 4},
     [TRAINER_BACK_PIC_STEVEN] = {.size = 8, .y_offset = 4},
-    [TRAINER_BACK_PIC_EMERALD_BRENDAN] = {.size = 8, .y_offset = 4},
-    [TRAINER_BACK_PIC_EMERALD_MAY] = {.size = 8, .y_offset = 4},
+    [TRAINER_BACK_PIC_E_BRENDAN] = {.size = 8, .y_offset = 4},
+    [TRAINER_BACK_PIC_E_MAY] = {.size = 8, .y_offset = 4},
     [TRAINER_BACK_PIC_GOLD] = {.size = 8, .y_offset = 4},
     [TRAINER_BACK_PIC_KRIS] = {.size = 8, .y_offset = 4},
+    [TRAINER_BACK_PIC_RY_RED] = {.size = 8, .y_offset = 5},
+    [TRAINER_BACK_PIC_RY_LEAF] = {.size = 8, .y_offset = 5},
 };
 
 // this table goes functionally unused, since none of these pics are compressed
@@ -39,15 +41,15 @@ const struct CompressedSpriteSheet gTrainerBackPicTable[] =
         .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Leaf),
         .tag = TRAINER_BACK_PIC_LEAF,
     },
-    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN] = {
+    [TRAINER_BACK_PIC_RS_BRENDAN] = {
         .data = (const u32 *)gTrainerBackPic_RubySapphireBrendan,
         .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RubySapphireBrendan),
-        .tag = TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN,
+        .tag = TRAINER_BACK_PIC_RS_BRENDAN,
     },
-    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY] = {
+    [TRAINER_BACK_PIC_RS_MAY] = {
         .data = (const u32 *)gTrainerBackPic_RubySapphireMay,
         .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RubySapphireMay),
-        .tag = TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY,
+        .tag = TRAINER_BACK_PIC_RS_MAY,
     },
     [TRAINER_BACK_PIC_WALLY] = {
         .data = (const u32 *)gTrainerBackPic_Wally,
@@ -59,15 +61,15 @@ const struct CompressedSpriteSheet gTrainerBackPicTable[] =
         .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Steven),
         .tag = TRAINER_BACK_PIC_STEVEN,
     },
-    [TRAINER_BACK_PIC_EMERALD_BRENDAN] = {
+    [TRAINER_BACK_PIC_E_BRENDAN] = {
         .data = (const u32 *)gTrainerBackPic_EmeraldBrendan,
         .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_EmeraldBrendan),
-        .tag = TRAINER_BACK_PIC_EMERALD_BRENDAN,
+        .tag = TRAINER_BACK_PIC_E_BRENDAN,
     },
-    [TRAINER_BACK_PIC_EMERALD_MAY] = {
+    [TRAINER_BACK_PIC_E_MAY] = {
         .data = (const u32 *)gTrainerBackPic_EmeraldMay,
         .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_EmeraldMay),
-        .tag = TRAINER_BACK_PIC_EMERALD_MAY,
+        .tag = TRAINER_BACK_PIC_E_MAY,
     },
     [TRAINER_BACK_PIC_GOLD] = {
         .data = (const u32 *)gTrainerBackPic_Gold,
@@ -79,22 +81,34 @@ const struct CompressedSpriteSheet gTrainerBackPicTable[] =
         .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_Kris),
         .tag = TRAINER_BACK_PIC_KRIS,
     },
+    [TRAINER_BACK_PIC_RY_RED] = {
+        .data = (const u32 *)gTrainerBackPic_RechargedRed,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RechargedRed),
+        .tag = TRAINER_BACK_PIC_RY_RED,
+    },
+    [TRAINER_BACK_PIC_RY_LEAF] = {
+        .data = (const u32 *)gTrainerBackPic_RechargedLeaf,
+        .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RechargedLeaf),
+        .tag = TRAINER_BACK_PIC_LEAF,
+    },
 };
 
 #define TRAINER_BACK_PAL(trainerPic, pal) [TRAINER_BACK_PIC_##trainerPic] = {pal, TRAINER_BACK_PIC_##trainerPic}
 
 const struct CompressedSpritePalette gTrainerBackPicPaletteTable[] =
 {
-    TRAINER_BACK_PAL(BRENDAN, gTrainerPalette_Brendan),
-    TRAINER_BACK_PAL(MAY, gTrainerPalette_May),
+    TRAINER_BACK_PAL(BRENDAN, gTrainerBackPicPalette_Brendan),
+    TRAINER_BACK_PAL(MAY, gTrainerBackPicPalette_May),
     TRAINER_BACK_PAL(RED, gTrainerBackPicPalette_Red),
     TRAINER_BACK_PAL(LEAF, gTrainerBackPicPalette_Leaf),
-    TRAINER_BACK_PAL(RUBY_SAPPHIRE_BRENDAN, gTrainerPalette_RubySapphireBrendan),
-    TRAINER_BACK_PAL(RUBY_SAPPHIRE_MAY, gTrainerPalette_RubySapphireMay),
-    TRAINER_BACK_PAL(WALLY, gTrainerPalette_Wally),
-    TRAINER_BACK_PAL(STEVEN, gTrainerPalette_Steven),
-    TRAINER_BACK_PAL(EMERALD_BRENDAN, gTrainerPalette_EmeraldBrendan),
-    TRAINER_BACK_PAL(EMERALD_MAY, gTrainerPalette_EmeraldMay),
+    TRAINER_BACK_PAL(RS_BRENDAN, gTrainerBackPicPalette_RubySapphireBrendan),
+    TRAINER_BACK_PAL(RS_MAY, gTrainerBackPicPalette_RubySapphireMay),
+    TRAINER_BACK_PAL(WALLY, gTrainerBackPicPalette_Wally),
+    TRAINER_BACK_PAL(STEVEN, gTrainerBackPicPalette_Steven),
+    TRAINER_BACK_PAL(E_BRENDAN, gTrainerBackPicPalette_EmeraldBrendan),
+    TRAINER_BACK_PAL(E_MAY, gTrainerBackPicPalette_EmeraldMay),
     TRAINER_BACK_PAL(GOLD, gTrainerBackPicPalette_Gold),
     TRAINER_BACK_PAL(KRIS, gTrainerBackPicPalette_Kris),
+    TRAINER_BACK_PAL(RY_RED, gTrainerBackPicPalette_RechargedRed),
+    TRAINER_BACK_PAL(RY_LEAF, gTrainerBackPicPalette_RechargedLeaf),
 };

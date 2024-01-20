@@ -811,20 +811,6 @@ bool32 Link_AnyPartnersPlayingFRLG_JP(void)
     return FALSE;
 }
 
-bool32 Link_AllPartnersPlayingDXOrHeliodor(void)
-{
-	int i;
-	u8 nPlayers;
-	
-	nPlayers = GetLinkPlayerCount();
-	for (i = 0; i < nPlayers; i++)
-	{
-		if (!(gLinkPlayers[i].versionModifier == DEV_SOLITAIRI || gLinkPlayers[i].versionModifier == DEV_SHINY_DRAGON_HUNTER))
-			return FALSE;
-	}
-	return TRUE;
-}
-
 void OpenLinkTimed(void)
 {
     sPlayerDataExchangeStatus = EXCHANGE_NOT_STARTED;
@@ -1858,10 +1844,7 @@ u8 GetWirelessCommType(void)
 }
 
 void ConvertLinkPlayerName(struct LinkPlayer *player)
-{	
-	if ((((player->version & 0xC000) | ((player->version & 0x3F00) >> 8)) & 0xFF) == VERSION_HEARTGOLD)
-		player->versionModifier = DEV_SOLITAIRI_2;
-	
+{
     player->progressFlagsCopy = player->progressFlags; // ? Perhaps relocating for a longer name field
     ConvertInternationalString(player->name, player->language);
 }
@@ -2377,5 +2360,47 @@ void ResetRecvBuffer(void)
             for (k = 0; k < QUEUE_CAPACITY; k++)
                 gLink.recvQueue.data[i][j][k] = LINKCMD_NONE;
         }
+    }
+}
+
+u16 GetLinkVersion(u8 version, u8 versionModifier)
+{
+    switch (versionModifier)
+    {
+        case DEV_CITRUS_BOLT:
+            return LINK_VERSION_HELIODOR;
+        case DEV_JAIZU:
+            if (version == VERSION_EMERALD)
+                return LINK_VERSION_EMERALD_CROSS;
+            else if (version == VERSION_FIRERED)
+                return LINK_VERSION_RECHARGED_YELLOW;
+            break;
+    }
+
+    switch (version)
+    {
+        case VERSION_RUBY:
+        default:
+            return LINK_VERSION_RUBY;
+        case VERSION_SAPPHIRE:
+            return LINK_VERSION_SAPPHIRE;
+        case VERSION_COLOXD:
+            return LINK_VERSION_COLOXD;
+        case VERSION_FIRERED:
+            return LINK_VERSION_FIRERED;
+        case VERSION_LEAFGREEN:
+            return LINK_VERSION_LEAFGREEN;
+        case VERSION_EMERALD:
+            return LINK_VERSION_EMERALD;
+        case VERSION_DIAMOND:
+            return LINK_VERSION_DIAMOND;
+        case VERSION_PEARL:
+            return LINK_VERSION_PEARL;
+        case VERSION_PLATINUM:
+            return LINK_VERSION_PLATINUM;
+        case VERSION_HEARTGOLD:
+            return LINK_VERSION_HEARTGOLD;
+        case VERSION_SOULSILVER:
+            return LINK_VERSION_SOULSILVER;
     }
 }

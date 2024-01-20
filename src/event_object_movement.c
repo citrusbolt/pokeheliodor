@@ -627,6 +627,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Registeel,                 OW_PAL(OBJ_EVENT_GFX_REGISTEEL)},
     {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_CARRYING_BOX)},
     {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_FACING_AWAY)},
+    {gObjectEventPal_Red_RY,                    OW_PAL(OBJ_EVENT_GFX_RED_RY)},
     {NULL,                                      OBJ_EVENT_PAL_TAG_NONE},
 };
 

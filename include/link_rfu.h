@@ -82,12 +82,12 @@ struct RfuGameCompatibilityData
     u16 language:4;
     u16 hasNews:1;
     u16 hasCard:1;
-    u16 isCrystalDust:1;
+    u16 unused1:1;
     u16 canLinkNationally:1;
     u16 hasNationalDex:1;
     u16 gameClear:1;
     u16 version:4;
-    u16 unused:2;
+    u16 unused2:2;
     u8 playerTrainerId[2];
 };
 

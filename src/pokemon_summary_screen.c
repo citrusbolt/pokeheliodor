@@ -280,7 +280,6 @@ static bool8 DoesMonOTMatchOwner(void);
 static bool8 DidMonComeFromGBAGames(void);
 static bool8 DidMonComeFromRSE(void);
 static bool8 DidMonComeFromFRLG(void);
-static bool8 DidMonComeFromCD(void);
 static bool8 DidMonComeFromDPPt(void);
 static bool8 IsInGamePartnerMon(void);
 static void PrintEggOTID(void);
@@ -1289,7 +1288,7 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
 {
     u8 trueOrigin = 0xFF;
 
-    if (versionModifier == DEV_SOLITAIRI && metGame != VERSION_PLATINUM)
+    if (versionModifier == DEV_CITRUS_BOLT && metGame != VERSION_PLATINUM)
     {
         trueOrigin = ORIGIN_GAME_HELIODOR;
     }
@@ -3130,10 +3129,6 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameHoennKanto(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if (DidMonComeFromCD() && sum->metLocation < KANTO_MAPSEC_START)
-		{
-			GetMapNameJohto(metLocationString, sum->metLocation);
-		}
 		else if (sum->metGame == VERSION_COLOXD)
 		{
 			GetMapNameOrre(metLocationString, sum->metLocation, sum->fatefulEncounter);
@@ -3371,16 +3366,6 @@ static bool8 DidMonComeFromFRLG(void)
     return FALSE;
 }
 
-static bool8 DidMonComeFromCD(void)
-{
-    struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame == VERSION_HEARTGOLD)	//CrystalDust uses HeartGold's game ID
-        return TRUE;
-	if (sum->metGame == VERSION_FIRERED && sum->versionModifier == DEV_SOLITAIRI_2)	//Solitairi fork of CrystalDust
-		return TRUE;
-    return FALSE;
-}
-
 static bool8 DidMonComeFromDPPt(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
@@ -3452,14 +3437,8 @@ static void BufferEggMemo(void)
 				text = gText_TrainerMemo_EggFromTraveler;
 			else if (DidMonComeFromRSE())
 				text = gText_TrainerMemo_EggFromHotSprings;
-			else if (DidMonComeFromCD())
-				text = gText_TrainerMemo_EggFromElm;
 			else
 				text = gText_TrainerMemo_EggFromTraveler;
-		}
-		else if (sum->metLocation == MAPSEC_GOLDENROD_CITY && DidMonComeFromCD())
-		{
-			text = gText_TrainerMemo_EggFromPokecomCenter;
 		}
         else if (sum->metLocation == MAPSEC_SILPH_CO)
         {
@@ -3469,10 +3448,6 @@ static void BufferEggMemo(void)
 		else if (DidMonComeFromFRLG())
 		{
 			text = gText_TrainerMemo_EggFromKanto;
-		}
-		else if (DidMonComeFromCD())
-		{
-			text= gText_TrainerMemo_EggFromJohto;
 		}
 		else
 		{
@@ -4831,11 +4806,7 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
 	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
 
-	if (versionModifier == DEV_SOLITAIRI_2 && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
+	if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
 		return REGION_SINNOH;
 	else if (originGame == VERSION_COLOXD)
 		return REGION_ORRE;

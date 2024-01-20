@@ -378,6 +378,14 @@ static const union AnimCmd *const sAnims_Kris[] ={
     sAnim_GeneralFrame0,
 };
 
+static const union AnimCmd *const sAnims_RechargedRed[] ={
+    sAnim_GeneralFrame0,
+};
+
+static const union AnimCmd *const sAnims_RechargedLeaf[] ={
+    sAnim_GeneralFrame0,
+};
+
 const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[] =
 {
     [TRAINER_PIC_HIKER] = sAnims_Hiker,
@@ -477,4 +485,6 @@ const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[] =
     [TRAINER_PIC_E_MAY] = sAnims_May,
     [TRAINER_PIC_GOLD] = sAnims_Gold,
     [TRAINER_PIC_KRIS] = sAnims_Kris,
+    [TRAINER_PIC_RY_RED] = sAnims_RechargedRed,
+    [TRAINER_PIC_RY_LEAF] = sAnims_RechargedLeaf,
 };

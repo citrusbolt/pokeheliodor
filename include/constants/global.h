@@ -60,12 +60,26 @@
 // The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
 // so that they do not have to requisition a new ID for every project
 #define DEV_GAME_FREAK              0
-#define DEV_SOLITAIRI               1	// 3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, 12-1, and 15-1 for legality purposes
+#define DEV_CITRUS_BOLT             1	// 3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, 12-1, and 15-1 for legality purposes
 #define DEV_SHINY_DRAGON_HUNTER     2	// 4-2 is FireRed DX and 5-2 is LeafGreen DX
-#define DEV_SOLITAIRI_2             3	// 4-3 is modified CrystalDust          // Once we drop CD, this will be reserved as DEV_ASPARAGUS_EDUARDO
+#define DEV_ASPARAGUS_EDUARDO       3	// Reserved.
 #define DEV_JAIZU                   4   // 3-4 is Emerald Cross, 4-4 is Recharged Yellow
 #define DEV_BOX_RS                  5   // Force this tag upon Box Eggs to track them once they are hatched
-#define DEV_TEST                    255
+
+#define LINK_VERSION_RUBY               0
+#define LINK_VERSION_SAPPHIRE           1
+#define LINK_VERSION_COLOXD             2
+#define LINK_VERSION_FIRERED            3
+#define LINK_VERSION_LEAFGREEN          4
+#define LINK_VERSION_EMERALD            5
+#define LINK_VERSION_DIAMOND            6
+#define LINK_VERSION_PEARL              7
+#define LINK_VERSION_PLATINUM           8
+#define LINK_VERSION_HEARTGOLD          9
+#define LINK_VERSION_SOULSILVER         10
+#define LINK_VERSION_HELIODOR           11
+#define LINK_VERSION_EMERALD_CROSS      12
+#define LINK_VERSION_RECHARGED_YELLOW   13
 
 #define LANGUAGE_UNKNOWN    0
 #define LANGUAGE_JAPANESE   1
@@ -85,7 +99,7 @@
 
 #define GAME_VERSION        (VERSION_EMERALD)
 #define GAME_LANGUAGE       (LANGUAGE_ENGLISH)
-#define VERSION_MODIFIER    (DEV_SOLITAIRI)
+#define VERSION_MODIFIER    (DEV_CITRUS_BOLT)
 
 // party sizes
 #define PARTY_SIZE 6

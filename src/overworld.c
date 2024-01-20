@@ -67,6 +67,7 @@
 #include "constants/songs.h"
 #include "constants/trainer_hill.h"
 #include "constants/weather.h"
+#include "constants/event_objects.h"
 
 struct CableClubPlayer
 {
@@ -3174,42 +3175,46 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
     u8 objEventId = linkPlayerObjEvent->objEventId;
     struct ObjectEvent *objEvent = &gObjectEvents[objEventId];
     struct Sprite *sprite;
-	bool8 foundMatch = FALSE;
 	
 	if (linkPlayerObjEvent->active)
 	{
-		switch (versionModifier)
-		{
-			case DEV_SOLITAIRI:
-				if (gameVersion == VERSION_EMERALD)
-				{
-					foundMatch = TRUE;
-					objEvent->spriteId = CreateObjectGraphicsSprite(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-				}
-				break;
-			case DEV_SOLITAIRI_2:
-				if (gameVersion == VERSION_FIRERED)
-				{
-					foundMatch = TRUE;
-					objEvent->spriteId = CreateObjectGraphicsSprite(GetCDAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-				}
-				break;
-			case DEV_TEST:
-					foundMatch = TRUE;
-					objEvent->spriteId = CreateObjectGraphicsSprite(GetTestAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-				break;
-		}
-		
-		if (!foundMatch)
-		{
-			if (gameVersion == VERSION_RUBY || gameVersion == VERSION_SAPPHIRE)
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetRSAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-			else if (gameVersion == VERSION_FIRERED || gameVersion == VERSION_LEAFGREEN)
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-			else if (gameVersion == VERSION_EMERALD)
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetEmeraldAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-		}
-	
+        switch (GetLinkVersion(gameVersion, versionModifier))
+        {
+            case LINK_VERSION_RUBY:
+            case LINK_VERSION_SAPPHIRE:
+            default:
+                if (linkGender(objEvent) == MALE)
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_RS, SpriteCB_LinkPlayer, 0, 0, 0);
+                else
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_RS, SpriteCB_LinkPlayer, 0, 0, 0);
+                break;
+            case LINK_VERSION_FIRERED:
+            case LINK_VERSION_LEAFGREEN:
+                if (linkGender(objEvent) == MALE)
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_RED, SpriteCB_LinkPlayer, 0, 0, 0);
+                else
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_LEAF, SpriteCB_LinkPlayer, 0, 0, 0);
+                break;
+            case LINK_VERSION_EMERALD:
+                if (linkGender(objEvent) == MALE)
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_GREEN, SpriteCB_LinkPlayer, 0, 0, 0);
+                else
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_GREEN, SpriteCB_LinkPlayer, 0, 0, 0);
+                break;
+            case LINK_VERSION_HELIODOR:
+                if (linkGender(objEvent) == MALE)
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_NORMAL, SpriteCB_LinkPlayer, 0, 0, 0);
+                else
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_NORMAL, SpriteCB_LinkPlayer, 0, 0, 0);
+                break;
+            case LINK_VERSION_RECHARGED_YELLOW:
+                if (linkGender(objEvent) == MALE)
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_RED_RY, SpriteCB_LinkPlayer, 0, 0, 0);
+                else
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_LEAF_RY, SpriteCB_LinkPlayer, 0, 0, 0);
+                break;
+        }
+
 		sprite = &gSprites[objEvent->spriteId];
 		sprite->coordOffsetEnabled = TRUE;
 		sprite->data[0] = linkPlayerId;

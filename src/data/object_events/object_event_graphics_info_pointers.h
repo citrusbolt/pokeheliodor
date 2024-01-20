@@ -285,6 +285,8 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayRed;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayBlue;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayGreen;
 
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Red_RY;
+
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Wes;
 
 
