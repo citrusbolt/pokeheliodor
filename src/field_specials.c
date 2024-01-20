@@ -3291,7 +3291,7 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
                 {
                     FreeSpriteTilesByTag(5500);
                     FreeSpritePaletteByTag(5500);
-                    sScrollableMultichoice_ItemSpriteId = AddDecorationIconObject(sFrontierExchangeCorner_Decor1[selection], 33, 88, 0, 5500, 5500);
+                    sScrollableMultichoice_ItemSpriteId = AddDecorationIconObject(sFrontierExchangeCorner_Decor1[selection], 33, 88, 0, 5500, 5500, FALSE);
                 }
                 break;
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_2:
@@ -3304,7 +3304,7 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
                 {
                     FreeSpriteTilesByTag(5500);
                     FreeSpritePaletteByTag(5500);
-                    sScrollableMultichoice_ItemSpriteId = AddDecorationIconObject(sFrontierExchangeCorner_Decor2[selection], 33, 88, 0, 5500, 5500);
+                    sScrollableMultichoice_ItemSpriteId = AddDecorationIconObject(sFrontierExchangeCorner_Decor2[selection], 33, 88, 0, 5500, 5500, FALSE);
                 }
                 break;
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_STONE_VENDOR:
@@ -3318,7 +3318,7 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
             case SCROLL_MULTI_COUPON_EXCHANGE:
                 AddTextPrinterParameterized2(0, FONT_OPTION, sCouponExchange_Descriptions[selection], 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
 				if (sCouponExchange[selection] == DECOR_REGIROCK_DOLL || sCouponExchange[selection] == DECOR_REGICE_DOLL || sCouponExchange[selection] == DECOR_REGISTEEL_DOLL)
-					sScrollableMultichoice_ItemSpriteId = AddDecorationIconObject(sCouponExchange[selection], 33, 88, 0, 5500, 5500);
+					sScrollableMultichoice_ItemSpriteId = AddDecorationIconObject(sCouponExchange[selection], 33, 88, 0, 5500, 5500, FALSE);
 				else
 					ShowFrontierExchangeCornerItemIcon(sCouponExchange[selection]);
                 break;

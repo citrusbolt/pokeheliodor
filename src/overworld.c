@@ -3184,34 +3184,34 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
             case LINK_VERSION_SAPPHIRE:
             default:
                 if (linkGender(objEvent) == MALE)
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_RS, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_RS, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 else
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_RS, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_RS, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 break;
             case LINK_VERSION_FIRERED:
             case LINK_VERSION_LEAFGREEN:
                 if (linkGender(objEvent) == MALE)
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_RED, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_RED, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 else
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_LEAF, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_LEAF, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 break;
             case LINK_VERSION_EMERALD:
                 if (linkGender(objEvent) == MALE)
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_GREEN, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_GREEN, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 else
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_GREEN, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_GREEN, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 break;
             case LINK_VERSION_HELIODOR:
                 if (linkGender(objEvent) == MALE)
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_NORMAL, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_BRENDAN_NORMAL, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 else
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_NORMAL, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_MAY_NORMAL, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 break;
             case LINK_VERSION_RECHARGED_YELLOW:
                 if (linkGender(objEvent) == MALE)
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_RED_RY, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_RED_RY, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 else
-                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_LEAF_RY, SpriteCB_LinkPlayer, 0, 0, 0);
+                    objEvent->spriteId = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_LEAF_RY, SpriteCB_LinkPlayer, 0, 0, 0, TRUE);
                 break;
         }
 

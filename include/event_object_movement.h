@@ -35,7 +35,7 @@
 #define OBJ_EVENT_PAL_TAG_TREE_2                  0x111D
 #define OBJ_EVENT_PAL_TAG_TREE_3                  0x111E
 #define OBJ_EVENT_PAL_TAG_TREE_4                  0x111F
-#define OBJ_EVENT_PAL_TAG_NONE                    0x14FF
+#define OBJ_EVENT_PAL_TAG_NONE                    0x1FFF
 
 #define OW_PAL(gfxId) (gfxId + 0x1200)
 
@@ -131,7 +131,7 @@ void SetSpritePosToOffsetMapCoords(s16 *x, s16 *y, s16 dx, s16 dy);
 void ObjectEventClearHeldMovement(struct ObjectEvent *);
 void ObjectEventClearHeldMovementIfActive(struct ObjectEvent *);
 void TrySpawnObjectEvents(s16 cameraX, s16 cameraY);
-u8 CreateObjectGraphicsSprite(u16, void (*)(struct Sprite *), s16 x, s16 y, u8 subpriority);
+u8 CreateObjectGraphicsSprite(u16, void (*)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 tintPalette);
 u8 TrySpawnObjectEvent(u8 localId, u8 mapNum, u8 mapGroup);
 u8 SpawnSpecialObjectEventParameterized(u16 graphicsId, u8 movementBehavior, u8 localId, s16 x, s16 y, u8 elevation);
 u8 SpawnSpecialObjectEvent(struct ObjectEventTemplate *);

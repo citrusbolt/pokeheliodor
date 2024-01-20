@@ -1498,17 +1498,30 @@ static void MakeSpriteTemplateFromObjectEventTemplate(const struct ObjectEventTe
 }
 
 // Used to create a sprite using a graphicsId associated with object events.
-u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority)
+u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 tintPalette)
 {
     struct SpriteTemplate *spriteTemplate;
     const struct SubspriteTable *subspriteTables;
     struct Sprite *sprite;
+    struct SpritePalette duplicatePalette;
     u8 spriteId;
 
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, callback, spriteTemplate, &subspriteTables);
-    LoadObjectEventPalette(spriteTemplate->paletteTag);
-    PatchObjectPalette(spriteTemplate->paletteTag, IndexOfSpritePaletteTag(spriteTemplate->paletteTag));
+
+    if (tintPalette)
+    {
+        LoadObjectEventPalette(spriteTemplate->paletteTag);
+        PatchObjectPalette(spriteTemplate->paletteTag, IndexOfSpritePaletteTag(spriteTemplate->paletteTag));
+    }
+    else
+    {
+        duplicatePalette.data = sObjectEventSpritePalettes[FindObjectEventPaletteIndexByTag(spriteTemplate->paletteTag)].data;
+        duplicatePalette.tag = spriteTemplate->paletteTag + 0x200;
+        LoadSpritePaletteIfTagExists(&duplicatePalette);
+        spriteTemplate->paletteTag += 0x200;
+    }
+
     UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate->paletteTag), COLOR_MAP_CONTRAST);
 
     spriteId = CreateSprite(spriteTemplate, x, y, subpriority);
