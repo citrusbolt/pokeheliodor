@@ -37,7 +37,7 @@
 #define OBJ_EVENT_PAL_TAG_TREE_4                  0x111F
 #define OBJ_EVENT_PAL_TAG_NONE                    0x1FFF
 
-#define OW_PAL(gfxId) (gfxId + 0x1200)
+#define OW_PAL(gfxId) (gfxId + 0x1300)
 
 enum SpinnerRunnerFollowPatterns
 {

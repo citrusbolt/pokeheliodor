@@ -13,11 +13,14 @@
 #include "task.h"
 #include "trig.h"
 #include "gpu_regs.h"
+#include "rtc.h"
 
 EWRAM_DATA static u8 sCurrentAbnormalWeather = 0;
 EWRAM_DATA static u16 sUnusedWeatherRelated = 0;
 
 const u16 gCloudsWeatherPalette[] = INCBIN_U16("graphics/weather/cloud.gbapal");
+const u16 gCloudsSunsetWeatherPalette[] = INCBIN_U16("graphics/weather/cloud_sunset.gbapal");
+const u16 gCloudsTransitionWeatherPalette[] = INCBIN_U16("graphics/weather/cloud_transition.gbapal");
 const u16 gSandstormWeatherPalette[] = INCBIN_U16("graphics/weather/sandstorm.gbapal");
 const u8 gWeatherFogDiagonalTiles[] = INCBIN_U8("graphics/weather/fog_diagonal.4bpp");
 const u8 gWeatherFogHorizontalTiles[] = INCBIN_U8("graphics/weather/fog_horizontal.4bpp");
@@ -31,6 +34,8 @@ const u8 gWeatherSandstormTiles[] = INCBIN_U8("graphics/weather/sandstorm.4bpp")
 
 const struct SpritePalette sFogSpritePalette = {gFogPalette, 0x1201};
 const struct SpritePalette sCloudsSpritePalette = {gCloudsWeatherPalette, 0x1207};
+const struct SpritePalette sCloudsSunsetSpritePalette = {gCloudsSunsetWeatherPalette, 0x1207};
+const struct SpritePalette sCloudsTransitionSpritePalette = {gCloudsTransitionWeatherPalette, 0x1207};
 const struct SpritePalette sSandstormSpritePalette = {gSandstormWeatherPalette, 0x1204};
 
 //------------------------------------------------------------------------------
@@ -45,7 +50,7 @@ static void UpdateCloudSprite(struct Sprite *);
 // These coordinates are for the lower half of Route 120.
 static const struct Coords16 sCloudSpriteMapCoords[] =
 {
-    { 0, 66},
+    { 0, 67},
     { 5, 73},
     {10, 78},
 };
@@ -184,7 +189,16 @@ static void CreateCloudSprites(void)
         return;
 
     LoadSpriteSheet(&sCloudSpriteSheet);
-    LoadCustomWeatherSpritePalette(&sCloudsSpritePalette);
+
+    if (gLocalTime.hours == 17 && gLocalTime.minutes <= 30)
+        LoadCustomWeatherSpritePalette(&sCloudsTransitionSpritePalette);
+    else if (gLocalTime.hours == 19 && gLocalTime.minutes >= 30)
+        LoadCustomWeatherSpritePalette(&sCloudsTransitionSpritePalette);
+    else if (gLocalTime.hours >= 17 && gLocalTime.hours < 20)
+        LoadSpritePalette(&sCloudsSunsetSpritePalette);
+    else
+        LoadCustomWeatherSpritePalette(&sCloudsSpritePalette);
+
     for (i = 0; i < NUM_CLOUD_SPRITES; i++)
     {
         spriteId = CreateSprite(&sCloudSpriteTemplate, 0, 0, 0xFF);
