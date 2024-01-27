@@ -695,7 +695,7 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
     }
 }
 
-static void MarkFogSpritePalToLighten(u8 paletteIndex)
+void MarkFogSpritePalToLighten(u8 paletteIndex)
 {
     if (gWeatherPtr->lightenedFogSpritePalsCount < 6)
     {
@@ -841,7 +841,7 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex)
         {
             ApplyColorMap(paletteIndex, 1, gWeatherPtr->colorMapIndex);
         }
-        else
+        else if (LightenSpritePaletteInFog(paletteIndex))
         {
             paletteIndex = PLTT_ID(paletteIndex);
             BlendPalette(paletteIndex, 16, 12, RGB(28, 31, 28));
