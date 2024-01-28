@@ -2970,7 +2970,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
                 version = VERSION_EMERALD;
                 break;
             default:
-                version = VERSION_GAMECUBE;    // Shouldn't happen
+                version = VERSION_COLOXD;    // Shouldn't happen
                 break;
         }
         
