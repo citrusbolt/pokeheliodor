@@ -578,6 +578,20 @@
 #define MACH_BIKE 0
 #define ACRO_BIKE 1
 
+// Secondary IDs for candies
+#define CANDY_RARE  0
+#define CANDY_XS    1
+#define CANDY_S     2
+#define CANDY_M     3
+#define CANDY_L     4
+#define CANDY_XL    5
+
+#define CANDY_XS_YIELD  100
+#define CANDY_S_YIELD   800
+#define CANDY_M_YIELD   3000
+#define CANDY_L_YIELD   10000
+#define CANDY_XL_YIELD  30000
+
 // Item type IDs (used to determine the exit callback)
 #define ITEM_USE_MAIL        0
 #define ITEM_USE_PARTY_MENU  1

@@ -854,6 +854,7 @@ const struct Item gItems[] =
         .sortId = SORT_ITEM_RARE_CANDY,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .secondaryId = CANDY_RARE,
     },
 
     [ITEM_PP_UP] =
@@ -4854,8 +4855,9 @@ const struct Item gItems[] =
         .blockHolding = TRUE,
         .pocket = POCKET_MEDICINE,
         .sortId = SORT_ITEM_EXP_CANDY_XS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .secondaryId = CANDY_XS,
     },
 
     [ITEM_EXP_CANDY_S] =
@@ -4865,8 +4867,9 @@ const struct Item gItems[] =
         .blockHolding = TRUE,
         .pocket = POCKET_MEDICINE,
         .sortId = SORT_ITEM_EXP_CANDY_S,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .secondaryId = CANDY_S,
     },
 
     [ITEM_EXP_CANDY_M] =
@@ -4876,8 +4879,9 @@ const struct Item gItems[] =
         .blockHolding = TRUE,
         .pocket = POCKET_MEDICINE,
         .sortId = SORT_ITEM_EXP_CANDY_M,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .secondaryId = CANDY_M,
     },
 
     [ITEM_EXP_CANDY_L] =
@@ -4887,8 +4891,9 @@ const struct Item gItems[] =
         .blockHolding = TRUE,
         .pocket = POCKET_MEDICINE,
         .sortId = SORT_ITEM_EXP_CANDY_L,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .secondaryId = CANDY_L,
     },
 
     [ITEM_EXP_CANDY_XL] =
@@ -4898,8 +4903,9 @@ const struct Item gItems[] =
         .blockHolding = TRUE,
         .pocket = POCKET_MEDICINE,
         .sortId = SORT_ITEM_EXP_CANDY_XL,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_RareCandy,
+        .secondaryId = CANDY_XL,
     },
 
     [ITEM_LONELY_MINT] =

@@ -6006,9 +6006,9 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
     }
 
     // Skip using the item if it won't do anything
-    if (!ITEM_HAS_EFFECT(item))
-        return TRUE;
-    if (gItemEffectTable[item - ITEM_POTION] == NULL && item != ITEM_ENIGMA_BERRY)
+    //if (!ITEM_HAS_EFFECT(item))
+    //    return TRUE;
+    if (gItemEffectTable[item] == NULL && item != ITEM_ENIGMA_BERRY)
         return TRUE;
 
     // Get item effect
@@ -6021,7 +6021,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
     }
     else
     {
-        itemEffect = gItemEffectTable[item - ITEM_POTION];
+        itemEffect = gItemEffectTable[item];
     }
 
     // Do item effect
@@ -6118,10 +6118,44 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[i] & ITEM3_LEVEL_UP)
              && GetMonData(mon, MON_DATA_LEVEL, NULL) != MAX_LEVEL)
             {
-                dataUnsigned = gExperienceTables[gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1];
-                SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
-                CalculateMonStats(mon);
-                retVal = FALSE;
+                u8 candyType = ItemId_GetSecondaryId(item);
+                dataUnsigned = 0;
+
+                if (candyType == CANDY_RARE)
+                {
+                    dataUnsigned = gExperienceTables[gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1];
+                }
+                else
+                {
+                    switch (candyType)
+                    {
+                        case CANDY_XS:
+                             dataUnsigned = GetMonData(mon, MON_DATA_EXP, NULL) + CANDY_XS_YIELD;
+                             break;
+                        case CANDY_S:
+                             dataUnsigned = GetMonData(mon, MON_DATA_EXP, NULL) + CANDY_S_YIELD;
+                             break;
+                        case CANDY_M:
+                             dataUnsigned = GetMonData(mon, MON_DATA_EXP, NULL) + CANDY_M_YIELD;
+                             break;
+                        case CANDY_L:
+                             dataUnsigned = GetMonData(mon, MON_DATA_EXP, NULL) + CANDY_L_YIELD;
+                             break;
+                        case CANDY_XL:
+                             dataUnsigned = GetMonData(mon, MON_DATA_EXP, NULL) + CANDY_XL_YIELD;
+                             break;
+                    }
+
+                    if (dataUnsigned > gExperienceTables[gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][MAX_LEVEL])
+                        dataUnsigned = gExperienceTables[gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][MAX_LEVEL];
+                }
+
+                if (dataUnsigned != 0)
+                {
+                    SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
+                    CalculateMonStats(mon);
+                    retVal = FALSE;
+                }
             }
 
             // Cure status
@@ -6530,7 +6564,7 @@ u8 GetItemEffectParamOffset(u16 itemId, u8 effectByte, u8 effectBit)
 
     offset = ITEM_EFFECT_ARG_START;
 
-    temp = gItemEffectTable[itemId - ITEM_POTION];
+    temp = gItemEffectTable[itemId];
 
     if (!temp && itemId != ITEM_ENIGMA_BERRY)
         return 0;
@@ -6655,7 +6689,7 @@ u8 *UseStatIncreaseItem(u16 itemId)
     }
     else
     {
-        itemEffect = gItemEffectTable[itemId - ITEM_POTION];
+        itemEffect = gItemEffectTable[itemId];
     }
 
     gPotentialItemEffectBattler = gBattlerInMenuId;

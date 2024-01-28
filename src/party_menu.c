@@ -230,6 +230,8 @@ EWRAM_DATA u8 gSelectedOrderFromParty[MAX_FRONTIER_PARTY_SIZE] = {0};
 static EWRAM_DATA u16 sPartyMenuItemId = 0;
 static EWRAM_DATA u16 sUnused = 0;
 EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
+static EWRAM_DATA u8 sInitialLevel = 0;
+static EWRAM_DATA u8 sFinalLevel = 0;
 
 // IWRAM common
 void (*gItemUseCB)(u8, TaskFunc);
@@ -4315,7 +4317,7 @@ static bool8 IsHPRecoveryItem(u16 item)
     if (item == ITEM_ENIGMA_BERRY)
         effect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
     else
-        effect = gItemEffectTable[item - ITEM_POTION];
+        effect = gItemEffectTable[item];
 
     if (effect[4] & ITEM4_HEAL_HP)
         return TRUE;
@@ -4632,7 +4634,7 @@ void ItemUseCB_PPRecovery(u8 taskId, TaskFunc task)
     if (item == ITEM_ENIGMA_BERRY)
         effect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
     else
-        effect = gItemEffectTable[item - ITEM_POTION];
+        effect = gItemEffectTable[item];
 
     if (!(effect[4] & ITEM4_HEAL_PP_ONE))
     {
@@ -4869,7 +4871,12 @@ static void CB2_ShowSummaryScreenToForgetMove(void)
 
 static void CB2_ReturnToPartyMenuWhileLearningMove(void)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, TRUE, PARTY_MSG_NONE, Task_ReturnToPartyMenuWhileLearningMove, gPartyMenu.exitCallback);
+    if (sFinalLevel != 0)
+        SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_LEVEL, &sFinalLevel); // to avoid displaying incorrect level
+    if (ItemId_GetFieldFunc(gSpecialVar_ItemId) == ItemUseOutOfBattle_RareCandy && gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+        InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_USE_ITEM, TRUE, PARTY_MSG_NONE, Task_ReturnToPartyMenuWhileLearningMove, gPartyMenu.exitCallback);
+    else
+        InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, TRUE, PARTY_MSG_NONE, Task_ReturnToPartyMenuWhileLearningMove, gPartyMenu.exitCallback);
 }
 
 static void Task_ReturnToPartyMenuWhileLearningMove(u8 taskId)
@@ -4974,8 +4981,11 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
     s16 *arrayPtr = ptr->data;
     u16 *itemPtr = &gSpecialVar_ItemId;
     bool8 cannotUseEffect;
+    u8 candyType = ItemId_GetSecondaryId(*itemPtr);
 
-    if (GetMonData(mon, MON_DATA_LEVEL) != MAX_LEVEL)
+    sInitialLevel = GetMonData(mon, MON_DATA_LEVEL);
+
+    if (sInitialLevel != MAX_LEVEL)
     {
         BufferMonStatsToTaskData(mon, arrayPtr);
         cannotUseEffect = ExecuteTableBasedItemEffect_(gPartyMenu.slotId, *itemPtr, 0);
@@ -4985,35 +4995,106 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
     {
         cannotUseEffect = TRUE;
     }
+
     PlaySE(SE_SELECT);
+
     if (cannotUseEffect)
     {
-		u16 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE);
-		
-		if (targetSpecies != SPECIES_NONE)
-		{
-			PartyMenuTryEvolution(taskId);
-		}
-		else
-		{
-			gPartyMenuUseExitCallback = FALSE;
-			DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
-			ScheduleBgCopyTilemapToVram(2);
-			gTasks[taskId].func = task;
-		}
+        u16 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE);
+
+        // Resets values to 0 so other means of teaching moves doesn't overwrite levels
+        sInitialLevel = 0;
+        sFinalLevel = 0;
+
+        if (targetSpecies != SPECIES_NONE && candyType == CANDY_RARE)
+        {
+            PartyMenuTryEvolution(taskId);
+        }
+        else
+        {
+            gPartyMenuUseExitCallback = FALSE;
+            DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+            ScheduleBgCopyTilemapToVram(2);
+            gTasks[taskId].func = task;
+        }
     }
     else
     {
+        sFinalLevel = GetMonData(mon, MON_DATA_LEVEL, NULL);
         gPartyMenuUseExitCallback = TRUE;
-        PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
         UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
         RemoveBagItem(gSpecialVar_ItemId, 1);
         GetMonNickname(mon, gStringVar1);
-        ConvertIntToDecimalStringN(gStringVar2, GetMonData(mon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
-        DisplayPartyMenuMessage(gStringVar4, TRUE);
-        ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
+
+        if (sFinalLevel > sInitialLevel)
+        {
+            PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
+
+            if (candyType == CANDY_RARE)
+            {
+                ConvertIntToDecimalStringN(gStringVar2, sFinalLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
+                StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
+            }
+            else
+            {
+                switch (candyType)
+                {
+                    case CANDY_XS:
+                    default:
+                        ConvertIntToDecimalStringN(gStringVar2, CANDY_XS_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                        break;
+                    case CANDY_S:
+                        ConvertIntToDecimalStringN(gStringVar2, CANDY_S_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                        break;
+                    case CANDY_M:
+                        ConvertIntToDecimalStringN(gStringVar2, CANDY_M_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                        break;
+                    case CANDY_L:
+                        ConvertIntToDecimalStringN(gStringVar2, CANDY_L_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                        break;
+                    case CANDY_XL:
+                        ConvertIntToDecimalStringN(gStringVar2, CANDY_XL_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                        break;
+                }
+
+                ConvertIntToDecimalStringN(gStringVar3, sFinalLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
+                StringExpandPlaceholders(gStringVar4, gText_PkmnGainedExpAndElevatedToLvVar3);
+            }
+
+            DisplayPartyMenuMessage(gStringVar4, TRUE);
+            ScheduleBgCopyTilemapToVram(2);
+            gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
+        }
+        else
+        {
+            PlaySE(SE_USE_ITEM);
+            gPartyMenuUseExitCallback = FALSE;
+
+            switch (candyType)
+            {
+                case CANDY_XS:
+                default:
+                    ConvertIntToDecimalStringN(gStringVar2, CANDY_XS_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                    break;
+                case CANDY_S:
+                    ConvertIntToDecimalStringN(gStringVar2, CANDY_S_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                    break;
+                case CANDY_M:
+                    ConvertIntToDecimalStringN(gStringVar2, CANDY_M_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                    break;
+                case CANDY_L:
+                    ConvertIntToDecimalStringN(gStringVar2, CANDY_L_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                    break;
+                case CANDY_XL:
+                    ConvertIntToDecimalStringN(gStringVar2, CANDY_XL_YIELD, STR_CONV_MODE_LEFT_ALIGN, 6);
+                    break;
+            }
+
+            StringExpandPlaceholders(gStringVar4, gText_PkmnGainedExp);
+            DisplayPartyMenuMessage(gStringVar4, FALSE);
+            ScheduleBgCopyTilemapToVram(2);
+            gTasks[taskId].func = task;
+        }
     }
 }
 
@@ -5046,6 +5127,7 @@ static void Task_DisplayLevelUpStatsPg2(u8 taskId)
     {
         PlaySE(SE_SELECT);
         DisplayLevelUpStatsPg2(taskId);
+        sInitialLevel++;
         gTasks[taskId].func = Task_TryLearnNewMoves;
     }
 }
@@ -5076,44 +5158,70 @@ static void Task_TryLearnNewMoves(u8 taskId)
     if (WaitFanfare(FALSE) && ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON))))
     {
         RemoveLevelUpStatsWindow();
-        learnMove = MonTryLearningNewMove(&gPlayerParty[gPartyMenu.slotId], TRUE);
-        gPartyMenu.learnMoveState = 1;
-        switch (learnMove)
+
+        for (; sInitialLevel <= sFinalLevel; sInitialLevel++)
         {
-        case 0: // No moves to learn
-            PartyMenuTryEvolution(taskId);
-            break;
-        case MON_HAS_MAX_MOVES:
-            DisplayMonNeedsToReplaceMove(taskId);
-            break;
-        case MON_ALREADY_KNOWS_MOVE:
-            gTasks[taskId].func = Task_TryLearningNextMove;
-            break;
-        default:
-            DisplayMonLearnedMove(taskId, learnMove);
-            break;
+            SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_LEVEL, &sInitialLevel);
+            learnMove = MonTryLearningNewMove(&gPlayerParty[gPartyMenu.slotId], TRUE);
+            gPartyMenu.learnMoveState = 1;
+
+            switch (learnMove)
+            {
+                case 0: // No moves to learn
+                    if (sInitialLevel >= sFinalLevel)
+                        PartyMenuTryEvolution(taskId);
+                    break;
+                case MON_HAS_MAX_MOVES:
+                    DisplayMonNeedsToReplaceMove(taskId);
+                    break;
+                case MON_ALREADY_KNOWS_MOVE:
+                    gTasks[taskId].func = Task_TryLearningNextMove;
+                    break;
+                default:
+                    DisplayMonLearnedMove(taskId, learnMove);
+                    break;
+            }
+
+            if (learnMove)
+                break;
         }
     }
 }
 
 static void Task_TryLearningNextMove(u8 taskId)
 {
-    u16 result = MonTryLearningNewMove(&gPlayerParty[gPartyMenu.slotId], FALSE);
+    u16 result;
 
-    switch (result)
+    for (; sInitialLevel <= sFinalLevel; sInitialLevel++)
     {
-    case 0: // No moves to learn
-        PartyMenuTryEvolution(taskId);
-        break;
-    case MON_HAS_MAX_MOVES:
-        DisplayMonNeedsToReplaceMove(taskId);
-        break;
-    case MON_ALREADY_KNOWS_MOVE:
-        return;
-    default:
-        DisplayMonLearnedMove(taskId, result);
-        break;
+        SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_LEVEL, &sInitialLevel);
+        result = MonTryLearningNewMove(&gPlayerParty[gPartyMenu.slotId], FALSE);
+
+        switch (result)
+        {
+            case 0: // No moves to learn
+                if (sInitialLevel >= sFinalLevel)
+                    PartyMenuTryEvolution(taskId);
+                break;
+            case MON_HAS_MAX_MOVES:
+                DisplayMonNeedsToReplaceMove(taskId);
+                break;
+            case MON_ALREADY_KNOWS_MOVE:
+                return;
+            default:
+                DisplayMonLearnedMove(taskId, result);
+                break;
+        }
+
+        if (result)
+            break;
     }
+}
+
+static void CB2_ReturnToPartyMenuUsingRareCandy(void)
+{
+    gItemUseCB = ItemUseCB_RareCandy;
+    SetMainCallback2(CB2_ShowPartyMenuForItemUse);
 }
 
 static void PartyMenuTryEvolution(u8 taskId)
@@ -5121,26 +5229,41 @@ static void PartyMenuTryEvolution(u8 taskId)
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
     u16 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE);
 
+    // Resets values to 0 so other means of teaching moves doesn't overwrite levels
+    sInitialLevel = 0;
+    sFinalLevel = 0;
+
     if (targetSpecies != SPECIES_NONE)
     {
         FreePartyPointers();
-        gCB2_AfterEvolution = gPartyMenu.exitCallback;
+        if (ItemId_GetFieldFunc(gSpecialVar_ItemId) == ItemUseOutOfBattle_RareCandy && gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+            gCB2_AfterEvolution = CB2_ReturnToPartyMenuUsingRareCandy;
+        else
+            gCB2_AfterEvolution = gPartyMenu.exitCallback;
         BeginEvolutionScene(mon, targetSpecies, TRUE, gPartyMenu.slotId);
         DestroyTask(taskId);
     }
     else
     {
-		targetSpecies = GetEvolutionTargetSpecies(mon, 1, GetMonData(mon, MON_DATA_HELD_ITEM, NULL));
-		if (InUnionRoom() == TRUE && targetSpecies != SPECIES_NONE)
-		{
-			FreePartyPointers();
-			gCB2_AfterEvolution = gPartyMenu.exitCallback;
-			BeginEvolutionScene(mon, targetSpecies, 0, gPartyMenu.slotId);
-			DestroyTask(taskId);
-		}
-		else{
-			gTasks[taskId].func = Task_ClosePartyMenuAfterText;
-		}
+        targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_TRADE, GetMonData(mon, MON_DATA_HELD_ITEM, NULL));
+
+        if (InUnionRoom() == TRUE && targetSpecies != SPECIES_NONE)
+        {
+            FreePartyPointers();
+            if (ItemId_GetFieldFunc(gSpecialVar_ItemId) == ItemUseOutOfBattle_RareCandy && gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+                gCB2_AfterEvolution = CB2_ReturnToPartyMenuUsingRareCandy;
+            else
+                gCB2_AfterEvolution = gPartyMenu.exitCallback;
+            BeginEvolutionScene(mon, targetSpecies, 0, gPartyMenu.slotId);
+            DestroyTask(taskId);
+        }
+        else
+        {
+            if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+            else
+                gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+        }
     }
 }
 
@@ -5286,14 +5409,14 @@ u8 GetItemEffectType(u16 item)
     const u8 *itemEffect;
     u32 statusCure;
 
-    if (!ITEM_HAS_EFFECT(item))
-        return ITEM_EFFECT_NONE;
+    //if (!ITEM_HAS_EFFECT(item))
+    //    return ITEM_EFFECT_NONE;
 
     // Read the item's effect properties.
     if (item == ITEM_ENIGMA_BERRY)
         itemEffect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
     else
-        itemEffect = gItemEffectTable[item - ITEM_POTION];
+        itemEffect = gItemEffectTable[item];
 
     if ((itemEffect[0] & (ITEM0_DIRE_HIT | ITEM0_X_ATTACK)) || itemEffect[1] || itemEffect[2] || (itemEffect[3] & ITEM3_GUARD_SPEC))
         return ITEM_EFFECT_X_ITEM;
