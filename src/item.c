@@ -959,34 +959,6 @@ void SwapRegisteredBike(void)
 
 u16 BagGetItemIdByPocketPosition(u8 pocketId, u16 pocketPos)
 {
-	u8 i = 1;
-	u16 newKeyItems[5];
-	s32 extraItem = pocketPos - (gBagMenu->trueNumItemStacks[pocketId - 1] - 2);
-	
-	newKeyItems[0] = ITEM_POWER_PAD;
-	
-	if (HasAllHoennMons())
-	{
-		newKeyItems[i] = ITEM_OVAL_CHARM;
-		i++;
-	}
-	if (HasAllMons())
-	{
-		newKeyItems[i] = ITEM_SHINY_CHARM;
-		i++;
-	}
-	if (FlagGet(FLAG_SYS_GAME_CLEAR))
-	{
-		newKeyItems[i] = ITEM_CATCHING_CHARM;
-		i++;
-		
-		newKeyItems[i] = ITEM_EXP_CHARM;
-		i++;
-	}
-	
-	if (extraItem > 0)
-		return newKeyItems[extraItem - 1];
-	
     return gBagPockets[pocketId - 1].itemSlots[pocketPos].itemId;
 }
 

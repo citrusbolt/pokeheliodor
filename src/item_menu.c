@@ -50,7 +50,6 @@
 #include "battle_pike.h"
 #include "constants/items.h"
 #include "constants/rgb.h"
-#include "pokedex.h"
 #include "constants/songs.h"
 
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *postExitMenuMainCallback2)());
@@ -997,53 +996,13 @@ static void LoadBagItemListBuffers(u8 pocketId)
 
     if (!gBagMenu->hideCloseBagText)
     {
-        for (i = 0; i < gBagMenu->trueNumItemStacks[pocketId] - 1; i++)
+        for (i = 0; i < gBagMenu->numItemStacks[pocketId] - 1; i++)
         {
             GetItemName(sListBuffer2->name[i], pocket->itemSlots[i].itemId);
             subBuffer = sListBuffer1->subBuffers;
             subBuffer[i].name = sListBuffer2->name[i];
             subBuffer[i].id = i;
         }
-
-		//if (pocketId == KEYITEMS_POCKET)
-		//{
-		//	GetItemName(sListBuffer2->name[i], ITEM_POWER_PAD);
-		//	subBuffer = sListBuffer1->subBuffers;
-		//	subBuffer[i].name = sListBuffer2->name[i];
-		//	subBuffer[i].id = i;
-		//	i++;
-        //
-		//	if (HasAllHoennMons())
-		//	{
-		//		GetItemName(sListBuffer2->name[i], ITEM_OVAL_CHARM);
-		//		subBuffer = sListBuffer1->subBuffers;
-		//		subBuffer[i].name = sListBuffer2->name[i];
-		//		subBuffer[i].id = i;
-		//		i++;
-		//	}
-		//	if (HasAllMons())
-		//	{
-		//		GetItemName(sListBuffer2->name[i], ITEM_SHINY_CHARM);
-		//		subBuffer = sListBuffer1->subBuffers;
-		//		subBuffer[i].name = sListBuffer2->name[i];
-		//		subBuffer[i].id = i;
-		//		i++;
-		//	}
-		//	if (FlagGet(FLAG_SYS_GAME_CLEAR))
-		//	{
-		//		GetItemName(sListBuffer2->name[i], ITEM_CATCHING_CHARM);
-		//		subBuffer = sListBuffer1->subBuffers;
-		//		subBuffer[i].name = sListBuffer2->name[i];
-		//		subBuffer[i].id = i;
-		//		i++;
-        //
-		//		GetItemName(sListBuffer2->name[i], ITEM_EXP_CHARM);
-		//		subBuffer = sListBuffer1->subBuffers;
-		//		subBuffer[i].name = sListBuffer2->name[i];
-		//		subBuffer[i].id = i;
-		//		i++;
-		//	}
-		//}
 
         StringCopy(sListBuffer2->name[i], gText_CloseBag);
         subBuffer = sListBuffer1->subBuffers;
@@ -1052,7 +1011,7 @@ static void LoadBagItemListBuffers(u8 pocketId)
     }
     else
     {
-        for (i = 0; i < gBagMenu->trueNumItemStacks[pocketId]; i++)
+        for (i = 0; i < gBagMenu->numItemStacks[pocketId]; i++)
         {
             GetItemName(sListBuffer2->name[i], pocket->itemSlots[i].itemId);
             subBuffer = sListBuffer1->subBuffers;
@@ -1297,23 +1256,6 @@ void UpdatePocketItemList(u8 pocketId)
 
     if (!gBagMenu->hideCloseBagText)
         gBagMenu->numItemStacks[pocketId]++;
-	gBagMenu->trueNumItemStacks[pocketId] = gBagMenu->numItemStacks[pocketId];
-
-	//if (pocketId == KEYITEMS_POCKET)	//Add new Key Items to count
-	//{
-	//	gBagMenu->numItemStacks[pocketId]++;	//Add Power Pad
-    //
-	//	if (HasAllHoennMons())
-	//		gBagMenu->numItemStacks[pocketId]++;
-	//	if (HasAllMons())
-	//		gBagMenu->numItemStacks[pocketId]++;
-	//	if (FlagGet(FLAG_SYS_GAME_CLEAR))
-	//	{
-	//		gBagMenu->numItemStacks[pocketId]++;
-	//		gBagMenu->numItemStacks[pocketId]++;
-	//	}
-    //
-	//}
 
     if (gBagMenu->numItemStacks[pocketId] > MAX_ITEMS_SHOWN)
         gBagMenu->numShownItems[pocketId] = MAX_ITEMS_SHOWN;
@@ -1625,9 +1567,6 @@ static bool8 CanSwapItems(void)
     if (gBagPosition.location == ITEMMENULOCATION_FIELD
      || gBagPosition.location == ITEMMENULOCATION_BATTLE)
     {
-        u8 temp = gBagPosition.pocket - 2;
-		if ((gBagPosition.scrollPosition[gBagPosition.pocket] + gBagPosition.cursorPosition[gBagPosition.pocket]) - (gBagMenu->trueNumItemStacks[gBagPosition.pocket] - 2) > 0)
-			return FALSE;
         // TMHMs and berries are numbered, and so may not be swapped
         if (gBagPosition.pocket != TMHM_POCKET
          && gBagPosition.pocket != BERRIES_POCKET
