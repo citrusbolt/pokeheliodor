@@ -92,5 +92,6 @@ void GetNumMovesSelectedMonHas(void);
 void MoveDeleterChooseMoveToForget(void);
 void SelectEggForIncubator(void);
 bool8 CanSpeciesLearnAnyTutorMove(u16 species);
+void ItemUseCB_Mint(u8 taskId, TaskFunc task);
 
 #endif // GUARD_PARTY_MENU_H

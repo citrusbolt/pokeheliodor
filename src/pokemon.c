@@ -6724,65 +6724,67 @@ u8 *UseStatIncreaseItem(u16 itemId)
 
 u8 GetTrueNature(struct Pokemon *mon)
 {
-    return GetMonData(mon, MON_DATA_PERSONALITY) % NUM_NATURES;
+    return GetNatureFromPersonality(GetMonData(mon, MON_DATA_PERSONALITY));
 }
 
 u8 GetNature(struct Pokemon *mon)
 {
     if (GetMonData(mon, MON_DATA_MINT) == MINT_NONE)
-    {
-        return GetMonData(mon, MON_DATA_PERSONALITY) % NUM_NATURES;
-    }
+        return GetNatureFromPersonality(GetMonData(mon, MON_DATA_PERSONALITY));
     else
+        return GetNatureFromMint(GetMonData(mon, MON_DATA_MINT));
+}
+
+u8 GetNatureFromMint(u8 mint)
+{
+    switch (mint)
     {
-        switch (GetMonData(mon, MON_DATA_MINT))
-        {
-            case MINT_LONELY:
-                return NATURE_LONELY;
-            case MINT_ADAMANT:
-                return NATURE_ADAMANT;
-            case MINT_NAUGHTY:
-                return NATURE_NAUGHTY;
-            case MINT_BRAVE:
-                return NATURE_BRAVE;
-            case MINT_BOLD:
-                return NATURE_BOLD;
-            case MINT_IMPISH:
-                return NATURE_IMPISH;
-            case MINT_LAX:
-                return NATURE_LAX;
-            case MINT_RELAXED:
-                return NATURE_RELAXED;
-            case MINT_MODEST:
-                return NATURE_MODEST;
-            case MINT_MILD:
-                return NATURE_MILD;
-            case MINT_RASH:
-                return NATURE_RASH;
-            case MINT_QUIET:
-                return NATURE_QUIET;
-            case MINT_CALM:
-                return NATURE_CALM;
-            case MINT_GENTLE:
-                return NATURE_GENTLE;
-            case MINT_CAREFUL:
-                return NATURE_CAREFUL;
-            case MINT_SASSY:
-                return NATURE_SASSY;
-            case MINT_TIMID:
-                return NATURE_TIMID;
-            case MINT_HASTY:
-                return NATURE_HASTY;
-            case MINT_JOLLY:
-                return NATURE_JOLLY;
-            case MINT_NAIVE:
-                return NATURE_NAIVE;
-            case MINT_SERIOUS:
-            default:
-                return NATURE_SERIOUS;
-        }
+        case MINT_LONELY:
+            return NATURE_LONELY;
+        case MINT_ADAMANT:
+            return NATURE_ADAMANT;
+        case MINT_NAUGHTY:
+            return NATURE_NAUGHTY;
+        case MINT_BRAVE:
+            return NATURE_BRAVE;
+        case MINT_BOLD:
+            return NATURE_BOLD;
+        case MINT_IMPISH:
+            return NATURE_IMPISH;
+        case MINT_LAX:
+            return NATURE_LAX;
+        case MINT_RELAXED:
+            return NATURE_RELAXED;
+        case MINT_MODEST:
+            return NATURE_MODEST;
+        case MINT_MILD:
+            return NATURE_MILD;
+        case MINT_RASH:
+            return NATURE_RASH;
+        case MINT_QUIET:
+            return NATURE_QUIET;
+        case MINT_CALM:
+            return NATURE_CALM;
+        case MINT_GENTLE:
+            return NATURE_GENTLE;
+        case MINT_CAREFUL:
+            return NATURE_CAREFUL;
+        case MINT_SASSY:
+            return NATURE_SASSY;
+        case MINT_TIMID:
+            return NATURE_TIMID;
+        case MINT_HASTY:
+            return NATURE_HASTY;
+        case MINT_JOLLY:
+            return NATURE_JOLLY;
+        case MINT_NAIVE:
+            return NATURE_NAIVE;
+        case MINT_SERIOUS:
+        default:
+            return NATURE_SERIOUS;
     }
 }
+    
 
 u8 GetNatureFromPersonality(u32 personality)
 {

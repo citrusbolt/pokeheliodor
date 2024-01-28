@@ -874,6 +874,24 @@ const u32 gItemIcon_ExpCandyL[] = INCBIN_U32("graphics/items/icons/exp_candy_l.4
 const u32 gItemIcon_ExpCandyXL[] = INCBIN_U32("graphics/items/icons/exp_candy_xl.4bpp.lz");
 const u32 gItemIconPalette_ExpCandies[] = INCBIN_U32("graphics/items/icon_palettes/exp_candies.gbapal.lz");
 
+const u32 gItemIcon_MintAttack[] = INCBIN_U32("graphics/items/icons/mint_attack.4bpp.lz");
+const u32 gItemIconPalette_MintAttack[] = INCBIN_U32("graphics/items/icon_palettes/mint_attack.gbapal.lz");
+
+const u32 gItemIcon_MintDefense[] = INCBIN_U32("graphics/items/icons/mint_defense.4bpp.lz");
+const u32 gItemIconPalette_MintDefense[] = INCBIN_U32("graphics/items/icon_palettes/mint_defense.gbapal.lz");
+
+const u32 gItemIcon_MintSpAtk[] = INCBIN_U32("graphics/items/icons/mint_spatk.4bpp.lz");
+const u32 gItemIconPalette_MintSpAtk[] = INCBIN_U32("graphics/items/icon_palettes/mint_spatk.gbapal.lz");
+
+const u32 gItemIcon_MintSpDef[] = INCBIN_U32("graphics/items/icons/mint_spdef.4bpp.lz");
+const u32 gItemIconPalette_MintSpDef[] = INCBIN_U32("graphics/items/icon_palettes/mint_spdef.gbapal.lz");
+
+const u32 gItemIcon_MintSpeed[] = INCBIN_U32("graphics/items/icons/mint_speed.4bpp.lz");
+const u32 gItemIconPalette_MintSpeed[] = INCBIN_U32("graphics/items/icon_palettes/mint_speed.gbapal.lz");
+
+const u32 gItemIcon_MintNeutral[] = INCBIN_U32("graphics/items/icons/mint_neutral.4bpp.lz");
+const u32 gItemIconPalette_MintNeutral[] = INCBIN_U32("graphics/items/icon_palettes/mint_neutral.gbapal.lz");
+
 const u32 gItemIcon_CatchingCharm[] = INCBIN_U32("graphics/items/icons/catching_charm.4bpp.lz");
 const u32 gItemIconPalette_CatchingCharm[] = INCBIN_U32("graphics/items/icon_palettes/catching_charm.gbapal.lz");
 

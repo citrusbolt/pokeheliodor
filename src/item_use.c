@@ -1240,4 +1240,10 @@ static void ItemUseOnFieldCB_PowerPurchase(u8 taskId)
 	DestroyTask(taskId);
 }
 
+void ItemUseOutOfBattle_Mint(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_Mint;
+    SetUpItemUseCallback(taskId);
+}
+
 #undef tUsingRegisteredKeyItem

@@ -1805,109 +1805,109 @@ static const u8 sExpCandyXLDesc[] = _(
     "Points to a Pokémon.");
 
 static const u8 sLonelyMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Attack\n"
+    "grows stronger, but\n"
+    "Defense suffers.");
 
 static const u8 sAdamantMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Attack\n"
+    "grows stronger, but\n"
+    "Sp. Atk suffers.");
 
 static const u8 sNaughtyMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Attack\n"
+    "grows stronger, but\n"
+    "Sp. Def suffers.");
 
 static const u8 sBraveMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Attack\n"
+    "grows stronger, but\n"
+    "Speed suffers.");
 
 static const u8 sBoldMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Defense\n"
+    "grows stronger, but\n"
+    "Attack suffers.");
 
 static const u8 sImpishMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Defense\n"
+    "grows stronger, but\n"
+    "Sp. Atk suffers.");
 
 static const u8 sLaxMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Defense\n"
+    "grows stronger, but\n"
+    "Sp. Def suffers.");
 
 static const u8 sRelaxedMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Defense\n"
+    "grows stronger, but\n"
+    "Speed suffers.");
 
 static const u8 sModestMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Atk\n"
+    "grows stronger, but\n"
+    "Attack suffers.");
 
 static const u8 sMildMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Atk\n"
+    "grows stronger, but\n"
+    "Defense suffers.");
 
 static const u8 sRashMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Atk\n"
+    "grows stronger, but\n"
+    "Sp. Def suffers.");
 
 static const u8 sQuietMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Atk\n"
+    "grows stronger, but\n"
+    "Speed suffers.");
 
 static const u8 sCalmMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Def\n"
+    "grows stronger, but\n"
+    "Attack suffers.");
 
 static const u8 sGentleMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Def\n"
+    "grows stronger, but\n"
+    "Defense suffers.");
 
 static const u8 sCarefulMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Def\n"
+    "grows stronger, but\n"
+    "Sp. Atk suffers.");
 
 static const u8 sSassyMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Sp. Def\n"
+    "grows stronger, but\n"
+    "Speed suffers.");
 
 static const u8 sTimidMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Speed\n"
+    "grows stronger, but\n"
+    "Attack suffers.");
 
 static const u8 sHastyMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Speed\n"
+    "grows stronger, but\n"
+    "Defense suffers.");
 
 static const u8 sJollyMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Speed\n"
+    "grows stronger, but\n"
+    "Sp. Atk suffers.");
 
 static const u8 sNaiveMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, Speed\n"
+    "grows stronger, but\n"
+    "Sp. Def suffers.");
 
 static const u8 sSeriousMintDesc[] = _(
-    "A special Ball\n"
-    "that does not work\n"
-    "well on Pokémon.");
+    "If smelled, most\n"
+    "stats will grow\n"
+    "at an equal rate.");
 
 static const u8 sCatchingCharmDesc[] = _(
     "A charm to increase\n"
