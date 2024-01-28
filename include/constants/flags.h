@@ -77,7 +77,7 @@
 #define FLAG_BLENDER_UPGRADED 0x40
 #define FLAG_COMPLETED_ROAMER_QUEST 0x41
 #define FLAG_USED_GAME_BOY_PLAYER 0x42
-#define FLAG_UNUSED_0x043    0x43 // Unused Flag
+#define FLAG_SECRET_BASE_PC_UPGRADED 0x43
 #define FLAG_UNUSED_0x044    0x44 // Unused Flag
 #define FLAG_UNUSED_0x045    0x45 // Unused Flag
 #define FLAG_UNUSED_0x046    0x46 // Unused Flag

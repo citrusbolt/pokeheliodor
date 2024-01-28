@@ -403,6 +403,11 @@ const u16 gObjectEventPal_MayRed[] = INCBIN_U16("graphics/object_events/pics/peo
 const u16 gObjectEventPal_MayBlue[] = INCBIN_U16("graphics/object_events/pics/people/hyo/may/blue.gbapal");
 const u16 gObjectEventPal_MayGreen[] = INCBIN_U16("graphics/object_events/pics/people/hyo/may/green.gbapal");
 
+const u16 gObjectEventPal_Leaf_RY[] = INCBIN_U16("graphics/object_events/pics/people/frlg/named/leaf.gbapal");
+
+const u32 gObjectEventPic_Red_RY[] = INCBIN_U32("graphics/object_events/pics/people/hyo/red_ry/walking.4bpp");
+const u16 gObjectEventPal_Red_RY[] = INCBIN_U16("graphics/object_events/pics/people/hyo/red_ry/walking.gbapal");
+
 const u32 gObjectEventPic_Wes[] = INCBIN_U32("graphics/object_events/pics/people/hyo/wes.4bpp");
 const u16 gObjectEventPal_Wes[] = INCBIN_U16("graphics/object_events/pics/people/hyo/wes.gbapal");
 

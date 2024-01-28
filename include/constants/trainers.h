@@ -113,20 +113,24 @@
 #define TRAINER_PIC_E_MAY                 94
 #define TRAINER_PIC_GOLD                  95
 #define TRAINER_PIC_KRIS                  96
+#define TRAINER_PIC_RY_RED                97
+#define TRAINER_PIC_RY_LEAF               98
 
 // The player back pics are assumed to alternate according to the gender values (MALE/FEMALE)
 #define TRAINER_BACK_PIC_BRENDAN                0
 #define TRAINER_BACK_PIC_MAY                    1
 #define TRAINER_BACK_PIC_RED                    2
 #define TRAINER_BACK_PIC_LEAF                   3
-#define TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN  4
-#define TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY      5
+#define TRAINER_BACK_PIC_RS_BRENDAN             4
+#define TRAINER_BACK_PIC_RS_MAY                 5
 #define TRAINER_BACK_PIC_WALLY                  6
 #define TRAINER_BACK_PIC_STEVEN                 7
-#define TRAINER_BACK_PIC_EMERALD_BRENDAN        8
-#define TRAINER_BACK_PIC_EMERALD_MAY            9
+#define TRAINER_BACK_PIC_E_BRENDAN              8
+#define TRAINER_BACK_PIC_E_MAY                  9
 #define TRAINER_BACK_PIC_GOLD                  10
 #define TRAINER_BACK_PIC_KRIS                  11
+#define TRAINER_BACK_PIC_RY_RED                12
+#define TRAINER_BACK_PIC_RY_LEAF               13
 
 #define FACILITY_CLASS_HIKER                 0x0
 #define FACILITY_CLASS_AQUA_GRUNT_M          0x1
@@ -206,16 +210,8 @@
 #define FACILITY_CLASS_STEVEN                0x4b
 #define FACILITY_CLASS_SALON_MAIDEN_ANABEL   0x4c
 #define FACILITY_CLASS_DOME_ACE_TUCKER       0x4d
-#define FACILITY_CLASS_RED                   0x4e
-#define FACILITY_CLASS_LEAF                  0x4f
-#define FACILITY_CLASS_RS_BRENDAN            0x50
-#define FACILITY_CLASS_RS_MAY                0x51
-#define FACILITY_CLASS_E_BRENDAN             0x52
-#define FACILITY_CLASS_E_MAY                 0x53
-#define FACILITY_CLASS_GOLD                  0x54
-#define FACILITY_CLASS_KRIS                  0x55
 
-#define FACILITY_CLASSES_COUNT               0x56
+#define FACILITY_CLASSES_COUNT               0x4e
 
 #define RS_FACILITY_CLASS_AQUA_LEADER_ARCHIE    0x0
 #define RS_FACILITY_CLASS_AQUA_GRUNT_M          0x1

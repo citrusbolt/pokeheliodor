@@ -22,6 +22,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/weather.h"
+#include "day_night.h"
 
 #define GOING_DOWN gSpecialVar_0x8004
 
@@ -144,9 +145,8 @@ static const struct CompressedSpriteSheet sSpriteSheets[] = {
     { },
 };
 
-static const struct SpritePalette sSpritePalettes[] = {
-    { gCableCar_Pal, TAG_CABLE_CAR },
-    { }
+static const struct SpritePalette sSpritePalette = {
+    gCableCar_Pal, TAG_CABLE_CAR
 };
 
 static const struct OamData sOam_CableCar =
@@ -235,6 +235,7 @@ static void Task_LoadCableCar(u8 taskId)
 
 void CableCar(void)
 {
+    gForceTintPalettes = TRUE;
     LockPlayerFieldControls();
     CreateTask(Task_LoadCableCar, 1);
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
@@ -245,6 +246,7 @@ static void CB2_LoadCableCar(void)
     u16 imebak;
     u8 i = 0;
     u32 sizeOut = 0;
+    u32 palSlot;
 
     switch (gMain.state)
     {
@@ -284,7 +286,8 @@ static void CB2_LoadCableCar(void)
         for (i = 0; i < ARRAY_COUNT(sSpriteSheets) - 1; i++)
             LoadCompressedSpriteSheet(&sSpriteSheets[i]);
 
-        LoadSpritePalettes(sSpritePalettes);
+        palSlot = LoadSpritePalette(&sSpritePalette);
+        LoadPaletteDayNight(sSpritePalette.data, OBJ_PLTT_ID(palSlot), PLTT_SIZE_4BPP);
         sCableCar->groundTilemap = malloc_and_decompress(sGround_Tilemap, &sizeOut);
         sCableCar->treesTilemap = malloc_and_decompress(sTrees_Tilemap, &sizeOut);
         sCableCar->bgMountainsTilemap = malloc_and_decompress(sBgMountains_Tilemap, &sizeOut);
@@ -296,7 +299,7 @@ static void CB2_LoadCableCar(void)
     case 3:
         if (!FreeTempTileDataBuffersIfPossible())
         {
-            LoadPalette(gCableCarBg_Pal, BG_PLTT_ID(0), 4 * PLTT_SIZE_4BPP);
+            LoadPaletteDayNight(gCableCarBg_Pal, BG_PLTT_ID(0), 4 * PLTT_SIZE_4BPP);
             gMain.state++;
         }
         break;
@@ -404,6 +407,7 @@ static void CB2_EndCableCar(void)
     DmaFill16Defvars(3, 0, (void *)PLTT, PLTT_SIZE);
     WarpIntoMap();
     gFieldCallback = NULL;
+    gForceTintPalettes = FALSE;
     SetMainCallback2(CB2_LoadMap);
 }
 
@@ -795,10 +799,18 @@ static void CreateCableCarSprites(void)
         [FEMALE] = OBJ_EVENT_GFX_MAY_NORMAL
     };
     u16 rval = Random();
-    u16 hikerGraphicsIds[4] = {
+    u16 hikerGraphicsIds[12] = {
         OBJ_EVENT_GFX_HIKER_1,
+        OBJ_EVENT_GFX_HIKER_2,
+        OBJ_EVENT_GFX_HIKER_3,
+        OBJ_EVENT_GFX_HIKER_HGSS,
+        OBJ_EVENT_GFX_HIKER_RSE,
         OBJ_EVENT_GFX_CAMPER_1,
+        OBJ_EVENT_GFX_CAMPER_2,
+        OBJ_EVENT_GFX_CAMPER_HGSS,
         OBJ_EVENT_GFX_PICNICKER_1,
+        OBJ_EVENT_GFX_PICNICKER_2,
+        OBJ_EVENT_GFX_PICNICKER_HGSS,
         OBJ_EVENT_GFX_ENEMY_ZIGZAGOON
     };
     s16 hikerCoords[2][2] = {
@@ -816,7 +828,7 @@ static void CreateCableCarSprites(void)
         case FALSE:
         default:
             // Create player sprite
-            spriteId = CreateObjectGraphicsSprite(playerGraphicsIds[gSaveBlock2Ptr->playerGender], SpriteCB_Player, 200, 73, 102);
+            spriteId = CreateObjectGraphicsSprite(playerGraphicsIds[gSaveBlock2Ptr->playerGender], SpriteCB_Player, 200, 73, 102, TRUE);
             if (spriteId != MAX_SPRITES)
             {
                 gSprites[spriteId].oam.priority = 2;
@@ -844,7 +856,7 @@ static void CreateCableCarSprites(void)
         case TRUE:
             CopyToBgTilemapBufferRect_ChangePalette(0, sCableCar->groundTilemap + 0x24, 24, 26, 12, 3, 17);
             // Create player sprite
-            spriteId = CreateObjectGraphicsSprite(playerGraphicsIds[gSaveBlock2Ptr->playerGender], SpriteCB_Player, 128, 39, 102);
+            spriteId = CreateObjectGraphicsSprite(playerGraphicsIds[gSaveBlock2Ptr->playerGender], SpriteCB_Player, 128, 39, 102, TRUE);
             if (spriteId != MAX_SPRITES)
             {
                 gSprites[spriteId].oam.priority = 2;
@@ -877,11 +889,10 @@ static void CreateCableCarSprites(void)
         gSprites[spriteId].y2 = 8;
     }
 
-    // 1/64 chance for an NPC to appear hiking on the ground below the Cable Car
-    if ((rval % 64) == 0)
+    // 1/10 chance for an NPC to appear hiking on the ground below the Cable Car
+    if ((rval % 10) == 0)
     {
-        // Unclear if this was intentional, but the - 1 in the below ARRAY_COUNT means the Zigzagoon is never used
-        spriteId = CreateObjectGraphicsSprite(hikerGraphicsIds[rval % (ARRAY_COUNT(hikerGraphicsIds) - 1)], hikerCallbacks[GOING_DOWN], hikerCoords[GOING_DOWN][0], hikerCoords[GOING_DOWN][1], 106);
+        spriteId = CreateObjectGraphicsSprite(hikerGraphicsIds[rval % ARRAY_COUNT(hikerGraphicsIds)], hikerCallbacks[GOING_DOWN], hikerCoords[GOING_DOWN][0], hikerCoords[GOING_DOWN][1], 106, TRUE);
         if (spriteId != MAX_SPRITES)
         {
             gSprites[spriteId].oam.priority = 2;

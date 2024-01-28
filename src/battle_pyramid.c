@@ -97,8 +97,8 @@ static void GetPyramidEntranceAndExitSquareIds(u8 *, u8 *);
 static void SetPyramidObjectPositionsUniformly(u8);
 static bool8 SetPyramidObjectPositionsInAndNearSquare(u8, u8);
 static bool8 SetPyramidObjectPositionsNearSquare(u8, u8);
-static bool8 TrySetPyramidObjectEventPositionInSquare(u8, u8 *, u8, u8);
-static bool8 TrySetPyramidObjectEventPositionAtCoords(bool8, u8, u8, u8 *, u8, u8);
+static bool8 TrySetPyramidObjectEventPositionInSquare(u8, u8 *, u8, u16);
+static bool8 TrySetPyramidObjectEventPositionAtCoords(bool8, u8, u8, u8 *, u8, u16);
 
 // Const rom data.
 #define ABILITY_RANDOM 2 // For wild mons data.
@@ -1481,7 +1481,7 @@ static void UNUSED BattlePyramidRetireChallenge(void)
     ScriptContext_SetupScript(BattlePyramid_Retire);
 }
 
-static u16 GetUniqueTrainerId(u8 objectEventId)
+static u16 GetUniqueTrainerId(u16 objectEventId)
 {
     int i;
     u16 trainerId;
@@ -1816,7 +1816,7 @@ static bool8 SetPyramidObjectPositionsNearSquare(u8 objType, u8 squareId)
     return (numObjects / 2) > numPlacedObjects;
 }
 
-static bool8 TrySetPyramidObjectEventPositionInSquare(u8 objType, u8 *floorLayoutOffsets, u8 squareId, u8 objectEventId)
+static bool8 TrySetPyramidObjectEventPositionInSquare(u8 objType, u8 *floorLayoutOffsets, u8 squareId, u16 objectEventId)
 {
     int x, y;
 
@@ -1846,7 +1846,7 @@ static bool8 TrySetPyramidObjectEventPositionInSquare(u8 objType, u8 *floorLayou
     return TRUE;
 }
 
-static bool8 TrySetPyramidObjectEventPositionAtCoords(u8 objType, u8 x, u8 y, u8 *floorLayoutOffsets, u8 squareId, u8 objectEventId)
+static bool8 TrySetPyramidObjectEventPositionAtCoords(u8 objType, u8 x, u8 y, u8 *floorLayoutOffsets, u8 squareId, u16 objectEventId)
 {
     int i, j;
     const struct MapHeader *mapHeader;
@@ -1970,7 +1970,7 @@ u16 GetBattlePyramidPickupItemId(void)
 
     if (i >= PICKUP_ITEMS_PER_ROUND)
         i = PICKUP_ITEMS_PER_ROUND - 1;
-	
+
 	if (gPowerType == POWER_ITEM && gPowerLevel == 3 && gPowerTime > 0)
 	{
 		if (lvlMode != FRONTIER_LVL_50)

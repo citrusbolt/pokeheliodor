@@ -410,38 +410,33 @@ static const u8 sTrainerPicOffset[][GENDER_COUNT][2] =
     }
 };
 
-static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
+static const u8 sTrainerPics[][GENDER_COUNT] =
 {
-    [TRAINER_FRLG] =
-    {
-        [MALE]   = FACILITY_CLASS_RED,
-        [FEMALE] = FACILITY_CLASS_LEAF
-    },
     [TRAINER_RS] =
     {
-        [MALE]   = FACILITY_CLASS_RS_BRENDAN,
-        [FEMALE] = FACILITY_CLASS_RS_MAY
+        [MALE]   = TRAINER_PIC_RS_BRENDAN,
+        [FEMALE] = TRAINER_PIC_RS_MAY
+    },
+    [TRAINER_FRLG] =
+    {
+        [MALE]   = TRAINER_PIC_RED,
+        [FEMALE] = TRAINER_PIC_LEAF
     },
     [TRAINER_EMERALD] =
     {
-        [MALE]   = FACILITY_CLASS_E_BRENDAN,
-        [FEMALE] = FACILITY_CLASS_E_MAY
+        [MALE]   = TRAINER_PIC_E_BRENDAN,
+        [FEMALE] = TRAINER_PIC_E_MAY
     },
     [TRAINER_HELIODOR] =
     {
-        [MALE]   = FACILITY_CLASS_BRENDAN,
-        [FEMALE] = FACILITY_CLASS_MAY
+        [MALE]   = TRAINER_PIC_BRENDAN,
+        [FEMALE] = TRAINER_PIC_MAY
     },
-    [TRAINER_CRYSTALDUST] =
+    [TRAINER_RY] =
     {
-        [MALE]   = FACILITY_CLASS_GOLD,
-        [FEMALE] = FACILITY_CLASS_KRIS
+        [MALE]   = TRAINER_PIC_RY_RED,
+        [FEMALE] = TRAINER_PIC_RY_LEAF
     },
-    [TRAINER_TEST] =
-    {
-        [MALE]   = FACILITY_CLASS_WALLY,
-        [FEMALE] = FACILITY_CLASS_STEVEN
-    }
 };
 
 static const u8 sTrainerClasses[][21] = {
@@ -3006,139 +3001,87 @@ static u8 GetSetCardType(void)
     }
     else
     {
-		switch (sData->trainerCard.versionModifier)
-		{
-			case DEV_SOLITAIRI:
-				if (sData->trainerCard.version == VERSION_EMERALD)
-				{
-					sData->cardLayout = sData->trainerCard.cardLayout;
-					if (sData->cardLayout == CARD_LAYOUT_RS)
-					{
-						sData->stats[0] = CARD_STAT_HOF_DEBUT;
-						sData->stats[1] = CARD_STAT_LINK_BATTLES;
-						sData->stats[2] = CARD_STAT_TRADES;
-						sData->stats[3] = CARD_STAT_POKEBLOCKS;
-						sData->stats[4] = CARD_STAT_CONTESTS;
-						sData->stats[5] = CARD_STAT_BATTLE_TOWER;
-					}
-					else if (sData->cardLayout == CARD_LAYOUT_FRLG)
-					{
-						sData->stats[0] = CARD_STAT_HOF_DEBUT;
-						sData->stats[1] = CARD_STAT_LINK_BATTLES;
-						sData->stats[2] = CARD_STAT_TRADES;
-						sData->stats[3] = CARD_STAT_UNION_ROOM;
-						sData->stats[4] = CARD_STAT_BERRY_CRUSH;
-						sData->stats[5] = CARD_STAT_NONE;
-					}
-					else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
-					{
-						sData->stats[0] = sData->trainerCard.stat0;
-						sData->stats[1] = sData->trainerCard.stat1;
-						sData->stats[2] = sData->trainerCard.stat2;
-						sData->stats[3] = sData->trainerCard.stat3;
-						sData->stats[4] = sData->trainerCard.stat4;
-						sData->stats[5] = CARD_STAT_NONE;
-					}
-					else
-					{
-						sData->stats[0] = CARD_STAT_HOF_DEBUT;
-						sData->stats[1] = CARD_STAT_LINK_BATTLES;
-						sData->stats[2] = CARD_STAT_TRADES;
-						sData->stats[3] = CARD_STAT_POKEBLOCKS;
-						sData->stats[4] = CARD_STAT_CONTESTS;
-						sData->stats[5] = CARD_STAT_BATTLE_POINTS;
-					}
-					return TRAINER_HELIODOR;
-				}
-				break;
-			case DEV_SHINY_DRAGON_HUNTER:
-				if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
-				{
-					sData->cardLayout = CARD_LAYOUT_FRLG;
-					sData->isDX = TRUE;
-					sData->stats[0] = CARD_STAT_HOF_DEBUT;
-					sData->stats[1] = CARD_STAT_LINK_BATTLES;
-					sData->stats[2] = CARD_STAT_TRADES;
-					sData->stats[3] = CARD_STAT_UNION_ROOM;
-					if (sData->trainerCard.frontierBP)
-						sData->stats[4] = CARD_STAT_BATTLE_POINTS;
-					else
-						sData->stats[4] = CARD_STAT_BERRY_CRUSH;
-					sData->stats[5] = CARD_STAT_NONE;
-					return TRAINER_FRLG;
-				}
-				break;
-			case DEV_SOLITAIRI_2:
-				if (sData->trainerCard.version == VERSION_FIRERED)
-				{
-					sData->cardLayout = CARD_LAYOUT_FRLG;
-					sData->stats[0] = CARD_STAT_HOF_DEBUT;
-					sData->stats[1] = CARD_STAT_LINK_BATTLES;
-					sData->stats[2] = CARD_STAT_TRADES;
-					sData->stats[3] = CARD_STAT_POKEBLOCKS;
-					sData->stats[4] = CARD_STAT_CONTESTS;
-					sData->stats[5] = CARD_STAT_NONE;
-					return TRAINER_CRYSTALDUST;
-				}
-				break;
-			case DEV_TEST:
-				sData->cardLayout = CARD_LAYOUT_EMERALD;
-				sData->stats[0] = CARD_STAT_HOF_DEBUT;
-				sData->stats[1] = CARD_STAT_LINK_BATTLES;
-				sData->stats[2] = CARD_STAT_TRADES;
-				sData->stats[3] = CARD_STAT_POKEBLOCKS;
-				sData->stats[4] = CARD_STAT_CONTESTS;
-				sData->stats[5] = CARD_STAT_BATTLE_POINTS;
-				return TRAINER_TEST;
-		}
-
-		if (sData->trainerCard.version == VERSION_FIRERED || sData->trainerCard.version == VERSION_LEAFGREEN)
-		{
-			if (sData->trainerCard.crystalDustVersion == VERSION_HEARTGOLD)
-			{
-				sData->cardLayout = CARD_LAYOUT_FRLG;
-				sData->stats[0] = CARD_STAT_HOF_DEBUT;
-				sData->stats[1] = CARD_STAT_LINK_BATTLES;
-				sData->stats[2] = CARD_STAT_TRADES;
-				sData->stats[3] = CARD_STAT_POKEBLOCKS;
-				sData->stats[4] = CARD_STAT_CONTESTS;
-				sData->stats[5] = CARD_STAT_NONE;
-				return TRAINER_CRYSTALDUST;
-			}
-			else
-			{
-				sData->cardLayout = CARD_LAYOUT_FRLG;
-				sData->stats[0] = CARD_STAT_HOF_DEBUT;
-				sData->stats[1] = CARD_STAT_LINK_BATTLES;
-				sData->stats[2] = CARD_STAT_TRADES;
-				sData->stats[3] = CARD_STAT_UNION_ROOM;
-				sData->stats[4] = CARD_STAT_BERRY_CRUSH;
-				sData->stats[5] = CARD_STAT_NONE;
-				return TRAINER_FRLG;
-			}
-		}
-		else if (sData->trainerCard.version == VERSION_EMERALD)
-		{
-			sData->cardLayout = CARD_LAYOUT_EMERALD;
-			sData->stats[0] = CARD_STAT_HOF_DEBUT;
-			sData->stats[1] = CARD_STAT_LINK_BATTLES;
-			sData->stats[2] = CARD_STAT_TRADES;
-			sData->stats[3] = CARD_STAT_POKEBLOCKS;
-			sData->stats[4] = CARD_STAT_CONTESTS;
-			sData->stats[5] = CARD_STAT_BATTLE_POINTS;
-			return TRAINER_EMERALD;
-		}
-		else
-		{
-			sData->cardLayout = CARD_LAYOUT_RS;
-			sData->stats[0] = CARD_STAT_HOF_DEBUT;
-			sData->stats[1] = CARD_STAT_LINK_BATTLES;
-			sData->stats[2] = CARD_STAT_TRADES;
-			sData->stats[3] = CARD_STAT_POKEBLOCKS;
-			sData->stats[4] = CARD_STAT_CONTESTS;
-			sData->stats[5] = CARD_STAT_BATTLE_TOWER;
-			return TRAINER_RS;
-		}
+        switch (GetLinkVersion(sData->trainerCard.version, sData->trainerCard.versionModifier))
+        {
+            case LINK_VERSION_RUBY:
+            case LINK_VERSION_SAPPHIRE:
+            default:
+                sData->cardLayout = CARD_LAYOUT_RS;
+                sData->stats[0] = CARD_STAT_HOF_DEBUT;
+                sData->stats[1] = CARD_STAT_LINK_BATTLES;
+                sData->stats[2] = CARD_STAT_TRADES;
+                sData->stats[3] = CARD_STAT_POKEBLOCKS;
+                sData->stats[4] = CARD_STAT_CONTESTS;
+                sData->stats[5] = CARD_STAT_BATTLE_TOWER;
+                return TRAINER_RS;
+            case LINK_VERSION_FIRERED:
+            case LINK_VERSION_LEAFGREEN:
+                sData->cardLayout = CARD_LAYOUT_FRLG;
+                sData->stats[0] = CARD_STAT_HOF_DEBUT;
+                sData->stats[1] = CARD_STAT_LINK_BATTLES;
+                sData->stats[2] = CARD_STAT_TRADES;
+                sData->stats[3] = CARD_STAT_UNION_ROOM;
+                sData->stats[4] = CARD_STAT_BERRY_CRUSH;
+                sData->stats[5] = CARD_STAT_NONE;
+                return TRAINER_FRLG;
+            case LINK_VERSION_EMERALD:
+                sData->cardLayout = CARD_LAYOUT_EMERALD;
+                sData->stats[0] = CARD_STAT_HOF_DEBUT;
+                sData->stats[1] = CARD_STAT_LINK_BATTLES;
+                sData->stats[2] = CARD_STAT_TRADES;
+                sData->stats[3] = CARD_STAT_POKEBLOCKS;
+                sData->stats[4] = CARD_STAT_CONTESTS;
+                sData->stats[5] = CARD_STAT_BATTLE_POINTS;
+                return TRAINER_EMERALD;
+            case LINK_VERSION_HELIODOR:
+                sData->cardLayout = sData->trainerCard.cardLayout;
+                if (sData->cardLayout == CARD_LAYOUT_RS)
+                {
+                    sData->stats[0] = CARD_STAT_HOF_DEBUT;
+                    sData->stats[1] = CARD_STAT_LINK_BATTLES;
+                    sData->stats[2] = CARD_STAT_TRADES;
+                    sData->stats[3] = CARD_STAT_POKEBLOCKS;
+                    sData->stats[4] = CARD_STAT_CONTESTS;
+                    sData->stats[5] = CARD_STAT_BATTLE_TOWER;
+                }
+                else if (sData->cardLayout == CARD_LAYOUT_FRLG)
+                {
+                    sData->stats[0] = CARD_STAT_HOF_DEBUT;
+                    sData->stats[1] = CARD_STAT_LINK_BATTLES;
+                    sData->stats[2] = CARD_STAT_TRADES;
+                    sData->stats[3] = CARD_STAT_UNION_ROOM;
+                    sData->stats[4] = CARD_STAT_BERRY_CRUSH;
+                    sData->stats[5] = CARD_STAT_NONE;
+                }
+                else if (sData->cardLayout == CARD_LAYOUT_HELIODOR)
+                {
+                    sData->stats[0] = sData->trainerCard.stat0;
+                    sData->stats[1] = sData->trainerCard.stat1;
+                    sData->stats[2] = sData->trainerCard.stat2;
+                    sData->stats[3] = sData->trainerCard.stat3;
+                    sData->stats[4] = sData->trainerCard.stat4;
+                    sData->stats[5] = CARD_STAT_NONE;
+                }
+                else
+                {
+                    sData->stats[0] = CARD_STAT_HOF_DEBUT;
+                    sData->stats[1] = CARD_STAT_LINK_BATTLES;
+                    sData->stats[2] = CARD_STAT_TRADES;
+                    sData->stats[3] = CARD_STAT_POKEBLOCKS;
+                    sData->stats[4] = CARD_STAT_CONTESTS;
+                    sData->stats[5] = CARD_STAT_BATTLE_POINTS;
+                }
+                return TRAINER_HELIODOR;
+            case LINK_VERSION_RECHARGED_YELLOW:
+                sData->cardLayout = CARD_LAYOUT_FRLG;
+                sData->stats[0] = CARD_STAT_HOF_DEBUT;
+                sData->stats[1] = CARD_STAT_LINK_BATTLES;
+                sData->stats[2] = CARD_STAT_TRADES;
+                sData->stats[3] = CARD_STAT_UNION_ROOM;
+                sData->stats[4] = CARD_STAT_BERRY_CRUSH;
+                sData->stats[5] = CARD_STAT_NONE;
+                return TRAINER_RY;
+        }
     }
 }
 
@@ -3155,7 +3098,7 @@ static void CreateTrainerCardTrainerPic(void)
     }
     else
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->trainerPair][sData->trainerCard.gender]),
+        CreateTrainerCardTrainerPicSprite(sTrainerPics[sData->trainerPair][sData->trainerCard.gender],
                     TRUE,
                     sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->cardLayout][sData->trainerCard.gender][1],

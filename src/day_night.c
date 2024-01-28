@@ -17,6 +17,7 @@
 
 EWRAM_DATA u16 gPlttBufferPreDN[PLTT_BUFFER_SIZE] = {0};
 EWRAM_DATA const struct PaletteOverride *gPaletteOverrides[4] = {NULL};
+EWRAM_DATA bool8 gForceTintPalettes = FALSE;
 
 static EWRAM_DATA struct {
     bool8 initialized:1;
@@ -120,6 +121,9 @@ static void LoadPaletteOverrides(void)
 
 static bool8 ShouldTintOverworld(void)
 {
+    if (gForceTintPalettes)
+        return TRUE;
+
     if (IsMapTypeOutdoors(gMapHeader.mapType) || gMapHeader.mapType == 7)
         return TRUE;
 

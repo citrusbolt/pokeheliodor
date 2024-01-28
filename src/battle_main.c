@@ -2927,7 +2927,7 @@ static void SpriteCB_WildMonAnimate(struct Sprite *sprite)
 {
     if (!gPaletteFade.active)
     {
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1, TRUE);
     }
 }
 
@@ -3071,7 +3071,7 @@ void SpriteCB_OpponentMonFromBall(struct Sprite *sprite)
             if (HasTwoFramesAnimation(sprite->sSpeciesId))
                 StartSpriteAnim(sprite, 1);
         }
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1, FALSE);
     }
 }
 
@@ -4555,7 +4555,7 @@ static void HandleTurnActionSelectionState(void)
                                             | BATTLE_TYPE_SECRET_BASE | BATTLE_TYPE_RECORDED_IS_MASTER)))
                       && gBattleBufferB[gActiveBattler][1] == B_ACTION_RUN)
                 {
-                    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+                    for (i = 0; i < gBattlersCount; i++)
                     {
                         if (GetBattlerSide(i) == B_SIDE_OPPONENT && IsShinyOtIdPersonality(gBattleMons[i].otId, gBattleMons[i].personality) && gBattleMons[i].hp)
                         {

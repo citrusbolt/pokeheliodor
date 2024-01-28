@@ -280,7 +280,6 @@ static bool8 DoesMonOTMatchOwner(void);
 static bool8 DidMonComeFromGBAGames(void);
 static bool8 DidMonComeFromRSE(void);
 static bool8 DidMonComeFromFRLG(void);
-static bool8 DidMonComeFromCD(void);
 static bool8 DidMonComeFromDPPt(void);
 static bool8 IsInGamePartnerMon(void);
 static void PrintEggOTID(void);
@@ -1289,7 +1288,7 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
 {
     u8 trueOrigin = 0xFF;
 
-    if (versionModifier == DEV_SOLITAIRI && metGame != VERSION_PLATINUM)
+    if (versionModifier == DEV_CITRUS_BOLT && metGame != VERSION_PLATINUM)
     {
         trueOrigin = ORIGIN_GAME_HELIODOR;
     }
@@ -1342,7 +1341,7 @@ static u8 ShowGameIcon(u8 metGame, u8 versionModifier, bool8 fatefulEncounter, u
                 case VERSION_EMERALD:
                     trueOrigin = ORIGIN_GAME_EMERALD;
                     break;
-                case VERSION_GAMECUBE:
+                case VERSION_COLOXD:
                     if (fatefulEncounter)
                         trueOrigin = ORIGIN_GAME_XD;
                     else
@@ -3130,11 +3129,7 @@ static void BufferMonTrainerMemo(void)
 		{
 			GetMapNameHoennKanto(metLocationString, MAPSEC_MIRAGE_ISLAND);
 		}
-		else if (DidMonComeFromCD() && sum->metLocation < KANTO_MAPSEC_START)
-		{
-			GetMapNameJohto(metLocationString, sum->metLocation);
-		}
-		else if (sum->metGame == VERSION_GAMECUBE)
+		else if (sum->metGame == VERSION_COLOXD)
 		{
 			GetMapNameOrre(metLocationString, sum->metLocation, sum->fatefulEncounter);
 		}
@@ -3147,7 +3142,7 @@ static void BufferMonTrainerMemo(void)
 			GetMapNameHoennKanto(metLocationString, sum->metLocation);
 		}
 
-		if (sum->metGame == VERSION_GAMECUBE)
+		if (sum->metGame == VERSION_COLOXD)
 		{
 			if (sum->metLocation == METLOC_IN_GAME_TRADE)
             {
@@ -3371,16 +3366,6 @@ static bool8 DidMonComeFromFRLG(void)
     return FALSE;
 }
 
-static bool8 DidMonComeFromCD(void)
-{
-    struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame == VERSION_HEARTGOLD)	//CrystalDust uses HeartGold's game ID
-        return TRUE;
-	if (sum->metGame == VERSION_FIRERED && sum->versionModifier == DEV_SOLITAIRI_2)	//Solitairi fork of CrystalDust
-		return TRUE;
-    return FALSE;
-}
-
 static bool8 DidMonComeFromDPPt(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
@@ -3452,14 +3437,8 @@ static void BufferEggMemo(void)
 				text = gText_TrainerMemo_EggFromTraveler;
 			else if (DidMonComeFromRSE())
 				text = gText_TrainerMemo_EggFromHotSprings;
-			else if (DidMonComeFromCD())
-				text = gText_TrainerMemo_EggFromElm;
 			else
 				text = gText_TrainerMemo_EggFromTraveler;
-		}
-		else if (sum->metLocation == MAPSEC_GOLDENROD_CITY && DidMonComeFromCD())
-		{
-			text = gText_TrainerMemo_EggFromPokecomCenter;
 		}
         else if (sum->metLocation == MAPSEC_SILPH_CO)
         {
@@ -3469,10 +3448,6 @@ static void BufferEggMemo(void)
 		else if (DidMonComeFromFRLG())
 		{
 			text = gText_TrainerMemo_EggFromKanto;
-		}
-		else if (DidMonComeFromCD())
-		{
-			text= gText_TrainerMemo_EggFromJohto;
 		}
 		else
 		{
@@ -3952,12 +3927,17 @@ static void PrintNewMoveDetailsOrCancelText(void)
 
 static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2)
 {
-	u32 i;
+    u32 i;
 
-	FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
+    FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
 
-	for (i = 0; i < MAX_MON_MOVES; i++)
-		PrintMoveNameAndPP(i);
+    for (i = 0; i < MAX_MON_MOVES; i++)
+        PrintMoveNameAndPP(i);
+
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, sText_Cancel, 64, 12, 0, 1);
+    ScheduleBgCopyTilemapToVram(0);
+    PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+    PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
 }
 
 static void ResetSpriteIds(void)
@@ -4826,13 +4806,9 @@ u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
 	versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER, 0);
 	metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
 
-	if (versionModifier == DEV_SOLITAIRI_2 && originGame == VERSION_FIRERED && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_HEARTGOLD && metLocation < KANTO_MAPSEC_START)
-		return REGION_JOHTO;
-	else if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
+	if (originGame == VERSION_DIAMOND || originGame == VERSION_PEARL || originGame == VERSION_PLATINUM)
 		return REGION_SINNOH;
-	else if (originGame == VERSION_GAMECUBE)
+	else if (originGame == VERSION_COLOXD)
 		return REGION_ORRE;
 	else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == MAPSEC_BIRTH_ISLAND || metLocation == MAPSEC_NAVEL_ROCK)
 		return REGION_KANTO;

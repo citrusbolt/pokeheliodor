@@ -239,7 +239,7 @@ Route119_WeatherInstitute_2F_EventScript_RoamingScientist::
 	goto_if_eq Route119_WeatherInstitute_2F_EventScript_GiveMysticTicket
 	release
 	end
-	
+
 Route119_WeatherInstitute_2F_EventScript_ShowRoamer::
 	special CurrentRoamer
 	showmonpic VAR_RESULT, 10, 3
@@ -251,12 +251,17 @@ Route119_WeatherInstitute_2F_EventScript_ShowRoamer::
 	goto_if_eq Route119_WeatherInstitute_2F_EventScript_MentionZapdos
 	release
 	end
-	
+
 Route119_WeatherInstitute_2F_EventScript_MentionZapdos::
+	goto_if_set FLAG_COMPLETED_ROAMER_QUEST, Route119_WeatherInstitute_2F_EventScript_DontMentionZapdos
 	msgbox Route119_WeatherInstitute_2F_Text_MentionZapdos, MSGBOX_DEFAULT
 	release
 	end
-	
+
+Route119_WeatherInstitute_2F_EventScript_DontMentionZapdos::
+	release
+	end
+
 Route119_WeatherInstitute_2F_EventScript_GiveMysticTicket::
 	goto_if_set FLAG_RECEIVED_MYSTIC_TICKET, Route119_WeatherInstitute_2F_EventScript_RoamerQuestDone
 	msgbox Route119_WeatherInstitute_2F_Text_GiveMysticTicket, MSGBOX_DEFAULT

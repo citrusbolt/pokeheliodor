@@ -729,7 +729,7 @@ static void BuyMenuAddItemIcon(u16 item, u8 iconSlot)
     }
     else
     {
-        spriteId = AddDecorationIconObject(item, 20, 84, 1, iconSlot + TAG_ITEM_ICON_BASE, iconSlot + TAG_ITEM_ICON_BASE);
+        spriteId = AddDecorationIconObject(item, 20, 84, 1, iconSlot + TAG_ITEM_ICON_BASE, iconSlot + TAG_ITEM_ICON_BASE, FALSE);
         if (spriteId != MAX_SPRITES)
             *spriteIdPtr = spriteId;
     }
@@ -837,7 +837,7 @@ static void BuyMenuDrawMapBg(void)
         {
             metatile = MapGridGetMetatileIdAt(x + i, y + j);
             if (BuyMenuCheckForOverlapWithMenuBg(i, j) == TRUE)
-                metatileLayerType = 0;
+                metatileLayerType = METATILE_LAYER_TYPE_NORMAL;
             else
                 metatileLayerType = METATILE_LAYER_TYPE_COVERED;
 
@@ -883,7 +883,7 @@ static void BuyMenuDrawMapMetatile(s16 x, s16 y, const u16 *src, u8 metatileLaye
     u16 offset1 = x * 2;
     u16 offset2 = y * 64;
 
-    if(metatileLayerType == 0)
+    if(metatileLayerType == METATILE_LAYER_TYPE_NORMAL)
     {
         BuyMenuDrawMapMetatileLayer(sShopData->tilemapBuffers[2], offset1, offset2, src + 0);
         BuyMenuDrawMapMetatileLayer(sShopData->tilemapBuffers[3], offset1, offset2, src + 4);
@@ -984,7 +984,8 @@ static void BuyMenuDrawObjectEvents(void)
             SpriteCallbackDummy,
             (u16)sShopData->viewportObjects[i][X_COORD] * 16 + 8,
             (u16)sShopData->viewportObjects[i][Y_COORD] * 16 + 48 - graphicsInfo->height / 2,
-            2);
+            2,
+            TRUE);
 
         if (BuyMenuCheckIfObjectEventOverlapsMenuBg(sShopData->viewportObjects[i]) == TRUE)
         {

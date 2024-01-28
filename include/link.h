@@ -331,7 +331,6 @@ extern u16 gLinkSavedIme;
 extern struct LinkPlayer gLocalLinkPlayer;
 
 bool32 Link_AnyPartnersPlayingRubyOrSapphire(void);
-bool32 Link_AllPartnersPlayingDXOrHeliodor(void);
 bool32 LinkDummy_Return2(void);
 void SetLocalLinkPlayerId(u8);
 u8 GetSavedPlayerCount(void);
@@ -345,5 +344,7 @@ bool8 DoesLinkPlayerCountMatchSaved(void);
 void SetCloseLinkCallbackAndType(u16 type);
 bool32 IsSendingKeysToLink(void);
 u32 GetLinkRecvQueueLength(void);
+
+u16 GetLinkVersion(u8 version, u8 versionModifier);
 
 #endif // GUARD_LINK_H
