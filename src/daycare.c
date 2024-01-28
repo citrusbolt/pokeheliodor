@@ -497,7 +497,7 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 
     if (GetBoxMonData(&daycare->mons[0].mon, MON_DATA_LANGUAGE) != GetBoxMonData(&daycare->mons[1].mon, MON_DATA_LANGUAGE))
         parameters.shinyRolls += MASUDA_METHOD_REROLLS;
-    if (HasAllMons())
+    if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
         parameters.shinyRolls += SHINY_CHARM_REROLLS;
     if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
         parameters.shinyRolls *= 2;
@@ -898,7 +898,7 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
     parameters.forceUnownLetter = FALSE;
     parameters.unownLetter = 0;
 
-    if (HasAllMons())
+    if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
         parameters.shinyRolls += SHINY_CHARM_REROLLS;
     if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
         parameters.shinyRolls *= 2;
@@ -995,7 +995,7 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
     if (daycare->offspringPersonality == 0 && validEggs == DAYCARE_MON_COUNT && (daycare->mons[1].steps & 0xFF) == 0xFF)
     {
         u8 compatibility = GetDaycareCompatibilityScore(daycare);
-		if (HasAllHoennMons())
+		if (CheckBagHasItem(ITEM_OVAL_CHARM, 1))
 		{
 			switch (compatibility)
 			{
@@ -1922,7 +1922,7 @@ void GiveEventEgg(void)
     parameters.forceUnownLetter = FALSE;
     parameters.unownLetter = 0;
 
-    if (HasAllMons())
+    if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
         parameters.shinyRolls += SHINY_CHARM_REROLLS;
     if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
         parameters.shinyRolls *= 2;

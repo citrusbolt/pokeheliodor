@@ -31,6 +31,7 @@
 #include "constants/battle.h"
 #include "battle.h"
 #include "constants/pokemon.h"
+#include "item.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -3387,7 +3388,7 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
         nature = GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY) % NUM_NATURES;
     }
 
-	if (HasAllMons())
+	if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
 		rolls += SHINY_CHARM_REROLLS;
 
 	if (species == gLastEncounteredSpecies)

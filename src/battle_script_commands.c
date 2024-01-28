@@ -3446,7 +3446,7 @@ static void Cmd_getexp(void)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
                     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
-					if (FlagGet(FLAG_SYS_GAME_CLEAR))
+					if (CheckBagHasItem(ITEM_EXP_CHARM, 1))
 						gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
 					if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_FRIENDSHIP) >= 220)
 						gBattleMoveDamage = (gBattleMoveDamage * 120) / 100;
@@ -10494,7 +10494,7 @@ static void Cmd_handleballthrow(void)
                 break;
         }
 
-		if (FlagGet(FLAG_SYS_GAME_CLEAR))
+		if (CheckBagHasItem(ITEM_CATCHING_CHARM, 1))
 			ballMultiplier = ballMultiplier * 150 / 100;
 
 		if (gPowerType == POWER_CAPTURE && gPowerTime > 0)

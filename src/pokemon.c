@@ -2657,7 +2657,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     bool32 otIdOverride = FALSE;
 	u16 rolls = 1;
 	
-	if (HasAllMons())
+	if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;

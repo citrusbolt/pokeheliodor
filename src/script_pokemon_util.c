@@ -26,6 +26,7 @@
 #include "constants/species.h"
 #include "power.h"
 #include "constants/power.h"
+#include "item.h"
 
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleFrontierParty(void);
@@ -122,7 +123,7 @@ u8 ScriptGiveUnown(u8 level, u16 item)
     else
         parameters.unownLetter = Random() % 27;
 
-    if (HasAllMons())
+    if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
         parameters.shinyRolls += SHINY_CHARM_REROLLS;
     if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
         parameters.shinyRolls *= 2;
@@ -233,7 +234,7 @@ void CreateScriptedWildMon(u16 species, u8 level, u16 item)
     parameters.forceUnownLetter = FALSE;
     parameters.unownLetter = 0;
 
-    if (HasAllMons())
+    if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
         parameters.shinyRolls += SHINY_CHARM_REROLLS;
     if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
         parameters.shinyRolls *= 2;
