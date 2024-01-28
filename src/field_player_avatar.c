@@ -257,16 +257,6 @@ static const u16 sPlayerAvatarGfxIds[][2] =
     [PLAYER_AVATAR_STATE_WATERING]   = {OBJ_EVENT_GFX_BRENDAN_WATERING,     OBJ_EVENT_GFX_MAY_WATERING},
 };
 
-static const u16 sFRLGAvatarGfxIds[] = {OBJ_EVENT_GFX_RED, OBJ_EVENT_GFX_LEAF};
-
-static const u16 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_BRENDAN_RS, OBJ_EVENT_GFX_MAY_RS};
-
-static const u16 sEmeraldAvatarGfxIds[] = {OBJ_EVENT_GFX_BRENDAN_GREEN, OBJ_EVENT_GFX_MAY_GREEN};
-
-static const u16 sCDAvatarGfxIds[] = {OBJ_EVENT_GFX_GOLD, OBJ_EVENT_GFX_KRIS};
-
-static const u16 sTestAvatarGfxIds[] = {OBJ_EVENT_GFX_WALLY, OBJ_EVENT_GFX_STEVEN};
-
 static const u16 sUnknownAvatarGfxIds[2][8] = {
     [MALE] = {
         OBJ_EVENT_GFX_MAN_3, 
@@ -1271,31 +1261,6 @@ u16 GetRivalAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
 u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
 {
     return sPlayerAvatarGfxIds[state][gender];
-}
-
-u16 GetFRLGAvatarGraphicsIdByGender(u8 gender)
-{
-    return sFRLGAvatarGfxIds[gender];
-}
-
-u16 GetRSAvatarGraphicsIdByGender(u8 gender)
-{
-    return sRSAvatarGfxIds[gender];
-}
-
-u16 GetEmeraldAvatarGraphicsIdByGender(u8 gender)
-{
-	return sEmeraldAvatarGfxIds[gender];
-}
-
-u16 GetCDAvatarGraphicsIdByGender(u8 gender)
-{
-	return sCDAvatarGfxIds[gender];
-}
-
-u16 GetTestAvatarGraphicsIdByGender(u8 gender)
-{
-	return sTestAvatarGfxIds[gender];
 }
 
 u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)

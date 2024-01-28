@@ -520,7 +520,10 @@
 #define OBJ_EVENT_GFX_PROF_OAK                  502
 #define OBJ_EVENT_GFX_SABRINA                   503
 
-#define NUM_OBJ_EVENT_GFX                       504
+#define OBJ_EVENT_GFX_RED_RY                    504
+#define OBJ_EVENT_GFX_LEAF_RY                   (OBJ_EVENT_GFX_LEAF)
+
+#define NUM_OBJ_EVENT_GFX                       505
 
 
 // These are dynamic object gfx ids.

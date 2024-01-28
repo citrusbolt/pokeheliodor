@@ -1,82 +1,105 @@
 #ifndef GUARD_CONSTANTS_GLOBAL_H
 #define GUARD_CONSTANTS_GLOBAL_H
-// Invalid Versions show as "----------" in Gen 4 and Gen 5's summary screen.
-// In Gens 6 and 7, invalid versions instead show "a distant land" in the summary screen.
-// In Gen 4 only, migrated Pokémon with Diamond, Pearl, or Platinum's ID show as "----------".
-// Gen 5 and up read Diamond, Pearl, or Platinum's ID as "Sinnoh".
-// In Gen 4 and up, migrated Pokemon with HeartGold or SoulSilver's ID show the otherwise unused "Johto" string.
-//0 is unused
-#define VERSION_SAPPHIRE            1
-#define VERSION_RUBY                2
-#define VERSION_EMERALD             3
-#define VERSION_FIRERED             4
-#define VERSION_LEAFGREEN           5
-//6 is unused, possibly intended for WaterBlue or LightningYellow?
-#define VERSION_HEARTGOLD           7
-#define VERSION_SOULSILVER          8
-//9 is unused, possibly intended for MindCrystal?
-#define VERSION_DIAMOND             10
-#define VERSION_PEARL               11
-#define VERSION_PLATINUM            12
-//13 and 14 are unused
-#define VERSION_GAMECUBE            15 //Both Colosseum and XD use this ID
-//The rest of these are just for reference.  Origin game is only stored as 4 bits, so they aren't used for anything in this game
-//16-19 are unused
-#define VERSION_WHITE               20
-#define VERSION_BLACK               21
-#define VERSION_WHITE_2             22
-#define VERSION_BLACK_2             23
-#define VERSION_X                   24
-#define VERSION_Y                   25
-#define VERSION_ALPHA_SAPPHIRE      26
-#define VERSION_OMEGA_RUBY          27
-//28 and 29 are unused, possibly intended for XZ and YZ?
-#define VERSION_SUN                 30
-#define VERSION_MOON                31
-#define VERSION_ULTRA_SUN           32
-#define VERSION_ULTRA_MOON          33
-#define VERSION_GO                  34
-#define VERSION_VC_RED              35
-#define VERSION_VC_GREEN            36 //International versions of Blue use this ID
-#define VERSION_VC_BLUE             37
-#define VERSION_VC_YELLOW           38
-#define VERSION_VC_GOLD             39
-#define VERSION_VC_SILVER           40
-#define VERSION_VC_CRYSTAL          41
-#define VERSION_LETS_GO_PIKACHU     42
-#define VERSION_LETS_GO_EEVEE       43
-#define VERSION_SWORD               44
-#define VERSION_SHIELD              45
-//46 is currently unused, but reserved for HOME
-#define VERSION_LEGENDS_ARCEUS		47
-#define VERSION_BRILLIANT_DIAMOND	48
-#define VERSION_SHINING_PEARL		49
-#define VERSION_SCARLET				50
-#define VERSION_VIOLET				51
 
-//Version ID modifiers used for identifying unofficial games.
-//The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
-//so that they do not have to requisition a new ID for every project
-#define DEV_GAME_FREAK				0
-#define DEV_SOLITAIRI				1	//3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, and 12-1 for legality purposes
-#define DEV_SHINY_DRAGON_HUNTER		2	//4-2 is FireRed DX and 5-2 is LeafGreen DX
-#define DEV_SOLITAIRI_2				3	//4-3 is modified CrystalDust //Once we drop CD, this will be reserved as DEV_ASPARAGUS_EDUARDO
-#define DEV_JAIZU                   4   //3-4 is Emerald Cross, 4-4 is Recharged Yellow
-#define DEV_BOX_RS                  5   //Force this tag upon Box Eggs to track them once they are hatched
-#define DEV_TEST					255
+#define VERSION_0                   0  // a distant land
+#define VERSION_SAPPHIRE            1  // the Hoenn region
+#define VERSION_RUBY                2  // the Hoenn region
+#define VERSION_EMERALD             3  // the Hoenn region
+#define VERSION_FIRERED             4  // the Kanto region
+#define VERSION_LEAFGREEN           5  // the Kanto region
+#define VERSION_6                   6  // a distant land
+#define VERSION_HEARTGOLD           7  // the Johto region
+#define VERSION_SOULSILVER          8  // the Johto region
+#define VERSION_9                   9  // a distant land
+#define VERSION_DIAMOND             10 // the Sinnoh region
+#define VERSION_PEARL               11 // the Sinnoh region
+#define VERSION_PLATINUM            12 // the Sinnoh region
+#define VERSION_13                  13 // a distant land
+#define VERSION_14                  14 // a distant land
+#define VERSION_COLOXD              15 // a distant land
 
-#define LANGUAGE_JAPANESE 1
-#define LANGUAGE_ENGLISH  2
-#define LANGUAGE_FRENCH   3
-#define LANGUAGE_ITALIAN  4
-#define LANGUAGE_GERMAN   5
-#define LANGUAGE_KOREAN   6 // 6 goes unused but the theory is it was meant to be Korean
-#define LANGUAGE_SPANISH  7
-#define NUM_LANGUAGES     7
+// The rest of these are just for reference.  Origin game is only stored as 4 bits, so they aren't used for anything in this game
+#define VERSION_16                  16 // a distant land
+#define VERSION_17                  17 // a distant land
+#define VERSION_18                  18 // a distant land
+#define VERSION_19                  19 // a distant land
+#define VERSION_WHITE               20 // the Unova region
+#define VERSION_BLACK               21 // the Unova region
+#define VERSION_WHITE_2             22 // the Unova region
+#define VERSION_BLACK_2             23 // the Unova region
+#define VERSION_X                   24 // the Kalos region
+#define VERSION_Y                   25 // the Kalos region
+#define VERSION_ALPHA_SAPPHIRE      26 // the Hoenn region
+#define VERSION_OMEGA_RUBY          27 // the Hoenn region
+#define VERSION_28                  28 // the Kalos region
+#define VERSION_29                  29 // the Kalos region
+#define VERSION_SUN                 30 // the Alola region
+#define VERSION_MOON                31 // the Alola region
+#define VERSION_ULTRA_SUN           32 // the Alola region
+#define VERSION_ULTRA_MOON          33 // the Alola region
+#define VERSION_GO                  34 // Pokémon GO
+#define VERSION_VC_RED              35 // the Kanto region. How nostalgic!
+#define VERSION_VC_GREEN            36 // the Kanto region. How nostalgic!      // International versions of Blue use this ID
+#define VERSION_VC_BLUE             37 // the Kanto region. How nostalgic!      // Japanese only
+#define VERSION_VC_YELLOW           38 // the Kanto region. How nostalgic!
+#define VERSION_VC_GOLD             39 // the Johto region. How nostalgic!
+#define VERSION_VC_SILVER           40 // the Johto region. How nostalgic!
+#define VERSION_VC_CRYSTAL          41 // the Johto region. How nostalgic!
+#define VERSION_LETS_GO_PIKACHU     42 // the Kanto region
+#define VERSION_LETS_GO_EEVEE       43 // the Kanto region
+#define VERSION_SWORD               44 // the Galar region
+#define VERSION_SHIELD              45 // the Galar region
+#define VERSION_HOME                46 // Pokémon HOME
+#define VERSION_LEGENDS_ARCEUS      47 // the Hisui region
+#define VERSION_BRILLIANT_DIAMOND   48 // the Sinnoh region
+#define VERSION_SHINING_PEARL       49 // the Sinnoh region
+#define VERSION_SCARLET             50 // the Paldea region
+#define VERSION_VIOLET              51 // the Paldea region
 
-#define GAME_VERSION (VERSION_EMERALD)
-#define GAME_LANGUAGE (LANGUAGE_ENGLISH)
-#define VERSION_MODIFIER (DEV_SOLITAIRI)
+// Version ID modifiers used for identifying unofficial games.
+// The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
+// so that they do not have to requisition a new ID for every project
+#define DEV_GAME_FREAK              0
+#define DEV_CITRUS_BOLT             1	// 3-1 is Heliodor.  Pokemon are also flagged with 1-1, 2-1, 4-1, 5-1, 12-1, and 15-1 for legality purposes
+#define DEV_SHINY_DRAGON_HUNTER     2	// 4-2 is FireRed DX and 5-2 is LeafGreen DX
+#define DEV_ASPARAGUS_EDUARDO       3	// Reserved.
+#define DEV_JAIZU                   4   // 3-4 is Emerald Cross, 4-4 is Recharged Yellow
+#define DEV_BOX_RS                  5   // Force this tag upon Box Eggs to track them once they are hatched
+
+#define LINK_VERSION_RUBY               0
+#define LINK_VERSION_SAPPHIRE           1
+#define LINK_VERSION_COLOXD             2
+#define LINK_VERSION_FIRERED            3
+#define LINK_VERSION_LEAFGREEN          4
+#define LINK_VERSION_EMERALD            5
+#define LINK_VERSION_DIAMOND            6
+#define LINK_VERSION_PEARL              7
+#define LINK_VERSION_PLATINUM           8
+#define LINK_VERSION_HEARTGOLD          9
+#define LINK_VERSION_SOULSILVER         10
+#define LINK_VERSION_HELIODOR           11
+#define LINK_VERSION_EMERALD_CROSS      12
+#define LINK_VERSION_RECHARGED_YELLOW   13
+
+#define LANGUAGE_UNKNOWN    0
+#define LANGUAGE_JAPANESE   1
+#define LANGUAGE_ENGLISH    2
+#define LANGUAGE_FRENCH     3
+#define LANGUAGE_ITALIAN    4
+#define LANGUAGE_GERMAN     5
+#define LANGUAGE_UNUSED     6
+#define LANGUAGE_SPANISH    7
+
+#define NUM_LANGUAGES       7
+
+// Post-Gen 3 languages
+#define LANGUAGE_KOREAN                 8
+#define LANGUAGE_CHINESE_SIMPLIFIED     9
+#define LANGUAGE_CHINESE_TRADITIONAL    10
+
+#define GAME_VERSION        (VERSION_EMERALD)
+#define GAME_LANGUAGE       (LANGUAGE_ENGLISH)
+#define VERSION_MODIFIER    (DEV_CITRUS_BOLT)
 
 // party sizes
 #define PARTY_SIZE 6

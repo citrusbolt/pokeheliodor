@@ -627,6 +627,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Registeel,                 OW_PAL(OBJ_EVENT_GFX_REGISTEEL)},
     {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_CARRYING_BOX)},
     {gObjectEventPal_Vigoroth,                  OW_PAL(OBJ_EVENT_GFX_VIGOROTH_FACING_AWAY)},
+    {gObjectEventPal_Red_RY,                    OW_PAL(OBJ_EVENT_GFX_RED_RY)},
     {NULL,                                      OBJ_EVENT_PAL_TAG_NONE},
 };
 
@@ -1497,17 +1498,30 @@ static void MakeSpriteTemplateFromObjectEventTemplate(const struct ObjectEventTe
 }
 
 // Used to create a sprite using a graphicsId associated with object events.
-u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority)
+u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 tintPalette)
 {
     struct SpriteTemplate *spriteTemplate;
     const struct SubspriteTable *subspriteTables;
     struct Sprite *sprite;
+    struct SpritePalette duplicatePalette;
     u8 spriteId;
 
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, callback, spriteTemplate, &subspriteTables);
-    LoadObjectEventPalette(spriteTemplate->paletteTag);
-    PatchObjectPalette(spriteTemplate->paletteTag, IndexOfSpritePaletteTag(spriteTemplate->paletteTag));
+
+    if (tintPalette)
+    {
+        LoadObjectEventPalette(spriteTemplate->paletteTag);
+        PatchObjectPalette(spriteTemplate->paletteTag, IndexOfSpritePaletteTag(spriteTemplate->paletteTag));
+    }
+    else
+    {
+        duplicatePalette.data = sObjectEventSpritePalettes[FindObjectEventPaletteIndexByTag(spriteTemplate->paletteTag)].data;
+        duplicatePalette.tag = spriteTemplate->paletteTag + 0x200;
+        LoadSpritePaletteIfTagExists(&duplicatePalette);
+        spriteTemplate->paletteTag += 0x200;
+    }
+
     UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate->paletteTag), COLOR_MAP_CONTRAST);
 
     spriteId = CreateSprite(spriteTemplate, x, y, subpriority);
@@ -1754,13 +1768,17 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
     
     if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
     {
+        LoadObjectEventPalette(OW_PAL(graphicsId));
+        PatchObjectPalette(OW_PAL(graphicsId), IndexOfSpritePaletteTag(OW_PAL(graphicsId)));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(graphicsId)), COLOR_MAP_CONTRAST);
         paletteSlot = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
-        PatchObjectPalette(OW_PAL(graphicsId), paletteSlot);
     }
     else
     {
+        LoadObjectEventPalette(graphicsInfo->paletteTag);
+        PatchObjectPalette(graphicsInfo->paletteTag, IndexOfSpritePaletteTag(graphicsInfo->paletteTag));
+        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), COLOR_MAP_CONTRAST);
         paletteSlot = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
-        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
     }
 
     sprite->oam.shape = graphicsInfo->oam->shape;
@@ -8486,9 +8504,19 @@ void SetVirtualObjectGraphics(u8 virtualObjId, u16 graphicsId)
         sprite->oam = *graphicsInfo->oam;
         sprite->oam.tileNum = tileNum;
         if (graphicsInfo->paletteTag == OBJ_EVENT_PAL_TAG_UNIQUE)
+        {
+            LoadObjectEventPalette(OW_PAL(graphicsId));
+            PatchObjectPalette(OW_PAL(graphicsId), IndexOfSpritePaletteTag(OW_PAL(graphicsId)));
+            UpdatePaletteColorMapType(IndexOfSpritePaletteTag(OW_PAL(graphicsId)), COLOR_MAP_CONTRAST);
             sprite->oam.paletteNum = IndexOfSpritePaletteTag(OW_PAL(graphicsId));
+        }
         else
+        {
+            LoadObjectEventPalette(graphicsInfo->paletteTag);
+            PatchObjectPalette(graphicsInfo->paletteTag, IndexOfSpritePaletteTag(graphicsInfo->paletteTag));
+            UpdatePaletteColorMapType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), COLOR_MAP_CONTRAST);
             sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
+        }
         sprite->images = graphicsInfo->images;
 
         if (graphicsInfo->subspriteTables == NULL)

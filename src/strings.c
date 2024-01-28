@@ -2043,3 +2043,4 @@ const u8 gText_MovedToFreeSpace[] = _("The {STR_VAR_1}\nwas moved to\nthe Free S
 const u8 gText_ReturnedFromFreeSpace[] = _("The {STR_VAR_1}\nwas returned to\nits Pocket.");
 const u8 gText_An[] = _("an");
 const u8 gText_A[] = _("a");
+const u8 gText_LogOntoOtherPC[] = _("LOG ONTO OTHER PC");

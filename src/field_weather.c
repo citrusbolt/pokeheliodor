@@ -18,6 +18,7 @@
 #include "gpu_regs.h"
 #include "field_camera.h"
 #include "day_night.h"
+#include "rtc.h"
 
 #define DROUGHT_COLOR_INDEX(color) ((((color) >> 1) & 0xF) | (((color) >> 2) & 0xF0) | (((color) >> 3) & 0xF00))
 
@@ -695,7 +696,7 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
     }
 }
 
-static void MarkFogSpritePalToLighten(u8 paletteIndex)
+void MarkFogSpritePalToLighten(u8 paletteIndex)
 {
     if (gWeatherPtr->lightenedFogSpritePalsCount < 6)
     {
@@ -812,6 +813,10 @@ bool8 IsWeatherNotFadingIn(void)
     return (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_IN);
 }
 
+static const u16 sCloudsWeatherPalette[] = INCBIN_U16("graphics/weather/cloud.gbapal");
+static const u16 sCloudsSunsetWeatherPalette[] = INCBIN_U16("graphics/weather/cloud_sunset.gbapal");
+static const u16 sCloudsTransitionWeatherPalette[] = INCBIN_U16("graphics/weather/cloud_transition.gbapal");
+
 void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex)
 {
     u16 paletteIndex = 16 + spritePaletteIndex;
@@ -837,11 +842,22 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex)
     // WEATHER_PAL_STATE_CHANGING_WEATHER
     // WEATHER_PAL_STATE_CHANGING_IDLE
     default:
-        if (gWeatherPtr->currWeather != WEATHER_FOG_HORIZONTAL)
+        if (gWeatherPtr->currWeather == WEATHER_SUNNY_CLOUDS && IndexOfSpritePaletteTag(0x1207) == spritePaletteIndex)
+        {
+            if (gLocalTime.hours == 17 && gLocalTime.minutes <= 30)
+                DoLoadSpritePaletteDayNight(sCloudsTransitionWeatherPalette, PLTT_ID(spritePaletteIndex));
+            else if (gLocalTime.hours == 19 && gLocalTime.minutes >= 30)
+                DoLoadSpritePaletteDayNight(sCloudsTransitionWeatherPalette, PLTT_ID(spritePaletteIndex));
+            else if (gLocalTime.hours >= 17 && gLocalTime.hours < 20)
+                LoadPalette(sCloudsSunsetWeatherPalette, OBJ_PLTT_OFFSET + PLTT_ID(spritePaletteIndex), PLTT_SIZE_4BPP);
+            else
+                DoLoadSpritePaletteDayNight(sCloudsWeatherPalette, PLTT_ID(spritePaletteIndex));
+        }
+        else if (gWeatherPtr->currWeather != WEATHER_FOG_HORIZONTAL)
         {
             ApplyColorMap(paletteIndex, 1, gWeatherPtr->colorMapIndex);
         }
-        else
+        else if (LightenSpritePaletteInFog(paletteIndex))
         {
             paletteIndex = PLTT_ID(paletteIndex);
             BlendPalette(paletteIndex, 16, 12, RGB(28, 31, 28));

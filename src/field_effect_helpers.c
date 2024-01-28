@@ -28,7 +28,7 @@ static void SynchroniseSurfPosition(struct ObjectEvent *, struct Sprite *);
 static void UpdateBobbingEffect(struct ObjectEvent *, struct Sprite *, struct Sprite *);
 static void SpriteCB_UnderwaterSurfBlob(struct Sprite *);
 static u32 ShowDisguiseFieldEffect(u8, u8);
-static void LoadFieldEffectPalette_(u8 fieldEffect, bool8 updateGammaType);
+static u8 LoadFieldEffectPalette_(u8 fieldEffect, bool8 updateGammaType);
 
 void LoadSpecialReflectionPalette(struct Sprite *sprite);
 
@@ -1706,7 +1706,7 @@ static void UpdateGrassFieldEffectSubpriority(struct Sprite *sprite, u8 elevatio
     }
 }
 
-static void LoadFieldEffectPalette_(u8 fieldEffect, bool8 updateColorMapType)
+static u8 LoadFieldEffectPalette_(u8 fieldEffect, bool8 updateColorMapType)
 {
     const struct SpriteTemplate *spriteTemplate;
 
@@ -1718,12 +1718,16 @@ static void LoadFieldEffectPalette_(u8 fieldEffect, bool8 updateColorMapType)
         UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate->paletteTag), COLOR_MAP_CONTRAST);
         if (updateColorMapType)
             UpdatePaletteColorMapType(IndexOfSpritePaletteTag(spriteTemplate->paletteTag), COLOR_MAP_DARK_CONTRAST);
+
+        return IndexOfSpritePaletteTag(spriteTemplate->paletteTag);
     }
+
+    return 0xFF;
 }
 
-void LoadFieldEffectPalette(u8 fieldEffect)
+u8 LoadFieldEffectPalette(u8 fieldEffect)
 {
-    LoadFieldEffectPalette_(fieldEffect, TRUE);
+    return LoadFieldEffectPalette_(fieldEffect, TRUE);
 }
 
 // Unused, duplicates of data in event_object_movement.c

@@ -333,6 +333,7 @@ static void Intro_WaitForShinyAnimAndHealthbox(void)
         gBattleSpritesDataPtr->healthBoxesData[BATTLE_PARTNER(gActiveBattler)].finishedShinyMonAnim = FALSE;
 
         FreeSpriteTilesByTag(ANIM_TAG_GOLD_STARS);
+        FreeSpriteTilesByTag(ANIM_TAG_SHINY_SQUARES);
         FreeSpritePaletteByTag(ANIM_TAG_GOLD_STARS);
 
         CreateTask(Task_PlayerController_RestoreBgmAfterCry, 10);

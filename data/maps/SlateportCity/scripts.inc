@@ -950,6 +950,39 @@ SlateportCity_EventScript_BerryCrushRankingsSign::
 	releaseall
 	end
 
+SlateportCity_EventScript_SecretBasePCGuy::
+	lock
+	faceplayer
+	goto_if_set FLAG_SECRET_BASE_PC_UPGRADED, SlateportCity_EventScript_SecretBasePCGuyUpgraded
+	showmoneybox 0, 0
+	msgbox SlateportCity_Text_SecretBasePCUpgradeOffer, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, SlateportCity_EventScript_UpgradeSecretBasePC
+	msgbox SlateportCity_Text_SecretBasePCUpgradeLater, MSGBOX_DEFAULT
+	hidemoneybox
+	release
+	end
+
+SlateportCity_EventScript_SecretBasePCGuyUpgraded::
+	msgbox SlateportCity_Text_SecretBasePCUpgraded, MSGBOX_NPC
+	release
+	end
+
+SlateportCity_EventScript_UpgradeSecretBasePC::
+	checkmoney 100000
+	goto_if_eq VAR_RESULT, 0, SlateportCity_EventScript_UpgradeSecretBasePCNotEnoughMoney
+	removemoney 100000
+	updatemoneybox
+	setflag FLAG_SECRET_BASE_PC_UPGRADED
+	msgbox SlateportCity_Text_SecretBasePCUpgrade, MSGBOX_NPC
+	hidemoneybox
+	release
+	end
+
+SlateportCity_EventScript_UpgradeSecretBasePCNotEnoughMoney::
+	msgbox SlateportCity_Text_SecretBasePCUpgradeNotEnoughMoney, MSGBOX_NPC
+	release
+	end
+
 SlateportCity_Text_EnergyGuruSellWhatYouNeed:
 	.string "I'm the Energy Guru! I'll go for it and\n"
 	.string "sell you what you need!$"
@@ -1383,3 +1416,28 @@ SlateportCity_Text_TakingBattleTentChallenge:
 	.string "After all, a tough Trainer is\n"
 	.string "the perfect fit for the Battle Tent!\p"
 	.string "Give it your best effort!$"
+
+SlateportCity_Text_SecretBasePCUpgradeOffer:
+	.string "Would you be interested in a network\n"
+	.string "module for your Secret Base PC?\p"
+	.string "It will allow you to connect to\n"
+	.string "other PC systems such as the\l"
+	.string "Pokémon Storage System.\p"
+	.string "This module is a pretty sophisticated\n"
+	.string "piece of tech, so it costs ¥100000.$"
+
+SlateportCity_Text_SecretBasePCUpgrade:
+	.string "{PLAYER} received the PC\n"
+	.string "network module!$"
+
+SlateportCity_Text_SecretBasePCUpgraded:
+	.string "How has your network\n"
+	.string "module be functioning?$"
+
+SlateportCity_Text_SecretBasePCUpgradeLater:
+	.string "Let me know if you're interested\n"
+	.string "in this later.$"
+
+SlateportCity_Text_SecretBasePCUpgradeNotEnoughMoney:
+	.string "You don't have enough money.\n"
+	.string "Sorry.$"

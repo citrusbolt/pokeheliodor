@@ -2239,38 +2239,38 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
 
         if (isShiny)
         {
-			if (IsMonSquareShiny(mon))
-			{
-				if (GetSpriteTileStartByTag(ANIM_TAG_SHINY_SQUARES) == 0xFFFF)
-				{
-					LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
-					LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
-				}
+            if (IsMonSquareShiny(mon))
+            {
+                if (GetSpriteTileStartByTag(ANIM_TAG_SHINY_SQUARES) == 0xFFFF)
+                {
+                    LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
+                    LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
+                }
 
-				taskCirc = CreateTask(Task_ShinySquares, 10);
-				taskDgnl = CreateTask(Task_ShinySquares, 10);
-				gTasks[taskCirc].tBattler = battler;
-				gTasks[taskDgnl].tBattler = battler;
-				gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
-				gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
-				return;
-			}
-			else
-			{
-				if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
-				{
-					LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
-					LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
-				}
+                taskCirc = CreateTask(Task_ShinySquares, 10);
+                taskDgnl = CreateTask(Task_ShinySquares, 10);
+                gTasks[taskCirc].tBattler = battler;
+                gTasks[taskDgnl].tBattler = battler;
+                gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+                gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+                return;
+            }
+            else
+            {
+                if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
+                {
+                    LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
+                    LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
+                }
 
-				taskCirc = CreateTask(Task_ShinyStars, 10);
-				taskDgnl = CreateTask(Task_ShinyStars, 10);
-				gTasks[taskCirc].tBattler = battler;
-				gTasks[taskDgnl].tBattler = battler;
-				gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
-				gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
-				return;
-			}
+                taskCirc = CreateTask(Task_ShinyStars, 10);
+                taskDgnl = CreateTask(Task_ShinyStars, 10);
+                gTasks[taskCirc].tBattler = battler;
+                gTasks[taskDgnl].tBattler = battler;
+                gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+                gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+                return;
+            }
         }
     }
 

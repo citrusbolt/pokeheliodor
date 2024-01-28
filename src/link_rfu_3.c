@@ -675,7 +675,7 @@ void InitHostRfuGameData(struct RfuGameData *data, u8 activity, bool32 startedAc
     data->compatibility.version = GAME_VERSION;
     data->compatibility.hasNews = FALSE;
     data->compatibility.hasCard = FALSE;
-    data->compatibility.isCrystalDust = FALSE;
+    data->compatibility.unused1 = FALSE;
     data->compatibility.canLinkNationally = TRUE;
     data->compatibility.hasNationalDex = TRUE;
     data->compatibility.gameClear = TRUE;
@@ -693,8 +693,6 @@ bool8 Rfu_GetCompatiblePlayerData(struct RfuGameData *gameData, u8 *username, u8
         {
             memcpy(gameData, gRfuLinkStatus->partner[idx].gname, RFU_GAME_NAME_LENGTH);
             memcpy(username, gRfuLinkStatus->partner[idx].uname, RFU_USER_NAME_LENGTH);
-			if (gameData->compatibility.isCrystalDust)
-				gameData->versionModifier = DEV_SOLITAIRI_2;
         }
         else
         {
@@ -709,8 +707,6 @@ bool8 Rfu_GetCompatiblePlayerData(struct RfuGameData *gameData, u8 *username, u8
         {
             memcpy(gameData, gRfuLinkStatus->partner[idx].gname, RFU_GAME_NAME_LENGTH);
             memcpy(username, gRfuLinkStatus->partner[idx].uname, RFU_USER_NAME_LENGTH);
-			if (gameData->compatibility.isCrystalDust)
-				gameData->versionModifier = DEV_SOLITAIRI_2;
         }
         else
         {

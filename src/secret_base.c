@@ -375,6 +375,7 @@ void SetPlayerSecretBase(void)
     gSaveBlock1Ptr->secretBases[0].gender = gSaveBlock2Ptr->playerGender;
     gSaveBlock1Ptr->secretBases[0].language = GAME_LANGUAGE;
     VarSet(VAR_SECRET_BASE_MAP, gMapHeader.regionMapSectionId);
+    gSaveBlock1Ptr->secretBases[0].upgradedPC = FlagGet(FLAG_SECRET_BASE_PC_UPGRADED);
 }
 
 // Set the 'open' entrance metatile for any occupied secret base on this map
@@ -2071,4 +2072,12 @@ void CheckInteractedWithFriendsSandOrnament(void)
                 VarSet(VAR_SECRET_BASE_HIGH_TV_FLAGS, VarGet(VAR_SECRET_BASE_HIGH_TV_FLAGS) | SECRET_BASE_USED_SAND_ORNAMENT);
             break;
     }
+}
+
+void GetCurSecretBasePCUpgradeStatus(void)
+{
+    if (gSaveBlock1Ptr->secretBases[VarGet(VAR_CURRENT_SECRET_BASE)].upgradedPC)
+        gSpecialVar_Result = TRUE;
+    else
+        gSpecialVar_Result = FALSE;
 }

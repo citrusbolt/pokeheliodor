@@ -24,6 +24,8 @@
 #include "constants/items.h"
 #include "constants/battle_frontier.h"
 #include "constants/species.h"
+#include "power.h"
+#include "constants/power.h"
 
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleFrontierParty(void);
@@ -94,39 +96,71 @@ u8 ScriptGiveUnown(u8 level, u16 item)
     int sentToPc;
     u8 heldItem[2];
     struct Pokemon mon;
-	u8 letter;
-	u32 personality;
-	
-	if (gSaveBlock2Ptr->playerName[0] >= 0xBB && gSaveBlock2Ptr->playerName[0] <= 0xD4)
-		letter = gSaveBlock2Ptr->playerName[0] - 0xBB;
-	else if (gSaveBlock2Ptr->playerName[0] >= 0xD5 && gSaveBlock2Ptr->playerName[0] <= 0xEE)
-		letter = gSaveBlock2Ptr->playerName[0] - 0xD5;
-	else if (gSaveBlock2Ptr->playerName[0] == 0xAB)
-		letter = 26;
-	else if (gSaveBlock2Ptr->playerName[0] == 0xAC)
-		letter = 27;
-	else
-		letter = Random() % 27;
+    u8 version;
+    u32 personality;
+    struct PIDParameters parameters;
+    struct IVs ivs;
 
-	CreateMonWithGenderNatureLetter(&mon, SPECIES_UNOWN, level, 32, MON_GENDERLESS, Random() % NUM_NATURES, letter + 1);
-	heldItem[0] = item;
-	heldItem[1] = item >> 8;
-	SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
-	sentToPc = GiveMonToPlayer(&mon);
+    parameters.species = SPECIES_UNOWN;
+    parameters.pidIVMethod = PIDIV_METHOD_REVERSE_U;
+    parameters.shinyLock = GENERATE_SHINY_NORMAL;
+    parameters.shinyRolls = 1;
+    parameters.forceNature = FALSE;
+    parameters.nature = 0;
+    parameters.forceGender = FALSE;
+    parameters.gender = 0;
+    parameters.forceUnownLetter = TRUE;
+
+    if (gSaveBlock2Ptr->playerName[0] >= 0xBB && gSaveBlock2Ptr->playerName[0] <= 0xD4)
+        parameters.unownLetter = gSaveBlock2Ptr->playerName[0] - 0xBB;
+    else if (gSaveBlock2Ptr->playerName[0] >= 0xD5 && gSaveBlock2Ptr->playerName[0] <= 0xEE)
+        parameters.unownLetter = gSaveBlock2Ptr->playerName[0] - 0xD5;
+    else if (gSaveBlock2Ptr->playerName[0] == 0xAB)
+        parameters.unownLetter = 26;
+    else if (gSaveBlock2Ptr->playerName[0] == 0xAC)
+        parameters.unownLetter = 27;
+    else
+        parameters.unownLetter = Random() % 27;
+
+    if (HasAllMons())
+        parameters.shinyRolls += SHINY_CHARM_REROLLS;
+    if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+        parameters.shinyRolls *= 2;
+
+    if (Random() % 2)
+        version = VERSION_FIRERED;
+    else
+        version = VERSION_LEAFGREEN;
+
+    personality = GeneratePIDMaster(parameters, &ivs);
+
+    CreateMon(&mon, SPECIES_UNOWN, level, USE_RANDOM_IVS, TRUE, personality, FALSE, 0);
+    SetMonData(&mon, MON_DATA_HP_IV, &ivs.hp);
+    SetMonData(&mon, MON_DATA_ATK_IV, &ivs.atk);
+    SetMonData(&mon, MON_DATA_DEF_IV, &ivs.def);
+    SetMonData(&mon, MON_DATA_SPEED_IV, &ivs.speed);
+    SetMonData(&mon, MON_DATA_SPATK_IV, &ivs.spAtk);
+    SetMonData(&mon, MON_DATA_SPDEF_IV, &ivs.spDef);
+    SetMonData(&mon, MON_DATA_MET_GAME, &version);
+
+    heldItem[0] = item;
+    heldItem[1] = item >> 8;
+    SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
+    sentToPc = GiveMonToPlayer(&mon);
     nationalDexNum = SpeciesToNationalPokedexNum(SPECIES_UNOWN);
-	personality = GetMonData(&mon, MON_DATA_PERSONALITY);
+    personality = GetMonData(&mon, MON_DATA_PERSONALITY);
 
-	if (IsMonShiny(&mon))
-		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+    if (IsMonShiny(&mon))
+        IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 
     switch(sentToPc)
     {
-    case 0:
-    case 1:
-        GetSetPokedexFlag(nationalDexNum, FLAG_SET_SEEN);
-		HandleSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT, personality);
-        GetSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT);
-        break;
+        case 0:
+        case 1:
+            GetSetPokedexFlag(nationalDexNum, FLAG_SET_SEEN);
+            HandleSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT, personality);
+            GetSetPokedexFlag(nationalDexNum, FLAG_SET_CAUGHT);
+            break;
     }
     return sentToPc;
 }
@@ -184,15 +218,44 @@ bool8 DoesPartyHaveEnigmaBerry(void)
 void CreateScriptedWildMon(u16 species, u8 level, u16 item)
 {
     u8 heldItem[2];
+    u32 personality;
+    struct PIDParameters parameters;
+    struct IVs ivs;
 
+    parameters.species = species;
+    parameters.pidIVMethod = PIDIV_METHOD_1;
+    parameters.shinyLock = GENERATE_SHINY_NORMAL;
+    parameters.shinyRolls = 1;
+    parameters.forceNature = FALSE;
+    parameters.nature = 0;
+    parameters.forceGender = FALSE;
+    parameters.gender = 0;
+    parameters.forceUnownLetter = FALSE;
+    parameters.unownLetter = 0;
+
+    if (HasAllMons())
+        parameters.shinyRolls += SHINY_CHARM_REROLLS;
+    if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
+        parameters.shinyRolls *= 2;
+    
+    personality = GeneratePIDMaster(parameters, &ivs);
     ZeroEnemyPartyMons();
-    CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, 0, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+
+    SetMonData(&gEnemyParty[0], MON_DATA_HP_IV, &ivs.hp);
+    SetMonData(&gEnemyParty[0], MON_DATA_ATK_IV, &ivs.atk);
+    SetMonData(&gEnemyParty[0], MON_DATA_DEF_IV, &ivs.def);
+    SetMonData(&gEnemyParty[0], MON_DATA_SPEED_IV, &ivs.speed);
+    SetMonData(&gEnemyParty[0], MON_DATA_SPATK_IV, &ivs.spAtk);
+    SetMonData(&gEnemyParty[0], MON_DATA_SPDEF_IV, &ivs.spDef);
+
     if (item)
     {
         heldItem[0] = item;
         heldItem[1] = item >> 8;
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, heldItem);
     }
+
 	if (IsMonShiny(&gEnemyParty[0]))
 		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 }

@@ -39,6 +39,14 @@ static const struct MenuAction MultichoiceList_BasePCWithRegistry[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_BasePCWithRegistryUpgraded[] =
+{
+    {gText_Decoration2},
+    {gText_PackUp},
+    {gText_Registry},
+    {gText_Exit},
+};
+
 static const struct MenuAction MultichoiceList_BasePCNoRegistry[] =
 {
     {gText_Decoration2},
@@ -46,8 +54,25 @@ static const struct MenuAction MultichoiceList_BasePCNoRegistry[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_BasePCNoRegistryUpgraded[] =
+{
+    {gText_Decoration2},
+    {gText_LogOntoOtherPC},
+    {gText_PackUp},
+    {gText_Exit},
+};
+
 static const struct MenuAction MultichoiceList_RegisterMenu[] =
 {
+    {gMenuText_Register},
+    {gText_Registry},
+    {gText_Information},
+    {gText_Cancel2},
+};
+
+static const struct MenuAction MultichoiceList_RegisterMenuUpgraded[] =
+{
+    {gText_LogOntoOtherPC},
     {gMenuText_Register},
     {gText_Registry},
     {gText_Information},
@@ -898,7 +923,10 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_SLATEPORT_TENT_RULES]       = MULTICHOICE(MultichoiceList_SlateportTentRules),
     [MULTI_FALLARBOR_TENT_RULES]       = MULTICHOICE(MultichoiceList_FallarborTentRules),
     [MULTI_TAG_MATCH_TYPE]             = MULTICHOICE(MultichoiceList_TagMatchType),
-    [MULTI_FOSSILS]                    = MULTICHOICE(MultichoiceList_Exit)
+    [MULTI_FOSSILS]                    = MULTICHOICE(MultichoiceList_Exit),
+    [MULTI_BASE_PC_NO_REGISTRY_UPGRADED]   = MULTICHOICE(MultichoiceList_BasePCNoRegistryUpgraded),
+    [MULTI_BASE_PC_WITH_REGISTRY_UPGRADED] = MULTICHOICE(MultichoiceList_BasePCWithRegistryUpgraded),
+    [MULTI_REGISTER_MENU_UPGRADED]     = MULTICHOICE(MultichoiceList_RegisterMenuUpgraded),
 };
 
 const u8 *const gStdStrings[] =

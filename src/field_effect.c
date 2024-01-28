@@ -811,6 +811,7 @@ void FieldEffectScript_LoadFadedPalette(u8 **script)
     struct SpritePalette *palette = (struct SpritePalette *)FieldEffectScript_ReadWord(script);
     LoadSpritePaletteDayNight(palette);
     UpdatePaletteColorMapType(IndexOfSpritePaletteTag(palette->tag), COLOR_MAP_DARK_CONTRAST);
+    MarkFogSpritePalToLighten(IndexOfSpritePaletteTag(palette->tag) + 16);
     UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(palette->tag));
     (*script) += 4;
 }

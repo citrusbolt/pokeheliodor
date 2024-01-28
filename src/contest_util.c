@@ -2484,52 +2484,47 @@ void ShowContestPainting(void)
 void SetLinkContestPlayerGfx(void)
 {
     int i;
-	bool8 foundMatch;
 
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
     {
         for (i = 0; i < gNumLinkContestPlayers; i++)
         {
-            int version = (u8)gLinkPlayers[i].version;
-			foundMatch = FALSE;
-			switch ((u8)gLinkPlayers[i].versionModifier)
-			{
-				case DEV_SOLITAIRI:
-					if (version == VERSION_EMERALD)
-					{
-						foundMatch = TRUE;
-						if (gLinkPlayers[i].gender == MALE)
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
-						else
-							gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_NORMAL;
-					}
-					break;
-				case DEV_TEST:
-					foundMatch = TRUE;
-					if (gLinkPlayers[i].gender == MALE)
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_WALLY;
-					else
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_STEVEN;
-					break;
-			}
-			
-			if (!foundMatch)
-			{
-				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
-				{
-					if (gLinkPlayers[i].gender == MALE)
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_RS;
-					else
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_RS;
-				}
-				else
-				{
-					if (gLinkPlayers[i].gender == MALE)
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_GREEN;
-					else
-						gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_GREEN;
-				}
-			}
+            switch (GetLinkVersion((u8)gLinkPlayers[i].version, gLinkPlayers[i].versionModifier))
+            {
+                case LINK_VERSION_RUBY:
+                case LINK_VERSION_SAPPHIRE:
+                default:
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_RS;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_RS;
+                    break;
+                case LINK_VERSION_FIRERED:
+                case LINK_VERSION_LEAFGREEN:
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RED;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LEAF;
+                    break;
+                case LINK_VERSION_EMERALD:
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_GREEN;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_GREEN;
+                    break;
+                case LINK_VERSION_HELIODOR:
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_MAY_NORMAL;
+                    break;
+                case LINK_VERSION_RECHARGED_YELLOW:
+                    if (gLinkPlayers[i].gender == MALE)
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RED_RY;
+                    else
+                        gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LEAF_RY;
+                    break;
+            }
         }
 
         VarSet(VAR_OBJ_GFX_ID_0, gContestMons[0].trainerGfxId);
@@ -2543,10 +2538,8 @@ void LoadLinkContestPlayerPalettes(void)
 {
     int i;
     u8 objectEventId;
-    int version;
     struct Sprite *sprite;
     static const u8 sContestantLocalIds[CONTESTANT_COUNT] = { 3, 4, 5, 14 };
-	bool8 foundMatch;
 
     gReservedSpritePaletteCount = 12;
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
@@ -2556,46 +2549,43 @@ void LoadLinkContestPlayerPalettes(void)
             objectEventId = GetObjectEventIdByLocalIdAndMap(sContestantLocalIds[i], gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
             sprite = &gSprites[gObjectEvents[objectEventId].spriteId];
             sprite->oam.paletteNum = 6 + i;
-            version = (u8)gLinkPlayers[i].version;
-			foundMatch = FALSE;
-			switch ((u8)gLinkPlayers[i].versionModifier)
-			{
-				case DEV_SOLITAIRI:
-					if (version == VERSION_EMERALD)
-					{
-						foundMatch = TRUE;
-						if (gLinkPlayers[i].gender == MALE)
-							LoadPalette(gObjectEventPal_Brendan, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
-						else
-							LoadPalette(gObjectEventPal_May, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
-					}
-					break;
-				case DEV_TEST:
-					foundMatch = TRUE;
-					if (gLinkPlayers[i].gender == MALE)
-						LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
-					else
-						LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);	//Not correct, but will work for testing
-					break;
-			}
-			
-			if (!foundMatch)
-			{
-				if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
-				{
-					if (gLinkPlayers[i].gender == MALE)
+
+            switch (GetLinkVersion((u8)gLinkPlayers[i].version, gLinkPlayers[i].versionModifier))
+            {
+                case LINK_VERSION_RUBY:
+                case LINK_VERSION_SAPPHIRE:
+                default:
+                    if (gLinkPlayers[i].gender == MALE)
                         LoadPalette(gObjectEventPal_Brendan_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
-					else
+                    else
                         LoadPalette(gObjectEventPal_May_RS, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
-				}
-				else
-				{
-					if (gLinkPlayers[i].gender == MALE)
-						LoadPalette(gObjectEventPal_BrendanGreen, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
-					else
-						LoadPalette(gObjectEventPal_MayGreen, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
-				}
-			}
+                    break;
+                case LINK_VERSION_FIRERED:
+                case LINK_VERSION_LEAFGREEN:
+                    if (gLinkPlayers[i].gender == MALE)
+                        LoadPalette(gObjectEventPal_Red, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    else
+                        LoadPalette(gObjectEventPal_Leaf, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    break;
+                case LINK_VERSION_EMERALD:
+                    if (gLinkPlayers[i].gender == MALE)
+                        LoadPalette(gObjectEventPal_BrendanGreen, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    else
+                        LoadPalette(gObjectEventPal_MayGreen, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    break;
+                case LINK_VERSION_HELIODOR:
+                    if (gLinkPlayers[i].gender == MALE)
+                        LoadPalette(gObjectEventPal_Brendan, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    else
+                        LoadPalette(gObjectEventPal_May, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    break;
+                case LINK_VERSION_RECHARGED_YELLOW:
+                    if (gLinkPlayers[i].gender == MALE)
+                        LoadPalette(gObjectEventPal_Red_RY, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    else
+                        LoadPalette(gObjectEventPal_Leaf_RY, OBJ_PLTT_ID(6 + i), PLTT_SIZE_4BPP);
+                    break;
+            }
         }
     }
 }
@@ -2662,11 +2652,11 @@ void ShowContestEntryMonPic(void)
         if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
         {
             if (!(gLinkContestFlags & LINK_CONTEST_FLAG_HAS_RS_PLAYER))
-                DoMonFrontSpriteAnimation(&gSprites[spriteId], species, FALSE, 0);
+                DoMonFrontSpriteAnimation(&gSprites[spriteId], species, FALSE, 0, FALSE);
         }
         else
         {
-            DoMonFrontSpriteAnimation(&gSprites[spriteId], species, FALSE, 0);
+            DoMonFrontSpriteAnimation(&gSprites[spriteId], species, FALSE, 0, FALSE);
         }
 
         gTasks[taskId].data[2] = spriteId;

@@ -15,7 +15,7 @@
 #define ANIM_TAG_SWORD                      (ANIM_SPRITES_START + 5)
 #define ANIM_TAG_SEED                       (ANIM_SPRITES_START + 6)
 #define ANIM_TAG_EXPLOSION_6                (ANIM_SPRITES_START + 7)
-#define ANIM_TAG_SHINY_SQUARES              (ANIM_SPRITES_START + 8) // was PINK_ORB
+#define ANIM_TAG_PINK_ORB                   (ANIM_SPRITES_START + 8) // unused
 #define ANIM_TAG_GUST                       (ANIM_SPRITES_START + 9)
 #define ANIM_TAG_ICE_CUBE                   (ANIM_SPRITES_START + 10)
 #define ANIM_TAG_SPARK_2                    (ANIM_SPRITES_START + 11)
@@ -296,6 +296,7 @@
 #define ANIM_TAG_SLASH_2                    (ANIM_SPRITES_START + 286)
 #define ANIM_TAG_WHIP_HIT                   (ANIM_SPRITES_START + 287)
 #define ANIM_TAG_BLUE_RING_2                (ANIM_SPRITES_START + 288)
+#define ANIM_TAG_SHINY_SQUARES              (ANIM_SPRITES_START + 289)
 
 // battlers
 #define ANIM_ATTACKER         0

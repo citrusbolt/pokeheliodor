@@ -97,6 +97,8 @@ const struct MonCoords gTrainerFrontPicCoords[] =
     [TRAINER_PIC_E_MAY] = {.size = 8, .y_offset = 1},
     [TRAINER_PIC_GOLD] = {.size = 8, .y_offset = 1},
     [TRAINER_PIC_KRIS] = {.size = 8, .y_offset = 1},
+    [TRAINER_PIC_RY_RED] = {.size = 8, .y_offset = 1},
+    [TRAINER_PIC_RY_LEAF] = {.size = 8, .y_offset = 1},
 };
 
 #define TRAINER_SPRITE(trainerPic, sprite, size) [TRAINER_PIC_##trainerPic] = {sprite, size, TRAINER_PIC_##trainerPic}
@@ -200,6 +202,8 @@ const struct CompressedSpriteSheet gTrainerFrontPicTable[] =
     TRAINER_SPRITE(E_MAY, gTrainerFrontPic_EmeraldMay, TRAINER_PIC_SIZE),
     TRAINER_SPRITE(GOLD, gTrainerFrontPic_Gold, TRAINER_PIC_SIZE),
     TRAINER_SPRITE(KRIS, gTrainerFrontPic_Kris, TRAINER_PIC_SIZE),
+    TRAINER_SPRITE(RY_RED, gTrainerFrontPic_RechargedRed, TRAINER_PIC_SIZE),
+    TRAINER_SPRITE(RY_LEAF, gTrainerFrontPic_RechargedLeaf, TRAINER_PIC_SIZE),
 };
 
 #define TRAINER_PAL(trainerPic, pal) [TRAINER_PIC_##trainerPic] = {pal, TRAINER_PIC_##trainerPic}
@@ -303,4 +307,6 @@ const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[] =
     TRAINER_PAL(E_MAY, gTrainerPalette_EmeraldMay),
     TRAINER_PAL(GOLD, gTrainerPalette_Gold),
     TRAINER_PAL(KRIS, gTrainerPalette_Kris),
+    TRAINER_PAL(RY_RED, gTrainerPalette_RechargedRed),
+    TRAINER_PAL(RY_LEAF, gTrainerPalette_RechargedLeaf),
 };

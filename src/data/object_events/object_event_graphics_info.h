@@ -3881,6 +3881,22 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayGreen = {
 };
 
 
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Red_RY = {
+    .paletteTag = OBJ_EVENT_PAL_TAG_UNIQUE,
+    .size = 256,
+    .width = 16,
+    .height = 32,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_16x32,
+    .subspriteTables = sOamTables_16x32,
+    .anims = sAnimTable_Standard,
+    .images = sPicTable_Red_RY,
+    .affineAnims = gDummySpriteAffineAnimTable,
+};
+
+
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Wes = {
     .paletteTag = OBJ_EVENT_PAL_TAG_UNIQUE,
     .size = 256,

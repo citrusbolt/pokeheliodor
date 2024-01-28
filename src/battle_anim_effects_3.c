@@ -549,7 +549,7 @@ const struct SpriteTemplate gMiniTwinklingStarSpriteTemplate =
 const struct SpriteTemplate gBigShinySquareSpriteTemplate =
 {
     .tileTag = ANIM_TAG_SHINY_SQUARES,
-    .paletteTag = ANIM_TAG_SHINY_SQUARES,
+    .paletteTag = ANIM_TAG_GOLD_STARS,
     .oam = &gOamData_AffineOff_ObjNormal_16x16,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -560,7 +560,7 @@ const struct SpriteTemplate gBigShinySquareSpriteTemplate =
 const struct SpriteTemplate gMiniShinySquareSpriteTemplate =
 {
     .tileTag = ANIM_TAG_SHINY_SQUARES,
-    .paletteTag = ANIM_TAG_SHINY_SQUARES,
+    .paletteTag = ANIM_TAG_GOLD_STARS,
     .oam = &gOamData_AffineOff_ObjNormal_8x8,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
