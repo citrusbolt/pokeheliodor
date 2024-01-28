@@ -56,6 +56,9 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
+#include "constants/day_night.h"
+#include "constants/pokemon.h"
+#include "day_night.h"
 
 extern const u8 *const gBattleScriptsForMoveEffects[];
 
@@ -10270,7 +10273,8 @@ static u8 GetBallTarget(void)
 
 static void Cmd_handleballthrow(void)
 {
-    u8 ballMultiplier = 0;
+    u32 ballMultiplier = 0;
+    s32 heavyBallModifier = 0;
 
     if (gBattleControllerExecFlags)
         return;
@@ -10296,8 +10300,8 @@ static void Cmd_handleballthrow(void)
     }
     else
     {
-        u32 odds;
-        u8 catchRate;
+        u32 odds, i;
+        s32 catchRate;
 
         if (gLastUsedItem == ITEM_SAFARI_BALL)
 		{
@@ -10309,57 +10313,186 @@ static void Cmd_handleballthrow(void)
             catchRate = gSpeciesInfo[gBattleMons[gBattlerTarget].species].catchRate;
 		}
 
-        if (gLastUsedItem > ITEM_SAFARI_BALL)
+        switch (gLastUsedItem)
         {
-            switch (gLastUsedItem)
-            {
+            case ITEM_MASTER_BALL:
+            case ITEM_CHERISH_BALL:
+            case ITEM_HISUI_ORIGIN_BALL:
+                ballMultiplier = 2550;
+                break;
+            case ITEM_ULTRA_BALL:
+            case ITEM_BEAST_BALL:
+                ballMultiplier = 200;
+                break;
+            case ITEM_GREAT_BALL:
+            case ITEM_SAFARI_BALL:
+            case ITEM_SPORT_BALL:
+                ballMultiplier = 150;
+                break;
+            case ITEM_POKE_BALL:
+            case ITEM_LUXURY_BALL:
+            case ITEM_PREMIER_BALL:
+            case ITEM_HEAL_BALL:
+            case ITEM_FRIEND_BALL:
+            case ITEM_PARK_BALL:
+            case ITEM_STRANGE_BALL:
+                ballMultiplier = 100;
+                break;
             case ITEM_NET_BALL:
                 if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_WATER) || IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_BUG))
-                    ballMultiplier = 35;
+                    ballMultiplier = 350;
                 else
-                    ballMultiplier = 10;
+                    ballMultiplier = 100;
                 break;
             case ITEM_DIVE_BALL:
                 if (GetCurrentMapType() == MAP_TYPE_UNDERWATER || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) || gFishingEncounter)
-				{
-                    ballMultiplier = 35;
-				}
+                {
+                    ballMultiplier = 350;
+                }
                 else
-				{
-                    ballMultiplier = 10;
-				}
+                {
+                    ballMultiplier = 100;
+                }
                 break;
             case ITEM_NEST_BALL:
                 if (gBattleMons[gBattlerTarget].level < 40)
                 {
-                    ballMultiplier = 41 - gBattleMons[gBattlerTarget].level;
-                    if (ballMultiplier <= 9)
-                        ballMultiplier = 10;
+                    ballMultiplier = (41 - gBattleMons[gBattlerTarget].level) * 10;
+                    if (ballMultiplier <= 90)
+                        ballMultiplier = 100;
                 }
                 else
                 {
-                    ballMultiplier = 10;
+                    ballMultiplier = 100;
                 }
                 break;
             case ITEM_REPEAT_BALL:
                 if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), FLAG_GET_CAUGHT))
-                    ballMultiplier = 35;
+                    ballMultiplier = 350;
                 else
-                    ballMultiplier = 10;
+                    ballMultiplier = 100;
                 break;
             case ITEM_TIMER_BALL:
-                ballMultiplier = gBattleResults.battleTurnCounter * 3 + 10;
-                if (ballMultiplier > 40)
-                    ballMultiplier = 40;
+                ballMultiplier = gBattleResults.battleTurnCounter * 3 + 100;
+                if (ballMultiplier > 400)
+                    ballMultiplier = 400;
                 break;
-            case ITEM_LUXURY_BALL:
-            case ITEM_PREMIER_BALL:
-                ballMultiplier = 10;
+            case ITEM_DUSK_BALL:
+                if (GetCurrentTimeOfDay() == TIME_NIGHT || gMapHeader.mapType == MAP_TYPE_UNDERGROUND )
+                    ballMultiplier = 350;
+                else
+                    ballMultiplier = 100;
                 break;
-            }
+            case ITEM_QUICK_BALL:
+                if (gBattleResults.battleTurnCounter == 0)
+                    ballMultiplier = 500;
+                else
+                    ballMultiplier = 100;
+                break;
+            case ITEM_FAST_BALL:
+                if (gSpeciesInfo[gBattleMons[gBattlerTarget].species].baseSpeed >= 100)
+                    ballMultiplier = 400;
+                else
+                    ballMultiplier = 100;
+                break;
+            case ITEM_LEVEL_BALL:
+                if (gBattleMons[gBattlerAttacker].level >= 4 * gBattleMons[gBattlerTarget].level)
+                    ballMultiplier = 800;
+                else if (gBattleMons[gBattlerAttacker].level >= 2 * gBattleMons[gBattlerTarget].level)
+                    ballMultiplier = 400;
+                else if (gBattleMons[gBattlerAttacker].level > gBattleMons[gBattlerTarget].level)
+                    ballMultiplier = 200;
+                else
+                    ballMultiplier = 100;
+                break;
+            case ITEM_LURE_BALL:
+                if (gFishingEncounter)
+                    ballMultiplier = 500;
+                else
+                    ballMultiplier = 100;
+                break;
+            case ITEM_HEAVY_BALL:
+                if (GetPokedexHeightWeight(gBattleMons[gBattlerTarget].species, 1) < 1000)
+                    heavyBallModifier = -20;
+                else if (GetPokedexHeightWeight(gBattleMons[gBattlerTarget].species, 1) < 2000)
+                    heavyBallModifier = 0;
+                else if (GetPokedexHeightWeight(gBattleMons[gBattlerTarget].species, 1) < 3000)
+                    heavyBallModifier = 20;
+                else
+                    heavyBallModifier = 30;
+                ballMultiplier = 100;
+                break;
+            case ITEM_LOVE_BALL:
+                if (gBattleMons[gBattlerAttacker].species == gBattleMons[gBattlerTarget].species)
+                {
+                    u8 gender1 = GetMonGender(&gPlayerParty[gBattlerPartyIndexes[gBattlerAttacker]]);
+                    u8 gender2 = GetMonGender(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]]);
+
+                    if (gender1 != gender2)
+                        ballMultiplier = 800;
+                    else
+                        ballMultiplier = 100;
+                }
+                else
+                {
+                    ballMultiplier = 100;
+                }
+                break;
+            case ITEM_MOON_BALL:
+                ballMultiplier = 100;
+
+                for (i = 0; i < EVOS_PER_MON; i++)
+				{
+					if (gEvolutionTable[gBattleMons[gBattlerTarget].species][i].method == EVO_ITEM
+                     && gEvolutionTable[gBattleMons[gBattlerTarget].species][i].param == ITEM_MOON_STONE)
+                        ballMultiplier = 400;
+                }
+                break;
+            case ITEM_DREAM_BALL:
+                if (gDreamEncounter)
+                    ballMultiplier = 2550;
+                else if (gBattleMons[gBattlerTarget].status1 & STATUS1_SLEEP)
+                    ballMultiplier = 400;
+                else
+                    ballMultiplier = 100;
+                break;
+            case ITEM_HISUI_POKE_BALL:
+                ballMultiplier = 75;
+                break;
+            case ITEM_HISUI_GREAT_BALL:
+                ballMultiplier = 113;
+                break;
+            case ITEM_HISUI_ULTRA_BALL:
+                ballMultiplier = 150;
+                break;
+            case ITEM_HISUI_FEATHER_BALL:
+                if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_FLYING) || gBattleMons[gBattlerTarget].ability == ABILITY_LEVITATE)
+                    ballMultiplier = 125;
+                else
+                    ballMultiplier = 100;
+                break;
+            case ITEM_HISUI_WING_BALL:
+                if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_FLYING) || gBattleMons[gBattlerTarget].ability == ABILITY_LEVITATE)
+                    ballMultiplier = 175;
+                else
+                    ballMultiplier = 150;
+                break;
+            case ITEM_HISUI_JET_BALL:
+                if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_FLYING) || gBattleMons[gBattlerTarget].ability == ABILITY_LEVITATE)
+                    ballMultiplier = 275;
+                else
+                    ballMultiplier = 200;
+                break;
+            case ITEM_HISUI_HEAVY_BALL:
+                ballMultiplier = 125;
+                break;
+            case ITEM_HISUI_LEADEN_BALL:
+                ballMultiplier = 200;
+                break;
+            case ITEM_HISUI_GIGATON_BALL:
+                ballMultiplier = 275;
+                break;
         }
-        else
-            ballMultiplier = sBallCatchBonuses[gLastUsedItem - ITEM_ULTRA_BALL];
 
 		if (FlagGet(FLAG_SYS_GAME_CLEAR))
 			ballMultiplier = ballMultiplier * 150 / 100;
@@ -10380,7 +10513,14 @@ static void Cmd_handleballthrow(void)
 			}
 		}
 
-        odds = (catchRate * ballMultiplier / 10)
+        catchRate += heavyBallModifier;
+
+        if (catchRate < 1)
+            catchRate = 1;
+        else if (catchRate > 255)
+            catchRate = 255;
+
+        odds = (catchRate * ballMultiplier / 100)
             * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
             / (3 * gBattleMons[gBattlerTarget].maxHP);
 
