@@ -82,7 +82,8 @@ EWRAM_DATA static u8 sPreviousEncounterZoneDirection = DIR_NORTH;
 EWRAM_DATA static u8 sEncounterZoneDirectionReversals = 0;
 EWRAM_DATA u8 gEncounterMode = ENCOUNTER_EMERALD;
 EWRAM_DATA static u16 sEncounterRateBuff = 0;
-EWRAM_DATA static u8 sMaxLevel;
+EWRAM_DATA static u8 sMaxLevel = 0;
+EWRAM_DATA static u32 sIterations = 0;
 
 #include "data/wild_encounters_rs.h"
 #include "data/wild_encounters_frlg.h"
@@ -1261,6 +1262,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
                     {
                         if (IsMonShiny(&gEnemyParty[1]))
                             IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+                        DebugPrintf("double", NULL);
                         BattleSetup_StartWildDoubleBattle();
                     }
                     else
@@ -3079,7 +3081,7 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
 {
     u32 i;
     u8 flags = WILD_CHECK_REPEL;
-    
+
     if (gEncounterMode == ENCOUNTER_EMERALD)
         flags |= WILD_CHECK_ABILITY;
 
@@ -3091,6 +3093,7 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
         if (TryStartRoamerEncounter() == TRUE)
         {
             struct Roamer *roamer = &gSaveBlock1Ptr->roamer;
+
             if (!IsWildLevelAllowedByRepel(roamer->level))
                 return ENCOUNTER_FAIL;
 
@@ -3101,7 +3104,7 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
             //if (DoMassOutbreakEncounterTest() == TRUE && SetUpMassOutbreakEncounter(flags, partySlot) == TRUE)
             //    return ENCOUNTER_SWARM;
 
-            if (TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, terrain, flags, partySlot) == TRUE)
+            if (TryGenerateWildMon(wildPokemonInfo, terrain, flags, partySlot) == TRUE)
                 return ENCOUNTER_SUCCESS;
 
             return ENCOUNTER_FAIL;
@@ -3117,6 +3120,7 @@ static u8 EncounterLoop(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
 {
     do
     {
+        sIterations++;
     } while (EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot) != ENCOUNTER_SUCCESS
           || GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != species
           || GetGenderFromSpeciesAndPersonality(GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES), GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY)) != gender
@@ -3131,6 +3135,8 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
     u16 species;
     u32 i;
     u32 rolls = 1;
+
+    gDisableVBlankRNGAdvance = TRUE;
 
     if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
         ability = GetMonAbility(&gPlayerParty[0]);
@@ -3285,6 +3291,10 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
                     gender = MON_FEMALE;
             }
         }
+        else
+        {
+            gender = GetGenderFromSpeciesAndPersonality(GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES), GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY));
+        }
 
         if ((ability == ABILITY_HUSTLE
           || ability == ABILITY_VITAL_SPIRIT
@@ -3385,6 +3395,7 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
         species = GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES);
         gender = GetGenderFromSpeciesAndPersonality(GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES), GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY));
         nature = GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY) % NUM_NATURES;
+        level = GetMonData(&gEnemyParty[partySlot], MON_DATA_LEVEL);
     }
 
 	if (HasAllMons())
@@ -3414,11 +3425,16 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
     }
     else if (result == ENCOUNTER_SUCCESS)
     {
+        DebugPrintf("%d, %d, %d, %d, %d, %d", partySlot, species, gender, nature, level, rolls);
+        gMain.vblankCounter2 = 0;
         for (i = 0; i < rolls; i++)
         {
             EncounterLoop(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot, species, gender, nature, level);
         }
+        DebugPrintf("%u", gMain.vblankCounter2 / 60);
     }
+
+    gDisableVBlankRNGAdvance = FALSE;
 
     return result;
 }
