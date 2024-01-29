@@ -5357,6 +5357,16 @@ const struct Item gItems[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
+
+    [ITEM_EXP_ALL] =
+    {
+        .price = 0,
+        .description = sExpAllDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .sortId = SORT_KEY_EXP_ALL,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_ExpAll,
+    },
 };
 
 const u8 gItemNames[ITEMS_COUNT][ITEM_NAME_LENGTH] =
@@ -5823,4 +5833,5 @@ const u8 gItemNames[ITEMS_COUNT][ITEM_NAME_LENGTH] =
     [ITEM_POWER_PAD]            = _("Power Pad"),
     [ITEM_MAIL_CASE]            = _("Mail Case"),
     [ITEM_EMERALD]              = _("Emerald"),
+    [ITEM_EXP_ALL]              = _("Exp. All"),
 };

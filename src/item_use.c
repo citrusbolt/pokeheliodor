@@ -1246,4 +1246,34 @@ void ItemUseOutOfBattle_Mint(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
+void ItemUseOutOfBattle_ExpAll(u8 taskId)
+{
+    if (!gTasks[taskId].tUsingRegisteredKeyItem)
+    {
+        if (gSaveBlock2Ptr->expAllEnabled)
+        {
+            DisplayItemMessage(taskId, FONT_OPTION, gText_ExpAllOff, CloseItemMessage);
+            gSaveBlock2Ptr->expAllEnabled = FALSE;
+        }
+        else
+        {
+            DisplayItemMessage(taskId, FONT_OPTION, gText_ExpAllOn, CloseItemMessage);
+            gSaveBlock2Ptr->expAllEnabled = TRUE;
+        }
+    }
+    else
+    {
+        if (gSaveBlock2Ptr->expAllEnabled)
+        {
+            DisplayItemMessageOnField(taskId, gText_ExpAllOff, Task_CloseCantUseKeyItemMessage);
+            gSaveBlock2Ptr->expAllEnabled = FALSE;
+        }
+        else
+        {
+            DisplayItemMessageOnField(taskId, gText_ExpAllOn, Task_CloseCantUseKeyItemMessage);
+            gSaveBlock2Ptr->expAllEnabled = TRUE;
+        }
+    }
+}
+
 #undef tUsingRegisteredKeyItem

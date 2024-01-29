@@ -2046,3 +2046,5 @@ const u8 gText_A[] = _("a");
 const u8 gText_LogOntoOtherPC[] = _("LOG ONTO OTHER PC");
 const u8 gText_PkmnGainedExp[] = _("{STR_VAR_1} gained {STR_VAR_2} Exp. Points!{PAUSE_UNTIL_PRESS}");
 const u8 gText_PkmnGainedExpAndElevatedToLvVar3[] = _("{STR_VAR_1} gained {STR_VAR_2} Exp. Points\nand grew to Lv. {STR_VAR_3}!");
+const u8 gText_ExpAllOn[] = _("The Exp. All has been turned on.{PAUSE_UNTIL_PRESS}");
+const u8 gText_ExpAllOff[] = _("The Exp. All has been turned off.{PAUSE_UNTIL_PRESS}");

@@ -3327,30 +3327,12 @@ static void Cmd_getexp(void)
     s32 i; // also used as stringId
     u8 holdEffect, level;
     s32 sentIn;
-	s32 viaSentIn;
     s32 viaExpShare = 0;
     u16 *exp = &gBattleStruct->expValue;
 
     gBattlerFainted = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
     sentIn = gSentPokesToOpponent[(gBattlerFainted & 2) >> 1];
 
-	for (viaSentIn = 0, i = 0; i < PARTY_SIZE; i++)
-	{
-		if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE || GetMonData(&gPlayerParty[i], MON_DATA_HP) == 0)
-			continue;
-		if (gBitTable[i] & sentIn)
-			viaSentIn++;
-
-		item = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
-
-		if (item == ITEM_ENIGMA_BERRY)
-			holdEffect = gSaveBlock1Ptr->enigmaBerry.holdEffect;
-		else
-			holdEffect = ItemId_GetHoldEffect(item);
-
-		if (holdEffect == HOLD_EFFECT_EXP_SHARE)
-			viaExpShare++;
-	}
 
     switch (gBattleScripting.getexpState)
     {
@@ -3374,23 +3356,70 @@ static void Cmd_getexp(void)
         break;
     case 1: // calculate experience points to redistribute
         {
-            u16 calculatedExp = gSpeciesInfo[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
+            u16 calculatedExp;
+            s32 viaSentIn;
 
-            if (viaExpShare) // at least one mon is getting exp via exp share
+            for (viaSentIn = 0, i = 0; i < PARTY_SIZE; i++)
+            {
+                if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE || GetMonData(&gPlayerParty[i], MON_DATA_HP) == 0)
+                    continue;
+                if (gBitTable[i] & sentIn)
+                    viaSentIn++;
+
+                item = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
+
+                if (item == ITEM_ENIGMA_BERRY)
+                    holdEffect = gSaveBlock1Ptr->enigmaBerry.holdEffect;
+                else
+                    holdEffect = ItemId_GetHoldEffect(item);
+        
+                if (holdEffect == HOLD_EFFECT_EXP_SHARE)
+                    viaExpShare++;
+            }
+
+            calculatedExp = gSpeciesInfo[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
+
+            if (gSaveBlock2Ptr->expAllEnabled && viaExpShare)
             {
                 *exp = calculatedExp;
 
-                // gExpShareExp = calculatedExp / 2 / viaExpShare;
-				viaExpShare = gSaveBlock1Ptr->playerPartyCount;
+				gExpShareExp = calculatedExp / 4;
+
+                if (gExpShareExp == 0)
+                    gExpShareExp = 1;
+
+				gExpAllExp = calculatedExp / 2;
+
+                if (gExpAllExp == 0)
+                    gExpAllExp = 1;
+            }
+            else if (gSaveBlock2Ptr->expAllEnabled)
+            {
+                *exp = calculatedExp;
+
+				gExpAllExp = calculatedExp / 2;
+
+                if (gExpAllExp == 0)
+                    gExpAllExp = 1;
+
+                gExpShareExp = 0;
+            }
+            else if (viaExpShare) // at least one mon is getting exp via exp share
+            {
+                *exp = calculatedExp;
+
 				gExpShareExp = calculatedExp / 2;
+
                 if (gExpShareExp == 0)
                     gExpShareExp = 1;
             }
             else
             {
                 *exp = SAFE_DIV(calculatedExp, viaSentIn);
+
                 if (*exp == 0)
                     *exp = 1;
+
                 gExpShareExp = 0;
             }
 
@@ -3409,7 +3438,7 @@ static void Cmd_getexp(void)
             else
                 holdEffect = ItemId_GetHoldEffect(item);
 
-            if (viaExpShare == 0 && !(gBattleStruct->sentInPokes & 1))
+            if (!gSaveBlock2Ptr->expAllEnabled && holdEffect != HOLD_EFFECT_EXP_SHARE && !(gBattleStruct->sentInPokes & 1))
             {
                 *(&gBattleStruct->sentInPokes) >>= 1;
                 gBattleScripting.getexpState = 5;
@@ -3437,11 +3466,13 @@ static void Cmd_getexp(void)
                 {
                     if (gBattleStruct->sentInPokes & 1)
                         gBattleMoveDamage = *exp;
-                    else if (viaExpShare)
-                        gBattleMoveDamage = gExpShareExp;
+                    else if (gSaveBlock2Ptr->expAllEnabled)
+                        gBattleMoveDamage = gExpAllExp;
 					else
                         gBattleMoveDamage = 0;
 
+                    if (holdEffect == HOLD_EFFECT_EXP_SHARE)
+                        gBattleMoveDamage += gExpShareExp;
                     if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
                     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)

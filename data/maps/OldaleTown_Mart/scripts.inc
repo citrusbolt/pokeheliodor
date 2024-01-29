@@ -121,6 +121,7 @@ OldaleTown_Mart_Pokemart_Expanded:
 	.2byte ITEM_POWER_PAD
 	.2byte ITEM_MAIL_CASE
 	.2byte ITEM_EMERALD
+    .2byte ITEM_EXP_ALL
 	.2byte ITEM_NONE
 	release
 	end

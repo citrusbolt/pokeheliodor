@@ -527,8 +527,9 @@
 #define ITEM_POWER_PAD 460
 #define ITEM_MAIL_CASE 461
 #define ITEM_EMERALD 462
+#define ITEM_EXP_ALL 463
 
-#define ITEMS_COUNT 463
+#define ITEMS_COUNT 464
 
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations

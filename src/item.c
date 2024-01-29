@@ -265,6 +265,7 @@ enum {
 };
 
 enum {
+    SORT_KEY_EXP_ALL,
     SORT_KEY_ADVENTURE_GUIDE,
     SORT_KEY_JOURNAL,
     SORT_KEY_MACH_BIKE,

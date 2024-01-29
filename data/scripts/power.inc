@@ -103,15 +103,15 @@ EventScript_PowerPurchase_Text_PrizeDesc3::
 	.string "a lot. The effect lasts 60 minutes.$"
 
 EventScript_PowerPurchase_Text_ExpDesc1::
-	.string "Increases the Exp. points from battles\n"
+	.string "Increases the Exp. Points from battles\n"
 	.string "a little. The effect lasts 10 minutes.$"
 
 EventScript_PowerPurchase_Text_ExpDesc2::
-	.string "Increases the Exp. points from battles.\n"
+	.string "Increases the Exp. Points from battles.\n"
 	.string "The effect lasts 20 minutes.$"
 
 EventScript_PowerPurchase_Text_ExpDesc3::
-	.string "Increases the Exp. points from battles\n"
+	.string "Increases the Exp. Points from battles\n"
 	.string "a lot. The effect lasts 60 minutes.$"
 
 EventScript_PowerPurchase_Text_CaptureDesc1::

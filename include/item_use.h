@@ -39,5 +39,6 @@ bool32 CanFish(void);
 u32 CanThrowBall(void);
 void ItemUseOutOfBattle_PowerPad(u8);
 void ItemUseOutOfBattle_Mint(u8 taskId);
+void ItemUseOutOfBattle_ExpAll(u8 taskId);
 
 #endif // GUARD_ITEM_USE_H

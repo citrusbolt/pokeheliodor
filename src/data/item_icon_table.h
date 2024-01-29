@@ -497,6 +497,7 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     [ITEM_POWER_PAD] = {gItemIcon_PowerPad, gItemIconPalette_PowerPad},
     [ITEM_MAIL_CASE] = {gItemIcon_MailCase, gItemIconPalette_MailCase},
     [ITEM_EMERALD] = {gItemIcon_Gem, gItemIconPalette_Emerald},
+    [ITEM_EXP_ALL] = {gItemIcon_ExpShare, gItemIconPalette_ExpShare},
     // Return to field arrow
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };

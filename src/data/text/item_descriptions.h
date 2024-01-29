@@ -730,8 +730,8 @@ static const u8 sMachoBraceDesc[] = _(
 
 static const u8 sExpShareDesc[] = _(
     "A hold item that\n"
-    "shares Exp. points\n"
-    "among the party.");
+    "gets Exp. Points\n"
+    "from battles.");
 
 static const u8 sQuickClawDesc[] = _(
     "A hold item that\n"
@@ -805,7 +805,7 @@ static const u8 sFocusBandDesc[] = _(
 
 static const u8 sLuckyEggDesc[] = _(
     "A hold item that\n"
-    "boosts Exp. points\n"
+    "boosts Exp. Points\n"
     "earned in battle.");
 
 static const u8 sScopeLensDesc[] = _(
@@ -1948,3 +1948,8 @@ static const u8 sEmeraldDesc[] = _(
     "A glittering green\n"
     "gem that symbolizes\n"
     "strength of will.");
+
+static const u8 sExpAllDesc[] = _(
+    "A device that\n"
+    "shares Exp. Points\n"
+    "among the party.");

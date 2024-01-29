@@ -3364,5 +3364,7 @@ extern const u8 gText_A[];
 extern const u8 gText_LogOntoOtherPC[];
 extern const u8 gText_PkmnGainedExp[];
 extern const u8 gText_PkmnGainedExpAndElevatedToLvVar3[];
+extern const u8 gText_ExpAllOn[];
+extern const u8 gText_ExpAllOff[];
 
 #endif // GUARD_STRINGS_H
