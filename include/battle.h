@@ -725,6 +725,7 @@ extern u16 gMoveToLearn;
 extern u8 gBattleMonForms[MAX_BATTLERS_COUNT];
 extern bool8 gSkipNickname;
 extern bool8 gFishingEncounter;
+extern bool8 gChainEncounter;
 
 extern void (*gPreBattleCallback1)(void);
 extern void (*gBattleMainFunc)(void);

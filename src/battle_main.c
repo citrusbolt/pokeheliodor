@@ -243,6 +243,7 @@ EWRAM_DATA u8 gBattleMonForms[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u8 gMaxPartyLevel = 1;
 EWRAM_DATA bool8 gSkipNickname = FALSE;
 EWRAM_DATA bool8 gFishingEncounter = FALSE;
+EWRAM_DATA bool8 gChainEncounter = FALSE;
 
 void (*gPreBattleCallback1)(void);
 void (*gBattleMainFunc)(void);
