@@ -434,8 +434,8 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
     else
         LZ77UnCompWram(src->data, dest);
 
-    if (isFrontPic)
-        SwapSprite((u16)species, personality, dest);
+    //if (isFrontPic)
+    //    SwapSprite((u16)species, personality, dest);
 
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
