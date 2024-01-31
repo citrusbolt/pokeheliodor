@@ -1377,7 +1377,7 @@ BattleFrontier_BattleTowerLobby_Text_ExplainMultiLinkRules:
 	.string "The Link Multi Battle Mode is for two\n"
 	.string "friends to mount a challenge together.\p"
 	.string "You and your friend must be linked with\n"
-	.string "Wireless Adapters or a Gba Game Link\l"
+	.string "Wireless Adapters or a GBA Game Link\l"
 	.string "cable.\p"
 	.string "You must choose two Pokémon at\n"
 	.string "the registration counter.\p"
