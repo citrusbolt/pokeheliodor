@@ -2112,7 +2112,10 @@ static void ConfirmToss(u8 taskId)
     StringExpandPlaceholders(gStringVar4, gText_ThrewAwayVar2Var1s);
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
     BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
-    gTasks[taskId].func = Task_RemoveItemFromBag;
+    if (gBagPosition.pocket == FREESPACE_POCKET)
+        gTasks[taskId].func = Task_RemoveItemFromFreeSpace;
+    else
+        gTasks[taskId].func = Task_RemoveItemFromBag;
 }
 
 // Remove selected item(s) from the bag and update list
@@ -3262,9 +3265,6 @@ static void TryMoveItemToFreeSpace(u8 taskId)
             gBagPosition.cursorPosition[FREESPACE_POCKET]--;
         }
 
-        //if (gBagPosition.cursorPosition[FREESPACE_POCKET] > 3)
-        //    gBagPosition.cursorPosition[FREESPACE_POCKET]--;
-
         UpdatePocketListPosition(FREESPACE_POCKET);
         LoadBagItemListBuffers(FREESPACE_POCKET);
     }
@@ -3283,9 +3283,6 @@ static void TryMoveItemToFreeSpace(u8 taskId)
             gBagPosition.scrollPosition[FREESPACE_POCKET]++;
             gBagPosition.cursorPosition[FREESPACE_POCKET]--;
         }
-
-        //if (gBagPosition.cursorPosition[FREESPACE_POCKET] > 3)
-        //    gBagPosition.cursorPosition[FREESPACE_POCKET]--;
 
         UpdatePocketListPosition(FREESPACE_POCKET);
         LoadBagItemListBuffers(FREESPACE_POCKET);
@@ -3322,9 +3319,6 @@ static void ItemMenu_Return(u8 taskId)
             gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
         }
 
-        //if (gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] > 3)
-        //    gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
-
         UpdatePocketListPosition(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
         LoadBagItemListBuffers(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
     }
@@ -3343,9 +3337,6 @@ static void ItemMenu_Return(u8 taskId)
             gBagPosition.scrollPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]++;
             gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
         }
-
-        //if (gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] > 3)
-        //    gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
 
         UpdatePocketListPosition(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
         LoadBagItemListBuffers(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
