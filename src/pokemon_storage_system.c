@@ -3782,7 +3782,10 @@ static void GiveChosenBagItem(void)
         else
             SetCurrentBoxMonData(pos, MON_DATA_HELD_ITEM, &itemId);
 
-        RemoveBagItem(itemId, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(itemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(itemId, 1, REMOVE_FROM_POCKET);
     }
 }
 

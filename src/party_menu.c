@@ -3135,7 +3135,11 @@ static void CB2_GiveHoldItem(void)
         // Give mail
         else if (ItemIsMail(gSpecialVar_ItemId))
         {
-            RemoveBagItem(gSpecialVar_ItemId, 1);
+            if (gBagPosition.pocket == FREESPACE_POCKET)
+                RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+            else
+                RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
             GiveItemToMon(&gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId);
             CB2_WriteMailToGiveMon();
         }
@@ -3156,7 +3160,12 @@ static void Task_GiveHoldItem(u8 taskId)
         item = gSpecialVar_ItemId;
         DisplayGaveHeldItemMessage(&gPlayerParty[gPartyMenu.slotId], item, FALSE, 0);
         GiveItemToMon(&gPlayerParty[gPartyMenu.slotId], item);
-        RemoveBagItem(item, 1);
+
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(item, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(item, 1, REMOVE_FROM_POCKET);
+
         gTasks[taskId].func = Task_UpdateHeldItemSprite;
     }
 }
@@ -3184,7 +3193,10 @@ static void Task_HandleSwitchItemsYesNoInput(u8 taskId)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0: // Yes, switch items
-        RemoveBagItem(gSpecialVar_ItemId, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
 
         // No room to return held item to bag
         if (AddBagItem(sPartyMenuItemId, 1) == FALSE)
@@ -3247,7 +3259,12 @@ static void CB2_ReturnToPartyMenuFromWritingMail(void)
     {
         TakeMailFromMon(mon);
         SetMonData(mon, MON_DATA_HELD_ITEM, &sPartyMenuItemId);
-        RemoveBagItem(sPartyMenuItemId, 1);
+
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(sPartyMenuItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(sPartyMenuItemId, 1, REMOVE_FROM_POCKET);
+
         AddBagItem(item, 1);
         InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_CHOOSE_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
     }
@@ -4450,7 +4467,12 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
         {
             PlaySE(SE_USE_ITEM);
             if (gPartyMenu.action != PARTY_ACTION_REUSABLE_ITEM)
-                RemoveBagItem(item, 1);
+            {
+                if (gBagPosition.pocket == FREESPACE_POCKET)
+                    RemoveBagItem(item, 1, REMOVE_FROM_FREE_SPACE);
+                else
+                    RemoveBagItem(item, 1, REMOVE_FROM_POCKET);
+            }
         }
         else
         {
@@ -4521,7 +4543,12 @@ void ItemUseCB_ReduceEV(u8 taskId, TaskFunc task)
     {
         gPartyMenuUseExitCallback = TRUE;
         PlaySE(SE_USE_ITEM);
-        RemoveBagItem(item, 1);
+
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(item, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(item, 1, REMOVE_FROM_POCKET);
+
         GetMonNickname(mon, gStringVar1);
         ItemEffectToStatString(effectType, gStringVar2);
         if (friendship != newFriendship)
@@ -4686,7 +4713,12 @@ static void TryUsePPItem(u8 taskId)
         gPartyMenuUseExitCallback = TRUE;
         mon = &gPlayerParty[ptr->slotId];
         PlaySE(SE_USE_ITEM);
-        RemoveBagItem(item, 1);
+
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(item, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(item, 1, REMOVE_FROM_POCKET);
+
         move = GetMonData(mon, MON_DATA_MOVE1 + *moveSlot);
         StringCopy(gStringVar1, gMoveNames[move]);
         GetMedicineItemEffectMessage(item);
@@ -4795,7 +4827,12 @@ static void Task_LearnedMove(u8 taskId)
     {
         AdjustFriendship(mon, FRIENDSHIP_EVENT_LEARN_TMHM);
         if (item < ITEM_HM01)
-            RemoveBagItem(item, 1);
+        {
+            if (gBagPosition.pocket == FREESPACE_POCKET)
+                RemoveBagItem(item, 1, REMOVE_FROM_FREE_SPACE);
+            else
+                RemoveBagItem(item, 1, REMOVE_FROM_POCKET);
+        }
     }
     GetMonNickname(mon, gStringVar1);
     StringCopy(gStringVar2, gMoveNames[move[0]]);
@@ -5023,7 +5060,12 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
         sFinalLevel = GetMonData(mon, MON_DATA_LEVEL, NULL);
         gPartyMenuUseExitCallback = TRUE;
         UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
-        RemoveBagItem(gSpecialVar_ItemId, 1);
+
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
         GetMonNickname(mon, gStringVar1);
 
         if (sFinalLevel > sInitialLevel)
@@ -5361,7 +5403,11 @@ static void Task_SacredAshLoop(u8 taskId)
             else
             {
                 gPartyMenuUseExitCallback = TRUE;
-                RemoveBagItem(gSpecialVar_ItemId, 1);
+
+                if (gBagPosition.pocket == FREESPACE_POCKET)
+                    RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+                else
+                    RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
             }
             gTasks[taskId].func = Task_ClosePartyMenuAfterText;
             gPartyMenu.slotId = 0;
@@ -5399,7 +5445,11 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc task)
     }
     else
     {
-        RemoveBagItem(gSpecialVar_ItemId, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
         FreePartyPointers();
     }
 }
@@ -5600,7 +5650,12 @@ static void CB2_ReturnToPartyOrBagMenuFromWritingMail(void)
     {
         TakeMailFromMon(mon);
         SetMonData(mon, MON_DATA_HELD_ITEM, &sPartyMenuItemId);
-        RemoveBagItem(sPartyMenuItemId, 1);
+
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(sPartyMenuItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(sPartyMenuItemId, 1, REMOVE_FROM_POCKET);
+
         ReturnGiveItemToBagOrPC(item);
         SetMainCallback2(gPartyMenu.exitCallback);
     }
@@ -5679,9 +5734,16 @@ static void DisplayItemMustBeRemovedFirstMessage(u8 taskId)
 static void RemoveItemToGiveFromBag(u16 item)
 {
     if (gPartyMenu.action == PARTY_ACTION_GIVE_PC_ITEM) // Unused, never occurs
+    {
         RemovePCItem(item, 1);
+    }
     else
-        RemoveBagItem(item, 1);
+    {
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(item, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(item, 1, REMOVE_FROM_POCKET);
+    }
 }
 
 // Returns FALSE if there was no space to return the item
@@ -5691,7 +5753,7 @@ static bool8 ReturnGiveItemToBagOrPC(u16 item)
     if (gPartyMenu.action == PARTY_ACTION_GIVE_ITEM)
         return AddBagItem(item, 1);
     else
-        return AddPCItem(item, 1);
+        return AddPCItem(item, 1, NULL);
 }
 
 void ChooseMonToGiveMailFromMailbox(void)
@@ -6680,7 +6742,11 @@ static void Task_Mint(u8 taskId)
             SetMonData(&gPlayerParty[tMonId], MON_DATA_MINT, &tMint);
             CalculateMonStats(&gPlayerParty[tMonId]);
 
-            RemoveBagItem(gSpecialVar_ItemId, 1);
+            if (gBagPosition.pocket == FREESPACE_POCKET)
+                RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+            else
+                RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
             gTasks[taskId].func = Task_ClosePartyMenu;
             break;
     }

@@ -541,7 +541,10 @@ void QuizLadySetCustomQuestion(void)
 
 void QuizLadyTakePrizeForCustomQuiz(void)
 {
-    RemoveBagItem(gSpecialVar_ItemId, 1);
+    if (gBagPosition.pocket == FREESPACE_POCKET)
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+    else
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
 }
 
 void QuizLadyRecordCustomQuizData(void)

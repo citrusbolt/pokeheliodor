@@ -591,9 +591,12 @@ bool8 CheckBagHasSpace(u16 itemId, u16 count)
     return TRUE;
 }
 
-bool8 AddBagItem(u16 itemId, u16 count)
+bool8 AddBagItemInternal(u16 itemId, u16 count, u16 *remainder)
 {
     u8 i;
+
+    if (count == 0)
+        return FALSE;
 
     if (ItemId_GetPocket(itemId) == POCKET_NONE)
         return FALSE;
@@ -639,6 +642,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
                     // try creating another instance of the item if possible
                     if (pocket == TMHM_POCKET || pocket == BERRIES_POCKET)
                     {
+                        *remainder = (ownedCount + count) - slotCapacity;
                         Free(newItems);
                         return FALSE;
                     }
@@ -670,6 +674,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
                         // try creating a new slot with max capacity if duplicates are possible
                         if (pocket == TMHM_POCKET || pocket == BERRIES_POCKET)
                         {
+                            *remainder = count - slotCapacity;
                             Free(newItems);
                             return FALSE;
                         }
@@ -688,6 +693,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
 
             if (count > 0)
             {
+                *remainder = count;
                 Free(newItems);
                 return FALSE;
             }
@@ -698,10 +704,124 @@ bool8 AddBagItem(u16 itemId, u16 count)
     }
 }
 
-bool8 RemoveBagItem(u16 itemId, u16 count)
+bool8 AddBagItem(u16 itemId, u16 count)
+{
+    u16 remainder = 0;
+
+    if (CheckPCHasItem(itemId, 1))
+    {
+        if (AddPCItem(itemId, count, &remainder) == TRUE)
+        {
+            return TRUE;
+        }
+        else if (AddBagItemInternal(itemId, remainder, NULL) == TRUE)
+        {
+            AddPCItem(itemId, count - remainder, NULL);
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        if (AddBagItemInternal(itemId, count, &remainder) == TRUE)
+        {
+            return TRUE;
+        }
+        else if (AddPCItem(itemId, remainder, NULL) == TRUE)
+        {
+            AddBagItemInternal(itemId, count - remainder, NULL);
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+}
+
+bool8 RemoveBagItemInternal(u16 itemId, u16 count)
 {
     u8 i;
     u16 totalQuantity = 0;
+    u8 pocket;
+    u8 var;
+    u16 ownedCount;
+    struct BagPocket *itemPocket;
+
+    pocket = ItemId_GetPocket(itemId) - 1;
+    itemPocket = &gBagPockets[pocket];
+
+    for (i = 0; i < itemPocket->capacity; i++)
+    {
+        if (itemPocket->itemSlots[i].itemId == itemId)
+            totalQuantity += GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
+    }
+
+    if (totalQuantity < count)
+        return FALSE;   // We don't have enough of the item
+
+    if (CurMapIsSecretBase() == TRUE)
+    {
+        VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_BAG);
+        VarSet(VAR_SECRET_BASE_LAST_ITEM_USED, itemId);
+    }
+
+    var = GetItemListPosition(pocket);
+    if (itemPocket->capacity > var
+     && itemPocket->itemSlots[var].itemId == itemId)
+    {
+        ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[var].quantity);
+        if (ownedCount >= count)
+        {
+            SetBagItemQuantity(&itemPocket->itemSlots[var].quantity, ownedCount - count);
+            count = 0;
+        }
+        else
+        {
+            count -= ownedCount;
+            SetBagItemQuantity(&itemPocket->itemSlots[var].quantity, 0);
+        }
+
+        if (GetBagItemQuantity(&itemPocket->itemSlots[var].quantity) == 0)
+            itemPocket->itemSlots[var].itemId = ITEM_NONE;
+
+        if (count == 0)
+            return TRUE;
+    }
+
+    for (i = 0; i < itemPocket->capacity; i++)
+    {
+        if (itemPocket->itemSlots[i].itemId == itemId)
+        {
+            ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
+            if (ownedCount >= count)
+            {
+                SetBagItemQuantity(&itemPocket->itemSlots[i].quantity, ownedCount - count);
+                count = 0;
+            }
+            else
+            {
+                count -= ownedCount;
+                SetBagItemQuantity(&itemPocket->itemSlots[i].quantity, 0);
+            }
+
+            if (GetBagItemQuantity(&itemPocket->itemSlots[i].quantity) == 0)
+                itemPocket->itemSlots[i].itemId = ITEM_NONE;
+
+            if (count == 0)
+                return TRUE;
+        }
+    }
+    return TRUE;
+}
+
+bool8 RemoveBagItem(u16 itemId, u16 count, u8 location)
+{
+    u8 i;
+    u16 freeSpaceQuantity = 0;
 
     if (ItemId_GetPocket(itemId) == POCKET_NONE || itemId == ITEM_NONE)
         return FALSE;
@@ -713,76 +833,47 @@ bool8 RemoveBagItem(u16 itemId, u16 count)
     }
     else
     {
-        u8 pocket;
-        u8 var;
-        u16 ownedCount;
-        struct BagPocket *itemPocket;
-
-        pocket = ItemId_GetPocket(itemId) - 1;
-        itemPocket = &gBagPockets[pocket];
-
-        for (i = 0; i < itemPocket->capacity; i++)
+        if (location == REMOVE_FROM_FREE_SPACE)
         {
-            if (itemPocket->itemSlots[i].itemId == itemId)
-                totalQuantity += GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
+            return RemoveFreeSpaceItem(itemId, count);
         }
-
-        if (totalQuantity < count)
-            return FALSE;   // We don't have enough of the item
-
-        if (CurMapIsSecretBase() == TRUE)
+        else if (location == REMOVE_FROM_ANY)
         {
-            VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_BAG);
-            VarSet(VAR_SECRET_BASE_LAST_ITEM_USED, itemId);
-        }
-
-        var = GetItemListPosition(pocket);
-        if (itemPocket->capacity > var
-         && itemPocket->itemSlots[var].itemId == itemId)
-        {
-            ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[var].quantity);
-            if (ownedCount >= count)
+            if (CheckPCHasItem(itemId, count))
             {
-                SetBagItemQuantity(&itemPocket->itemSlots[var].quantity, ownedCount - count);
-                count = 0;
+                return RemoveFreeSpaceItem(itemId, count);
             }
             else
             {
-                count -= ownedCount;
-                SetBagItemQuantity(&itemPocket->itemSlots[var].quantity, 0);
-            }
-
-            if (GetBagItemQuantity(&itemPocket->itemSlots[var].quantity) == 0)
-                itemPocket->itemSlots[var].itemId = ITEM_NONE;
-
-            if (count == 0)
-                return TRUE;
-        }
-
-        for (i = 0; i < itemPocket->capacity; i++)
-        {
-            if (itemPocket->itemSlots[i].itemId == itemId)
-            {
-                ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
-                if (ownedCount >= count)
+                for (i = 0; i < gBagPockets[FREESPACE_POCKET].capacity; i++)
                 {
-                    SetBagItemQuantity(&itemPocket->itemSlots[i].quantity, ownedCount - count);
-                    count = 0;
+                    if (gBagPockets[FREESPACE_POCKET].itemSlots[i].itemId == itemId)
+                        freeSpaceQuantity += GetBagItemQuantity(&gBagPockets[FREESPACE_POCKET].itemSlots[i].quantity);
+                }
+
+                if (freeSpaceQuantity >= count)
+                {
+                    return FALSE; // Shouldn't happen
                 }
                 else
                 {
-                    count -= ownedCount;
-                    SetBagItemQuantity(&itemPocket->itemSlots[i].quantity, 0);
+                    if (CheckBagHasItem(itemId, count - freeSpaceQuantity))
+                    {
+                        RemoveFreeSpaceItem(itemId, freeSpaceQuantity);
+                        RemoveBagItemInternal(itemId, count - freeSpaceQuantity);
+                        return TRUE;
+                    }
+                    else
+                    {
+                        return FALSE;
+                    }
                 }
-
-                if (GetBagItemQuantity(&itemPocket->itemSlots[i].quantity) == 0)
-                    itemPocket->itemSlots[i].itemId = ITEM_NONE;
-
-                if (count == 0)
-                    return TRUE;
             }
         }
-        return TRUE;
+        else
+        {
+            return RemoveBagItemInternal(itemId, count);
+        }
     }
 }
 
@@ -839,12 +930,15 @@ bool8 CheckPCHasItem(u16 itemId, u16 count)
     return FALSE;
 }
 
-bool8 AddPCItem(u16 itemId, u16 count)
+bool8 AddPCItem(u16 itemId, u16 count, u16 *remainder)
 {
     u8 i;
     s8 freeSlot;
     u16 ownedCount;
     struct ItemSlot *newItems;
+
+    if (count == 0)
+        return FALSE;
 
     // Copy PC items
     newItems = AllocZeroed(sizeof(gSaveBlock1Ptr->pcItems));
@@ -880,6 +974,7 @@ bool8 AddPCItem(u16 itemId, u16 count)
         freeSlot = FindFreePCItemSlot();
         if (freeSlot == -1)
         {
+            *remainder = count;
             Free(newItems);
             return FALSE;
         }
@@ -893,6 +988,80 @@ bool8 AddPCItem(u16 itemId, u16 count)
     // Copy items back to the PC
     memcpy(gSaveBlock1Ptr->pcItems, newItems, sizeof(gSaveBlock1Ptr->pcItems));
     Free(newItems);
+    return TRUE;
+}
+
+bool8 RemoveFreeSpaceItem(u16 itemId, u16 count)
+{
+    u8 pocket;
+    u8 var;
+    u16 ownedCount;
+    struct BagPocket *itemPocket;
+    u8 i;
+    u16 totalQuantity = 0;
+
+    if (ItemId_GetPocket(itemId) == POCKET_NONE || itemId == ITEM_NONE)
+        return FALSE;
+
+
+    pocket = FREESPACE_POCKET;
+    itemPocket = &gBagPockets[pocket];
+
+    for (i = 0; i < itemPocket->capacity; i++)
+    {
+        if (itemPocket->itemSlots[i].itemId == itemId)
+            totalQuantity += GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
+    }
+
+    if (totalQuantity < count)
+        return FALSE;   // We don't have enough of the item
+
+    var = GetItemListPosition(pocket);
+    if (itemPocket->capacity > var
+     && itemPocket->itemSlots[var].itemId == itemId)
+    {
+        ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[var].quantity);
+        if (ownedCount >= count)
+        {
+            itemPocket->itemSlots[var].quantity = ownedCount - count;
+            count = 0;
+        }
+        else
+        {
+            count -= ownedCount;
+            itemPocket->itemSlots[var].quantity = 0;
+        }
+
+        if (GetBagItemQuantity(&itemPocket->itemSlots[var].quantity) == 0)
+            itemPocket->itemSlots[var].itemId = ITEM_NONE;
+
+        if (count == 0)
+            return TRUE;
+    }
+
+    for (i = 0; i < itemPocket->capacity; i++)
+    {
+        if (itemPocket->itemSlots[i].itemId == itemId)
+        {
+            ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
+            if (ownedCount >= count)
+            {
+                itemPocket->itemSlots[i].quantity = ownedCount - count;
+                count = 0;
+            }
+            else
+            {
+                count -= ownedCount;
+                itemPocket->itemSlots[i].quantity = 0;
+            }
+
+            if (GetBagItemQuantity(&itemPocket->itemSlots[i].quantity) == 0)
+                itemPocket->itemSlots[i].itemId = ITEM_NONE;
+
+            if (count == 0)
+                return TRUE;
+        }
+    }
     return TRUE;
 }
 

@@ -29,4 +29,8 @@
 #define POCKET_BERRIES      (BERRIES_POCKET + 1)
 #define POCKET_MAIL         (MAIL_POCKET + 1)
 
+#define REMOVE_FROM_ANY         0
+#define REMOVE_FROM_POCKET      1
+#define REMOVE_FROM_FREE_SPACE  2
+
 #endif // GUARD_ITEM_CONSTANTS_H

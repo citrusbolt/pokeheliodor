@@ -721,7 +721,11 @@ void ItemUseOutOfBattle_Berry(u8 taskId)
 
 static void ItemUseOnFieldCB_Berry(u8 taskId)
 {
-    RemoveBagItem(gSpecialVar_ItemId, 1);
+    if (gBagPosition.pocket == FREESPACE_POCKET)
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+    else
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
     LockPlayerFieldControls();
     ScriptContext_SetupScript(BerryTree_EventScript_ItemUsePlantBerry);
     DestroyTask(taskId);
@@ -846,7 +850,11 @@ static void UseTMHM(u8 taskId)
 
 static void RemoveUsedItem(void)
 {
-    RemoveBagItem(gSpecialVar_ItemId, 1);
+    if (gBagPosition.pocket == FREESPACE_POCKET)
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+    else
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
     StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
     if (!InBattlePyramid())
@@ -984,7 +992,11 @@ void ItemUseInBattle_PokeBall(u8 taskId)
 	}
 	else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
     {
-        RemoveBagItem(gSpecialVar_ItemId, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
         if (!InBattlePyramid())
             Task_FadeAndCloseBagMenu(taskId);
         else
@@ -1014,7 +1026,11 @@ static void Task_UseStatIncreaseItem(u8 taskId)
     if(++gTasks[taskId].data[8] > 7)
     {
         PlaySE(SE_USE_ITEM);
-        RemoveBagItem(gSpecialVar_ItemId, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+
         if (!InBattlePyramid())
             DisplayItemMessage(taskId, FONT_OPTION, UseStatIncreaseItem(gSpecialVar_ItemId), Task_CloseStatIncreaseMessage);
         else

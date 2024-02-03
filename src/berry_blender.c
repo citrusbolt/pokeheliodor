@@ -3567,7 +3567,11 @@ static bool8 PrintBlendingResults(void)
         CreateTask(Task_PlayPokeblockFanfare, 6);
         IncrementDailyBerryBlender();
 
-        RemoveBagItem(gSpecialVar_ItemId, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+        else
+            RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
+            
         AddPokeblock(&pokeblock);
 
         sBerryBlender->textState = 0;

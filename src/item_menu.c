@@ -2126,7 +2126,7 @@ static void Task_RemoveItemFromBag(u8 taskId)
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
         PlaySE(SE_SELECT);
-        RemoveBagItem(gSpecialVar_ItemId, tItemCount);
+        RemoveBagItem(gSpecialVar_ItemId, tItemCount, REMOVE_FROM_POCKET);
         DestroyListMenuTask(tListTaskId, scrollPos, cursorPos);
         UpdatePocketItemList(gBagPosition.pocket);
         UpdatePocketListPosition(gBagPosition.pocket);
@@ -2351,7 +2351,10 @@ static void SellItem(u8 taskId)
     u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
 
     PlaySE(SE_SHOP);
-    RemoveBagItem(gSpecialVar_ItemId, tItemCount);
+    if (gBagPosition.pocket == FREESPACE_POCKET)
+        RemoveBagItem(gSpecialVar_ItemId, tItemCount, REMOVE_FROM_FREE_SPACE);
+    else
+        RemoveBagItem(gSpecialVar_ItemId, tItemCount, REMOVE_FROM_POCKET);
     AddMoney(&gSaveBlock1Ptr->money, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * tItemCount);
     DestroyListMenuTask(tListTaskId, scrollPos, cursorPos);
     UpdatePocketItemList(gBagPosition.pocket);
@@ -2428,7 +2431,7 @@ static void TryDepositItem(u8 taskId)
         BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gText_CantStoreImportantItems, 3, 1, 0, 0, 0, COLORID_NORMAL);
         gTasks[taskId].func = WaitDepositErrorMessage;
     }
-    else if (AddPCItem(gSpecialVar_ItemId, tItemCount) == TRUE)
+    else if (AddPCItem(gSpecialVar_ItemId, tItemCount, NULL) == TRUE)
     {
         // Successfully deposited
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
@@ -2563,7 +2566,10 @@ static void CB2_ApprenticeExitBagMenu(void)
 
 static void ItemMenu_GiveFavorLady(u8 taskId)
 {
-    RemoveBagItem(gSpecialVar_ItemId, 1);
+    if (gBagPosition.pocket == FREESPACE_POCKET)
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_FREE_SPACE);
+    else
+        RemoveBagItem(gSpecialVar_ItemId, 1, REMOVE_FROM_POCKET);
     gSpecialVar_Result = TRUE;
     RemoveContextWindow();
     Task_FadeAndCloseBagMenu(taskId);
@@ -3173,15 +3179,33 @@ static void ItemMenu_Reconfigure(u8 taskId)
 
 	if (gSpecialVar_ItemId == ITEM_MACH_BIKE)
 	{
-		RemoveBagItem(ITEM_MACH_BIKE, 1);
-		AddBagItem(ITEM_ACRO_BIKE, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+        {
+            RemoveBagItem(ITEM_MACH_BIKE, 1, REMOVE_FROM_FREE_SPACE);
+            AddPCItem(ITEM_ACRO_BIKE, 1, NULL);
+        }
+        else
+        {
+            RemoveBagItem(ITEM_MACH_BIKE, 1, REMOVE_FROM_POCKET);
+            AddBagItemInternal(ITEM_ACRO_BIKE, 1, NULL);
+        }
+
 		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE))
 			 SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE);
 	}
 	else
 	{
-		RemoveBagItem(ITEM_ACRO_BIKE, 1);
-		AddBagItem(ITEM_MACH_BIKE, 1);
+        if (gBagPosition.pocket == FREESPACE_POCKET)
+        {
+            RemoveBagItem(ITEM_ACRO_BIKE, 1, REMOVE_FROM_FREE_SPACE);
+            AddPCItem(ITEM_MACH_BIKE, 1, NULL);
+        }
+        else
+        {
+            RemoveBagItem(ITEM_ACRO_BIKE, 1, REMOVE_FROM_POCKET);
+            AddBagItemInternal(ITEM_MACH_BIKE, 1, NULL);
+        }
+
 		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE))
 			 SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
 	}
@@ -3216,12 +3240,13 @@ static void ItemMenu_Move(u8 taskId)
 
 static void TryMoveItemToFreeSpace(u8 taskId)
 {
+    u16 remainder = 0;
     s16 *data = gTasks[taskId].data;
 
     tItemCount = tQuantity;
 
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
-    if (AddPCItem(gSpecialVar_ItemId, tQuantity) == TRUE)
+    if (AddPCItem(gSpecialVar_ItemId, tQuantity, &remainder) == TRUE)
     {
         // Successfully moved
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
@@ -3230,6 +3255,38 @@ static void TryMoveItemToFreeSpace(u8 taskId)
         BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
         gTasks[taskId].func = Task_RemoveItemFromBag;
         UpdatePocketItemList(FREESPACE_POCKET);
+
+        if (gBagPosition.scrollPosition[FREESPACE_POCKET] + MAX_ITEMS_SHOWN >= gBagMenu->numItemStacks[FREESPACE_POCKET] - 1 && gBagPosition.cursorPosition[FREESPACE_POCKET] == 3 && gBagPosition.cursorPosition[FREESPACE_POCKET] > 3)
+        {
+            gBagPosition.scrollPosition[FREESPACE_POCKET]++;
+            gBagPosition.cursorPosition[FREESPACE_POCKET]--;
+        }
+
+        //if (gBagPosition.cursorPosition[FREESPACE_POCKET] > 3)
+        //    gBagPosition.cursorPosition[FREESPACE_POCKET]--;
+
+        UpdatePocketListPosition(FREESPACE_POCKET);
+        LoadBagItemListBuffers(FREESPACE_POCKET);
+    }
+    else if (AddPCItem(gSpecialVar_ItemId, tQuantity - remainder, NULL) == TRUE)
+    {
+        tQuantity -= remainder;
+        CopyItemName(gSpecialVar_ItemId, gStringVar1);
+        ConvertIntToDecimalStringN(gStringVar2, tQuantity, STR_CONV_MODE_LEFT_ALIGN, MAX_ITEM_DIGITS);
+        StringExpandPlaceholders(gStringVar4, gText_MovedToFreeSpace);
+        BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
+        gTasks[taskId].func = Task_RemoveItemFromBag;
+        UpdatePocketItemList(FREESPACE_POCKET);
+
+        if (gBagPosition.scrollPosition[FREESPACE_POCKET] + MAX_ITEMS_SHOWN >= gBagMenu->numItemStacks[FREESPACE_POCKET] - 1 && gBagPosition.cursorPosition[FREESPACE_POCKET] == 3 && gBagPosition.cursorPosition[FREESPACE_POCKET] > 3)
+        {
+            gBagPosition.scrollPosition[FREESPACE_POCKET]++;
+            gBagPosition.cursorPosition[FREESPACE_POCKET]--;
+        }
+
+        //if (gBagPosition.cursorPosition[FREESPACE_POCKET] > 3)
+        //    gBagPosition.cursorPosition[FREESPACE_POCKET]--;
+
         UpdatePocketListPosition(FREESPACE_POCKET);
         LoadBagItemListBuffers(FREESPACE_POCKET);
     }
@@ -3243,13 +3300,13 @@ static void TryMoveItemToFreeSpace(u8 taskId)
 
 static void ItemMenu_Return(u8 taskId)
 {
+    u16 remainder = 0;
     s16 *data = gTasks[taskId].data;
 
     tItemCount = tQuantity;
-
     RemoveContextWindow();
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
-    if (AddBagItem(gSpecialVar_ItemId, tQuantity) == TRUE)
+    if (AddBagItemInternal(gSpecialVar_ItemId, tQuantity, &remainder) == TRUE)
     {
         // Item withdrawn
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
@@ -3258,6 +3315,38 @@ static void ItemMenu_Return(u8 taskId)
         BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
         gTasks[taskId].func = Task_RemoveItemFromFreeSpace;
         UpdatePocketItemList(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
+
+        if (gBagPosition.scrollPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] + MAX_ITEMS_SHOWN >= gBagMenu->numItemStacks[ItemId_GetPocket(gSpecialVar_ItemId) - 1] - 1 && gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] > 3)
+        {
+            gBagPosition.scrollPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]++;
+            gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
+        }
+
+        //if (gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] > 3)
+        //    gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
+
+        UpdatePocketListPosition(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
+        LoadBagItemListBuffers(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
+    }
+    else if (AddBagItemInternal(gSpecialVar_ItemId, tQuantity - remainder, &remainder) == TRUE)
+    {
+        tQuantity -= remainder;
+        CopyItemName(gSpecialVar_ItemId, gStringVar1);
+        ConvertIntToDecimalStringN(gStringVar2, tQuantity, STR_CONV_MODE_LEFT_ALIGN, MAX_ITEM_DIGITS);
+        StringExpandPlaceholders(gStringVar4, gText_ReturnedFromFreeSpace);
+        BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
+        gTasks[taskId].func = Task_RemoveItemFromFreeSpace;
+        UpdatePocketItemList(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
+
+        if (gBagPosition.scrollPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] + MAX_ITEMS_SHOWN >= gBagMenu->numItemStacks[ItemId_GetPocket(gSpecialVar_ItemId) - 1] - 1 && gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] > 3)
+        {
+            gBagPosition.scrollPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]++;
+            gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
+        }
+
+        //if (gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1] > 3)
+        //    gBagPosition.cursorPosition[ItemId_GetPocket(gSpecialVar_ItemId) - 1]--;
+
         UpdatePocketListPosition(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
         LoadBagItemListBuffers(ItemId_GetPocket(gSpecialVar_ItemId) - 1);
     }
@@ -3267,80 +3356,6 @@ static void ItemMenu_Return(u8 taskId)
         BagMenu_Print(WIN_DESCRIPTION, FONT_OPTION, gText_NoRoomForItems, 3, 1, 0, 0, 0, COLORID_NORMAL);
         gTasks[taskId].func = WaitDepositErrorMessage;
     }
-}
-
-static bool8 RemoveFreeSpaceItem(u16 itemId, u16 count)
-{
-    u8 pocket;
-    u8 var;
-    u16 ownedCount;
-    struct BagPocket *itemPocket;
-    u8 i;
-    u16 totalQuantity = 0;
-
-    if (ItemId_GetPocket(itemId) == POCKET_NONE || itemId == ITEM_NONE)
-        return FALSE;
-
-
-    pocket = FREESPACE_POCKET;
-    itemPocket = &gBagPockets[pocket];
-
-    for (i = 0; i < itemPocket->capacity; i++)
-    {
-        if (itemPocket->itemSlots[i].itemId == itemId)
-            totalQuantity += GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
-    }
-
-    if (totalQuantity < count)
-        return FALSE;   // We don't have enough of the item
-
-    var = GetItemListPosition(pocket);
-    if (itemPocket->capacity > var
-     && itemPocket->itemSlots[var].itemId == itemId)
-    {
-        ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[var].quantity);
-        if (ownedCount >= count)
-        {
-            itemPocket->itemSlots[var].quantity = ownedCount - count;
-            count = 0;
-        }
-        else
-        {
-            count -= ownedCount;
-            itemPocket->itemSlots[var].quantity = 0;
-        }
-
-        if (GetBagItemQuantity(&itemPocket->itemSlots[var].quantity) == 0)
-            itemPocket->itemSlots[var].itemId = ITEM_NONE;
-
-        if (count == 0)
-            return TRUE;
-    }
-
-    for (i = 0; i < itemPocket->capacity; i++)
-    {
-        if (itemPocket->itemSlots[i].itemId == itemId)
-        {
-            ownedCount = GetBagItemQuantity(&itemPocket->itemSlots[i].quantity);
-            if (ownedCount >= count)
-            {
-                itemPocket->itemSlots[i].quantity = ownedCount - count;
-                count = 0;
-            }
-            else
-            {
-                count -= ownedCount;
-                itemPocket->itemSlots[i].quantity = 0;
-            }
-
-            if (GetBagItemQuantity(&itemPocket->itemSlots[i].quantity) == 0)
-                itemPocket->itemSlots[i].itemId = ITEM_NONE;
-
-            if (count == 0)
-                return TRUE;
-        }
-    }
-    return TRUE;
 }
 
 static void Task_RemoveItemFromFreeSpace(u8 taskId)

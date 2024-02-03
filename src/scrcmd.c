@@ -510,7 +510,7 @@ bool8 ScrCmd_removeitem(struct ScriptContext *ctx)
     u16 itemId = VarGet(ScriptReadHalfword(ctx));
     u32 quantity = VarGet(ScriptReadHalfword(ctx));
 
-    gSpecialVar_Result = RemoveBagItem(itemId, (u8)quantity);
+    gSpecialVar_Result = RemoveBagItem(itemId, (u8)quantity, REMOVE_FROM_ANY);
     return FALSE;
 }
 
@@ -545,7 +545,7 @@ bool8 ScrCmd_addpcitem(struct ScriptContext *ctx)
     u16 itemId = VarGet(ScriptReadHalfword(ctx));
     u16 quantity = VarGet(ScriptReadHalfword(ctx));
 
-    gSpecialVar_Result = AddPCItem(itemId, quantity);
+    gSpecialVar_Result = AddPCItem(itemId, quantity, NULL);
     return FALSE;
 }
 
