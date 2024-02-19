@@ -68,9 +68,9 @@ struct GFRomHeader
     u32 frontierStatusOffset2;
     u32 externalEventFlagsOffset;
     u32 externalEventDataOffset;
-    u32 unlockLinkBoxRS:1;
-    u32 unlockLinkColo:1;
-    u32 unlockLinkUnused:30;
+    u32 blockLinkBoxRS:1;
+    u32 blockLinkColoXD:1;
+    u32 blockLinkUnused:30;
     const struct SpeciesInfo * speciesInfo;
     const u8 (* abilityNames)[];
     const u8 * const * abilityDescriptions;
@@ -150,9 +150,9 @@ static const struct GFRomHeader sGFRomHeader = {
     .frontierStatusOffset2 = offsetof(struct SaveBlock2, frontier.challengeStatus),
     .externalEventFlagsOffset = offsetof(struct SaveBlock1, externalEventFlags),
     .externalEventDataOffset = offsetof(struct SaveBlock1, externalEventData),
-    .unlockLinkBoxRS = 0, // unused
-    .unlockLinkColo = 0, //unused
-    .unlockLinkUnused = 0,
+    .blockLinkBoxRS = FALSE,
+    .blockLinkColoXD = FALSE,
+    .blockLinkUnused = 0,
     .speciesInfo = gSpeciesInfo,
     .abilityNames = gGameCubeAbilityNames,
     .abilityDescriptions = gGameCubeAbilityDescriptionPointers,
