@@ -764,7 +764,7 @@ static void SpriteCB_ReleaseMonFromBall(struct Sprite *sprite)
         u16 species;
         s8 pan;
         u16 wantedCryCase;
-        u8 taskId;
+        u8 taskId, form;
 
         if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
         {
@@ -778,6 +778,8 @@ static void SpriteCB_ReleaseMonFromBall(struct Sprite *sprite)
         }
 
         species = GetMonData(mon, MON_DATA_SPECIES);
+        form = GetMonData(mon, MON_DATA_FORM);
+
         if ((battlerId == GetBattlerAtPosition(B_POSITION_PLAYER_LEFT) || battlerId == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
          && IsDoubleBattle() && gBattleSpritesDataPtr->animationData->introAnimActive)
         {
@@ -1016,6 +1018,7 @@ static u8 LaunchBallFadeMonTaskForPokeball(bool8 unFadeLater, u8 spritePalNum, u
 
 // Sprite data for the Pokémon
 #define sSpecies data[7]
+#define sForm    data[8]
 
 // Sprite data for the Poké Ball
 #define sMonSpriteId data[0]
@@ -1028,7 +1031,7 @@ static u8 LaunchBallFadeMonTaskForPokeball(bool8 unFadeLater, u8 spritePalNum, u
 #define sTrigIdx     data[7]
 
 // Poké Ball in Birch intro, and when receiving via trade
-void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subpriority, u8 delay, u32 fadePalettes, u16 species)
+void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subpriority, u8 delay, u32 fadePalettes, u16 species, u8 form)
 {
     u8 spriteId;
 
@@ -1043,6 +1046,7 @@ void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, 
     gSprites[monSpriteId].x = x;
     gSprites[monSpriteId].y = y;
     gSprites[monSpriteId].sSpecies = species;
+    gSprites[monSpriteId].sForm = form;
 
     gSprites[spriteId].sDelay = delay;
     gSprites[spriteId].sMonPalNum = monPalNum;
@@ -1125,15 +1129,16 @@ static void SpriteCB_ReleasedMonFlyOut(struct Sprite *sprite)
     if (sprite->animEnded && emergeAnimFinished && atFinalPosition)
     {
         if (gSprites[monSpriteId].sSpecies == SPECIES_EGG)
-            DoMonFrontSpriteAnimation(&gSprites[monSpriteId], gSprites[monSpriteId].sSpecies, TRUE, 0, FALSE);
+            DoMonFrontSpriteAnimation(&gSprites[monSpriteId], gSprites[monSpriteId].sSpecies, gSprites[monSpriteId].sForm, TRUE, 0, FALSE);
         else
-            DoMonFrontSpriteAnimation(&gSprites[monSpriteId], gSprites[monSpriteId].sSpecies, FALSE, 0, FALSE);
+            DoMonFrontSpriteAnimation(&gSprites[monSpriteId], gSprites[monSpriteId].sSpecies, gSprites[monSpriteId].sForm, FALSE, 0, FALSE);
 
         DestroySpriteAndFreeResources(sprite);
     }
 }
 
 #undef sSpecies
+#undef sForm
 #undef sFinalMonX
 #undef sFinalMonY
 #undef sTrigIdx

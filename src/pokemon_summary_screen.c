@@ -185,6 +185,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
 		u8 spdefEV;
 		u8 speedEV;
         u8 trueOrigin;
+        u8 form;
     } summary;
 	u16 bgTilemapBufferPage[0x400];
 	u16 bgTilemapBufferBG[0x400];
@@ -1574,9 +1575,9 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 19:
-        LoadMonIconPalette(sMonSummaryScreen->summary.species2);
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
-		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
+        LoadMonIconPalette(sMonSummaryScreen->summary.species2, sMonSummaryScreen->summary.form);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, sMonSummaryScreen->summary.form, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
+		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2, sMonSummaryScreen->summary.form);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
         break;
@@ -1750,6 +1751,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
     case 0:
         sum->species = GetMonData(mon, MON_DATA_SPECIES);
         sum->species2 = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+        sum->form = GetMonData(mon, MON_DATA_FORM);
         sum->exp = GetMonData(mon, MON_DATA_EXP);
         sum->level = GetMonData(mon, MON_DATA_LEVEL);
         sum->abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM);
@@ -2055,9 +2057,9 @@ static void Task_ChangeSummaryMon(u8 taskId)
         break;
     case 12:
 		FreeMonIconPalettes();
-        LoadMonIconPalette(sMonSummaryScreen->summary.species2);
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
-		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
+        LoadMonIconPalette(sMonSummaryScreen->summary.species2, sMonSummaryScreen->summary.form);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, sMonSummaryScreen->summary.form, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
+		gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2, sMonSummaryScreen->summary.form);
 		SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
 		break;
     case 13:
@@ -3609,10 +3611,10 @@ static void PrintSkillsPage(void)
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 88, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
 	PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Ability, 8, 112, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-	StringCopy(gStringVar1, gAbilityNames[GetAbilityBySpecies(sMonSummaryScreen->summary.species, summary->abilityNum)]);
+	StringCopy(gStringVar1, gAbilityNames[GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.form, summary->abilityNum)]);
 	x = GetStringCenterAlignXOffset(1, gStringVar1, 88) + 58;
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 112, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
-	StringCopy(gStringVar1, gAbilityDescriptionPointers[GetAbilityBySpecies(sMonSummaryScreen->summary.species, summary->abilityNum)]);
+	StringCopy(gStringVar1, gAbilityDescriptionPointers[GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.form, summary->abilityNum)]);
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, 8, 128, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
     ScheduleBgCopyTilemapToVram(0);
     PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
@@ -3780,6 +3782,7 @@ static void PrintMoveDetails(u16 move)
 	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
 	struct PokeSummary *summary = &sMonSummaryScreen->summary;
     u8 monFriendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
+    u16 formID;
 
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
 	SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
@@ -3789,13 +3792,18 @@ static void PrintMoveDetails(u16 move)
 	sMonSummaryScreen->markingsSprite->x = 266;
 	sMonSummaryScreen->markingsSprite->y = 332;
     FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
-
 	SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, FALSE);
-	SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[0], 41, 45, SPRITE_ARR_ID_TYPE);
 
-	if (gSpeciesInfo[summary->species].types[0] != gSpeciesInfo[summary->species].types[1])
+    if (IsFormValid(summary->species, summary->form))
+        formID = GetFormID(summary->species, summary->form);
+    else
+        formID = summary->species;
+
+	SetTypeSpritePosAndPal(gSpeciesInfo[formID].types[0], 41, 45, SPRITE_ARR_ID_TYPE);
+
+	if (gSpeciesInfo[formID].types[0] != gSpeciesInfo[formID].types[1])
 	{
-		SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[1], 75, 45, SPRITE_ARR_ID_TYPE + 1);
+		SetTypeSpritePosAndPal(gSpeciesInfo[formID].types[1], 75, 45, SPRITE_ARR_ID_TYPE + 1);
 		SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
 	}
 	else
@@ -4023,16 +4031,22 @@ static void CreateMoveTypeIcons(void)
 static void SetMonTypeIcons(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
+    u16 formID;
 
-    if (gSpeciesInfo[summary->species].types[0] != gSpeciesInfo[summary->species].types[1])
+    if (IsFormValid(summary->species, summary->form))
+        formID = GetFormID(summary->species, summary->form);
+    else
+        formID = summary->species;
+
+    if (gSpeciesInfo[formID].types[0] != gSpeciesInfo[formID].types[1])
     {
-        SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[0], 167, 65, SPRITE_ARR_ID_TYPE);
-        SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[1], 201, 65, SPRITE_ARR_ID_TYPE + 1);
+        SetTypeSpritePosAndPal(gSpeciesInfo[formID].types[0], 167, 65, SPRITE_ARR_ID_TYPE);
+        SetTypeSpritePosAndPal(gSpeciesInfo[formID].types[1], 201, 65, SPRITE_ARR_ID_TYPE + 1);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
     }
     else
     {
-        SetTypeSpritePosAndPal(gSpeciesInfo[summary->species].types[0], 184, 65, SPRITE_ARR_ID_TYPE);
+        SetTypeSpritePosAndPal(gSpeciesInfo[formID].types[0], 184, 65, SPRITE_ARR_ID_TYPE);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
     }
 }
@@ -4042,7 +4056,7 @@ static void SetMoveTypeIcons(void)
     u8 i;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
-    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         if (summary->moves[i] != MOVE_NONE)
@@ -4090,7 +4104,6 @@ static void SetContestMoveTypeIcons(void)
 static void SetNewMoveTypeIcon(void)
 {
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
-    u16 species = GetMonData(mon, MON_DATA_SPECIES);
 
     if (sMonSummaryScreen->newMove == MOVE_NONE)
 	{
@@ -4159,11 +4172,12 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         if (gMain.inBattle)
         {
             if (ShouldIgnoreDeoxysForm(3, sMonSummaryScreen->curMonIndex))
-                HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], gMonSpritesGfxPtr->sprites.ptr[1], summary->species2, summary->pid);
+                HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], gMonSpritesGfxPtr->sprites.ptr[1], summary->species2, summary->form, summary->pid);
             else
                 HandleLoadSpecialPokePic_2(&gMonFrontPicTable[summary->species2],
                                            gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT],
                                            summary->species2,
+                                           summary->form,
                                            summary->pid);
         }
         else
@@ -4174,9 +4188,10 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                     HandleLoadSpecialPokePic_2(&gMonFrontPicTable[summary->species2],
                                                gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT],
                                                summary->species2,
+                                               summary->form,
                                                summary->pid);
                 else
-                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], gMonSpritesGfxPtr->sprites.ptr[1], summary->species2, summary->pid);
+                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], gMonSpritesGfxPtr->sprites.ptr[1], summary->species2, summary->form, summary->pid);
             }
             else
             {
@@ -4184,9 +4199,10 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                     HandleLoadSpecialPokePic_2(&gMonFrontPicTable[summary->species2],
                                                 MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT),
                                                 summary->species2,
+                                                summary->form,
                                                 summary->pid);
                 else
-                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT), summary->species2, summary->pid);
+                    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[summary->species2], MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT), summary->species2, summary->form, summary->pid);
             }
         }
         (*state)++;
@@ -4194,8 +4210,8 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
     case 1:
 		if (!summary->isEgg)
 		{
-			pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
-			LoadCompressedUniqueSpritePalette(pal1, summary->species2, summary->pid, IsMonShiny(mon));
+			pal1 = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->form, summary->OTID, summary->pid);
+			LoadCompressedUniqueSpritePalette(pal1, summary->species2, summary->form, summary->pid, IsMonShiny(mon));
 		}
 		else
 		{
@@ -4232,7 +4248,7 @@ static u8 CreateMonSprite(struct Pokemon *unused)
     gSprites[spriteId].callback = SpriteCB_Pokemon;
     gSprites[spriteId].oam.priority = 0;
 
-    if (!IsMonSpriteNotFlipped(summary->species2))
+    if (!IsMonSpriteNotFlipped(summary->species2, summary->form))
         gSprites[spriteId].hFlip = TRUE;
     else
         gSprites[spriteId].hFlip = FALSE;
@@ -4246,9 +4262,9 @@ static void SpriteCB_Pokemon(struct Sprite *sprite)
 
     if (!gPaletteFade.active && sprite->data[2] != 1)
     {
-        sprite->data[1] = IsMonSpriteNotFlipped(sprite->data[0]);
+        sprite->data[1] = IsMonSpriteNotFlipped(sprite->data[0], summary->form);
         PlayMonCry();
-        PokemonSummaryDoMonAnimation(sprite, sprite->data[0], summary->isEgg);
+        PokemonSummaryDoMonAnimation(sprite, sprite->data[0], summary->form, summary->isEgg);
     }
 }
 

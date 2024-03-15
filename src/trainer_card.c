@@ -2343,27 +2343,51 @@ static void PrintPokeCouponsStringOnCard(u8 slot)
 
 static void PrintPokemonIconsOnCard(void)
 {
-    u8 i;
     u8 paletteSlots[PARTY_SIZE] = {5, 6, 7, 8, 9, 10};
     u8 xOffsets[PARTY_SIZE] = {0, 4, 8, 12, 16, 20};
 
     if (sData->cardLayout == CARD_LAYOUT_FRLG || sData->cardLayout == CARD_LAYOUT_HELIODOR)
     {
-        for (i = 0; i < PARTY_SIZE; i++)
+        if (sData->trainerCard.monSpecies[0])
         {
-            if (sData->trainerCard.monSpecies[i])
-            {
-                u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[i]);
-				WriteSequenceToBgTilemapBuffer(3, 16 * i + 224, xOffsets[i] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
-            }
+            u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[0], sData->trainerCard.monForm0);
+			WriteSequenceToBgTilemapBuffer(3, 16 * 0 + 224, xOffsets[0] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
+        }
+
+        if (sData->trainerCard.monSpecies[1])
+        {
+            u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[1], sData->trainerCard.monForm1);
+			WriteSequenceToBgTilemapBuffer(3, 16 * 1 + 224, xOffsets[1] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
+        }
+
+        if (sData->trainerCard.monSpecies[2])
+        {
+            u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[2], sData->trainerCard.monForm2);
+			WriteSequenceToBgTilemapBuffer(3, 16 * 2 + 224, xOffsets[2] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
+        }
+
+        if (sData->trainerCard.monSpecies[3])
+        {
+            u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[3], sData->trainerCard.monForm3);
+			WriteSequenceToBgTilemapBuffer(3, 16 * 3 + 224, xOffsets[3] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
+        }
+
+        if (sData->trainerCard.monSpecies[4])
+        {
+            u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[4], sData->trainerCard.monForm4);
+			WriteSequenceToBgTilemapBuffer(3, 16 * 4 + 224, xOffsets[4] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
+        }
+
+        if (sData->trainerCard.monSpecies[5])
+        {
+            u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[5], sData->trainerCard.monForm5);
+			WriteSequenceToBgTilemapBuffer(3, 16 * 5 + 224, xOffsets[5] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
         }
     }
 }
 
 static void LoadMonIconGfx(void)
 {
-    u8 i;
-
     CpuSet(gMonIconPalettes, sData->monIconPal, 0x60);
     switch (sData->trainerCard.monIconTint)
     {
@@ -2381,11 +2405,23 @@ static void LoadMonIconGfx(void)
     }
     LoadPalette(sData->monIconPal, BG_PLTT_ID(5), 6 * PLTT_SIZE_4BPP);
 
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        if (sData->trainerCard.monSpecies[i])
-            LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[i], 0), 512, 16 * i + 32);
-    }
+    if (sData->trainerCard.monSpecies[0])
+        LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[0], sData->trainerCard.monForm0, 0), 512, 16 * 0 + 32);
+
+    if (sData->trainerCard.monSpecies[1])
+        LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[1], sData->trainerCard.monForm1, 0), 512, 16 * 1 + 32);
+
+    if (sData->trainerCard.monSpecies[2])
+        LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[2], sData->trainerCard.monForm2, 0), 512, 16 * 2 + 32);
+
+    if (sData->trainerCard.monSpecies[3])
+        LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[3], sData->trainerCard.monForm3, 0), 512, 16 * 3 + 32);
+
+    if (sData->trainerCard.monSpecies[4])
+        LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[4], sData->trainerCard.monForm4, 0), 512, 16 * 4 + 32);
+
+    if (sData->trainerCard.monSpecies[5])
+        LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[5], sData->trainerCard.monForm5, 0), 512, 16 * 5 + 32);
 }
 
 static void PrintStickersOnCard(void)

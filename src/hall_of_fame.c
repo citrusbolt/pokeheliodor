@@ -38,6 +38,8 @@
 #define HALL_OF_FAME_MAX_TEAMS 50
 #define TAG_CONFETTI 1001
 
+// FORM_TODO
+
 struct HallofFameMon
 {
     u32 tid;
@@ -583,7 +585,7 @@ static void Task_Hof_DisplayMon(u8 taskId)
     if (currMon->species == SPECIES_EGG)
         destY += 10;
 
-    spriteId = CreateMonPicSprite_Affine(currMon->species, currMon->tid, currMon->personality, MON_PIC_AFFINE_FRONT, startX, startY, currMonId, TAG_NONE);
+    spriteId = CreateMonPicSprite_Affine(currMon->species, FORM_NONE, currMon->tid, currMon->personality, MON_PIC_AFFINE_FRONT, startX, startY, currMonId, TAG_NONE);
     gSprites[spriteId].tDestinationX = destX;
     gSprites[spriteId].tDestinationY = destY;
     gSprites[spriteId].data[0] = 0;
@@ -929,7 +931,7 @@ static void Task_HofPC_DrawSpritesPrintText(u8 taskId)
             if (currMon->species == SPECIES_EGG)
                 posY += 10;
 
-            spriteId = CreateMonPicSprite_HandleDeoxys(currMon->species, currMon->tid, currMon->personality, TRUE, posX, posY, i, TAG_NONE);
+            spriteId = CreateMonPicSprite_HandleDeoxys(currMon->species, FORM_NONE, currMon->tid, currMon->personality, TRUE, posX, posY, i, TAG_NONE);
             gSprites[spriteId].oam.priority = 1;
             gTasks[taskId].tMonSpriteId(i) = spriteId;
         }
@@ -1354,9 +1356,9 @@ static void SpriteCB_GetOnScreenAndAnimate(struct Sprite *sprite)
         s16 species = sprite->tSpecies;
 
         if (species == SPECIES_EGG)
-            DoMonFrontSpriteAnimation(sprite, species, TRUE, 3, FALSE);
+            DoMonFrontSpriteAnimation(sprite, species, FORM_NONE, TRUE, 3, FALSE);
         else
-            DoMonFrontSpriteAnimation(sprite, species, FALSE, 3, FALSE);
+            DoMonFrontSpriteAnimation(sprite, species, FORM_NONE, FALSE, 3, FALSE);
     }
 }
 

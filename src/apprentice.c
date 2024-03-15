@@ -375,7 +375,7 @@ static u16 GetRandomAlternateMove(u8 monId)
                 do
                 {
                     id = Random() % (NUM_TECHNICAL_MACHINES + NUM_HIDDEN_MACHINES);
-                    shouldUseMove = CanSpeciesLearnTMHM(species, id);
+                    shouldUseMove = CanSpeciesLearnTMHM(species, FORM_NONE, id);
                 }
                 while (!shouldUseMove);
 

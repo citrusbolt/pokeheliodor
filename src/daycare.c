@@ -31,7 +31,7 @@
 extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
 static void ClearDaycareMonMail(struct DaycareMail *mail);
-static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *daycare);
+static void SetInitialEggData(struct Pokemon *mon, u16 species, u8 form, struct DayCare *daycare);
 static u8 GetDaycareCompatibilityScore(struct DayCare *daycare);
 static void DaycarePrintMonInfo(u8 windowId, u32 daycareSlotId, u8 y);
 
@@ -390,7 +390,7 @@ static void UNUSED ClearAllDaycareData(struct DayCare *daycare)
 // Determines what the species of an Egg would be based on the given species.
 // It determines this by working backwards through the evolution chain of the
 // given species.
-static u16 GetEggSpecies(u16 species)
+static u16 GetEggSpecies(u16 species, u8 form)
 {
     int i, j, k;
     bool8 found;
@@ -404,7 +404,7 @@ static u16 GetEggSpecies(u16 species)
         {
             for (k = 0; k < EVOS_PER_MON; k++)
             {
-                if (gEvolutionTable[j][k].targetSpecies == species)
+                if (gEvolutionTable[j][k].targetSpecies == species && IsFormValid(j, form) && !gSpeciesInfo[GetFormID(j, form)].blockEvolution)
                 {
                     species = j;
                     found = TRUE;
@@ -614,11 +614,17 @@ static u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
     u16 eggMoveIdx;
     u16 numEggMoves;
     u16 species;
+    u8 form;
     u16 i;
 
     numEggMoves = 0;
     eggMoveIdx = 0;
     species = GetMonData(pokemon, MON_DATA_SPECIES);
+    form = GetMonData(pokemon, MON_DATA_FORM);
+
+    if (IsFormValid(species, form) && gSpeciesInfo[GetFormID(species, form)].altLearnset)
+        species = GetFormID(species, form);
+
     for (i = 0; i < ARRAY_COUNT(gEggMoves) - 1; i++)
     {
         if (gEggMoves[i] == species + EGG_MOVES_SPECIES_OFFSET)
@@ -660,7 +666,7 @@ static void BuildEggMoveset(struct Pokemon *egg, struct BoxPokemon *father, stru
     for (i = 0; i < EGG_LVL_UP_MOVES_ARRAY_COUNT; i++)
         sHatchedEggLevelUpMoves[i] = MOVE_NONE;
 
-    numLevelUpMoves = GetLevelUpMovesBySpecies(GetMonData(egg, MON_DATA_SPECIES), sHatchedEggLevelUpMoves);
+    numLevelUpMoves = GetLevelUpMovesBySpecies(GetMonData(egg, MON_DATA_SPECIES), GetMonData(egg, MON_DATA_FORM), sHatchedEggLevelUpMoves);
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         sHatchedEggFatherMoves[i] = GetBoxMonData(father, MON_DATA_MOVE1 + i);
@@ -818,11 +824,14 @@ static u16 DetermineEggSpeciesAndParentSlots(struct DayCare *daycare, u8 *parent
 {
     u16 i;
     u16 species[DAYCARE_MON_COUNT];
+    u8 form[DAYCARE_MON_COUNT];
     u16 eggSpecies;
 
     for (i = 0; i < DAYCARE_MON_COUNT; i++)
     {
         species[i] = GetBoxMonData(&daycare->mons[i].mon, MON_DATA_SPECIES);
+        form[i] = GetBoxMonData(&daycare->mons[i].mon, MON_DATA_FORM);
+
         if (species[i] == SPECIES_DITTO)
         {
             parentSlots[0] = i ^ 1;
@@ -835,7 +844,8 @@ static u16 DetermineEggSpeciesAndParentSlots(struct DayCare *daycare, u8 *parent
         }
     }
 
-    eggSpecies = GetEggSpecies(species[parentSlots[0]]);
+    eggSpecies = GetEggSpecies(species[parentSlots[0]], form[parentSlots[0]]);
+
     if (eggSpecies == SPECIES_NIDORAN_F && daycare->offspringPersonality & EGG_GENDER_MALE)
     {
         eggSpecies = SPECIES_NIDORAN_M;
@@ -860,12 +870,14 @@ static void _GiveEggFromDaycare(struct DayCare *daycare)
 {
     struct Pokemon egg;
     u16 species;
+    u8 form;
     u8 parentSlots[DAYCARE_MON_COUNT];
     bool8 isEgg;
 
     species = DetermineEggSpeciesAndParentSlots(daycare, parentSlots);
+    form = GetBoxMonData(&daycare->mons[parentSlots[0]].mon, MON_DATA_FORM);
     AlterEggSpeciesWithIncenseItem(&species, daycare);
-    SetInitialEggData(&egg, species, daycare);
+    SetInitialEggData(&egg, species, form, daycare);
     InheritIVs(&egg, daycare);
     BuildEggMoveset(&egg, &daycare->mons[parentSlots[1]].mon, &daycare->mons[parentSlots[0]].mon);
 
@@ -880,7 +892,7 @@ static void _GiveEggFromDaycare(struct DayCare *daycare)
     RemoveEggFromDayCare(daycare);
 }
 
-void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
+void CreateEgg(struct Pokemon *mon, u16 species, u8 form, bool8 setHotSpringsLocation)
 {
     u8 metLevel, language, metLocation, isEgg;
     u16 ball;
@@ -915,7 +927,7 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
         personality = GeneratePIDMaster(parameters, &ivs);
     }
 
-    CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+    CreateMon(mon, species, form, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
     SetMonData(mon, MON_DATA_HP_IV, &ivs.hp);
     SetMonData(mon, MON_DATA_ATK_IV, &ivs.atk);
     SetMonData(mon, MON_DATA_DEF_IV, &ivs.def);
@@ -928,7 +940,12 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
     language = LANGUAGE_JAPANESE;
     SetMonData(mon, MON_DATA_POKEBALL, &ball);
     SetMonData(mon, MON_DATA_NICKNAME, sJapaneseEggNickname);
-    SetMonData(mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].eggCycles);
+
+    if (IsFormValid(species, form))
+        SetMonData(mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[GetFormID(species, form)].eggCycles);
+    else
+        SetMonData(mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].eggCycles);
+
     SetMonData(mon, MON_DATA_MET_LEVEL, &metLevel);
     SetMonData(mon, MON_DATA_LANGUAGE, &language);
     SetMonData(mon, MON_DATA_MET_GAME, &gGameVersion);
@@ -943,7 +960,7 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
     SetMonData(mon, MON_DATA_IS_EGG, &isEgg);
 }
 
-static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *daycare)
+static void SetInitialEggData(struct Pokemon *mon, u16 species, u8 form, struct DayCare *daycare)
 {
     u32 personality;
     u16 ball;
@@ -952,13 +969,18 @@ static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *
 	u8 version;
 
     personality = daycare->offspringPersonality;
-    CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+    CreateMon(mon, species, form, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
     metLevel = 0;
     ball = ITEM_POKE_BALL;
     language = LANGUAGE_JAPANESE;
     SetMonData(mon, MON_DATA_POKEBALL, &ball);
     SetMonData(mon, MON_DATA_NICKNAME, sJapaneseEggNickname);
-    SetMonData(mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].eggCycles);
+
+    if (IsFormValid(species, form))
+        SetMonData(mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[GetFormID(species, form)].eggCycles);
+    else
+        SetMonData(mon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].eggCycles);
+
     SetMonData(mon, MON_DATA_MET_LEVEL, &metLevel);
     SetMonData(mon, MON_DATA_LANGUAGE, &language);
 	if (FlagGet(FLAG_GEN_KANTO_EGGS))
@@ -1929,7 +1951,7 @@ void GiveEventEgg(void)
 
     personality = GeneratePIDMaster(parameters, &ivs);
 
-    CreateMon(&mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+    CreateMon(&mon, species, FORM_NONE, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
 
     SetMonData(&mon, MON_DATA_HP_IV, &ivs.hp);
     SetMonData(&mon, MON_DATA_ATK_IV, &ivs.atk);

@@ -23,6 +23,7 @@ struct MultiPartnerMenuPokemon
     /*0x18*/ u32 personality;
     /*0x1C*/ u8 gender;
     /*0x1D*/ u8 language;
+             u8 form;
 };
 
 // defines for the u8 array gTypeEffectiveness

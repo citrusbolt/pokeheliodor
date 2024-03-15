@@ -363,7 +363,7 @@ static void VBlankCB_ContestPainting(void)
 
 static void InitContestMonPixels(u16 species, bool8 backPic)
 {
-    const void *pal = GetMonSpritePalFromSpeciesAndPersonality(species, gContestPaintingWinner->trainerId, gContestPaintingWinner->personality);
+    const void *pal = GetMonSpritePalFromSpeciesAndPersonality(species, gContestPaintingWinner->form, gContestPaintingWinner->trainerId, gContestPaintingWinner->personality);
     LZDecompressVram(pal, gContestPaintingMonPalette);
     if (!backPic)
     {
@@ -371,6 +371,7 @@ static void InitContestMonPixels(u16 species, bool8 backPic)
             &gMonFrontPicTable[species],
             gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT],
             species,
+            gContestPaintingWinner->form,
             gContestPaintingWinner->personality);
         _InitContestMonPixels(gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], gContestPaintingMonPalette, (void *)gContestMonPixels);
     }
@@ -380,6 +381,7 @@ static void InitContestMonPixels(u16 species, bool8 backPic)
             &gMonBackPicTable[species],
             gMonSpritesGfxPtr->sprites.ptr[B_POSITION_PLAYER_LEFT],
             species,
+            gContestPaintingWinner->form,
             gContestPaintingWinner->personality);
         _InitContestMonPixels(gMonSpritesGfxPtr->sprites.ptr[B_POSITION_PLAYER_LEFT], gContestPaintingMonPalette, (void *)gContestMonPixels);
     }

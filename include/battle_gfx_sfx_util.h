@@ -36,7 +36,7 @@ void HandleBattleLowHpMusicChange(void);
 void SetBattlerSpriteAffineMode(u8 affineMode);
 void LoadAndCreateEnemyShadowSprites(void);
 void SpriteCB_SetInvisible(struct Sprite *sprite);
-void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species);
+void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species, u8 form);
 void HideBattlerShadowSprite(u8 battlerId);
 void FillAroundBattleWindows(void);
 void ClearTemporarySpeciesSpriteData(u8 battlerId, bool8 dontClearSubstitute);

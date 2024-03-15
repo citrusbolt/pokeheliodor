@@ -48,22 +48,24 @@ struct TrainerMonCustomized
     const u8 *nickname;
     const u8 *ev;
     u32 iv;
-    u16 moves[4];
+    u16 moves[MAX_MON_MOVES];
     u16 species;
     u16 heldItem;
     u16 ability;
     u8 lvl;
     u8 ball;
     u8 friendship;
-    u8 nature : 5;
-    bool8 gender : 2;
-    bool8 isShiny : 1;
+    u8 nature:5;
+    u8 gender:2;
+    u8 isShiny:1;
+    u8 form;
 };
 
 struct TrainerMonNoItemDefaultMoves
 {
     u16 iv;
     u8 lvl;
+    u8 form;
     u16 species;
 };
 
@@ -71,6 +73,7 @@ struct TrainerMonItemDefaultMoves
 {
     u16 iv;
     u8 lvl;
+    u8 form;
     u16 species;
     u16 heldItem;
 };
@@ -79,6 +82,7 @@ struct TrainerMonNoItemCustomMoves
 {
     u16 iv;
     u8 lvl;
+    u8 form;
     u16 species;
     u16 moves[MAX_MON_MOVES];
 };
@@ -87,6 +91,7 @@ struct TrainerMonItemCustomMoves
 {
     u16 iv;
     u8 lvl;
+    u8 form;
     u16 species;
     u16 heldItem;
     u16 moves[MAX_MON_MOVES];
@@ -188,5 +193,8 @@ extern const u8 *const gGameCubeAbilityDescriptionPointers[ABILITIES_COUNT];
 
 extern const struct CompressedSpritePalette gEgg1PaletteTable[];
 extern const struct CompressedSpritePalette gEgg2PaletteTable[];
+
+#define FORM_ID(species, form) (SPECIES_##species | (FORM_##species##_##form << 12))
+#define GetFormID(species, form) (species | (form << 12))
 
 #endif // GUARD_DATA_H

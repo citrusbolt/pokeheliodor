@@ -131,20 +131,22 @@ static void CB2_ReshowBattleScreenAfterMenu(void)
         break;
     case 19:
         {
-            u8 opponentBattler;
+            u8 opponentBattler, form;
             u16 species;
 
             LoadAndCreateEnemyShadowSprites();
 
             opponentBattler = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
             species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[opponentBattler]], MON_DATA_SPECIES);
-            SetBattlerShadowSpriteCallback(opponentBattler, species);
+            form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[opponentBattler]], MON_DATA_FORM);
+            SetBattlerShadowSpriteCallback(opponentBattler, species, form);
 
             if (IsDoubleBattle())
             {
                 opponentBattler = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
                 species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[opponentBattler]], MON_DATA_SPECIES);
-                SetBattlerShadowSpriteCallback(opponentBattler, species);
+                form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[opponentBattler]], MON_DATA_FORM);
+                SetBattlerShadowSpriteCallback(opponentBattler, species, form);
             }
 
             ActionSelectionCreateCursorAt(gActionSelectionCursor[gBattlerInMenuId], 0);

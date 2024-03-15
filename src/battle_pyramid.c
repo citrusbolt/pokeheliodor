@@ -50,6 +50,7 @@ struct PyramidWildMon
     u8 lvl;
     u8 abilityNum;
     u16 moves[MAX_MON_MOVES];
+    u8 form;
 };
 
 struct PyramidFloorTemplate
@@ -1385,15 +1386,31 @@ void GenerateBattlePyramidWildMon(void)
         break;
     case ABILITY_RANDOM:
     default:
-        if (gSpeciesInfo[wildMons[id].species].abilities[1])
+        if (IsFormValid(wildMons[id].species, wildMons[id].form))
         {
-            i = GetMonData(&gEnemyParty[0], MON_DATA_PERSONALITY, NULL) % 2;
-            SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &i);
+            if (gSpeciesInfo[GetFormID(wildMons[id].species, wildMons[id].form)].abilities[1])
+            {
+                i = GetMonData(&gEnemyParty[0], MON_DATA_PERSONALITY, NULL) % 2;
+                SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &i);
+            }
+            else
+            {
+                i = 0;
+                SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &i);
+            }
         }
         else
         {
-            i = 0;
-            SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &i);
+            if (gSpeciesInfo[wildMons[id].species].abilities[1])
+            {
+                i = GetMonData(&gEnemyParty[0], MON_DATA_PERSONALITY, NULL) % 2;
+                SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &i);
+            }
+            else
+            {
+                i = 0;
+                SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &i);
+            }
         }
         break;
     }

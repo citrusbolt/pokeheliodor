@@ -434,6 +434,7 @@ static void SetPlayerAndOpponentParties(void)
             ivs = gSaveBlock2Ptr->frontier.rentalMons[i].ivs;
             CreateMon(&gPlayerParty[i],
                       gFacilityTrainerMons[monId].species,
+                      gFacilityTrainerMons[monId].form,
                       monLevel,
                       ivs,
                       TRUE, gSaveBlock2Ptr->frontier.rentalMons[i].personality,
@@ -475,6 +476,7 @@ static void SetPlayerAndOpponentParties(void)
             ivs = gSaveBlock2Ptr->frontier.rentalMons[i + FRONTIER_PARTY_SIZE].ivs;
             CreateMon(&gEnemyParty[i],
                       gFacilityTrainerMons[monId].species,
+                      gFacilityTrainerMons[monId].form,
                       monLevel,
                       ivs,
                       TRUE, gSaveBlock2Ptr->frontier.rentalMons[i + FRONTIER_PARTY_SIZE].personality,
@@ -618,9 +620,20 @@ static void GetOpponentMostCommonMonType(void)
     for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
     {
         u32 species = gFacilityTrainerMons[gFrontierTempParty[i]].species;
-        typeCounts[gSpeciesInfo[species].types[0]]++;
-        if (gSpeciesInfo[species].types[0] != gSpeciesInfo[species].types[1])
-            typeCounts[gSpeciesInfo[species].types[1]]++;
+        u8 form = gFacilityTrainerMons[gFrontierTempParty[i]].form;
+
+        if (IsFormValid(species, form))
+        {
+            typeCounts[gSpeciesInfo[GetFormID(species, form)].types[0]]++;
+            if (gSpeciesInfo[GetFormID(species, form)].types[0] != gSpeciesInfo[GetFormID(species, form)].types[1])
+                typeCounts[gSpeciesInfo[GetFormID(species, form)].types[1]]++;
+        }
+        else
+        {
+            typeCounts[gSpeciesInfo[species].types[0]]++;
+            if (gSpeciesInfo[species].types[0] != gSpeciesInfo[species].types[1])
+                typeCounts[gSpeciesInfo[species].types[1]]++;
+        }
     }
 
     // Determine which are the two most-common types.
@@ -804,6 +817,7 @@ void FillFactoryBrainParty(void)
         heldItems[i] = gBattleFrontierHeldItems[gFacilityTrainerMons[monId].itemTableId];
         CreateMonWithEVSpreadNatureOTID(&gEnemyParty[i],
                                              gFacilityTrainerMons[monId].species,
+                                             gFacilityTrainerMons[monId].form,
                                              monLevel,
                                              gFacilityTrainerMons[monId].nature,
                                              fixedIV,

@@ -173,17 +173,17 @@ static void CreateInitialRoamerMon(bool16 createRoamer)
 
 	if (ROAMER->species == SPECIES_LATIAS || ROAMER->species == SPECIES_LATIOS)
 	{
-		CreateMon(&gEnemyParty[0], ROAMER->species, 40, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
+		CreateMon(&gEnemyParty[0], ROAMER->species, FORM_NONE, 40, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
 		ROAMER->level = 40;
 	}
 	else if (ROAMER->species == SPECIES_LUGIA || ROAMER->species == SPECIES_HO_OH)
 	{
-		CreateMon(&gEnemyParty[0], ROAMER->species, 70, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
+		CreateMon(&gEnemyParty[0], ROAMER->species, FORM_NONE, 70, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
 		ROAMER->level = 70;
 	}
 	else
 	{
-		CreateMon(&gEnemyParty[0], ROAMER->species, 50, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
+		CreateMon(&gEnemyParty[0], ROAMER->species, FORM_NONE, 50, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
 		ROAMER->level = 50;
 	}
     ROAMER->status = 0;
@@ -337,7 +337,7 @@ void CreateRoamerMonInstance(void)
     mon = &gEnemyParty[0];
     ZeroEnemyPartyMons();
 	status = ROAMER->status;
-    CreateMonWithIVsPersonality(mon, ROAMER->species, ROAMER->level, ROAMER->ivs, ROAMER->personality);
+    CreateMonWithIVsPersonality(mon, ROAMER->species, FORM_NONE, ROAMER->level, ROAMER->ivs, ROAMER->personality);
     SetMonData(mon, MON_DATA_STATUS, &status);
     SetMonData(mon, MON_DATA_HP, &ROAMER->hp);
     SetMonData(mon, MON_DATA_COOL, &ROAMER->cool);

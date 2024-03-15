@@ -529,6 +529,8 @@ struct BattleSpriteInfo
     u16 behindSubstitute:1; // 0x4
     u16 flag_x8:1; // 0x8
     u16 hpNumbersNoBars:1; // 0x10
+    u16 unusedFlags:3;
+    u16 transformForm:8;
     u16 transformSpecies;
 };
 

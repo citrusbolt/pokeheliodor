@@ -1277,7 +1277,7 @@ bool8 CheckLeadMonTough(void)
 
 void IsGrassTypeInParty(void)
 {
-    u8 i;
+    u8 i, form;
     u16 species;
     struct Pokemon *pokemon;
     for (i = 0; i < PARTY_SIZE; i++)
@@ -1286,10 +1286,23 @@ void IsGrassTypeInParty(void)
         if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES) && !GetMonData(pokemon, MON_DATA_IS_EGG))
         {
             species = GetMonData(pokemon, MON_DATA_SPECIES);
-            if (gSpeciesInfo[species].types[0] == TYPE_GRASS || gSpeciesInfo[species].types[1] == TYPE_GRASS)
+            form = GetMonData(pokemon, MON_DATA_FORM);
+
+            if (IsFormValid(species, form))
             {
-                gSpecialVar_Result = TRUE;
-                return;
+                if (gSpeciesInfo[GetFormID(species, form)].types[0] == TYPE_GRASS || gSpeciesInfo[GetFormID(species, form)].types[1] == TYPE_GRASS)
+                {
+                    gSpecialVar_Result = TRUE;
+                    return;
+                }
+            }
+            else
+            {
+                if (gSpeciesInfo[species].types[0] == TYPE_GRASS || gSpeciesInfo[species].types[1] == TYPE_GRASS)
+                {
+                    gSpecialVar_Result = TRUE;
+                    return;
+                }
             }
         }
     }
@@ -1471,7 +1484,7 @@ void SetShoalItemFlag(u16 unused)
 void LoadWallyZigzagoon(void)
 {
     u16 monData;
-    CreateMon(&gPlayerParty[0], SPECIES_ZIGZAGOON, 7, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gPlayerParty[0], SPECIES_ZIGZAGOON, FORM_NONE, 7, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
     monData = TRUE;
     SetMonData(&gPlayerParty[0], MON_DATA_ABILITY_NUM, &monData);
     monData = MOVE_TACKLE;

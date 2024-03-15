@@ -764,6 +764,7 @@ static const u8 *const *const sPartnerApprenticeTextTables[NUM_APPRENTICES] =
 struct
 {
     u16 species;
+    u8 form;;
     u8 fixedIV;
     u8 level;
     u8 nature;
@@ -1724,6 +1725,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
         // Place the chosen Pokémon into the trainer's party.
         CreateMonWithEVSpreadNatureOTID(&gEnemyParty[i + firstMonId],
                                              gFacilityTrainerMons[monId].species,
+                                             gFacilityTrainerMons[monId].form,
                                              level,
                                              gFacilityTrainerMons[monId].nature,
                                              fixedIV,
@@ -1769,7 +1771,7 @@ static void UNUSED Unused_CreateApprenticeMons(u16 trainerId, u8 firstMonId)
 
     for (i = 0; i != FRONTIER_PARTY_SIZE; i++)
     {
-        CreateMonWithEVSpread(&gEnemyParty[firstMonId + i], apprentice->party[i].species, level, fixedIV, 8);
+        CreateMonWithEVSpread(&gEnemyParty[firstMonId + i], apprentice->party[i].species, FORM_NONE, level, fixedIV, 8);
         friendship = MAX_FRIENDSHIP;
         for (j = 0; j < MAX_MON_MOVES; j++)
         {
@@ -1856,6 +1858,7 @@ static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
         u16 monId = gFrontierTempParty[i];
         CreateMonWithEVSpreadNatureOTID(&gEnemyParty[firstMonId + i],
                                              gFacilityTrainerMons[monId].species,
+                                             gFacilityTrainerMons[monId].form,
                                              level,
                                              gFacilityTrainerMons[monId].nature,
                                              fixedIV,
@@ -1884,6 +1887,7 @@ static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId)
         u16 monId = gFrontierTempParty[i];
         CreateMonWithEVSpreadNatureOTID(&gEnemyParty[firstMonId + i],
                                              gFacilityTrainerMons[monId].species,
+                                             gFacilityTrainerMons[monId].form,
                                              level,
                                              gFacilityTrainerMons[monId].nature,
                                              fixedIV,
@@ -2959,6 +2963,7 @@ static void FillPartnerParty(u16 trainerId)
             } while (IsShinyOtIdPersonality(STEVEN_OTID, j) || sStevenMons[i].nature != GetNatureFromPersonality(j));
             CreateMon(&gPlayerParty[MULTI_PARTY_SIZE + i],
                       sStevenMons[i].species,
+                      sStevenMons[i].form,
                       sStevenMons[i].level,
                       sStevenMons[i].fixedIV,
                       TRUE,
@@ -2989,6 +2994,7 @@ static void FillPartnerParty(u16 trainerId)
             monId = gSaveBlock2Ptr->frontier.trainerIds[i + 18];
             CreateMonWithEVSpreadNatureOTID(&gPlayerParty[MULTI_PARTY_SIZE + i],
                                                  gFacilityTrainerMons[monId].species,
+                                                 gFacilityTrainerMons[monId].form,
                                                  level,
                                                  gFacilityTrainerMons[monId].nature,
                                                  ivs,
@@ -3412,6 +3418,7 @@ static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount)
         // Place the chosen Pokémon into the trainer's party.
         CreateMonWithEVSpreadNatureOTID(&gEnemyParty[i + firstMonId],
                                              gFacilityTrainerMons[monId].species,
+                                             gFacilityTrainerMons[monId].form,
                                              level,
                                              gFacilityTrainerMons[monId].nature,
                                              fixedIV,

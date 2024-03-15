@@ -62,14 +62,14 @@ void HealPlayerParty(void)
     }
 }
 
-u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 unused3)
+u8 ScriptGiveMon(u16 species, u8 level, u16 item, u8 form)
 {
     u16 nationalDexNum;
     int sentToPc;
     u8 heldItem[2];
     struct Pokemon mon;
 
-    CreateMon(&mon, species, level, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&mon, species, form, level, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
     heldItem[0] = item;
     heldItem[1] = item >> 8;
     SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
@@ -135,7 +135,7 @@ u8 ScriptGiveUnown(u8 level, u16 item)
 
     personality = GeneratePIDMaster(parameters, &ivs);
 
-    CreateMon(&mon, SPECIES_UNOWN, level, USE_RANDOM_IVS, TRUE, personality, FALSE, 0);
+    CreateMon(&mon, SPECIES_UNOWN, FORM_NONE, level, USE_RANDOM_IVS, TRUE, personality, FALSE, 0);
     SetMonData(&mon, MON_DATA_HP_IV, &ivs.hp);
     SetMonData(&mon, MON_DATA_ATK_IV, &ivs.atk);
     SetMonData(&mon, MON_DATA_DEF_IV, &ivs.def);
@@ -166,12 +166,12 @@ u8 ScriptGiveUnown(u8 level, u16 item)
     return sentToPc;
 }
 
-u8 ScriptGiveEgg(u16 species)
+u8 ScriptGiveEgg(u16 species, u8 form)
 {
     struct Pokemon mon;
     u8 isEgg;
 
-    CreateEgg(&mon, species, TRUE);
+    CreateEgg(&mon, species, form, TRUE);
     isEgg = TRUE;
     SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
 
@@ -216,7 +216,7 @@ bool8 DoesPartyHaveEnigmaBerry(void)
     return hasItem;
 }
 
-void CreateScriptedWildMon(u16 species, u8 level, u16 item)
+void CreateScriptedWildMon(u16 species, u8 form, u8 level, u16 item)
 {
     u8 heldItem[2];
     u32 personality;
@@ -241,7 +241,7 @@ void CreateScriptedWildMon(u16 species, u8 level, u16 item)
     
     personality = GeneratePIDMaster(parameters, &ivs);
     ZeroEnemyPartyMons();
-    CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gEnemyParty[0], species, form, level, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
 
     SetMonData(&gEnemyParty[0], MON_DATA_HP_IV, &ivs.hp);
     SetMonData(&gEnemyParty[0], MON_DATA_ATK_IV, &ivs.atk);
@@ -340,31 +340,31 @@ void GiveStarterEgg(void)
 	switch (Random() % 9)
 	{
 		case 0:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_BULBASAUR);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_BULBASAUR, FORM_NONE);
 			break;
 		case 1:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CHARMANDER);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CHARMANDER, FORM_NONE);
 			break;
 		case 2:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_SQUIRTLE);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_SQUIRTLE, FORM_NONE);
 			break;
 		case 3:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CHIKORITA);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CHIKORITA, FORM_NONE);
 			break;
 		case 4:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CYNDAQUIL);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_CYNDAQUIL, FORM_NONE);
 			break;
 		case 5:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TOTODILE);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TOTODILE, FORM_NONE);
 			break;
 		case 6:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TREECKO);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TREECKO, FORM_NONE);
 			break;
 		case 7:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TORCHIC);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_TORCHIC, FORM_NONE);
 			break;
 		case 8:
-			gSpecialVar_Result = ScriptGiveEgg(SPECIES_MUDKIP);
+			gSpecialVar_Result = ScriptGiveEgg(SPECIES_MUDKIP, FORM_NONE);
 			break;
 	}
 }

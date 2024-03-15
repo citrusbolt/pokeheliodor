@@ -381,7 +381,7 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
     }
 }
 
-void UniquePalette(u16 palOffset, u16 species, u32 personality, bool8 isShiny)
+void UniquePalette(u16 palOffset, u16 species, u8 form, u32 personality, bool8 isShiny)
 {
     u16 i, range;
 	u32 value;

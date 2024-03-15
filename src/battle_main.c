@@ -1484,6 +1484,7 @@ static void SetMultiPartnerMenuParty(u8 offset)
     for (i = 0; i < MULTI_PARTY_SIZE; i++)
     {
         gMultiPartnerParty[i].species     = GetMonData(&gPlayerParty[offset + i], MON_DATA_SPECIES);
+        gMultiPartnerParty[i].form        = GetMonData(&gPlayerParty[offset + i], MON_DATA_FORM);
         gMultiPartnerParty[i].heldItem    = GetMonData(&gPlayerParty[offset + i], MON_DATA_HELD_ITEM);
         GetMonData(&gPlayerParty[offset + i], MON_DATA_NICKNAME, gMultiPartnerParty[i].nickname);
         gMultiPartnerParty[i].level       = GetMonData(&gPlayerParty[offset + i], MON_DATA_LEVEL);
@@ -2176,14 +2177,14 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             {
                 const struct TrainerMonNoItemDefaultMoves *partyData = trainer->party.NoItemDefaultMoves;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], partyData[i].species, partyData[i].form, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 break;
             }
             case F_TRAINER_PARTY_CUSTOM_MOVESET:
             {
                 const struct TrainerMonNoItemCustomMoves *partyData = trainer->party.NoItemCustomMoves;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], partyData[i].species, partyData[i].form, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
                 for (j = 0; j < MAX_MON_MOVES; j++)
                 {
@@ -2196,7 +2197,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             {
                 const struct TrainerMonItemDefaultMoves *partyData = trainer->party.ItemDefaultMoves;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], partyData[i].species, partyData[i].form, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
                 SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
                 break;
@@ -2205,7 +2206,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             {
                 const struct TrainerMonItemCustomMoves *partyData = trainer->party.ItemCustomMoves;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], partyData[i].species, partyData[i].form, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
                 SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
 
@@ -2232,7 +2233,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                     otIdType = OT_ID_PRESET;
                     fixedOtId = HIHALF(personalityValue) ^ LOHALF(personalityValue);
                 }
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
+                CreateMon(&party[i], partyData[i].species, partyData[i].form, partyData[i].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
                 SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
 
                 CustomTrainerPartyAssignMoves(&party[i], &partyData[i]);
@@ -2248,13 +2249,22 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 }
                 if (partyData[i].ability != ABILITY_NONE)
                 {
-                    const struct SpeciesInfo *speciesInfo = &gSpeciesInfo[partyData[i].species];
-                    u32 maxAbilities = ARRAY_COUNT(speciesInfo->abilities);
+                    const struct SpeciesInfo *speciesInfo;
+                    u32 maxAbilities;
+
+                    if (IsFormValid(partyData[i].species, partyData[i].form))
+                        speciesInfo = &gSpeciesInfo[GetFormID(partyData[i].species, partyData[i].form)];
+                    else
+                        speciesInfo = &gSpeciesInfo[partyData[i].species];
+
+                    maxAbilities = ARRAY_COUNT(speciesInfo->abilities);
+
                     for (j = 0; j < maxAbilities; ++j)
                     {
                         if (speciesInfo->abilities[j] == partyData[i].ability)
                             break;
                     }
+
                     if (j < maxAbilities)
                         SetMonData(&party[i], MON_DATA_ABILITY_NUM, &j);
                 }
@@ -2887,6 +2897,7 @@ u32 GetBattleWindowTemplatePixelWidth(u32 windowsType, u32 tableId)
 
 #define sBattler            data[0]
 #define sSpeciesId          data[2]
+#define sFormId          data[3]
 
 void SpriteCB_WildMon(struct Sprite *sprite)
 {
@@ -2929,7 +2940,7 @@ static void SpriteCB_WildMonAnimate(struct Sprite *sprite)
 {
     if (!gPaletteFade.active)
     {
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1, TRUE);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, sprite->sFormId, FALSE, 1, TRUE);
     }
 }
 
@@ -2975,12 +2986,18 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
 {
     u8 battler = sprite->sBattler;
     u16 species;
-    u8 yOffset;
+    u8 yOffset, form;
 
-    if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies != 0)
+    if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies != SPECIES_NONE)
+    {
         species = gBattleSpritesDataPtr->battlerData[battler].transformSpecies;
+        form = gBattleSpritesDataPtr->battlerData[battler].transformForm;
+    }
     else
+    {
         species = sprite->sSpeciesId;
+        form = sprite->sFormId;
+    }
 
     GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_PERSONALITY);  // Unused return value.
 
@@ -3007,7 +3024,10 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     }
     else
     {
-        yOffset = gMonFrontPicCoords[species].y_offset;
+        if (IsFormValid(species, form))
+            yOffset = gMonFrontPicCoords[GetFormID(species, form)].y_offset;
+        else
+            yOffset = gMonFrontPicCoords[species].y_offset;
     }
 
     sprite->data[3] = 8 - yOffset / 8;
@@ -3070,10 +3090,10 @@ void SpriteCB_OpponentMonFromBall(struct Sprite *sprite)
     {
         if (!(gHitMarker & HITMARKER_NO_ANIMATIONS) || gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
         {
-            if (HasTwoFramesAnimation(sprite->sSpeciesId))
+            if (HasTwoFramesAnimation(sprite->sSpeciesId, sprite->sFormId))
                 StartSpriteAnim(sprite, 1);
         }
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1, FALSE);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, sprite->sFormId, TRUE, 1, FALSE);
     }
 }
 
@@ -3217,7 +3237,7 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
 void SpriteCB_PlayerMonFromBall(struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded)
-        BattleAnimateBackSprite(sprite, sprite->sSpeciesId);
+        BattleAnimateBackSprite(sprite, sprite->sSpeciesId, sprite->sFormId);
 }
 
 static void SpriteCB_TrainerThrowObject_Main(struct Sprite *sprite)
@@ -3342,7 +3362,12 @@ static void BattleStartClearSetData(void)
     gBattleStruct->runTries = 0;
     gBattleStruct->safariGoNearCounter = 0;
     gBattleStruct->safariPkblThrowCounter = 0;
-    *(&gBattleStruct->safariCatchFactor) = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].catchRate * 100 / 1275;
+
+    if (IsFormValid(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), GetMonData(&gEnemyParty[0], MON_DATA_FORM)))
+        *(&gBattleStruct->safariCatchFactor) = gSpeciesInfo[GetFormID(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), GetMonData(&gEnemyParty[0], MON_DATA_FORM))].catchRate * 100 / 1275;
+    else
+        *(&gBattleStruct->safariCatchFactor) = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].catchRate * 100 / 1275;
+
     gBattleStruct->safariEscapeFactor = 3;
     gBattleStruct->wildVictorySong = 0;
     gBattleStruct->moneyMultiplier = 1;
@@ -3579,8 +3604,16 @@ void FaintClearSetData(void)
 
     gBattleResources->flags->flags[gActiveBattler] = 0;
 
-    gBattleMons[gActiveBattler].type1 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0];
-    gBattleMons[gActiveBattler].type2 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1];
+    if (IsFormValid(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form))
+    {
+        gBattleMons[gActiveBattler].type1 = gSpeciesInfo[GetFormID(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form)].types[0];
+        gBattleMons[gActiveBattler].type2 = gSpeciesInfo[GetFormID(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form)].types[1];
+    }
+    else
+    {
+        gBattleMons[gActiveBattler].type1 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0];
+        gBattleMons[gActiveBattler].type2 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1];
+    }
 
     ClearBattlerMoveHistory(gActiveBattler);
     ClearBattlerAbilityHistory(gActiveBattler);
@@ -3647,9 +3680,18 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
             for (i = 0; i < sizeof(struct BattlePokemon); i++)
                 ptr[i] = gBattleBufferB[gActiveBattler][4 + i];
 
-            gBattleMons[gActiveBattler].type1 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0];
-            gBattleMons[gActiveBattler].type2 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1];
-            gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
+            if (IsFormValid(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form))
+            {
+                gBattleMons[gActiveBattler].type1 = gSpeciesInfo[GetFormID(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form)].types[0];
+                gBattleMons[gActiveBattler].type2 = gSpeciesInfo[GetFormID(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form)].types[1];
+            }
+            else
+            {
+                gBattleMons[gActiveBattler].type1 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[0];
+                gBattleMons[gActiveBattler].type2 = gSpeciesInfo[gBattleMons[gActiveBattler].species].types[1];
+            }
+
+            gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form, gBattleMons[gActiveBattler].abilityNum);
             hpOnSwitchout = &gBattleStruct->hpOnSwitchout[GetBattlerSide(gActiveBattler)];
             *hpOnSwitchout = gBattleMons[gActiveBattler].hp;
             for (i = 0; i < NUM_BATTLE_STATS; i++)

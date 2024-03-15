@@ -310,7 +310,8 @@ struct EmeraldBattleTowerRecord
     /*0x28*/ u16 speechLost[EASY_CHAT_BATTLE_WORDS_COUNT];
     /*0x34*/ struct BattleTowerPokemon party[MAX_FRONTIER_PARTY_SIZE];
     /*0xE4*/ u8 language;
-    /*0xE7*/ //u8 padding[3];
+    /*0xE5*/ u8 padding;
+    /*0xE6*/ u16 forms;
     /*0xE8*/ u32 checksum;
 };
 
@@ -343,7 +344,7 @@ struct DomeMonData
     u16 moves[MAX_MON_MOVES];
     u8 evs[NUM_STATS];
     u8 nature;
-    //u8 padding;
+    u8 form;
 };
 
 struct RentalMon
@@ -556,6 +557,8 @@ struct SecretBaseParty
     u8 EVs[PARTY_SIZE];
 };
 
+// FORM_TODO
+
 struct SecretBase
 {
     /*0x1A9C*/ u8 secretBaseId;
@@ -762,7 +765,7 @@ struct ContestWinner
     u8 monName[POKEMON_NAME_LENGTH + 1];
     u8 trainerName[PLAYER_NAME_LENGTH + 1];
     u8 contestRank;
-    //u8 padding;
+    u8 form;
 };
 
 struct Mail

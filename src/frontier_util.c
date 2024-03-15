@@ -46,6 +46,7 @@ struct FrontierBrainMon
     u8 nature;
     u8 evs[NUM_STATS];
     u16 moves[MAX_MON_MOVES];
+    u8 form;
 };
 
 // This file's functions.
@@ -2520,6 +2521,7 @@ void CreateFrontierBrainPokemon(void)
         } while (sFrontierBrainsMons[facility][symbol][i].nature != GetNatureFromPersonality(j));
         CreateMon(&gEnemyParty[monPartyId],
                   sFrontierBrainsMons[facility][symbol][i].species,
+                  sFrontierBrainsMons[facility][symbol][i].form,
                   monLevel,
                   sFrontierBrainsMons[facility][symbol][i].fixedIV,
                   TRUE, j,

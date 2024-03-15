@@ -1461,8 +1461,9 @@ bool8 ScrCmd_showmonpic(struct ScriptContext *ctx)
     u16 species = VarGet(ScriptReadHalfword(ctx));
     u8 x = ScriptReadByte(ctx);
     u8 y = ScriptReadByte(ctx);
+    u8 form = ScriptReadByte(ctx);
 
-    ScriptMenu_ShowPokemonPic(species, x, y);
+    ScriptMenu_ShowPokemonPic(species, form, x, y);
     return FALSE;
 }
 
@@ -1696,9 +1697,8 @@ bool8 ScrCmd_givemon(struct ScriptContext *ctx)
     u16 species = VarGet(ScriptReadHalfword(ctx));
     u8 level = ScriptReadByte(ctx);
     u16 item = VarGet(ScriptReadHalfword(ctx));
-    u32 unkParam1 = ScriptReadWord(ctx);
-    u32 unkParam2 = ScriptReadWord(ctx);
-    u8 unkParam3 = ScriptReadByte(ctx);
+    u8 form = ScriptReadByte(ctx);
+
 	if (species == SPECIES_JIRACHI)
 	{
 		if (Random() / 3 & 1)
@@ -1706,7 +1706,7 @@ bool8 ScrCmd_givemon(struct ScriptContext *ctx)
 		else
 			item = 170;
 	}
-    gSpecialVar_Result = ScriptGiveMon(species, level, item, unkParam1, unkParam2, unkParam3);
+    gSpecialVar_Result = ScriptGiveMon(species, level, item, form);
     return FALSE;
 }
 
@@ -1721,8 +1721,9 @@ bool8 ScrCmd_giveunown(struct ScriptContext *ctx)
 bool8 ScrCmd_giveegg(struct ScriptContext *ctx)
 {
     u16 species = VarGet(ScriptReadHalfword(ctx));
+    u8 form = ScriptReadByte(ctx);
 
-    gSpecialVar_Result = ScriptGiveEgg(species);
+    gSpecialVar_Result = ScriptGiveEgg(species, form);
     return FALSE;
 }
 
@@ -1912,8 +1913,9 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
     u16 species = ScriptReadHalfword(ctx);
     u8 level = ScriptReadByte(ctx);
     u16 item = ScriptReadHalfword(ctx);
+    u8 form = ScriptReadByte(ctx);
 
-    CreateScriptedWildMon(species, level, item);
+    CreateScriptedWildMon(species, form, level, item);
     return FALSE;
 }
 

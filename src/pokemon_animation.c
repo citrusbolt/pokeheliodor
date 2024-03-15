@@ -882,12 +882,22 @@ static void SetPosForRotation(struct Sprite *sprite, u16 index, s16 amplitudeX, 
     sprite->y2 = yAdder + amplitudeY;
 }
 
-u8 GetSpeciesBackAnimSet(u16 species)
+u8 GetSpeciesBackAnimSet(u16 species, u8 form)
 {
-    if (sSpeciesToBackAnimSet[species] != BACK_ANIM_NONE)
-        return sSpeciesToBackAnimSet[species] - 1;
+    if (IsFormValid(species, form))
+    {
+        if (sSpeciesToBackAnimSet[GetFormID(species, form)] != BACK_ANIM_NONE)
+            return sSpeciesToBackAnimSet[GetFormID(species, form)] - 1;
+        else
+            return 0;
+    }
     else
-        return 0;
+    {
+        if (sSpeciesToBackAnimSet[species] != BACK_ANIM_NONE)
+            return sSpeciesToBackAnimSet[species] - 1;
+        else
+            return 0;
+    }
 }
 
 #define tState  data[0]

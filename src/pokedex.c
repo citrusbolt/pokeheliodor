@@ -3928,18 +3928,20 @@ static void HighlightSubmenuScreenSelectBarItem(u8 a, u16 b)
 #define tState         data[0]
 #define tDexNum        data[1]
 #define tPalTimer      data[2]
-#define tMonSpriteId   data[3]
+#define tForm          data[3]
+#define tMonSpriteId   data[11]
 #define tOtIdLo        data[12]
 #define tOtIdHi        data[13]
 #define tPersonalityLo data[14]
 #define tPersonalityHi data[15]
 
-u8 DisplayCaughtMonDexPage(u16 dexNum, u32 otId, u32 personality)
+u8 DisplayCaughtMonDexPage(u16 dexNum, u8 form, u32 otId, u32 personality)
 {
     u8 taskId = CreateTask(Task_DisplayCaughtMonDexPage, 0);
 
     gTasks[taskId].tState = 0;
     gTasks[taskId].tDexNum = dexNum;
+    gTasks[taskId].tForm = form;
     gTasks[taskId].tOtIdLo = otId;
     gTasks[taskId].tOtIdHi = otId >> 16;
     gTasks[taskId].tPersonalityLo = personality;
@@ -4046,7 +4048,7 @@ static void Task_ExitCaughtMonPage(u8 taskId)
         u16 species;
         u32 otId;
         u32 personality;
-        u8 paletteNum;
+        u8 paletteNum, form;
         const u32 *lzPaletteData;
         void *buffer;
 
@@ -4062,8 +4064,9 @@ static void Task_ExitCaughtMonPage(u8 taskId)
         species = NationalPokedexNumToSpecies(gTasks[taskId].tDexNum);
         otId = ((u16)gTasks[taskId].tOtIdHi << 16) | (u16)gTasks[taskId].tOtIdLo;
         personality = ((u16)gTasks[taskId].tPersonalityHi << 16) | (u16)gTasks[taskId].tPersonalityLo;
+        form = gTasks[taskId].tForm;
         paletteNum = gSprites[gTasks[taskId].tMonSpriteId].oam.paletteNum;
-        lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality);
+        lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, form, otId, personality);
         LoadCompressedPalette(lzPaletteData, OBJ_PLTT_ID(paletteNum), PLTT_SIZE_4BPP);
         DestroyTask(taskId);
     }
@@ -4086,6 +4089,7 @@ static void SpriteCB_SlideCaughtMonToCenter(struct Sprite *sprite)
 #undef tDexNum
 #undef tPalTimer
 #undef tMonSpriteId
+#undef tForm
 #undef tOtIdLo
 #undef tOtIdHi
 #undef tPersonalityLo
@@ -4732,7 +4736,7 @@ static u32 GetPokedexMonPersonality(u16 species)
 u16 CreateMonSpriteFromNationalDexNumber(u16 nationalNum, s16 x, s16 y, u16 paletteSlot)
 {
     nationalNum = NationalPokedexNumToSpecies(nationalNum);
-    return CreateMonPicSprite_HandleDeoxys(nationalNum, SHINY_ODDS, GetPokedexMonPersonality(nationalNum), TRUE, x, y, paletteSlot, TAG_NONE);
+    return CreateMonPicSprite_HandleDeoxys(nationalNum, FORM_NONE, SHINY_ODDS, GetPokedexMonPersonality(nationalNum), TRUE, x, y, paletteSlot, TAG_NONE);
 }
 
 static u16 CreateSizeScreenTrainerPic(u16 species, s16 x, s16 y, s8 paletteSlot)

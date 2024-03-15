@@ -1341,6 +1341,12 @@ static void Cmd_get_considered_move_effect(void)
 static void Cmd_get_ability(void)
 {
     u8 battlerId;
+    u16 formId;
+
+    if (IsFormValid(gBattleMons[battlerId].species, gBattleMons[battlerId].form))
+        formId = GetFormID(gBattleMons[battlerId].species, gBattleMons[battlerId].form);
+    else
+        formId = gBattleMons[battlerId].species;
 
     if (gAIScriptPtr[1] == AI_USER)
         battlerId = sBattler_AI;
@@ -1366,24 +1372,24 @@ static void Cmd_get_ability(void)
             return;
         }
 
-        if (gSpeciesInfo[gBattleMons[battlerId].species].abilities[0] != ABILITY_NONE)
+        if (gSpeciesInfo[formId].abilities[0] != ABILITY_NONE)
         {
-            if (gSpeciesInfo[gBattleMons[battlerId].species].abilities[1] != ABILITY_NONE)
+            if (gSpeciesInfo[formId].abilities[1] != ABILITY_NONE)
             {
                 // AI has no knowledge of opponent, so it guesses which ability.
                 if (Random() & 1)
-                    AI_THINKING_STRUCT->funcResult = gSpeciesInfo[gBattleMons[battlerId].species].abilities[0];
+                    AI_THINKING_STRUCT->funcResult = gSpeciesInfo[formId].abilities[0];
                 else
-                    AI_THINKING_STRUCT->funcResult = gSpeciesInfo[gBattleMons[battlerId].species].abilities[1];
+                    AI_THINKING_STRUCT->funcResult = gSpeciesInfo[formId].abilities[1];
             }
             else
             {
-                AI_THINKING_STRUCT->funcResult = gSpeciesInfo[gBattleMons[battlerId].species].abilities[0]; // It's definitely ability 1.
+                AI_THINKING_STRUCT->funcResult = gSpeciesInfo[formId].abilities[0]; // It's definitely ability 1.
             }
         }
         else
         {
-            AI_THINKING_STRUCT->funcResult = gSpeciesInfo[gBattleMons[battlerId].species].abilities[1]; // AI can't actually reach this part since no Pokémon has ability 2 and no ability 1.
+            AI_THINKING_STRUCT->funcResult = gSpeciesInfo[formId].abilities[1]; // AI can't actually reach this part since no Pokémon has ability 2 and no ability 1.
         }
     }
     else
@@ -1399,6 +1405,12 @@ static void Cmd_check_ability(void)
 {
     u32 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 ability = gAIScriptPtr[2];
+    u16 formId;
+
+    if (IsFormValid(gBattleMons[battlerId].species, gBattleMons[battlerId].form))
+        formId = GetFormID(gBattleMons[battlerId].species, gBattleMons[battlerId].form);
+    else
+        formId = gBattleMons[battlerId].species;
 
     if (gAIScriptPtr[1] == AI_TARGET || gAIScriptPtr[1] == AI_TARGET_PARTNER)
     {
@@ -1414,15 +1426,15 @@ static void Cmd_check_ability(void)
         {
             ability = gBattleMons[battlerId].ability;
         }
-        else if (gSpeciesInfo[gBattleMons[battlerId].species].abilities[0] != ABILITY_NONE)
+        else if (gSpeciesInfo[formId].abilities[0] != ABILITY_NONE)
         {
-            if (gSpeciesInfo[gBattleMons[battlerId].species].abilities[1] != ABILITY_NONE)
+            if (gSpeciesInfo[formId].abilities[1] != ABILITY_NONE)
             {
                 u8 abilityDummyVariable = ability; // Needed to match.
-                if (gSpeciesInfo[gBattleMons[battlerId].species].abilities[0] != abilityDummyVariable
-                && gSpeciesInfo[gBattleMons[battlerId].species].abilities[1] != abilityDummyVariable)
+                if (gSpeciesInfo[formId].abilities[0] != abilityDummyVariable
+                && gSpeciesInfo[formId].abilities[1] != abilityDummyVariable)
                 {
-                    ability = gSpeciesInfo[gBattleMons[battlerId].species].abilities[0];
+                    ability = gSpeciesInfo[formId].abilities[0];
                 }
                 else
                 {
@@ -1431,12 +1443,12 @@ static void Cmd_check_ability(void)
             }
             else
             {
-                ability = gSpeciesInfo[gBattleMons[battlerId].species].abilities[0];
+                ability = gSpeciesInfo[formId].abilities[0];
             }
         }
         else
         {
-            ability = gSpeciesInfo[gBattleMons[battlerId].species].abilities[1]; // AI can't actually reach this part since no Pokémon has ability 2 and no ability 1.
+            ability = gSpeciesInfo[formId].abilities[1]; // AI can't actually reach this part since no Pokémon has ability 2 and no ability 1.
         }
     }
     else

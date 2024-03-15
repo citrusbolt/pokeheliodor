@@ -158,6 +158,7 @@ enum {
 struct PokemonJump_MonInfo
 {
     u16 species;
+    u8 form;
     u32 otId;
     u32 personality;
 };
@@ -656,6 +657,7 @@ static s16 GetPokemonJumpSpeciesIdx(u16 species)
 static void InitJumpMonInfo(struct PokemonJump_MonInfo *monInfo, struct Pokemon *mon)
 {
     monInfo->species = GetMonData(mon, MON_DATA_SPECIES);
+    monInfo->form = GetMonData(mon, MON_DATA_FORM);
     monInfo->otId = GetMonData(mon, MON_DATA_OT_ID);
     monInfo->personality = GetMonData(mon, MON_DATA_PERSONALITY);
 }
@@ -2727,6 +2729,7 @@ static void CreateJumpMonSprite(struct PokemonJumpGfx *jumpGfx, struct PokemonJu
             &gMonStillFrontPicTable[monInfo->species],
             buffer,
             monInfo->species,
+            monInfo->form,
             monInfo->personality);
 
         spriteSheet.data = buffer;
@@ -2734,7 +2737,7 @@ static void CreateJumpMonSprite(struct PokemonJumpGfx *jumpGfx, struct PokemonJu
         spriteSheet.size = MON_PIC_SIZE;
         LoadSpriteSheet(&spriteSheet);
 
-        spritePalette.data = GetMonSpritePalFromSpeciesAndPersonality(monInfo->species, monInfo->otId, monInfo->personality);
+        spritePalette.data = GetMonSpritePalFromSpeciesAndPersonality(monInfo->species, monInfo->form, monInfo->otId, monInfo->personality);
         spritePalette.tag = multiplayerId;
         LoadCompressedSpritePalette(&spritePalette);
 
@@ -3716,7 +3719,11 @@ static void CreateJumpMonSprites(void)
     {
         struct PokemonJump_MonInfo *monInfo = GetMonInfoByMultiplayerId(i);
 
-        y = gMonFrontPicCoords[monInfo->species].y_offset;
+        if (IsFormValid(monInfo->species, monInfo->form))
+            y = gMonFrontPicCoords[GetFormID(monInfo->species, monInfo->form)].y_offset;
+        else
+            y = gMonFrontPicCoords[monInfo->species].y_offset;
+
         CreateJumpMonSprite(sPokemonJumpGfx, monInfo, *xCoords, y + 112, i);
         CreateStarSprite(sPokemonJumpGfx, *xCoords, 112, i);
         xCoords++;
@@ -3925,6 +3932,7 @@ static void Task_UpdateBonus(u8 taskId)
 struct MonInfoPacket
 {
     u8 id;
+    u8 form;
     u16 species;
     u32 personality;
     u32 otId;
@@ -3935,6 +3943,7 @@ static void SendPacket_MonInfo(struct PokemonJump_MonInfo *monInfo)
     struct MonInfoPacket packet;
     packet.id = PACKET_MON_INFO,
     packet.species = monInfo->species,
+    packet.form = monInfo->form,
     packet.otId = monInfo->otId,
     packet.personality = monInfo->personality,
     Rfu_SendPacket(&packet);
@@ -3951,6 +3960,7 @@ static bool32 RecvPacket_MonInfo(int multiplayerId, struct PokemonJump_MonInfo *
     if (packet.id == PACKET_MON_INFO)
     {
         monInfo->species = packet.species;
+        monInfo->form = packet.form;
         monInfo->otId = packet.otId;
         monInfo->personality = packet.personality;
         return TRUE;

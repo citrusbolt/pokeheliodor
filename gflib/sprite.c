@@ -1617,7 +1617,7 @@ u8 LoadSpritePaletteDayNight(const struct SpritePalette *palette)
     }
 }
 
-u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u16 species, u32 personality, bool8 isShiny)
+u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u16 species, u8 form, u32 personality, bool8 isShiny)
 {
     u8 index = IndexOfSpritePaletteTag(palette->tag);
 
@@ -1634,7 +1634,7 @@ u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u16 species, u32
     {
         sSpritePaletteTags[index] = palette->tag;
         DoLoadSpritePalette(palette->data, PLTT_ID(index));
-		UniquePalette(OBJ_PLTT_ID(index), species, personality, isShiny);
+		UniquePalette(OBJ_PLTT_ID(index), species, form, personality, isShiny);
         CpuCopy32(gPlttBufferFaded + OBJ_PLTT_ID(index), gPlttBufferUnfaded + OBJ_PLTT_ID(index), 32);
         return index;
     }

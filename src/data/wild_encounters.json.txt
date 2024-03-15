@@ -28,7 +28,7 @@
 const struct WildPokemon {{ encounter.base_label }}_LandMons[] =
 {
 ## for wild_mon in encounter.land_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}{% if existsIn(wild_mon, "form") %}, {{ wild_mon.form }}{% endif %}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 
@@ -38,7 +38,7 @@ const struct WildPokemonInfo {{ encounter.base_label }}_LandMonsInfo = { {{encou
 const struct WildPokemon {{ encounter.base_label }}_WaterMons[] =
 {
 ## for wild_mon in encounter.water_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}{% if existsIn(wild_mon, "form") %}, {{ wild_mon.form }}{% endif %}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 
@@ -48,7 +48,7 @@ const struct WildPokemonInfo {{ encounter.base_label }}_WaterMonsInfo = { {{enco
 const struct WildPokemon {{ encounter.base_label }}_RockSmashMons[] =
 {
 ## for wild_mon in encounter.rock_smash_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}{% if existsIn(wild_mon, "form") %}, {{ wild_mon.form }}{% endif %}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 
@@ -58,7 +58,7 @@ const struct WildPokemonInfo {{ encounter.base_label }}_RockSmashMonsInfo = { {{
 const struct WildPokemon {{ encounter.base_label }}_FishingMons[] =
 {
 ## for wild_mon in encounter.fishing_mons.mons
-    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
+    { {{ wild_mon.min_level }}, {{ wild_mon.max_level }}, {{ wild_mon.species }}{% if existsIn(wild_mon, "form") %}, {{ wild_mon.form }}{% endif %}, {{ wild_mon.origin_game }}{% if existsIn(wild_mon, "encounter_rate") %}, {{ wild_mon.encounter_rate }}{% endif %} },
 ## endfor
 };
 

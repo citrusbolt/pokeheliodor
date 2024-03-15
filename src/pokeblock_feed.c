@@ -95,7 +95,7 @@ struct PokeblockFeed
     s16 monAnimY[0x200];
     u8 animRunState;
     u8 animId;
-    u8 unused2;
+    u8 form;
     bool8 noMonFlip;
     u16 species;
     u16 monAnimLength;
@@ -718,6 +718,7 @@ static void HandleInitBackgrounds(void)
 static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
 {
     u16 species;
+    u8 form;
     u32 personality, trainerId;
     const struct CompressedSpritePalette *palette;
 
@@ -726,16 +727,18 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
     case 0:
         // Load mon gfx
         species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+        form = GetMonData(mon, MON_DATA_FORM);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
-        HandleLoadSpecialPokePic_2(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], species, personality);
+        HandleLoadSpecialPokePic_2(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], species, form, personality);
         sPokeblockFeed->loadGfxState++;
         break;
     case 1:
         // Load mon palette
         species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+        form = GetMonData(mon, MON_DATA_FORM);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
         trainerId = GetMonData(mon, MON_DATA_OT_ID);
-        palette = GetMonSpritePalStructFromOtIdPersonality(species, trainerId, personality);
+        palette = GetMonSpritePalStructFromOtIdPersonality(species, form, trainerId, personality);
 
         LoadCompressedSpritePalette(palette);
         SetMultiuseSpriteTemplateToPokemon(palette->tag, B_POSITION_OPPONENT_LEFT);
@@ -908,16 +911,18 @@ static void Task_FadeOutPokeblockFeed(u8 taskId)
 static u8 CreateMonSprite(struct Pokemon *mon)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+    u8 form = GetMonData(mon, MON_DATA_FORM);
     u8 spriteId = CreateSprite(&gMultiuseSpriteTemplate, MON_X, MON_Y, 2);
 
     sPokeblockFeed->species = species;
+    sPokeblockFeed->form = form;
     sPokeblockFeed->monSpriteId_ = spriteId;
     sPokeblockFeed->nature = GetTrueNature(mon);
     gSprites[spriteId].sSpecies = species;
     gSprites[spriteId].callback = SpriteCallbackDummy;
 
     sPokeblockFeed->noMonFlip = TRUE;
-    if (!IsMonSpriteNotFlipped(species))
+    if (!IsMonSpriteNotFlipped(species, form))
     {
         gSprites[spriteId].affineAnims = sSpriteAffineAnimTable_MonNoFlip;
         gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_DOUBLE;

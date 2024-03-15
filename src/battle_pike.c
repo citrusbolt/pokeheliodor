@@ -35,6 +35,7 @@ struct PikeRoomNPC
 struct PikeWildMon
 {
     u16 species;
+    u8 form;
     u8 levelDelta;
     u16 moves[MAX_MON_MOVES];
 };
@@ -838,40 +839,69 @@ static bool8 DoesAbilityPreventStatus(struct Pokemon *mon, u32 status)
     return ret;
 }
 
-static bool8 DoesTypePreventStatus(u16 species, u32 status)
+static bool8 DoesTypePreventStatus(u16 species, u8 form, u32 status)
 {
     bool8 ret = FALSE;
 
-    switch (status)
+    if (IsFormValid(species, form))
     {
-    case STATUS1_TOXIC_POISON:
-        if (gSpeciesInfo[species].types[0] == TYPE_STEEL || gSpeciesInfo[species].types[0] == TYPE_POISON
-            || gSpeciesInfo[species].types[1] == TYPE_STEEL || gSpeciesInfo[species].types[1] == TYPE_POISON)
-            ret = TRUE;
-        break;
-    case STATUS1_FREEZE:
-        if (gSpeciesInfo[species].types[0] == TYPE_ICE || gSpeciesInfo[species].types[1] == TYPE_ICE)
-            ret = TRUE;
-        break;
-    case STATUS1_PARALYSIS:
-        if (gSpeciesInfo[species].types[0] == TYPE_GROUND || gSpeciesInfo[species].types[0] == TYPE_ELECTRIC
-            || gSpeciesInfo[species].types[1] == TYPE_GROUND || gSpeciesInfo[species].types[1] == TYPE_ELECTRIC)
-            ret = TRUE;
-        break;
-    case STATUS1_BURN:
-        if (gSpeciesInfo[species].types[0] == TYPE_FIRE || gSpeciesInfo[species].types[1] == TYPE_FIRE)
-            ret = TRUE;
-        break;
-    case STATUS1_SLEEP:
-        break;
+        switch (status)
+        {
+        case STATUS1_TOXIC_POISON:
+            if (gSpeciesInfo[GetFormID(species, form)].types[0] == TYPE_STEEL || gSpeciesInfo[GetFormID(species, form)].types[0] == TYPE_POISON
+                || gSpeciesInfo[GetFormID(species, form)].types[1] == TYPE_STEEL || gSpeciesInfo[GetFormID(species, form)].types[1] == TYPE_POISON)
+                ret = TRUE;
+            break;
+        case STATUS1_FREEZE:
+            if (gSpeciesInfo[GetFormID(species, form)].types[0] == TYPE_ICE || gSpeciesInfo[GetFormID(species, form)].types[1] == TYPE_ICE)
+                ret = TRUE;
+            break;
+        case STATUS1_PARALYSIS:
+            if (gSpeciesInfo[GetFormID(species, form)].types[0] == TYPE_GROUND || gSpeciesInfo[GetFormID(species, form)].types[0] == TYPE_ELECTRIC
+                || gSpeciesInfo[GetFormID(species, form)].types[1] == TYPE_GROUND || gSpeciesInfo[GetFormID(species, form)].types[1] == TYPE_ELECTRIC)
+                ret = TRUE;
+            break;
+        case STATUS1_BURN:
+            if (gSpeciesInfo[GetFormID(species, form)].types[0] == TYPE_FIRE || gSpeciesInfo[GetFormID(species, form)].types[1] == TYPE_FIRE)
+                ret = TRUE;
+            break;
+        case STATUS1_SLEEP:
+            break;
+        }
     }
+    else
+    {
+        switch (status)
+        {
+        case STATUS1_TOXIC_POISON:
+            if (gSpeciesInfo[species].types[0] == TYPE_STEEL || gSpeciesInfo[species].types[0] == TYPE_POISON
+                || gSpeciesInfo[species].types[1] == TYPE_STEEL || gSpeciesInfo[species].types[1] == TYPE_POISON)
+                ret = TRUE;
+            break;
+        case STATUS1_FREEZE:
+            if (gSpeciesInfo[species].types[0] == TYPE_ICE || gSpeciesInfo[species].types[1] == TYPE_ICE)
+                ret = TRUE;
+            break;
+        case STATUS1_PARALYSIS:
+            if (gSpeciesInfo[species].types[0] == TYPE_GROUND || gSpeciesInfo[species].types[0] == TYPE_ELECTRIC
+                || gSpeciesInfo[species].types[1] == TYPE_GROUND || gSpeciesInfo[species].types[1] == TYPE_ELECTRIC)
+                ret = TRUE;
+            break;
+        case STATUS1_BURN:
+            if (gSpeciesInfo[species].types[0] == TYPE_FIRE || gSpeciesInfo[species].types[1] == TYPE_FIRE)
+                ret = TRUE;
+            break;
+        case STATUS1_SLEEP:
+            break;
+        }
+    }
+
     return ret;
 }
 
 static bool8 TryInflictRandomStatus(void)
 {
-    u8 j, i;
-    u8 count;
+    u8 j, i, count, form;
     u8 indices[FRONTIER_PARTY_SIZE];
     u32 status;
     u16 species;
@@ -927,7 +957,9 @@ static bool8 TryInflictRandomStatus(void)
                 {
                     j++;
                     species = GetMonData(mon, MON_DATA_SPECIES);
-                    if (!DoesTypePreventStatus(species, sStatusFlags))
+                    form = GetMonData(mon, MON_DATA_FORM);
+
+                    if (!DoesTypePreventStatus(species, form, sStatusFlags))
                     {
                         statusChosen = TRUE;
                         break;
@@ -969,7 +1001,9 @@ static bool8 TryInflictRandomStatus(void)
         {
             j++;
             species = GetMonData(mon, MON_DATA_SPECIES);
-            if (!DoesAbilityPreventStatus(mon, sStatusFlags) && !DoesTypePreventStatus(species, sStatusFlags))
+            form = GetMonData(mon, MON_DATA_FORM);
+
+            if (!DoesAbilityPreventStatus(mon, sStatusFlags) && !DoesTypePreventStatus(species, form, sStatusFlags))
                 SetMonData(mon, MON_DATA_STATUS, &sStatusFlags);
         }
         if (j == count)
@@ -1139,10 +1173,21 @@ bool32 TryGenerateBattlePikeWildMon(bool8 checkKeenEyeIntimidate)
                MON_DATA_EXP,
                &gExperienceTables[gSpeciesInfo[wildMons[headerId][pikeMonId].species].growthRate][monLevel]);
 
-    if (gSpeciesInfo[wildMons[headerId][pikeMonId].species].abilities[1])
-        abilityNum = Random() % 2;
+    if (IsFormValid(wildMons[headerId][pikeMonId].species, wildMons[headerId][pikeMonId].form))
+    {
+        if (gSpeciesInfo[GetFormID(wildMons[headerId][pikeMonId].species, wildMons[headerId][pikeMonId].form)].abilities[1])
+            abilityNum = Random() % 2;
+        else
+            abilityNum = 0;
+    }
     else
-        abilityNum = 0;
+    {
+        if (gSpeciesInfo[wildMons[headerId][pikeMonId].species].abilities[1])
+            abilityNum = Random() % 2;
+        else
+            abilityNum = 0;
+    }
+
     SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &abilityNum);
     for (i = 0; i < MAX_MON_MOVES; i++)
         SetMonMoveSlot(&gEnemyParty[0], wildMons[headerId][pikeMonId].moves[i], i);

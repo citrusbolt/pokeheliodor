@@ -4,6 +4,7 @@
 #include "palette.h"
 #include "pokemon_icon.h"
 #include "sprite.h"
+#include "data.h"
 
 #define POKE_ICON_BASE_PAL_TAG 56000
 
@@ -1026,13 +1027,13 @@ static const u16 sSpriteImageSizes[3][4] =
     },
 };
 
-u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality, bool32 handleDeoxys)
+u8 CreateMonIcon(u16 species, u8 form, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality, bool32 handleDeoxys)
 {
     u8 spriteId;
     struct MonIconSpriteTemplate iconTemplate =
     {
         .oam = &sMonIconOamData,
-        .image = GetMonIconPtr(species, personality, handleDeoxys),
+        .image = GetMonIconPtr(species, form, personality, handleDeoxys),
         .anims = sMonIconAnims,
         .affineAnims = sMonIconAffineAnims,
         .callback = callback,
@@ -1042,6 +1043,9 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
     if (species > NUM_SPECIES)
         iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG;
 
+    if (IsFormValid(species, form))
+        iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[GetFormID(species, form)];
+
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
     UpdateMonIconFrame(&gSprites[spriteId]);
@@ -1049,7 +1053,7 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
     return spriteId;
 }
 
-u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 handleDeoxys)
+u8 CreateMonIconNoPersonality(u16 species, u8 form, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 handleDeoxys)
 {
     u8 spriteId;
     struct MonIconSpriteTemplate iconTemplate =
@@ -1062,7 +1066,10 @@ u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s1
         .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[species],
     };
 
-    iconTemplate.image = GetMonIconTiles(species, handleDeoxys);
+    if (IsFormValid(species, form))
+        iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[GetFormID(species, form)];
+
+    iconTemplate.image = GetMonIconTiles(species, form, handleDeoxys);
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
     UpdateMonIconFrame(&gSprites[spriteId]);
@@ -1122,9 +1129,9 @@ u16 GetIconSpeciesNoPersonality(u16 species)
     }
 }
 
-const u8 *GetMonIconPtr(u16 species, u32 personality, bool32 handleDeoxys)
+const u8 *GetMonIconPtr(u16 species, u8 form, u32 personality, bool32 handleDeoxys)
 {
-    return GetMonIconTiles(GetIconSpecies(species, personality), handleDeoxys);
+    return GetMonIconTiles(GetIconSpecies(species, personality), form, handleDeoxys);
 }
 
 void FreeAndDestroyMonIconSprite(struct Sprite *sprite)
@@ -1140,19 +1147,30 @@ void LoadMonIconPalettes(void)
 }
 
 // unused
-void SafeLoadMonIconPalette(u16 species)
+void SafeLoadMonIconPalette(u16 species, u8 form)
 {
     u8 palIndex;
     if (species > NUM_SPECIES)
         species = INVALID_ICON_SPECIES;
-    palIndex = gMonIconPaletteIndices[species];
+
+    if (IsFormValid(species, form))
+        palIndex = gMonIconPaletteIndices[GetFormID(species, form)];
+    else
+        palIndex = gMonIconPaletteIndices[species];
+
     if (IndexOfSpritePaletteTag(gMonIconPaletteTable[palIndex].tag) == 0xFF)
         LoadSpritePalette(&gMonIconPaletteTable[palIndex]);
 }
 
-void LoadMonIconPalette(u16 species)
+void LoadMonIconPalette(u16 species, u8 form)
 {
-    u8 palIndex = gMonIconPaletteIndices[species];
+    u8 palIndex;
+
+    if (IsFormValid(species, form))
+        palIndex = gMonIconPaletteIndices[GetFormID(species, form)];
+    else
+        palIndex = gMonIconPaletteIndices[species];
+
     if (IndexOfSpritePaletteTag(gMonIconPaletteTable[palIndex].tag) == 0xFF)
         LoadSpritePalette(&gMonIconPaletteTable[palIndex]);
 }
@@ -1165,19 +1183,29 @@ void FreeMonIconPalettes(void)
 }
 
 // unused
-void SafeFreeMonIconPalette(u16 species)
+void SafeFreeMonIconPalette(u16 species, u8 form)
 {
     u8 palIndex;
     if (species > NUM_SPECIES)
         species = INVALID_ICON_SPECIES;
-    palIndex = gMonIconPaletteIndices[species];
+
+    if (IsFormValid(species, form))
+        palIndex = gMonIconPaletteIndices[GetFormID(species, form)];
+    else
+        palIndex = gMonIconPaletteIndices[species];
+
     FreeSpritePaletteByTag(gMonIconPaletteTable[palIndex].tag);
 }
 
-void FreeMonIconPalette(u16 species)
+void FreeMonIconPalette(u16 species, u8 form)
 {
     u8 palIndex;
-    palIndex = gMonIconPaletteIndices[species];
+
+    if (IsFormValid(species, form))
+        palIndex = gMonIconPaletteIndices[GetFormID(species, form)];
+    else
+        palIndex = gMonIconPaletteIndices[species];
+
     FreeSpritePaletteByTag(gMonIconPaletteTable[palIndex].tag);
 }
 
@@ -1186,13 +1214,20 @@ void SpriteCB_MonIcon(struct Sprite *sprite)
     UpdateMonIconFrame(sprite);
 }
 
-const u8 *GetMonIconTiles(u16 species, bool32 handleDeoxys)
+const u8 *GetMonIconTiles(u16 species, u8 form, bool32 handleDeoxys)
 {
-    const u8 *iconSprite = gMonIconTable[species];
+    const u8 *iconSprite;
+
+    if (IsFormValid(species, form))
+        iconSprite = gMonIconTable[GetFormID(species, form)];
+    else
+        iconSprite = gMonIconTable[species];
+
     if (species == SPECIES_DEOXYS && handleDeoxys == TRUE)
     {
         iconSprite = (const u8 *)(0x400 + (u32)iconSprite); // use the specific Deoxys form icon (Speed in this case)
     }
+
     return iconSprite;
 }
 
@@ -1209,22 +1244,35 @@ void TryLoadAllMonIconPalettesAtOffset(u16 offset)
     }
 }
 
-u8 GetValidMonIconPalIndex(u16 species)
+u8 GetValidMonIconPalIndex(u16 species, u8 form)
 {
     if (species > NUM_SPECIES)
         species = INVALID_ICON_SPECIES;
-    return gMonIconPaletteIndices[species];
+
+    if (IsFormValid(species, form))
+        return gMonIconPaletteIndices[GetFormID(species, form)];
+    else
+        return gMonIconPaletteIndices[species];
 }
 
-u8 GetMonIconPaletteIndexFromSpecies(u16 species)
+u8 GetMonIconPaletteIndexFromSpecies(u16 species, u8 form)
 {
-    return gMonIconPaletteIndices[species];
+    if (IsFormValid(species, form))
+        return gMonIconPaletteIndices[GetFormID(species, form)];
+    else
+        return gMonIconPaletteIndices[species];
 }
 
-const u16 *GetValidMonIconPalettePtr(u16 species)
+const u16 *GetValidMonIconPalettePtr(u16 species, u8 form)
 {
     if (species > NUM_SPECIES)
         species = INVALID_ICON_SPECIES;
+
+    if (IsFormValid(species, form))
+        return gMonIconPaletteTable[gMonIconPaletteIndices[GetFormID(species, form)]].data;
+    else
+        return gMonIconPaletteTable[gMonIconPaletteIndices[species]].data;
+
     return gMonIconPaletteTable[gMonIconPaletteIndices[species]].data;
 }
 

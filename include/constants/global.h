@@ -112,6 +112,8 @@
                                         FRONTIER_MULTI_PARTY_SIZE)))
 #define UNION_ROOM_PARTY_SIZE       2
 
+#define MAX_ALT_FORM_COUNT 15
+
 // capacities of various saveblock objects
 #define DAYCARE_MON_COUNT 2
 #define POKEBLOCKS_COUNT 40

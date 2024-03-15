@@ -2115,9 +2115,9 @@ static void TryStartRandomMassOutbreak(void)
                 show->massOutbreak.unused3 = 0;
                 show->massOutbreak.species = sSwarmList[outbreakIdx].species;
                 show->massOutbreak.unused2 = 0;
-				CreateMon(&mon, sSwarmList[outbreakIdx].species, sSwarmList[outbreakIdx].minLevel, USE_RANDOM_IVS, FALSE, 0, OT_ID_PRESET, 0);
+				CreateMon(&mon, sSwarmList[outbreakIdx].species, FORM_NONE, sSwarmList[outbreakIdx].minLevel, USE_RANDOM_IVS, FALSE, 0, OT_ID_PRESET, 0);
 
-				if (CanSpeciesLearnAnyTMHM(sSwarmList[outbreakIdx].species))
+				if (CanSpeciesLearnAnyTMHM(sSwarmList[outbreakIdx].species, FORM_NONE))
 				{
 					do
 					{
@@ -2133,7 +2133,7 @@ static void TryStartRandomMassOutbreak(void)
 					do
 					{
 						moveId = Random() % TUTOR_MOVE_COUNT;
-					} while (!CanLearnTutorMove(sSwarmList[outbreakIdx].species, moveId));
+					} while (!CanLearnTutorMove(sSwarmList[outbreakIdx].species, FORM_NONE, moveId));
 	
 					if (GiveMoveToMon(&mon, gTutorMoves[moveId]) == MON_HAS_MAX_MOVES)
 						DeleteFirstMoveAndGiveMoveToBoxMon(&mon.box, gTutorMoves[moveId]);
@@ -3778,7 +3778,7 @@ void ChangePokemonNickname(void)
 
     GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar3);
     GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar2);
-    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES, NULL), GetMonGender(&gPlayerParty[gSpecialVar_0x8004]), GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_PERSONALITY, NULL), ChangePokemonNickname_CB);
+    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES, NULL), GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_FORM, NULL), GetMonGender(&gPlayerParty[gSpecialVar_0x8004]), GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_PERSONALITY, NULL), ChangePokemonNickname_CB);
 }
 
 void ChangePokemonNickname_CB(void)
@@ -3794,7 +3794,7 @@ void ChangeBoxPokemonNickname(void)
     boxMon = GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos);
     GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar3);
     GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar2);
-    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL), GetBoxMonGender(boxMon), GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL), ChangeBoxPokemonNickname_CB);
+    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL), GetBoxMonData(boxMon, MON_DATA_FORM, NULL), GetBoxMonGender(boxMon), GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL), ChangeBoxPokemonNickname_CB);
 }
 
 static void ChangeBoxPokemonNickname_CB(void)

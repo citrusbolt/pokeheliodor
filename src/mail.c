@@ -600,12 +600,12 @@ static bool8 MailReadBuildGraphics(void)
             switch (sMailRead->iconType)
             {
             case ICON_TYPE_BEAD:
-                LoadMonIconPalette(icon);
-                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, SpriteCallbackDummy, 96, 128, 0, FALSE);
+                LoadMonIconPalette(icon, FORM_NONE);
+                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, FORM_NONE, SpriteCallbackDummy, 96, 128, 0, FALSE);
                 break;
             case ICON_TYPE_DREAM:
-                LoadMonIconPalette(icon);
-                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, SpriteCallbackDummy, 40, 128, 0, FALSE);
+                LoadMonIconPalette(icon, FORM_NONE);
+                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, FORM_NONE, SpriteCallbackDummy, 40, 128, 0, FALSE);
                 break;
             }
             break;
@@ -740,7 +740,7 @@ static void CB2_ExitMailReadFreeVars(void)
         {
         case ICON_TYPE_BEAD:
         case ICON_TYPE_DREAM:
-            FreeMonIconPalette(GetIconSpeciesNoPersonality(sMailRead->mail->species));
+            FreeMonIconPalette(GetIconSpeciesNoPersonality(sMailRead->mail->species), FORM_NONE);
             FreeAndDestroyMonIconSprite(&gSprites[sMailRead->monIconSpriteId]);
         }
         memset(sMailRead, 0, sizeof(*sMailRead));
