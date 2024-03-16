@@ -79,7 +79,7 @@
 
 // Used in cases where division by 0 can occur in the retail version.
 // Avoids invalid opcodes on some emulators, and the otherwise UB.
-#define SAFE_DIV(a, b) ((b) ? (a) / (b) : 0)
+#define SAFE_DIV(a, b) (((b) != 0) ? (a) / (b) : 0)
 
 // The below macro does a%n, but (to match) will switch to a&(n-1) if n is a power of 2.
 // There are cases where GF does a&(n-1) where we would really like to have a%n, because

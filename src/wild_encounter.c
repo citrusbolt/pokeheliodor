@@ -83,7 +83,8 @@ EWRAM_DATA static u8 sPreviousEncounterZoneDirection = DIR_NORTH;
 EWRAM_DATA static u8 sEncounterZoneDirectionReversals = 0;
 EWRAM_DATA u8 gEncounterMode = ENCOUNTER_EMERALD;
 EWRAM_DATA static u16 sEncounterRateBuff = 0;
-EWRAM_DATA static u8 sMaxLevel;
+EWRAM_DATA static u8 sMaxLevel = 0;
+EWRAM_DATA static u32 sIterations = 0;
 
 #include "data/wild_encounters_rs.h"
 #include "data/wild_encounters_frlg.h"
@@ -1262,6 +1263,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
                     {
                         if (IsMonShiny(&gEnemyParty[1]))
                             IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+                        DebugPrintf("double", NULL);
                         BattleSetup_StartWildDoubleBattle();
                     }
                     else
@@ -3080,7 +3082,7 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
 {
     u32 i;
     u8 flags = WILD_CHECK_REPEL;
-    
+
     if (gEncounterMode == ENCOUNTER_EMERALD)
         flags |= WILD_CHECK_ABILITY;
 
@@ -3092,6 +3094,7 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
         if (TryStartRoamerEncounter() == TRUE)
         {
             struct Roamer *roamer = &gSaveBlock1Ptr->roamer;
+
             if (!IsWildLevelAllowedByRepel(roamer->level))
                 return ENCOUNTER_FAIL;
 
@@ -3102,7 +3105,7 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
             //if (DoMassOutbreakEncounterTest() == TRUE && SetUpMassOutbreakEncounter(flags, partySlot) == TRUE)
             //    return ENCOUNTER_SWARM;
 
-            if (TryGenerateWildMon(gWildMonHeaders[headerId].landMonsInfo, terrain, flags, partySlot) == TRUE)
+            if (TryGenerateWildMon(wildPokemonInfo, terrain, flags, partySlot) == TRUE)
                 return ENCOUNTER_SUCCESS;
 
             return ENCOUNTER_FAIL;
@@ -3114,24 +3117,37 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
     }
 }
 
-static u8 EncounterLoop(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u8 terrain, u8 partySlot, u16 species, u8 gender, u8 nature, u8 level)
+#define FORCE_SPECIES   (1 << 0)
+#define FORCE_TYPE      (1 << 1)
+#define FORCE_GENDER    (1 << 2)
+#define FORCE_NATURE    (1 << 3)
+#define FORCE_MAXLEVEL  (1 << 4)
+
+static u8 EncounterLoop(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u8 terrain, u8 partySlot, u8 forceFlags, u16 species, u8 type, u8 gender, u8 nature)
 {
     do
     {
+        sIterations++;
     } while (EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot) != ENCOUNTER_SUCCESS
-          || GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != species
-          || GetGenderFromSpeciesAndPersonality(GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES), GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY)) != gender
-          || GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY) % NUM_NATURES != nature
-          || GetMonData(&gEnemyParty[partySlot], MON_DATA_LEVEL) != level);
+          || (forceFlags & FORCE_SPECIES && GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != species)
+          || (forceFlags & FORCE_TYPE && (gSpeciesInfo[GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES)].types[0] != type && gSpeciesInfo[GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES)].types[1] != type))
+          || (forceFlags & FORCE_GENDER && GetGenderFromSpeciesAndPersonality(GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES), GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY)) != gender)
+          || (forceFlags & FORCE_NATURE && GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY) % NUM_NATURES != nature)
+          || (forceFlags & FORCE_MAXLEVEL && GetMonData(&gEnemyParty[partySlot], MON_DATA_LEVEL) != sMaxLevel));
 
 }
 
 static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u8 terrain, u8 partySlot)
 {
-    u8 result, ability, gender, nature, level, tableSize;
-    u16 species;
-    u32 i;
+    u8 result, ability, tableSize, i;
+    u16 species = 0;
+    u8 type = 0;
+    u8 gender = 0;
+    u8 nature = 0;
     u32 rolls = 1;
+    u8 forceFlags = 0;
+
+    gDisableVBlankRNGAdvance = TRUE;
 
     if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
         ability = GetMonAbility(&gPlayerParty[0]);
@@ -3165,31 +3181,23 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                if (terrain == WILD_AREA_LAND)
-                    tableSize = LAND_WILD_COUNT;
-                else
-                    tableSize = WATER_WILD_COUNT;
+                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u8 validMonCount;
 
+                for (i = 0; i < LAND_WILD_COUNT; i++)
+                    validIndexes[i] = 0;
+
+                for (validMonCount = 0, i = 0; i < LAND_WILD_COUNT; i++)
                 {
-                    u8 validIndexes[tableSize];
-                    u8 validMonCount;
+                    if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_STEEL || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_STEEL)
+                        validIndexes[validMonCount++] = i;
+                }
 
-                    for (i = 0; i < tableSize; i++)
-                        validIndexes[i] = 0;
-
-                    for (validMonCount = 0, i = 0; i < tableSize; i++)
-                    {
-                        if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_STEEL || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_STEEL)
-                            validIndexes[validMonCount++] = i;
-                    }
-
-                    if (validMonCount != 0 && validMonCount != tableSize)
-                    {
-                        do
-                        {
-                            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
-                        } while ( result != ENCOUNTER_SUCCESS && GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species);
-                    }
+                if (validMonCount != 0)
+                {
+                    CreateWildMon(wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species, 5, partySlot); // In case we need to chain, we can pull species now
+                    type = TYPE_STEEL;
+                    forceFlags |= FORCE_TYPE;
                 }
             }
         }
@@ -3199,31 +3207,23 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                if (terrain == WILD_AREA_LAND)
-                    tableSize = LAND_WILD_COUNT;
-                else
-                    tableSize = WATER_WILD_COUNT;
+                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u8 validMonCount;
 
+                for (i = 0; i < LAND_WILD_COUNT; i++)
+                    validIndexes[i] = 0;
+
+                for (validMonCount = 0, i = 0; i < LAND_WILD_COUNT; i++)
                 {
-                    u8 validIndexes[tableSize];
-                    u8 validMonCount;
+                    if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_ELECTRIC || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_ELECTRIC)
+                        validIndexes[validMonCount++] = i;
+                }
 
-                    for (i = 0; i < tableSize; i++)
-                        validIndexes[i] = 0;
-
-                    for (validMonCount = 0, i = 0; i < tableSize; i++)
-                    {
-                        if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_ELECTRIC || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_ELECTRIC)
-                            validIndexes[validMonCount++] = i;
-                    }
-
-                    if (validMonCount != 0 && validMonCount != tableSize)
-                    {
-                        do
-                        {
-                            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
-                        } while ( result != ENCOUNTER_SUCCESS && GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species);
-                    }
+                if (validMonCount != 0)
+                {
+                    CreateWildMon(wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species, 5, partySlot); // In case we need to chain, we can pull species now
+                    type = TYPE_ELECTRIC;
+                    forceFlags |= FORCE_TYPE;
                 }
             }
         }
@@ -3233,31 +3233,23 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                if (terrain == WILD_AREA_LAND)
-                    tableSize = LAND_WILD_COUNT;
-                else
-                    tableSize = WATER_WILD_COUNT;
+                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u8 validMonCount;
 
+                for (i = 0; i < LAND_WILD_COUNT; i++)
+                    validIndexes[i] = 0;
+
+                for (validMonCount = 0, i = 0; i < LAND_WILD_COUNT; i++)
                 {
-                    u8 validIndexes[tableSize];
-                    u8 validMonCount;
+                    if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_FIRE || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_FIRE)
+                        validIndexes[validMonCount++] = i;
+                }
 
-                    for (i = 0; i < tableSize; i++)
-                        validIndexes[i] = 0;
-
-                    for (validMonCount = 0, i = 0; i < tableSize; i++)
-                    {
-                        if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_FIRE || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_FIRE)
-                            validIndexes[validMonCount++] = i;
-                    }
-
-                    if (validMonCount != 0 && validMonCount != tableSize)
-                    {
-                        do
-                        {
-                            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
-                        } while ( result != ENCOUNTER_SUCCESS && GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species);
-                    }
+                if (validMonCount != 0)
+                {
+                    CreateWildMon(wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species, 5, partySlot); // In case we need to chain, we can pull species now
+                    type = TYPE_FIRE;
+                    forceFlags |= FORCE_TYPE;
                 }
             }
         }
@@ -3266,17 +3258,11 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
             result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
         }
 
-        species = GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES);
-
         if (ability == ABILITY_CUTE_CHARM && Random() % 3 != 0)
         {
-            if (gSpeciesInfo[species].genderRatio == MON_MALE
-             || gSpeciesInfo[species].genderRatio == MON_FEMALE
-             || gSpeciesInfo[species].genderRatio == MON_GENDERLESS)
-            {
-                gender = GetGenderFromSpeciesAndPersonality(GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES), GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY));
-            }
-            else
+            if (gSpeciesInfo[GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES)].genderRatio != MON_MALE
+             && gSpeciesInfo[GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES)].genderRatio != MON_FEMALE
+             && gSpeciesInfo[GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES)].genderRatio != MON_GENDERLESS)
             {
                 gender = GetGenderFromSpeciesAndPersonality(GetMonData(&gPlayerParty[0], MON_DATA_SPECIES), GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY));
                 
@@ -3284,63 +3270,45 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
                     gender = MON_MALE;
                 else
                     gender = MON_FEMALE;
+
+                forceFlags |= FORCE_GENDER;
             }
         }
 
-        if ((ability == ABILITY_HUSTLE
-          || ability == ABILITY_VITAL_SPIRIT
-          || ability == ABILITY_PRESSURE)
-          && (Random() % 2 == 0))
-        {
-            level = sMaxLevel;
-        }
-        else
-        {
-            level = GetMonData(&gEnemyParty[partySlot], MON_DATA_LEVEL);
-        }
+        if ((ability == ABILITY_HUSTLE || ability == ABILITY_VITAL_SPIRIT || ability == ABILITY_PRESSURE) && (Random() % 2 == 0))
+            forceFlags |= FORCE_MAXLEVEL;
 
         if (ability == ABILITY_SYNCHRONIZE && Random() % 2 == 0)
         {
             nature = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES;
-        }
-        else
-        {
-            nature = GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY) % NUM_NATURES;
+            forceFlags |= FORCE_NATURE;
         }
     }
     else
     {
-        if (ability == ABILITY_LIGHTNING_ROD)
+        if (ability == ABILITY_LIGHTNING_ROD) // It probably makes more sense to just toss this with Static in the "legit" code, as you wouldn't be able to tell the difference mathematically
         {
             result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                if (terrain == WILD_AREA_LAND)
-                    tableSize = LAND_WILD_COUNT;
-                else
-                    tableSize = WATER_WILD_COUNT;
+                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u8 validMonCount;
 
+                for (i = 0; i < LAND_WILD_COUNT; i++)
+                    validIndexes[i] = 0;
+
+                for (validMonCount = 0, i = 0; i < LAND_WILD_COUNT; i++)
                 {
-                    u8 validIndexes[tableSize];
-                    u8 validMonCount;
+                    if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_ELECTRIC || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_ELECTRIC)
+                        validIndexes[validMonCount++] = i;
+                }
 
-                    for (i = 0; i < tableSize; i++)
-                        validIndexes[i] = 0;
-
-                    for (validMonCount = 0, i = 0; i < tableSize; i++)
-                    {
-                        if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_ELECTRIC || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_ELECTRIC)
-                            validIndexes[validMonCount++] = i;
-                    }
-
-                    if (validMonCount != 0 && validMonCount != tableSize)
-                    {
-                        do
-                        {
-                            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
-                        } while ( result != ENCOUNTER_SUCCESS && GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species);
-                    }
+                if (validMonCount != 0)
+                {
+                    CreateWildMon(wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species, 5, partySlot); // In case we need to chain, we can pull species now
+                    type = TYPE_ELECTRIC;
+                    forceFlags |= FORCE_TYPE;
                 }
             }
         }
@@ -3350,31 +3318,23 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                if (terrain == WILD_AREA_LAND)
-                    tableSize = LAND_WILD_COUNT;
-                else
-                    tableSize = WATER_WILD_COUNT;
+                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u8 validMonCount;
 
+                for (i = 0; i < LAND_WILD_COUNT; i++)
+                    validIndexes[i] = 0;
+
+                for (validMonCount = 0, i = 0; i < LAND_WILD_COUNT; i++)
                 {
-                    u8 validIndexes[tableSize];
-                    u8 validMonCount;
+                    if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_FIRE || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_FIRE)
+                        validIndexes[validMonCount++] = i;
+                }
 
-                    for (i = 0; i < tableSize; i++)
-                        validIndexes[i] = 0;
-
-                    for (validMonCount = 0, i = 0; i < tableSize; i++)
-                    {
-                        if (gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[0] == TYPE_FIRE || gSpeciesInfo[wildPokemonInfo->wildPokemon[i].species].types[1] == TYPE_FIRE)
-                            validIndexes[validMonCount++] = i;
-                    }
-
-                    if (validMonCount != 0 && validMonCount != tableSize)
-                    {
-                        do
-                        {
-                            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
-                        } while ( result != ENCOUNTER_SUCCESS && GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES) != wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species);
-                    }
+                if (validMonCount != 0)
+                {
+                    CreateWildMon(wildPokemonInfo->wildPokemon[validIndexes[Random() % validMonCount]].species, 5, partySlot); // In case we need to chain, we can pull species now
+                    type = TYPE_FIRE;
+                    forceFlags |= FORCE_TYPE;
                 }
             }
         }
@@ -3382,24 +3342,29 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
         {
             result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
         }
-
-        species = GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES);
-        gender = GetGenderFromSpeciesAndPersonality(GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES), GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY));
-        nature = GetMonData(&gEnemyParty[partySlot], MON_DATA_PERSONALITY) % NUM_NATURES;
     }
 
 	if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
 		rolls += SHINY_CHARM_REROLLS;
 
-	if (species == gLastEncounteredSpecies)
+	if (gChainEncounter && gLastEncounteredSpecies == GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES))
     {
 		rolls += gChainStreak;
         gChainStreak++;
+        species = gLastEncounteredSpecies;
+        forceFlags |= FORCE_SPECIES;
+    }
+    else if (gChainEncounter)
+    {
+        gChainStreak = 0;
+        gLastEncounteredSpecies = GetMonData(&gEnemyParty[partySlot], MON_DATA_SPECIES);
+        species = gLastEncounteredSpecies;
+        forceFlags |= FORCE_SPECIES;
     }
     else
     {
         gChainStreak = 0;
-        gLastEncounteredSpecies = species;
+        gLastEncounteredSpecies = SPECIES_NONE;
     }
 
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
@@ -3415,11 +3380,19 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
     }
     else if (result == ENCOUNTER_SUCCESS)
     {
+        DebugPrintf("%d, %d, %d, %d, %d, %d, %d", partySlot, forceFlags, species, type, gender, nature, rolls);
+        gMain.vblankCounter2 = 0;
         for (i = 0; i < rolls; i++)
         {
-            EncounterLoop(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot, species, gender, nature, level);
+            EncounterLoop(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot, forceFlags, species, type, gender, nature);
+
+            if (IsMonShiny(&gEnemyParty[partySlot]))
+                break;
         }
+        DebugPrintf("%u", gMain.vblankCounter2 / 60);
     }
+
+    gDisableVBlankRNGAdvance = FALSE;
 
     return result;
 }

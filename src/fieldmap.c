@@ -1096,7 +1096,7 @@ static void LoadPrimaryTilesetPalette(struct MapLayout const *mapLayout)
 void LoadSecondaryTilesetPalette(struct MapLayout const *mapLayout)
 {
 	if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
-		LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY_KANTO) * PLTT_SIZE_4BPP);
+		LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY_KANTO), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY_KANTO) * PLTT_SIZE_4BPP);
 	else
 		LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY) * PLTT_SIZE_4BPP);
 }

@@ -983,11 +983,12 @@ static void SetTowerBattleWon(void)
 static bool8 ChooseSpecialBattleTowerTrainer(void)
 {
     s32 i, j, validMons;
-    s32 trainerIds[9];
+    s32 trainerIds[10];
     s32 idsCount = 0;
     s32 winStreak = 0;
     u8 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u8 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
+    u8 numValid = 0;
 
     if (VarGet(VAR_FRONTIER_FACILITY) != FRONTIER_FACILITY_TOWER)
         return FALSE;
@@ -1024,6 +1025,31 @@ static bool8 ChooseSpecialBattleTowerTrainer(void)
 
     if (battleMode == FRONTIER_MODE_SINGLES)
     {
+        ValidateEReaderTrainer();
+
+        if (gSpecialVar_Result == FALSE && gSaveBlock2Ptr->frontier.ereaderTrainer.winStreak == winStreak)
+        {
+            if (lvlMode == FRONTIER_LVL_50)
+            {
+                for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
+                {
+                    if (gSaveBlock2Ptr->frontier.ereaderTrainer.party[i].level <= 50)
+                        numValid++;
+                }
+
+                if (numValid == FRONTIER_PARTY_SIZE)
+                {
+                    trainerIds[idsCount] = TRAINER_EREADER;
+                    idsCount++;
+                }
+            }
+            else
+            {
+                trainerIds[idsCount] = TRAINER_EREADER;
+                idsCount++;
+            }
+        }
+
         ValidateApprenticesChecksums();
         for (i = 0; i < APPRENTICE_COUNT; i++)
         {

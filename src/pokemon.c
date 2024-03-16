@@ -2548,7 +2548,7 @@ u32 GeneratePIDMaster(struct PIDParameters parameters, struct IVs *ivs)
            | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
     u32 rolls = parameters.shinyRolls;
 
-	gDisableVBlankRNGAdvance = TRUE;
+	//gDisableVBlankRNGAdvance = TRUE;
 
     if (parameters.pidIVMethod == PIDIV_METHOD_CXD)
     {
@@ -2614,7 +2614,7 @@ u32 GeneratePIDMaster(struct PIDParameters parameters, struct IVs *ivs)
     ivs->spAtk = (iv2 & (MAX_IV_MASK << 5)) >> 5;
     ivs->spDef = (iv2 & (MAX_IV_MASK << 10)) >> 10;
 
-	gDisableVBlankRNGAdvance = FALSE;
+	//gDisableVBlankRNGAdvance = FALSE;
 
     return pid;
 }
@@ -2671,7 +2671,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 
 	metLocation = GetCurrentRegionMapSectionId();
 
-	gDisableVBlankRNGAdvance = TRUE;
+	//gDisableVBlankRNGAdvance = TRUE;
 
 	if (species == SPECIES_MEW)  //Pretend to be Japanese release, as Old Sea Map wasn't released internationally.  Note that if encountered anywhere other than Faraway Island, Mew will not be fully legal
 	{
@@ -2994,7 +2994,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		//}
 	}
 
-	gDisableVBlankRNGAdvance = FALSE;
+	//gDisableVBlankRNGAdvance = FALSE;
 
 	versionModifier = VERSION_MODIFIER;
 
