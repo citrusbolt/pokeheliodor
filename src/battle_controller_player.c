@@ -38,6 +38,7 @@
 #include "constants/rgb.h"
 #include "graphics.h"
 #include "menu.h"
+#include "constants/battle_move_effects.h"
 
 static void PlayerHandleGetMonData(void);
 static void PlayerHandleSetMonData(void);
@@ -1534,10 +1535,25 @@ static void MoveSelectionDisplayPpNumber(void)
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
 }
 
+static const u16 sNaturePowerMoves[] =
+{
+    [BATTLE_TERRAIN_GRASS]      = MOVE_STUN_SPORE,
+    [BATTLE_TERRAIN_LONG_GRASS] = MOVE_RAZOR_LEAF,
+    [BATTLE_TERRAIN_SAND]       = MOVE_EARTHQUAKE,
+    [BATTLE_TERRAIN_UNDERWATER] = MOVE_HYDRO_PUMP,
+    [BATTLE_TERRAIN_WATER]      = MOVE_SURF,
+    [BATTLE_TERRAIN_POND]       = MOVE_BUBBLE_BEAM,
+    [BATTLE_TERRAIN_MOUNTAIN]   = MOVE_ROCK_SLIDE,
+    [BATTLE_TERRAIN_CAVE]       = MOVE_SHADOW_BALL,
+    [BATTLE_TERRAIN_BUILDING]   = MOVE_SWIFT,
+    [BATTLE_TERRAIN_PLAIN]      = MOVE_SWIFT,
+    [BATTLE_TERRAIN_GYM]        = MOVE_SWIFT
+};
+
 static void MoveSelectionDisplayMoveType(void)
 {
     u8 *txtPtr;
-    u8 type;
+    u8 type, typeBits;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
 
     txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
@@ -1545,24 +1561,40 @@ static void MoveSelectionDisplayMoveType(void)
     *(txtPtr)++ = EXT_CTRL_CODE_FONT;
     *(txtPtr)++ = FONT_OPTION;
 
-	if (moveInfo->moves[gMoveSelectionCursor[gActiveBattler]] == MOVE_HIDDEN_POWER)
+	switch (gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].effect)
     {
-        u8 typeBits  = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 1) << 0)
+        case EFFECT_HIDDEN_POWER:
+            typeBits = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 1) << 0)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_ATK_IV) & 1) << 1)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_DEF_IV) & 1) << 2)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPEED_IV) & 1) << 3)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV) & 1) << 4)
                      | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 1) << 5);
 
-        type = (15 * typeBits) / 63 + 1;
-        if (type >= TYPE_MYSTERY)
-            type++;
-        type |= 0xC0;
-        type &= 0x3F;
-    }
-    else
-    {
-        type = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type;
+            type = (15 * typeBits) / 63 + 1;
+            if (type >= TYPE_MYSTERY)
+                type++;
+            type |= 0xC0;
+            type &= 0x3F;
+            break;
+        case EFFECT_NATURE_POWER:
+            type = gBattleMoves[sNaturePowerMoves[gBattleTerrain]].type;
+            break;
+        case EFFECT_WEATHER_BALL:
+            if (gBattleWeather & B_WEATHER_RAIN)
+                type = TYPE_WATER;
+            else if (gBattleWeather & B_WEATHER_SANDSTORM)
+                type = TYPE_ROCK;
+            else if (gBattleWeather & B_WEATHER_SUN)
+                type = TYPE_FIRE;
+            else if (gBattleWeather & B_WEATHER_HAIL)
+                type = TYPE_ICE;
+            else
+                type = TYPE_NORMAL;
+            break;
+        default:
+            type = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type;
+            break;
     }
 
     //StringCopy(txtPtr, gTypeNames[type]);
@@ -3259,7 +3291,31 @@ static void MoveSelectionDisplayTypeAndSplitIcons(u8 type)
 	struct ChooseMoveStruct *moveInfo;
 	u32 moveCategory;
 	moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][MAX_BATTLERS_COUNT]);
-    moveCategory = GetBattleMoveCategory(moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]);
+
+    if (gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].power == 0)
+    {
+        moveCategory = 2;
+    }
+    else
+    {
+        switch (type)
+        {
+            case TYPE_NORMAL:
+            case TYPE_FIGHTING:
+            case TYPE_FLYING:
+            case TYPE_GROUND:
+            case TYPE_ROCK:
+            case TYPE_BUG:
+            case TYPE_GHOST:
+            case TYPE_POISON:
+            case TYPE_STEEL:
+                moveCategory = 0;
+                break;
+            default:
+                moveCategory = 1;
+                break;
+        }
+    }
 
     ListMenuLoadStdPalAt(BG_PLTT_ID(12), 1);
 	LoadPalette(sSplitIcons_Pal, 10 * 0x10, 0x20);
@@ -3268,7 +3324,7 @@ static void MoveSelectionDisplayTypeAndSplitIcons(u8 type)
     FillWindowPixelBuffer(B_WIN_MOVE_TYPE, PIXEL_FILL(15));
     FillWindowPixelBuffer(B_WIN_PSS_ICON, PIXEL_FILL(7));
 	BlitBitmapToWindow(B_WIN_PSS_ICON, sSplitIcons_Gfx + 0x80 * moveCategory, 0, 0, 16, 16);
-    BlitMenuInfoIcon(B_WIN_MOVE_TYPE, gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type + 1, 16, 3);
+    BlitMenuInfoIcon(B_WIN_MOVE_TYPE, type + 1, 16, 3);
 	CopyWindowToVram(B_WIN_MOVE_TYPE, COPYWIN_FULL);
 	CopyWindowToVram(B_WIN_PSS_ICON, COPYWIN_FULL);
 }

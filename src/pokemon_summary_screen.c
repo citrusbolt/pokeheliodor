@@ -50,6 +50,10 @@
 #include "pokemon_icon.h"
 #include "constants/flags.h"
 #include "battle_interface.h"
+#include "constants/weather.h"
+#include "constants/battle_move_effects.h"
+#include "battle_setup.h"
+#include "field_weather.h"
 
 // Config options
 #define CONFIG_CAN_FORGET_HM_MOVES                      TRUE
@@ -3764,8 +3768,24 @@ u8 GetBattleMoveCategory(u16 move)
 	}
 }
 
+static const u16 sNaturePowerMoves[] =
+{
+    [BATTLE_TERRAIN_GRASS]      = MOVE_STUN_SPORE,
+    [BATTLE_TERRAIN_LONG_GRASS] = MOVE_RAZOR_LEAF,
+    [BATTLE_TERRAIN_SAND]       = MOVE_EARTHQUAKE,
+    [BATTLE_TERRAIN_UNDERWATER] = MOVE_HYDRO_PUMP,
+    [BATTLE_TERRAIN_WATER]      = MOVE_SURF,
+    [BATTLE_TERRAIN_POND]       = MOVE_BUBBLE_BEAM,
+    [BATTLE_TERRAIN_MOUNTAIN]   = MOVE_ROCK_SLIDE,
+    [BATTLE_TERRAIN_CAVE]       = MOVE_SHADOW_BALL,
+    [BATTLE_TERRAIN_BUILDING]   = MOVE_SWIFT,
+    [BATTLE_TERRAIN_PLAIN]      = MOVE_SWIFT,
+    [BATTLE_TERRAIN_GYM]        = MOVE_SWIFT
+};
+
 static void PrintMoveDetails(u16 move)
 {
+    u8 type;
 	u32 heartRow1, heartRow2;
 	struct Pokemon *mon = &sMonSummaryScreen->currentMon;
 	struct PokeSummary *summary = &sMonSummaryScreen->summary;
@@ -3799,7 +3819,15 @@ static void PrintMoveDetails(u16 move)
         {
 			PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, sText_Power, 8, POWER_AND_ACCURACY_Y, 0, 1);
 
-			if (move == MOVE_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
+            if (gBattleMoves[move].effect == EFFECT_RETURN && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, (10 * monFriendship / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+            }
+            else if (gBattleMoves[move].effect == EFFECT_FRUSTRATION && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, (10 * (MAX_FRIENDSHIP - monFriendship) / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+            }
+			else if (gBattleMoves[move].effect == EFFECT_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
 			{
 				u8 powerBits = ((GetMonData(mon, MON_DATA_HP_IV) & 2) >> 1)
 						| ((GetMonData(mon, MON_DATA_ATK_IV) & 2) << 0)
@@ -3812,13 +3840,29 @@ static void PrintMoveDetails(u16 move)
 
 				ConvertIntToDecimalStringN(gStringVar1, powerForHiddenPower, STR_CONV_MODE_RIGHT_ALIGN, 3);
 			}
-            else if (move == MOVE_RETURN && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            else if (gBattleMoves[move].effect == EFFECT_NATURE_POWER)
             {
-                ConvertIntToDecimalStringN(gStringVar1, (10 * monFriendship / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+                if (gMain.inBattle)
+                    ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[sNaturePowerMoves[gBattleTerrain]].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                else
+                    ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[sNaturePowerMoves[BattleSetup_GetTerrainId()]].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
             }
-            else if (move == MOVE_FRUSTRATION && CONFIG_SHOW_FRIENDSHIP_MOVE_STATS)
+            else if (gBattleMoves[move].effect == EFFECT_WEATHER_BALL)
             {
-                ConvertIntToDecimalStringN(gStringVar1, (10 * (MAX_FRIENDSHIP - monFriendship) / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+                if (gMain.inBattle)
+                {
+                    if (gBattleWeather & B_WEATHER_ANY)
+                        ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power * 2, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                    else
+                        ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                }
+                else
+                {
+                    if (gWeatherPtr->currWeather == WEATHER_RAIN || gWeatherPtr->currWeather == WEATHER_SNOW || gWeatherPtr->currWeather == WEATHER_RAIN_THUNDERSTORM || gWeatherPtr->currWeather == WEATHER_SANDSTORM || gWeatherPtr->currWeather == WEATHER_DROUGHT || gWeatherPtr->currWeather == WEATHER_DOWNPOUR)
+                        ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power * 2, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                    else
+                        ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                }
             }
 			else
 			{
@@ -3844,9 +3888,89 @@ static void PrintMoveDetails(u16 move)
             PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveFourLineDescriptionPointers[move - 1], 2, 64, 0, 0);
 
 			#if CONFIG_PHYSICAL_SPECIAL_SPLIT
+            // Check for Hidden Power, Weather Ball and Nature Power here
 			ShowSplitIcon(GetBattleMoveSplit(move));
 			#elif CONFIG_SHOW_ICONS_FOR_OLD_SPLIT
-			ShowSplitIcon(GetBattleMoveCategory(move));
+            if (gBattleMoves[move].power == 0)
+            {
+                ShowSplitIcon(2);
+            }
+            else
+            {
+                if (gBattleMoves[move].effect == EFFECT_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
+                {
+                    u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
+                        | ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
+                        | ((GetMonData(mon, MON_DATA_DEF_IV) & 1) << 2)
+                        | ((GetMonData(mon, MON_DATA_SPEED_IV) & 1) << 3)
+                        | ((GetMonData(mon, MON_DATA_SPATK_IV) & 1) << 4)
+                        | ((GetMonData(mon, MON_DATA_SPDEF_IV) & 1) << 5);
+
+                    type = (15 * typeBits) / 63 + 1;
+                    if (type >= TYPE_MYSTERY)
+                        type++;
+                    type |= 0xC0;
+                    type &= 0x3F;
+                }
+                else if (gBattleMoves[move].effect == EFFECT_NATURE_POWER)
+                {
+                    if (gMain.inBattle)
+                        type = gBattleMoves[sNaturePowerMoves[gBattleTerrain]].type;
+                    else
+                        type = gBattleMoves[sNaturePowerMoves[BattleSetup_GetTerrainId()]].type;
+                }
+                else if (gBattleMoves[move].effect == EFFECT_WEATHER_BALL)
+                {
+                    if (gMain.inBattle)
+                    {
+                        if (gBattleWeather & B_WEATHER_RAIN)
+                            type = TYPE_WATER;
+                        else if (gBattleWeather & B_WEATHER_SANDSTORM)
+                            type = TYPE_ROCK;
+                        else if (gBattleWeather & B_WEATHER_SUN)
+                            type = TYPE_FIRE;
+                        else if (gBattleWeather & B_WEATHER_HAIL)
+                            type = TYPE_ICE;
+                        else
+                            type = TYPE_NORMAL;
+                    }
+                    else
+                    {
+                        if (gWeatherPtr->currWeather == WEATHER_RAIN || gWeatherPtr->currWeather == WEATHER_RAIN_THUNDERSTORM || gWeatherPtr->currWeather == WEATHER_DOWNPOUR)
+                            type = TYPE_WATER;
+                        else if (gWeatherPtr->currWeather == WEATHER_SNOW)
+                            type = TYPE_ICE;
+                        else if (gWeatherPtr->currWeather == WEATHER_SANDSTORM)
+                            type = TYPE_ROCK;
+                        else if (gWeatherPtr->currWeather == WEATHER_DROUGHT)
+                            type = TYPE_FIRE;
+                        else
+                            type = TYPE_NORMAL;
+                    }
+                }
+                else
+                {
+                    type = gBattleMoves[move].type;
+                }
+
+                switch (type)
+                {
+                    case TYPE_NORMAL:
+                    case TYPE_FIGHTING:
+                    case TYPE_FLYING:
+                    case TYPE_GROUND:
+                    case TYPE_ROCK:
+                    case TYPE_BUG:
+                    case TYPE_GHOST:
+                    case TYPE_POISON:
+                    case TYPE_STEEL:
+                        ShowSplitIcon(0);
+                        break;
+                    default:
+                        ShowSplitIcon(1);
+                        break;
+                }
+            }
 			#endif
         }
         else
@@ -4037,7 +4161,7 @@ static void SetMoveTypeIcons(void)
     {
         if (summary->moves[i] != MOVE_NONE)
 		{
-			if (summary->moves[i] == MOVE_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
+			if (gBattleMoves[summary->moves[i]].effect == EFFECT_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
 			{
 				u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
 					| ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
@@ -4052,6 +4176,42 @@ static void SetMoveTypeIcons(void)
 				type |= 0xC0;
 				SetTypeSpritePosAndPal(type & 0x3F, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
 			}
+            else if (gBattleMoves[summary->moves[i]].effect == EFFECT_NATURE_POWER)
+            {
+                if (gMain.inBattle)
+                    SetTypeSpritePosAndPal(gBattleMoves[sNaturePowerMoves[gBattleTerrain]].type, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                else
+                    SetTypeSpritePosAndPal(gBattleMoves[sNaturePowerMoves[BattleSetup_GetTerrainId()]].type, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+            }
+            else if (gBattleMoves[summary->moves[i]].effect == EFFECT_WEATHER_BALL)
+            {
+                if (gMain.inBattle)
+                {
+                    if (gBattleWeather & B_WEATHER_RAIN)
+                        SetTypeSpritePosAndPal(TYPE_WATER, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else if (gBattleWeather & B_WEATHER_SANDSTORM)
+                        SetTypeSpritePosAndPal(TYPE_ROCK, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else if (gBattleWeather & B_WEATHER_SUN)
+                        SetTypeSpritePosAndPal(TYPE_FIRE, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else if (gBattleWeather & B_WEATHER_HAIL)
+                        SetTypeSpritePosAndPal(TYPE_ICE, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else
+                        SetTypeSpritePosAndPal(TYPE_NORMAL, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                }
+                else
+                {
+                    if (gWeatherPtr->currWeather == WEATHER_RAIN || gWeatherPtr->currWeather == WEATHER_RAIN_THUNDERSTORM || gWeatherPtr->currWeather == WEATHER_DOWNPOUR)
+                        SetTypeSpritePosAndPal(TYPE_WATER, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else if (gWeatherPtr->currWeather == WEATHER_SNOW)
+                        SetTypeSpritePosAndPal(TYPE_ICE, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else if (gWeatherPtr->currWeather == WEATHER_SANDSTORM)
+                        SetTypeSpritePosAndPal(TYPE_ROCK, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else if (gWeatherPtr->currWeather == WEATHER_DROUGHT)
+                        SetTypeSpritePosAndPal(TYPE_FIRE, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                    else
+                        SetTypeSpritePosAndPal(TYPE_NORMAL, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
+                }
+            }
 			else
 			{
 				SetTypeSpritePosAndPal(gBattleMoves[summary->moves[i]].type, 116, i * 29 + 20, SPRITE_ARR_ID_TYPE + 2 + i);
@@ -4090,7 +4250,7 @@ static void SetNewMoveTypeIcon(void)
 	{
         if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
 		{
-			if (sMonSummaryScreen->newMove == MOVE_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
+			if (gBattleMoves[sMonSummaryScreen->newMove].effect == EFFECT_HIDDEN_POWER && CONFIG_SHOW_HIDDEN_POWER_STATS)
 			{
 				u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
 					| ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
@@ -4105,6 +4265,42 @@ static void SetNewMoveTypeIcon(void)
 				type |= 0xC0;
 				SetTypeSpritePosAndPal(type & 0x3F, 116, 136, SPRITE_ARR_ID_TYPE + 6);
 			}
+            else if (gBattleMoves[sMonSummaryScreen->newMove].effect == EFFECT_NATURE_POWER)
+            {
+                if (gMain.inBattle)
+                    SetTypeSpritePosAndPal(gBattleMoves[sNaturePowerMoves[gBattleTerrain]].type, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                else
+                    SetTypeSpritePosAndPal(gBattleMoves[sNaturePowerMoves[BattleSetup_GetTerrainId()]].type, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+            }
+            else if (gBattleMoves[sMonSummaryScreen->newMove].effect == EFFECT_WEATHER_BALL)
+            {
+                if (gMain.inBattle)
+                {
+                    if (gBattleWeather & B_WEATHER_RAIN)
+                        SetTypeSpritePosAndPal(TYPE_WATER, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else if (gBattleWeather & B_WEATHER_SANDSTORM)
+                        SetTypeSpritePosAndPal(TYPE_ROCK, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else if (gBattleWeather & B_WEATHER_SUN)
+                        SetTypeSpritePosAndPal(TYPE_FIRE, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else if (gBattleWeather & B_WEATHER_HAIL)
+                        SetTypeSpritePosAndPal(TYPE_ICE, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else
+                        SetTypeSpritePosAndPal(TYPE_NORMAL, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                }
+                else
+                {
+                    if (gWeatherPtr->currWeather == WEATHER_RAIN || gWeatherPtr->currWeather == WEATHER_RAIN_THUNDERSTORM || gWeatherPtr->currWeather == WEATHER_DOWNPOUR)
+                        SetTypeSpritePosAndPal(TYPE_WATER, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else if (gWeatherPtr->currWeather == WEATHER_SNOW)
+                        SetTypeSpritePosAndPal(TYPE_ICE, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else if (gWeatherPtr->currWeather == WEATHER_SANDSTORM)
+                        SetTypeSpritePosAndPal(TYPE_ROCK, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else if (gWeatherPtr->currWeather == WEATHER_DROUGHT)
+                        SetTypeSpritePosAndPal(TYPE_FIRE, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                    else
+                        SetTypeSpritePosAndPal(TYPE_NORMAL, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+                }
+            }
 			else
 			{
 				SetTypeSpritePosAndPal(gBattleMoves[sMonSummaryScreen->newMove].type, 116, 136, SPRITE_ARR_ID_TYPE + 6);
