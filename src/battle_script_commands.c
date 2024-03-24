@@ -4497,7 +4497,7 @@ static void Cmd_moveend(void)
                 gBattlerTarget = gActiveBattler;
                 gHitMarker &= ~HITMARKER_SWAP_ATTACKER_TARGET;
             }
-            if (gHitMarker & HITMARKER_ATTACKSTRING_PRINTED)
+            if (gBattleMoves[gChosenMove].effect != EFFECT_BATON_PASS || (gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
             {
                 gLastPrintedMoves[gBattlerAttacker] = gChosenMove;
             }
