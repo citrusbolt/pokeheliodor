@@ -2046,7 +2046,7 @@ static void CheckPartyIneligibility(void)
         {
             u16 species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES_OR_EGG);
             u16 heldItem = GetMonData(&gPlayerParty[monId], MON_DATA_HELD_ITEM);
-            u8 level = GetMonData(&gPlayerParty[monId], MON_DATA_LEVEL);
+            u8 level = GetMonData(&gPlayerParty[monId], MON_DATA_MET_LEVEL);
             u16 hp = GetMonData(&gPlayerParty[monId], MON_DATA_HP);
             if (VarGet(VAR_FRONTIER_FACILITY) == FRONTIER_FACILITY_PYRAMID)
             {
@@ -2156,7 +2156,7 @@ static void IncrementWinStreak(void)
     }
 }
 
-static void RestoreHeldItems(void)
+static void RestoreHeldItems(void) // And restore Exp. in case mon was leveled down to 50
 {
     u8 i;
 
@@ -2166,6 +2166,8 @@ static void RestoreHeldItems(void)
         {
             u16 item = GetMonData(&gSaveBlock1Ptr->playerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1], MON_DATA_HELD_ITEM, NULL);
             SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &item);
+            SetMonData(&gPlayerParty[i], MON_DATA_EXP, &gSaveBlock1Ptr->savedFrontierExp[i]);
+            CalculateMonStats(&gPlayerParty[i]);
         }
     }
 }
