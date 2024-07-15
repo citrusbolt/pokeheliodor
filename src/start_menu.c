@@ -698,9 +698,17 @@ static bool8 HandleStartMenuInput(void)
 
 	if (JOY_NEW(R_BUTTON))
 	{
-		PlaySE(SE_SELECT);
-		gMenuCallback = StartMenuSaveCallback;
-		return FALSE;
+        if (!IsOverworldLinkActive()
+         && !InUnionRoom()
+         && !GetSafariZoneFlag()
+         && !InBattlePike()
+         && !InBattlePyramid()
+         && !InMultiPartnerRoom())
+        {
+            PlaySE(SE_SELECT);
+            gMenuCallback = StartMenuSaveCallback;
+            return FALSE;
+        }
 	}
 
     return FALSE;
