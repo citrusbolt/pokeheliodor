@@ -485,7 +485,7 @@ static void RemoveExtraStartMenuWindows(void)
         ClearStdWindowAndFrameToTransparent(sBattlePyramidFloorWindowId, FALSE);
         RemoveWindow(sBattlePyramidFloorWindowId);
     }
-	if (FlagGet(FLAG_SYS_CLOCK_SET))
+	if (FlagGet(FLAG_TEMP_5))
 	{
 		ClearStdWindowAndFrameToTransparent(sCurrentTimeWindowId, FALSE);
         CopyWindowToVram(sCurrentTimeWindowId, 2);
@@ -801,10 +801,9 @@ static bool8 StartMenuSaveCallback(void)
     if (InBattlePyramid())
         RemoveExtraStartMenuWindows();
 	if (FlagGet(FLAG_TEMP_6))
-    {
 		ClearDialogWindowAndFrameToTransparent(sCurrentPowerWindowId, FALSE);
+    if (FlagGet(FLAG_TEMP_5))
 		ClearDialogWindowAndFrameToTransparent(sCurrentTimeWindowId, FALSE);
-    }
 
     gMenuCallback = SaveStartCallback; // Display save menu
 
