@@ -7703,26 +7703,45 @@ void BattleAnimateFrontSprite(struct Sprite *sprite, u16 species, bool8 noCry, u
 {
     u32 i, maxIVs = 0;
 
-    if (wildMon)
-    {
-        for (i = 0; i < 6; i++)
-        {
-            if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[sprite->data[2]]], MON_DATA_HP_IV + i) == MAX_PER_STAT_IVS)
-                maxIVs++;
-        }
-
-        if (maxIVs >= 2)
-            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, TRUE);
-        else
-            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
-    }
     if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)))
     {
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+        if (wildMon)
+        {
+            for (i = 0; i < 6; i++)
+            {
+                if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[sprite->data[0]]], MON_DATA_HP_IV + i) == MAX_PER_STAT_IVS)
+                    maxIVs++;
+            }
+
+            if (maxIVs >= 2)
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, TRUE);
+            else
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+        }
+        else
+        {
+            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+        }
     }
     else
     {
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, FALSE);
+        if (wildMon)
+        {
+            for (i = 0; i < 6; i++)
+            {
+                if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[sprite->data[0]]], MON_DATA_HP_IV + i) == MAX_PER_STAT_IVS)
+                    maxIVs++;
+            }
+
+            if (maxIVs >= 2)
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, TRUE);
+            else
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, FALSE);
+        }
+        else
+        {
+            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, FALSE);
+        }
     }
 }
 
