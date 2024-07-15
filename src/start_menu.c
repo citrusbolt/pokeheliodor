@@ -801,7 +801,10 @@ static bool8 StartMenuSaveCallback(void)
     if (InBattlePyramid())
         RemoveExtraStartMenuWindows();
 	if (FlagGet(FLAG_TEMP_6))
+    {
 		ClearDialogWindowAndFrameToTransparent(sCurrentPowerWindowId, FALSE);
+		ClearDialogWindowAndFrameToTransparent(sCurrentTimeWindowId, FALSE);
+    }
 
     gMenuCallback = SaveStartCallback; // Display save menu
 
