@@ -32,7 +32,7 @@ const u8 gWeatherAshTiles[] = INCBIN_U8("graphics/weather/ash.4bpp");
 const u8 gWeatherRainTiles[] = INCBIN_U8("graphics/weather/rain.4bpp");
 const u8 gWeatherSandstormTiles[] = INCBIN_U8("graphics/weather/sandstorm.4bpp");
 
-const struct SpritePalette sFogSpritePalette = {gFogPalette, 0x1201};
+const struct SpritePalette sFogSpritePalette = {gFogPalette, PALTAG_WEATHER};
 const struct SpritePalette sCloudsSpritePalette = {gCloudsWeatherPalette, 0x1207};
 const struct SpritePalette sCloudsSunsetSpritePalette = {gCloudsSunsetWeatherPalette, 0x1207};
 const struct SpritePalette sCloudsTransitionSpritePalette = {gCloudsTransitionWeatherPalette, 0x1207};
@@ -896,7 +896,7 @@ static const union AnimCmd *const sSnowflakeAnimCmds[] =
 static const struct SpriteTemplate sSnowflakeSpriteTemplate =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = 0x1201,
+    .paletteTag = PALTAG_WEATHER,
     .oam = &sSnowflakeSpriteOamData,
     .anims = sSnowflakeAnimCmds,
     .images = sSnowflakeSpriteImages,
@@ -1465,6 +1465,7 @@ static void CreateFogHorizontalSprites(void)
             .tag = GFXTAG_FOG_H,
         };
         LoadSpriteSheet(&fogHorizontalSpriteSheet);
+        LoadSpritePalette(&sFogSpritePalette);
         for (i = 0; i < NUM_FOG_HORIZONTAL_SPRITES; i++)
         {
             spriteId = CreateSpriteAtEnd(&sFogHorizontalSpriteTemplate, 0, 0, 0xFF);
@@ -1633,7 +1634,7 @@ static const union AnimCmd *const sAshSpriteAnimCmds[] =
 static const struct SpriteTemplate sAshSpriteTemplate =
 {
     .tileTag = GFXTAG_ASH,
-    .paletteTag = 0x1201,
+    .paletteTag = PALTAG_WEATHER,
     .oam = &sAshSpriteOamData,
     .anims = sAshSpriteAnimCmds,
     .images = NULL,
@@ -1851,7 +1852,7 @@ static const union AnimCmd *const sFogDiagonalSpriteAnimCmds[] =
 static const struct SpriteTemplate sFogDiagonalSpriteTemplate =
 {
     .tileTag = GFXTAG_FOG_D,
-    .paletteTag = 0x1201,
+    .paletteTag = PALTAG_WEATHER,
     .oam = &sFogDiagonalSpriteOamData,
     .anims = sFogDiagonalSpriteAnimCmds,
     .images = NULL,
