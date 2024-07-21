@@ -5624,7 +5624,10 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
     u16 species;
 
     if (GetMonData(mon, MON_DATA_IS_EGG)
-        || GetMonData(mon, MON_DATA_MET_LEVEL) > GetBattleEntryLevelCap()
+        || (VarGet(VAR_FRONTIER_FACILITY) == FRONTIER_FACILITY_TOWER
+            && GetMonData(mon, MON_DATA_MET_LEVEL) > GetBattleEntryLevelCap())
+        || (VarGet(VAR_FRONTIER_FACILITY) != FRONTIER_FACILITY_TOWER
+            && GetMonData(mon, MON_DATA_LEVEL) > GetBattleEntryLevelCap())
         || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
             && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
             && GetMonData(mon, MON_DATA_HELD_ITEM) != ITEM_NONE))
