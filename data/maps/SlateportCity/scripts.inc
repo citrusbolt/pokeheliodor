@@ -980,6 +980,7 @@ SlateportCity_EventScript_UpgradeSecretBasePC::
 
 SlateportCity_EventScript_UpgradeSecretBasePCNotEnoughMoney::
 	msgbox SlateportCity_Text_SecretBasePCUpgradeNotEnoughMoney, MSGBOX_NPC
+	hidemoneybox
 	release
 	end
 
