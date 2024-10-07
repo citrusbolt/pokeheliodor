@@ -1670,57 +1670,59 @@ static void ShowCurrentPowerWindow(void)
 
 void UpdatePowerDisplay(void)
 {
-	DoTimeBasedEvents();
+    DoTimeBasedEvents();
 
 	if (gPowerTime == 0 || gPowerLevel == 0 || gPowerType == 0)
 	{
-		FlagClear(FLAG_TEMP_6);
-		ClearStdWindowAndFrameToTransparent(sCurrentPowerWindowId, FALSE);
+        ClearStdWindowAndFrameToTransparent(sCurrentPowerWindowId, FALSE);
         CopyWindowToVram(sCurrentPowerWindowId, 2);
         RemoveWindow(sCurrentPowerWindowId);
+        FlagClear(FLAG_TEMP_6);
+        RemoveExtraStartMenuWindows();
+        HideStartMenuWindow();
         InitStartMenu();
-		return;
-	}
-	switch (gPowerType)
-	{
-		case POWER_HATCH:
-			StringCopy(gStringVar1, gText_PowerHatch);
-			break;
-		case POWER_BARGAIN:
-			StringCopy(gStringVar1, gText_PowerBargain);
-			break;
-		case POWER_PRIZE:
-			StringCopy(gStringVar1, gText_PowerPrize);
-			break;
-		case POWER_EXP:
-			StringCopy(gStringVar1, gText_PowerExp);
-			break;
-		case POWER_CAPTURE:
-			StringCopy(gStringVar1, gText_PowerCapture);
-			break;
-		case POWER_ENCOUNTER:
-			StringCopy(gStringVar1, gText_PowerEncounter);
-			break;
-		case POWER_STEALTH:
-			StringCopy(gStringVar1, gText_PowerStealth);
-			break;
-		case POWER_FRIEND:
-			StringCopy(gStringVar1, gText_PowerFriend);
-			break;
-		case POWER_ITEM:
-			StringCopy(gStringVar1, gText_PowerItem);
-			break;
-		case POWER_TRAINING:
-			StringCopy(gStringVar1, gText_PowerTraining);
-			break;
-		case POWER_LUCKY:
-			StringCopy(gStringVar1, gText_PowerLucky);
-			break;
-	}
+        return;
+    }
+    switch (gPowerType)
+    {
+        case POWER_HATCH:
+            StringCopy(gStringVar1, gText_PowerHatch);
+            break;
+        case POWER_BARGAIN:
+            StringCopy(gStringVar1, gText_PowerBargain);
+            break;
+        case POWER_PRIZE:
+            StringCopy(gStringVar1, gText_PowerPrize);
+            break;
+        case POWER_EXP:
+            StringCopy(gStringVar1, gText_PowerExp);
+            break;
+        case POWER_CAPTURE:
+            StringCopy(gStringVar1, gText_PowerCapture);
+            break;
+        case POWER_ENCOUNTER:
+            StringCopy(gStringVar1, gText_PowerEncounter);
+            break;
+        case POWER_STEALTH:
+            StringCopy(gStringVar1, gText_PowerStealth);
+            break;
+        case POWER_FRIEND:
+            StringCopy(gStringVar1, gText_PowerFriend);
+            break;
+        case POWER_ITEM:
+            StringCopy(gStringVar1, gText_PowerItem);
+            break;
+        case POWER_TRAINING:
+            StringCopy(gStringVar1, gText_PowerTraining);
+            break;
+        case POWER_LUCKY:
+            StringCopy(gStringVar1, gText_PowerLucky);
+            break;
+    }
 
-	ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
-	ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
-	StringExpandPlaceholders(gStringVar4, gText_PowerStatus);
-	AddTextPrinterParameterized(sCurrentPowerWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
-	CopyWindowToVram(sCurrentPowerWindowId, 2);
+    ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
+    ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
+    StringExpandPlaceholders(gStringVar4, gText_PowerStatus);
+    AddTextPrinterParameterized(sCurrentPowerWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
+    CopyWindowToVram(sCurrentPowerWindowId, 2);
 }
