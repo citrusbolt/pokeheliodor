@@ -351,7 +351,7 @@ static u16 GetRandomAlternateMove(u8 monId)
     else // == APPRENTICE_LVL_MODE_OPEN
         level = 60; // Despite being open level, level up moves are only read up to level 60
 
-    for (j = 0; (learnset[j] & 0xFF) != LEVEL_UP_END; j++)
+    for (j = 0; learnset[j] != LEVEL_UP_END; j++)
     {
         if ((learnset[j] & LEVEL_UP_MOVE_LV) > (level << 9))
             break;
@@ -417,6 +417,12 @@ static u16 GetRandomAlternateMove(u8 monId)
                     moveId = learnset[learnsetId] & LEVEL_UP_MOVE_ID;
                     shouldUseMove = TRUE;
 
+                    if (learnset[learnsetId] & LEVEL_UP_MOVE_BABY)
+                    {
+                        shouldUseMove = FALSE;
+                        break;
+                    }
+
                     for (j = numLearnsetMoves - MAX_MON_MOVES; j < numLearnsetMoves; j++)
                     {
                         // Keep looking for moves until one not in the last 4 is found
@@ -468,7 +474,7 @@ static void GetLatestLearnedMoves(u16 species, u16 *moves)
         level = 60;
 
     learnset = gLevelUpLearnsets[species];
-    for (i = 0; (learnset[i] & 0xFF) != LEVEL_UP_END; i++)
+    for (i = 0; learnset[i] != LEVEL_UP_END; i++)
     {
         if ((learnset[i] & LEVEL_UP_MOVE_LV) > (level << 9))
             break;
@@ -479,7 +485,12 @@ static void GetLatestLearnedMoves(u16 species, u16 *moves)
         numLearnsetMoves = MAX_MON_MOVES;
 
     for (j = 0; j < numLearnsetMoves; j++)
+    {
+        while (learnset[(i - 1) - j] & LEVEL_UP_MOVE_BABY)
+            i--;
+
         moves[j] = learnset[(i - 1) - j] & LEVEL_UP_MOVE_ID;
+    }
 }
 
 // Get the level up move or previously suggested move to be the first move choice

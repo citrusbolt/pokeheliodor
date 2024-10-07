@@ -1,5 +1,5 @@
 #define LEVEL_UP_MOVE(lvl, move) ((lvl << 9) | move)
-#define BABY_MOVE(lvl, move) ((1 << 10) | (lvl << 9) | move)
+#define BABY_MOVE(lvl, move) ((1 << 16) | (lvl << 9) | move)
 
 static const u32 sBulbasaurLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),

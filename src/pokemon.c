@@ -3696,16 +3696,22 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     {
         sLearningMoveTableID = 0;
 
-        while ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV) != (level << 9) && (!wasBaby && ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_BABY) == 0)))
+        while ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV) != (level << 9))
         {
+            if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+                continue;
+
             sLearningMoveTableID++;
             if (gLevelUpLearnsets[species][sLearningMoveTableID] == LEVEL_UP_END)
                 return MOVE_NONE;
         }
     }
 
-    if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV) == (level << 9) || (wasBaby && gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_BABY))
+    if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV) == (level << 9))
     {
+        if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+            return retVal;
+
         gMoveToLearn = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
         sLearningMoveTableID++;
         retVal = GiveMoveToMon(mon, gMoveToLearn);
@@ -7130,8 +7136,11 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
 
         moveLevel = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV;
 
-        if (moveLevel <= (level << 9) || (wasBaby && gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_BABY))
+        if (moveLevel <= (level << 9))
         {
+            if ((gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+                break;
+
             for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); j++)
                 ;
 
@@ -7185,8 +7194,11 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
 
         moveLevel = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV;
 
-        if (moveLevel <= (level << 9) || (wasBaby && gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_BABY))
+        if (moveLevel <= (level << 9))
         {
+            if ((gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+                break;
+
             for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); j++)
                 ;
 
