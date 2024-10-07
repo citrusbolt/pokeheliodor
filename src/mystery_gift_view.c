@@ -424,11 +424,11 @@ static void DrawCardWindow(u8 whichWindow)
     {
         // Print card title/subtitle
         s32 x;
-        AddTextPrinterParameterized3(windowId, FONT_FRLGE, 0, 1, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->titleText);
-        x = 160 - GetStringWidth(FONT_FRLGE, sWonderCardData->subtitleText, GetFontAttribute(FONT_FRLGE, FONTATTR_LETTER_SPACING));
+        AddTextPrinterParameterized3(windowId, FONT_E, 0, 1, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->titleText);
+        x = 160 - GetStringWidth(FONT_E, sWonderCardData->subtitleText, GetFontAttribute(FONT_E, FONTATTR_LETTER_SPACING));
         if (x < 0)
             x = 0;
-        AddTextPrinterParameterized3(windowId, FONT_FRLGE, x, 17, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->subtitleText);
+        AddTextPrinterParameterized3(windowId, FONT_E, x, 17, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->subtitleText);
 
         // Print id number
         if (sWonderCardData->card.idNumber != 0)
