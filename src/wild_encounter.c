@@ -922,7 +922,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
 				}
 				else if (TryGenerateWildMon(wildPokemonInfo, WILD_AREA_LAND, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
 				{
-					if (!GetSafariZoneFlag() &&  GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS && Random() % 10 == 0)
+					if (!GetSafariZoneFlag() &&  GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS)
 					{
 						struct Pokemon mon1 = gEnemyParty[0];
 						if (IsMonShiny(&gEnemyParty[0]))
