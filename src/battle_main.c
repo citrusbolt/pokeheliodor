@@ -4239,8 +4239,8 @@ u8 IsRunningFromBattleImpossible(void)
 
 	if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))) && GetBattlerPosition(gActiveBattler) == B_POSITION_PLAYER_RIGHT && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
 	{
-		gBattleCommunication[MULTISTRING_CHOOSER] = 0;
-		return 1;
+		gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CANT_ESCAPE;
+		return BATTLE_RUN_FORBIDDEN;
     }
 
     if (holdEffect == HOLD_EFFECT_CAN_ALWAYS_RUN)
