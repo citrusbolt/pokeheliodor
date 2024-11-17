@@ -6394,10 +6394,21 @@ static void SetPlacedMonData(u8 boxId, u8 position)
 
 static void PurgeMonOrBoxMon(u8 boxId, u8 position)
 {
+    u16 item = ITEM_NONE;
+
     if (boxId == TOTAL_BOXES_COUNT)
+    {
+        item = GetMonData(&gPlayerParty[position], MON_DATA_HELD_ITEM);
         ZeroMonData(&gPlayerParty[position]);
+    }
     else
+    {
+        item = GetBoxMonDataAt(boxId, position, MON_DATA_HELD_ITEM);
         ZeroBoxMonAt(boxId, position);
+    }
+
+    if (item != ITEM_NONE)
+        AddBagItem(item, 1);
 }
 
 static void SetShiftedMonData(u8 boxId, u8 position)
