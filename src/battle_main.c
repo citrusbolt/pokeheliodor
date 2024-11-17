@@ -3370,7 +3370,10 @@ static void BattleStartClearSetData(void)
     for (i = 0; i < sizeof(struct BattleResults); i++)
         dataPtr[i] = 0;
 
-    gBattleResults.shinyWildMon = IsMonShiny(&gEnemyParty[0]);
+    if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+        gBattleResults.shinyWildMon = (IsMonShiny(&gEnemyParty[0]) || IsMonShiny(&gEnemyParty[1]));
+    else
+        gBattleResults.shinyWildMon = IsMonShiny(&gEnemyParty[0]);
 
     gBattleStruct->arenaLostPlayerMons = 0;
     gBattleStruct->arenaLostOpponentMons = 0;
