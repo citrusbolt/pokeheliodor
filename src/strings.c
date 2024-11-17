@@ -2024,3 +2024,5 @@ const u8 gText_AuroraTicket[] = _("AURORA TICKET");
 const u8 gText_An[] = _("an");
 const u8 gText_A[] = _("a");
 const u8 gText_LogOntoOtherPC[] = _("LOG ONTO OTHER PC");
+const u8 gText_PlayerScurriedToCenter[] = _("{PLAYER} scurried to a Pokémon Center,\nprotecting the exhausted and fainted\nPokémon from further harm…\p");
+const u8 gText_PlayerScurriedBackHome[] = _("{PLAYER} scurried back home, protecting\nthe exhausted and fainted Pokémon from\nfurther harm…\p");
