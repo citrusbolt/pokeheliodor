@@ -240,7 +240,6 @@ EWRAM_DATA struct BattleHealthboxInfo *gBattleControllerOpponentFlankHealthboxDa
 EWRAM_DATA u16 gBattleMovePower = 0;
 EWRAM_DATA u16 gMoveToLearn = 0;
 EWRAM_DATA u8 gBattleMonForms[MAX_BATTLERS_COUNT] = {0};
-EWRAM_DATA u8 gMaxPartyLevel = 1;
 EWRAM_DATA bool8 gSkipNickname = FALSE;
 EWRAM_DATA bool8 gFishingEncounter = FALSE;
 

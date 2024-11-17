@@ -925,8 +925,6 @@ static const u8 sBattlePalaceNatureToFlavorTextId[NUM_NATURES] =
     [NATURE_QUIRKY]  = B_MSG_EAGER_FOR_MORE,
 };
 
-extern u8 gMaxPartyLevel;
-
 static const u16 sBadgeFlags[8] = {
     FLAG_BADGE01_GET, FLAG_BADGE02_GET, FLAG_BADGE03_GET, FLAG_BADGE04_GET,
     FLAG_BADGE05_GET, FLAG_BADGE06_GET, FLAG_BADGE07_GET, FLAG_BADGE08_GET,
@@ -5765,6 +5763,7 @@ static void Cmd_getmoneyreward(void)
     //    moneyReward += GetTrainerMoneyToGive(gTrainerBattleOpponent_B);
 
 	u32 money;
+    u32 partyLevel = 1;
 
     //AddMoney(&gSaveBlock1Ptr->money, moneyReward);
     //PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 5, moneyReward);
@@ -5772,28 +5771,33 @@ static void Cmd_getmoneyreward(void)
 	if (gBattleOutcome == B_OUTCOME_WON)
     {
         money = GetTrainerMoneyToGive(gTrainerBattleOpponent_A);
+
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
             money += GetTrainerMoneyToGive(gTrainerBattleOpponent_B);
+
         AddMoney(&gSaveBlock1Ptr->money, money);
     }
     else
     {
         s32 i, count;
+
         for (i = 0; i < PARTY_SIZE; i++)
         {
             if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG) != SPECIES_NONE
              && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG) != SPECIES_EGG)
             {
-                if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) > gMaxPartyLevel)
-                    gMaxPartyLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+                if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) > partyLevel)
+                    partyLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
             }
         }
+
         for (count = 0, i = 0; i < ARRAY_COUNT(sBadgeFlags); i++)
         {
             if (FlagGet(sBadgeFlags[i]) == TRUE)
                     ++count;
         }
-        money = sWhiteOutBadgeMoney[count] * gMaxPartyLevel;
+
+        money = sWhiteOutBadgeMoney[count] * partyLevel;
         RemoveMoney(&gSaveBlock1Ptr->money, money);
     }
 
