@@ -2031,7 +2031,7 @@ void DoSpecialTrainerBattle(void)
         {
             gSaveBlock1Ptr->savedFrontierExp[i] = GetMonData(&gPlayerParty[i], MON_DATA_EXP);
 
-            if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) > FRONTIER_MAX_LEVEL_50 && gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50)
+            if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50)
             {
                 SetMonData(&gPlayerParty[i], MON_DATA_EXP, &gExperienceTables[gSpeciesInfo[GetMonData(&gPlayerParty[i], MON_DATA_SPECIES)].growthRate][FRONTIER_MAX_LEVEL_50]);
                 CalculateMonStats(&gPlayerParty[i]);

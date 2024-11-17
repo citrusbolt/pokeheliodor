@@ -2172,7 +2172,6 @@ static void RestoreHeldItems(void) // And restore Exp. in case mon was leveled d
         if (gSaveBlock2Ptr->frontier.selectedPartyMons[i] != 0)
         {
             u16 item = GetMonData(&gSaveBlock1Ptr->playerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1], MON_DATA_HELD_ITEM, NULL);
-            u32 exp = GetMonData(&gSaveBlock1Ptr->playerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1], MON_DATA_EXP, NULL);
             SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &item);
 
             if (gSaveBlock1Ptr->savedFrontierExp[i] != 0)
