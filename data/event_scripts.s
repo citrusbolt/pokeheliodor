@@ -898,9 +898,9 @@ gText_ComeBackWithSecretPower::
 	.string "you good stuff in secrecy.$"
 
 gText_PokerusExplanation::
-	.string "Your POkémon may be infected with\n"
+	.string "Your Pokémon may be infected with\n"
 	.string "Pokérus.\p"
-	.string "Little is known about the PokéruS\n"
+	.string "Little is known about the Pokérus\n"
 	.string "except that they are microscopic life-\l"
 	.string "forms that attach to Pokémon.\p"
 	.string "While infected, Pokémon are said to\n"
