@@ -3,7 +3,7 @@
 
 extern EWRAM_DATA u8 gPowerType;
 extern EWRAM_DATA u8 gPowerLevel;
-extern EWRAM_DATA u8 gPowerTime;
+extern EWRAM_DATA u16 gPowerTime;
 
 void GivePower(u8, u8, u8);
 void DecrementPowerTime(s32);

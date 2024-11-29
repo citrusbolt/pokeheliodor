@@ -7,7 +7,7 @@
 
 EWRAM_DATA u8 gPowerType = POWER_NONE;
 EWRAM_DATA u8 gPowerLevel = 0;
-EWRAM_DATA u8 gPowerTime = 0;
+EWRAM_DATA u16 gPowerTime = 0;
 
 static const u8 sPowerPrices[POWER_NUM_TYPES][4] =
 {
@@ -31,11 +31,11 @@ void GivePower(u8 type, u8 level, u8 time)
 	gPowerTime = time;
 }
 
-void DecrementPowerTime(s32 minutes)
+void DecrementPowerTime(s32 seconds)
 {
 	s32 newTime;
 	
-	newTime = gPowerTime - minutes;
+	newTime = gPowerTime - seconds;
 		if (newTime < 0)
 		gPowerTime = 0;
 	else
@@ -63,13 +63,13 @@ void BuyPower(void)
 	switch (level)
 	{
 		case 1:
-			time = 10;
+			time = 10 * 60;
 			break;
 		case 2:
-			time = 20;
+			time = 20 * 60;
 			break;
 		case 3:
-			time = 60;
+			time = 60 * 60;
 			break;
 		default:
 			gSpecialVar_Result = FALSE;
@@ -78,7 +78,7 @@ void BuyPower(void)
 	
 	if (gPowerType == type && gPowerTime > 0)
 	{
-		if (time + gPowerTime > 255)
+		if (time + gPowerTime > (0xFFFF - 1))
 		{
 			gSpecialVar_Result = 2;
 			return;

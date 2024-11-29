@@ -1662,7 +1662,7 @@ static void ShowCurrentPowerWindow(void)
 	PutWindowTilemap(sCurrentPowerWindowId);
 	DrawStdWindowFrame(sCurrentPowerWindowId, FALSE);
 	ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
-	ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEADING_ZEROS, 1);
+	ConvertIntToDecimalStringN(gStringVar3, gPowerTime / 60, STR_CONV_MODE_LEFT_ALIGN, 4);
 	StringExpandPlaceholders(gStringVar4, gText_PowerStatus);
 	AddTextPrinterParameterized(sCurrentPowerWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
 	CopyWindowToVram(sCurrentPowerWindowId, 2);
@@ -1721,7 +1721,7 @@ void UpdatePowerDisplay(void)
     }
 
     ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
-    ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar3, gPowerTime / 60, STR_CONV_MODE_LEFT_ALIGN, 4);
     StringExpandPlaceholders(gStringVar4, gText_PowerStatus);
     AddTextPrinterParameterized(sCurrentPowerWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
     CopyWindowToVram(sCurrentPowerWindowId, 2);

@@ -1217,7 +1217,7 @@ void ItemUseOutOfBattle_PowerPad(u8 taskId)
 		}
 		
 		ConvertIntToDecimalStringN(gStringVar2, gPowerLevel, STR_CONV_MODE_LEADING_ZEROS, 1);
-		ConvertIntToDecimalStringN(gStringVar3, gPowerTime, STR_CONV_MODE_LEFT_ALIGN, 3);
+		ConvertIntToDecimalStringN(gStringVar3, gPowerTime / 60, STR_CONV_MODE_LEFT_ALIGN, 4);
 		if (gPowerTime > 1)
 			StringExpandPlaceholders(gStringVar4, gText_PowerActive);
 		else
