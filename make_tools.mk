@@ -46,4 +46,4 @@ subrepos/berry-fix/tools/agbcc: subrepos/agbcc/agbcc
 	cd subrepos/agbcc; ./install.sh ../berry-fix
 
 subrepos/flips/flips:
-	cd subrepos/flips; ./make.sh
+	cd subrepos/flips; TARGET=cli ./make-linux.sh
