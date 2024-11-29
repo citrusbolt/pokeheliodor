@@ -60,19 +60,19 @@ enum {
 
 static u16 FeebasRandom(void);
 static void FeebasSeedRng(u16 seed);
-static bool8 IsWildLevelAllowedByRepel(u8 level);
+static inline bool32 IsWildLevelAllowedByRepel(u32 level);
 static void ApplyFluteEncounterRateMod(u32 *encRate);
 static void ApplyCleanseTagEncounterRateMod(u32 *encRate);
-static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildMon, u8 type, u8 ability, u8 *monIndex, u32 size);
-static bool8 IsAbilityAllowingEncounter(u8 level);
+static inline bool32 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildMon, u32 type, u32 ability, u32 *monIndex, u32 size);
+static inline bool32 IsAbilityAllowingEncounter(u32 level);
 static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex, u32 size);
-static u8 ChooseWildMonIndex_Land(void);
-static u8 ChooseWildMonIndex_WaterRock(void);
+static inline u32 ChooseWildMonIndex_Land(void);
+static inline u32 ChooseWildMonIndex_WaterRock(void);
 
 static u32 GenerateUnownPersonalityByLetter(u8 letter);
 static u8 GetUnownLetterByPersonalityLoByte(u32 personality);
 
-static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u8 terrain, u8 partySlot);
+static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot);
 
 EWRAM_DATA static u8 sWildEncountersDisabled = 0;
 EWRAM_DATA static u32 sFeebasRngValue = 0;
@@ -224,11 +224,11 @@ static void FeebasSeedRng(u16 seed)
 }
 
 // LAND_WILD_COUNT
-static u8 ChooseWildMonIndex_Land(void)
+static inline u32 ChooseWildMonIndex_Land(void)
 {
-	u8 wildMonIndex = 0;
-	bool8 swap = FALSE;
-    u8 rand = Random() % ENCOUNTER_CHANCE_LAND_MONS_TOTAL;
+	u32 wildMonIndex = 0;
+	bool32 swap = FALSE;
+    u32 rand = Random() % ENCOUNTER_CHANCE_LAND_MONS_TOTAL;
 
     if (rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_0)
         wildMonIndex = 0;
@@ -280,11 +280,11 @@ static u8 ChooseWildMonIndex_Land(void)
 }
 
 // ROCK_WILD_COUNT / WATER_WILD_COUNT
-static u8 ChooseWildMonIndex_WaterRock(void)
+static inline u32 ChooseWildMonIndex_WaterRock(void)
 {
-	u8 wildMonIndex = 0;
-	bool8 swap = FALSE;
-    u8 rand = Random() % ENCOUNTER_CHANCE_WATER_MONS_TOTAL;
+	u32 wildMonIndex = 0;
+	bool32 swap = FALSE;
+    u32 rand = Random() % ENCOUNTER_CHANCE_WATER_MONS_TOTAL;
 
     if (rand < ENCOUNTER_CHANCE_WATER_MONS_SLOT_0)
         wildMonIndex = 0;
@@ -389,12 +389,12 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     return wildMonIndex;
 }
 
-static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon)
+static inline u32 ChooseWildMonLevel(const struct WildPokemon *wildPokemon)
 {
-    u8 min;
-    u8 max;
-    u8 range;
-    u8 rand;
+    u32 min;
+    u32 max;
+    u32 range;
+    u32 rand;
 
     // Make sure minimum level is less than maximum level
     if (wildPokemon->maxLevel >= wildPokemon->minLevel)
@@ -591,12 +591,12 @@ static u16 GetHeliodorWildMonHeaderId(void)
     return HEADER_NONE;
 }
 
-static u8 PickWildMonNature(void)
+static inline u32 PickWildMonNature(void)
 {
-    u8 i;
-    u8 j;
+    u32 i;
+    u32 j;
     struct Pokeblock *safariPokeblock;
-    u8 natures[NUM_NATURES];
+    u32 natures[NUM_NATURES];
 
     if (GetSafariZoneFlag() == TRUE && Random() % 100 < 80)
     {
@@ -636,10 +636,10 @@ static u8 PickWildMonNature(void)
     return Random() % NUM_NATURES;
 }
 
-static void CreateWildMon(u16 species, u8 level, u8 partySlot)
+static inline void CreateWildMon(u32 species, u32 level, u32 partySlot)
 {
     bool32 checkCuteCharm;
-    u8 version;
+    u32 version;
     u32 personality;
     struct PIDParameters parameters;
     struct IVs ivs;
@@ -655,7 +655,7 @@ static void CreateWildMon(u16 species, u8 level, u8 partySlot)
     parameters.forceUnownLetter = FALSE;
     parameters.unownLetter = 0;
 
-    ZeroEnemyPartyMons();
+    //ZeroEnemyPartyMons();
     checkCuteCharm = (gEncounterMode == ENCOUNTER_EMERALD);
 
     if (gLastEncounteredSpecies == species)
@@ -705,7 +705,7 @@ static void CreateWildMon(u16 species, u8 level, u8 partySlot)
         && GetMonAbility(&gPlayerParty[0]) == ABILITY_CUTE_CHARM
         && Random() % 3 != 0)
     {
-        u16 leadingMonSpecies = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
+        u32 leadingMonSpecies = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
         u32 leadingMonPersonality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
 
         parameters.forceGender = TRUE;
@@ -730,9 +730,9 @@ static void CreateWildMon(u16 species, u8 level, u8 partySlot)
     SetMonData(&gEnemyParty[partySlot], MON_DATA_MET_GAME, &version);
 }
 
-static void CreateWildUnown(u8 slot, u8 level, u8 partySlot)
+static inline void CreateWildUnown(u32 slot, u32 level, u32 partySlot)
 {
-    u8 version;
+    u32 version;
     u32 personality;
     struct PIDParameters parameters;
     struct IVs ivs;
@@ -784,10 +784,10 @@ static void CreateWildUnown(u8 slot, u8 level, u8 partySlot)
 }
 
 //TODO
-static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 flags, u8 partySlot)
+static bool32 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u32 area, u32 flags, u32 partySlot)
 {
-    u8 wildMonIndex = 0;
-    u8 level;
+    u32 wildMonIndex = 0;
+    u32 level;
 
     switch (area)
     {
@@ -1040,7 +1040,7 @@ static bool8 AreLegendariesInSootopolisPreventingEncounters(void)
 bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
 {
     u16 headerId, oppositeHeaderId;
-    u8 encounterResult;
+    u32 encounterResult;
     struct Roamer *roamer;
     const struct WildPokemonInfo *wildPokemonInfo;
 
@@ -1049,6 +1049,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
 
     headerId = GetEmeraldWildMonHeaderId();
     gEncounterMode = ENCOUNTER_EMERALD;
+    ZeroEnemyPartyMons();
 
     if (headerId == HEADER_NONE)
     {
@@ -2688,9 +2689,9 @@ bool8 UpdateRepelCounter(void)
     return FALSE;
 }
 
-static bool8 IsWildLevelAllowedByRepel(u8 wildLevel)
+static inline bool32 IsWildLevelAllowedByRepel(u32 wildLevel)
 {
-    u8 i;
+    u32 i;
 
     if (!VarGet(VAR_REPEL_STEP_COUNT))
         return TRUE;
@@ -2699,7 +2700,7 @@ static bool8 IsWildLevelAllowedByRepel(u8 wildLevel)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_HP) && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
         {
-            u8 ourLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+            u32 ourLevel = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
 
             if (wildLevel < ourLevel)
                 return FALSE;
@@ -2711,9 +2712,9 @@ static bool8 IsWildLevelAllowedByRepel(u8 wildLevel)
     return FALSE;
 }
 
-static bool8 IsAbilityAllowingEncounter(u8 level)
+static inline bool32 IsAbilityAllowingEncounter(u32 level)
 {
-    u8 ability;
+    u32 ability;
 
     if (GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
         return TRUE;
@@ -2721,7 +2722,7 @@ static bool8 IsAbilityAllowingEncounter(u8 level)
     ability = GetMonAbility(&gPlayerParty[0]);
     if (ability == ABILITY_KEEN_EYE || ability == ABILITY_INTIMIDATE)
     {
-        u8 playerMonLevel = GetMonData(&gPlayerParty[0], MON_DATA_LEVEL);
+        u32 playerMonLevel = GetMonData(&gPlayerParty[0], MON_DATA_LEVEL);
         if (playerMonLevel > 5 && level <= playerMonLevel - 5 && !(Random() % 2))
             return FALSE;
     }
@@ -2729,10 +2730,10 @@ static bool8 IsAbilityAllowingEncounter(u8 level)
     return TRUE;
 }
 
-static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u8 type, u8 numMon, u8 *monIndex)
+static inline bool32 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u32 type, u32 numMon, u32 *monIndex)
 {
-    u8 validIndexes[numMon]; // variable length array, an interesting feature
-    u8 i, validMonCount;
+    u32 validIndexes[numMon]; // variable length array, an interesting feature
+    u32 i, validMonCount;
 
     for (i = 0; i < numMon; i++)
         validIndexes[i] = 0;
@@ -2750,7 +2751,7 @@ static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u
     return TRUE;
 }
 
-static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildMon, u8 type, u8 ability, u8 *monIndex, u32 size)
+static inline bool32 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildMon, u32 type, u32 ability, u32 *monIndex, u32 size)
 {
     if (GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
         return FALSE;
@@ -3077,10 +3078,10 @@ static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex, 
 //    return ENCOUNTER_SUCCESS;
 //}
 
-static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u8 terrain, u8 partySlot)
+static inline u32 EncounterCore(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot)
 {
     u32 i;
-    u8 flags = WILD_CHECK_REPEL;
+    u32 flags = WILD_CHECK_REPEL;
 
     if (gEncounterMode == ENCOUNTER_EMERALD)
         flags |= WILD_CHECK_ABILITY;
@@ -3122,7 +3123,7 @@ static u8 EncounterCore(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
 #define FORCE_NATURE    (1 << 3)
 #define FORCE_MAXLEVEL  (1 << 4)
 
-static u8 EncounterLoop(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u8 terrain, u8 partySlot, u8 forceFlags, u16 species, u8 type, u8 gender, u8 nature)
+static inline u32 EncounterLoop(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot, u32 forceFlags, u32 species, u32 type, u32 gender, u32 nature)
 {
     do
     {
@@ -3136,15 +3137,15 @@ static u8 EncounterLoop(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileB
 
 }
 
-static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u8 terrain, u8 partySlot)
+static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot)
 {
-    u8 result, ability, tableSize, i;
-    u16 species = 0;
-    u8 type = 0;
-    u8 gender = 0;
-    u8 nature = 0;
+    u32 result, ability, tableSize, i;
+    u32 species = 0;
+    u32 type = 0;
+    u32 gender = 0;
+    u32 nature = 0;
     u32 rolls = 1;
-    u8 forceFlags = 0;
+    u32 forceFlags = 0;
 
     gDisableVBlankRNGAdvance = TRUE;
 
@@ -3169,7 +3170,7 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
         }
         else if (ability == ABILITY_KEEN_EYE || ability == ABILITY_INTIMIDATE)
         {
-            u8 playerMonLevel = GetMonData(&gPlayerParty[0], MON_DATA_LEVEL);
+            u32 playerMonLevel = GetMonData(&gPlayerParty[0], MON_DATA_LEVEL);
             result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
             if (result == ENCOUNTER_SUCCESS && playerMonLevel > 5 && GetMonData(&gEnemyParty[partySlot], MON_DATA_LEVEL) <= playerMonLevel - 5 && !(Random() % 2))
                 return ENCOUNTER_FAIL;
@@ -3180,8 +3181,8 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
-                u8 validMonCount;
+                u32 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u32 validMonCount;
 
                 for (i = 0; i < LAND_WILD_COUNT; i++)
                     validIndexes[i] = 0;
@@ -3206,8 +3207,8 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
-                u8 validMonCount;
+                u32 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u32 validMonCount;
 
                 for (i = 0; i < LAND_WILD_COUNT; i++)
                     validIndexes[i] = 0;
@@ -3232,8 +3233,8 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
-                u8 validMonCount;
+                u32 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u32 validMonCount;
 
                 for (i = 0; i < LAND_WILD_COUNT; i++)
                     validIndexes[i] = 0;
@@ -3291,8 +3292,8 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
-                u8 validMonCount;
+                u32 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u32 validMonCount;
 
                 for (i = 0; i < LAND_WILD_COUNT; i++)
                     validIndexes[i] = 0;
@@ -3317,8 +3318,8 @@ static u8 GenerateEncounter(u16 headerId, u16 curMetatileBehavior, u16 prevMetat
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
-                u8 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
-                u8 validMonCount;
+                u32 validIndexes[LAND_WILD_COUNT]; // Watch out if another wild count becomes larger than Land for whatever reason
+                u32 validMonCount;
 
                 for (i = 0; i < LAND_WILD_COUNT; i++)
                     validIndexes[i] = 0;

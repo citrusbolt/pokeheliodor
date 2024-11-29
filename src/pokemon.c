@@ -2424,7 +2424,7 @@ void ZeroEnemyPartyMons(void)
         ZeroMonData(&gEnemyParty[i]);
 }
 
-static u32 GeneratePID(struct PIDParameters parameters)
+static inline u32 GeneratePID(struct PIDParameters parameters)
 {
     u32 pid, i;
 
@@ -2472,7 +2472,7 @@ static u32 GeneratePID(struct PIDParameters parameters)
     return pid;
 }
 
-static u32 GeneratePIDGenderNatureUnownLetter(struct PIDParameters parameters)
+static inline u32 GeneratePIDGenderNatureUnownLetter(struct PIDParameters parameters)
 {
     u32 pid;
 
@@ -2541,7 +2541,7 @@ static u32 GeneratePIDGenderNatureUnownLetter(struct PIDParameters parameters)
 u32 GeneratePIDMaster(struct PIDParameters parameters, struct IVs *ivs)
 {
     u32 pid, i;
-    u16 iv1, iv2;
+    u32 iv1, iv2;
     u32 tid = gSaveBlock2Ptr->playerTrainerId[0]
            | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
            | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
@@ -2619,7 +2619,7 @@ u32 GeneratePIDMaster(struct PIDParameters parameters, struct IVs *ivs)
     return pid;
 }
 
-void CreateMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
+void CreateMon(struct Pokemon *mon, u32 species, u32 level, u32 fixedIV, u32 hasFixedPersonality, u32 fixedPersonality, u32 otIdType, u32 fixedOtId)
 {
     u32 mail;
     struct PIDParameters parameters;
@@ -2632,30 +2632,30 @@ void CreateMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFix
     CalculateMonStats(mon);
 }
 
-void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
+void CreateBoxMon(struct BoxPokemon *boxMon, u32 species, u32 level, u32 fixedIV, u32 hasFixedPersonality, u32 fixedPersonality, u32 otIdType, u32 fixedOtId)
 {
     u8 speciesName[POKEMON_NAME_LENGTH + 1];
     u32 personality;
     u32 value;
     u16 checksum;
 	u8 otName[PLAYER_NAME_LENGTH +1];
-	u8 otGender;
+	u32 otGender;
 	u32 otId;
-	u8 metLocation;
-	u8 language;
-	u8 version;
-	u8 versionModifier;
+	u32 metLocation;
+	u32 language;
+	u32 version;
+	u32 versionModifier;
 	u32 rngBak;
 	u32 rngBak2;
 	u32 gcnRng;
 	u32 i;
-	u16 iv1;
-	u16 iv2;
+	u32 iv1;
+	u32 iv2;
 	u32 hId;
 	u32 lId;
 	u32 shinyValue;
     bool32 otIdOverride = FALSE;
-	u16 rolls = 1;
+	u32 rolls = 1;
 	
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
@@ -3056,7 +3056,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     }
     else
     {
-        u16 iv;
+        u32 iv;
 		//if (species == SPECIES_JIRACHI)
 		//{
 		//	rngBak = gRngValue;
