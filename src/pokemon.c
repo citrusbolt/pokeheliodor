@@ -3764,6 +3764,7 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     u32 retVal = MOVE_NONE;
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+    bool32 wasBaby = GetMonData(mon, MON_DATA_MET_LEVEL, NULL) == 0;
 
     // since you can learn more than one move per level
     // the game needs to know whether you decided to
@@ -3775,6 +3776,9 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
 
         while ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV) != (level << 9))
         {
+            if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+                continue;
+
             sLearningMoveTableID++;
             if (gLevelUpLearnsets[species][sLearningMoveTableID] == LEVEL_UP_END)
                 return MOVE_NONE;
@@ -3783,6 +3787,9 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
 
     if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV) == (level << 9))
     {
+        if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+            return retVal;
+
         gMoveToLearn = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
         sLearningMoveTableID++;
         retVal = GiveMoveToMon(mon, gMoveToLearn);
@@ -5548,8 +5555,8 @@ void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex)
     gBattleMons[battlerId].isEgg = GetMonData(&gPlayerParty[partyIndex], MON_DATA_IS_EGG, NULL);
     gBattleMons[battlerId].abilityNum = GetMonData(&gPlayerParty[partyIndex], MON_DATA_ABILITY_NUM, NULL);
     gBattleMons[battlerId].otId = GetMonData(&gPlayerParty[partyIndex], MON_DATA_OT_ID, NULL);
-    gBattleMons[battlerId].type1 = gSpeciesInfo[gBattleMons[battlerId].species].types[0];
-    gBattleMons[battlerId].type2 = gSpeciesInfo[gBattleMons[battlerId].species].types[1];
+    gBattleMons[battlerId].types[0] = gSpeciesInfo[gBattleMons[battlerId].species].types[0];
+    gBattleMons[battlerId].types[1] = gSpeciesInfo[gBattleMons[battlerId].species].types[1];
     gBattleMons[battlerId].ability = GetAbilityBySpecies(gBattleMons[battlerId].species, gBattleMons[battlerId].abilityNum);
     GetMonData(&gPlayerParty[partyIndex], MON_DATA_NICKNAME, nickname);
     StringCopy_Nickname(gBattleMons[battlerId].nickname, nickname);
@@ -6577,7 +6584,7 @@ u16 SpeciesToCryId(u16 species)
 // To draw a spot pixel, add 4 to the color index
 #define SPOT_COLOR_ADJUSTMENT 4
 /*
-    The macro below handles drawing the randomly-placed spots on Spinda's front sprite.
+    The macros below handle drawing the randomly-placed spots on Spinda's front sprite.
     Spinda has 4 spots, each with an entry in gSpindaSpotGraphics. Each entry contains
     a base x and y coordinate for the spot and a 16x16 binary image. Each bit in the image
     determines whether that pixel should be considered part of the spot.
@@ -6589,18 +6596,26 @@ u16 SpeciesToCryId(u16 species)
     coordinate is calculated as (baseCoord + (given 4 bits of personality) - 8). In effect this
     means each spot can start at any position -8 to +7 off of its base coordinates (256 possibilities).
 
-    The macro then loops over the 16x16 spot image. For each bit in the spot's binary image, if
+    DRAW_SPINDA_SPOTS loops over the 16x16 spot image. For each bit in the spot's binary image, if
     the bit is set then it's part of the spot; try to draw it. A pixel is drawn on Spinda if the
-    pixel on Spinda satisfies the following formula: ((u8)(colorIndex - 1) <= 2). The -1 excludes
-    transparent pixels, as these are index 0. Therefore only colors 1, 2, or 3 on Spinda will
-    allow a spot to be drawn. These color indexes are Spinda's light brown body colors. To create
+    pixel is between FIRST_SPOT_COLOR and LAST_SPOT_COLOR (so only colors 1, 2, or 3 on Spinda will
+    allow a spot to be drawn). These color indexes are Spinda's light brown body colors. To create
     the spot it adds 4 to the color index, so Spinda's spots will be colors 5, 6, and 7.
 
-    The above is done two different ways in the macro: one with << 4, and one without. This
-    is because Spinda's sprite is a 4 bits per pixel image, but the pointer to Spinda's pixels
+    The above is done in TRY_DRAW_SPOT_PIXEL two different ways: one with << 4, and one without.
+    This is because Spinda's sprite is a 4 bits per pixel image, but the pointer to Spinda's pixels
     (destPixels) is an 8 bit pointer, so it addresses two pixels. Shifting by 4 accesses the 2nd
     of these pixels, so this is done every other time.
 */
+
+// Draw spot pixel if this is Spinda's body color
+#define TRY_DRAW_SPOT_PIXEL(pixels, shift) \
+    if (((*(pixels) & (0xF << (shift))) >= (FIRST_SPOT_COLOR << (shift))) \
+     && ((*(pixels) & (0xF << (shift))) <= (LAST_SPOT_COLOR << (shift)))) \
+    { \
+        *(pixels) += (SPOT_COLOR_ADJUSTMENT << (shift)); \
+    }
+
 #define DRAW_SPINDA_SPOTS(personality, dest)                                    \
 {                                                                               \
     s32 i;                                                                      \
@@ -6630,17 +6645,11 @@ u16 SpeciesToCryId(u16 species)
                     /* of the two pixels is being considered for drawing */     \
                     if (column & 1)                                             \
                     {                                                           \
-                        /* Draw spot pixel if this is Spinda's body color */    \
-                        if ((u8)((*destPixels & 0xF0) - (FIRST_SPOT_COLOR << 4))\
-                                 <= ((LAST_SPOT_COLOR - FIRST_SPOT_COLOR) << 4))\
-                            *destPixels += (SPOT_COLOR_ADJUSTMENT << 4);        \
+                        TRY_DRAW_SPOT_PIXEL(destPixels, 4);                     \
                     }                                                           \
                     else                                                        \
                     {                                                           \
-                        /* Draw spot pixel if this is Spinda's body color */    \
-                        if ((u8)((*destPixels & 0xF) - FIRST_SPOT_COLOR)        \
-                                 <= (LAST_SPOT_COLOR - FIRST_SPOT_COLOR))       \
-                            *destPixels += SPOT_COLOR_ADJUSTMENT;               \
+                        TRY_DRAW_SPOT_PIXEL(destPixels, 0);                     \
                     }                                                           \
                 }                                                               \
                                                                                 \
@@ -6760,16 +6769,11 @@ u16 ModifyStatByNature(u8 nature, u16 stat, u8 statIndex)
     return retVal;
 }
 
-#define IS_LEAGUE_BATTLE                                                                \
-    ((gBattleTypeFlags & BATTLE_TYPE_TRAINER)                                           \
-    && (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR    \
-     || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_LEADER        \
-     || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION))    \
-
 void AdjustFriendship(struct Pokemon *mon, u8 event)
 {
     u16 species, heldItem;
     u8 holdEffect;
+    s8 mod;
 
     if (ShouldSkipFriendshipChange())
         return;
@@ -6796,46 +6800,67 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
 
         if (friendship > 99)
             friendshipLevel++;
+
         if (friendship > 199)
             friendshipLevel++;
 
-        if ((event != FRIENDSHIP_EVENT_WALKING || !(Random() & 1))
-         && (event != FRIENDSHIP_EVENT_LEAGUE_BATTLE || IS_LEAGUE_BATTLE))
+        if (event == FRIENDSHIP_EVENT_WALKING)
         {
-            s8 mod = sFriendshipEventModifiers[event][friendshipLevel];
-            if (mod > 0)
-            {
-                if (GetMonData(mon, MON_DATA_POKEBALL, 0) == ITEM_LUXURY_BALL)
-                    mod++;
-                if (GetMonData(mon, MON_DATA_MET_LOCATION, 0) == GetCurrentRegionMapSectionId())
-                    mod++;
-            }
-            if (mod > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)
-                mod = (150 * mod) / 100;
-			
-			if (gPowerType == POWER_FRIEND && gPowerTime > 0)
-			{
-				switch (gPowerLevel)
-				{
-					case 1:
-						mod += 1;
-						break;
-					case 2:
-						mod += 2;
-						break;
-					case 3:
-						mod += 3;
-						break;
-				}
-			}
-			
-            friendship += mod;
-            if (friendship < 0)
-                friendship = 0;
-            if (friendship > MAX_FRIENDSHIP)
-                friendship = MAX_FRIENDSHIP;
-            SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+            // 50% chance every 128 steps
+            if (Random() & 1)
+                return;
         }
+
+        if (event == FRIENDSHIP_EVENT_LEAGUE_BATTLE)
+        {
+            // Only if it's a trainer battle with league progression significance
+            if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+                return;
+            if (!(gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_LEADER
+                || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR
+                || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION))
+                return;
+        }
+
+        mod = sFriendshipEventModifiers[event][friendshipLevel];
+
+        if (mod > 0)
+        {
+            if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == ITEM_LUXURY_BALL)
+                mod++;
+
+            if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())
+                mod++;
+        }
+
+        if (mod > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)
+            mod = (150 * mod) / 100;
+
+        if (gPowerType == POWER_FRIEND && gPowerTime > 0)
+        {
+            switch (gPowerLevel)
+            {
+                case 1:
+                    mod += 1;
+                    break;
+                case 2:
+                    mod += 2;
+                    break;
+                case 3:
+                    mod += 3;
+                    break;
+            }
+        }
+
+        friendship += mod;
+
+        if (friendship < 0)
+            friendship = 0;
+
+        if (friendship > MAX_FRIENDSHIP)
+            friendship = MAX_FRIENDSHIP;
+
+        SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
     }
 }
 
@@ -6954,14 +6979,10 @@ void RandomlyGivePartyPokerus(struct Pokemon *party)
 
         do
         {
-            do
-            {
-                rnd = Random() % PARTY_SIZE;
-                mon = &party[rnd];
-            }
-            while (!GetMonData(mon, MON_DATA_SPECIES, 0));
+            rnd = Random() % PARTY_SIZE;
+            mon = &party[rnd];
         }
-        while (GetMonData(mon, MON_DATA_IS_EGG, 0));
+        while (!GetMonData(mon, MON_DATA_SPECIES, 0) || GetMonData(mon, MON_DATA_IS_EGG, 0));
 
         if (!(CheckPartyHasHadPokerus(party, gBitTable[rnd])))
         {
@@ -7180,6 +7201,7 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
     u8 numMoves = 0;
     u16 species = GetMonData(mon, MON_DATA_SPECIES, 0);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, 0);
+    bool32 wasBaby = GetMonData(mon, MON_DATA_MET_LEVEL, 0) == 0;
     int i, j, k;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -7196,6 +7218,9 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
 
         if (moveLevel <= (level << 9))
         {
+            if ((gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+                break;
+
             for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); j++)
                 ;
 
@@ -7231,6 +7256,7 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
     u8 numMoves = 0;
     u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG, 0);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, 0);
+    bool32 wasBaby = GetMonData(mon, MON_DATA_MET_LEVEL, 0) == 0;
     int i, j, k;
 
     if (species == SPECIES_EGG)
@@ -7250,6 +7276,9 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
 
         if (moveLevel <= (level << 9))
         {
+            if ((gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+                break;
+
             for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); j++)
                 ;
 
@@ -7781,26 +7810,45 @@ void BattleAnimateFrontSprite(struct Sprite *sprite, u16 species, bool8 noCry, u
 {
     u32 i, maxIVs = 0;
 
-    if (wildMon)
-    {
-        for (i = 0; i < 6; i++)
-        {
-            if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[sprite->data[2]]], MON_DATA_HP_IV + i) == MAX_PER_STAT_IVS)
-                maxIVs++;
-        }
-
-        if (maxIVs >= 2)
-            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, TRUE);
-        else
-            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
-    }
     if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)))
     {
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+        if (wildMon)
+        {
+            for (i = 0; i < 6; i++)
+            {
+                if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[sprite->data[0]]], MON_DATA_HP_IV + i) == MAX_PER_STAT_IVS)
+                    maxIVs++;
+            }
+
+            if (maxIVs >= 2)
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, TRUE);
+            else
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+        }
+        else
+        {
+            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, FALSE);
+        }
     }
     else
     {
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, FALSE);
+        if (wildMon)
+        {
+            for (i = 0; i < 6; i++)
+            {
+                if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[sprite->data[0]]], MON_DATA_HP_IV + i) == MAX_PER_STAT_IVS)
+                    maxIVs++;
+            }
+
+            if (maxIVs >= 2)
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, TRUE);
+            else
+                DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, FALSE);
+        }
+        else
+        {
+            DoMonFrontSpriteAnimation(sprite, species, noCry, panMode, FALSE);
+        }
     }
 }
 

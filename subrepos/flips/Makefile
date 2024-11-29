@@ -1,9 +1,12 @@
-#This script creates a debug-optimized binary by default. If you're on Linux, you'll get a faster binary from make.sh.
+#This script creates a debug-optimized binary by default. If you're on Linux, you'll get a faster binary from make-linux.sh.
 
 SRCDIR := $(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
 
 CFLAGS_gtk = -DFLIPS_GTK $(GTKFLAGS) $(GTKLIBS)
-CFLAGS_windows := -DFLIPS_WINDOWS -mwindows -lgdi32 -lcomdlg32 -lcomctl32 -luser32 -lkernel32 -lshell32 -ladvapi32
+CFLAGS_windows_base := -DFLIPS_WINDOWS
+CFLAGS_windows_gcc := -mwindows -lgdi32 -lcomdlg32 -lcomctl32 -luser32 -lkernel32 -lshell32 -ladvapi32
+CFLAGS_windows := $(CFLAGS_windows_base) $(CFLAGS_windows_gcc)
+LFLAGS_windows_msvc := gdi32.lib comdlg32.lib comctl32.lib user32.lib kernel32.lib shell32.lib advapi32.lib
 CFLAGS_cli := -DFLIPS_CLI
 
 CFLAGS_G = -fno-rtti -fno-exceptions -DNDEBUG -Wall
@@ -52,20 +55,29 @@ ifeq ($(TARGET),)
   endif
 endif
 
+COMMIT_COUNT := $(shell git rev-list --count master)
+ifneq ($(COMMIT_COUNT),)
+  CFLAGS_G += -DFLIPS_COMMIT_COUNT=$(COMMIT_COUNT)
+endif
+
+ifeq ($(TARGET),windows)
+  ifneq (,$(filter $(CXX),cl cl.exe))
+    override CFLAGS_windows := $(CFLAGS_windows_base)
+    LFLAGS += $(LFLAGS_windows_msvc)
+  endif
+endif
+
 ifeq ($(TARGET),gtk)
   ifeq ($(GTKFLAGS),)
     GTKFLAGS := $(shell pkg-config --cflags --libs gtk+-3.0)
   endif
   ifeq ($(GTKFLAGS),)
     $(warning pkg-config can't find gtk+-3.0, or pkg-config itself can't be found)
-    $(warning if you have the needed files installed, specify their locations and names with `make GTKFLAGS='-I/usr/include' GTKLIBS='-L/usr/lib -lgtk'')
-    $(warning if not, the package names under Debian and derivates are `pkg-config libgtk-3-dev'; for other distros, consult a search engine)
-    TARGET := cli
-    ifeq ($(TARGET),gtk)
-      $(warning build will now fail)
-    else
-      $(warning switching to CLI build)
-    endif
+    $(warning if you have the needed files installed, specify their locations and names with `make GTKFLAGS='-I/usr/include' GTKLIBS='-L/usr/lib -lgtk'`)
+    $(warning if not, the package names under Debian and derivates are 'pkg-config libgtk-3-dev'; for other distros, consult a search engine)
+    $(warning If you instead want to build the CLI version, set the TARGET environment variable like so:)
+    $(warning TARGET=cli make)
+    $(error Can't build gtk target without gtk dependencies)
   endif
 endif
 
@@ -94,7 +106,7 @@ endif
 $(FNAME_$(TARGET)): $(SOURCES) $(XFILES)
 	$(CXX) $^ -std=c++98 $(CFLAGS_G) $(MOREFLAGS) $(CPPFLAGS) $(CFLAGS) $(CXXFLAGS) $(LFLAGS) -o$@
 ifeq ($(CFLAGS),-g)
-	echo 'Compiled Floating IPS in debug mode; for better performance, use ./make.sh instead'
+	echo 'Compiled Floating IPS in debug mode; for better performance, use ./make-linux.sh instead'
 endif
 
 ifeq ($(TARGET),gtk)

@@ -2515,7 +2515,7 @@ static void MainMenu_FormatSavegameText(void)
 
 static void MainMenu_FormatSavegameLocation(void)
 {
-    if (UseContinueGameWarp() == TRUE)
+    if (UseContinueGameWarp() == TRUE && GetCurrentRegionMapSectionId() == MAPSEC_EVER_GRANDE_CITY)
         GetMapName(gStringVar4, MAPSEC_LITTLEROOT_TOWN, 0);
     else
         GetMapName(gStringVar4, GetCurrentRegionMapSectionId(), 0);

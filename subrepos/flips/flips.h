@@ -34,13 +34,20 @@
 //#define EXTERN_C
 //#endif
 
+#ifdef FLIPS_COMMIT_COUNT
+#define STR_(x) #x
+#define STR(x) STR_(x)
+#define flipsversion "Floating IPS v" STR(FLIPS_COMMIT_COUNT)
+#else
 #define flipsversion "Floating IPS"
+#endif
 
 
 #if defined(FLIPS_WINDOWS)
 #define UNICODE
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0600
+#define _CRT_SECURE_NO_WARNINGS
 
 #define NOMINMAX // this seems automatically on in C++ - crazy.
 #ifdef __MINGW32__
@@ -62,7 +69,6 @@
 
 #else
 #include <string.h>
-#include <strings.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -84,10 +90,15 @@
 #define wcsrchr strrchr
 #define wcscmp strcmp
 #define wcsncmp strncmp
+#ifdef _WIN32
+// compiling not-windows UI on windows is a silly thing to do, but...
+#define wcsicmp stricmp
+#else
 #define wcsicmp strcasecmp
+#endif
 //#define wcsnicmp strncasecmp
 #define wprintf printf
-#define wsprintf sprintf
+#define swprintf snprintf
 #define wscanf scanf
 #define swscanf sscanf
 #define wtoi atoi
@@ -119,6 +130,11 @@ static inline char* strdup(const char * in)
 	return ret;
 }
 #endif
+
+#undef wsprintf // mingw defines this to __MINGW_NAME_AW(wsprintf)
+#define sprintf USE%snprintf%INSTEAD
+#define wsprintf USE%swprintf%INSTEAD
+#define wsnprintf ITS%CALLED%swprintf
 
 #include "libbps.h"
 #include "libips.h"
@@ -211,7 +227,7 @@ public:
 	void set(LPCWSTR key, LPCWSTR value); // If NULL, the key is removed. This may alter or rearrange unrelated get{name,value}byid values.
 	LPCWSTR get(LPCWSTR key, LPCWSTR def = NULL);
 	
-	void setint(LPCWSTR key, int value) { WCHAR valstr[16]; wsprintf(valstr, TEXT("%i"), value); set(key, valstr); }
+	void setint(LPCWSTR key, int value) { WCHAR valstr[16]; swprintf(valstr, 16, TEXT("%i"), value); set(key, valstr); }
 	int getint(LPCWSTR key, int def = 0) { LPCWSTR val = get(key); return val ? wtoi(val) : def; }
 	
 	size_t getcount() { return numentries; }

@@ -317,9 +317,7 @@ void HideMapNamePopUpWindow(void)
 {
     if (FuncIsActiveTask(Task_MapNamePopUpWindow))
     {
-    #ifdef UBFIX
         if (GetMapNamePopUpWindowId() != WINDOW_NONE)
-    #endif // UBFIX
         {
             ClearStdWindowAndFrame(GetMapNamePopUpWindowId(), TRUE);
             RemoveMapNamePopUpWindow();

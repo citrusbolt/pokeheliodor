@@ -75,9 +75,9 @@ struct ApprenticeQuestionData
 };
 
 // IWRAM common
-struct ApprenticePartyMovesData *gApprenticePartyMovesData;
-struct ApprenticeQuestionData *gApprenticeQuestionData;
-void (*gApprenticeFunc)(void);
+COMMON_DATA struct ApprenticePartyMovesData *gApprenticePartyMovesData = NULL;
+COMMON_DATA struct ApprenticeQuestionData *gApprenticeQuestionData = NULL;
+COMMON_DATA void (*gApprenticeFunc)(void) = NULL;
 
 // This file's functions.
 static u16 GetRandomAlternateMove(u8 monId);
@@ -335,7 +335,7 @@ static u16 GetRandomAlternateMove(u8 monId)
     u8 id;
     u8 numLearnsetMoves;
     u16 species;
-    const u16 *learnset;
+    const u32 *learnset;
     bool32 needTMs = FALSE;
     u16 moveId = MOVE_NONE;
     bool32 shouldUseMove;
@@ -417,6 +417,12 @@ static u16 GetRandomAlternateMove(u8 monId)
                     moveId = learnset[learnsetId] & LEVEL_UP_MOVE_ID;
                     shouldUseMove = TRUE;
 
+                    if (learnset[learnsetId] & LEVEL_UP_MOVE_BABY)
+                    {
+                        shouldUseMove = FALSE;
+                        break;
+                    }
+
                     for (j = numLearnsetMoves - MAX_MON_MOVES; j < numLearnsetMoves; j++)
                     {
                         // Keep looking for moves until one not in the last 4 is found
@@ -460,7 +466,7 @@ static void GetLatestLearnedMoves(u16 species, u16 *moves)
 {
     u8 i, j;
     u8 level, numLearnsetMoves;
-    const u16 *learnset;
+    const u32 *learnset;
 
     if (PLAYER_APPRENTICE.lvlMode == APPRENTICE_LVL_MODE_50)
         level = FRONTIER_MAX_LEVEL_50;
@@ -479,7 +485,12 @@ static void GetLatestLearnedMoves(u16 species, u16 *moves)
         numLearnsetMoves = MAX_MON_MOVES;
 
     for (j = 0; j < numLearnsetMoves; j++)
+    {
+        while (learnset[(i - 1) - j] & LEVEL_UP_MOVE_BABY)
+            i--;
+
         moves[j] = learnset[(i - 1) - j] & LEVEL_UP_MOVE_ID;
+    }
 }
 
 // Get the level up move or previously suggested move to be the first move choice
@@ -1200,7 +1211,7 @@ static void SaveApprentice(void)
 static void SetSavedApprenticeTrainerGfxId(void)
 {
     u8 i;
-    u8 objectEventGfxId;
+    u16 objectEventGfxId;
     u8 class = gApprentices[gSaveBlock2Ptr->apprentices[0].id].facilityClass;
 
     for (i = 0; i < ARRAY_COUNT(gTowerMaleFacilityClasses) && gTowerMaleFacilityClasses[i] != class; i++)
@@ -1224,7 +1235,7 @@ static void SetSavedApprenticeTrainerGfxId(void)
 static void SetPlayerApprenticeTrainerGfxId(void)
 {
     u8 i;
-    u8 objectEventGfxId;
+    u16 objectEventGfxId;
     u8 class = gApprentices[PLAYER_APPRENTICE.id].facilityClass;
 
     for (i = 0; i < ARRAY_COUNT(gTowerMaleFacilityClasses) && gTowerMaleFacilityClasses[i] != class; i++)

@@ -3353,5 +3353,7 @@ extern const u8 gText_TellHimTheWords[];
 extern const u8 gText_An[];
 extern const u8 gText_A[];
 extern const u8 gText_LogOntoOtherPC[];
+extern const u8 gText_PlayerScurriedToCenter[];
+extern const u8 gText_PlayerScurriedBackHome[];
 
 #endif // GUARD_STRINGS_H

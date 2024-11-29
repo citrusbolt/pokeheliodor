@@ -53,6 +53,7 @@ SafariZone_EventScript_ChoosePokeblock::
 	special OpenPokeblockCaseOnFeeder
 	waitstate
 	goto_if_ne VAR_RESULT, 0xFFFF, SafariZone_EventScript_PokeblockPlaced
+	releaseall
 	end
 
 SafariZone_EventScript_PokeblockPlaced::

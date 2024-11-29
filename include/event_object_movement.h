@@ -3,41 +3,41 @@
 
 #include "constants/event_object_movement.h"
 
-#define OBJ_EVENT_PAL_TAG_UNIQUE                  0x1100
-#define OBJ_EVENT_PAL_TAG_GENERIC_1               0x1101
-#define OBJ_EVENT_PAL_TAG_GENERIC_2               0x1102
-#define OBJ_EVENT_PAL_TAG_GENERIC_3               0x1103
-#define OBJ_EVENT_PAL_TAG_GENERIC_4               0x1104
-#define OBJ_EVENT_PAL_TAG_GENERIC_5               0x1105
-#define OBJ_EVENT_PAL_TAG_GENERIC_6               0x1106
-#define OBJ_EVENT_PAL_TAG_GENERIC_7               0x1107
-#define OBJ_EVENT_PAL_TAG_GENERIC_8               0x1108
-#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1109
-#define OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION       0x110A
-#define OBJ_EVENT_PAL_TAG_BARD                    0x110B
-#define OBJ_EVENT_PAL_TAG_HIPSTER                 0x110C
-#define OBJ_EVENT_PAL_TAG_TRADER                  0x110D
-#define OBJ_EVENT_PAL_TAG_STORYTELLER             0x110E
-#define OBJ_EVENT_PAL_TAG_GIDDY                   0x110F
-#define OBJ_EVENT_PAL_TAG_BRENDAN                 0x1110
-#define OBJ_EVENT_PAL_TAG_MAY                     0x1111
-#define OBJ_EVENT_PAL_TAG_BRENDAN_UNDERWATER      0x1112
-#define OBJ_EVENT_PAL_TAG_MAY_UNDERWATER          0x1113
-#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1114
-#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1115
-#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x1116
-#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x1117
-#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x1118
-#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x1119
-#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x111A
-#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x111B
-#define OBJ_EVENT_PAL_TAG_TREE_1                  0x111C
-#define OBJ_EVENT_PAL_TAG_TREE_2                  0x111D
-#define OBJ_EVENT_PAL_TAG_TREE_3                  0x111E
-#define OBJ_EVENT_PAL_TAG_TREE_4                  0x111F
+#define OBJ_EVENT_PAL_TAG_UNIQUE                  0x1000
+#define OBJ_EVENT_PAL_TAG_GENERIC_1               0x1001
+#define OBJ_EVENT_PAL_TAG_GENERIC_2               0x1002
+#define OBJ_EVENT_PAL_TAG_GENERIC_3               0x1003
+#define OBJ_EVENT_PAL_TAG_GENERIC_4               0x1004
+#define OBJ_EVENT_PAL_TAG_GENERIC_5               0x1005
+#define OBJ_EVENT_PAL_TAG_GENERIC_6               0x1006
+#define OBJ_EVENT_PAL_TAG_GENERIC_7               0x1007
+#define OBJ_EVENT_PAL_TAG_GENERIC_8               0x1008
+#define OBJ_EVENT_PAL_TAG_REFLECTION              0x1009
+#define OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION       0x100A
+#define OBJ_EVENT_PAL_TAG_BARD                    0x100B
+#define OBJ_EVENT_PAL_TAG_HIPSTER                 0x100C
+#define OBJ_EVENT_PAL_TAG_TRADER                  0x100D
+#define OBJ_EVENT_PAL_TAG_STORYTELLER             0x100E
+#define OBJ_EVENT_PAL_TAG_GIDDY                   0x100F
+#define OBJ_EVENT_PAL_TAG_BRENDAN                 0x1010
+#define OBJ_EVENT_PAL_TAG_MAY                     0x1011
+#define OBJ_EVENT_PAL_TAG_BRENDAN_UNDERWATER      0x1012
+#define OBJ_EVENT_PAL_TAG_MAY_UNDERWATER          0x1013
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RED             0x1014
+#define OBJ_EVENT_PAL_TAG_MAY_RED                 0x1015
+#define OBJ_EVENT_PAL_TAG_BRENDAN_BLUE            0x1016
+#define OBJ_EVENT_PAL_TAG_MAY_BLUE                0x1017
+#define OBJ_EVENT_PAL_TAG_BRENDAN_GREEN           0x1018
+#define OBJ_EVENT_PAL_TAG_MAY_GREEN               0x1019
+#define OBJ_EVENT_PAL_TAG_BRENDAN_RS              0x101A
+#define OBJ_EVENT_PAL_TAG_MAY_RS                  0x101B
+#define OBJ_EVENT_PAL_TAG_TREE_1                  0x101C
+#define OBJ_EVENT_PAL_TAG_TREE_2                  0x101D
+#define OBJ_EVENT_PAL_TAG_TREE_3                  0x101E
+#define OBJ_EVENT_PAL_TAG_TREE_4                  0x101F
 #define OBJ_EVENT_PAL_TAG_NONE                    0x1FFF
 
-#define OW_PAL(gfxId) (gfxId + 0x1300)
+#define OW_PAL(gfxId) (gfxId + 0x1400)
 
 enum SpinnerRunnerFollowPatterns
 {
@@ -84,6 +84,12 @@ enum ReflectionTypes
 #define GROUND_EFFECT_FLAG_SHORT_GRASS           (1 << 17)
 #define GROUND_EFFECT_FLAG_HOT_SPRINGS           (1 << 18)
 #define GROUND_EFFECT_FLAG_SEAWEED               (1 << 19)
+
+// Sprite data for the CameraObject functions
+#define sCamera_FollowSpriteId data[0]
+#define sCamera_State          data[1]
+#define sCamera_MoveX          data[2]
+#define sCamera_MoveY          data[3]
 
 struct StepAnimTable
 {
@@ -136,7 +142,7 @@ u8 TrySpawnObjectEvent(u8 localId, u8 mapNum, u8 mapGroup);
 u8 SpawnSpecialObjectEventParameterized(u16 graphicsId, u8 movementBehavior, u8 localId, s16 x, s16 y, u8 elevation);
 u8 SpawnSpecialObjectEvent(struct ObjectEventTemplate *);
 void SetSpritePosToMapCoords(s16 mapX, s16 mapY, s16 *destX, s16 *destY);
-void CameraObjectReset1(void);
+void CameraObjectReset(void);
 void ObjectEventSetGraphicsId(struct ObjectEvent *, u16 graphicsId);
 void ObjectEventTurn(struct ObjectEvent *, u8 direction);
 void ObjectEventTurnByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup, u8 direction);
@@ -224,7 +230,7 @@ u16 GetObjectPaletteTag(u8 palSlot);
 void UpdateObjectEventSpriteInvisibility(struct Sprite *sprite, bool8 invisible);
 s16 GetFigure8XOffset(s16 idx);
 s16 GetFigure8YOffset(s16 idx);
-void CameraObjectReset2(void);
+void CameraObjectFreeze(void);
 u8 GetObjectEventBerryTreeId(u8 objectEventId);
 void SetBerryTreeJustPicked(u8 mapId, u8 mapNumber, u8 mapGroup);
 bool8 IsBerryTreeSparkling(u8 localId, u8 mapNum, u8 mapGroup);

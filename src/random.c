@@ -4,9 +4,9 @@
 EWRAM_DATA static u32 sRandCount = 0;
 
 // IWRAM common
-u32 gRngValue;
-u32 gRng2Value;
-u32 gRngCXDValue;
+COMMON_DATA u32 gRngValue = 0;
+COMMON_DATA u32 gRng2Value = 0;
+COMMON_DATA u32 gRngCXDValue = 0;
 
 u16 Random(void)
 {
