@@ -38,6 +38,8 @@ prefabs.json
 *.diff
 *.sym
 *.js
+/pokeemerald-*.png
+/pokeemerald_modern-*.png
 *.bps
 data/mb_berry_fix.gba
 *.delta_*.json
