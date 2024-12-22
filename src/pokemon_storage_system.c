@@ -6394,21 +6394,10 @@ static void SetPlacedMonData(u8 boxId, u8 position)
 
 static void PurgeMonOrBoxMon(u8 boxId, u8 position)
 {
-    u16 item = ITEM_NONE;
-
     if (boxId == TOTAL_BOXES_COUNT)
-    {
-        item = GetMonData(&gPlayerParty[position], MON_DATA_HELD_ITEM);
         ZeroMonData(&gPlayerParty[position]);
-    }
     else
-    {
-        item = GetBoxMonDataAt(boxId, position, MON_DATA_HELD_ITEM);
         ZeroBoxMonAt(boxId, position);
-    }
-
-    if (item != ITEM_NONE)
-        AddBagItem(item, 1);
 }
 
 static void SetShiftedMonData(u8 boxId, u8 position)
@@ -6488,6 +6477,7 @@ static bool8 TryHideReleaseMon(void)
 static void ReleaseMon(void)
 {
     u8 boxId;
+    u16 item = ITEM_NONE;
 
     DestroyReleaseMonIcon();
     if (sIsMonBeingMoved)
@@ -6497,11 +6487,19 @@ static void ReleaseMon(void)
     else
     {
         if (sCursorArea == CURSOR_AREA_IN_PARTY)
+        {
             boxId = TOTAL_BOXES_COUNT;
+            item = GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_HELD_ITEM);
+        }
         else
+        {
             boxId = StorageGetCurrentBox();
+            item = GetBoxMonDataAt(boxId, sCursorPosition, MON_DATA_HELD_ITEM);
+        }
 
         PurgeMonOrBoxMon(boxId, sCursorPosition);
+        if (item != ITEM_NONE)
+            AddBagItem(item, 1);
     }
     TryRefreshDisplayMon();
 }
