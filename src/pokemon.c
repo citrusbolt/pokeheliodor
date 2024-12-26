@@ -2369,7 +2369,7 @@ const u16 sSafariZoneLeafGreen[] =
 	SPECIES_REMORAID
 };
 
-const u16 sSafariZoneFireRedLeafGreen[] = 
+const u16 sSafariZoneFireRedLeafGreen[] =
 {
 	SPECIES_PIKACHU,
 	SPECIES_DODUO,
@@ -2458,14 +2458,14 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 	u32 shinyValue;
     bool32 otIdOverride = FALSE;
 	u16 rolls = 1;
-	
+
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
 		rolls *= 2;
-	
+
 	metLocation = GetCurrentRegionMapSectionId();
 
 	gDisableVBlankRNGAdvance = TRUE;
@@ -2697,7 +2697,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					personality = Random32();
 				}
-				
+
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
@@ -2745,7 +2745,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 				{
 					personality = Random32();
 				}
-				
+
 				shinyValue = HIHALF(*gSaveBlock2Ptr->playerTrainerId) ^ LOHALF(*gSaveBlock2Ptr->playerTrainerId) ^ HIHALF(personality) ^ LOHALF(personality);
 				if (shinyValue < SHINY_ODDS)
 					break;
@@ -2767,7 +2767,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 		language = gGameLanguage;
-		
+
 		if (IsMonSapphireExclusive(species))
 		{
 			version = VERSION_SAPPHIRE;
@@ -2808,7 +2808,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
 		{
 			version = gGameVersion;
 		}
-		
+
 		if (metLocation != MAPSEC_SAFARI_ZONE)
 		{
 			if (IsMonOutsideSafariFireRed(species))
@@ -2937,14 +2937,14 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 	u32 shinyValue;
 	u16 i = 0;
 	u16 rolls = 1;
-	
+
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
 		rolls += gChainStreak;
 	if (gPowerType == POWER_LUCKY && gPowerLevel == 3 && gPowerTime > 0)
 		rolls *= 2;
-	
+
 	do
 	{
 		do
@@ -2970,7 +2970,7 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 	u32 shinyValue;
 	u16 i = 0;
 	u16 rolls = 1;
-	
+
 	if (HasAllMons())
 		rolls += SHINY_CHARM_REROLLS;
 	if (species == gLastEncounteredSpecies)
@@ -5140,9 +5140,9 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 	u8 otGender;
 	u32 otId;
 	u16 species;
-	
+
 	species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-	
+
 	if (species == SPECIES_MEW)
 	{
 		otName[0] = gSaveBlock2Ptr->playerName[0];
@@ -5152,7 +5152,7 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 		otName[4] = gSaveBlock2Ptr->playerName[4];
 		otName[5] = 0xFF;
 		otName[6] = gSaveBlock2Ptr->playerName[5];
-		otName[7] = gSaveBlock2Ptr->playerName[6]; 
+		otName[7] = gSaveBlock2Ptr->playerName[6];
 		otGender = gSaveBlock2Ptr->playerGender;
 		otId = gSaveBlock2Ptr->playerTrainerId[0]
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
@@ -5190,7 +5190,7 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 		otName[4] = gSaveBlock2Ptr->playerName[4];
 		otName[5] = gSaveBlock2Ptr->playerName[5];
 		otName[6] = gSaveBlock2Ptr->playerName[6];
-		otName[7] = gSaveBlock2Ptr->playerName[7]; 
+		otName[7] = gSaveBlock2Ptr->playerName[7];
 		otGender = gSaveBlock2Ptr->playerGender;
 		otId = gSaveBlock2Ptr->playerTrainerId[0]
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
@@ -7280,6 +7280,7 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_LEADER:
             return MUS_VS_GYM_LEADER;
         case TRAINER_CLASS_CHAMPION:
+        case TRAINER_CLASS_CHAMPION_2:
             return MUS_VS_CHAMPION;
         case TRAINER_CLASS_RIVAL:
             if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
@@ -7308,10 +7309,10 @@ u16 GetBattleBGM(void)
 
 		if (IsMonFireRedExclusive(species) || IsMonLeafGreenExclusive(species) || IsMonFireRedLeafGreenExclusive(species))
 			track = MUS_RG_VS_WILD;
-		
+
 		if (GetCurrentRegionMapSectionId() != MAPSEC_SAFARI_ZONE && (IsMonOutsideSafariFireRed(species) || IsMonOutsideSafariLeafGreen(species) || IsMonOutsideSafariFireRedLeafGreen(species)))
 			track = MUS_RG_VS_WILD;
-		
+
         return track;
 	}
 }
@@ -7540,7 +7541,7 @@ void SetWildMonHeldItem(void)
             chanceNoItem = 20;
             chanceNotRare = 80;
         }
-		
+
 		if (gPowerType == POWER_ITEM && gPowerTime > 0)
 		{
 			switch (gPowerLevel)
@@ -7598,7 +7599,7 @@ void SetWildMonHeldItem(void)
                     SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
             }
         }
-		
+
 		if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
 		{
 			rnd = Random() % 100;
@@ -7663,7 +7664,7 @@ bool8 IsMonSquareShiny(struct Pokemon *mon)
 {
 	u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
 	u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
-	
+
 	if ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0)
 		return TRUE;
 	else if (GetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS)
@@ -8180,7 +8181,7 @@ u8 GivePorygon(void)
 	u16 item;
 	u16 checksum;
 	u8 encounterType;
-	
+
 	personality = 0xC8693992u;
 	ivs[0] = 31;
 	ivs[1] = 31;
@@ -8318,15 +8319,15 @@ void RespawnAllLegendaries(void)
 		FlagClear(FLAG_DEFEATED_RAYQUAZA);
 		FlagClear(FLAG_DEFEATED_SUDOWOODO);
 		FlagClear(FLAG_DEFEATED_MEWTWO);
-		
+
 		FlagClear(FLAG_CAUGHT_MEW);
 		FlagClear(FLAG_CAUGHT_LUGIA);
 		FlagClear(FLAG_CAUGHT_HO_OH);
-		
+
 		FlagClear(FLAG_BATTLED_DEOXYS);
-		
+
 		FlagClear(FLAG_HIDDEN_ITEM_NAVEL_ROCK_TOP_SACRED_ASH);
-		
+
 		if (FlagGet(FLAG_CAUGHT_LATIAS_OR_LATIOS) && VarGet(VAR_ROAMER_POKEMON) >= 4)
 		{
 			if (FlagGet(FLAG_ROAMER_QUEST) && roamer->species != SPECIES_LATIAS)
