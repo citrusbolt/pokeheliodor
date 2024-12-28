@@ -5517,35 +5517,35 @@
                 "max_level": 30,
                 "species": "SPECIES_WAILMER",
                 "origin_game": "ENCOUNTER_EMERALD",
-                "encounter_rate": 10
+                "encounter_rate": 30
               },
               {
                 "min_level": 30,
                 "max_level": 35,
                 "species": "SPECIES_WAILMER",
                 "origin_game": "ENCOUNTER_EMERALD",
-                "encounter_rate": 10
+                "encounter_rate": 30
               },
               {
-                "min_level": 20,
+                "min_level": 25,
                 "max_level": 30,
                 "species": "SPECIES_WAILMER",
                 "origin_game": "ENCOUNTER_EMERALD",
-                "encounter_rate": 10
+                "encounter_rate": 30
               },
               {
                 "min_level": 35,
                 "max_level": 40,
                 "species": "SPECIES_WAILMER",
                 "origin_game": "ENCOUNTER_EMERALD",
-                "encounter_rate": 10
+                "encounter_rate": 30
               },
               {
                 "min_level": 40,
                 "max_level": 45,
                 "species": "SPECIES_WAILMER",
                 "origin_game": "ENCOUNTER_EMERALD",
-                "encounter_rate": 10
+                "encounter_rate": 30
               }
             ]
           }
@@ -7626,7 +7626,7 @@
                 "max_level": 30,
                 "species": "SPECIES_MASQUERAIN",
                 "origin_game": "ENCOUNTER_RS",
-                "encounter_rate": 1
+                "encounter_rate": 4
               }
             ]
           },
