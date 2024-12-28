@@ -754,7 +754,6 @@ static inline void CreateWildUnown(u32 slot, u32 level, u32 partySlot)
     sTempMons[partySlot + 1].level = level;
 }
 
-//TODO
 static inline bool32 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u32 area, u32 flags, u32 partySlot)
 {
     u32 wildMonIndex = 0;
@@ -2366,18 +2365,32 @@ bool32 SweetScentWildEncounter(void)
 
     return FALSE;
 }
-//TODO
+
 bool32 DoesCurrentMapHaveFishingMons(void)
 {
+    u32 rubyHeaderId, sapphireHeaderId, leafgreenHeaderId, heliodorHeaderId;
     u32 headerId = GetEmeraldWildMonHeaderId();
 
     if (headerId == HEADER_NONE)
+    {
         headerId = GetFireRedWildMonHeaderId();
+        leafgreenHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+        heliodorHeaderId = GetHeliodorWildMonHeaderId();
 
-    if (headerId != HEADER_NONE && gWildMonHeaders[headerId].fishingMonsInfo != NULL)
-        return TRUE;
+        if (headerId != HEADER_NONE && (gWildMonHeadersFRLG[headerId].fishingMonsInfo != NULL || gWildMonHeadersFRLG[leafgreenHeaderId].fishingMonsInfo != NULL || gWildMonHeaders[heliodorHeaderId].fishingMonsInfo != NULL))
+            return TRUE;
+    }
     else
-        return FALSE;
+    {
+        rubyHeaderId = GetRubyWildMonHeaderId();
+        sapphireHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);
+        heliodorHeaderId = GetHeliodorWildMonHeaderId();
+
+        if (headerId != HEADER_NONE && (gWildMonHeadersRS[rubyHeaderId].fishingMonsInfo != NULL || gWildMonHeadersRS[sapphireHeaderId].fishingMonsInfo != NULL || gWildMonHeadersE[headerId].fishingMonsInfo != NULL || gWildMonHeaders[heliodorHeaderId].fishingMonsInfo != NULL))
+            return TRUE;
+    }
+
+    return FALSE;
 }
 
 void FishingWildEncounter(u32 rod)
