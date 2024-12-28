@@ -1201,10 +1201,19 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
                     if (IsMonShiny(&gEnemyParty[0]))
                         IncrementGameStat(GAME_STAT_SHINIES_FOUND);
 
-                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_LEAFGREEN)
+                    headerId = GetEmeraldWildMonHeaderId();
+                    gEncounterMode = ENCOUNTER_EMERALD;
+
+                    if (headerId == HEADER_NONE)
                     {
                         headerId = GetFireRedWildMonHeaderId();
-                        gEncounterMode = ENCOUNTER_FIRERED;
+
+                        if (headerId != HEADER_NONE)
+                            gEncounterMode = ENCOUNTER_FIRERED;
+                    }
+
+                    if (gEncounterMode == ENCOUNTER_FIRERED)
+                    {
                         wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
                         
                         switch (Random() % 3)
@@ -1231,8 +1240,6 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
                     }
                     else
                     {
-                        headerId = GetEmeraldWildMonHeaderId();
-                        gEncounterMode = ENCOUNTER_EMERALD;
                         wildPokemonInfo = gWildMonHeadersE[headerId].landMonsInfo;
 
                         switch (Random() % 4)
