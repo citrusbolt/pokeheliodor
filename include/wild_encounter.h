@@ -31,6 +31,17 @@ struct WildPokemonHeader
     const struct WildPokemonInfo *puddleMonsInfo;
 };
 
+struct TempMon
+{
+    u32 pid;
+    struct IVs ivs;
+    u32 species;
+    u32 level;
+    bool32 notEgg;
+    u32 ability;
+    u32 item;
+};
+
 extern const struct WildPokemonHeader gWildMonHeadersRS[];
 extern const struct WildPokemonHeader gWildMonHeadersFRLG[];
 extern const struct WildPokemonHeader gWildMonHeadersE[];

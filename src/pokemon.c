@@ -2669,6 +2669,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u32 species, u32 level, u32 fixedIV
         | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
         | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 
+    if (gEncounterMode == ENCOUNTER_RUBY || gEncounterMode == ENCOUNTER_SAPPHIRE)
+        otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
+
 	metLocation = GetCurrentRegionMapSectionId();
 
 	//gDisableVBlankRNGAdvance = TRUE;
@@ -3023,6 +3026,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u32 species, u32 level, u32 fixedIV
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+
+        if (gEncounterMode == ENCOUNTER_RUBY || gEncounterMode == ENCOUNTER_SAPPHIRE)
+            otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
     }
 
     SetBoxMonData(boxMon, MON_DATA_OT_ID, &otId);
@@ -5236,6 +5242,9 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+        SetMonData(mon, MON_DATA_OT_NAME, &otName);
+        SetMonData(mon, MON_DATA_OT_GENDER, &otGender);
+        SetMonData(mon, MON_DATA_OT_ID, &otId);
 	}
 	else if (species == SPECIES_CELEBI) //Replicate Ageto Celebi from JAP Colosseum Bonus Disc
 	{
@@ -5245,6 +5254,9 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 		otName[3] = 0xFF;
 		otGender = FEMALE;
 		otId = 0x00007991u; //31121:00000
+        SetMonData(mon, MON_DATA_OT_NAME, &otName);
+        SetMonData(mon, MON_DATA_OT_GENDER, &otGender);
+        SetMonData(mon, MON_DATA_OT_ID, &otId);
 	}
 	else if (species == SPECIES_JIRACHI) //Replicate Wishmaker Jirachi from US Colosseum Bonus Disc
 	{
@@ -5258,30 +5270,10 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 		otName[7] = 0xFF;
 		otGender = MALE;
 		otId = 0x00004E4Bu; //20043:00000
+        SetMonData(mon, MON_DATA_OT_NAME, &otName);
+        SetMonData(mon, MON_DATA_OT_GENDER, &otGender);
+        SetMonData(mon, MON_DATA_OT_ID, &otId);
 	}
-	else
-	{
-		otName[0] = gSaveBlock2Ptr->playerName[0];
-		otName[1] = gSaveBlock2Ptr->playerName[1];
-		otName[2] = gSaveBlock2Ptr->playerName[2];
-		otName[3] = gSaveBlock2Ptr->playerName[3];
-		otName[4] = gSaveBlock2Ptr->playerName[4];
-		otName[5] = gSaveBlock2Ptr->playerName[5];
-		otName[6] = gSaveBlock2Ptr->playerName[6];
-		otName[7] = gSaveBlock2Ptr->playerName[7]; 
-		otGender = gSaveBlock2Ptr->playerGender;
-		otId = gSaveBlock2Ptr->playerTrainerId[0]
-              | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
-              | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
-              | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
-	}
-
-	if (IsMonRubyExclusive(species) || IsMonSapphireExclusive(species) || IsMonRubySapphireExclusive(species))
-		otId = (gSaveBlock1Ptr->rubySapphireSecretId << 16) | (otId & 0xFFFF);
-
-    SetMonData(mon, MON_DATA_OT_NAME, &otName);
-    SetMonData(mon, MON_DATA_OT_GENDER, &otGender);
-    SetMonData(mon, MON_DATA_OT_ID, &otId);
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
@@ -7721,35 +7713,38 @@ void SetWildMonHeldItem(void)
     }
 }
 
-bool8 IsMonShiny(struct Pokemon *mon)
+bool32 IsMonShiny(struct Pokemon *mon)
 {
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
+
     return IsShinyOtIdPersonality(otId, personality);
 }
 
-bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
+bool32 IsShinyOtIdPersonality(u32 otId, u32 personality)
 {
     bool8 retVal = FALSE;
     u32 shinyValue = GET_SHINY_VALUE(otId, personality);
+
     if (shinyValue < SHINY_ODDS)
         retVal = TRUE;
+
     return retVal;
 }
 
-bool8 IsMonSquareShiny(struct Pokemon *mon)
+bool32 IsMonSquareShiny(struct Pokemon *mon)
 {
-	u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
-	u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
-	
-	if ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0)
-		return TRUE;
-	else if (GetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS)
-		return TRUE;
-	else if (GetMonData(mon, MON_DATA_MET_GAME, 0) == VERSION_GO && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS) //Impossible to occur in this game for obvious reasons
-		return TRUE;
-	else
-		return FALSE;
+    u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
+
+    if ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0)
+        return TRUE;
+    else if (GetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS)
+        return TRUE;
+    else if (GetMonData(mon, MON_DATA_MET_GAME, 0) == VERSION_GO && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS) //Impossible to occur in this game for obvious reasons
+        return TRUE;
+    else
+        return FALSE;
 }
 
 const u8 *GetTrainerPartnerName(void)
