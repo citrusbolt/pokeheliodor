@@ -60,6 +60,7 @@ enum {
 
 static inline u32 FeebasRandom(void);
 static inline void FeebasSeedRng(u32 seed);
+static inline bool32 WildEncounterCheck(u32 encounterRate, bool32 ignoreAbility, bool32 recheck);
 static inline bool32 IsWildLevelAllowedByRepel(u32 level);
 static inline void ApplyFluteEncounterRateMod(u32 *encRate);
 static inline void ApplyCleanseTagEncounterRateMod(u32 *encRate);
@@ -84,6 +85,7 @@ EWRAM_DATA u32 gEncounterMode = ENCOUNTER_EMERALD;
 EWRAM_DATA static u32 sEncounterRateBuff = 0;
 EWRAM_DATA static u32 sMaxLevel = 0;
 EWRAM_DATA static struct TempMon sTempMons[3] = {0};
+EWRAM_DATA static u32 sSavedRateCheck = 0;
 
 #include "data/wild_encounters_rs.h"
 #include "data/wild_encounters_frlg.h"
@@ -788,6 +790,29 @@ static inline bool32 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInf
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && flags & WILD_CHECK_ABILITY && !IsAbilityAllowingEncounter(level))
         return FALSE;
 
+    if (gEncounterMode == ENCOUNTER_HELIODOR)
+    {
+        gEncounterMode = wildMonInfo->wildPokemon[wildMonIndex].originGame;
+
+        if (gEncounterMode == ENCOUNTER_RS)
+        {
+            if (Random2() % 2 == 0)
+                gEncounterMode = ENCOUNTER_RUBY;
+            else
+                gEncounterMode = ENCOUNTER_SAPPHIRE;
+        }
+        else if (gEncounterMode == ENCOUNTER_FRLG)
+        {
+            if (Random2() % 2 == 0)
+                gEncounterMode = ENCOUNTER_FIRERED;
+            else
+                gEncounterMode = ENCOUNTER_LEAFGREEN;
+        }
+
+        if (wildMonInfo->wildPokemon[wildMonIndex].encounterRate != 0 && WildEncounterCheck(wildMonInfo->wildPokemon[wildMonIndex].encounterRate, FALSE, TRUE) == FALSE)
+            return FALSE;
+    }
+
 	if (wildMonInfo->wildPokemon[wildMonIndex].species == SPECIES_UNOWN)
 		CreateWildUnown(wildMonIndex, level, partySlot);
 	else
@@ -851,16 +876,19 @@ static inline bool32 DoMassOutbreakEncounterTest(bool32 water)
     return FALSE;
 }
 
-static inline bool32 EncounterOddsCheck(u32 encounterRate, u32 maxRate)
+static inline bool32 EncounterOddsCheck(u32 encounterRate, u32 maxRate, bool32 recheck)
 {
-    if (Random() % maxRate < encounterRate)
+    if (!recheck)
+        sSavedRateCheck = Random();
+
+    if (sSavedRateCheck % maxRate < encounterRate)
         return TRUE;
     else
         return FALSE;
 }
 
 // Returns true if it will try to create a wild encounter.
-static inline bool32 WildEncounterCheck(u32 encounterRate, bool32 ignoreAbility)
+static inline bool32 WildEncounterCheck(u32 encounterRate, bool32 ignoreAbility, bool32 recheck)
 {
     switch (gEncounterMode)
     {
@@ -885,7 +913,7 @@ static inline bool32 WildEncounterCheck(u32 encounterRate, bool32 ignoreAbility)
             if (encounterRate > MAX_RSE_ENCOUNTER_RATE)
                 encounterRate = MAX_RSE_ENCOUNTER_RATE;
 
-            return EncounterOddsCheck(encounterRate, MAX_RSE_ENCOUNTER_RATE);
+            return EncounterOddsCheck(encounterRate, MAX_RSE_ENCOUNTER_RATE, recheck);
         case ENCOUNTER_FIRERED:
         case ENCOUNTER_LEAFGREEN:
             encounterRate *= 16;
@@ -908,8 +936,7 @@ static inline bool32 WildEncounterCheck(u32 encounterRate, bool32 ignoreAbility)
             if (encounterRate > MAX_FRLG_ENCOUNTER_RATE)
                 encounterRate = MAX_FRLG_ENCOUNTER_RATE;
 
-            return EncounterOddsCheck(encounterRate, MAX_FRLG_ENCOUNTER_RATE);
-            break;
+            return EncounterOddsCheck(encounterRate, MAX_FRLG_ENCOUNTER_RATE, recheck);
         case ENCOUNTER_EMERALD:
         default:
             encounterRate *= 16;
@@ -937,7 +964,7 @@ static inline bool32 WildEncounterCheck(u32 encounterRate, bool32 ignoreAbility)
             if (encounterRate > MAX_RSE_ENCOUNTER_RATE)
                 encounterRate = MAX_RSE_ENCOUNTER_RATE;
 
-            return EncounterOddsCheck(encounterRate, MAX_RSE_ENCOUNTER_RATE);
+            return EncounterOddsCheck(encounterRate, MAX_RSE_ENCOUNTER_RATE, recheck);
     }
     
     
@@ -1052,7 +1079,7 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
 
             if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gBattlePikeWildMonHeadersE[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gBattlePikeWildMonHeadersE[headerId].landMonsInfo->encounterRate, FALSE, FALSE) != TRUE)
                 return FALSE;
             else if (TryGenerateWildMon(gBattlePikeWildMonHeadersE[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
                 return FALSE;
@@ -1068,7 +1095,7 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
 
             if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gBattlePyramidWildMonHeadersE[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gBattlePyramidWildMonHeadersE[headerId].landMonsInfo->encounterRate, FALSE, FALSE) != TRUE)
                 return FALSE;
             else if (TryGenerateWildMon(gBattlePyramidWildMonHeadersE[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
                 return FALSE;
@@ -1606,7 +1633,7 @@ void RockSmashWildEncounter(void)
         {
             gSpecialVar_Result = FALSE;
         }
-        else if (WildEncounterCheck(wildPokemonInfo->encounterRate, TRUE) == TRUE
+        else if (WildEncounterCheck(wildPokemonInfo->encounterRate, TRUE, FALSE) == TRUE
          && TryGenerateWildMon(wildPokemonInfo, WILD_AREA_ROCKS, flags, 0) == TRUE)
         {
 			if (IsMonShiny(&gEnemyParty[0]))
@@ -3082,7 +3109,7 @@ static inline u32 EncounterCore(u32 headerId, u32 curMetatileBehavior, u32 prevM
     if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
         return ENCOUNTER_FAIL;
 
-    if (WildEncounterCheck(wildPokemonInfo->encounterRate, FALSE) == TRUE)
+    if (WildEncounterCheck(wildPokemonInfo->encounterRate, FALSE, FALSE) == TRUE)
     {
         if (TryStartRoamerEncounter() == TRUE)
         {
