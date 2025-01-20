@@ -140,9 +140,13 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+    }
     else
+    {
         LZ77UnCompWram(src->data, dest);
+    }
 
     if (isFrontPic)
         SwapSprite((u16)species, personality, dest);
@@ -372,9 +376,13 @@ void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+    }
     else
+    {
         LZ77UnCompWram(src->data, dest);
+    }
 
     if (isFrontPic)
         SwapSprite((u16)species, personality, dest);
@@ -435,9 +443,13 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+    }
     else
+    {
         LZ77UnCompWram(src->data, dest);
+    }
 
     if (isFrontPic)
         SwapSprite((u16)species, personality, dest);

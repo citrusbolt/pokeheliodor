@@ -5855,7 +5855,8 @@ static void DoTVShow3CheersForPokeblocks(void)
         if (show->threeCheers.sheen > 24)
         {
             StringCopy(gStringVar2, gText_Excellent);
-        } else if (show->threeCheers.sheen > 22)
+        }
+        else if (show->threeCheers.sheen > 22)
         {
             StringCopy(gStringVar2, gText_VeryGood);
         }
