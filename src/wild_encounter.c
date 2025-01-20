@@ -73,7 +73,7 @@ static inline u32 ChooseWildMonIndex_WaterRock(void);
 static inline u32 GenerateUnownPersonalityByLetter(u32 letter);
 static inline u32 GetUnownLetterByPersonalityLoByte(u32 personality);
 
-static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot);
+static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, bool32 bypassCheck, u32 partySlot);
 
 EWRAM_DATA static u32 sWildEncountersDisabled = 0;
 EWRAM_DATA static u32 sFeebasRngValue = 0;
@@ -1181,7 +1181,7 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
             if (wildPokemonInfo == NULL)
                 return FALSE;
 
-            encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_LAND, 0);
+            encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_LAND, FALSE, 0);
 
             if (encounterResult == ENCOUNTER_ROAMER)
             {
@@ -1278,7 +1278,7 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
                         }
                     }
 
-                    encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_LAND, 1);
+                    encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_LAND, FALSE, 1);
 
                     if (encounterResult == ENCOUNTER_SUCCESS)
                     {
@@ -1384,7 +1384,7 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
             if (wildPokemonInfo == NULL)
                 return FALSE;
 
-            encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_WATER, 0);
+            encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_WATER, FALSE, 0);
 
             if (encounterResult == ENCOUNTER_ROAMER)
             {
@@ -1474,7 +1474,7 @@ bool32 StandardWildEncounter(u32 curMetatileBehavior, u32 prevMetatileBehavior)
                         }
                     }
 
-                    encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_WATER, 1);
+                    encounterResult = GenerateEncounter(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, WILD_AREA_WATER, FALSE, 1);
 
                     if (encounterResult == ENCOUNTER_SUCCESS)
                     {
@@ -2151,217 +2151,464 @@ void HeadbuttWildEncounter(void)
 //TODO
 bool32 SweetScentWildEncounter(void)
 {
-    //struct Roamer *roamer;
-    //s16 x, y;
-    //u16 oppositeHeaderId;
-    //u16 headerId = GetEmeraldWildMonHeaderId();;
-    //
-    //gEncounterMode = ENCOUNTER_EMERALD;
-    //
-    //if (headerId == HEADER_NONE)
-    //{
-    //    headerId = GetFireRedWildMonHeaderId();
-    //
-    //    if (headerId != HEADER_NONE)
-    //        gEncounterMode = ENCOUNTER_FIRERED;
-    //}
-    //
-    //PlayerGetDestCoords(&x, &y);
-    //if (headerId == HEADER_NONE)
-    //{
-    //    if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS)
-    //    {
-    //        headerId = GetBattlePikeWildMonHeaderId();
-    //        if (TryGenerateWildMon(gBattlePikeWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, 0) != TRUE)
-    //            return FALSE;
-    //
-    //        TryGenerateBattlePikeWildMon(FALSE);
-    //        BattleSetup_StartBattlePikeWildBattle();
-    //        return TRUE;
-    //    }
-    //    if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
-    //    {
-    //        headerId = gSaveBlock2Ptr->frontier.curChallengeBattleNum;
-    //        if (TryGenerateWildMon(gBattlePyramidWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, 0) != TRUE)
-    //            return FALSE;
-    //
-    //        GenerateBattlePyramidWildMon();
-    //        BattleSetup_StartWildBattle();
-    //        return TRUE;
-    //    }
-    //}
-    //else
-    //{
-    //    if (MetatileBehavior_IsLandWildEncounter(MapGridGetMetatileBehaviorAt(x, y)) == TRUE)
-    //    {
-    //        const struct WildPokemonInfo *wildPokemonInfo;
-    //
-    //        if (gEncounterMode == ENCOUNTER_FIRERED)
-    //        {
-    //            wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
-    //
-    //            if (Random() % 2)
-    //            {
-    //                oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
-    //
-    //                if (oppositeHeaderId != HEADER_NONE)
-    //                {
-    //                    gEncounterMode = ENCOUNTER_LEAFGREEN;
-    //                    wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].landMonsInfo;
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            wildPokemonInfo = gWildMonHeadersE[headerId].landMonsInfo;
-    //
-    //            switch (Random() % 3)
-    //            {
-    //                case 0:
-    //                    headerId = GetRubyWildMonHeaderId();
-    //
-    //                    if (headerId != HEADER_NONE)
-    //                    {
-    //                        gEncounterMode = ENCOUNTER_RUBY;
-    //                        wildPokemonInfo = gWildMonHeadersRS[headerId].landMonsInfo;
-    //                    }
-    //                    break;
-    //                case 1:
-    //                    headerId = GetRubyWildMonHeaderId();
-    //
-    //                    if (headerId != HEADER_NONE)
-    //                    {
-    //                        oppositeHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);
-    //
-    //                        if (oppositeHeaderId != HEADER_NONE)
-    //                        {
-    //                            gEncounterMode = ENCOUNTER_SAPPHIRE;
-    //                            wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].landMonsInfo;
-    //                        }
-    //                    }
-    //                    break;
-    //            }
-    //        }
-    //
-    //        if (gWildMonHeaders[headerId].landMonsInfo == NULL)
-    //            return FALSE;
-    //
-    //        if (TryStartRoamerEncounter() == TRUE)
-    //        {
-    //            BattleSetup_StartRoamerBattle();
-    //            return TRUE;
-    //        }
-    //
-    //        //if (DoMassOutbreakEncounterTest(FALSE) == TRUE)
-    //        //    SetUpMassOutbreakEncounter(0);
-    //        //else
-    //            TryGenerateWildMon(wildPokemonInfo, WILD_AREA_LAND, 0);
-    //
-	//		if (IsMonShiny(&gEnemyParty[0]))
-	//			IncrementGameStat(GAME_STAT_SHINIES_FOUND);
-    //
-    //        BattleSetup_StartWildBattle();
-    //        return TRUE;
-    //    }
-    //    else if (MetatileBehavior_IsWaterWildEncounter(MapGridGetMetatileBehaviorAt(x, y)) == TRUE
-    //             || (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridgeOverWater(MapGridGetMetatileBehaviorAt(x, y)) == TRUE))
-    //    {
-    //        const struct WildPokemonInfo *wildPokemonInfo;
-    //
-    //        if (gEncounterMode == ENCOUNTER_FIRERED)
-    //        {
-    //            wildPokemonInfo = gWildMonHeadersFRLG[headerId].waterMonsInfo;
-    //
-    //            if (Random() % 2)
-    //            {
-    //                oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
-    //
-    //                if (oppositeHeaderId != HEADER_NONE)
-    //                {
-    //                    gEncounterMode = ENCOUNTER_LEAFGREEN;
-    //                    wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].waterMonsInfo;
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            wildPokemonInfo = gWildMonHeadersE[headerId].waterMonsInfo;
-    //
-    //            switch (Random() % 3)
-    //            {
-    //                case 0:
-    //                    headerId = GetRubyWildMonHeaderId();
-    //
-    //                    if (headerId != HEADER_NONE)
-    //                    {
-    //                        gEncounterMode = ENCOUNTER_RUBY;
-    //                        wildPokemonInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
-    //                    }
-    //                    break;
-    //                case 1:
-    //                    headerId = GetRubyWildMonHeaderId();
-    //
-    //                    if (headerId != HEADER_NONE)
-    //                    {
-    //                        oppositeHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);
-    //
-    //                        if (oppositeHeaderId != HEADER_NONE)
-    //                        {
-    //                            gEncounterMode = ENCOUNTER_SAPPHIRE;
-    //                            wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
-    //                        }
-    //                    }
-    //                    break;
-    //            }
-    //        }
-    //
-    //        if (AreLegendariesInSootopolisPreventingEncounters() == TRUE)
-    //            return FALSE;
-    //        if (gWildMonHeaders[headerId].waterMonsInfo == NULL)
-    //            return FALSE;
-    //
-    //        roamer = &gSaveBlock1Ptr->roamer;
-    //
-    //        if (TryStartRoamerEncounter() == TRUE && roamer->species != SPECIES_RAIKOU && roamer->species != SPECIES_ENTEI)
-    //        {
-    //            BattleSetup_StartRoamerBattle();
-    //            return TRUE;
-    //        }
-    //
-    //        //if (DoMassOutbreakEncounterTest(TRUE) == TRUE)
-    //        //    SetUpMassOutbreakEncounter(0);
-	//		//else
-	//			TryGenerateWildMon(wildPokemonInfo, WILD_AREA_WATER, 0);
-    //
-	//		if (IsMonShiny(&gEnemyParty[0]))
-	//			IncrementGameStat(GAME_STAT_SHINIES_FOUND);
-    //
-    //        BattleSetup_StartWildBattle();
-    //        return TRUE;
-    //    }
-    //    //else if (MetatileBehavior_IsPuddle(MapGridGetMetatileBehaviorAt(x, y)) == TRUE)
-    //    //{
-    //    //    if (gWildMonHeaders[headerId].puddleMonsInfo == NULL)
-    //    //        return FALSE;
-    //    //
-	//	//	if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsNatMorningInfo != NULL)
-	//	//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatMorningInfo, WILD_AREA_WATER, 0);
-	//	//	else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNatNightInfo != NULL)
-	//	//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatNightInfo, WILD_AREA_WATER, 0);
-	//	//	else if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].puddleMonsNatInfo != NULL)
-	//	//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatInfo, WILD_AREA_WATER, 0);
-	//	//	else if (GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsMorningInfo != NULL)
-	//	//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsMorningInfo, WILD_AREA_WATER, 0);
-	//	//	else if (GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNightInfo != NULL)
-	//	//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNightInfo, WILD_AREA_WATER, 0);
-	//	//	else
-	//	//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsInfo, WILD_AREA_WATER, 0);
-	//	//	if (IsMonShiny(&gEnemyParty[0]))
-	//	//		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
-    //    //    BattleSetup_StartWildBattle();
-    //    //    return TRUE;
-    //    //}
-    //}
+    struct Roamer *roamer;
+    const struct WildPokemonInfo *wildPokemonInfo;
+    s16 x, y;
+    u32 encounterResult;
+    u32 oppositeHeaderId;
+    u32 headerId = GetEmeraldWildMonHeaderId();;
+    
+    gEncounterMode = ENCOUNTER_EMERALD;
+    
+    if (headerId == HEADER_NONE)
+    {
+        headerId = GetFireRedWildMonHeaderId();
+    
+        if (headerId != HEADER_NONE)
+            gEncounterMode = ENCOUNTER_FIRERED;
+    }
+    
+    PlayerGetDestCoords(&x, &y);
+    if (headerId == HEADER_NONE)
+    {
+        if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS)
+        {
+            headerId = GetBattlePikeWildMonHeaderId();
+            if (TryGenerateWildMon(gBattlePikeWildMonHeadersE[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
+                return FALSE;
+    
+            TryGenerateBattlePikeWildMon(FALSE);
+            BattleSetup_StartBattlePikeWildBattle();
+            return TRUE;
+        }
+        if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
+        {
+            headerId = gSaveBlock2Ptr->frontier.curChallengeBattleNum;
+            if (TryGenerateWildMon(gBattlePyramidWildMonHeadersE[headerId].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_ABILITY, 0) != TRUE)
+                return FALSE;
+    
+            GenerateBattlePyramidWildMon();
+            BattleSetup_StartWildBattle();
+            return TRUE;
+        }
+    }
+    else
+    {
+        if (MetatileBehavior_IsLandWildEncounter(MapGridGetMetatileBehaviorAt(x, y)) == TRUE)
+        {
+    
+            if (gEncounterMode == ENCOUNTER_FIRERED)
+            {
+                wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
+    
+                switch (Random() % 3)
+                {
+                    case 1:
+                        oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+    
+                        if (oppositeHeaderId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_LEAFGREEN;
+                            wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].landMonsInfo;
+                        }
+                        break;
+                    case 2:
+                        headerId = GetHeliodorWildMonHeaderId();
+
+                        if (headerId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_HELIODOR;
+                            wildPokemonInfo = gWildMonHeaders[headerId].landMonsInfo;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                wildPokemonInfo = gWildMonHeadersE[headerId].landMonsInfo;
+    
+                switch (Random() % 3)
+                {
+                    case 0:
+                        headerId = GetRubyWildMonHeaderId();
+    
+                        if (headerId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_RUBY;
+                            wildPokemonInfo = gWildMonHeadersRS[headerId].landMonsInfo;
+                        }
+                        break;
+                    case 1:
+                        headerId = GetRubyWildMonHeaderId();
+    
+                        if (headerId != HEADER_NONE)
+                        {
+                            oppositeHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);
+    
+                            if (oppositeHeaderId != HEADER_NONE)
+                            {
+                                gEncounterMode = ENCOUNTER_SAPPHIRE;
+                                wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].landMonsInfo;
+                            }
+                        }
+                        break;
+                    case 3:
+                        headerId = GetHeliodorWildMonHeaderId();
+
+                        if (headerId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_HELIODOR;
+                            wildPokemonInfo = gWildMonHeaders[headerId].landMonsInfo;
+                        }
+                        break;
+                }
+            }
+    
+            if (wildPokemonInfo == NULL)
+                return FALSE;
+    
+            encounterResult = GenerateEncounter(headerId, 0, 0, wildPokemonInfo, WILD_AREA_LAND, TRUE, 0);
+
+            if (encounterResult == ENCOUNTER_ROAMER)
+            {
+                roamer = &gSaveBlock1Ptr->roamer;
+
+                if (!IsWildLevelAllowedByRepel(roamer->level))
+                    return FALSE;
+            
+                BattleSetup_StartRoamerBattle();
+                return TRUE;
+            }
+            else if (encounterResult == ENCOUNTER_SUCCESS)
+            {
+                if (GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS && Random() % 10 == 0)
+                {
+                    if (IsMonShiny(&gEnemyParty[0]))
+                        IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+
+                    headerId = GetEmeraldWildMonHeaderId();
+                    gEncounterMode = ENCOUNTER_EMERALD;
+
+                    if (headerId == HEADER_NONE)
+                    {
+                        headerId = GetFireRedWildMonHeaderId();
+
+                        if (headerId != HEADER_NONE)
+                            gEncounterMode = ENCOUNTER_FIRERED;
+                    }
+
+                    if (gEncounterMode == ENCOUNTER_FIRERED)
+                    {
+                        wildPokemonInfo = gWildMonHeadersFRLG[headerId].landMonsInfo;
+                        
+                        switch (Random() % 3)
+                        {
+                            case 1:
+                                oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+
+                                if (oppositeHeaderId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_LEAFGREEN;
+                                    wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].landMonsInfo;
+                                }
+                                break;
+                            case 2:
+                                headerId = GetHeliodorWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_HELIODOR;
+                                    wildPokemonInfo = gWildMonHeaders[headerId].landMonsInfo;
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        wildPokemonInfo = gWildMonHeadersE[headerId].landMonsInfo;
+
+                        switch (Random() % 4)
+                        {
+                            case 0:
+                                headerId = GetRubyWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_RUBY;
+                                    wildPokemonInfo = gWildMonHeadersRS[headerId].landMonsInfo;
+                                }
+                                break;
+                            case 1:
+                                headerId = GetRubyWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    oppositeHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);
+
+                                    if (oppositeHeaderId != HEADER_NONE)
+                                    {
+                                        gEncounterMode = ENCOUNTER_SAPPHIRE;
+                                        wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].landMonsInfo;
+                                    }
+                                }
+                                break;
+                            case 3:
+                                headerId = GetHeliodorWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_HELIODOR;
+                                    wildPokemonInfo = gWildMonHeaders[headerId].landMonsInfo;
+                                }
+                                break;
+                        }
+                    }
+
+                    encounterResult = GenerateEncounter(headerId, 0, 0, wildPokemonInfo, WILD_AREA_LAND, TRUE, 1);
+
+                    if (encounterResult == ENCOUNTER_SUCCESS)
+                    {
+                        if (IsMonShiny(&gEnemyParty[1]))
+                            IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+
+                        BattleSetup_StartWildDoubleBattle();
+                    }
+                    else
+                    {
+                        BattleSetup_StartWildBattle();
+                    }
+                }
+                else
+                {
+                    if (IsMonShiny(&gEnemyParty[0]))
+                        IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+ 
+                    BattleSetup_StartWildBattle();
+                }
+                return TRUE;
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+        else if (MetatileBehavior_IsWaterWildEncounter(MapGridGetMetatileBehaviorAt(x, y)) == TRUE
+                 || (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridgeOverWater(MapGridGetMetatileBehaviorAt(x, y)) == TRUE))
+        {
+            if (AreLegendariesInSootopolisPreventingEncounters() == TRUE)
+                return FALSE;
+
+            if (gEncounterMode == ENCOUNTER_FIRERED)
+            {
+                wildPokemonInfo = gWildMonHeadersFRLG[headerId].waterMonsInfo;
+    
+                switch (Random() % 3)
+                {
+                    case 1:
+                        oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+
+                        if (oppositeHeaderId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_LEAFGREEN;
+                            wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].waterMonsInfo;
+                        }
+                        break;
+                    case 2:
+                        headerId = GetHeliodorWildMonHeaderId();
+
+                        if (headerId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_HELIODOR;
+                            wildPokemonInfo = gWildMonHeaders[headerId].waterMonsInfo;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                wildPokemonInfo = gWildMonHeadersE[headerId].waterMonsInfo;
+    
+                switch (Random() % 3)
+                {
+                    case 0:
+                        headerId = GetRubyWildMonHeaderId();
+    
+                        if (headerId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_RUBY;
+                            wildPokemonInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
+                        }
+                        break;
+                    case 1:
+                        headerId = GetRubyWildMonHeaderId();
+    
+                        if (headerId != HEADER_NONE)
+                        {
+                            oppositeHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);
+    
+                            if (oppositeHeaderId != HEADER_NONE)
+                            {
+                                gEncounterMode = ENCOUNTER_SAPPHIRE;
+                                wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
+                            }
+                        }
+                        break;
+                    case 3:
+                        headerId = GetHeliodorWildMonHeaderId();
+
+                        if (headerId != HEADER_NONE)
+                        {
+                            gEncounterMode = ENCOUNTER_HELIODOR;
+                            wildPokemonInfo = gWildMonHeaders[headerId].waterMonsInfo;
+                        }
+                        break;
+                }
+            }
+    
+            if (wildPokemonInfo == NULL)
+                return FALSE;
+    
+            encounterResult = GenerateEncounter(headerId, 0, 0, wildPokemonInfo, WILD_AREA_WATER, TRUE, 0);
+
+            if (encounterResult == ENCOUNTER_ROAMER)
+            {
+                roamer = &gSaveBlock1Ptr->roamer;
+
+                if (!IsWildLevelAllowedByRepel(roamer->level))
+                    return FALSE;
+            
+                BattleSetup_StartRoamerBattle();
+                return TRUE;
+            }
+            else if (encounterResult == ENCOUNTER_SUCCESS)
+            {
+                if (GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS && Random() % 10 == 0)
+                {
+                    if (IsMonShiny(&gEnemyParty[0]))
+                        IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+
+                    if (gEncounterMode == ENCOUNTER_FIRERED || gEncounterMode == ENCOUNTER_LEAFGREEN)
+                    {
+                        headerId = GetFireRedWildMonHeaderId();
+                        gEncounterMode = ENCOUNTER_FIRERED;
+                        wildPokemonInfo = gWildMonHeadersFRLG[headerId].waterMonsInfo;
+
+                        switch (Random() % 3)
+                        {
+                            case 1:
+                                oppositeHeaderId = GetCorrespondingLeafGreenWildMonHeaderId(headerId);
+
+                                if (oppositeHeaderId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_LEAFGREEN;
+                                    wildPokemonInfo = gWildMonHeadersFRLG[oppositeHeaderId].waterMonsInfo;
+                                }
+                                break;
+                            case 2:
+                                headerId = GetHeliodorWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_HELIODOR;
+                                    wildPokemonInfo = gWildMonHeaders[headerId].waterMonsInfo;
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        headerId = GetEmeraldWildMonHeaderId();
+                        gEncounterMode = ENCOUNTER_EMERALD;
+                        wildPokemonInfo = gWildMonHeadersE[headerId].waterMonsInfo;
+
+                        switch (Random() % 4)
+                        {
+                            case 0:
+                                headerId = GetRubyWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_RUBY;
+                                    wildPokemonInfo = gWildMonHeadersRS[headerId].waterMonsInfo;
+                                }
+                                break;
+                            case 1:
+                                headerId = GetRubyWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    oppositeHeaderId = GetCorrespondingSapphireWildMonHeaderId(headerId);
+
+                                    if (oppositeHeaderId != HEADER_NONE)
+                                    {
+                                        gEncounterMode = ENCOUNTER_SAPPHIRE;
+                                        wildPokemonInfo = gWildMonHeadersRS[oppositeHeaderId].waterMonsInfo;
+                                    }
+                                }
+                                break;
+                            case 3:
+                                headerId = GetHeliodorWildMonHeaderId();
+
+                                if (headerId != HEADER_NONE)
+                                {
+                                    gEncounterMode = ENCOUNTER_HELIODOR;
+                                    wildPokemonInfo = gWildMonHeaders[headerId].waterMonsInfo;
+                                }
+                                break;
+                        }
+                    }
+
+                    encounterResult = GenerateEncounter(headerId, 0, 0, wildPokemonInfo, WILD_AREA_WATER, TRUE, 1);
+
+                    if (encounterResult == ENCOUNTER_SUCCESS)
+                    {
+                        if (IsMonShiny(&gEnemyParty[1]))
+                            IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+
+                        BattleSetup_StartWildDoubleBattle();
+                    }
+                    else
+                    {
+                        BattleSetup_StartWildBattle();
+                    }
+                }
+                else
+                {
+                    if (IsMonShiny(&gEnemyParty[0]))
+                        IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+
+                    BattleSetup_StartWildBattle();
+                }
+                return TRUE;
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+        //else if (MetatileBehavior_IsPuddle(MapGridGetMetatileBehaviorAt(x, y)) == TRUE)
+        //{
+        //    if (gWildMonHeaders[headerId].puddleMonsInfo == NULL)
+        //        return FALSE;
+        //
+		//	if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsNatMorningInfo != NULL)
+		//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatMorningInfo, WILD_AREA_WATER, 0);
+		//	else if (IsNationalPokedexEnabled() && GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNatNightInfo != NULL)
+		//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatNightInfo, WILD_AREA_WATER, 0);
+		//	else if (IsNationalPokedexEnabled() && gWildMonHeaders[headerId].puddleMonsNatInfo != NULL)
+		//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNatInfo, WILD_AREA_WATER, 0);
+		//	else if (GetCurrentTimeOfDay() == TIME_MORNING && gWildMonHeaders[headerId].puddleMonsMorningInfo != NULL)
+		//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsMorningInfo, WILD_AREA_WATER, 0);
+		//	else if (GetCurrentTimeOfDay() == TIME_NIGHT && gWildMonHeaders[headerId].puddleMonsNightInfo != NULL)
+		//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsNightInfo, WILD_AREA_WATER, 0);
+		//	else
+		//		TryGenerateWildMon(gWildMonHeaders[headerId].puddleMonsInfo, WILD_AREA_WATER, 0);
+		//	if (IsMonShiny(&gEnemyParty[0]))
+		//		IncrementGameStat(GAME_STAT_SHINIES_FOUND);
+        //    BattleSetup_StartWildBattle();
+        //    return TRUE;
+        //}
+    }
 
     return FALSE;
 }
@@ -3118,7 +3365,7 @@ static bool8 TryToScopeSpecies(const struct WildPokemon *wildMon, u8 *monIndex, 
 //    return ENCOUNTER_SUCCESS;
 //}
 
-static inline u32 EncounterCore(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot)
+static inline u32 EncounterCore(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, bool32 bypassCheck, u32 partySlot)
 {
     u32 i;
     u32 flags = WILD_CHECK_REPEL;
@@ -3129,7 +3376,7 @@ static inline u32 EncounterCore(u32 headerId, u32 curMetatileBehavior, u32 prevM
     if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
         return ENCOUNTER_FAIL;
 
-    if (WildEncounterCheck(wildPokemonInfo->encounterRate, FALSE, FALSE) == TRUE)
+    if (bypassCheck || WildEncounterCheck(wildPokemonInfo->encounterRate, FALSE, FALSE) == TRUE)
     {
         if (TryStartRoamerEncounter() == TRUE)
         {
@@ -3163,7 +3410,7 @@ static inline u32 EncounterCore(u32 headerId, u32 curMetatileBehavior, u32 prevM
 #define FORCE_NATURE    (1 << 3)
 #define FORCE_MAXLEVEL  (1 << 4)
 
-static inline u32 EncounterLoop(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot, u32 forceFlags, u32 species, u32 type, u32 gender, u32 nature)
+static inline u32 EncounterLoop(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot, u32 forceFlags, u32 species, u32 type, u32 gender, u32 nature, bool32 bypassCheck)
 {
     u32 tid = gSaveBlock2Ptr->playerTrainerId[0]
            | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
@@ -3174,7 +3421,7 @@ static inline u32 EncounterLoop(u32 headerId, u32 curMetatileBehavior, u32 prevM
     {
         if (IsShinyOtIdPersonality(tid, sTempMons[partySlot + 1].pid))
             break;
-    } while (EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot) != ENCOUNTER_SUCCESS
+    } while (EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot) != ENCOUNTER_SUCCESS
           || (forceFlags & FORCE_SPECIES && sTempMons[partySlot + 1].species != species)
           || (forceFlags & FORCE_TYPE && (gSpeciesInfo[sTempMons[partySlot + 1].species].types[0] != type && gSpeciesInfo[sTempMons[partySlot + 1].species].types[1] != type))
           || (forceFlags & FORCE_GENDER && GetGenderFromSpeciesAndPersonality(sTempMons[partySlot + 1].species, sTempMons[partySlot + 1].pid) != gender)
@@ -3183,7 +3430,7 @@ static inline u32 EncounterLoop(u32 headerId, u32 curMetatileBehavior, u32 prevM
 
 }
 
-static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, u32 partySlot)
+static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 prevMetatileBehavior, const struct WildPokemonInfo *wildPokemonInfo, u32 terrain, bool32 bypassCheck, u32 partySlot)
 {
     u32 result, tableSize, i;
     u32 species = 0;
@@ -3217,25 +3464,25 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
     {
         if (sTempMons[0].ability == ABILITY_ARENA_TRAP)
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
             if (result == ENCOUNTER_FAIL)
-                result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+                result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
         }
         else if (sTempMons[0].ability == ABILITY_WHITE_SMOKE || (sTempMons[0].ability == ABILITY_SAND_VEIL && gSaveBlock1Ptr->weather == WEATHER_SANDSTORM))
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
             if (result != ENCOUNTER_FAIL)
-                result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+                result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
         }
         else if (sTempMons[0].ability == ABILITY_KEEN_EYE || sTempMons[0].ability == ABILITY_INTIMIDATE)
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
             if (result == ENCOUNTER_SUCCESS && sTempMons[0].level > 5 && sTempMons[partySlot + 1].level <= sTempMons[0].level - 5 && !(Random() % 2))
                 return ENCOUNTER_FAIL;
         }
         else if (sTempMons[0].ability == ABILITY_MAGNET_PULL)
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
 
             if (result == ENCOUNTER_SUCCESS)
             {
@@ -3261,7 +3508,7 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
         }
         else if (sTempMons[0].ability == ABILITY_STATIC || sTempMons[0].ability == ABILITY_LIGHTNING_ROD)
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
 
             if (result == ENCOUNTER_SUCCESS)
             {
@@ -3287,7 +3534,7 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
         }
         else if (sTempMons[0].ability == ABILITY_FLASH_FIRE)
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
 
             if (result == ENCOUNTER_SUCCESS)
             {
@@ -3313,7 +3560,7 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
         }
         else
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
         }
 
         if (sTempMons[0].ability == ABILITY_CUTE_CHARM && Random())
@@ -3346,7 +3593,7 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
     {
         if (sTempMons[0].ability == ABILITY_LIGHTNING_ROD) // It probably makes more sense to just toss this with Static in the "legit" code, as you wouldn't be able to tell the difference mathematically
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
@@ -3372,7 +3619,7 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
         }
         else if (sTempMons[0].ability == ABILITY_FLASH_FIRE)
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
 
             if (result == ENCOUNTER_SUCCESS && Random() % 2)
             {
@@ -3398,7 +3645,7 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
         }
         else
         {
-            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot);
+            result = EncounterCore(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, bypassCheck, partySlot);
         }
     }
 
@@ -3442,7 +3689,7 @@ static inline u32 GenerateEncounter(u32 headerId, u32 curMetatileBehavior, u32 p
 
         for (i = 0; i < rolls; i++)
         {
-            EncounterLoop(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot, forceFlags, species, type, gender, nature);
+            EncounterLoop(headerId, curMetatileBehavior, prevMetatileBehavior, wildPokemonInfo, terrain, partySlot, forceFlags, species, type, gender, nature, bypassCheck);
 
             if (IsShinyOtIdPersonality(tid, sTempMons[partySlot + 1].pid))
                 break;
