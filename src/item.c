@@ -1511,6 +1511,7 @@ void SaveFakePockets(void)
     gSaveBlock1Ptr->bagPocket_HM06 = 0;
     gSaveBlock1Ptr->bagPocket_HM07 = 0;
     gSaveBlock1Ptr->bagPocket_HM08 = 0;
+    gSaveBlock1Ptr->bagPocket_HM09 = 0;
 
     for (i = 0; i < BAG_TMHM_COUNT; i++)
     {
@@ -1532,6 +1533,8 @@ void SaveFakePockets(void)
             gSaveBlock1Ptr->bagPocket_HM07 = 1;
         else if (gBagTMHMPocket[i].itemId == ITEM_HM08)
             gSaveBlock1Ptr->bagPocket_HM08 = 1;
+        else if (gBagTMHMPocket[i].itemId == ITEM_HM09)
+            gSaveBlock1Ptr->bagPocket_HM09 = 1;
     }
 
     for (i = 0; i < BAG_BERRIES_COUNT; i++)
@@ -1596,6 +1599,8 @@ void LoadFakePockets(void)
         AddBagItem(ITEM_HM07, 1);
     if (gSaveBlock1Ptr->bagPocket_HM08)
         AddBagItem(ITEM_HM08, 1);
+    if (gSaveBlock1Ptr->bagPocket_HM09)
+        AddBagItem(ITEM_HM09, 1);
 
     for (i = 0; i < BAG_BERRIES_COUNT; i++)
     {

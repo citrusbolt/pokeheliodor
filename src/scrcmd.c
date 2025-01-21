@@ -1754,7 +1754,7 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
             gSpecialVar_0x8004 = species;
             break;
         }
-		for (j = 0; j < 58; j++)
+		for (j = 0; j < 59; j++)
 		{
 			if (sTMHMMoves[j] == moveId)
 			{

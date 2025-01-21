@@ -3997,14 +3997,16 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
     },
 
-    [ITEM_15B] =
+    [ITEM_HM_WHIRLPOOL] =
     {
-        .gameCubeName = _("????????"),
+        .gameCubeName = _("HM09"),
         .price = 0,
-        .description = sDummyDesc,
-        .pocket = POCKET_NONE,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .description = sHM09Desc,
+        .blockHolding = TRUE,
+        .pocket = POCKET_TM_HM,
+        .sortId = 58,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_TMHM,
     },
 
     [ITEM_15C] =
@@ -5717,7 +5719,7 @@ const u8 gItemNames[ITEMS_COUNT][ITEM_NAME_LENGTH] =
     [ITEM_HM06]                 = _("HM06"),
     [ITEM_HM07]                 = _("HM07"),
     [ITEM_HM08]                 = _("HM08"),
-    [ITEM_15B]                  = _("????????"),
+    [ITEM_HM09]                 = _("HM09"),
     [ITEM_15C]                  = _("????????"),
     [ITEM_OAKS_PARCEL]          = _("Parcel"),
     [ITEM_POKE_FLUTE]           = _("Poké Flute"),

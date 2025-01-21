@@ -1015,7 +1015,9 @@ struct SaveBlock1
               u8 bagPocket_HM06:1;
               u8 bagPocket_HM07:1;
               u8 bagPocket_HM08:1;
-    /*0x236*/ u8 unused_235[2];
+    /*0x236*/ u8 bagPocket_HM09:1;
+              u8 extraHMSpace1:7;
+    /*0x237*/ u8 extraHMSpace2;
     /*0x238*/ struct Pokemon playerParty[PARTY_SIZE];
     /*0x490*/ u32 money;
     /*0x494*/ u16 coins;

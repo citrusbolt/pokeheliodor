@@ -120,6 +120,7 @@ OldaleTown_Mart_Pokemart_Expanded:
 	.2byte ITEM_MAIL_CASE
 	.2byte ITEM_EMERALD
     .2byte ITEM_EXP_ALL
+    .2byte ITEM_HM09
 	pokemartlistend
 
 OldaleTown_Mart_EventScript_Woman::
