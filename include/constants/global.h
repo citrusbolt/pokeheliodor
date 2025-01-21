@@ -55,6 +55,7 @@
 #define VERSION_SHINING_PEARL       49 // the Sinnoh region
 #define VERSION_SCARLET             50 // the Paldea region
 #define VERSION_VIOLET              51 // the Paldea region
+#define VERSION_LEGENDS_Z_A         52 // The Kalos region (?)
 
 // Version ID modifiers used for identifying unofficial games.
 // The idea is that each developer will have an ID number that they can use in conjunction with one of the offical origin game IDs
@@ -196,7 +197,7 @@
 #define FEMALE 1
 #define GENDER_COUNT 2
 
-#define BARD_SONG_LENGTH       6
+#define NUM_BARD_SONG_WORDS    6
 #define NUM_STORYTELLER_TALES  4
 #define NUM_TRADER_ITEMS       4
 #define GIDDY_MAX_TALES       10

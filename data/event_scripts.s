@@ -63,6 +63,7 @@
 
 	.section script_data, "aw", %progbits
 
+	.set ALLOCATE_SCRIPT_CMD_TABLE, 1
 	.include "data/script_cmd_table.inc"
 
 gSpecialVars::
@@ -566,8 +567,8 @@ gStdScripts_End::
 	.include "data/maps/Route110_TrickHousePuzzle6/scripts.inc"
 	.include "data/maps/Route110_TrickHousePuzzle7/scripts.inc"
 	.include "data/maps/Route110_TrickHousePuzzle8/scripts.inc"
-	.include "data/maps/Route110_SeasideCyclingRoadNorthEntrance/scripts.inc"
 	.include "data/maps/Route110_SeasideCyclingRoadSouthEntrance/scripts.inc"
+	.include "data/maps/Route110_SeasideCyclingRoadNorthEntrance/scripts.inc"
 	.include "data/maps/Route113_GlassWorkshop/scripts.inc"
 	.include "data/maps/Route123_BerryMastersHouse/scripts.inc"
 	.include "data/maps/Route119_WeatherInstitute_1F/scripts.inc"
@@ -1325,9 +1326,9 @@ gText_ComeBackWithSecretPower::
 	.string "you good stuff in secrecy.$"
 
 gText_PokerusExplanation::
-	.string "Your POkémon may be infected with\n"
+	.string "Your Pokémon may be infected with\n"
 	.string "Pokérus.\p"
-	.string "Little is known about the PokéruS\n"
+	.string "Little is known about the Pokérus\n"
 	.string "except that they are microscopic life-\l"
 	.string "forms that attach to Pokémon.\p"
 	.string "While infected, Pokémon are said to\n"
@@ -1430,6 +1431,79 @@ Common_EventScript_LegendaryFlewAway::
 	msgbox gText_LegendaryFlewAway, MSGBOX_DEFAULT
 	release
 	end
+
+EventScript_AfterWhiteOutHeal::
+	lockall
+	msgbox gText_FirstShouldRestoreMonsHealth
+	call EventScript_PkmnCenterNurse_TakeAndHealPkmn
+	call_if_unset FLAG_DEFEATED_RUSTBORO_GYM, EventScript_AfterWhiteOutHealMsgPreRoxanne
+	call_if_set FLAG_DEFEATED_RUSTBORO_GYM, EventScript_AfterWhiteOutHealMsg
+	applymovement VAR_LAST_TALKED, Movement_PkmnCenterNurse_Bow
+	waitmovement 0
+	fadedefaultbgm
+	releaseall
+	end
+
+EventScript_AfterWhiteOutHealMsgPreRoxanne::
+	msgbox gText_MonsHealedShouldBuyPotions
+	return
+
+EventScript_AfterWhiteOutHealMsg::
+	msgbox gText_MonsHealed
+	return
+
+EventScript_AfterWhiteOutMomHeal::
+	lockall
+	applymovement LOCALID_MOM, Common_Movement_WalkInPlaceFasterDown
+	waitmovement 0
+	msgbox gText_HadQuiteAnExperienceTakeRest
+	call Common_EventScript_OutOfCenterPartyHeal
+	msgbox gText_MomExplainHPGetPotions
+	fadedefaultbgm
+	releaseall
+	end
+
+gText_FirstShouldRestoreMonsHealth::
+	.string "First, you should restore your\n"
+	.string "Pokémon to full health.$"
+
+gText_MonsHealedShouldBuyPotions::
+	.string "Your Pokémon have been healed\n"
+	.string "to perfect health.\p"
+	.string "If your Pokémon's energy, HP,\n"
+	.string "is down, please come see us.\p"
+	.string "If you're planning to go far in the\n"
+	.string "field, you should buy some Potions\l"
+	.string "at the Pokémon Mart.\p"
+	.string "We hope you excel!$"
+
+gText_MonsHealed::
+	.string "Your Pokémon have been healed\n"
+	.string "to perfect health.\p"
+	.string "We hope you excel!$"
+
+gText_HadQuiteAnExperienceTakeRest::
+	.string "Mom: {PLAYER}!\n"
+	.string "Welcome home.\p"
+	.string "It sounds like you had quite\n"
+	.string "an experience.\p"
+	.string "Maybe you should take a quick\n"
+	.string "rest.$"
+
+gText_MomExplainHPGetPotions::
+	.string "Mom: Oh, good! You and your\n"
+	.string "Pokémon are looking great.\p"
+	.string "I just heard from Prof. Birch.\p"
+	.string "He said that Pokémon's energy is\n"
+	.string "measured in HP.\p"
+	.string "If your Pokémon lose their HP,\n"
+	.string "you can restore them at any\l"
+	.string "Pokémon Center.\p"
+	.string "If you're going to travel far away,\n"
+	.string "the smart Trainer stocks up on\l"
+	.string "Potions at the Pokémon Mart.\p"
+	.string "Make me proud, honey!\p"
+	.string "Take care!$"
 
 	.include "data/scripts/pc_transfer.inc"
 	.include "data/scripts/questionnaire.inc"

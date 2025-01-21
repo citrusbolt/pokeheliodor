@@ -1,3 +1,0 @@
-gRngValue
-gRng2Value
-gRngCXDValue

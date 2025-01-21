@@ -40,9 +40,9 @@ static s16 sVerticalCameraPan;
 static bool8 sBikeCameraPanFlag;
 static void (*sFieldCameraPanningCallback)(void);
 
-struct CameraObject gFieldCamera;
-u16 gTotalCameraPixelOffsetY;
-u16 gTotalCameraPixelOffsetX;
+COMMON_DATA struct CameraObject gFieldCamera = {0};
+COMMON_DATA u16 gTotalCameraPixelOffsetY = 0;
+COMMON_DATA u16 gTotalCameraPixelOffsetX = 0;
 
 static void ResetCameraOffset(struct FieldCameraOffset *cameraOffset)
 {
@@ -231,26 +231,32 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
 
     if (metatileId > NUM_METATILES_TOTAL)
         metatileId = 0;
+
     if (GetCurrentRegionMapSectionId() >= KANTO_MAPSEC_START && GetCurrentRegionMapSectionId() <= KANTO_MAPSEC_END)
-	{
-		if (metatileId < NUM_METATILES_IN_PRIMARY_KANTO)
-			metatiles = mapLayout->primaryTileset->metatiles;
-		else
-		{
-			metatiles = mapLayout->secondaryTileset->metatiles;
-			metatileId -= NUM_METATILES_IN_PRIMARY_KANTO;
-		}
-	}
-	else
-	{
-		if (metatileId < NUM_METATILES_IN_PRIMARY)
-			metatiles = mapLayout->primaryTileset->metatiles;
-		else
-		{
-			metatiles = mapLayout->secondaryTileset->metatiles;
-			metatileId -= NUM_METATILES_IN_PRIMARY;
-		}
-	}
+    {
+        if (metatileId < NUM_METATILES_IN_PRIMARY_KANTO)
+        {
+            metatiles = mapLayout->primaryTileset->metatiles;
+        }
+        else
+        {
+            metatiles = mapLayout->secondaryTileset->metatiles;
+            metatileId -= NUM_METATILES_IN_PRIMARY_KANTO;
+        }
+    }
+    else
+    {
+        if (metatileId < NUM_METATILES_IN_PRIMARY)
+        {
+            metatiles = mapLayout->primaryTileset->metatiles;
+        }
+        else
+        {
+            metatiles = mapLayout->secondaryTileset->metatiles;
+            metatileId -= NUM_METATILES_IN_PRIMARY;
+        }
+    }
+
     DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * NUM_TILES_PER_METATILE, offset);
 }
 
@@ -327,8 +333,8 @@ static void CameraUpdateCallback(struct CameraObject *fieldCamera)
 {
     if (fieldCamera->spriteId != 0)
     {
-        fieldCamera->movementSpeedX = gSprites[fieldCamera->spriteId].data[2];
-        fieldCamera->movementSpeedY = gSprites[fieldCamera->spriteId].data[3];
+        fieldCamera->movementSpeedX = gSprites[fieldCamera->spriteId].sCamera_MoveX;
+        fieldCamera->movementSpeedY = gSprites[fieldCamera->spriteId].sCamera_MoveY;
     }
 }
 

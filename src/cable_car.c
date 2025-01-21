@@ -893,6 +893,7 @@ static void CreateCableCarSprites(void)
     if ((rval % 10) == 0)
     {
         spriteId = CreateObjectGraphicsSprite(hikerGraphicsIds[rval % ARRAY_COUNT(hikerGraphicsIds)], hikerCallbacks[GOING_DOWN], hikerCoords[GOING_DOWN][0], hikerCoords[GOING_DOWN][1], 106, TRUE);
+
         if (spriteId != MAX_SPRITES)
         {
             gSprites[spriteId].oam.priority = 2;

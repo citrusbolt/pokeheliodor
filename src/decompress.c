@@ -140,9 +140,13 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+    }
     else
+    {
         LZ77UnCompWram(src->data, dest);
+    }
 
     if (isFrontPic)
         SwapSprite((u16)species, personality, dest);
@@ -372,9 +376,13 @@ void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+    }
     else
+    {
         LZ77UnCompWram(src->data, dest);
+    }
 
     if (isFrontPic)
         SwapSprite((u16)species, personality, dest);
@@ -435,12 +443,16 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+    }
     else
+    {
         LZ77UnCompWram(src->data, dest);
+    }
 
-    //if (isFrontPic)
-    //    SwapSprite((u16)species, personality, dest);
+    if (isFrontPic)
+        SwapSprite((u16)species, personality, dest);
 
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
@@ -453,16 +465,16 @@ static void DuplicateDeoxysTiles(void *pointer, s32 species)
 
 static void SwapSprite(u16 species, u32 pid, void *dest)
 {
-    u8 value = (pid >> 24) & 7;
-
-    if (value == 1 && gSpeciesInfo[species].hasFRLGSprite)
-        LZ77UnCompWram(gMonFrontPicTableFRLG[species].data, dest);
-    if (value == 2 && gSpeciesInfo[species].hasDPSprite)
-        LZ77UnCompWram(gMonFrontPicTableDP[species].data, dest);
-    if (value == 3 && gSpeciesInfo[species].hasHGSSSprite)
-        LZ77UnCompWram(gMonFrontPicTableHGSS[species].data, dest);
-    if (value == 4 && gSpeciesInfo[species].hasBWSprite)
-        LZ77UnCompWram(gMonFrontPicTableBW[species].data, dest);
-    else
-        return;
+    //u8 value = (pid >> 24) & 7;
+    //
+    //if (value == 1 && gSpeciesInfo[species].hasFRLGSprite)
+    //    LZ77UnCompWram(gMonFrontPicTableFRLG[species].data, dest);
+    //if (value == 2 && gSpeciesInfo[species].hasDPSprite)
+    //    LZ77UnCompWram(gMonFrontPicTableDP[species].data, dest);
+    //if (value == 3 && gSpeciesInfo[species].hasHGSSSprite)
+    //    LZ77UnCompWram(gMonFrontPicTableHGSS[species].data, dest);
+    //if (value == 4 && gSpeciesInfo[species].hasBWSprite)
+    //    LZ77UnCompWram(gMonFrontPicTableBW[species].data, dest);
+    //else
+    //    return;
 }

@@ -297,8 +297,7 @@ struct BattlePokemon
     /*0x17*/ u32 abilityNum:1;
     /*0x18*/ s8 statStages[NUM_BATTLE_STATS];
     /*0x20*/ u8 ability;
-    /*0x21*/ u8 type1;
-    /*0x22*/ u8 type2;
+    /*0x21*/ u8 types[2];
     /*0x23*/ u8 unknown;
     /*0x24*/ u8 pp[MAX_MON_MOVES];
     /*0x28*/ u16 hp;
@@ -421,26 +420,26 @@ enum
 
 struct PIDParameters
 {
-    u16 species;
-    u8 pidIVMethod;
-    u8 shinyLock;
-    u8 shinyRolls;
-    bool8 forceNature;
-    u8 nature;
-    bool8 forceGender;
-    u8 gender;
-    bool8 forceUnownLetter;
-    u8 unownLetter;
+    u32 species;
+    u32 pidIVMethod;
+    u32 shinyLock;
+    u32 shinyRolls;
+    bool32 forceNature;
+    u32 nature;
+    bool32 forceGender;
+    u32 gender;
+    bool32 forceUnownLetter;
+    u32 unownLetter;
 };
 
 struct IVs
 {
-    u8 hp;
-    u8 atk;
-    u8 def;
-    u8 speed;
-    u8 spAtk;
-    u8 spDef;
+    u32 hp;
+    u32 atk;
+    u32 def;
+    u32 speed;
+    u32 spAtk;
+    u32 spDef;
 };
 
 extern u8 gPlayerPartyCount;
@@ -455,7 +454,7 @@ extern const u8 gFacilityClassToTrainerClass[];
 extern const struct SpeciesInfo gSpeciesInfo[];
 extern const u8 *const gItemEffectTable[];
 extern const u32 gExperienceTables[][MAX_LEVEL + 1];
-extern const u16 *const gLevelUpLearnsets[];
+extern const u32 *const gLevelUpLearnsets[];
 extern const u8 gPPUpGetMask[];
 extern const u8 gPPUpClearMask[];
 extern const u8 gPPUpAddValues[];
@@ -469,8 +468,8 @@ void ZeroMonData(struct Pokemon *mon);
 void ZeroPlayerPartyMons(void);
 void ZeroEnemyPartyMons(void);
 u32 GeneratePIDMaster(struct PIDParameters parameters, struct IVs *ivs);
-void CreateMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
-void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
+void CreateMon(struct Pokemon *mon, u32 species, u32 level, u32 fixedIV, u32 hasFixedPersonality, u32 fixedPersonality, u32 otIdType, u32 fixedOtId);
+void CreateBoxMon(struct BoxPokemon *boxMon, u32 species, u32 level, u32 fixedIV, u32 hasFixedPersonality, u32 fixedPersonality, u32 otIdType, u32 fixedOtId);
 void CreateMaleMon(struct Pokemon *mon, u16 species, u8 level);
 void CreateMonWithIVsPersonality(struct Pokemon *mon, u16 species, u8 level, u32 ivs, u32 personality);
 void CreateMonWithIVsOTID(struct Pokemon *mon, u16 species, u8 level, u8 *ivs, u32 otId);
@@ -600,9 +599,9 @@ void MonRestorePP(struct Pokemon *mon);
 void BoxMonRestorePP(struct BoxPokemon *boxMon);
 void SetMonPreventsSwitchingString(void);
 void SetWildMonHeldItem(void);
-bool8 IsMonShiny(struct Pokemon *mon);
-bool8 IsShinyOtIdPersonality(u32 otId, u32 personality);
-bool8 IsMonSquareShiny(struct Pokemon *mon);
+bool32 IsMonShiny(struct Pokemon *mon);
+bool32 IsShinyOtIdPersonality(u32 otId, u32 personality);
+bool32 IsMonSquareShiny(struct Pokemon *mon);
 const u8 *GetTrainerPartnerName(void);
 void BattleAnimateFrontSprite(struct Sprite *sprite, u16 species, bool8 noCry, u8 panMode, bool8 wildMon);
 void DoMonFrontSpriteAnimation(struct Sprite *sprite, u16 species, bool8 noCry, u8 panModeAnimFlag, bool8 highIVAnim);

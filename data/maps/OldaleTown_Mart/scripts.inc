@@ -18,9 +18,7 @@ OldaleTown_Mart_Pokemart_Basic:
 	.2byte ITEM_ANTIDOTE
 	.2byte ITEM_PARALYZE_HEAL
 	.2byte ITEM_AWAKENING
-	.2byte ITEM_NONE
-	release
-	end
+	pokemartlistend
 
 OldaleTown_Mart_ExpandedItems::
 	pokemart OldaleTown_Mart_Pokemart_Expanded
@@ -122,9 +120,7 @@ OldaleTown_Mart_Pokemart_Expanded:
 	.2byte ITEM_MAIL_CASE
 	.2byte ITEM_EMERALD
     .2byte ITEM_EXP_ALL
-	.2byte ITEM_NONE
-	release
-	end
+	pokemartlistend
 
 OldaleTown_Mart_EventScript_Woman::
 	lock

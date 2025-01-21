@@ -45,7 +45,7 @@ EWRAM_DATA const struct BattleFrontierTrainer *gFacilityTrainers = NULL;
 EWRAM_DATA const struct FacilityMon *gFacilityTrainerMons = NULL;
 
 // IWRAM common
-u16 gFrontierTempParty[MAX_FRONTIER_PARTY_SIZE];
+COMMON_DATA u16 gFrontierTempParty[MAX_FRONTIER_PARTY_SIZE] = {0};
 
 // This file's functions.
 static void InitTowerChallenge(void);
@@ -1033,7 +1033,7 @@ static bool8 ChooseSpecialBattleTowerTrainer(void)
             {
                 for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
                 {
-                    if (gSaveBlock2Ptr->frontier.ereaderTrainer.party[i].level <= 50)
+                    if (gSaveBlock2Ptr->frontier.ereaderTrainer.party[i].level <= FRONTIER_MAX_LEVEL_50)
                         numValid++;
                 }
 
@@ -2026,6 +2026,18 @@ void DoSpecialTrainerBattle(void)
     {
     case SPECIAL_BATTLE_TOWER:
         gBattleTypeFlags = BATTLE_TYPE_TRAINER | BATTLE_TYPE_BATTLE_TOWER;
+
+        for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
+        {
+            gSaveBlock1Ptr->savedFrontierExp[i] = GetMonData(&gPlayerParty[i], MON_DATA_EXP);
+
+            if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50)
+            {
+                SetMonData(&gPlayerParty[i], MON_DATA_EXP, &gExperienceTables[gSpeciesInfo[GetMonData(&gPlayerParty[i], MON_DATA_SPECIES)].growthRate][FRONTIER_MAX_LEVEL_50]);
+                CalculateMonStats(&gPlayerParty[i]);
+            }
+        }
+
         switch (VarGet(VAR_FRONTIER_BATTLE_MODE))
         {
         case FRONTIER_MODE_SINGLES:

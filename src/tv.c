@@ -67,14 +67,14 @@ enum {
     ROULETTE,
 };
 
-s8 sCurTVShowSlot;
-u16 sTV_SecretBaseVisitMovesTemp[8];
-u8 sTV_DecorationsBuffer[DECOR_MAX_SECRET_BASE];
-struct {
+COMMON_DATA s8 sCurTVShowSlot = 0;
+COMMON_DATA u16 sTV_SecretBaseVisitMovesTemp[8] = {0};
+COMMON_DATA u8 sTV_DecorationsBuffer[DECOR_MAX_SECRET_BASE] = {0};
+COMMON_DATA struct {
     u8 level;
     u16 species;
     u16 move;
-} sTV_SecretBaseVisitMonsTemp[10];
+} sTV_SecretBaseVisitMonsTemp[10] = {0};
 
 static u8 sTVShowMixingNumPlayers;
 static u8 sTVShowNewsMixingNumPlayers;
@@ -5855,7 +5855,8 @@ static void DoTVShow3CheersForPokeblocks(void)
         if (show->threeCheers.sheen > 24)
         {
             StringCopy(gStringVar2, gText_Excellent);
-        } else if (show->threeCheers.sheen > 22)
+        }
+        else if (show->threeCheers.sheen > 22)
         {
             StringCopy(gStringVar2, gText_VeryGood);
         }

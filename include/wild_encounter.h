@@ -7,23 +7,23 @@
 
 struct WildPokemon
 {
-    u8 minLevel;
-    u8 maxLevel;
-    u16 species;
-    u8 originGame;
-    u8 encounterRate;
+    u32 minLevel;
+    u32 maxLevel;
+    u32 species;
+    u32 originGame;
+    u32 encounterRate;
 };
 
 struct WildPokemonInfo
 {
-    u8 encounterRate;
+    u32 encounterRate;
     const struct WildPokemon *wildPokemon;
 };
 
 struct WildPokemonHeader
 {
-    u8 mapGroup;
-    u8 mapNum;
+    u32 mapGroup;
+    u32 mapNum;
     const struct WildPokemonInfo *landMonsInfo;
     const struct WildPokemonInfo *waterMonsInfo;
     const struct WildPokemonInfo *rockSmashMonsInfo;
@@ -31,22 +31,33 @@ struct WildPokemonHeader
     const struct WildPokemonInfo *puddleMonsInfo;
 };
 
+struct TempMon
+{
+    u32 pid;
+    struct IVs ivs;
+    u32 species;
+    u32 level;
+    bool32 notEgg;
+    u32 ability;
+    u32 item;
+};
+
 extern const struct WildPokemonHeader gWildMonHeadersRS[];
 extern const struct WildPokemonHeader gWildMonHeadersFRLG[];
 extern const struct WildPokemonHeader gWildMonHeadersE[];
 extern const struct WildPokemonHeader gWildMonHeaders[];
 
-extern u8 gChainStreak;
-extern u16 gLastEncounteredSpecies;
-extern u8 gEncounterMode;
+extern u32 gChainStreak;
+extern u32 gLastEncounteredSpecies;
+extern u32 gEncounterMode;
 
-void DisableWildEncounters(bool8 disabled);
-bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavior);
-bool8 SweetScentWildEncounter(void);
-bool8 DoesCurrentMapHaveFishingMons(void);
-void FishingWildEncounter(u8 rod);
-u16 GetLocalWildMon(bool8 *isWaterMon);
-u16 GetLocalWaterMon(void);
-bool8 UpdateRepelCounter(void);
+void DisableWildEncounters(bool32 disabled);
+bool32 StandardWildEncounter(u32 currMetaTileBehavior, u32 previousMetaTileBehavior);
+bool32 SweetScentWildEncounter(void);
+bool32 DoesCurrentMapHaveFishingMons(void);
+void FishingWildEncounter(u32 rod);
+u32 GetLocalWildMon(bool32 *isWaterMon);
+u32 GetLocalWaterMon(void);
+bool32 UpdateRepelCounter(void);
 
 #endif // GUARD_WILD_ENCOUNTER_H
