@@ -13,9 +13,10 @@ static EWRAM_DATA u16 sOtIdDigit = 0;
 
 static const u16 sLotteryPrizes[] =
 {
-    ITEM_PP_UP,
+    ITEM_ULTRA_BALL,
+    ITEM_RARE_CANDY,
+    ITEM_PP_MAX,
     ITEM_EXP_SHARE,
-    ITEM_MAX_REVIVE,
     ITEM_MASTER_BALL,
 };
 
@@ -69,7 +70,7 @@ void PickLotteryCornerTicket(void)
 
                 if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1)
                 {
-                    gSpecialVar_0x8004 = numMatchingDigits - 1;
+                    gSpecialVar_0x8004 = numMatchingDigits;
                     box = TOTAL_BOXES_COUNT;
                     slot = i;
                 }
@@ -91,7 +92,7 @@ void PickLotteryCornerTicket(void)
 
                 if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1)
                 {
-                    gSpecialVar_0x8004 = numMatchingDigits - 1;
+                    gSpecialVar_0x8004 = numMatchingDigits;
                     box = i;
                     slot = j;
                 }
@@ -102,6 +103,19 @@ void PickLotteryCornerTicket(void)
     if (gSpecialVar_0x8004 != 0)
     {
         gSpecialVar_0x8005 = sLotteryPrizes[gSpecialVar_0x8004 - 1];
+
+        //if (gSpecialVar_0x8005 == ITEM_MASTER_BALL)
+        //{
+        //    switch (Random() % 3)
+        //    {
+        //        case 1:
+        //            gSpecialVar_0x8005 = ITEM_CHERISH_BALL;
+        //            break;
+        //        case 2:
+        //            gSpecialVar_0x8005 = ITEM_HISUI_ORIGIN;
+        //            break;
+        //    }
+        //}
 
         if (box == TOTAL_BOXES_COUNT)
         {
