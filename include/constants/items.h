@@ -593,6 +593,15 @@
 #define CANDY_L_YIELD   10000
 #define CANDY_XL_YIELD  30000
 
+#define APRICORN_BLACK  0
+#define APRICORN_BLUE   1
+#define APRICORN_GREEN  2
+#define APRICORN_PINK   3
+#define APRICORN_RED    4
+#define APRICORN_WHITE  5
+#define APRICORN_YELLOW 6
+#define APRICORN_COUNT  7
+
 // Item type IDs (used to determine the exit callback)
 #define ITEM_USE_MAIL        0
 #define ITEM_USE_PARTY_MENU  1

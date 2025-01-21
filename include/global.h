@@ -531,8 +531,9 @@ struct SaveBlock2
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
     /*0xA8*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD
-    /*0xAC*/ u32 unused:31;
-             u32 expAllEnabled:1;
+    /*0xAC*/ u32 expAllEnabled:1;
+             u32 gbSoundsEnabled:1;
+             u32 keyItemFlagsUnused:30;
     /*0xB0*/ struct PlayersApprentice playerApprentice;
     /*0xDC*/ struct Apprentice apprentices[APPRENTICE_COUNT];
     /*0x1EC*/ struct BerryCrush berryCrush;
@@ -1034,7 +1035,10 @@ struct SaveBlock1
               u16 extraItemSpace2;
               struct ItemSlot extraItemSpace3[7];
     /*0x848*/ struct Pokeblock pokeblocks[POKEBLOCKS_COUNT];
-    /*0x988*/ u8 freeDexSpace1[52];
+    /*0x988*/ u32 watts;
+    /*0x98C*/ u32 pokeMiles;
+    /*0x990*/ u8 apricorns[APRICORN_COUNT];
+    /*0x997*/ u8 freeDexSpace1[37];
     /*0x9BC*/ u16 berryBlenderRecords[3];
     /*0x9C2*/ u8 unused_9C2[6];
     /*0x9C8*/ u16 trainerRematchStepCounter;
