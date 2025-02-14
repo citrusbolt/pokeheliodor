@@ -127,6 +127,7 @@ struct OptionMenu
     int menuCursor[MENU_COUNT];
     int visibleCursor[MENU_COUNT];
     u8 arrowTaskId;
+    u16 scrollPosition;
 };
 
 #define Y_DIFF                      16 // Difference in pixels between items.
@@ -312,7 +313,7 @@ static const sItemFunctionsGame[MENUITEM_COUNT] =
     [MENUITEM_BUTTON_MODE]   = {DrawChoices_ButtonMode,   ProcessInput_Options_Three},
     [MENUITEM_FRAME_TYPE]    = {DrawChoices_FrameType,    ProcessInput_FrameType},
     [MENUITEM_MESSAGE_COLOR] = {DrawChoices_MessageColor, ProcessInput_Options_MessageColor},
-    [MENUITEM_FONT]          = {DrawChoices_Font,         ProcessInput_Options_Font}, 
+    [MENUITEM_FONT]          = {DrawChoices_Font,         ProcessInput_Options_Font},
     [MENUITEM_UNIT_SYSTEM]   = {DrawChoices_UnitSystem,   ProcessInput_Options_Two},
     [MENUITEM_CLOCK]         = {DrawChoices_OnOff,        ProcessInput_Options_Two},
     //[MENUITEM_PARTY_BOX]     = {DrawChoices_PartyBox,     ProcessInput_Options_Two},
@@ -474,7 +475,7 @@ static void DrawTopBarText(void)
     //CopyWindowToVram(WIN_TOPBAR_LEFT, COPYWIN_FULL);
     //PutWindowTilemap(WIN_TOPBAR_RIGHT);
     //CopyWindowToVram(WIN_TOPBAR_RIGHT, COPYWIN_FULL);
-    
+
     FillWindowPixelBuffer(WIN_TOPBAR_LEFT, PIXEL_FILL(0));
     FillWindowPixelBuffer(WIN_TOPBAR_RIGHT, PIXEL_FILL(0));
     AddTextPrinterParameterized3(WIN_TOPBAR_LEFT, FONT_OPTION, 16, 1, color, 0, sText_TopBar_Options);
@@ -500,7 +501,7 @@ static void DrawDescriptionText(void)
     color_gray[0] = TEXT_COLOR_TRANSPARENT;
     color_gray[1] = TEXT_COLOR_OPTIONS_GRAY_FG;
     color_gray[2] = TEXT_COLOR_OPTIONS_GRAY_SHADOW;
-        
+
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(1));
     AddTextPrinterParameterized4(WIN_DESCRIPTION, FONT_OPTION, 8, 1, 0, 0, color_gray, TEXT_SKIP_DRAW, OptionTextDescription());
     CopyWindowToVram(WIN_DESCRIPTION, COPYWIN_FULL);
@@ -675,8 +676,8 @@ void CB2_InitOptionMenu(void)
         break;
     case 11:
         taskId = CreateTask(Task_OptionMenuFadeIn, 0);
-        
-        sOptions->arrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 20, 110, MENUITEM_COUNT - 1, 110, 110, 0);
+
+        sOptions->arrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 20, 110, MENUITEM_COUNT - 1, 110, 110, &sOptions->scrollPosition);
 
         for (i = 0; i < OPTIONS_ON_SCREEN; i++)
             DrawChoices(i, i * Y_DIFF);
@@ -691,6 +692,10 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 13:
+        BlendPalettes(PALETTES_ALL, 16, 0);
+        gMain.state++;
+        break;
+    case 14:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
         SetVBlankCallback(VBlankCB);
         SetMainCallback2(MainCB2);
@@ -706,7 +711,6 @@ static void Task_OptionMenuFadeIn(u8 taskId)
 
 static void Task_OptionMenuProcessInput(u8 taskId)
 {
-    int i, scrollCount = 0, itemsToRedraw;
     if (JOY_NEW(A_BUTTON))
     {
         if (sOptions->menuCursor[sOptions->submenu] == MenuItemCancel())
@@ -740,6 +744,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             }
         }
         HighlightOptionMenuItem();
+        sOptions->scrollPosition = sOptions->menuCursor[sOptions->submenu];
         DrawDescriptionText();
     }
     else if (JOY_NEW(DPAD_DOWN))
@@ -766,6 +771,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             }
         }
         HighlightOptionMenuItem();
+        sOptions->scrollPosition = sOptions->menuCursor[sOptions->submenu];
         DrawDescriptionText();
     }
     else if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
@@ -787,82 +793,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
                     DrawChoices(cursor, sOptions->visibleCursor[sOptions->submenu] * Y_DIFF);
             }
         }
-        //else if (sOptions->submenu == MENU_SOUND)
-        //{
-        //    int cursor = sOptions->menuCursor[sOptions->submenu];
-        //    u8 previousOption = sOptions->sel_sound[cursor];
-        //    if (CheckConditions(cursor))
-        //    {
-        //        if (sItemFunctionsSound[cursor].processInput != NULL)
-        //        {
-        //            sOptions->sel_sound[cursor] = sItemFunctionsSound[cursor].processInput(previousOption);
-        //            ReDrawAll();
-        //            DrawDescriptionText();
-        //        }
-        //
-        //        if (previousOption != sOptions->sel_sound[cursor])
-        //            DrawChoices(cursor, sOptions->visibleCursor[sOptions->submenu] * Y_DIFF);
-        //    }
-        //}
-        //else if (sOptions->submenu == MENU_BATTLE)
-        //{
-        //    int cursor = sOptions->menuCursor[sOptions->submenu];
-        //    u8 previousOption = sOptions->sel_battle[cursor];
-        //    if (CheckConditions(cursor))
-        //    {
-        //        if (sItemFunctionsBattle[cursor].processInput != NULL)
-        //        {
-        //            sOptions->sel_battle[cursor] = sItemFunctionsBattle[cursor].processInput(previousOption);
-        //            ReDrawAll();
-        //            DrawDescriptionText();
-        //        }
-        //
-        //        if (previousOption != sOptions->sel_battle[cursor])
-        //            DrawChoices(cursor, sOptions->visibleCursor[sOptions->submenu] * Y_DIFF);
-        //    }
-        //}
-        //else if (sOptions->submenu == MENU_BREEDING)
-        //{
-        //    int cursor = sOptions->menuCursor[sOptions->submenu];
-        //    u8 previousOption = sOptions->sel_breeding[cursor];
-        //    if (CheckConditions(cursor))
-        //    {
-        //        if (sItemFunctionsBreeding[cursor].processInput != NULL)
-        //        {
-        //            sOptions->sel_breeding[cursor] = sItemFunctionsBreeding[cursor].processInput(previousOption);
-        //            ReDrawAll();
-        //            DrawDescriptionText();
-        //        }
-        //
-        //        if (previousOption != sOptions->sel_breeding[cursor])
-        //            DrawChoices(cursor, sOptions->visibleCursor[sOptions->submenu] * Y_DIFF);
-        //    }
-        //}
     }
-    //else if (JOY_NEW(R_BUTTON))
-    //{
-    //    if (sOptions->submenu != LAST_MENU)
-    //        sOptions->submenu++;
-    //    else
-    //        sOptions->submenu = MENU_GAME;
-    //
-    //    DrawTopBarText();
-    //    ReDrawAll();
-    //    HighlightOptionMenuItem();
-    //    DrawDescriptionText();
-    //}
-    //else if (JOY_NEW(L_BUTTON))
-    //{
-    //    if (sOptions->submenu != MENU_GAME)
-    //        sOptions->submenu--;
-    //    else
-    //        sOptions->submenu = LAST_MENU;
-    //    
-    //    DrawTopBarText();
-    //    ReDrawAll();
-    //    HighlightOptionMenuItem();
-    //    DrawDescriptionText();
-    //}
 }
 
 static void Task_OptionMenuSave(u8 taskId)
