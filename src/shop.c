@@ -682,6 +682,8 @@ static void SetShopItemsForSale(const u16 *items)
     else
         sMartInfo.itemList = items;
 
+    sMartInfo.itemCount = 0;
+
     // Read items until ITEM_NONE / DECOR_NONE is reached
     while (sMartInfo.itemList[i])
     {
