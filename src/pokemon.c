@@ -3699,7 +3699,10 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
         while ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV) != (level << 9))
         {
             if ((gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_BABY) && !wasBaby)
+            {
+                sLearningMoveTableID++;
                 continue;
+            }
 
             sLearningMoveTableID++;
             if (gLevelUpLearnsets[species][sLearningMoveTableID] == LEVEL_UP_END)
