@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/pret/agbcc
 	branch = master
-	commit = cd0ed128d67a9ec6ed4c536cd8e3bb1720488e77
-	parent = 8790273c5bfb6d3f2fb7d49201e0bc8b92e6dfbf
+	commit = 84d56fc8eb9621afca441e38a1d1ff5afe94be84
+	parent = efec10b6db48aef98541e92d77ba88c5ee963772
 	method = merge
-	cmdver = 0.4.3
+	cmdver = 0.4.9
