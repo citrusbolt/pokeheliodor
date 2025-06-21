@@ -11,18 +11,18 @@ MossdeepCity_Mart_EventScript_Clerk::
 	release
 	end
 
-MossdeepMart_EventScript_Clerk2::
+MossdeepCity_Mart_EventScript_Clerk2::
 	lock
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
-	pokemart FallarborTown_Mart_Pokemart
+	pokemart MossdeepCity_Mart_Pokemart
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
 	release
 	end
 
 	.align 2
-Mossdeep_Mart_Pokemart:
+MossdeepCity_Mart_Pokemart:
 	.2byte ITEM_NET_BALL
 	.2byte ITEM_DIVE_BALL
 	.2byte ITEM_NONE

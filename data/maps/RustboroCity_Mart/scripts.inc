@@ -8,6 +8,7 @@ RustboroCity_Mart_EventScript_Clerk::
 	waitmessage
 	pokemart NULL
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+    release
 	end
 
 RustboroCity_Mart_EventScript_Clerk2::
@@ -18,6 +19,7 @@ RustboroCity_Mart_EventScript_Clerk2::
 	waitmessage
 	pokemart RustboroCity_Mart_Pokemart
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+    release
 	end
 
 	.align 2
