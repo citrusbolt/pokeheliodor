@@ -23,8 +23,8 @@ FallarborTown_Mart_EventScript_Clerk2::
 
 	.align 2
 FallarborTown_Mart_Pokemart:
-	@.2byte ITEM_QUICK_BALL
-	@.2byte ITEM_DUSK_BALL
+	.2byte ITEM_QUICK_BALL
+	.2byte ITEM_DUSK_BALL
 	.2byte ITEM_DIVE_BALL
 	pokemartlistend
 

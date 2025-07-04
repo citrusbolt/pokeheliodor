@@ -23,7 +23,7 @@ VerdanturfTown_Mart_EventScript_Clerk2::
 
 	.align 2
 VerdanturfTown_Mart_Pokemart:
-	@.2byte ITEM_HEAL_BALL
+	.2byte ITEM_HEAL_BALL
 	.2byte ITEM_NEST_BALL
 	.2byte ITEM_LUXURY_BALL
 	pokemartlistend
