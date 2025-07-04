@@ -190,8 +190,7 @@ MAKEFLAGS += --no-print-directory
 .DELETE_ON_ERROR:
 
 RULES_NO_SCAN += libagbsyscall clean clean-assets tidy tidymodern tidynonmodern generated clean-generated clean-berry-fix clean-emerald
-.PHONY: all rom modern compare patch data/mb_berry_fix.gba emerald flash flash-delta merge-check release
-.PHONY: $(RULES_NO_SCAN)
+.PHONY: all rom modern compare patch data/mb_berry_fix.gba emerald flash flash-delta merge-check release $(RULES_NO_SCAN) .FORCE
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -253,6 +252,10 @@ SUBDIRS  := $(sort $(dir $(OBJS)))
 $(shell mkdir -p $(SUBDIRS))
 
 # Other rules
+$(C_BUILDDIR)/build_info.o: .FORCE
+
+.FORCE:
+
 rom: $(ROM)
 
 merge-check: all
@@ -368,8 +371,6 @@ $(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.c
 
 ifneq ($(NODEP),1)
 -include $(addprefix $(OBJ_DIR)/,$(C_SRCS:.c=.d))
-else
-	$(shell touch $(C_SUBDIR)/data/text/build_info.h)
 endif
 
 $(ASM_BUILDDIR)/%.o: $(ASM_SUBDIR)/%.s

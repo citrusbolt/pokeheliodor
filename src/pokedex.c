@@ -4464,7 +4464,7 @@ bool8 HasAllKantoMons(void)
     u16 i;
 
     // -1 excludes Mew
-    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
+    for (i = 0; i < LAST_KANTO_MON - 1; i++)
     {
         if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
@@ -4477,7 +4477,7 @@ bool8 HasAllJohtoMons(void)
     u16 i;
 
     // -3 excludes Lugia, Ho-Oh, and Celebi
-    for (i = KANTO_DEX_COUNT; i < JOHTO_DEX_COUNT - 3; i++)
+    for (i = LAST_KANTO_MON; i < LAST_JOHTO_MON - 3; i++)
     {
         if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
@@ -4490,21 +4490,21 @@ bool16 HasAllMons(void)
     u16 i;
 
     // -1 excludes Mew
-    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
+    for (i = 0; i < LAST_KANTO_MON - 1; i++)
     {
         if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
     }
 
     // -3 excludes Lugia, Ho-Oh, and Celebi
-    for (i = KANTO_DEX_COUNT; i < JOHTO_DEX_COUNT - 3; i++)
+    for (i = LAST_KANTO_MON; i < LAST_JOHTO_MON - 3; i++)
     {
         if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
     }
 
     // -2 excludes Jirachi and Deoxys
-    for (i = JOHTO_DEX_COUNT; i < NATIONAL_DEX_COUNT - 2; i++)
+    for (i = LAST_JOHTO_MON; i < NATIONAL_DEX_COUNT - 2; i++)
     {
         if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;

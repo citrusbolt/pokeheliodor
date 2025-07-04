@@ -29,7 +29,13 @@ struct PokedexEntry
     /*0x1A*/ u16 pokemonOffset;
     /*0x1C*/ u16 trainerScale;
     /*0x1E*/ u16 trainerOffset;
-};  /*size = 0x20*/
+    /*0x20*/ u16 inSwordShield:1;
+             // There is no inBDSP because all Gen 1-4 Pokémon are compatible except for Spinda and Nincada
+             u16 inLegendsArceus:1;
+             u16 inScarletViolet:1;
+             u16 inLegendsZA:1;
+             u16 unusedTransferFlags:12;
+};  /*size = 0x22*/
 
 void ResetPokedex(void);
 u16 GetPokedexHeightWeight(u16 dexNum, u8 data);
