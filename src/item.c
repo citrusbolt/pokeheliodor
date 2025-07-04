@@ -1860,15 +1860,15 @@ void TransferItemsToNewPockets(struct SaveBlock1 *nlSaveBlock1Ptr, u8 saveType)
             }
         }
 
-        for (i = 0; i < BAG_KEYITEMS_COUNT_RS; i++)
-        {
-            if (rsSaveBlock1Ptr->bagPocket_KeyItems[i].itemId != ITEM_NONE && rsSaveBlock1Ptr->bagPocket_KeyItems[i].quantity > 0)
-            {
-                itemId = rsSaveBlock1Ptr->bagPocket_KeyItems[i].itemId;
-                quantity = rsSaveBlock1Ptr->bagPocket_KeyItems[i].quantity;
-                AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
-            }
-        }
+        //for (i = 0; i < BAG_KEYITEMS_COUNT_RS; i++)
+        //{
+        //    if (rsSaveBlock1Ptr->bagPocket_KeyItems[i].itemId != ITEM_NONE && rsSaveBlock1Ptr->bagPocket_KeyItems[i].quantity > 0)
+        //    {
+        //        itemId = rsSaveBlock1Ptr->bagPocket_KeyItems[i].itemId;
+        //        quantity = rsSaveBlock1Ptr->bagPocket_KeyItems[i].quantity;
+        //        AddItemWhileConverting(nlSaveBlock1Ptr, itemId, quantity);
+        //    }
+        //}
 
         for (i = 0; i < BAG_POKEBALLS_COUNT_RS; i++)
         {

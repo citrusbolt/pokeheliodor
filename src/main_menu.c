@@ -1407,7 +1407,10 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             case ACTION_CONTINUE:
                 gPlttBufferUnfaded[0] = RGB_BLACK;
                 gPlttBufferFaded[0] = RGB_BLACK;
-                SetMainCallback2(CB2_ContinueSavedGame);
+                if (gDifferentSaveFile)
+                    SetMainCallback2(CB2_NewGamePlus);
+                else
+                    SetMainCallback2(CB2_ContinueSavedGame);
                 DestroyTask(taskId);
                 break;
             case ACTION_OPTION:
