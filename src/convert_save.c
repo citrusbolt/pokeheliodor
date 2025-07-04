@@ -104,6 +104,8 @@ u8 ConvertSaveFileFromRSToNL(void)
 
     SetEnigmaBerry((u8 *)&rsSaveBlock1Ptr->enigmaBerry);
 
+    gSaveBlock1Ptr->rubySapphireSecretId = gSaveBlock2Ptr->playerTrainerId[2] | (gSaveBlock2Ptr->playerTrainerId[3] << 8);
+
     FREE_AND_SET_NULL(nlSaveBlock1Ptr);
     FREE_AND_SET_NULL(nlSaveBlock2Ptr);
 
