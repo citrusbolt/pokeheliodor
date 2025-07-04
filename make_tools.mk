@@ -13,7 +13,7 @@ TOOLDIRS := $(TOOL_NAMES:%=$(TOOLS_DIR)/%)
 RULES_NO_SCAN += tools check-tools clean-tools $(TOOLDIRS)
 .PHONY: $(RULES_NO_SCAN)
 
-tools: $(TOOLDIRS)
+tools: $(TOOLDIRS) tools/agbcc
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
