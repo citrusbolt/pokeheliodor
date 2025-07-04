@@ -815,6 +815,28 @@ static const u16 sPickupItems[] =
     ITEM_MAX_ELIXIR,
 };
 
+static const u16 sPickupItems2[] =
+{
+    ITEM_POTION,
+    ITEM_ANTIDOTE,
+    ITEM_SUPER_POTION,
+    ITEM_GREAT_BALL,
+    ITEM_REPEL,
+    ITEM_ESCAPE_ROPE,
+    ITEM_FULL_HEAL,
+    ITEM_HYPER_POTION,
+    ITEM_ULTRA_BALL,
+    ITEM_REVIVE,
+    ITEM_RARE_CANDY,
+    ITEM_SUN_STONE,
+    ITEM_MOON_STONE,
+    ITEM_HEART_SCALE,
+    ITEM_FULL_RESTORE,
+    ITEM_MAX_REVIVE,
+    ITEM_PP_UP,
+    ITEM_MAX_ELIXIR,
+};
+
 static const u16 sRarePickupItems[] =
 {
     ITEM_HYPER_POTION,
@@ -9962,13 +9984,23 @@ static void Cmd_pickup(void)
                                     if (j == 0)
                                         SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sRarePickupItems[lvlDivBy10 + (rand % 1)]);
                                     else
-                                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + 8 - j]);
+                                    {
+                                        if (Random() % 2)
+                                            SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + 8 - j]);
+                                        else
+                                            SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems2[lvlDivBy10 + 8 - j]);
+                                    }
+
                                     gBattleScripting.pickupFlags |= 1 << i;
                                     break;
                                 }
                                 else if (rand == 99 || rand == 98)
                                 {
-                                    SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10]);
+                                    if (Random() % 2)
+                                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10]);
+                                    else
+                                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems2[lvlDivBy10]);
+
                                     gBattleScripting.pickupFlags |= 1 << i;
                                     break;
                                 }
@@ -9977,7 +10009,11 @@ static void Cmd_pickup(void)
                             {
                                 if (sPickupProbabilities[j] > rand)
                                 {
-                                    SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10 + j]);
+                                    if (Random() % 2)
+                                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems[lvlDivBy10]);
+                                    else
+                                        SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &sPickupItems2[lvlDivBy10]);
+
                                     gBattleScripting.pickupFlags |= 1 << i;
                                     break;
                                 }
