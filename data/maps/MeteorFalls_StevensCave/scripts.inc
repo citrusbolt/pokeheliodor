@@ -35,7 +35,7 @@ MeteorFalls_StevensCave_Text_ShouldKnowHowGoodIAmExpectWorst:
 	.string "just a rock maniac?\p"
 	.string "No, that can't be right.\p"
 	.string "We battled alongside each other at\n"
-	.string "the Sootopolis Space Center.\p"
+	.string "the Mossdeep Space Center.\p"
 	.string "You should have a very good idea\n"
 	.string "about how good I am.\p"
 	.string "Okay, {PLAYER}{KUN}, if you're going to mount\n"
