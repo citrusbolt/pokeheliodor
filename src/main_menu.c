@@ -2729,6 +2729,10 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
 
 static void PatchSave(void)
 {
+    // u32 tmp1 = TRUE;
+    // u32 tmp2 = 20;
+    // u32 tmp3 = 0;
+
 	if (VarGet(VAR_SAVE_VER) == 0)
 	{
 		gSaveBlock1Ptr->trainerCardLayout = 3;
@@ -2764,6 +2768,12 @@ static void PatchSave(void)
         gSaveBlock1Ptr->trainerClass = 0;
 		VarSet(VAR_SAVE_VER, 6);
 	}
+
+
+    // SetMonData(&gPlayerParty[0], MON_DATA_HP_IV, &tmp2);
+    // SetMonData(&gPlayerParty[0], MON_DATA_HP_HT, &tmp1);
+    // SetMonData(&gPlayerParty[0], MON_DATA_MINT, &tmp3);
+    // CalculateMonStats(&gPlayerParty[0]);
 }
 
 #undef tTimer

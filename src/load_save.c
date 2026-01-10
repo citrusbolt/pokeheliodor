@@ -13,6 +13,7 @@
 #include "gba/flash_internal.h"
 #include "decoration_inventory.h"
 #include "agb_flash.h"
+#include "pokemon.h"
 
 #define SAVEBLOCK_MOVE_RANGE    128
 
@@ -191,7 +192,9 @@ void LoadObjectEvents(void)
 
 void CopyPartyAndObjectsToSave(void)
 {
+    SavePokemonStats();
     SavePlayerParty();
+    RestorePokemonStats();
     SaveObjectEvents();
     SaveFakePockets();
 }
@@ -199,6 +202,7 @@ void CopyPartyAndObjectsToSave(void)
 void CopyPartyAndObjectsFromSave(void)
 {
     LoadPlayerParty();
+    RestorePokemonStats();
     LoadObjectEvents();
     LoadFakePockets();
 }

@@ -625,5 +625,7 @@ bool8 IsMewtwoInParty(void);
 bool8 DoesCaughtMonHaveItem(void);
 void PutCaughtMonItemInBag(void);
 bool8 CanSpeciesLearnAnyTMHM(u16 species);
+void SavePokemonStats(void);
+void RestorePokemonStats(void);
 
 #endif // GUARD_POKEMON_H
