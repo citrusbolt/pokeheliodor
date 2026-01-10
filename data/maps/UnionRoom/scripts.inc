@@ -23,7 +23,7 @@ UnionRoom_OnResume:
 	removeobject LOCALID_UNION_ROOM_PLAYER_6
 	removeobject LOCALID_UNION_ROOM_PLAYER_7
 	removeobject LOCALID_UNION_ROOM_PLAYER_8
-	special RunUnionRoom
+	goto_if_eq VAR_UNION_ROOM_ONLINE, TRUE, UnionRoom_EventScript_Online
 	setflag FLAG_HIDE_UNION_ROOM_NURSE
 	removeobject LOCALID_UR_NURSE
 	end
