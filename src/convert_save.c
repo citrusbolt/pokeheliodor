@@ -149,7 +149,7 @@ u8 ConvertSaveFileFromEToNL(void)
 
     memcpy(nlSaveBlock1Ptr, preNLSaveBlock1Ptr, 0x235);
     nlSaveBlock1Ptr->saveMagic = 27;
-    memcpy(nlSaveBlock1Ptr->playerParty, preNLSaveBlock1Ptr->playerParty, 0x328);
+    memcpy(nlSaveBlock1Ptr->playerParty, preNLSaveBlock1Ptr->playerParty, 0x260);
     nlSaveBlock1Ptr->money = preNLSaveBlock1Ptr->money ^ preNLSaveBlock2Ptr->encryptionKey;
     nlSaveBlock1Ptr->coins = preNLSaveBlock1Ptr->coins ^ preNLSaveBlock2Ptr->encryptionKey;
 
@@ -175,5 +175,6 @@ u8 ConvertSaveFileFromEToNL(void)
     FREE_AND_SET_NULL(nlSaveBlock1Ptr);
     FREE_AND_SET_NULL(nlSaveBlock2Ptr);
 
+    SetBagItemsPointers();
     LoadFakePockets();
 }
