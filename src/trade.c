@@ -3841,12 +3841,7 @@ static bool8 DoTradeAnim_Cable(void)
         if (sTradeAnim->timer == 250)
         {
             sTradeAnim->state++;
-
-            if (IsTradedMon(&gPlayerParty[gSelectedTradeMonPositions[TRADE_PLAYER]]))
-                StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
-            else
-                StringExpandPlaceholders(gStringVar4, gText_WelcomeBackX);
-
+            StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
             sTradeAnim->timer = 0;
         }
@@ -4343,12 +4338,7 @@ static bool8 DoTradeAnim_Wireless(void)
         if (sTradeAnim->timer == 250)
         {
             sTradeAnim->state++;
-
-            if (IsTradedMon(&gPlayerParty[gSelectedTradeMonPositions[TRADE_PLAYER]]))
-                StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
-            else
-                StringExpandPlaceholders(gStringVar4, gText_WelcomeBackX);
-
+            StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
             sTradeAnim->timer = 0;
         }
