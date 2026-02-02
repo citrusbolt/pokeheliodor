@@ -441,7 +441,9 @@ static const u8 sTrainerPics[][GENDER_COUNT] =
 
 static const u8 sTrainerClasses[][21] = {
     _("Pokémon Trainer"),
-    _("Beauty"),                // Gen 1
+    _("Team Rocket"),            // Gen 1
+    _("Silph Co."),             // not official class
+    _("Beauty"),
     _("Bird Keeper"),
     _("Bug Catcher"),
     _("Champion"),
@@ -451,14 +453,14 @@ static const u8 sTrainerClasses[][21] = {
     _("Poké Maniac"),
     _("Psychic"),
     _("Scientist"),
-    _("Silph Co."),             // not official class
     _("Super Nerd"),
-    _("Team Rocket"),
     _("Youngster"),
     _("Camper"),                // GS
     _("Sage"),
     _("Mysticalman"),           // C
-    _("Aroma Lady"),            // RS
+    _("Team Aqua"),             // RS
+    _("Team Magma"),
+    _("Aroma Lady"),
     _("Collector"),
     _("Devon Corporation"),
     _("Dragon Tamer"),
@@ -467,36 +469,34 @@ static const u8 sTrainerClasses[][21] = {
     _("Pokémon Breeder"),
     _("Pokémon Ranger"),
     _("Ruin Maniac"),
-    _("Team Aqua"),
-    _("Team Magma"),
     _("Cipher"),                // Colo
+    _("Team Snagem"),
     _("Mt. Batttle Master"),
     _("Myth Trainer"),
-    _("Team Snagem"),
     _("Rider"),
     _("Painter"),               // FRLG
     _("Wanderer"),              // XD
     _("Pokémon Coordinator"),   // Anime
     _("Top Coordinator"),
-    _("Artist"),                // DP
+    _("Team Galactic"),         // DP
+    _("Artist"),
     _("Reporter"),
-    _("Team Galactic"),
     _("Elder"),                 // HGSS
-    _("Clerk"),                 // BW
+    _("Team Plasma"),           // BW
+    _("Clerk"),
     _("Musician"),
-    _("Team Plasma"),
-    _("Pokémon Professor"),     // XY
-    _("Team Flare"),
+    _("Team Flare"),            // XY
+    _("Pokémon Professor"),
     _("Lorekeeper"),            // ORAS
     _("Secret Base Expert"),
-    _("Berry Master"),          // GO
-    _("Team Instinct"),
+    _("Team Instinct"),         // GO
     _("Team Mystic"),
     _("Team Valor"),
+    _("Berry Master"),
     _("Aether Foundation"),     // SM
+    _("Team Skull"),
     _("Battle Legend"),
     _("Faller"),                // not official class
-    _("Team Skull"),
     _("Team Rainbow Rocket"),   // USUM
     _("Ultra Recon Squad"),
     _("Battle Master"),         // LGPE
@@ -505,19 +505,29 @@ static const u8 sTrainerClasses[][21] = {
     _("GO Ultra Recon Squad"),  // GO
     _("Team GO Rocket"),
     _("Team Break"),            // Masters
-    _("Gym Challenger"),        // SwSh
+    _("Team Yell"),             // SwSh
     _("Macro Cosmos"),
-    _("Team Yell"),
-    _("Pokémon Wielder"),       // L:A
-    _("Galaxy Team"),
+    _("Gym Challenger"),
+    _("Galaxy Team"),           // L:A
     _("Gingko Guild"),
     _("Diamond Clan"),
     _("Pearl Clan"),
-    _("Courier"),               // SV
+    _("Pokémon Wielder"),
+    _("Team Star"),             // SV
+    _("Courier"),
     _("Instructor"),
     _("Student"),
-    _("Team Star"),
     _("Top Champion"),
+    _("Team MZ"),               // L:Z-A
+    _("DYN4MO"),
+    _("Fist of Justice"),
+    _("Quasaritco Inc."),
+    _("Rust Syndicate"),
+    _("SBC"),
+    _("Team Flare Nouveau"),
+    _("Detective"),
+    _("Alpha Trainer"),         // L:Z-A:MD
+    _("Hyperspace Trainer")
 };
 
 static bool8 (*const sTrainerCardFlipTasks[])(struct Task *) =

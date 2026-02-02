@@ -24,6 +24,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_IVYSAUR] =
@@ -38,6 +39,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_VENUSAUR] =
@@ -52,6 +54,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 6,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CHARMANDER] =
@@ -66,6 +69,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CHARMELEON] =
@@ -80,6 +84,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CHARIZARD] =
@@ -94,6 +99,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 3,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SQUIRTLE] =
@@ -108,6 +114,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_WARTORTLE] =
@@ -122,6 +129,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_BLASTOISE] =
@@ -136,6 +144,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 2,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CATERPIE] =
@@ -187,6 +196,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .pokemonOffset = 22,
         .trainerScale = 256,
         .trainerOffset = 0,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_KAKUNA] =
@@ -223,6 +233,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .pokemonOffset = -3,
         .trainerScale = 256,
         .trainerOffset = 0,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PIDGEOTTO] =
@@ -235,6 +246,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .pokemonOffset = 10,
         .trainerScale = 256,
         .trainerOffset = 0,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PIDGEOT] =
@@ -247,6 +259,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .pokemonOffset = 0,
         .trainerScale = 256,
         .trainerOffset = 0,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_RATTATA] =
@@ -308,6 +321,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ARBOK] =
@@ -321,6 +335,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 296,
         .trainerOffset = 2,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PIKACHU] =
@@ -336,6 +351,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_RAICHU] =
@@ -351,6 +367,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SANDSHREW] =
@@ -472,6 +489,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CLEFABLE] =
@@ -487,6 +505,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_VULPIX] =
@@ -531,6 +550,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_WIGGLYTUFF] =
@@ -545,6 +565,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ZUBAT] =
@@ -559,6 +580,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GOLBAT] =
@@ -573,6 +595,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ODDISH] =
@@ -709,6 +732,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PERSIAN] =
@@ -723,6 +747,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PSYDUCK] =
@@ -766,6 +791,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PRIMEAPE] =
@@ -779,6 +805,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GROWLITHE] =
@@ -863,6 +890,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_KADABRA] =
@@ -877,6 +905,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ALAKAZAM] =
@@ -891,6 +920,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MACHOP] =
@@ -905,6 +935,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MACHOKE] =
@@ -919,6 +950,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MACHAMP] =
@@ -933,6 +965,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = -1,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_BELLSPROUT] =
@@ -946,6 +979,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_WEEPINBELL] =
@@ -959,6 +993,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_VICTREEBEL] =
@@ -972,6 +1007,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 312,
         .trainerOffset = 3,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_TENTACOOL] =
@@ -1086,6 +1122,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SLOWBRO] =
@@ -1100,6 +1137,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 2,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MAGNEMITE] =
@@ -1143,6 +1181,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 293,
         .trainerOffset = 2,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_DODUO] =
@@ -1264,6 +1303,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_HAUNTER] =
@@ -1279,6 +1319,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GENGAR] =
@@ -1294,6 +1335,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ONIX] =
@@ -1308,6 +1350,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 14,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_DROWZEE] =
@@ -1427,6 +1470,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MAROWAK] =
@@ -1440,6 +1484,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_HITMONLEE] =
@@ -1582,6 +1627,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 387,
         .trainerOffset = 8,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_HORSEA] =
@@ -1649,6 +1695,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_STARMIE] =
@@ -1662,6 +1709,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MR_MIME] =
@@ -1676,6 +1724,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SCYTHER] =
@@ -1691,6 +1740,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_JYNX] =
@@ -1747,6 +1797,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 257,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_TAUROS] =
@@ -1776,6 +1827,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GYARADOS] =
@@ -1791,6 +1843,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_LAPRAS] =
@@ -1834,6 +1887,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_VAPOREON] =
@@ -1849,6 +1903,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_JOLTEON] =
@@ -1864,6 +1919,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_FLAREON] =
@@ -1879,6 +1935,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PORYGON] =
@@ -1894,6 +1951,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_OMANYTE] =
@@ -1959,6 +2017,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 302,
         .trainerOffset = 4,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SNORLAX] =
@@ -2030,6 +2089,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 6,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_DRAGONAIR] =
@@ -2044,6 +2104,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 5,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_DRAGONITE] =
@@ -2058,6 +2119,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 4,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MEWTWO] =
@@ -2072,6 +2134,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 4,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MEW] =
@@ -2099,6 +2162,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_BAYLEEF] =
@@ -2112,6 +2176,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MEGANIUM] =
@@ -2125,6 +2190,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 277,
         .trainerOffset = 1,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CYNDAQUIL] =
@@ -2179,6 +2245,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CROCONAW] =
@@ -2192,6 +2259,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_FERALIGATR] =
@@ -2205,6 +2273,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 342,
         .trainerOffset = 7,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SENTRET] =
@@ -2296,6 +2365,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ARIADOS] =
@@ -2309,6 +2379,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CROBAT] =
@@ -2323,6 +2394,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 1,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CHINCHOU] =
@@ -2366,6 +2438,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CLEFFA] =
@@ -2381,6 +2454,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_IGGLYBUFF] =
@@ -2395,6 +2469,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_TOGEPI] =
@@ -2462,6 +2537,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_FLAAFFY] =
@@ -2475,6 +2551,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_AMPHAROS] =
@@ -2488,6 +2565,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_BELLOSSOM] =
@@ -2695,6 +2773,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_UMBREON] =
@@ -2710,6 +2789,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MURKROW] =
@@ -2738,6 +2818,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 5,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MISDREAVUS] =
@@ -2858,6 +2939,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 13,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SNUBBULL] =
@@ -2898,6 +2980,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SCIZOR] =
@@ -2913,6 +2996,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SHUCKLE] =
@@ -2941,6 +3025,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SNEASEL] =
@@ -3095,6 +3180,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MANTINE] =
@@ -3123,6 +3209,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 1,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_HOUNDOUR] =
@@ -3136,6 +3223,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_HOUNDOOM] =
@@ -3149,6 +3237,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_KINGDRA] =
@@ -3204,6 +3293,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_STANTLER] =
@@ -3386,6 +3476,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PUPITAR] =
@@ -3400,6 +3491,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_TYRANITAR] =
@@ -3414,6 +3506,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 7,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_LUGIA] =
@@ -3469,6 +3562,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GROVYLE] =
@@ -3483,6 +3577,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SCEPTILE] =
@@ -3497,6 +3592,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 2,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_TORCHIC] =
@@ -3511,6 +3607,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_COMBUSKEN] =
@@ -3525,6 +3622,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_BLAZIKEN] =
@@ -3539,6 +3637,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 4,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MUDKIP] =
@@ -3553,6 +3652,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MARSHTOMP] =
@@ -3567,6 +3667,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SWAMPERT] =
@@ -3581,6 +3682,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_POOCHYENA] =
@@ -3849,6 +3951,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_KIRLIA] =
@@ -3864,6 +3967,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GARDEVOIR] =
@@ -3879,6 +3983,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SURSKIT] =
@@ -4140,6 +4245,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MAWILE] =
@@ -4153,6 +4259,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ARON] =
@@ -4166,6 +4273,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_LAIRON] =
@@ -4179,6 +4287,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_AGGRON] =
@@ -4192,6 +4301,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 350,
         .trainerOffset = 6,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MEDITITE] =
@@ -4205,6 +4315,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MEDICHAM] =
@@ -4218,6 +4329,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ELECTRIKE] =
@@ -4231,6 +4343,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MANECTRIC] =
@@ -4244,6 +4357,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 257,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_PLUSLE] =
@@ -4310,6 +4424,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GULPIN] =
@@ -4323,6 +4438,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SWALOT] =
@@ -4336,6 +4452,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 345,
         .trainerOffset = 3,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CARVANHA] =
@@ -4349,6 +4466,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SHARPEDO] =
@@ -4362,6 +4480,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 317,
         .trainerOffset = 3,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_WAILMER] =
@@ -4401,6 +4520,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CAMERUPT] =
@@ -4414,6 +4534,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 345,
         .trainerOffset = 6,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_TORKOAL] =
@@ -4441,6 +4562,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GRUMPIG] =
@@ -4454,6 +4576,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SPINDA] =
@@ -4548,6 +4671,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ALTARIA] =
@@ -4562,6 +4686,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ZANGOOSE] =
@@ -4575,6 +4700,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SEVIPER] =
@@ -4588,6 +4714,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_LUNATONE] =
@@ -4764,6 +4891,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_MILOTIC] =
@@ -4778,6 +4906,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 7,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_CASTFORM] =
@@ -4802,6 +4931,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .pokemonOffset = 10,
         .trainerScale = 256,
         .trainerOffset = 0,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SHUPPET] =
@@ -4815,6 +4945,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_BANETTE] =
@@ -4828,6 +4959,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_DUSKULL] =
@@ -4885,6 +5017,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_ABSOL] =
@@ -4898,6 +5031,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
         .inSwordShield = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_WYNAUT] =
@@ -4926,6 +5060,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GLALIE] =
@@ -4941,6 +5076,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .inSwordShield = TRUE,
         .inLegendsArceus = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SPHEAL] =
@@ -5059,6 +5195,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SHELGON] =
@@ -5073,6 +5210,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_SALAMENCE] =
@@ -5087,6 +5225,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_BELDUM] =
@@ -5101,6 +5240,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_METANG] =
@@ -5115,6 +5255,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_METAGROSS] =
@@ -5129,6 +5270,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 9,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_REGIROCK] =
@@ -5182,6 +5324,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 0,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_LATIOS] =
@@ -5196,6 +5339,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 3,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_KYOGRE] =
@@ -5210,6 +5354,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 13,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_GROUDON] =
@@ -5224,6 +5369,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 14,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_RAYQUAZA] =
@@ -5238,6 +5384,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerOffset = 12,
         .inSwordShield = TRUE,
         .inScarletViolet = TRUE,
+        .inLegendsZA = TRUE,
     },
 
     [NATIONAL_DEX_JIRACHI] =
