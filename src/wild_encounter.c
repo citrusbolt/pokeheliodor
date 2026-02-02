@@ -2149,7 +2149,7 @@ void HeadbuttWildEncounter(void)
     
     gSpecialVar_Result = FALSE;
 }
-//TODO
+
 bool32 SweetScentWildEncounter(void)
 {
     struct Roamer *roamer;
