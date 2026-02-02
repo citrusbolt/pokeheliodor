@@ -9038,7 +9038,7 @@ void SavePokemonStats(void)
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        gSaveBlock1Ptr->savedPokemonStats[i].PID = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY);
+        gSaveBlock1Ptr->savedPokemonStats[i].pid = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY);
         gSaveBlock1Ptr->savedPokemonStats[i].hpIV = GetMonData(&gPlayerParty[i], MON_DATA_HP_IV);
         gSaveBlock1Ptr->savedPokemonStats[i].attackIV = GetMonData(&gPlayerParty[i], MON_DATA_ATK_IV);
         gSaveBlock1Ptr->savedPokemonStats[i].defenseIV = GetMonData(&gPlayerParty[i], MON_DATA_DEF_IV);
@@ -9105,38 +9105,41 @@ void RestorePokemonStats(void)
     u32 i = 0;
     u32 data = 0;
 
-    for (i = 0; i < PARTY_SIZE; i++)
+    if (VarGet(VAR_SAVE_VER) >= 7)
     {
-        if (gSaveBlock1Ptr->savedPokemonStats[i].PID != 0)
+        for (i = 0; i < PARTY_SIZE; i++)
         {
-            data = gSaveBlock1Ptr->savedPokemonStats[i].PID;
-            SetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, &data);
-            data = gSaveBlock1Ptr->savedPokemonStats[i].hpIV;
-            SetMonData(&gPlayerParty[i], MON_DATA_HP_IV, &data);
-            data = gSaveBlock1Ptr->savedPokemonStats[i].attackIV;
-            SetMonData(&gPlayerParty[i], MON_DATA_ATK_IV, &data);
-            data = gSaveBlock1Ptr->savedPokemonStats[i].defenseIV;
-            SetMonData(&gPlayerParty[i], MON_DATA_DEF_IV, &data);
-            data = gSaveBlock1Ptr->savedPokemonStats[i].speedIV;
-            SetMonData(&gPlayerParty[i], MON_DATA_SPEED_IV, &data);
-            data = gSaveBlock1Ptr->savedPokemonStats[i].spAttackIV;
-            SetMonData(&gPlayerParty[i], MON_DATA_SPATK_IV, &data);
-            data = gSaveBlock1Ptr->savedPokemonStats[i].spDefenseIV;
-            SetMonData(&gPlayerParty[i], MON_DATA_SPDEF_IV, &data);
-            data = gSaveBlock1Ptr->savedPokemonStats[i].abilityNum;
-            SetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM, &data);
+            if (gSaveBlock1Ptr->savedPokemonStats[i].pid != 0)
+            {
+                data = gSaveBlock1Ptr->savedPokemonStats[i].pid;
+                SetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, &data);
+                data = gSaveBlock1Ptr->savedPokemonStats[i].hpIV;
+                SetMonData(&gPlayerParty[i], MON_DATA_HP_IV, &data);
+                data = gSaveBlock1Ptr->savedPokemonStats[i].attackIV;
+                SetMonData(&gPlayerParty[i], MON_DATA_ATK_IV, &data);
+                data = gSaveBlock1Ptr->savedPokemonStats[i].defenseIV;
+                SetMonData(&gPlayerParty[i], MON_DATA_DEF_IV, &data);
+                data = gSaveBlock1Ptr->savedPokemonStats[i].speedIV;
+                SetMonData(&gPlayerParty[i], MON_DATA_SPEED_IV, &data);
+                data = gSaveBlock1Ptr->savedPokemonStats[i].spAttackIV;
+                SetMonData(&gPlayerParty[i], MON_DATA_SPATK_IV, &data);
+                data = gSaveBlock1Ptr->savedPokemonStats[i].spDefenseIV;
+                SetMonData(&gPlayerParty[i], MON_DATA_SPDEF_IV, &data);
+                data = gSaveBlock1Ptr->savedPokemonStats[i].abilityNum;
+                SetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM, &data);
 
-            gSaveBlock1Ptr->savedPokemonStats[i].PID = 0;
-            gSaveBlock1Ptr->savedPokemonStats[i].hpIV = 0;
-            gSaveBlock1Ptr->savedPokemonStats[i].attackIV = 0;
-            gSaveBlock1Ptr->savedPokemonStats[i].defenseIV = 0;
-            gSaveBlock1Ptr->savedPokemonStats[i].speedIV = 0;
-            gSaveBlock1Ptr->savedPokemonStats[i].spAttackIV = 0;
-            gSaveBlock1Ptr->savedPokemonStats[i].spDefenseIV = 0;
-            gSaveBlock1Ptr->savedPokemonStats[i].abilityNum = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].pid = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].hpIV = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].attackIV = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].defenseIV = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].speedIV = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].spAttackIV = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].spDefenseIV = 0;
+                gSaveBlock1Ptr->savedPokemonStats[i].abilityNum = 0;
 
-            data = FALSE;
-            SetMonData(&gPlayerParty[i], MON_DATA_BLOCK_BOX_RS, &data);
+                data = FALSE;
+                SetMonData(&gPlayerParty[i], MON_DATA_BLOCK_BOX_RS, &data);
+            }
         }
     }
 }

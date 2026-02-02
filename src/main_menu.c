@@ -2763,11 +2763,21 @@ static void PatchSave(void)
         gSaveBlock2Ptr->optionsNickname = 0; // Give
 		VarSet(VAR_SAVE_VER, 5);
 	}
-	if (VarGet(VAR_SAVE_VER) == 5)
-	{
+    if (VarGet(VAR_SAVE_VER) == 5)
+    {
         gSaveBlock1Ptr->trainerClass = 0;
-		VarSet(VAR_SAVE_VER, 6);
-	}
+        VarSet(VAR_SAVE_VER, 6);
+    }
+    if (VarGet(VAR_SAVE_VER) == 6)
+    {
+        gSaveBlock1Ptr->savedPokemonStats[0].pid = 0;
+        gSaveBlock1Ptr->savedPokemonStats[1].pid = 0;
+        gSaveBlock1Ptr->savedPokemonStats[2].pid = 0;
+        gSaveBlock1Ptr->savedPokemonStats[3].pid = 0;
+        gSaveBlock1Ptr->savedPokemonStats[4].pid = 0;
+        gSaveBlock1Ptr->savedPokemonStats[5].pid = 0;
+        VarSet(VAR_SAVE_VER, 7);
+    }
 
 
     // SetMonData(&gPlayerParty[0], MON_DATA_HP_IV, &tmp2);

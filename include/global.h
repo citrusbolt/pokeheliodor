@@ -995,7 +995,7 @@ struct ExternalEventFlags
 
 struct SavedPokemonStats
 {
-    u32 PID;
+    u32 pid;
     u32 hpIV:5;
     u32 attackIV:5;
     u32 defenseIV:5;

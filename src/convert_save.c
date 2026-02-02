@@ -134,7 +134,7 @@ u8 ConvertSaveFileFromRSToNL(void)
     InitMatchCallCounters();
     ClearMysteryGift();
     ResetTrainerHillResults();
-	VarSet(VAR_SAVE_VER, 6);
+	VarSet(VAR_SAVE_VER, 7);
 
     gDifferentSaveFile = TRUE;
 }
