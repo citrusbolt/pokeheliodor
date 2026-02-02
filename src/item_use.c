@@ -997,6 +997,10 @@ void ItemUseInBattle_PokeBall(u8 taskId)
 	{
 		DisplayItemMessage(taskId, 1, gText_CantThrowBall, CloseItemMessage);
 	}
+    else if (gItems[gSpecialVar_ItemId].blockHolding)
+    {
+        DisplayItemMessage(taskId, 1, gText_DadsAdvice, CloseItemMessage);
+    }
 	else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
     {
         if (gBagPosition.pocket == FREESPACE_POCKET)
