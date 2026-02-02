@@ -482,9 +482,9 @@ static u8 TryLoadSaveSlot(u16 sectorId, struct SaveSectorLocation *locations)
 
     switch (DetectSaveType())
     {
-        case SAVE_TYPE_RS:
-            status = SAVE_STATUS_RS;
-            break;
+        //case SAVE_TYPE_RS:
+        //    status = SAVE_STATUS_RS;
+        //    break;
         case SAVE_TYPE_E:
             status = SAVE_STATUS_E;
             break;
