@@ -843,19 +843,19 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                     sCurrItemAndOptionMenuCheck = 2;
                     break;
                 case HAS_GCN_LINK:
-                    sCurrItemAndOptionMenuCheck = 3;
+                    sCurrItemAndOptionMenuCheck = 2;
                     break;
                 case HAS_MYSTERY_GIFT_NO_GCN:
                     sCurrItemAndOptionMenuCheck = 3;
                     break;
                 case HAS_MYSTERY_GIFT:
-                    sCurrItemAndOptionMenuCheck = 4;
+                    sCurrItemAndOptionMenuCheck = 3;
                     break;
                 case HAS_MYSTERY_EVENTS:
-                    sCurrItemAndOptionMenuCheck = 4;
+                    sCurrItemAndOptionMenuCheck = 3;
                     break;
                 case HAS_MYSTERY_GIFT_AND_EVENTS:
-                    sCurrItemAndOptionMenuCheck = 5;
+                    sCurrItemAndOptionMenuCheck = 4;
                     break;
             }
         }
