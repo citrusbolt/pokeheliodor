@@ -296,11 +296,11 @@ clean-berry-fix:
 	rm -f data/mb_berry_fix.gba
 	rm -rf subrepos/berry-fix/tools/agbcc
 
-emerald: subrepos/pokeemerald/tools/agbcc
+emerald: subrepos/pokeemerald/tools/agbcc/bin/agbcc
 	@$(MAKE) -C subrepos/pokeemerald
 	cp subrepos/pokeemerald/pokeemerald.gba ./
 
-data/mb_berry_fix.gba: subrepos/berry-fix/tools/agbcc
+data/mb_berry_fix.gba: subrepos/berry-fix/tools/agbcc/bin/agbcc
 	@$(MAKE) -C subrepos/berry-fix
 	cp subrepos/berry-fix/berry_fix.gba data/mb_berry_fix.gba
 	

@@ -13,7 +13,7 @@ TOOLDIRS := $(TOOL_NAMES:%=$(TOOLS_DIR)/%)
 RULES_NO_SCAN += tools check-tools clean-tools $(TOOLDIRS)
 .PHONY: $(RULES_NO_SCAN)
 
-tools: $(TOOLDIRS) tools/agbcc
+tools: $(TOOLDIRS) tools/agbcc/bin/agbcc
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
@@ -33,16 +33,20 @@ clean-tools:
 	rm -rf subrepos/flips/obj
 	rm -f subrepos/flips/flips
 
-tools/agbcc: subrepos/agbcc/agbcc
+# A file, not the folder: installing doesn't update the folder's date, so it would be reinstalled
+# on every run, and the new dates of tools/agbcc/include would make the dependency files out of
+# date forever (the Makefile would keep remaking them and restarting).
+tools/agbcc/bin/agbcc: subrepos/agbcc/agbcc
 	cd subrepos/agbcc; ./install.sh ../..
 
+# agbcc's build doesn't work with parallel make, so don't pass our -j to it
 subrepos/agbcc/agbcc:
-	cd subrepos/agbcc; ./build.sh
+	cd subrepos/agbcc; MAKEFLAGS= ./build.sh
 
-subrepos/pokeemerald/tools/agbcc: subrepos/agbcc/agbcc
+subrepos/pokeemerald/tools/agbcc/bin/agbcc: subrepos/agbcc/agbcc
 	cd subrepos/agbcc; ./install.sh ../pokeemerald
 
-subrepos/berry-fix/tools/agbcc: subrepos/agbcc/agbcc
+subrepos/berry-fix/tools/agbcc/bin/agbcc: subrepos/agbcc/agbcc
 	cd subrepos/agbcc; ./install.sh ../berry-fix
 
 subrepos/flips/flips:
